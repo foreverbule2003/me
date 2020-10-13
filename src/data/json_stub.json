@@ -1,18 +1,18 @@
 {
     "basics": {
-        "name": "John Doe",
-        "label": "Programmer",
+        "name": "Tim Zhao",
+        "label": "Front-End Developer",
         "picture": "",
-        "email": "john@gmail.com",
-        "phone": "(912) 555-4321",
-        "website": "http://johndoe.com",
-        "summary": "A summary of John Doe...",
+        "email": "foreverbule2003@gmail.com",
+        "phone": "",
+        "website": "https://foreverbule2003.github.io/me/",
+        "summary": "A summary of me...",
         "location": {
-            "address": "2712 Broadway St",
-            "postalCode": "CA 94115",
-            "city": "San Francisco",
-            "countryCode": "US",
-            "region": "California"
+            "address": "",
+            "postalCode": "",
+            "city": "Taipei",
+            "countryCode": "Taiwan",
+            "region": ""
         },
         "profiles": [
             {
@@ -311,5 +311,6 @@
                 "variant": 4
             }
         ]
-    }
+    },
+    "homepage": "http://foreverbule2003.github.io/me"
 }
