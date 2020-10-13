@@ -6,12 +6,12 @@
         "email": "foreverbule2003@gmail.com",
         "phone": "",
         "website": "https://foreverbule2003.github.io/me/",
-        "summary": "A summary of me...",
+        "summary": "關於...",
         "location": {
             "address": "",
             "postalCode": "",
-            "city": "Taipei",
-            "countryCode": "Taiwan",
+            "city": "台北",
+            "countryCode": "台灣",
             "region": ""
         },
         "profiles": [
@@ -216,7 +216,7 @@
     "specific": {
         "basics": {
             "visaSponsorship": true,
-            "personalDescription": "This is a longer description of me, of my backstory, my backyard, my backfire, my backend, my frontend and my friends."
+            "personalDescription": " "
         },
         "dreamJob": {
             "locations": [
@@ -255,9 +255,9 @@
                 "permanent"
             ],
             "codingYears": 7,
-            "codingReason": "J'ai commencé à coder sur Amstrad dans ma cave et je n'ai jamais arrêté depuis",
+            "codingReason": "",
             "searchState": "activelySearching",
-            "experienceYears": 9
+            "experienceYears": 4
         },
         "sound": {
             "embedUrl": "https://open.spotify.com/embed/playlist/37i9dQZF1DWWl7MndYYxge"

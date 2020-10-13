@@ -61,7 +61,8 @@ const BasicsBackComponent = ({ data, handleAddButtonClick }) => {
                 value: descriptionContent
             },
             visaSponsorship: {
-                hide: !existsAndNotEmpty(visaSponsorship),
+                // hide: !existsAndNotEmpty(visaSponsorship),
+                hide: true,
                 value: (
                     <span className={classes.bold}>
                         <FormattedMessage
@@ -73,7 +74,8 @@ const BasicsBackComponent = ({ data, handleAddButtonClick }) => {
             },
             work: {
                 title: <FormattedMessage id="Basics.Back.Work.Title" defaultMessage="Work" />,
-                hide: !experienceYears && !existsAndNotEmpty(contractTypes) && !existsAndNotEmpty(searchState),
+                hide: (!experienceYears && !existsAndNotEmpty(contractTypes) && !existsAndNotEmpty(searchState)) || true,
+                // hide: true,
                 value: (
                     <>
                         <ExperienceYears experienceYears={experienceYears} />
@@ -86,7 +88,7 @@ const BasicsBackComponent = ({ data, handleAddButtonClick }) => {
             },
             codingYears: {
                 title: <FormattedMessage id="Basics.Back.CodingYears.title" defaultMessage="Experience" />,
-                hide: !personalDescription,
+                hide: (!personalDescription) || true,
                 value: <CodingYears codingYears={codingYears} />
             },
             studies: {

@@ -5,13 +5,13 @@ import { createUseStyles, useTheme } from 'react-jss';
 import { BasicsCard } from './cards_types/basics/basics_card';
 import { ProjectsCard } from './cards_types/projects/projects_card';
 import { InterestedByCard } from './cards_types/interested_by/interested_by_card';
-import { SoundtrackCard } from './cards_types/soundtrack/soundtrack_card';
+// import { SoundtrackCard } from './cards_types/soundtrack/soundtrack_card';
 import { StudiesCard } from './cards_types/studies/studies_card';
 import { ExperiencesCard } from './cards_types/experiences/experiences_card';
 import { SkillsCard } from './cards_types/skills/skills_card';
-import { GifsCard } from './cards_types/gifs/gifs_card';
-import { DreamJobCard } from './cards_types/dream_job/dream_job_card';
-import { LanguagesCard } from './cards_types/languages/languages_card';
+// import { GifsCard } from './cards_types/gifs/gifs_card';
+// import { DreamJobCard } from './cards_types/dream_job/dream_job_card';
+// import { LanguagesCard } from './cards_types/languages/languages_card';
 
 import { getRandomCardVariant } from '../../utils/styles/theme/theme';
 import { DEFAULT_CARD_ORDER } from './utils/cards_order';
@@ -24,13 +24,12 @@ const useStyles = createUseStyles(styles);
 const CARD_TYPE_MAPPING = {
     basics: BasicsCard,
     projects: ProjectsCard,
-    language: LanguagesCard,
-    dreamjob: DreamJobCard,
-    gifs: GifsCard,
+    // language: LanguagesCard,
+    // dreamjob: DreamJobCard,
+    // gifs: GifsCard,
     experiences: ExperiencesCard,
     studies: StudiesCard,
     skills: SkillsCard,
-    soundtrack: SoundtrackCard,
     interestedBy: InterestedByCard
 };
 
