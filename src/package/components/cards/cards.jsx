@@ -6,9 +6,9 @@ import { BasicsCard } from './cards_types/basics/basics_card';
 import { ProjectsCard } from './cards_types/projects/projects_card';
 import { InterestedByCard } from './cards_types/interested_by/interested_by_card';
 // import { SoundtrackCard } from './cards_types/soundtrack/soundtrack_card';
-import { StudiesCard } from './cards_types/studies/studies_card';
+// import { StudiesCard } from './cards_types/studies/studies_card';
 import { ExperiencesCard } from './cards_types/experiences/experiences_card';
-import { SkillsCard } from './cards_types/skills/skills_card';
+// import { SkillsCard } from './cards_types/skills/skills_card';
 // import { GifsCard } from './cards_types/gifs/gifs_card';
 // import { DreamJobCard } from './cards_types/dream_job/dream_job_card';
 // import { LanguagesCard } from './cards_types/languages/languages_card';
@@ -28,18 +28,20 @@ const CARD_TYPE_MAPPING = {
     // dreamjob: DreamJobCard,
     // gifs: GifsCard,
     experiences: ExperiencesCard,
-    studies: StudiesCard,
-    skills: SkillsCard,
+    // studies: StudiesCard,
+    // skills: SkillsCard,
     interestedBy: InterestedByCard
 };
 
 const CardsComponent = ({ cardsOrder = DEFAULT_CARD_ORDER, side }) => {
+    console.log(DEFAULT_CARD_ORDER);
+    console.log(cardsOrder);
     const classes = useStyles();
     const theme = useTheme();
     const [{ before: beforeNode, after: afterNode }] = useAdditionalNodes('cards');
     const cards = useMemo(
         () =>
-            cardsOrder
+            DEFAULT_CARD_ORDER
                 .map(({ type, variant }, index) => {
                     if (!CARD_TYPE_MAPPING[type]) {
                         return null;

@@ -92,7 +92,7 @@ const BasicsFrontComponent = ({ data, handleAddButtonClick }) => {
             </CenterContentContainer>
             <ProfileCardActions>
                 <ProfileCardButton onClick={handleButtonClick}>
-                    <FormattedMessage id="Basics.front.action" defaultMessage="More about me" />
+                    <FormattedMessage id="Basics.front.action" defaultMessage="更多" />
                 </ProfileCardButton>
             </ProfileCardActions>
         </ProfileCardPaddedFront>

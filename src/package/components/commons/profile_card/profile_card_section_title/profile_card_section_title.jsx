@@ -10,6 +10,7 @@ const useStyles = createUseStyles(styles);
 
 const ProfileCardSectionTitleComponent = ({ children }) => {
     const classes = useStyles();
+    console.log(children);
     return (
         <Typography variant="h2" component="h3" customClasses={{ container: classes.container }}>
             {children}

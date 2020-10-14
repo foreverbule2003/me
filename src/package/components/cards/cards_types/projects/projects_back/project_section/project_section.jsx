@@ -26,7 +26,6 @@ const useStyles = createUseStyles(styles);
 
 const ProjectSectionContainer = ({ project, cardVariant, onDelete, index }) => {
     const classes = useStyles();
-
     const descriptionChunks = useMemo(
         () =>
             project.description

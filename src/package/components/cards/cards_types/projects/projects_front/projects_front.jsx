@@ -84,7 +84,7 @@ const Content = ({ hasProject, projectTitle, handleAddButtonClick, classes }) =>
             <Typography variant="h2" component="h2" customClasses={{ container: classes.text }}>
                 <FormattedMessage
                     id="Projects.front.title"
-                    defaultMessage="My <emoji>♥️</emoji> project : "
+                    defaultMessage="<emoji>🛠️</emoji>  "
                     values={{
                         emoji: value => <Twemoji svg text={value} />
                     }}

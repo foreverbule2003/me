@@ -9,7 +9,7 @@ import { useMediaQuery } from '@material-ui/core';
 
 import { ShareLinks } from './share_links/share_links';
 
-import { ReactComponent as Logo } from '../../assets/icons/brands/welovedevs.svg';
+import { ReactComponent as LinkinedLogo } from '../../assets/icons/brands/linkedin.svg';
 import { ReactComponent as GithubLogo } from '../../assets/icons/brands/github.svg';
 
 import { styles } from './footer_styles';
@@ -31,11 +31,11 @@ const FooterComponent = () => {
                 <div className={classes.wldLogoGithubLogoContainer}>
                     <a
                         className={classes.logoLink}
-                        href="https://welovedevs.com"
+                        href="https://www.linkedin.com/in/zhao-xiao-feng/"
                         target="_blank"
                         rel="noreferrer noopener"
                     >
-                        <Logo className={classes.logo} />
+                        <LinkinedLogo className={classes.logo} />
                     </a>
                     <Tooltip
                         title={
@@ -47,7 +47,7 @@ const FooterComponent = () => {
                     >
                         <a
                             className={classes.githubLink}
-                            href="https://github.com/welovedevs/developer-profile"
+                            href="https://github.com/foreverbule2003"
                             target="_bank"
                             rel="noreferer noopener"
                         >
@@ -62,8 +62,8 @@ const FooterComponent = () => {
 
     return (
         <div className={classes.container}>
-            <a className={classes.logoLink} href="https://welovedevs.com" target="_blank" rel="noreferrer noopener">
-                <Logo className={classes.logo} />
+            <a className={classes.logoLink} href="https://www.linkedin.com/in/zhao-xiao-feng/" target="_blank" rel="noreferrer noopener">
+                <LinkinedLogo className={classes.githubLogo} />
             </a>
             <ShareLinks />
             <Tooltip
@@ -73,7 +73,7 @@ const FooterComponent = () => {
             >
                 <a
                     className={classes.githubLink}
-                    href="https://github.com/welovedevs/developer-profile"
+                    href="https://www.linkedin.com/in/zhao-xiao-feng/"
                     target="_bank"
                     rel="noreferer noopener"
                 >

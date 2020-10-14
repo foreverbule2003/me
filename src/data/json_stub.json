@@ -24,10 +24,10 @@
     },
     "work": [
         {
-            "name": "Company 2 ",
-            "position": "Worker",
-            "website": "http://company.com",
-            "startDate": "2014-01-01",
+            "name": "工作經驗",
+            "position": "",
+            "website": "",
+            "startDate": "2019-01-07",
             "summary": "Description...",
             "location": "Paris, France",
             "highlights": [
@@ -35,23 +35,37 @@
             ]
         },
         {
-            "name": "What a nice office",
-            "position": "President",
+            "name": "Front-End Developer",
+            "position": "東南旅行社",
             "website": "http://company.com",
-            "startDate": "2013-01-01",
-            "endDate": "2014-01-01",
+            "startDate": "2019-01",
+            "endDate": "-",
             "summary": "Description...",
-            "location": "Paris, France",
+            "location": "台北",
             "highlights": [
                 "Started the company"
             ]
         },
         {
-            "name": "What a nice experience",
-            "position": "Lead dev",
+            "name": "Web Developer",
+            "position": "5xRuby",
             "website": "http://company.com",
+            "startDate": "2017-12",
+            "endDate": "2018-08",
             "summary": "Description...",
-            "location": "Paris, France",
+            "location": "台北",
+            "highlights": [
+                "Started the company"
+            ]
+        },
+        {
+            "name": "Web Developer",
+            "position": "墊腳石圖書股份有限公司",
+            "website": "http://company.com",
+            "startDate": "2017-01",
+            "endDate": "2017-11",
+            "summary": "Description...",
+            "location": "台北",
             "highlights": [
                 "Started the company"
             ]
@@ -208,7 +222,7 @@
     ],
     "projects": [
         {
-            "name": "Développement d'un serpent connecté",
+            "name": "相關專案",
             "description": "Et oui, vous avez bien entendu !\nUn serpent connecté, c'est comme une montre connectée, mais en serpent, en fait ça ressemble pas une montre, mais ça reste connecté 🚀",
             "images": []
         }
@@ -262,7 +276,7 @@
         "sound": {
             "embedUrl": "https://open.spotify.com/embed/playlist/37i9dQZF1DWWl7MndYYxge"
         },
-        "interestedBy": "Angular, la blochain et les chatons."
+        "interestedBy": "人類大歷史, 地底三萬呎, 巴菲特寫給股東的信"
     },
     "resumeCustomization": {
         "imageHeader": {
@@ -280,7 +294,7 @@
             },
             {
                 "type": "skills",
-                "variant": 0
+                "variant": 4
             },
             {
                 "type": "dreamjob",
@@ -300,7 +314,7 @@
             },
             {
                 "type": "interestedBy",
-                "variant": 3
+                "variant": 0
             },
             {
                 "type": "language",

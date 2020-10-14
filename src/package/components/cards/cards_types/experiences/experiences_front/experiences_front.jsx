@@ -44,9 +44,9 @@ const ExperiencesFrontComponent = ({ data, handleAddButtonClick }) => {
             builder.push(<br />);
         }
         if (firstExperience?.name) {
-            builder.push(`@${firstExperience.name}`);
+            builder.push(`${firstExperience.name}`);
         } else if (firstExperience?.location) {
-            builder.push(`@${firstExperience.location}`);
+            builder.push(`${firstExperience.location}`);
         } else if (firstExperience?.stillEmployed) {
             if (moment.isMoment(firstExperience?.startDate)) {
                 builder.push(
