@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/me/static/css/main.853648d3.chunk.css",
-    "main.js": "/me/static/js/main.e792f115.chunk.js",
-    "main.js.map": "/me/static/js/main.e792f115.chunk.js.map",
+    "main.js": "/me/static/js/main.4110f107.chunk.js",
+    "main.js.map": "/me/static/js/main.4110f107.chunk.js.map",
     "runtime-main.js": "/me/static/js/runtime-main.cf1f5088.js",
     "runtime-main.js.map": "/me/static/js/runtime-main.cf1f5088.js.map",
-    "static/js/2.aa49ff12.chunk.js": "/me/static/js/2.aa49ff12.chunk.js",
-    "static/js/2.aa49ff12.chunk.js.map": "/me/static/js/2.aa49ff12.chunk.js.map",
+    "static/js/2.a2a0834b.chunk.js": "/me/static/js/2.a2a0834b.chunk.js",
+    "static/js/2.a2a0834b.chunk.js.map": "/me/static/js/2.a2a0834b.chunk.js.map",
     "index.html": "/me/index.html",
-    "precache-manifest.f78b388d08d460e966c4dfc067a52ee5.js": "/me/precache-manifest.f78b388d08d460e966c4dfc067a52ee5.js",
+    "precache-manifest.24ab9723e6b0051b7077046c19b920fb.js": "/me/precache-manifest.24ab9723e6b0051b7077046c19b920fb.js",
     "service-worker.js": "/me/service-worker.js",
     "static/css/main.853648d3.chunk.css.map": "/me/static/css/main.853648d3.chunk.css.map",
-    "static/js/2.aa49ff12.chunk.js.LICENSE.txt": "/me/static/js/2.aa49ff12.chunk.js.LICENSE.txt",
+    "static/js/2.a2a0834b.chunk.js.LICENSE.txt": "/me/static/js/2.a2a0834b.chunk.js.LICENSE.txt",
     "static/media/global.css": "/me/static/media/AvenirNext-UltraLightItalic.3bb556b6.ttf",
     "static/media/add.f93b93eb.svg": "/me/static/media/add.f93b93eb.svg",
     "static/media/arrow-right.8ab55a6c.svg": "/me/static/media/arrow-right.8ab55a6c.svg",
@@ -34,7 +34,6 @@
     "static/media/projects.d796fbf4.svg": "/me/static/media/projects.d796fbf4.svg",
     "static/media/remove_circle.d6a1f672.svg": "/me/static/media/remove_circle.d6a1f672.svg",
     "static/media/school.50771916.svg": "/me/static/media/school.50771916.svg",
-    "static/media/share.8beab66e.svg": "/me/static/media/share.8beab66e.svg",
     "static/media/skills.e6fdbdda.svg": "/me/static/media/skills.e6fdbdda.svg",
     "static/media/soundtrack.51e7ebae.svg": "/me/static/media/soundtrack.51e7ebae.svg",
     "static/media/success.7cfc0eca.svg": "/me/static/media/success.7cfc0eca.svg",
@@ -43,8 +42,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.cf1f5088.js",
-    "static/js/2.aa49ff12.chunk.js",
+    "static/js/2.a2a0834b.chunk.js",
     "static/css/main.853648d3.chunk.css",
-    "static/js/main.e792f115.chunk.js"
+    "static/js/main.4110f107.chunk.js"
   ]
 }
