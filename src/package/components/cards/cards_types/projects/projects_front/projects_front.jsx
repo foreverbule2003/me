@@ -66,7 +66,7 @@ const ProjectsFrontComponent = ({ data, handleAddButtonClick }) => {
                     <ProfileCardButton onClick={handleButtonClick}>
                         <FormattedMessage
                             id="Projects.front.action"
-                            defaultMessage="See {count} project{count, plural, one {} other {s}}"
+                            defaultMessage="更多"
                             values={{
                                 count: data.projects?.length
                             }}
@@ -84,7 +84,7 @@ const Content = ({ hasProject, projectTitle, handleAddButtonClick, classes }) =>
             <Typography variant="h2" component="h2" customClasses={{ container: classes.text }}>
                 <FormattedMessage
                     id="Projects.front.title"
-                    defaultMessage="<emoji>🛠️</emoji>  "
+                    defaultMessage=""
                     values={{
                         emoji: value => <Twemoji svg text={value} />
                     }}

@@ -40,7 +40,7 @@
             "website": "http://company.com",
             "startDate": "2019-01",
             "endDate": "-",
-            "summary": "Description...",
+            "summary": "Front-End:\n* Front-End development with JavaScript, React, Redux\n* API development with Apollo GraphQL\n\nTest:\n* Build whole E2E Test With WebdriverIO\nImprove work process:\n1. Reduce 1.5 human hours/week by bash\n2. Reduce package bundle time 35% by upgrade webpack version\n\nProject: https: //hotel.settour.com.tw/\n* An online travel agency for lodging reservations\n\nProject: Update CMS Price\n* A microservice automatically get new price and Update redis data\n* development with Express, AWS(sqs), docker, redis\n\nProject: Get THSR Price by crawler\n* A microservice get product price from THSR and save data at Cloud Storage\n* development with Express, GCP, puppeteer, bash",
             "location": "台北",
             "highlights": [
                 "Started the company"
@@ -48,11 +48,11 @@
         },
         {
             "name": "Web Developer",
-            "position": "5xRuby",
+            "position": "五倍紅寶石",
             "website": "http://company.com",
             "startDate": "2017-12",
             "endDate": "2018-08",
-            "summary": "Description...",
+            "summary": "* 倉庫租賃平台的開發與維護, 使用 Ruby on Rails。\n\n * 汽車業務輔助銷售 App 開發, 使用 React Native, 除了輔助展示之外, 另外也能追蹤業代使用 app 的情形, 如使用人員所屬分區, 或最受業代們點擊的車款等訊息。",
             "location": "台北",
             "highlights": [
                 "Started the company"
@@ -64,7 +64,7 @@
             "website": "http://company.com",
             "startDate": "2017-01",
             "endDate": "2017-11",
-            "summary": "Description...",
+            "summary": "* 官方網站維護與開發, 包括多語系, 電子型錄, 線上登入發票抽獎。\n\n* POS系統維護與開發, 包括行動版訂貨, 自動化測試使用 rspec 與 capybara。\n\n* 請假系統: 基於 Rails 開源的請假系統, 加入信件請假申請與信件審核通知, 以及每月的請假狀況 CSV 匯出。",
             "location": "台北",
             "highlights": [
                 "Started the company"
@@ -223,7 +223,7 @@
     "projects": [
         {
             "name": "相關專案",
-            "description": "Et oui, vous avez bien entendu !\nUn serpent connecté, c'est comme une montre connectée, mais en serpent, en fait ça ressemble pas une montre, mais ça reste connecté 🚀",
+            "description": "An online travel agency for lodging reservations\n",
             "images": []
         }
     ],

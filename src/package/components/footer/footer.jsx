@@ -7,7 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import { Tooltip } from '@welovedevs/ui';
 import { useMediaQuery } from '@material-ui/core';
 
-import { ShareLinks } from './share_links/share_links';
+// import { ShareLinks } from './share_links/share_links';
 
 import { ReactComponent as LinkinedLogo } from '../../assets/icons/brands/linkedin.svg';
 import { ReactComponent as GithubLogo } from '../../assets/icons/brands/github.svg';
@@ -55,7 +55,6 @@ const FooterComponent = () => {
                         </a>
                     </Tooltip>
                 </div>
-                <ShareLinks useSmallLayout />
             </div>
         );
     }
@@ -65,7 +64,6 @@ const FooterComponent = () => {
             <a className={classes.logoLink} href="https://www.linkedin.com/in/zhao-xiao-feng/" target="_blank" rel="noreferrer noopener">
                 <LinkinedLogo className={classes.githubLogo} />
             </a>
-            <ShareLinks />
             <Tooltip
                 title={
                     <FormattedMessage id="Footer.github.tooltip" defaultMessage="Create your own developer profile!" />

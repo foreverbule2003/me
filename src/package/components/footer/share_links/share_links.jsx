@@ -3,7 +3,11 @@ import React, { memo, useEffect, useMemo, useState } from 'react';
 import cn from 'classnames';
 import { createUseStyles } from 'react-jss';
 import { useIntl } from 'react-intl';
-import { animated, config, useSpring } from 'react-spring';
+import {
+    // animated,
+    config,
+    useSpring
+} from 'react-spring';
 
 import { Tooltip } from '@welovedevs/ui';
 import { SHARE_LINKS_DATA } from './share_links_data';
@@ -19,7 +23,7 @@ const ShareLinksComponent = ({ useSmallLayout }) => {
     const { formatMessage } = useIntl();
     const [link, setLink] = useState();
 
-    const [backgroundLineSpringProps, setBackgroundLineSpringProps] = useSpring(() => ({
+    const [, setBackgroundLineSpringProps] = useSpring(() => ({
         ...BACKGROUND_LINE_SPRING_PROPS.default,
         config: config.slow
     }));
@@ -50,7 +54,6 @@ const ShareLinksComponent = ({ useSmallLayout }) => {
 
     return (
         <div id="footer-share-links" className={cn(classes.container, useSmallLayout && classes.smallLayoutContainer)}>
-            {!useSmallLayout && <animated.div className={classes.backgroundLine} style={backgroundLineSpringProps} />}
             <div className={classes.icons}>
                 {Object.entries(SHARE_LINKS_DATA).map(([entryId, { getLink, icon: Icon, tooltipTranslation }]) => {
                     let content = <Icon key={`share_link_icon_${entryId}`} className={classes.icon} />;

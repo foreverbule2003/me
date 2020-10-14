@@ -12,6 +12,8 @@ import { SIDES } from '../../../commons/profile_card/profile_card_side/side';
 import { useMode } from '../../../hooks/use_mode';
 
 const ProjectsCardComponent = ({ variant, side }) => {
+    console.log(variant);
+    console.log(side);
     const [mode] = useMode();
     const { data, isEditing } = useContext(DeveloperProfileContext);
     const mappedData = useMemo(() => mapProjectsFromJsonResume(data), [data]);
