@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2025 大阪關西之旅 | KansaiTravelApp</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #FF5733; /* 大阪熱情的橘紅色 */
+            --secondary-color: #2C3E50;
+            --bg-color: #f4f7f6;
+            --card-bg: #ffffff;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            padding-bottom: 80px; /* 預留底部導航空間 */
+            color: var(--secondary-color);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #FF5733, #C70039);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 { margin: 0; font-size: 1.2rem; font-weight: 500; }
+        header p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.9; }
+
+        /* Main Container */
+        .container {
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Card Style */
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* USJ Section */
+        .usj-status {
+            display: flex;
+            justify-content: space-between;
+            background: #eef2f5;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .usj-item { text-align: center; font-size: 0.9rem; }
+        .usj-item span { display: block; font-weight: bold; color: var(--primary-color); }
+
+        /* Expense List */
+        .expense-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .expense-item:last-child { border-bottom: none; }
+        .expense-info { display: flex; flex-direction: column; }
+        .expense-date { font-size: 0.75rem; color: #888; }
+        .expense-amount { font-weight: bold; color: #27ae60; }
+
+        /* Navigation Bar */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+            z-index: 1000;
+        }
+
+        .nav-item {
+            text-align: center;
+            color: #95a5a6;
+            text-decoration: none;
+            font-size: 0.8rem;
+            flex: 1;
+        }
+
+        .nav-item.active { color: var(--primary-color); }
+        .nav-item i { display: block; font-size: 1.2rem; margin-bottom: 4px; }
+
+        /* Back to Home Button */
+        .back-home {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            text-decoration: none;
+            color: #888;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>KansaiTravelApp</h1>
+        <p>2025 大阪・京都・USJ</p>
+    </header>
+
+    <div class="container">
+        
+        <div class="card">
+            <div class="card-title">
+                USJ 重點攻略
+                <i class="fas fa-star" style="color: #f1c40f;"></i>
+            </div>
+            <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">預計入園日期：2025/09/01</p>
+            <div class="usj-status">
+                <div class="usj-item">
+                    <span>年票</span>
+                    App內確認
+                </div>
+                <div class="usj-item">
+                    <span>整理券</span>
+                    抽獎準備
+                </div>
+                <div class="usj-item">
+                    <span>住宿</span>
+                    環球港灣
+                </div>
+            </div>
+            <button onclick="window.location.href='https://www.usj.co.jp/web/zh/tw'" style="width:100%; padding:10px; background:var(--secondary-color); color:white; border:none; border-radius:8px; margin-top:5px; cursor:pointer;">
+                開啟 USJ 官網 / App
+            </button>
+        </div>
+
+        <div class="card">
+            <div class="card-title">
+                最新消費 (JPY)
+                <i class="fas fa-yen-sign"></i>
+            </div>
+            <div id="expense-list">
+                </div>
+            <div style="margin-top: 15px; text-align: right; font-weight: bold;">
+                總計: <span id="total-amount" style="color: var(--primary-color);">0</span> JPY
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">備忘錄</div>
+            <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.6;">
+                <li>記得帶實體西瓜卡 (Suica/ICOCA) 作為備用。</li>
+                <li>確認關西廣域周遊券 (JR Pass) 的啟用日期。</li>
+                <li>素食選擇：HappyCow App 搜尋。</li>
+            </ul>
+        </div>
+
+        <a href="/me/" class="back-home">
+            <i class="fas fa-arrow-left"></i> 返回個人首頁 (Home)
+        </a>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="#" class="nav-item active">
+            <i class="fas fa-suitcase-rolling"></i>
+            行程
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-receipt"></i>
+            記帳
+        </a>
+        <a href="#" class="nav-item">
+            <i class="fas fa-map-marked-alt"></i>
+            地圖
+        </a>
+    </nav>
+
+    <script>
+        // Mock Data based on your previous logs
+        const expenses = [
+            { id: 1, item: "環球影城住宿 (訂金)", date: "2025-08-17", amount: 15000, category: "住宿" },
+            { id: 2, item: "關西廣域周遊券", date: "2025-08-29", amount: 12000, category: "交通" },
+            { id: 3, item: "麥當勞 (Vegan)", date: "2025-09-04", amount: 850, category: "飲食" },
+            { id: 4, item: "USJ 能量手環", date: "2025-09-01", amount: 4800, category: "娛樂" }
+        ];
+
+        function renderExpenses() {
+            const list = document.getElementById('expense-list');
+            const totalEl = document.getElementById('total-amount');
+            let total = 0;
+            let html = '';
+
+            // Sort by date (newest first)
+            expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            expenses.forEach(exp => {
+                total += exp.amount;
+                html += `
+                    <div class="expense-item">
+                        <div class="expense-info">
+                            <span style="font-weight:500;">${exp.item}</span>
+                            <span class="expense-date">${exp.date} · ${exp.category}</span>
+                        </div>
+                        <div class="expense-amount">¥${exp.amount.toLocaleString()}</div>
+                    </div>
+                `;
+            });
+
+            list.innerHTML = html;
+            totalEl.innerText = total.toLocaleString();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', renderExpenses);
+    </script>
+</body>
+</html>
