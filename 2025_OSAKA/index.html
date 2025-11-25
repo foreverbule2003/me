@@ -2,240 +2,450 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2025 大阪關西之旅 | KansaiTravelApp</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>2025 關西行 | Kansai Travel</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- React & ReactDOM -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <!-- Babel -->
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts: Noto Sans TC + Zen Maru Gothic (Japanese vibe) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+
     <style>
-        :root {
-            --primary-color: #FF5733; /* 大阪熱情的橘紅色 */
-            --secondary-color: #2C3E50;
-            --bg-color: #f4f7f6;
-            --card-bg: #ffffff;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            margin: 0;
-            padding: 0;
-            padding-bottom: 80px; /* 預留底部導航空間 */
-            color: var(--secondary-color);
+            font-family: 'Zen Maru Gothic', 'Noto Sans TC', sans-serif;
+            background-color: #F5F5F4; /* Stone 100 - Japanese Paper feel */
+            -webkit-tap-highlight-color: transparent;
         }
-
-        /* Header */
-        header {
-            background: linear-gradient(135deg, #FF5733, #C70039);
-            color: white;
-            padding: 20px;
-            text-align: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
         }
-
-        header h1 { margin: 0; font-size: 1.2rem; font-weight: 500; }
-        header p { margin: 5px 0 0; font-size: 0.8rem; opacity: 0.9; }
-
-        /* Main Container */
-        .container {
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto;
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
-
-        /* Card Style */
-        .card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid rgba(0,0,0,0.05);
         }
-
-        .card-title {
-            font-size: 1.1rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            border-left: 4px solid var(--primary-color);
-            padding-left: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .card-shadow {
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
         }
-
-        /* USJ Section */
-        .usj-status {
-            display: flex;
-            justify-content: space-between;
-            background: #eef2f5;
-            padding: 10px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        .usj-item { text-align: center; font-size: 0.9rem; }
-        .usj-item span { display: block; font-weight: bold; color: var(--primary-color); }
-
-        /* Expense List */
-        .expense-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 1px solid #eee;
-        }
-        .expense-item:last-child { border-bottom: none; }
-        .expense-info { display: flex; flex-direction: column; }
-        .expense-date { font-size: 0.75rem; color: #888; }
-        .expense-amount { font-weight: bold; color: #27ae60; }
-
-        /* Navigation Bar */
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
-        }
-
-        .nav-item {
-            text-align: center;
-            color: #95a5a6;
-            text-decoration: none;
-            font-size: 0.8rem;
-            flex: 1;
-        }
-
-        .nav-item.active { color: var(--primary-color); }
-        .nav-item i { display: block; font-size: 1.2rem; margin-bottom: 4px; }
-
-        /* Back to Home Button */
-        .back-home {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            text-decoration: none;
-            color: #888;
-            font-size: 0.9rem;
-        }
+        /* Custom Highlight Styles */
+        .highlight-food { background-color: #dcfce7; color: #166534; padding: 0 4px; border-radius: 4px; font-weight: bold; }
+        .highlight-transport { background-color: #dbeafe; color: #1e40af; padding: 0 4px; border-radius: 4px; font-weight: bold; }
+        .highlight-alert { background-color: #fee2e2; color: #991b1b; padding: 0 4px; border-radius: 4px; font-weight: bold; }
+        .highlight-buy { background-color: #ffedd5; color: #9a3412; padding: 0 4px; border-radius: 4px; font-weight: bold; }
     </style>
 </head>
 <body>
+    <div id="root"></div>
 
-    <header>
-        <h1>KansaiTravelApp</h1>
-        <p>2025 大阪・京都・USJ</p>
-    </header>
+    <script type="text/babel">
+        const { useState, useEffect, useMemo } = React;
+        const { MapPin, Calendar, CheckSquare, CloudSun, Train, Utensils, ShoppingBag, Phone, CreditCard, ChevronRight, Navigation, Sun, CloudRain, Wind, AlertCircle } = lucide;
 
-    <div class="container">
-        
-        <div class="card">
-            <div class="card-title">
-                USJ 重點攻略
-                <i class="fas fa-star" style="color: #f1c40f;"></i>
-            </div>
-            <p style="font-size: 0.9rem; color: #666; margin-bottom: 10px;">預計入園日期：2025/09/01</p>
-            <div class="usj-status">
-                <div class="usj-item">
-                    <span>年票</span>
-                    App內確認
-                </div>
-                <div class="usj-item">
-                    <span>整理券</span>
-                    抽獎準備
-                </div>
-                <div class="usj-item">
-                    <span>住宿</span>
-                    環球港灣
-                </div>
-            </div>
-            <button onclick="window.location.href='https://www.usj.co.jp/web/zh/tw'" style="width:100%; padding:10px; background:var(--secondary-color); color:white; border:none; border-radius:8px; margin-top:5px; cursor:pointer;">
-                開啟 USJ 官網 / App
-            </button>
-        </div>
-
-        <div class="card">
-            <div class="card-title">
-                最新消費 (JPY)
-                <i class="fas fa-yen-sign"></i>
-            </div>
-            <div id="expense-list">
-                </div>
-            <div style="margin-top: 15px; text-align: right; font-weight: bold;">
-                總計: <span id="total-amount" style="color: var(--primary-color);">0</span> JPY
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-title">備忘錄</div>
-            <ul style="padding-left: 20px; font-size: 0.9rem; line-height: 1.6;">
-                <li>記得帶實體西瓜卡 (Suica/ICOCA) 作為備用。</li>
-                <li>確認關西廣域周遊券 (JR Pass) 的啟用日期。</li>
-                <li>素食選擇：HappyCow App 搜尋。</li>
-            </ul>
-        </div>
-
-        <a href="/me/" class="back-home">
-            <i class="fas fa-arrow-left"></i> 返回個人首頁 (Home)
-        </a>
-    </div>
-
-    <nav class="nav-bar">
-        <a href="#" class="nav-item active">
-            <i class="fas fa-suitcase-rolling"></i>
-            行程
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-receipt"></i>
-            記帳
-        </a>
-        <a href="#" class="nav-item">
-            <i class="fas fa-map-marked-alt"></i>
-            地圖
-        </a>
-    </nav>
-
-    <script>
-        // Mock Data based on your previous logs
-        const expenses = [
-            { id: 1, item: "環球影城住宿 (訂金)", date: "2025-08-17", amount: 15000, category: "住宿" },
-            { id: 2, item: "關西廣域周遊券", date: "2025-08-29", amount: 12000, category: "交通" },
-            { id: 3, item: "麥當勞 (Vegan)", date: "2025-09-04", amount: 850, category: "飲食" },
-            { id: 4, item: "USJ 能量手環", date: "2025-09-01", amount: 4800, category: "娛樂" }
+        // --- Data from Trello ---
+        const RAW_ITINERARY = [
+            {
+                id: "D1", date: "2025-08-28", day: "週四", city: "Okayama", cityZn: "岡山",
+                title: "岡山・倉敷抵達",
+                locations: [
+                    { name: "桃園機場 T1", type: "transport", time: "11:30", note: "虎航 IT214 | 環亞貴賓室(C區)" },
+                    { name: "岡山桃太郎機場", type: "transport", time: "15:05", note: "入境後前往岡山車站" },
+                    { name: "岡山車站", type: "transport", note: "⚠️ 換JR關西廣域周遊券 (08/29開通)" },
+                    { name: "倉敷美觀地區", type: "spot", note: "宿倉敷" }
+                ],
+                content: "航班資訊：臺灣虎航 IT214 (11:30-15:05)。\n重要：抵達後先去換 **JR Pass**。\n貴賓室：環亞機場貴賓室 (C 區) 05:00-21:00，安檢後左轉 B1-B9 登機門方向 4 樓。"
+            },
+            {
+                id: "D2", date: "2025-08-29", day: "週五", city: "Kyoto", cityZn: "京都",
+                title: "移動日：倉敷→京都",
+                locations: [
+                    { name: "倉敷站", type: "transport", note: "普通車(17分) -> 岡山" },
+                    { name: "岡山站", type: "transport", note: "新幹線(櫻花/光號) -> 新大阪" },
+                    { name: "京都車站", type: "spot", note: "轉乘 Haruka 或新快速" },
+                    { name: "嵐山", type: "spot", note: "宿嵐山" }
+                ],
+                content: "交通攻略：\n- **倉敷-岡山**：搭普通車 (17分)。\n- **岡山-新大阪**：推薦搭 **櫻花號 (Sakura)** 約50分 (含在周遊券)。\n- **新大阪-京都**：搭 JR 新快速 (25分) 或 Haruka (需劃位)。\n注意：新幹線只能搭到新大阪，新大阪-京都段不能搭新幹線(不含在周遊券)。"
+            },
+            {
+                id: "D3", date: "2025-08-30", day: "週六", city: "Kyoto", cityZn: "京都",
+                title: "嵐山・保津川遊船",
+                locations: [
+                    { name: "龜岡", type: "spot", note: "前往搭船點" },
+                    { name: "保津川遊船", type: "spot", time: "09:00", note: "⚠️ 已預約" },
+                    { name: "嵐山大街", type: "spot", note: "吃喝逛" }
+                ],
+                content: "保津川遊船：9:00-15:00 每小時整點一班。\n必備：確認電子票券 (Klook)。\n行程：遊船結束後會回到嵐山，下午逛嵐山大街。"
+            },
+            {
+                id: "D4", date: "2025-08-31", day: "週日", city: "Uji", cityZn: "宇治",
+                title: "宇治一日遊",
+                locations: [
+                    { name: "宇治", type: "spot", note: "抹茶之鄉" },
+                    { name: "平等院", type: "spot" },
+                    { name: "中村藤吉", type: "food", note: "必吃抹茶甜點" }
+                ],
+                content: "交通提醒：《奈良-京都》、《奈良-大阪》段沒有特急，只有快速(45分)或普通車(60分)。\n今日重點：宇治散策，吃抹茶。"
+            },
+            {
+                id: "D5", date: "2025-09-01", day: "週一", city: "Uji", cityZn: "京都/宇治",
+                title: "任天堂博物館",
+                locations: [
+                    { name: "小倉站 (京都)", type: "spot", note: "近鐵小倉站" },
+                    { name: "任天堂博物館", type: "spot", note: "Nintendo Museum" }
+                ],
+                content: "重要：**任天堂博物館門票** (需檢查 QR Code)。\n置物：館內有免費寄物櫃（100日圓、離開時可退），可放大型行李箱。\n交通：位於近鐵京都線「小倉站」附近。"
+            },
+            {
+                id: "D6", date: "2025-09-02", day: "週二", city: "Nara", cityZn: "奈良",
+                title: "奈良找鹿",
+                locations: [
+                    { name: "奈良公園", type: "spot", note: "小心鹿咬人" },
+                    { name: "東大寺", type: "spot" }
+                ],
+                content: "交通：使用 JR Pass 或 IC 卡。\n備註：USJ 預測顯示明日人數可能較多，今晚早點休息。"
+            },
+            {
+                id: "D7", date: "2025-09-03", day: "週三", city: "Osaka", cityZn: "大阪",
+                title: "USJ 環球影城 D1",
+                locations: [
+                    { name: "USJ", type: "spot", note: "環球影城" },
+                    { name: "環球港灣酒店", type: "hotel", note: "住宿" }
+                ],
+                content: "票券：檢查 **USJ 年票** APP 狀態。\n目標：蒐集能量手環金幣、瑪利歐園區。"
+            },
+            {
+                id: "D8", date: "2025-09-04", day: "週四", city: "Osaka", cityZn: "大阪",
+                title: "USJ 環球影城 D2",
+                locations: [
+                    { name: "USJ", type: "spot" }
+                ],
+                content: "第二天繼續玩！\n飲食：試試看 Kinopio's Cafe (需整理券)。"
+            },
+            {
+                id: "D9", date: "2025-09-05", day: "週五", city: "Osaka", cityZn: "大阪",
+                title: "梅田・返程",
+                locations: [
+                    { name: "梅田", type: "spot", note: "購物/寄放行李" },
+                    { name: "關西機場", type: "transport", note: "回台灣" }
+                ],
+                content: "行李寄放：梅田 Visa 卡可免費寄放行李。\n交通：Haruka 電子票 (由新大阪/天王寺搭乘)。\nLawson：記得用 OPENPOINT 集點。"
+            }
         ];
 
-        function renderExpenses() {
-            const list = document.getElementById('expense-list');
-            const totalEl = document.getElementById('total-amount');
-            let total = 0;
-            let html = '';
+        const CHECKLISTS = {
+            "隨身行李": ["護照", "日幣", "J卡/Gogoro卡", "手機繩", "行動電源", "各種充電線", "雨傘/陽傘"],
+            "衣物": ["襪子 (穿1帶3)", "內褲 (穿1帶3)", "下半身 (白長裙/牛仔短褲)", "睡衣", "鴨舌帽", "薄外套"],
+            "盥洗/藥品": ["牙刷", "卸妝棉", "洗面乳", "甲亢藥", "頭痛藥", "鼻子藥", "OK繃"],
+            "購物清單": ["味噌", "桃屋辣油 (辣)", "大創微波包子容器", "Uniqlo", "藥妝"],
+            "早上檢查": ["拔蚊香", "關窗/關插座", "確認護照在身", "手機/iPad"]
+        };
 
-            // Sort by date (newest first)
-            expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+        const WEATHER_COORDS = {
+            "Okayama": { lat: 34.6618, lon: 133.9344 },
+            "Kyoto": { lat: 35.0116, 135.7681 },
+            "Uji": { lat: 34.8893, 135.8018 },
+            "Nara": { lat: 34.6851, 135.8048 },
+            "Osaka": { lat: 34.6937, 135.5023 }
+        };
 
-            expenses.forEach(exp => {
-                total += exp.amount;
-                html += `
-                    <div class="expense-item">
-                        <div class="expense-info">
-                            <span style="font-weight:500;">${exp.item}</span>
-                            <span class="expense-date">${exp.date} · ${exp.category}</span>
-                        </div>
-                        <div class="expense-amount">¥${exp.amount.toLocaleString()}</div>
+        // --- Components ---
+
+        const WeatherWidget = ({ city, cityZn }) => {
+            const [weather, setWeather] = useState(null);
+
+            useEffect(() => {
+                const coords = WEATHER_COORDS[city];
+                if (!coords) return;
+                
+                // Fetching current weather (simulation for the future trip date)
+                // Using Open-Meteo free API
+                fetch(`https://api.open-meteo.com/v1/forecast?latitude=${coords.lat}&longitude=${coords.lon}&current=temperature_2m,weather_code&timezone=Asia%2FTokyo`)
+                    .then(res => res.json())
+                    .then(data => {
+                        setWeather(data.current);
+                    })
+                    .catch(err => console.error("Weather fetch failed", err));
+            }, [city]);
+
+            const getWeatherIcon = (code) => {
+                if (code <= 3) return <Sun className="text-orange-500" size={20} />; // Clear/Cloudy
+                if (code <= 67) return <CloudRain className="text-blue-500" size={20} />; // Rain
+                return <Wind className="text-gray-500" size={20} />;
+            };
+
+            if (!weather) return <div className="text-xs text-stone-400">載入天氣中...</div>;
+
+            return (
+                <div className="flex items-center gap-2 bg-white/60 px-3 py-1 rounded-full border border-stone-200 shadow-sm">
+                    {getWeatherIcon(weather.weather_code)}
+                    <div className="flex flex-col leading-none">
+                        <span className="text-[10px] text-stone-500">{cityZn}</span>
+                        <span className="text-sm font-bold text-stone-700">{weather.temperature_2m}°C</span>
                     </div>
-                `;
+                </div>
+            );
+        };
+
+        const SmartText = ({ text }) => {
+            if (!text) return null;
+            
+            // Regex patterns for highlighting
+            const patterns = [
+                { regex: /(IT214|JR Pass|Haruka|新快速|櫻花號|Sakura|Hikari)/gi, className: "highlight-transport" },
+                { regex: /(必吃|抹茶|甜點|Kinopio's Cafe)/g, className: "highlight-food" },
+                { regex: /(⚠️|重要|注意|已預約)/g, className: "highlight-alert" },
+                { regex: /(必買|藥妝|Uniqlo)/g, className: "highlight-buy" }
+            ];
+
+            const parts = text.split('\n').map((line, lineIdx) => {
+                if (!line) return null;
+                
+                let words = [line];
+                
+                patterns.forEach(({ regex, className }) => {
+                    let newWords = [];
+                    words.forEach(word => {
+                        if (typeof word !== 'string') {
+                            newWords.push(word);
+                            return;
+                        }
+                        const split = word.split(regex);
+                        for (let i = 0; i < split.length; i++) {
+                            if (split[i].match(regex)) {
+                                newWords.push(<span key={`${lineIdx}-${i}`} className={className}>{split[i]}</span>);
+                            } else if (split[i]) {
+                                newWords.push(split[i]);
+                            }
+                        }
+                    });
+                    words = newWords;
+                });
+
+                return <p key={lineIdx} className="mb-1 text-stone-600 leading-relaxed text-sm">{words}</p>;
             });
 
-            list.innerHTML = html;
-            totalEl.innerText = total.toLocaleString();
-        }
+            return <div>{parts}</div>;
+        };
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', renderExpenses);
+        const DayCard = ({ data }) => {
+            const isToday = false; // Logic to check date can be added here
+            
+            const openMap = (loc) => {
+                window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(loc)}`, '_blank');
+            };
+
+            return (
+                <div className="bg-white rounded-2xl p-5 mb-5 card-shadow border border-stone-100 relative overflow-hidden">
+                    {/* Date Header */}
+                    <div className="flex justify-between items-start mb-4">
+                        <div>
+                            <div className="flex items-center gap-2 mb-1">
+                                <span className="bg-stone-800 text-white text-xs px-2 py-0.5 rounded-md font-medium tracking-wider">{data.id}</span>
+                                <span className="text-stone-400 text-xs font-medium tracking-wide">{data.date} {data.day}</span>
+                            </div>
+                            <h3 className="text-xl font-bold text-stone-800 tracking-tight">{data.title}</h3>
+                        </div>
+                        <WeatherWidget city={data.city} cityZn={data.cityZn} />
+                    </div>
+
+                    {/* Timeline Locations */}
+                    <div className="mb-6 space-y-4">
+                        {data.locations.map((loc, idx) => (
+                            <div key={idx} className="flex gap-3 relative">
+                                {/* Connector Line */}
+                                {idx !== data.locations.length - 1 && (
+                                    <div className="absolute left-[11px] top-7 bottom-[-16px] w-[2px] bg-stone-100"></div>
+                                )}
+                                
+                                <div className={`mt-1 min-w-[24px] h-6 rounded-full flex items-center justify-center z-10 
+                                    ${loc.type === 'transport' ? 'bg-blue-50 text-blue-600' : 
+                                      loc.type === 'food' ? 'bg-green-50 text-green-600' : 
+                                      loc.type === 'hotel' ? 'bg-purple-50 text-purple-600' :
+                                      'bg-orange-50 text-orange-600'}`}>
+                                    {loc.type === 'transport' ? <Train size={14} /> :
+                                     loc.type === 'food' ? <Utensils size={14} /> :
+                                     loc.type === 'hotel' ? <MapPin size={14} /> :
+                                     <MapPin size={14} />}
+                                </div>
+                                <div className="flex-1">
+                                    <div className="flex justify-between items-start">
+                                        <div>
+                                            <div className="font-bold text-stone-800 text-sm flex items-center gap-2">
+                                                {loc.name}
+                                                {loc.time && <span className="text-xs font-normal text-stone-400 bg-stone-100 px-1.5 rounded">{loc.time}</span>}
+                                            </div>
+                                            {loc.note && <div className="text-xs text-stone-500 mt-0.5">{loc.note}</div>}
+                                        </div>
+                                        <button 
+                                            onClick={() => openMap(loc.name)}
+                                            className="text-stone-300 hover:text-blue-500 transition-colors p-1"
+                                            aria-label="導航"
+                                        >
+                                            <Navigation size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* AI Analysis / Content */}
+                    <div className="bg-stone-50 rounded-xl p-3 border border-stone-100">
+                        <div className="flex items-center gap-1.5 mb-2 text-stone-400 text-xs font-medium uppercase tracking-wider">
+                            <AlertCircle size={12} />
+                            <span>Guide Note</span>
+                        </div>
+                        <SmartText text={data.content} />
+                    </div>
+                </div>
+            );
+        };
+
+        const ToolsPage = () => {
+            const [activeChecklist, setActiveChecklist] = useState(null);
+
+            return (
+                <div className="pb-24 pt-4 px-4">
+                    <h2 className="text-2xl font-bold text-stone-800 mb-6">旅行工具箱</h2>
+
+                    {/* Quick Actions */}
+                    <div className="grid grid-cols-2 gap-3 mb-6">
+                        <a href="https://docs.google.com/spreadsheets/d/1RFGLe_BHZ48Opw4kOvMXEwZN7tPvhE3jDTv_-iB6sdg/edit?usp=drivesdk" target="_blank" className="bg-white p-4 rounded-xl card-shadow border border-stone-100 flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform">
+                            <div className="bg-green-100 text-green-600 p-2 rounded-full"><CreditCard size={24} /></div>
+                            <span className="font-bold text-stone-700 text-sm">記帳表</span>
+                        </a>
+                        <div className="bg-white p-4 rounded-xl card-shadow border border-stone-100 flex flex-col items-center justify-center gap-2">
+                            <div className="bg-blue-100 text-blue-600 p-2 rounded-full"><Phone size={24} /></div>
+                            <span className="font-bold text-stone-700 text-sm">緊急聯絡</span>
+                        </div>
+                    </div>
+
+                    {/* USJ Status */}
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-500 rounded-2xl p-5 text-white shadow-lg mb-6 relative overflow-hidden">
+                         <div className="absolute top-0 right-0 p-4 opacity-20"><Train size={100} /></div>
+                        <h3 className="font-bold text-lg mb-1 relative z-10">USJ 狀態確認</h3>
+                        <p className="text-blue-100 text-xs mb-3 relative z-10">入園日：09/03, 09/04</p>
+                        <div className="flex gap-2 relative z-10">
+                            <span className="bg-white/20 px-2 py-1 rounded text-xs backdrop-blur-sm">年票 App</span>
+                            <span className="bg-white/20 px-2 py-1 rounded text-xs backdrop-blur-sm">整理券</span>
+                        </div>
+                    </div>
+
+                    {/* Checklists */}
+                    <div>
+                        <h3 className="font-bold text-stone-800 mb-3 flex items-center gap-2">
+                            <CheckSquare size={18} />
+                            打包清單
+                        </h3>
+                        <div className="space-y-2">
+                            {Object.entries(CHECKLISTS).map(([category, items]) => (
+                                <div key={category} className="bg-white rounded-xl border border-stone-200 overflow-hidden">
+                                    <button 
+                                        onClick={() => setActiveChecklist(activeChecklist === category ? null : category)}
+                                        className="w-full flex justify-between items-center p-4 text-left"
+                                    >
+                                        <span className="font-bold text-stone-700 text-sm">{category}</span>
+                                        <ChevronRight size={16} className={`text-stone-400 transition-transform ${activeChecklist === category ? 'rotate-90' : ''}`} />
+                                    </button>
+                                    
+                                    {activeChecklist === category && (
+                                        <div className="px-4 pb-4 bg-stone-50 border-t border-stone-100">
+                                            {items.map((item, i) => (
+                                                <div key={i} className="flex items-center gap-2 py-2 border-b border-stone-100 last:border-0">
+                                                    <input type="checkbox" className="w-4 h-4 rounded border-stone-300 text-stone-800 focus:ring-stone-500" />
+                                                    <span className="text-sm text-stone-600">{item}</span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            const [tab, setTab] = useState('itinerary');
+            const [scrolled, setScrolled] = useState(false);
+
+            useEffect(() => {
+                const handleScroll = () => setScrolled(window.scrollY > 20);
+                window.addEventListener('scroll', handleScroll);
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            return (
+                <div className="min-h-screen bg-[#F5F5F4]">
+                    {/* Header */}
+                    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-5 pt-12 pb-4 ${scrolled ? 'glass-nav shadow-sm' : 'bg-transparent'}`}>
+                        <div className="flex justify-between items-center">
+                            <div>
+                                <h1 className={`font-bold text-stone-800 transition-all ${scrolled ? 'text-lg' : 'text-2xl'}`}>
+                                    Kansai 2025
+                                </h1>
+                                {!scrolled && <p className="text-sm text-stone-500 mt-1">大阪・京都・奈良・USJ</p>}
+                            </div>
+                            <div className="bg-stone-800 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-xs shadow-lg">
+                                ME
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Main Content */}
+                    <main className="pt-32 px-4 pb-24 max-w-lg mx-auto">
+                        {tab === 'itinerary' && (
+                            <div className="space-y-4">
+                                {RAW_ITINERARY.map(day => (
+                                    <DayCard key={day.id} data={day} />
+                                ))}
+                            </div>
+                        )}
+                        {tab === 'tools' && <ToolsPage />}
+                    </main>
+
+                    {/* Tab Navigation */}
+                    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-stone-200 pb-safe pt-2 px-6 z-50 flex justify-between items-center h-[80px] shadow-[0_-5px_20px_rgba(0,0,0,0.03)]">
+                        <button 
+                            onClick={() => setTab('itinerary')}
+                            className={`flex flex-col items-center gap-1 w-16 ${tab === 'itinerary' ? 'text-stone-800' : 'text-stone-400'}`}
+                        >
+                            <Calendar size={24} strokeWidth={tab === 'itinerary' ? 2.5 : 2} />
+                            <span className="text-[10px] font-medium">行程</span>
+                        </button>
+                        
+                        <div className="relative -top-6">
+                            <button className="bg-stone-800 text-white w-14 h-14 rounded-full shadow-xl flex items-center justify-center active:scale-95 transition-transform"
+                                onClick={() => window.open('https://www.google.com/maps', '_blank')}
+                            >
+                                <Navigation size={24} />
+                            </button>
+                        </div>
+
+                        <button 
+                            onClick={() => setTab('tools')}
+                            className={`flex flex-col items-center gap-1 w-16 ${tab === 'tools' ? 'text-stone-800' : 'text-stone-400'}`}
+                        >
+                            <CheckSquare size={24} strokeWidth={tab === 'tools' ? 2.5 : 2} />
+                            <span className="text-[10px] font-medium">工具</span>
+                        </button>
+                    </nav>
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>
