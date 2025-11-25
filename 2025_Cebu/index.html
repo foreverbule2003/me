@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>宿霧薄荷島・大云永續</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --cebu-ocean: #0088cc;    
+            --cebu-sand: #fdfbf7;     
+            --cebu-teal: #20c997;     
+            --cebu-coral: #ff8787;    
+            --cebu-text: #2d3748;
+        }
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--cebu-sand);
+            color: var(--cebu-text);
+            -webkit-tap-highlight-color: transparent;
+            padding-bottom: env(safe-area-inset-bottom);
+        }
+        .font-rounded { font-family: 'Zen Maru Gothic', sans-serif; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* Card Styles */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 4px 20px rgba(31, 38, 135, 0.05);
+        }
+        .nav-btn.active { color: var(--cebu-ocean); }
+        .nav-btn.active i { transform: scale(1.1); transition: transform 0.2s; }
+        
+        /* Tags */
+        .tag { font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 500; display: inline-flex; align-items: center; margin-right: 4px; }
+        .tag-meal { background: #fff3e0; color: #e65100; border: 1px solid #ffe0b2; }
+        .tag-hotel { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+        .tag-activity { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+        .tag-flight { background: #f3e5f5; color: #7b1fa2; border: 1px solid #e1bee7; }
+    </style>
+</head>
+<body class="h-screen flex flex-col overflow-hidden bg-[url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=2574&auto=format&fit=crop')] bg-cover bg-center">
+
+    <div class="absolute inset-0 bg-white/90 z-0"></div>
+
+    <header class="relative z-10 pt-12 pb-4 px-5 flex justify-between items-end bg-white/50 backdrop-blur-sm border-b border-white/50">
+        <div>
+            <p class="text-[10px] font-bold text-gray-400 tracking-widest uppercase mb-1">2025 COMPANY TRIP</p>
+            <h1 class="text-xl font-rounded font-bold text-[#0088cc]">宿霧・薄荷島</h1>
+            <p class="text-xs text-gray-500 mt-1"><i class="fas fa-leaf text-[#40c057] mr-1"></i>大云永續生態之旅</p>
+        </div>
+        <div class="text-right">
+            <span class="text-xs font-bold bg-[#0088cc] text-white px-2 py-1 rounded-full">BR281</span>
+        </div>
+    </header>
+
+    <main id="app-container" class="relative z-10 flex-1 overflow-y-auto px-4 pb-24 hide-scrollbar pt-4">
+        </main>
+
+    <nav class="fixed bottom-0 w-full bg-white/95 backdrop-blur-md border-t border-gray-100 pb-safe z-50">
+        <div class="flex justify-around items-center h-16">
+            <button onclick="renderView('itinerary')" id="nav-itinerary" class="nav-btn active flex-1 flex flex-col items-center text-gray-400">
+                <i class="fas fa-list-ul text-lg mb-1"></i>
+                <span class="text-[10px] font-medium">行程</span>
+            </button>
+            <button onclick="renderView('hotel')" id="nav-hotel" class="nav-btn flex-1 flex flex-col items-center text-gray-400">
+                <i class="fas fa-hotel text-lg mb-1"></i>
+                <span class="text-[10px] font-medium">飯店</span>
+            </button>
+            <button onclick="renderView('food')" id="nav-food" class="nav-btn flex-1 flex flex-col items-center text-gray-400">
+                <i class="fas fa-utensils text-lg mb-1"></i>
+                <span class="text-[10px] font-medium">餐食</span>
+            </button>
+             <button onclick="renderView('info')" id="nav-info" class="nav-btn flex-1 flex flex-col items-center text-gray-400">
+                <i class="fas fa-info-circle text-lg mb-1"></i>
+                <span class="text-[10px] font-medium">資訊</span>
+            </button>
+        </div>
+    </nav>
+
+    <script>
+        // 資料來源：根據您上傳的圖片進行 OCR 辨識與整理
+        const db = {
+            flight: {
+                out: { date: "DAY 1", code: "BR281", time: "08:20 - 11:15", from: "桃園機場 (T2)", to: "宿霧機場", airline: "長榮航空" },
+                in: { date: "DAY 5", code: "BR282", time: "12:30 - 15:20", from: "宿霧機場", to: "桃園機場", airline: "長榮航空" },
+                meeting: "06:00 桃園機場第二航廈長榮櫃檯集合"
+            },
+            contact: [
+                { role: "領隊", name: "徐海華", phone: "0982-767-580" },
+                { role: "山富窗口", name: "陳俊霖", phone: "0978-629-067" }
+            ],
+            itinerary: [
+                {
+                    day: "Day 1", title: "出發 & 前往薄荷島", 
+                    events: [
+                        { time: "08:20", title: "搭乘長榮 BR281", desc: "前往宿霧 (11:15 抵達)" },
+                        { time: "午餐", title: "中式海鮮餐", desc: "地點：南餐廳 (餐標 P800)" },
+                        { time: "下午", title: "前往薄荷島", desc: "搭乘交通船 (商務艙)" },
+                        { time: "晚餐", title: "蜜蜂農場菲式料理", desc: "加贈冰淇淋每人一球 (餐標 P850)" },
+                        { time: "住宿", title: "Henann Premier Coast Resort", desc: "赫納高級海岸度假村", tag: "Hotel" }
+                    ]
+                },
+                {
+                    day: "Day 2", title: "薄荷島生態與海洋",
+                    note: "★ 特別贈送：菲式按摩",
+                    events: [
+                        { time: "上午", title: "行程二選一", desc: "A. 飯店自由活動<br>B. 沙丁魚浮潛" },
+                        { time: "午餐", title: "MAAYO 網紅餐廳", desc: "菲式海鮮料理 (餐標 P750)" },
+                        { time: "下午", title: "薄荷島陸上觀光", desc: "巧克力山 & 比翼雙飛觀景坪 ➝ 迷你眼鏡猴" },
+                        { time: "晚上", title: "遊河晚餐 & 螢火蟲", desc: "河畔景觀遊河晚餐 ➝ 夜觀螢火蟲" },
+                        { time: "住宿", title: "Henann Premier Coast Resort", desc: "赫納高級海岸度假村", tag: "Hotel" }
+                    ]
+                },
+                {
+                    day: "Day 3", title: "返回宿霧",
+                    events: [
+                        { time: "上午", title: "行程二選一", desc: "A. 邦勞南方農場手作DIY<br>B. 自由活動享受飯店設施" },
+                        { time: "午餐", title: "渡假村內精緻午餐", desc: "" },
+                        { time: "下午", title: "返回宿霧", desc: "搭乘交通船 (商務艙) ➝ 飯店辦理入住" },
+                        { time: "晚餐", title: "Parola 沙灘海景餐廳", desc: "科爾多瓦 (餐標 P1000)" },
+                        { time: "住宿", title: "Fili Hotel NUSTAR Cebu", desc: "宿霧 菲力酒店", tag: "Hotel" }
+                    ]
+                },
+                {
+                    day: "Day 4", title: "宿霧市區 & 海洋公園",
+                    events: [
+                        { time: "上午", title: "自由活動 & 購物", desc: "享受飯店設施 ➝ SM Seaside City Cebu 購物廣場" },
+                        { time: "活動", title: "弓箭射擊體驗", desc: "每人 18 發" },
+                        { time: "午餐", title: "冬陽火烤吃到飽", desc: "+飲料暢飲 (餐標 P750)" },
+                        { time: "下午", title: "宿霧 Ocean Park", desc: "海洋公園參觀" },
+                        { time: "晚餐", title: "海底晚餐 (5 Course)", desc: "Ocean Park 水族館內 (餐標 P1700)" },
+                        { time: "住宿", title: "Fili Hotel NUSTAR Cebu", desc: "宿霧 菲力酒店", tag: "Hotel" }
+                    ]
+                },
+                {
+                    day: "Day 5", title: "返程",
+                    events: [
+                        { time: "上午", title: "享受飯店設施", desc: "收拾行李" },
+                        { time: "12:30", title: "搭乘長榮 BR282", desc: "前往機場 ➝ 返回溫暖的家" },
+                        { time: "餐食", title: "早：飯店｜午：機上｜晚：X", desc: "" }
+                    ]
+                }
+            ],
+            hotels: [
+                {
+                    name: "Henann Premier Coast Resort",
+                    cnName: "赫納高級海岸度假村",
+                    loc: "薄荷島",
+                    desc: "坐落於薄荷島，擁有清澈海水與迷人海灘(Alona Beach)。設施包含令人嘆為觀止的空中泳池、正宗菲律賓美食及專業水療服務。",
+                    img: "https://images.unsplash.com/photo-1582719508461-905c673771fd?q=80&w=2525&auto=format&fit=crop" 
+                },
+                {
+                    name: "Fili Hotel NUSTAR Cebu",
+                    cnName: "宿霧 菲力酒店",
+                    loc: "宿霧市區",
+                    desc: "位於宿霧市中心，結合賭場、夜店、酒吧的綜合娛樂城。鄰近麥哲倫十字架、聖嬰大教堂等歷史景點。擁有唯美泳池與豐富的水上樂園。",
+                    img: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2670&auto=format&fit=crop"
+                }
+            ],
+            dining: [
+                {
+                    name: "Parola 海景餐廳",
+                    loc: "科爾多瓦 (Cordova)",
+                    price: "餐標 P1000",
+                    desc: "開放式露天餐廳，一邊欣賞壯麗日落海景，一邊享用正宗菲律賓美食。遠離城市喧囂的絕佳放鬆地點。",
+                    tags: ["海景", "日落", "菲式"]
+                },
+                {
+                    name: "Ocean Park 海底晚餐",
+                    loc: "Aqua Dining (海洋公園內)",
+                    price: "餐標 P1700 (5 Course)",
+                    desc: "在迷人的海底隧道中用餐，四周環繞著海洋生物。提供精緻美食、友善服務及現場火熱釀食秀。",
+                    tags: ["海底隧道", "精緻", "氛圍"]
+                }
+            ]
+        };
+
+        const app = document.getElementById('app-container');
+
+        function renderView(viewName) {
+            // Update Nav State
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('active', 'text-[#0088cc]');
+                btn.classList.add('text-gray-400');
+            });
+            const activeBtn = document.getElementById(`nav-${viewName}`);
+            if(activeBtn) {
+                activeBtn.classList.add('active', 'text-[#0088cc]');
+                activeBtn.classList.remove('text-gray-400');
+            }
+            
+            window.scrollTo(0, 0);
+
+            if (viewName === 'itinerary') renderItinerary();
+            else if (viewName === 'hotel') renderHotel();
+            else if (viewName === 'food') renderFood();
+            else if (viewName === 'info') renderInfo();
+        }
+
+        function renderItinerary() {
+            let html = `
+                <div class="glass-card rounded-2xl p-5 mb-6 bg-gradient-to-br from-[#0088cc] to-[#005f8f] text-white">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <span class="text-xs bg-white/20 px-2 py-1 rounded">DEPARTURE</span>
+                            <div class="text-2xl font-bold mt-1 font-mono">${db.flight.out.code}</div>
+                            <div class="text-xs opacity-80">長榮航空</div>
+                        </div>
+                        <div class="text-right">
+                             <div class="text-sm font-bold">${db.flight.out.date}</div>
+                             <div class="text-xs opacity-80">${db.flight.out.time}</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center text-sm font-medium mb-3">
+                        <span>TPE</span>
+                        <div class="h-[1px] bg-white/50 flex-1 mx-3 relative">
+                            <i class="fas fa-plane absolute top-[-8px] left-1/2 -translate-x-1/2 text-xs"></i>
+                        </div>
+                        <span>CEB</span>
+                    </div>
+                    <div class="bg-black/20 rounded p-2 text-xs flex items-start">
+                        <i class="fas fa-bullhorn mr-2 mt-0.5 text-yellow-300"></i>
+                        <span>${db.flight.meeting}</span>
+                    </div>
+                </div>
+            `;
+
+            db.itinerary.forEach((day, index) => {
+                let eventsHtml = day.events.map(e => `
+                    <div class="flex gap-4 mb-5 relative group">
+                        <div class="flex flex-col items-center">
+                            <div class="w-2 h-2 rounded-full bg-[#20c997] ring-4 ring-white group-last:bg-gray-300"></div>
+                            <div class="w-0.5 h-full bg-gray-100 my-1 absolute top-2" style="z-index:-1"></div>
+                        </div>
+                        <div class="flex-1 pb-2">
+                            <div class="flex justify-between items-start">
+                                <span class="text-xs font-bold text-[#0088cc] bg-blue-50 px-2 py-0.5 rounded mb-1 inline-block">${e.time}</span>
+                            </div>
+                            <h4 class="font-bold text-gray-800 text-sm mb-1">${e.title}</h4>
+                            <p class="text-xs text-gray-500 mb-2 leading-relaxed">${e.desc}</p>
+                            ${e.tag ? `<span class="tag tag-hotel">${e.tag}</span>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+
+                html += `
+                    <div class="glass-card rounded-2xl p-5 mb-5">
+                        <h3 class="text-lg font-rounded font-bold text-gray-800 mb-4 border-l-4 border-[#0088cc] pl-3 flex justify-between items-center">
+                            ${day.day} <span class="text-sm font-normal text-gray-500">${day.title}</span>
+                        </h3>
+                        ${day.note ? `<div class="bg-yellow-50 text-yellow-700 text-xs p-2 rounded mb-4"><i class="fas fa-star mr-1"></i>${day.note}</div>` : ''}
+                        <div>${eventsHtml}</div>
+                    </div>
+                `;
+            });
+            app.innerHTML = html;
+        }
+
+        function renderHotel() {
+            let html = db.hotels.map(h => `
+                <div class="glass-card rounded-2xl overflow-hidden mb-6">
+                    <div class="h-40 bg-gray-200 relative">
+                        <img src="${h.img}" class="w-full h-full object-cover">
+                        <div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 to-transparent p-4">
+                            <h3 class="text-white font-bold text-lg leading-tight">${h.name}</h3>
+                            <p class="text-white/90 text-xs">${h.cnName}</p>
+                        </div>
+                    </div>
+                    <div class="p-5">
+                        <span class="text-xs font-bold text-white bg-[#0088cc] px-2 py-1 rounded inline-block mb-3">
+                            <i class="fas fa-map-marker-alt mr-1"></i>${h.loc}
+                        </span>
+                        <p class="text-xs text-gray-600 leading-relaxed text-justify">${h.desc}</p>
+                    </div>
+                </div>
+            `).join('');
+            app.innerHTML = `<h2 class="text-xl font-rounded font-bold mb-4 text-gray-800 px-1">入住飯店</h2>` + html;
+        }
+
+        function renderFood() {
+            let html = db.dining.map(f => `
+                <div class="glass-card rounded-2xl p-5 mb-5 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-20 h-20 bg-orange-100 rounded-bl-full -mr-10 -mt-10 z-0"></div>
+                    <div class="relative z-10">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-bold text-gray-800 text-lg">${f.name}</h3>
+                            <span class="text-xs font-bold text-orange-500 bg-orange-50 px-2 py-1 rounded border border-orange-100">${f.price}</span>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-3"><i class="fas fa-location-arrow mr-1"></i>${f.loc}</p>
+                        <p class="text-xs text-gray-600 leading-relaxed mb-3">${f.desc}</p>
+                        <div class="flex gap-2">
+                            ${f.tags.map(t => `<span class="tag tag-meal">#${t}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+            app.innerHTML = `<h2 class="text-xl font-rounded font-bold mb-4 text-gray-800 px-1">精選餐食</h2>` + html;
+        }
+
+        function renderInfo() {
+            app.innerHTML = `
+                <h2 class="text-xl font-rounded font-bold mb-4 text-gray-800 px-1">出發資訊</h2>
+                
+                <div class="glass-card rounded-2xl p-5 mb-5">
+                    <h3 class="font-bold text-gray-800 mb-4 border-b pb-2">聯絡資料</h3>
+                    ${db.contact.map(c => `
+                        <div class="flex justify-between items-center mb-3 last:mb-0">
+                            <div>
+                                <p class="text-xs text-gray-400">${c.role}</p>
+                                <p class="text-sm font-bold text-gray-800">${c.name}</p>
+                            </div>
+                            <a href="tel:${c.phone}" class="bg-green-50 text-green-600 px-3 py-1.5 rounded-full text-xs font-bold border border-green-200">
+                                <i class="fas fa-phone-alt mr-1"></i>撥打
+                            </a>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <div class="glass-card rounded-2xl p-5 mb-5">
+                    <h3 class="font-bold text-gray-800 mb-4 border-b pb-2">回程航班</h3>
+                    <div class="flex justify-between">
+                         <div>
+                            <div class="text-2xl font-bold text-[#0088cc] font-mono">${db.flight.in.code}</div>
+                            <div class="text-xs text-gray-500">長榮航空</div>
+                         </div>
+                         <div class="text-right">
+                            <div class="text-sm font-bold text-gray-800">${db.flight.in.date}</div>
+                            <div class="text-xs text-gray-500">${db.flight.in.time}</div>
+                         </div>
+                    </div>
+                </div>
+                 
+                <p class="text-center text-[10px] text-gray-400 mt-8">
+                    資料來源：大云永續 2025 行程手冊<br>
+                    請自行攜帶護照並確認效期
+                </p>
+            `;
+        }
+
+        // Init
+        renderView('itinerary');
+    </script>
+</body>
+</html>
