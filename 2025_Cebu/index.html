@@ -12,6 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../shared-styles.css" />
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Zen+Maru+Gothic:wght@500;700&display=swap"
       rel="stylesheet"
@@ -33,13 +34,6 @@
       }
       .font-rounded {
         font-family: "Zen Maru Gothic", sans-serif;
-      }
-      .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .hide-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
       }
 
       /* Card Styles */
@@ -90,7 +84,7 @@
     </style>
   </head>
   <body
-    class="h-screen flex flex-col overflow-hidden bg-[url('https://images.unsplash.com/photo-1518509562904-e7ef99cdcc86?q=80&w=2574&auto=format&fit=crop')] bg-cover bg-center"
+    class="h-screen flex flex-col overflow-hidden bg-[url('./images/cebu-bg.jpg')] bg-cover bg-center"
   >
     <div class="absolute inset-0 bg-white/90 z-0"></div>
 
@@ -110,6 +104,12 @@
           <i class="fas fa-leaf text-[#40c057] mr-1"></i>大云永續生態之旅
         </p>
       </div>
+      <a
+        href="../index.html"
+        class="absolute top-4 right-4 bg-white/60 w-8 h-8 rounded-full flex items-center justify-center text-gray-500 active:scale-90 transition-transform"
+      >
+        <i class="fas fa-home"></i>
+      </a>
       <div class="text-right">
         <span
           class="text-xs font-bold bg-[#0088cc] text-white px-2 py-1 rounded-full"
