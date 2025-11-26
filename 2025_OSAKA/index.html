@@ -12,7 +12,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="../shared-styles.css" />
+
     <link
       href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Shippori+Mincho:wght@400;600&display=swap"
       rel="stylesheet"
@@ -90,6 +90,15 @@
         border-bottom: 2px solid var(--jp-blue);
         color: var(--jp-blue);
         font-weight: bold;
+      }
+      /* 共用樣式：用於隱藏滾動條 */
+      .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+
+      .hide-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
       }
     </style>
   </head>
