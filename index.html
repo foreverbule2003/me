@@ -5,18 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>foreverbule2003 - 個人頁面</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    
 
     <style>
-      body {
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang TC", "Noto Sans TC", sans-serif;
-      }
-      .bg-gradient-purple {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
       /* Custom styles that are hard to replicate with Tailwind alone */
-      header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
+
       header::before {
         content: "";
         position: absolute;
@@ -58,8 +51,8 @@
       }
     </style>
   </head>
-  <body>
-    <header class="text-white py-12 text-center relative overflow-hidden">
+  <body class="font-sans">
+    <header class="text-white py-12 text-center relative overflow-hidden bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]">
       <div class="max-w-4xl mx-auto px-5">
         <div class="relative z-10">
           <div
@@ -86,7 +79,7 @@
               class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
             >
               <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-purple"
+                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
               >
                 👋
               </div>
@@ -103,16 +96,16 @@
 
               <div class="flex flex-wrap gap-3 mt-6">
                 <span
-                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-gradient-purple"
+                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
                   >投資</span
                 >
                 <span
-                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-gradient-purple"
+                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
                   >金融工具</span
                 >
                 <span
-                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-gradient-purple"
-                  >Web開發</span
+                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
+                  >產業研究</span
                 >
               </div>
             </div>
@@ -126,7 +119,7 @@
               class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
             >
               <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-purple"
+                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
               >
                 📧
               </div>
@@ -142,7 +135,7 @@
                   class="flex items-center gap-4 p-4 bg-indigo-50/70 rounded-xl hover:bg-indigo-100/80 transition-colors duration-300"
                 >
                   <div
-                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-gradient-purple flex-shrink-0"
+                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] flex-shrink-0"
                   >
                     ✉️
                   </div>
@@ -157,7 +150,7 @@
                     </div>
                   </div>
                   <button
-                    class="copy-btn text-white px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-purple hover:shadow-md transition-all duration-300"
+                    class="copy-btn text-white px-4 py-2 rounded-lg text-sm font-semibold bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] hover:shadow-md transition-all duration-300"
                     onclick="copyEmail()"
                   >
                     複製
@@ -168,7 +161,7 @@
                   class="flex items-center gap-4 p-4 bg-indigo-50/70 rounded-xl hover:bg-indigo-100/80 transition-colors duration-300"
                 >
                   <div
-                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-gradient-purple flex-shrink-0"
+                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] flex-shrink-0"
                   >
                     💬
                   </div>
@@ -182,7 +175,7 @@
                   class="flex items-center gap-4 p-4 bg-indigo-50/70 rounded-xl hover:bg-indigo-100/80 transition-colors duration-300"
                 >
                   <div
-                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-gradient-purple flex-shrink-0"
+                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] flex-shrink-0"
                   >
                     🤝
                   </div>
@@ -202,7 +195,7 @@
               class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
             >
               <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-purple"
+                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
               >
                 🚀
               </div>
@@ -216,14 +209,14 @@
               <div class="flex flex-wrap gap-4 mt-4">
                 <a
                   href="2025_Cebu/index.html"
-                  class="inline-flex items-center gap-3 px-6 py-3 bg-gradient-purple text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                  class="inline-flex items-center gap-3 px-6 py-3 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <span>🏝️</span> 2025 宿霧之旅
                 </a>
 
                 <a
                   href="2025_OSAKA/index.html"
-                  class="inline-flex items-center gap-3 px-6 py-3 bg-gradient-purple text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
+                  class="inline-flex items-center gap-3 px-6 py-3 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
                 >
                   <span>⛩️</span> 2025 大阪京都
                 </a>
@@ -246,7 +239,7 @@
               class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
             >
               <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-purple"
+                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
               >
                 📝
               </div>
@@ -254,7 +247,7 @@
             </h2>
 
             <button
-              class="w-full p-3 mb-4 text-white font-semibold rounded-lg bg-gradient-purple hover:shadow-lg transition-all"
+              class="w-full p-3 mb-4 text-white font-semibold rounded-lg bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] hover:shadow-lg transition-all"
               onclick="toggleNoteForm()"
             >
               ✏️ 新增筆記
@@ -292,7 +285,7 @@
               </div>
               <div class="flex gap-4">
                 <button
-                  class="px-5 py-2 text-white font-semibold rounded-lg bg-gradient-purple hover:shadow-md transition-transform"
+                  class="px-5 py-2 text-white font-semibold rounded-lg bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] hover:shadow-md transition-transform"
                   onclick="addNote()"
                 >
                   儲存
