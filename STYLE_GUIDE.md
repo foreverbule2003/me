@@ -1,125 +1,139 @@
-# 專案樣式指南 (Style Guide)
+# 現代極簡旅行 App (Modern Minimalist Travel App) - 設計規範
 
-這份文件旨在統整專案中使用的主要視覺樣式與慣例，以便在未來的開發中保持 UI 的一致性。
+這份文件定義了專案的視覺語言。我們的目標是打造「全球頂尖」的使用者體驗，強調**內容優先、高對比度與沉浸式互動**。
 
-## 1. 主要框架
+---
 
-本專案使用 **[Tailwind CSS](https://tailwindcss.com/)** 作為主要的 CSS 框架。所有樣式應優先使用 Tailwind 的功能類別 (utility classes) 來建構。
+## 1. 設計哲學 (Design Philosophy)
 
-## 2. 核心配色 (Color Palette)
+- **Less Text, More Vision**: 減少文字說明，讓高品質的攝影作品說話。
+- **Big & Bold**: 使用超大字體與強烈的留白來建立層級，而非依賴分隔線。
+- **Conversation First**: 搜尋不只是填表單，而是與 AI 的對話。
+- **Organic Shapes**: 大量的圓角（40px+），讓介面看起來友善且現代。
 
-- **主要漸層 (Primary Gradient)**: 這是品牌的核心視覺元素，用於標題、按鈕和重要圖示背景。
-  - **CSS**: `linear-gradient(135deg, #667eea 0%, #764ba2 100%)`
-  - **Tailwind Class**: `bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]`
+---
 
-- **文字顏色 (Text Colors)**:
-  - `text-white`: 用於深色或漸層背景上。
-  - `text-gray-800`: 用於主要內文標題。
-  - `text-gray-700`: 用於次要標題或區塊標題。
-  - `text-gray-600`: 用於段落內文、描述性文字。
-  - `text-indigo-600`: 用於連結、日期或需要強調的輔助資訊。
+## 2. 色彩系統 (Color System)
 
-- **背景顏色 (Background Colors)**:
-  - `bg-gray-50`: 頁面主要背景色，提供柔和的基底。
-  - `bg-white`: 卡片、區塊的背景色。
-  - `bg-indigo-50/70`: 強調區塊或互動元素的背景，帶有透明度。
+我們採用單一主色調搭配極致的黑白灰，以突顯內容。
 
-## 3. 字體 (Typography)
+### 核心色 (Primary)
 
-- **字體家族**: 全站使用無襯線字體。
-  - **Tailwind Class**: `font-sans` 應套用於 `<body>`。
-- **字體大小**:
-  - `text-4xl`: 頁面主標題 (H1)。
-  - `text-2xl`: 區塊主標題 (H2)。
-  - `text-xl`: 副標題或引言。
-  - `text-lg`: 筆記標題等。
-  - `text-base`: (預設) 主要內文。
-  - `text-sm`: 輔助性文字，如標籤、日期。
+| 名稱              | 色碼      | 用途                                    |
+| ----------------- | --------- | --------------------------------------- |
+| **Electric Blue** | `#0057FF` | 行動召喚按鈕 (CTA)、AI 互動點、品牌識別 |
 
-## 4. 共用元件 (Common Components)
+> 象徵：科技、效率、信任。
 
-### 卡片/區塊 (Card/Section)
+### 中性色 (Neutrals)
 
-用於承載獨立內容區塊，具有陰影和互動效果。
+| 名稱                    | 色碼      | 用途                           |
+| ----------------------- | --------- | ------------------------------ |
+| **Dark Black**          | `#0A0A0A` | 主要標題、圖標背景             |
+| **Subtle Gray**         | `#888888` | 次要資訊、未選中狀態           |
+| **Off-White (Surface)** | `#F2F4F6` | App 背景底色，用於區分白色卡片 |
+| **Pure White**          | `#FFFFFF` | 卡片背景、主要內容區塊         |
 
-```html
-<section class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
-  <!-- Content here -->
-</section>
-```
+### 功能色 (Functional)
 
-### 按鈕 (Buttons)
+| 名稱            | 色碼      | 用途               |
+| --------------- | --------- | ------------------ |
+| **Star Yellow** | `#FBBF24` | 評分星星           |
+| **Love Red**    | `#EF4444` | 收藏/愛心 (互動後) |
 
-- **主要按鈕 (Primary Button)**: 用於最重要的操作，如「儲存」、「送出」。
+---
 
-```html
-<button class="px-6 py-3 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300">
-  主要按鈕
-</button>
-```
+## 3. 字體系統 (Typography)
 
-- **次要按鈕 (Secondary Button)**: 用於次要操作，如「查看詳情」。
+採用雙字體系統，結合展示性與易讀性。
 
-```html
-<a href="#" class="inline-flex items-center gap-3 px-5 py-2.5 bg-white text-indigo-600 font-semibold rounded-lg border-2 border-indigo-500 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-700 hover:-translate-y-0.5 transition-all duration-300">
-  次要按鈕
-</a>
-```
+### 字體選擇
 
-- **一般按鈕 (Normal Button)**: 如「取消」。
+| 用途         | 字體    | 特性                 | 設定                                          |
+| ------------ | ------- | -------------------- | --------------------------------------------- |
+| **標題字體** | Inter   | 幾何感強，適合大字號 | `font-weight: 900`, `letter-spacing: -0.04em` |
+| **內文字體** | DM Sans | 現代、圓潤，易讀性高 | -                                             |
 
-```html
-<button class="px-5 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors">
-  一般按鈕
-</button>
-```
+### 字級規範
 
-### 標籤 (Tags)
+| 類別       | 大小 (Size)     | 粗細 (Weight)   | 用途                   |
+| ---------- | --------------- | --------------- | ---------------------- |
+| Display XL | 3.5rem (56px)   | 900 (Black)     | 首頁問候語 (Hey, Alex) |
+| Card Title | 2.25rem (36px)  | 800 (ExtraBold) | 目的地名稱 (Kyoto)     |
+| Price      | 1.875rem (30px) | 900 (Black)     | 價格顯示               |
+| Input      | 1.25rem (20px)  | 700 (Bold)      | 搜尋輸入文字           |
+| Body       | 1rem (16px)     | 400/500         | 一般內文               |
+| Caption    | 0.75rem (12px)  | 700 (Bold)      | 標籤、狀態列           |
 
-用於標示關鍵字或分類。
+---
 
-```html
-<span class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]">
-  標籤
-</span>
-```
+## 4. 佈局與間距 (Layout & Spacing)
 
-### 筆記項目 (Note Item)
+### 圓角 (Border Radius)
 
-```html
-<div class="border-l-4 border-indigo-500 p-4 bg-indigo-50/70 rounded-r-lg hover:bg-indigo-100/80 transition-colors">
-  <div class="text-sm font-semibold text-indigo-600 mb-1">日期</div>
-  <div class="text-lg font-bold text-gray-800 mb-1">標題</div>
-  <div class="text-gray-600 leading-relaxed">內容...</div>
-</div>
-```
+這款 App 的特徵在於「超大圓角」，營造有機的流動感。
 
-## 5. 動畫 (Animations)
+| 類型       | 大小  | 用途                        |
+| ---------- | ----- | --------------------------- |
+| Large (L)  | 40px  | 外框、超級卡片              |
+| Medium (M) | 32px  | 搜尋框                      |
+| Small (S)  | 100px | 全圓形，用於按鈕、標籤 Pill |
 
-以下是定義在 `<style>` 標籤中的自訂動畫，可透過對應的 class 使用。
+### 留白 (Whitespace)
 
-- **漂浮動畫**: `anim-float`
-  - 使元素產生輕微的上下浮動效果。
-- **向上滑入**: `anim-slideUp-h1`, `anim-slideUp-p`
-  - 使元素由下而上淡入，通常用於頁面載入時的標題和段落。
+- **不要害怕空白**。標題與內容之間應保留至少 `24px` 至 `32px` 的間距。
+- 卡片內部內距 (Padding) 統一為 `32px`。
 
-```css
-/* Custom Animations */
-.anim-float {
-  animation: float 3s ease-in-out infinite;
-}
-.anim-slideUp-h1 {
-  animation: slideUp 1s ease forwards 0.3s;
-}
-.anim-slideUp-p {
-  animation: slideUp 1s ease forwards 0.5s;
-}
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-}
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-```
+---
+
+## 5. 核心元件 (Core Components)
+
+### 5.1 超級卡片 (Super Card)
+
+這是介面的靈魂。
+
+| 屬性         | 規格                                                                 |
+| ------------ | -------------------------------------------------------------------- |
+| **比例**     | 4:5 或 9:16 (直向長方形)                                             |
+| **樣式**     | 滿版圖片，無邊框                                                     |
+| **遮罩**     | 底部黑色漸層 `linear-gradient(to top, rgba(0,0,0,0.8), transparent)` |
+| **內容佈局** | 文字資訊（地點、價格）絕對定位於卡片底部                             |
+
+### 5.2 懸浮導航 (Glass Navigation)
+
+| 屬性        | 規格                                                                          |
+| ----------- | ----------------------------------------------------------------------------- |
+| **位置**    | 固定於螢幕底部                                                                |
+| **效果**    | 毛玻璃 `backdrop-filter: blur(12px)` + 半透明白底 `rgba(255, 255, 255, 0.85)` |
+| **AI 按鈕** | 中央突出的圓形按鈕，帶有 `box-shadow` 光暈效果                                |
+
+### 5.3 對話式搜尋 (Conversational Search)
+
+| 屬性     | 規格                                            |
+| -------- | ----------------------------------------------- |
+| **形態** | 塊狀容器（非單線）                              |
+| **圖標** | 左側深色圓形背景包裹白色圖標                    |
+| **文字** | 標籤使用 Primary Blue，輸入文字使用大號黑色字體 |
+
+---
+
+## 6. 圖標風格 (Iconography)
+
+使用 **Font Awesome 6** 或類似的線條圖標 (Line Icons)。
+
+| 狀態      | 圖標類型           | 用途       |
+| --------- | ------------------ | ---------- |
+| 選中/強調 | **Solid (實心)**   | 星星、地標 |
+| 一般狀態  | **Regular (空心)** | 愛心、鈴鐺 |
+
+> 線條粗細應適中，風格簡約。
+
+---
+
+## 7. 動畫與微互動 (Micro-interactions)
+
+| 互動類型     | 效果                                                                  |
+| ------------ | --------------------------------------------------------------------- |
+| **載入**     | 內容使用 Fade Up (向上淡入) 動畫依序出現                              |
+| **卡片互動** | Hover 時圖片輕微放大 `scale(1.05)`，卡片大小不變 (`overflow: hidden`) |
+| **按鈕回饋** | 點擊時產生輕微的縮放或位移                                            |

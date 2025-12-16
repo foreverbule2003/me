@@ -4,9 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>伊勢志摩‧大阪素食豪華慢旅</title>
-    <!-- 1. 引入 Tailwind CSS -->
+    <!-- 1. Google Fonts (Inter + DM Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- 2. 引入 Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 2. 引入 React 和 ReactDOM -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: '#0057FF',
+              dark: '#0A0A0A',
+              subtle: '#888888',
+              surface: '#F2F4F6',
+              star: '#FBBF24',
+              love: '#EF4444',
+            },
+            borderRadius: {
+              '3xl': '32px',
+              '4xl': '40px',
+            },
+            fontFamily: {
+              display: ['Inter', 'sans-serif'],
+              body: ['DM Sans', 'sans-serif'],
+            }
+          }
+        }
+      }
+    </script>
+    <!-- 3. 引入 React 和 ReactDOM -->
     <script
       crossorigin
       src="https://unpkg.com/react@18/umd/react.production.min.js"
@@ -15,57 +43,48 @@
       crossorigin
       src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
     ></script>
-    <!-- 3. 引入 Babel 用來解析 JSX -->
+    <!-- 4. 引入 Babel 用來解析 JSX -->
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- 4. 引入 Lucide (原生 JS 版本，比 React UMD 版更穩定) -->
+    <!-- 5. 引入 Lucide (原生 JS 版本) -->
     <script src="https://unpkg.com/lucide@0.344.0/dist/umd/lucide.min.js"></script>
 
     <style>
-      /* 自定義動畫 */
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-      @keyframes slideUp {
+      /* Modern Minimalist Animations */
+      @keyframes fadeUp {
         from {
           opacity: 0;
-          transform: translateY(30px);
+          transform: translateY(24px);
         }
         to {
           opacity: 1;
           transform: translateY(0);
         }
       }
+      @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-8px); }
+      }
+      .animate-fade-up {
+        animation: fadeUp 0.6s ease-out forwards;
+      }
+      .animate-fade-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
+      .animate-fade-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
+      .animate-fade-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
       .anim-float {
         animation: float 3s ease-in-out infinite;
       }
-      .anim-slideUp-h1 {
-        animation: slideUp 1s ease forwards 0.3s;
-      }
-      .anim-slideUp-p {
-        animation: slideUp 1s ease forwards 0.5s;
-      }
-      .animate-fade-in {
-        animation: slideUp 0.5s ease-out forwards;
-      }
       /* 隱藏捲軸但保留功能 */
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      /* Glass Effect */
+      .glass {
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
       }
     </style>
   </head>
-  <body
-    class="bg-gray-50 font-sans text-gray-900 selection:bg-indigo-200 selection:text-indigo-900"
-  >
+  <body class="bg-surface font-body text-dark selection:bg-primary/20 selection:text-primary">
     <div id="root"></div>
 
     <script type="text/babel">
@@ -839,40 +858,39 @@
 
       // 3.1 Header
       const Header = () => (
-        <header className="relative w-full py-16 px-6 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white overflow-hidden">
+        <header className="relative w-full py-20 px-6 bg-primary text-white overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-            <div className="absolute right-10 top-10 w-32 h-32 rounded-full bg-white blur-3xl anim-float"></div>
+            <div className="absolute right-10 top-10 w-40 h-40 rounded-full bg-white blur-3xl anim-float"></div>
             <div
-              className="absolute left-10 bottom-10 w-40 h-40 rounded-full bg-indigo-300 blur-3xl anim-float"
+              className="absolute left-10 bottom-10 w-48 h-48 rounded-full bg-white blur-3xl anim-float"
               style={{ animationDelay: "1.5s" }}
             ></div>
           </div>
 
           <div className="max-w-5xl mx-auto text-center relative z-10">
-            <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium tracking-wide border border-white/30">
-              行程代碼：JP-ISE-OSA-2026-VEG-LUX-NGO
+            <div className="inline-block px-5 py-2 mb-6 rounded-full bg-white/20 backdrop-blur-sm text-sm font-bold tracking-wider border border-white/30 animate-fade-up">
+              JP-ISE-OSA-2026-VEG-LUX
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 leading-tight anim-slideUp-h1 drop-shadow-md">
-              伊勢志摩‧大阪環球影城
+            <h1 className="font-display text-5xl md:text-6xl font-black mb-6 leading-tight tracking-tight animate-fade-up animate-fade-up-delay-1">
+              伊勢志摩‧大阪
               <br />
-              14日素食豪華慢旅
+              素食豪華慢旅
             </h1>
-            <p className="text-xl text-indigo-100 max-w-2xl mx-auto anim-slideUp-p">
-              名古屋進．大阪出
-              <br />
-              專為持有 USJ 年票的素食旅人打造的奢華假期
+            <p className="text-lg md:text-xl text-white/80 max-w-xl mx-auto animate-fade-up animate-fade-up-delay-2">
+              14 天行程 · 名古屋進大阪出 · USJ 年票友善
             </p>
           </div>
         </header>
       );
 
+
       // 3.2 SectionCard
       const SectionCard = ({ icon: Icon, title, children, className = "" }) => (
         <section
-          className={`bg-white rounded-2xl p-6 md:p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${className}`}
+          className={`bg-white rounded-3xl p-6 md:p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${className}`}
         >
           <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-            <div className="p-3 bg-indigo-50 rounded-xl text-indigo-600">
+            <div className="p-3 bg-primary/5 rounded-xl text-primary">
               <Icon size={24} />
             </div>
             <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
@@ -889,16 +907,16 @@
               {strategyData.content}
             </p>
             <div className="flex flex-wrap gap-2">
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]">
+              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
                 名古屋進
               </span>
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]">
+              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
                 預算升級
               </span>
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]">
+              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
                 素食友善
               </span>
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]">
+              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
                 大眾運輸
               </span>
             </div>
@@ -908,7 +926,7 @@
             <div className="space-y-4">
               <div>
                 <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
-                  <Train size={18} className="text-indigo-600" /> 奢華移動
+                  <Train size={18} className="text-primary" /> 奢華移動
                 </h3>
                 <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
                   {strategyData.transport.map((item, idx) => (
@@ -918,7 +936,7 @@
               </div>
               <div>
                 <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
-                  <Hotel size={18} className="text-indigo-600" /> 住宿建議
+                  <Hotel size={18} className="text-primary" /> 住宿建議
                 </h3>
                 <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
                   {strategyData.accommodation.map((item, idx) => (
@@ -933,10 +951,10 @@
 
       // 3.4 DayCard (Refined: Smart Fallback Logic Added)
       const DayCard = ({ dayData, onOpenRoute }) => (
-        <div className="relative bg-white rounded-2xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 mb-6 flex flex-col h-full">
+        <div className="relative bg-white rounded-3xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 mb-6 flex flex-col h-full">
           <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
             <div className="flex items-center gap-3">
-              <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-bold text-lg shadow-sm">
+              <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-primary text-white font-bold text-lg shadow-sm">
                 {typeof dayData.day === "number"
                   ? `D${dayData.day}`
                   : dayData.day}
@@ -945,7 +963,7 @@
                 <h3 className="text-xl font-bold text-gray-800">
                   {dayData.title}
                 </h3>
-                <div className="text-sm text-indigo-600 font-medium">
+                <div className="text-sm text-primary font-medium">
                   {dayData.time}
                 </div>
               </div>
@@ -1010,8 +1028,8 @@
             })}
           </div>
 
-          <div className="border-l-4 border-indigo-500 p-4 bg-indigo-50/70 rounded-r-lg hover:bg-indigo-100/80 transition-colors mt-auto">
-            <div className="text-sm font-semibold text-indigo-600 mb-1 flex items-center gap-1">
+          <div className="border-l-4 border-primary p-4 bg-primary/10 rounded-r-xl hover:bg-primary/15 transition-colors mt-auto">
+            <div className="text-sm font-semibold text-primary mb-1 flex items-center gap-1">
               <Leaf size={14} /> 素食 / 亮點
             </div>
             <div className="text-gray-700 font-medium leading-relaxed">
@@ -1030,7 +1048,7 @@
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="bg-indigo-50 text-indigo-800">
+                  <tr className="bg-primary/5 text-indigo-800">
                     <th className="p-4 font-semibold rounded-tl-lg">項目</th>
                     <th className="p-4 font-semibold">金額 (JPY)</th>
                     <th className="p-4 font-semibold rounded-tr-lg">說明</th>
@@ -1094,8 +1112,8 @@
 
         return (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white w-full max-w-3xl h-[80vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
-              <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] p-4 flex items-center justify-between text-white shrink-0">
+            <div className="bg-white w-full max-w-3xl h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
+              <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
                   <span className="text-xl">{data.type === "route" ? "🚗" : "📍"}</span>
                   <h3 className="font-bold text-lg truncate">
@@ -1130,7 +1148,7 @@
                   href={externalMapUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-600 rounded-lg hover:bg-indigo-100 font-medium transition-colors text-sm"
+                  className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg hover:bg-indigo-100 font-medium transition-colors text-sm"
                 >
                   在 Google Maps App 開啟 <ExternalLink size={14} />
                 </a>
@@ -1145,15 +1163,15 @@
         return (
           <div className="space-y-8 animate-fade-in">
             <SectionCard icon={Navigation} title="行程導航路線">
-              <div className="mb-6 bg-indigo-50 border border-indigo-100 p-4 rounded-xl flex items-start gap-3">
-                <Info className="text-indigo-600 shrink-0 mt-1" size={20} />
+              <div className="mb-6 bg-primary/5 border border-indigo-100 p-4 rounded-xl flex items-start gap-3">
+                <Info className="text-primary shrink-0 mt-1" size={20} />
                 <p className="text-indigo-800 text-sm leading-relaxed">
                   地圖功能已升級：
                   <br />
                   <span className="font-bold">📍 單點搜尋</span>
                   ：點擊景點列表，查看單一位置。
                   <br />
-                  <span className="font-bold text-indigo-600">
+                  <span className="font-bold text-primary">
                     🚗 每日移動路徑
                   </span>
                   ：已同步整合至「每日詳情」分頁中，您也可以在下方總覽關鍵路徑。
@@ -1162,7 +1180,7 @@
 
               <div className="mb-8">
                 <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <RouteIcon className="text-indigo-600" size={20} />
+                  <RouteIcon className="text-primary" size={20} />
                   每日關鍵交通移動路徑總覽
                 </h3>
                 <div className="grid md:grid-cols-2 gap-4">
@@ -1179,7 +1197,7 @@
                       }
                       className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-300 transition-all text-left flex items-start gap-3 group"
                     >
-                      <div className="p-2 bg-indigo-50 rounded-lg text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
+                      <div className="p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
                         <div className="text-center">
                           <div className="text-[10px] font-bold uppercase leading-none mb-1">
                             {route.day.split(" ")[0]}
@@ -1210,11 +1228,11 @@
                 {mapLocations.regions.map((region, idx) => (
                   <div
                     key={idx}
-                    className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden flex flex-col"
+                    className="bg-white rounded-3xl shadow-md border border-gray-200 overflow-hidden flex flex-col"
                   >
-                    <div className="p-6 bg-indigo-50 border-b border-indigo-100">
+                    <div className="p-6 bg-primary/5 border-b border-indigo-100">
                       <h3 className="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
-                        <MapPin className="text-indigo-600" size={20} />
+                        <MapPin className="text-primary" size={20} />
                         {region.name}
                       </h3>
                       <p className="text-sm text-gray-600 mb-4 h-10 line-clamp-2">
@@ -1226,7 +1244,7 @@
                         rel="noopener noreferrer"
                         className="block w-full"
                       >
-                        <div className="group bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] p-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-between">
+                        <div className="group bg-primary p-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-between">
                           <div className="text-white">
                             <span className="text-xs font-bold opacity-80 uppercase tracking-wider">
                               Complete Route
@@ -1277,7 +1295,7 @@
                               >
                                 <SpotIcon size={16} />
                               </div>
-                              <span className="text-gray-700 font-medium group-hover:text-indigo-600 transition-colors text-sm">
+                              <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm">
                                 {spot.name}
                               </span>
                             </div>
@@ -1305,7 +1323,7 @@
           } mb-4`}
         >
           <div
-            className={`max-w-[80%] rounded-2xl p-4 text-sm leading-relaxed ${
+            className={`max-w-[80%] rounded-3xl p-4 text-sm leading-relaxed ${
               sender === "user"
                 ? "bg-indigo-600 text-white rounded-br-none"
                 : "bg-white border border-gray-100 text-gray-700 shadow-sm rounded-bl-none"
@@ -1320,7 +1338,7 @@
         <button
           onClick={() => onTranslate(prompt)}
           disabled={isLoading}
-          className="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-indigo-400 hover:bg-indigo-50 transition-all duration-200 group flex items-center justify-between"
+          className="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-indigo-400 hover:bg-primary/5 transition-all duration-200 group flex items-center justify-between"
         >
           <span className="font-medium text-gray-700 group-hover:text-indigo-700">
             {label}
@@ -1392,8 +1410,8 @@
 
         return (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
-            <div className="bg-gray-50 w-full max-w-lg h-[600px] rounded-2xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
-              <div className="bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] p-4 flex items-center justify-between text-white shrink-0">
+            <div className="bg-gray-50 w-full max-w-lg h-[600px] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
+              <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
                 <div className="flex items-center gap-2">
                   <Bot size={24} className="text-indigo-200" />
                   <h3 className="font-bold text-lg">AI 旅遊助手</h3>
@@ -1442,7 +1460,7 @@
                       ))}
                       {isLoading && (
                         <div className="flex justify-start mb-4">
-                          <div className="bg-white border border-gray-100 rounded-2xl p-4 text-gray-400 text-sm shadow-sm flex items-center gap-2">
+                          <div className="bg-white border border-gray-100 rounded-3xl p-4 text-gray-400 text-sm shadow-sm flex items-center gap-2">
                             <Sparkles
                               size={14}
                               className="animate-spin text-indigo-500"
@@ -1568,7 +1586,7 @@
           <div className="min-h-screen bg-gray-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 pb-24 md:pb-12">
             <Header />
 
-            <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md shadow-sm border-b border-gray-100">
+            <div className="sticky top-0 z-40 glass shadow-sm border-b border-gray-100/50">
               <div className="max-w-5xl mx-auto px-4">
                 <nav className="flex items-center justify-center gap-2 md:gap-8 py-4 overflow-x-auto no-scrollbar">
                   {tabs.map((tab) => {
@@ -1582,7 +1600,7 @@
                                                 flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all duration-300 whitespace-nowrap
                                                 ${
                                                   isActive
-                                                    ? "bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white shadow-md transform scale-105"
+                                                    ? "bg-primary text-white shadow-md transform scale-105"
                                                     : "bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
                                                 }
                                             `}
@@ -1605,7 +1623,7 @@
                     {itineraryData.map((phase, idx) => (
                       <div
                         key={idx}
-                        className="bg-white rounded-2xl p-6 shadow-md border-t-4 border-indigo-500"
+                        className="bg-white rounded-3xl p-6 shadow-md border-t-4 border-indigo-500"
                       >
                         <h3 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
                           {phase.phase}
@@ -1613,7 +1631,7 @@
                         <div className="space-y-4">
                           {phase.days.map((day, dIdx) => (
                             <div key={dIdx} className="flex items-start gap-3">
-                              <div className="min-w-[3rem] text-sm font-bold text-indigo-500 bg-indigo-50 px-2 py-1 rounded text-center">
+                              <div className="min-w-[3rem] text-sm font-bold text-indigo-500 bg-primary/5 px-2 py-1 rounded text-center">
                                 D{day.day}
                               </div>
                               <div className="text-gray-700 text-sm font-medium pt-1">
@@ -1624,7 +1642,7 @@
                         </div>
                         <button
                           onClick={() => setActiveTab("itinerary")}
-                          className="mt-6 w-full py-2 flex items-center justify-center gap-2 text-indigo-600 font-semibold text-sm hover:bg-indigo-50 rounded-lg transition-colors"
+                          className="mt-6 w-full py-2 flex items-center justify-center gap-2 text-primary font-semibold text-sm hover:bg-primary/5 rounded-lg transition-colors"
                         >
                           查看詳情 <ArrowRight size={16} />
                         </button>
@@ -1671,8 +1689,8 @@
               {activeTab === "budget" && (
                 <div className="max-w-3xl mx-auto">
                   <BudgetTable />
-                  <div className="mt-8 p-6 bg-indigo-50 rounded-2xl flex gap-4 items-start">
-                    <Info className="text-indigo-600 flex-shrink-0 mt-1" />
+                  <div className="mt-8 p-6 bg-primary/5 rounded-3xl flex gap-4 items-start">
+                    <Info className="text-primary flex-shrink-0 mt-1" />
                     <div className="text-sm text-indigo-800 leading-relaxed">
                       <p className="font-bold mb-1">關於匯率與預訂</p>
                       建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
@@ -1687,7 +1705,7 @@
 
             <button
               onClick={() => setIsAIModalOpen(true)}
-              className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white shadow-2xl hover:scale-110 hover:shadow-indigo-500/50 transition-all duration-300 group"
+              className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary text-white shadow-2xl hover:scale-110 hover:shadow-indigo-500/50 transition-all duration-300 group"
             >
               <Sparkles size={28} className="animate-pulse" />
               <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-xs font-bold py-1 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
