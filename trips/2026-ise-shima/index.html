@@ -1,855 +1,970 @@
 <!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>伊勢志摩‧大阪素食豪華慢旅</title>
-    <!-- 1. Google Fonts (Inter + DM Sans) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
-    <!-- 2. 引入 Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              primary: '#0057FF',
-              dark: '#0A0A0A',
-              subtle: '#888888',
-              surface: '#F2F4F6',
-              star: '#FBBF24',
-              love: '#EF4444',
-            },
-            borderRadius: {
-              '3xl': '32px',
-              '4xl': '40px',
-            },
-            fontFamily: {
-              display: ['Inter', 'sans-serif'],
-              body: ['DM Sans', 'sans-serif'],
-            }
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>伊勢志摩‧大阪素食豪華慢旅</title>
+  <!-- 1. Google Fonts (Inter + DM Sans) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;700;800;900&family=DM+Sans:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <!-- 2. 引入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#0F2540', // Shimakaze Deep Blue
+            accent: '#C5A059',  // Champagne Gold
+            dark: '#1C1C1E',    // Elegant Black
+            subtle: '#6E6E73',  // Apple-like Grey
+            surface: '#F5F5F0', // Washi Paper White
+            star: '#D4AF37',    // Gold
+            love: '#C32F2F',    // Deep Red
+          },
+          borderRadius: {
+            '3xl': '24px',
+            '4xl': '32px',
+          },
+          fontFamily: {
+            display: ['"Noto Serif JP"', 'serif'],
+            body: ['"DM Sans"', 'sans-serif'],
           }
         }
       }
-    </script>
-    <!-- 3. 引入 React 和 ReactDOM -->
-    <script
-      crossorigin
-      src="https://unpkg.com/react@18/umd/react.production.min.js"
-    ></script>
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
-    ></script>
-    <!-- 4. 引入 Babel 用來解析 JSX -->
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <!-- 5. 引入 Iconify (支援多套 icon 包括 Lucide) -->
-    <script src="https://cdn.jsdelivr.net/npm/@iconify/react@4/dist/iconify.min.js"></script>
+    }
+  </script>
+  <!-- 3. 引入 React 和 ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- 4. 引入 Babel 用來解析 JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- 5. 引入 Iconify (支援多套 icon 包括 Lucide) -->
+  <script src="https://cdn.jsdelivr.net/npm/@iconify/react@4/dist/iconify.min.js"></script>
 
-    <style>
-      /* Modern Minimalist Animations */
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(24px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+  <style>
+    /* Modern Minimalist Animations */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
       }
-      @keyframes float {
-        0%, 100% { transform: translateY(0px); }
-        50% { transform: translateY(-8px); }
-      }
-      .animate-fade-up {
-        animation: fadeUp 0.6s ease-out forwards;
-      }
-      .animate-fade-up-delay-1 { animation-delay: 0.1s; opacity: 0; }
-      .animate-fade-up-delay-2 { animation-delay: 0.2s; opacity: 0; }
-      .animate-fade-up-delay-3 { animation-delay: 0.3s; opacity: 0; }
-      .anim-float {
-        animation: float 3s ease-in-out infinite;
-      }
-      /* 隱藏捲軸但保留功能 */
-      .no-scrollbar::-webkit-scrollbar { display: none; }
-      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-      /* Glass Effect */
-      .glass {
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-      }
-    </style>
-  </head>
-  <body class="bg-surface font-body text-dark selection:bg-primary/20 selection:text-primary">
-    <div id="root"></div>
 
-    <script type="text/babel">
-      // --- 0. 初始化與圖示處理 (Icons Handler) ---
-      const { useState, useEffect, useRef } = React;
-      
-      // 建立統一的 Icon Wrapper - 使用內嵌 SVG
-      const LucideIcon = ({ name, size = 24, className, ...props }) => {
-        // SVG 共用屬性
-        const svgProps = {
-          width: size,
-          height: size,
-          viewBox: "0 0 24 24",
-          fill: "none",
-          stroke: "currentColor",
-          strokeWidth: 2,
-          strokeLinecap: "round",
-          strokeLinejoin: "round",
-          className,
-          ...props
-        };
-        
-        // 所有 Lucide 圖示的 SVG path
-        const iconPaths = {
-          'map-pin': <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></>,
-          'car': <><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></>,
-          'map': <><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></>,
-          'calendar': <><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></>,
-          'wallet': <><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4"/><path d="M3 5v14a2 2 0 0 0 2 2h16v-5"/><path d="M18 12a2 2 0 0 0 0 4h4v-4Z"/></>,
-          'navigation': <polygon points="3 11 22 2 13 21 11 13 3 11"/>,
-          'train': <><rect x="4" y="3" width="16" height="16" rx="2"/><path d="M4 11h16"/><path d="M12 3v8"/><path d="m8 19-2 3"/><path d="m18 22-2-3"/><path d="M8 15h.01"/><path d="M16 15h.01"/></>,
-          'utensils': <><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3m0 0v7"/></>,
-          'hotel': <><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z"/><path d="m9 16 .348-.24c1.465-1.013 3.84-1.013 5.304 0L15 16"/><path d="M8 7h.01"/><path d="M16 7h.01"/><path d="M12 7h.01"/><path d="M12 11h.01"/><path d="M16 11h.01"/><path d="M8 11h.01"/><path d="M10 22v-6.5m4 0V22"/></>,
-          'arrow-right': <><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></>,
-          'leaf': <><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></>,
-          'star': <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>,
-          'info': <><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></>,
-          'sparkles': <><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/><path d="M5 3v4"/><path d="M19 17v4"/><path d="M3 5h4"/><path d="M17 19h4"/></>,
-          'x': <><path d="M18 6 6 18"/><path d="m6 6 12 12"/></>,
-          'send': <><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></>,
-          'external-link': <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></>,
-          'bot': <><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></>,
-          'message-circle': <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/>,
-          'languages': <><path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="m22 22-5-10-5 10"/><path d="M14 18h6"/></>,
-          'route': <><circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/></>,
-          'eye': <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></>,
-          'bus': <><path d="M8 6v6"/><path d="M15 6v6"/><path d="M2 12h19.6"/><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3"/><circle cx="7" cy="18" r="2"/><path d="M9 18h5"/><circle cx="16" cy="18" r="2"/></>,
-          'ship': <><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10v4"/><path d="M12 2v3"/></>,
-        };
-        
-        const pathContent = iconPaths[name];
-        if (pathContent) {
-          return <svg {...svgProps}>{pathContent}</svg>;
-        }
-        
-        // Final fallback
-        return (
-          <svg {...svgProps}>
-            <circle cx="12" cy="12" r="10" />
-          </svg>
-        );
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+
+      0%,
+      100% {
+        transform: translateY(0px);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    .animate-fade-up {
+      animation: fadeUp 0.6s ease-out forwards;
+    }
+
+    .animate-fade-up-delay-1 {
+      animation-delay: 0.1s;
+      opacity: 0;
+    }
+
+    .animate-fade-up-delay-2 {
+      animation-delay: 0.2s;
+      opacity: 0;
+    }
+
+    .animate-fade-up-delay-3 {
+      animation-delay: 0.3s;
+      opacity: 0;
+    }
+
+    .anim-float {
+      animation: float 3s ease-in-out infinite;
+    }
+
+    /* 隱藏捲軸但保留功能 */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Glass Effect */
+    .glass {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+  </style>
+</head>
+
+<body class="bg-surface font-body text-dark selection:bg-accent/20 selection:text-primary">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    // --- 0. 初始化與圖示處理 (Icons Handler) ---
+    const { useState, useEffect, useRef } = React;
+
+    // 建立統一的 Icon Wrapper - 使用內嵌 SVG
+    const LucideIcon = ({ name, size = 24, className, ...props }) => {
+      // SVG 共用屬性
+      const svgProps = {
+        width: size,
+        height: size,
+        viewBox: "0 0 24 24",
+        fill: "none",
+        stroke: "currentColor",
+        strokeWidth: 2,
+        strokeLinecap: "round",
+        strokeLinejoin: "round",
+        className,
+        ...props
       };
 
-      // 定義 App 使用到的圖示與其對應的 Lucide 名稱 (kebab-case)
-      const iconNames = {
-        MapIcon: "map",
-        Calendar: "calendar",
-        Wallet: "wallet",
-        Train: "train",
-        Utensils: "utensils",
-        Hotel: "hotel",
-        ArrowRight: "arrow-right",
-        Leaf: "leaf",
-        Star: "star",
-        Info: "info",
-        Sparkles: "sparkles",
-        X: "x",
-        Send: "send",
-        MapPin: "map-pin",
-        Navigation: "navigation",
-        ExternalLink: "external-link",
-        Bot: "bot",
-        MessageCircle: "message-circle",
-        Languages: "languages",
-        RouteIcon: "route",
-        Eye: "eye",
-        Car: "car",
-        Bus: "bus",
-        Ship: "ship",
+      // 所有 Lucide 圖示的 SVG path
+      const iconPaths = {
+        'map-pin': <><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" /><circle cx="12" cy="10" r="3" /></>,
+        'car': <><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2" /><circle cx="7" cy="17" r="2" /><circle cx="17" cy="17" r="2" /></>,
+        'map': <><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6" /><line x1="8" y1="2" x2="8" y2="18" /><line x1="16" y1="6" x2="16" y2="22" /></>,
+        'calendar': <><rect x="3" y="4" width="18" height="18" rx="2" ry="2" /><line x1="16" y1="2" x2="16" y2="6" /><line x1="8" y1="2" x2="8" y2="6" /><line x1="3" y1="10" x2="21" y2="10" /></>,
+        'wallet': <><path d="M21 12V7H5a2 2 0 0 1 0-4h14v4" /><path d="M3 5v14a2 2 0 0 0 2 2h16v-5" /><path d="M18 12a2 2 0 0 0 0 4h4v-4Z" /></>,
+        'navigation': <polygon points="3 11 22 2 13 21 11 13 3 11" />,
+        'train': <><rect x="4" y="3" width="16" height="16" rx="2" /><path d="M4 11h16" /><path d="M12 3v8" /><path d="m8 19-2 3" /><path d="m18 22-2-3" /><path d="M8 15h.01" /><path d="M16 15h.01" /></>,
+        'utensils': <><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3m0 0v7" /></>,
+        'hotel': <><path d="M18 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Z" /><path d="m9 16 .348-.24c1.465-1.013 3.84-1.013 5.304 0L15 16" /><path d="M8 7h.01" /><path d="M16 7h.01" /><path d="M12 7h.01" /><path d="M12 11h.01" /><path d="M16 11h.01" /><path d="M8 11h.01" /><path d="M10 22v-6.5m4 0V22" /></>,
+        'arrow-right': <><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></>,
+        'leaf': <><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z" /><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" /></>,
+        'star': <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />,
+        'info': <><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></>,
+        'sparkles': <><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" /><path d="M5 3v4" /><path d="M19 17v4" /><path d="M3 5h4" /><path d="M17 19h4" /></>,
+        'x': <><path d="M18 6 6 18" /><path d="m6 6 12 12" /></>,
+        'send': <><path d="m22 2-7 20-4-9-9-4Z" /><path d="M22 2 11 13" /></>,
+        'external-link': <><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></>,
+        'bot': <><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></>,
+        'message-circle': <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />,
+        'languages': <><path d="m5 8 6 6" /><path d="m4 14 6-6 2-3" /><path d="M2 5h12" /><path d="M7 2h1" /><path d="m22 22-5-10-5 10" /><path d="M14 18h6" /></>,
+        'route': <><circle cx="6" cy="19" r="3" /><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15" /><circle cx="18" cy="5" r="3" /></>,
+        'eye': <><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></>,
+        'bus': <><path d="M8 6v6" /><path d="M15 6v6" /><path d="M2 12h19.6" /><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" /><circle cx="7" cy="18" r="2" /><path d="M9 18h5" /><circle cx="16" cy="18" r="2" /></>,
+        'ship': <><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1" /><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76" /><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6" /><path d="M12 10v4" /><path d="M12 2v3" /></>,
       };
 
-      // 動態生成所有需要的圖示元件
-      const Icons = Object.fromEntries(
-        Object.entries(iconNames).map(([componentName, iconName]) => [
-          componentName,
-          (props) => <LucideIcon name={iconName} {...props} />,
-        ])
+      const pathContent = iconPaths[name];
+      if (pathContent) {
+        return <svg {...svgProps}>{pathContent}</svg>;
+      }
+
+      // Final fallback
+      return (
+        <svg {...svgProps}>
+          <circle cx="12" cy="12" r="10" />
+        </svg>
       );
+    };
 
-      // 解構出所有圖示供下方使用
-      const {
-        MapIcon,
-        Calendar,
-        Wallet,
-        Train,
-        Utensils,
-        Hotel,
-        ArrowRight,
-        Leaf,
-        Star,
-        Info,
-        Sparkles,
-        X,
-        Send,
-        MapPin,
-        Navigation,
-        ExternalLink,
-        Bot,
-        MessageCircle,
-        Languages,
-        RouteIcon,
-        Eye,
-        Car,
-        Bus,
-        Ship,
-      } = Icons;
+    // 定義 App 使用到的圖示與其對應的 Lucide 名稱 (kebab-case)
+    const iconNames = {
+      MapIcon: "map",
+      Calendar: "calendar",
+      Wallet: "wallet",
+      Train: "train",
+      Utensils: "utensils",
+      Hotel: "hotel",
+      ArrowRight: "arrow-right",
+      Leaf: "leaf",
+      Star: "star",
+      Info: "info",
+      Sparkles: "sparkles",
+      X: "x",
+      Send: "send",
+      MapPin: "map-pin",
+      Navigation: "navigation",
+      ExternalLink: "external-link",
+      Bot: "bot",
+      MessageCircle: "message-circle",
+      Languages: "languages",
+      RouteIcon: "route",
+      Eye: "eye",
+      Car: "car",
+      Bus: "bus",
+      Ship: "ship",
+    };
 
-      // --- 1. 資料常數 (Data Constants) ---
+    // 動態生成所有需要的圖示元件
+    const Icons = Object.fromEntries(
+      Object.entries(iconNames).map(([componentName, iconName]) => [
+        componentName,
+        (props) => <LucideIcon name={iconName} {...props} />,
+      ])
+    );
 
-      const strategyData = {
-        title: "關鍵策略 (v20 空庭溫泉純享版)",
-        content:
-          "由北向南順遊。Day 9 安排大阪市區「空庭溫泉」，享受室內溫泉主題樂園的舒適，免去舟車勞頓。預算升級為「Shimakaze 觀光特急」與頂級餐飲體驗。",
-        transport: [
-          "近鐵電車周遊券 5日券 plus (涵蓋名古屋-津-松阪-伊勢-大阪、VISON巴士)",
-          "觀光特急 Shimakaze (志摩之風) - Day 5 搭乘 (賢島→大阪難波)",
-          "大阪周遊卡 (Osaka Amazing Pass) - Day 6 使用",
+    // 解構出所有圖示供下方使用
+    const {
+      MapIcon,
+      Calendar,
+      Wallet,
+      Train,
+      Utensils,
+      Hotel,
+      ArrowRight,
+      Leaf,
+      Star,
+      Info,
+      Sparkles,
+      X,
+      Send,
+      MapPin,
+      Navigation,
+      ExternalLink,
+      Bot,
+      MessageCircle,
+      Languages,
+      RouteIcon,
+      Eye,
+      Car,
+      Bus,
+      Ship,
+    } = Icons;
+
+    // --- 1. 資料常數 (Data Constants) ---
+
+    const strategyData = {
+      title: "關鍵策略 (v20 空庭溫泉純享版)",
+      content:
+        "由北向南順遊。Day 9 安排大阪市區「空庭溫泉」，享受室內溫泉主題樂園的舒適，免去舟車勞頓。預算升級為「Shimakaze 觀光特急」與頂級餐飲體驗。",
+      transport: [
+        "近鐵電車周遊券 5日券 plus (涵蓋名古屋-津-松阪-伊勢-大阪、VISON巴士)",
+        "觀光特急 Shimakaze (志摩之風) - Day 5 搭乘 (賢島→大阪難波)",
+        "大阪周遊卡 (Osaka Amazing Pass) - Day 6 使用",
+      ],
+      accommodation: [
+        "Day 1 (中繼): 天然溫泉 Dormy Inn 津 (津站步行1分鐘)",
+        "Day 2 (園區): Hotel Vison 或 旅籠 Hatago (VISON園區內)",
+        "Day 3 (市區): 伊勢市區飯店 / Comfort Hotel",
+        "Day 4 (溫泉): 賢島寶生苑 (日式溫泉旅館)",
+        "Day 5-13 (都市): 大阪難波/心齋橋一帶",
+      ],
+    };
+
+    const itineraryData = [
+      {
+        phase: "第一階段：由北向南的伊勢志摩慢旅 (Day 1 - Day 5)",
+        days: [
+          {
+            day: 1,
+            title: "名古屋．Outlet．Dormy Inn 津",
+            image: "https://images.unsplash.com/photo-1562329265-95a6d7a83440?q=80&w=2070&auto=format&fit=crop", // Shopping / Modern / Nagoya TV Tower
+            time: "13:00 - 21:30",
+            activities: [
+              {
+                time: "13:00",
+                text: "抵達名古屋中部國際機場 (NGO)，領取「近鐵電車周遊券 5日券 plus」",
+                map: { query: "Chubu Centrair International Airport" },
+              },
+              {
+                time: "14:00",
+                text: "搭乘直達巴士 → 爵士之夢長島 Outlet (約50分)",
+                map: {
+                  type: "route",
+                  origin: "Chubu Centrair International Airport",
+                  destination: "Mitsui Outlet Park Jazz Dream Nagashima",
+                },
+              },
+              {
+                time: "15:00",
+                text: "Outlet 購物 (日本最大級，在此購齊鞋子)",
+                map: { query: "Mitsui Outlet Park Jazz Dream Nagashima" },
+              },
+              {
+                time: "18:00",
+                text: "Outlet → 巴士 → 桑名站 (約27分，周遊券含)",
+                map: {
+                  type: "route",
+                  origin: "Mitsui Outlet Park Jazz Dream Nagashima",
+                  destination: "Kuwana Station",
+                },
+              },
+              {
+                time: "18:45",
+                text: "桑名站 → 近鐵特急 → 津站",
+                map: {
+                  type: "route",
+                  origin: "Kuwana Station",
+                  destination: "Tsu Station Mie",
+                },
+              },
+              {
+                time: "",
+                text: "⏱️ 普通車約50分 vs 特急約32分 (+¥920/人，周遊券不含特急券)",
+              },
+              {
+                time: "19:30",
+                text: "入住 Dormy Inn 津 (津站東口步行1分鐘)",
+                map: { query: "Natural Hot Spring Dormy Inn Tsu" },
+              },
+              {
+                time: "21:30",
+                text: "宵夜：飯店免費提供「夜鳴拉麵」(可去蔥/叉燒)",
+              },
+            ],
+            highlight:
+              "🛍️ 日本最大級 Outlet 購物天堂 + Dormy Inn 免費天然溫泉與宵夜拉麵",
+          },
+          {
+            day: 2,
+            title: "深入體驗 VISON (住宿園區)",
+            image: "https://images.unsplash.com/photo-1481026469463-66327c86e544?q=80&w=2108&auto=format&fit=crop", // Modern minimalist architecture (VISON vibe)
+            time: "09:30 - 住宿",
+            activities: [
+              {
+                time: "09:30",
+                text: "津站 → 近鐵 → 松阪站",
+                map: {
+                  type: "route",
+                  origin: "Tsu Station Mie",
+                  destination: "Matsusaka Station",
+                },
+              },
+              {
+                time: "",
+                text: "⏱️ 普通車約30分 vs 特急約16分 (+¥520/人，周遊券不含特急券)",
+              },
+              {
+                time: "10:30",
+                text: "轉乘三重交通巴士 → VISON (約45分)",
+                map: {
+                  type: "route",
+                  origin: "Matsusaka Station",
+                  destination: "VISON Mie",
+                },
+              },
+              {
+                time: "",
+                text: "🚌 班次較少，建議先查時刻表",
+                link: "https://vison.jp/access/",
+              },
+              {
+                time: "11:00",
+                text: "體驗：Marche Vison 市集、Sweets Village",
+                map: { query: "VISON Mie" },
+              },
+              {
+                time: "13:00",
+                text: "午餐：農場餐廳 (Nouson)，享用新鮮直送蔬菜料理",
+                map: { query: "VISON Nouson Restaurant" },
+              },
+              {
+                time: "15:00",
+                text: "入住 Hotel Vison 或 旅籠 Hatago",
+                map: { query: "Hotel Vison" },
+              },
+            ],
+            highlight:
+              "房客可免費使用「本草湯」(藥草溫泉)，晚上可欣賞星空與夜景。",
+          },
+          {
+            day: 3,
+            title: "伊勢神宮內宮慢遊 (住伊勢)",
+            image: "https://images.unsplash.com/photo-1694175173949-1c2bc79b99dc?q=80&w=2070&auto=format&fit=crop", // Ise Grand Shrine
+            time: "08:30 - 住宿",
+            activities: [
+              {
+                time: "08:30",
+                text: "VISON → 三重交通巴士 → 松阪站 (約45分)",
+                map: {
+                  type: "route",
+                  origin: "VISON Mie",
+                  destination: "Matsusaka Station",
+                },
+              },
+              {
+                time: "",
+                text: "⚠️ VISON→內宮直達巴士已於2025/4/1停駛，需繞回松阪站",
+              },
+              {
+                time: "09:30",
+                text: "松阪站 → 近鐵 → 伊勢市站 (約15分)",
+                map: {
+                  type: "route",
+                  origin: "Matsusaka Station",
+                  destination: "Iseshi Station",
+                },
+              },
+              {
+                time: "",
+                text: "⏱️ 普通車約25分 vs 特急約15分 (+¥520/人)",
+              },
+              {
+                time: "10:00",
+                text: "伊勢市站 → 三重交通巴士 → 內宮前 (約15分，周遊券含)",
+                map: {
+                  type: "route",
+                  origin: "Iseshi Station",
+                  destination: "Ise Jingu Naiku",
+                },
+              },
+              {
+                time: "10:30",
+                text: "參拜伊勢神宮 (內宮 Naiku)",
+                map: { query: "Ise Jingu Naiku" },
+              },
+              {
+                time: "12:30",
+                text: "托福橫丁 (Oharai-machi)：豆腐冰淇淋、赤福本店",
+                map: { query: "Oharai Machi Ise" },
+              },
+              {
+                time: "16:00",
+                text: "入住伊勢市區飯店 (Comfort Hotel 或同級)",
+                map: { query: "Comfort Hotel Ise" },
+              },
+            ],
+            highlight:
+              "⛩️ 日本人心中「一生必參」的神聖之地 + 托福橫丁老街漫步與美食",
+          },
+          {
+            day: 4,
+            title: "前往賢島度假 (住寶生苑)",
+            image: "https://images.unsplash.com/photo-1490761668535-35497054764d?q=80&w=2070&auto=format&fit=crop", // Blue Sea / Coast
+            time: "10:00 - 住宿",
+            activities: [
+              {
+                time: "10:00",
+                text: "伊勢市站 → 近鐵特急 → 賢島站 (約50分)",
+                map: {
+                  type: "route",
+                  origin: "Iseshi Station",
+                  destination: "Kashikojima Station",
+                },
+              },
+              {
+                time: "",
+                text: "⏱️ 普通車約70分 vs 特急約43分 (+¥520/人，周遊券不含特急券)",
+              },
+              {
+                time: "12:00",
+                text: "午餐/午茶：海景咖啡廳 (賢島車站周邊或志摩地中海村)",
+                map: { query: "Shima Mediterranean Village" },
+              },
+              {
+                time: "15:00",
+                text: "入住賢島寶生苑 (Kashikojima Hojoen)",
+                map: { query: "Kashikojima Hojoen" },
+              },
+              {
+                time: "18:00",
+                text: "享用日式溫泉旅館晚餐 (素食需提前確認)",
+              },
+            ],
+            highlight:
+              "🌊 志摩半島絕美海景 + 傳統溫泉旅館懷石料理之夜",
+          },
+          {
+            day: 5,
+            title: "豪華移動回大阪",
+            image: "https://images.unsplash.com/photo-1732142029568-605e2d534ac1?q=80&w=2070&auto=format&fit=crop", // Train window (Verified Scraped ID)
+            time: "11:00 - 19:30",
+            activities: [
+              { time: "上午", text: "享受飯店最後的溫泉時光與早餐" },
+              { time: "12:00", text: "退房，賢島車站周邊輕食" },
+              {
+                time: "16:00",
+                text: "移動重頭戲：觀光特急 Shimakaze (賢島→大阪難波)",
+                map: {
+                  type: "route",
+                  origin: "Kashikojima Station",
+                  destination: "Osaka-Namba Station",
+                },
+              },
+              {
+                time: "",
+                text: "💰 Shimakaze 費用：乘車券 ¥2,380 (周遊券涵蓋) + 特急券 ¥1,640 + 特別車輛券 ¥1,050 = 應付 ¥2,690/人",
+              },
+              {
+                time: "",
+                text: "⏱️ 替代方案：普通特急約2.5hr (+¥1,640/人) vs Shimakaze約2.3hr (+¥2,690/人)",
+              },
+              {
+                time: "18:30",
+                text: "抵達大阪難波",
+                map: { query: "Osaka-Namba Station" },
+              },
+              {
+                time: "19:30",
+                text: "晚餐：大阪燒 (千房/鶴橋風月 - 素食版)",
+                map: { query: "Chibo Okonomiyaki" },
+              },
+            ],
+            highlight:
+              "🚂 頭等艙級電動皮椅、車上咖啡與輕食服務，暢遊美麗的伊勢志摩沿海風景",
+          },
         ],
-        accommodation: [
-          "Day 1 (中繼): 天然溫泉 Dormy Inn 津 (津站步行1分鐘)",
-          "Day 2 (園區): Hotel Vison 或 旅籠 Hatago (VISON園區內)",
-          "Day 3 (市區): 伊勢市區飯店 / Comfort Hotel",
-          "Day 4 (溫泉): 賢島寶生苑 (日式溫泉旅館)",
-          "Day 5-13 (都市): 大阪難波/心齋橋一帶",
+      },
+      {
+        phase: "第二階段：USJ 雙日遊與都市素食 (Day 6 - Day 14)",
+        days: [
+          {
+            day: 6,
+            title: "周遊券回本一日遊",
+            image: "https://images.unsplash.com/photo-1733281203595-84dc320cde30?q=80&w=2070&auto=format&fit=crop", // Osaka Shinsekai (Verified Scraped ID)
+            time: "09:30 - 21:00",
+            activities: [
+              {
+                time: "09:30",
+                text: "通天閣溜滑梯 (Tower Slider) 俯瞰新世界",
+                map: { query: "Tsutenkaku" },
+              },
+              {
+                time: "13:00",
+                text: "聖瑪麗亞號帆船型觀光船 (45分鐘)",
+                map: { query: "Santa Maria Cruise" },
+              },
+              {
+                time: "14:30",
+                text: "天保山大摩天輪",
+                map: { query: "Tempozan Ferris Wheel" },
+              },
+              {
+                time: "18:00",
+                text: "大阪府咲洲廳舍展望台 (宇宙塔) 夜景",
+                map: { query: "Cosmo Tower Observatory" },
+              },
+            ],
+            highlight: "二選一：A. 船長線→USJ / B. 咲洲廳舍展望台夜景。單日設施價值超過 ¥5,000。",
+          },
+          {
+            day: 7,
+            title: "梅田悠閒購物 & USJ 晚間隨意玩",
+            image: "https://images.unsplash.com/photo-1612404834746-1ffba06de133?q=80&w=2070&auto=format&fit=crop", // USJ (Verified Scraped ID)
+            time: "11:00 - 20:00",
+            activities: [
+              {
+                time: "11:00",
+                text: "梅田商圈購物 (LUCUA / Yodobashi / Grand Front)",
+                map: { query: "LUCUA Osaka" },
+              },
+              {
+                time: "13:00",
+                text: "午餐：梅田素食友善午餐 (Chabuton 或 2foods)",
+                map: { query: "2foods Osaka" },
+              },
+              {
+                time: "17:00",
+                text: "USJ 環球影城 (Evening Entry)，使用 Single Rider",
+                map: { query: "Universal Studios Japan" },
+              },
+              {
+                time: "20:00",
+                text: "晚餐：園區內或 Citywalk",
+                map: { query: "Universal Citywalk Osaka" },
+              },
+            ],
+            highlight:
+              "USJ 年票優勢：白天悠閒購物，傍晚入園避開人潮。",
+          },
+          {
+            day: 8,
+            title: "海遊館療癒與哈利波特夜景",
+            image: "https://images.unsplash.com/photo-1693723595870-2b8bad09b4c2?q=80&w=2070&auto=format&fit=crop", // Aquarium (Verified Scraped ID)
+            time: "10:00 - 20:00",
+            activities: [
+              {
+                time: "10:00",
+                text: "大阪海遊館 (鯨鯊、水母)",
+                map: { query: "Osaka Aquarium Kaiyukan" },
+              },
+              {
+                time: "16:00",
+                text: "二進 USJ (持年票入場)",
+                map: { query: "Universal Studios Japan" },
+              },
+              { time: "18:00", text: "哈利波特魔法世界 (夜景/光影秀)" },
+            ],
+            highlight:
+              "療癒系行程：早上看海洋生物，晚上享受魔法世界的夢幻氛圍。",
+          },
+          {
+            day: 9,
+            title: "大阪空庭溫泉純享日",
+            image: "https://images.unsplash.com/photo-1726768931708-df1c7a699c2e?q=80&w=2070&auto=format&fit=crop", // Onsen / Japanese style
+            time: "10:00 - 21:00",
+            activities: [
+              {
+                time: "10:00",
+                text: "搭乘 JR/地鐵至「弁天町」站",
+                map: {
+                  type: "route",
+                  origin: "Osaka-Namba Station",
+                  destination: "Bentencho Station",
+                },
+              },
+              {
+                time: "11:00",
+                text: "空庭溫泉 - 免費浴衣、千本鳥居造景、天空庭園足湯、岩盤浴",
+                map: { query: "Solaniwa Onsen Osaka" },
+              },
+              {
+                time: "17:00",
+                text: "弁天町 → 本町 (地鐵中央線，約5-8分鐘)",
+                map: {
+                  type: "route",
+                  origin: "Bentencho Station",
+                  destination: "Honmachi Station Osaka",
+                },
+              },
+              {
+                time: "18:30",
+                text: "晚餐：梅之花 (本町店) - 頂級豆腐懷石料理",
+                map: { query: "Umenohana Honmachi" },
+              },
+            ],
+            highlight:
+              "不用舟車勞頓，在大阪市區享受安土桃山時代風格的溫泉主題樂園。",
+          },
+          {
+            day: "10-13",
+            title: "彈性日程 (京奈阪)",
+            image: "https://images.unsplash.com/photo-1742948213097-7b1d9078bb1b?q=80&w=2070&auto=format&fit=crop", // Nara Deer (Verified Scraped ID)
+            time: "彈性",
+            activities: [
+              {
+                time: "奈良",
+                text: "春日大社與餵鹿 + 志津香釜飯 (野菜口味)",
+                map: { query: "Nara Park" },
+              },
+              {
+                time: "京都",
+                text: "嵐山 + 篩月 (精進料理)",
+                map: { query: "Arashiyama" },
+              },
+              {
+                time: "大阪",
+                text: "黑門市場、心齋橋購物 + 2foods (全素 Junk Food)",
+                map: { query: "2foods Osaka" },
+              },
+            ],
+            highlight: "根據體力與天氣靈活安排",
+          },
+          {
+            day: 14,
+            title: "返程",
+            image: "https://images.unsplash.com/photo-1661952798931-14d398307ee2?q=80&w=2070&auto=format&fit=crop", // Airport (Verified Scraped ID)
+            time: "彈性",
+            activities: [
+              {
+                time: "交通",
+                text: "搭乘南海電鐵 Rapi:t 前往關西機場 (KIX)",
+                map: {
+                  type: "route",
+                  origin: "Namba Station",
+                  destination: "Kansai International Airport",
+                },
+              },
+            ],
+            highlight: "帶著滿滿回憶回家",
+          },
         ],
-      };
+      },
+    ];
 
-      const itineraryData = [
+    const budgetData = [
+      { item: "USJ 娛樂", cost: 13000, note: "含周遊卡、海遊館、空庭溫泉門票" },
+      {
+        item: "交通費 (基本)",
+        cost: 15000,
+        note: "近鐵周遊券 5日券 plus (含三重交通巴士)、市區地鐵",
+      },
+      {
+        item: "交通費 (特急券)",
+        cost: 5120,
+        note: "桑名→津 ¥920 + 津→松阪 ¥520 + 松阪→伊勢 ¥520 + 伊勢→賢島 ¥520 + Shimakaze ¥2,690",
+      },
+      {
+        item: "餐飲費",
+        cost: 40000,
+        note: "含志摩法餐、VISON 美食、梅之花懷石",
+      },
+      { item: "住宿/其他", cost: 29000, note: "含 VISON 住宿、寶生苑一泊、雜支" },
+    ];
+
+    const recommendedRoutes = [
+      {
+        id: 1,
+        day: "Day 1",
+        name: "機場 → Outlet",
+        from: "Chubu Centrair International Airport",
+        to: "Mitsui Outlet Park Jazz Dream Nagashima",
+        desc: "高速巴士直達 (約50分)",
+      },
+      {
+        id: 2,
+        day: "Day 1",
+        name: "Outlet → 津站",
+        from: "Mitsui Outlet Park Jazz Dream Nagashima",
+        to: "Tsu Station Mie",
+        desc: "巴士轉近鐵 (經桑名站)",
+      },
+      {
+        id: 3,
+        day: "Day 2",
+        name: "津站 → 伊勢神宮",
+        from: "Tsu Station Mie",
+        to: "Ise Jingu Geku",
+        desc: "近鐵特急 (約35分)",
+      },
+      {
+        id: 4,
+        day: "Day 2",
+        name: "外宮 → 內宮",
+        from: "Ise Jingu Geku",
+        to: "Ise Jingu Naiku",
+        desc: "CAN Bus 巴士 (約20分)",
+      },
+      {
+        id: 5,
+        day: "Day 2",
+        name: "內宮 → 賢島(飯店)",
+        from: "Ise Jingu Naiku",
+        to: "Kashikojima Station",
+        desc: "巴士至五十鈴川轉近鐵",
+      },
+      {
+        id: 6,
+        day: "Day 4",
+        name: "賢島 → VISON",
+        from: "Kashikojima Station",
+        to: "VISON Mie Japan",
+        desc: "近鐵至松阪轉巴士 (約90分)",
+      },
+      {
+        id: 7,
+        day: "Day 5",
+        name: "賢島 → 大阪難波",
+        from: "Kashikojima Station",
+        to: "Osaka-Namba Station",
+        desc: "Shimakaze 觀光特急 (約2.5小時)",
+      },
+      {
+        id: 8,
+        day: "Day 6",
+        name: "難波 → 大阪港",
+        from: "Osaka-Namba Station",
+        to: "Osaka Aquarium Kaiyukan",
+        desc: "地鐵移動 (聖瑪麗亞號/海遊館)",
+      },
+      {
+        id: 9,
+        day: "Day 7",
+        name: "難波 → 環球影城",
+        from: "Osaka-Namba Station",
+        to: "Universal Studios Japan",
+        desc: "阪神電車轉 JR (約20分)",
+      },
+      {
+        id: 10,
+        day: "Day 10",
+        name: "難波 → 奈良公園",
+        from: "Osaka-Namba Station",
+        to: "Nara Park",
+        desc: "近鐵快速急行 (約40分)",
+      },
+      {
+        id: 11,
+        day: "Day 11",
+        name: "難波 → 京都嵐山",
+        from: "Osaka-Namba Station",
+        to: "Arashiyama Kyoto",
+        desc: "地鐵轉阪急電車 (約60分)",
+      },
+      {
+        id: 12,
+        day: "Day 14",
+        name: "難波 → 關西機場",
+        from: "Osaka-Namba Station",
+        to: "Kansai International Airport",
+        desc: "南海電鐵 Rapi:t (約40分)",
+      },
+    ];
+
+    const mapLocations = {
+      regions: [
         {
-          phase: "第一階段：Outlet、神宮與食藥園區 (Day 1 - Day 5)",
-          days: [
+          name: "第一階段：名古屋 & 津 & 伊勢 (Day 1-5)",
+          description:
+            "從名古屋機場經 Outlet、Dormy Inn 津，前往伊勢神宮、賢島與 VISON 園區。",
+          routeLink:
+            "https://www.google.com/maps/dir/Chubu+Centrair+International+Airport/Mitsui+Outlet+Park+Jazz+Dream+Nagashima/Dormy+Inn+Tsu/Ise+Jingu+Naiku/Kashikojima+Station/Matsusaka+Station/VISON,+Taki/Osaka-Namba+Station",
+          spots: [
             {
-              day: 1,
-              title: "名古屋．Outlet．Dormy Inn 津",
-              time: "13:00 - 21:30",
-              activities: [
-                {
-                  time: "13:00",
-                  text: "抵達名古屋中部國際機場 (NGO)",
-                  map: { query: "Chubu Centrair International Airport" },
-                },
-                {
-                  time: "14:00",
-                  text: "搭乘直達巴士 → 爵士之夢長島 Outlet (約50分)",
-                  map: {
-                    type: "route",
-                    origin: "Chubu Centrair International Airport",
-                    destination: "Mitsui Outlet Park Jazz Dream Nagashima",
-                  },
-                },
-                {
-                  time: "15:00",
-                  text: "Outlet 購物 (日本最大級，在此購齊鞋子)",
-                  map: { query: "Mitsui Outlet Park Jazz Dream Nagashima" },
-                },
-                {
-                  time: "18:00",
-                  text: "移動：Outlet → 巴士 → 桑名站 → 近鐵特急 → 津站",
-                  map: {
-                    type: "route",
-                    origin: "Mitsui Outlet Park Jazz Dream Nagashima",
-                    destination: "Tsu Station Mie",
-                  },
-                },
-                {
-                  time: "19:30",
-                  text: "入住 Dormy Inn 津 (津站東口步行1分鐘)",
-                  map: { query: "Natural Hot Spring Dormy Inn Tsu" },
-                },
-                {
-                  time: "21:30",
-                  text: "宵夜：飯店免費提供「夜鳴拉麵」(可去蔥/叉燒)",
-                },
-              ],
-              highlight:
-                "交通優勢：Outlet 直達巴士不進市區超順路；Dormy Inn 津位於交通樞紐，擁大浴場與免費宵夜。",
+              name: "名古屋中部國際機場 (NGO)",
+              query: "Chubu Centrair International Airport",
+              type: "transport",
             },
             {
-              day: 2,
-              title: "伊勢神宮參拜 (外宮 & 內宮)",
-              time: "09:00 - 18:00",
-              activities: [
-                {
-                  time: "09:00",
-                  text: "津站 → 近鐵特急(30分) → 伊勢市站",
-                  map: {
-                    type: "route",
-                    origin: "Tsu Station Mie",
-                    destination: "Iseshi Station",
-                  },
-                },
-                {
-                  time: "10:00",
-                  text: "參拜外宮 (豐受大神宮) → 巴士 → 內宮",
-                  map: {
-                    type: "route",
-                    origin: "Ise Jingu Geku",
-                    destination: "Ise Jingu Naiku",
-                  },
-                },
-                {
-                  time: "12:00",
-                  text: "參拜內宮 (皇大神宮)",
-                  map: { query: "Ise Jingu Naiku" },
-                },
-                {
-                  time: "13:30",
-                  text: "托福橫丁：豆腐庵山中(豆腐冰)、赤福本店",
-                  map: { query: "Tofuan Yamanaka" },
-                },
-                {
-                  time: "17:00",
-                  text: "移動：內宮 → 巴士 → 五十鈴川站 → 近鐵 → 賢島",
-                  map: {
-                    type: "route",
-                    origin: "Ise Jingu Naiku",
-                    destination: "Kashikojima Station",
-                  },
-                },
-                { time: "18:00", text: "入住賢島飯店，享用素食會席" },
-              ],
-              highlight:
-                "利用「近鐵周遊券」免費搭乘伊勢 CAN Bus，往返內外宮輕鬆方便。",
+              name: "三井 Outlet 爵士之夢長島",
+              query: "Mitsui Outlet Park Jazz Dream Nagashima",
+              type: "shopping",
             },
             {
-              day: 3,
-              title: "英虞灣遊船與 G7 蔬菜法餐",
-              time: "10:00 - 15:30",
-              activities: [
-                {
-                  time: "10:00",
-                  text: "英虞灣遊覽船 Esperanza (賢島站步行2分)",
-                  map: { query: "Kashikojima Esparanza Cruise" },
-                },
-                { time: "11:30", text: "賢島港散策 / 參觀珍珠店" },
-                {
-                  time: "12:30",
-                  text: "午餐：志摩觀光飯店 「La Mer The Classic」",
-                  map: { query: "Shima Kanko Hotel The Classic" },
-                },
-                {
-                  time: "15:00",
-                  text: "飯店下午茶 / 使用嘉賓休息室 / 館內放鬆",
-                },
-              ],
-              highlight:
-                "預算升級：預約「蔬菜全餐 (Vegetable Course)」，體驗 G7 高峰會等級的法式蔬食。",
+              name: "津站 (Tsu Station)",
+              query: "Tsu Station Mie",
+              type: "transport",
             },
             {
-              day: 4,
-              title: "日本最大級食藥園區 VISON",
-              time: "09:30 - 17:00",
-              activities: [
-                {
-                  time: "09:30",
-                  text: "去程：賢島站 → 近鐵(45分) → 松阪站(Matsusaka)",
-                  map: {
-                    type: "route",
-                    origin: "Kashikojima Station",
-                    destination: "Matsusaka Station",
-                  },
-                },
-                {
-                  time: "10:25",
-                  text: "轉乘：松阪站(4號乘車處) → 三重交通巴士(45分) → VISON",
-                  map: {
-                    type: "route",
-                    origin: "Matsusaka Station",
-                    destination: "VISON Mie",
-                  },
-                },
-                {
-                  time: "11:15",
-                  text: "體驗：Marche Vison (產直市場) & Sweets Village",
-                  map: { query: "VISON Mie" },
-                },
-                {
-                  time: "13:00",
-                  text: "午餐：園區內農場餐廳 (新鮮無農藥野菜)",
-                },
-                {
-                  time: "15:00",
-                  text: "放鬆：本草湯 (藥草溫泉)",
-                  map: { query: "VISON Honzo Yu" },
-                },
-                {
-                  time: "16:30",
-                  text: "回程：VISON → 巴士 → 松阪站 → 近鐵 → 賢島",
-                  map: {
-                    type: "route",
-                    origin: "VISON Mie",
-                    destination: "Kashikojima Station",
-                  },
-                },
-              ],
-              highlight:
-                "交通修正：改由近鐵「松阪站」轉乘巴士，雖多坐一站電車但適用周遊券且班次穩定。",
+              name: "Dormy Inn 津 (天然溫泉)",
+              query: "Natural Hot Spring Dormy Inn Tsu",
+              type: "hotel",
             },
             {
-              day: 5,
-              title: "豪華移動回大阪",
-              time: "11:00 - 19:30",
-              activities: [
-                { time: "上午", text: "享受飯店最後的溫泉時光與早餐" },
-                { time: "12:00", text: "退房，賢島車站周邊輕食" },
-                {
-                  time: "16:00",
-                  text: "移動重頭戲：觀光特急 Shimakaze (賢島→大阪難波)",
-                  map: {
-                    type: "route",
-                    origin: "Kashikojima Station",
-                    destination: "Osaka-Namba Station",
-                  },
-                },
-                {
-                  time: "18:30",
-                  text: "抵達大阪難波",
-                  map: { query: "Osaka-Namba Station" },
-                },
-                {
-                  time: "19:30",
-                  text: "晚餐：大阪燒 (千房/鶴橋風月 - 素食版)",
-                  map: { query: "Chibo Okonomiyaki" },
-                },
-              ],
-              highlight:
-                "Shimakaze 擁有頭等艙級電動皮椅與車上餐飲，需提前一個月預約。",
+              name: "伊勢神宮 內宮",
+              query: "Ise Jingu Naiku",
+              type: "attraction",
+            },
+            {
+              name: "豆腐庵山中 (素食)",
+              query: "Tofuan Yamanaka Ise",
+              type: "food",
+            },
+            {
+              name: "賢島站 (住宿/遊船起點)",
+              query: "Kashikojima Station",
+              type: "transport",
+            },
+            {
+              name: "英虞灣遊覽船 (Esperanza)",
+              query: "Kashikojima Esparanza Cruise",
+              type: "attraction",
+            },
+            {
+              name: "松阪站 (VISON轉乘點)",
+              query: "Matsusaka Station Mie",
+              type: "transport",
+            },
+            {
+              name: "VISON (日本最大級度假園區)",
+              query: "VISON Mie Japan",
+              type: "attraction",
+            },
+            {
+              name: "志摩觀光飯店 (法餐)",
+              query: "Shima Kanko Hotel The Classic",
+              type: "hotel",
             },
           ],
         },
         {
-          phase: "第二階段：USJ 雙日遊與都市素食 (Day 6 - Day 14)",
-          days: [
+          name: "第二階段：大阪 & USJ & 京奈 (Day 6-14)",
+          description:
+            "以大阪難波為中心，前往環球影城、奈良、京都，最後前往關西機場。",
+          routeLink:
+            "https://www.google.com/maps/dir/Osaka-Namba+Station/Universal+Studios+Japan/Osaka+Aquarium+Kaiyukan/Nara+Park/Arashiyama,+Ukyo+Ward,+Kyoto/Kansai+International+Airport",
+          spots: [
             {
-              day: 6,
-              title: "周遊券回本一日遊",
-              time: "09:30 - 21:00",
-              activities: [
-                {
-                  time: "09:30",
-                  text: "通天閣溜滑梯 (Tower Slider) 俯瞰新世界",
-                  map: { query: "Tsutenkaku" },
-                },
-                {
-                  time: "13:00",
-                  text: "聖瑪麗亞號帆船型觀光船 (45分鐘)",
-                  map: { query: "Santa Maria Cruise" },
-                },
-                {
-                  time: "14:30",
-                  text: "天保山大摩天輪",
-                  map: { query: "Tempozan Ferris Wheel" },
-                },
-                {
-                  time: "18:00",
-                  text: "大阪府咲洲廳舍展望台 (宇宙塔) 夜景",
-                  map: { query: "Cosmo Tower Observatory" },
-                },
-              ],
-              highlight: "單日設施價值超過 ¥5,000，完勝周遊券票價。",
+              name: "Green Earth (素食餐廳)",
+              query: "Green Earth Osaka",
+              type: "food",
             },
             {
-              day: 7,
-              title: "USJ 衝刺與梅田購物",
-              time: "08:30 - 20:00",
-              activities: [
-                {
-                  time: "08:30",
-                  text: "USJ 衝刺：主攻 1-2 個熱門設施 (瑪利歐/飛天翼龍)",
-                  map: { query: "Universal Studios Japan" },
-                },
-                {
-                  time: "14:00",
-                  text: "離開 USJ，移動至梅田",
-                  map: {
-                    type: "route",
-                    origin: "Universal Studios Japan",
-                    destination: "Umeda Station",
-                  },
-                },
-                { time: "15:00", text: "梅田精緻下午茶" },
-                {
-                  time: "17:00",
-                  text: "Yodobashi / LUCUA 購物",
-                  map: { query: "LUCUA Osaka" },
-                },
-              ],
-              highlight:
-                "USJ 年票優勢：不需整天耗在園區，結合樂園刺激與都市時尚。",
+              name: "USJ 環球影城",
+              query: "Universal Studios Japan",
+              type: "attraction",
             },
             {
-              day: 8,
-              title: "海遊館療癒與哈利波特夜景",
-              time: "10:00 - 20:00",
-              activities: [
-                {
-                  time: "10:00",
-                  text: "大阪海遊館 (鯨鯊、水母)",
-                  map: { query: "Osaka Aquarium Kaiyukan" },
-                },
-                {
-                  time: "16:00",
-                  text: "二進 USJ (持年票入場)",
-                  map: { query: "Universal Studios Japan" },
-                },
-                { time: "18:00", text: "哈利波特魔法世界 (夜景/光影秀)" },
-              ],
-              highlight:
-                "療癒系行程：早上看海洋生物，晚上享受魔法世界的夢幻氛圍。",
+              name: "大阪海遊館",
+              query: "Osaka Aquarium Kaiyukan",
+              type: "attraction",
             },
             {
-              day: 9,
-              title: "頂級豆腐懷石之夜",
-              time: "18:00 - 21:00",
-              activities: [
-                {
-                  time: "18:00",
-                  text: "晚餐：梅之花 (Umenohana) 本町店",
-                  map: { query: "Umenohana Honmachi" },
-                },
-              ],
-              highlight:
-                "預算升級：全日本知名「豆腐懷石料理」 (湯葉鍋、生麩田樂)",
+              name: "梅之花 本町店 (豆腐懷石)",
+              query: "Umenohana Honmachi",
+              type: "food",
             },
             {
-              day: "10-13",
-              title: "彈性日程 (京奈阪)",
-              time: "彈性",
-              activities: [
-                {
-                  time: "奈良",
-                  text: "餵鹿 + 志津香釜飯 (野菜口味)",
-                  map: { query: "Nara Park" },
-                },
-                {
-                  time: "京都",
-                  text: "嵐山 + 篩月 (精進料理)",
-                  map: { query: "Arashiyama" },
-                },
-                {
-                  time: "大阪",
-                  text: "梅田購物 + 2foods (全素 Junk Food)",
-                  map: { query: "2foods Osaka" },
-                },
-              ],
-              highlight: "根據體力與天氣靈活安排",
+              name: "志津香釜飯 (奈良)",
+              query: "Kamameshi Shizuka Kouen-ten",
+              type: "food",
             },
             {
-              day: 14,
-              title: "返程",
-              time: "彈性",
-              activities: [
-                {
-                  time: "交通",
-                  text: "搭乘南海電鐵 Rapi:t 前往關西機場 (KIX)",
-                  map: {
-                    type: "route",
-                    origin: "Namba Station",
-                    destination: "Kansai International Airport",
-                  },
-                },
-              ],
-              highlight: "帶著滿滿回憶回家",
+              name: "篩月 (京都精進料理)",
+              query: "Shigetsu Arashiyama",
+              type: "food",
+            },
+            {
+              name: "2foods (梅田全素)",
+              query: "2foods Osaka",
+              type: "food",
+            },
+            {
+              name: "關西國際機場 (KIX)",
+              query: "Kansai International Airport",
+              type: "transport",
+            },
+            {
+              name: "通天閣 (Tower Slider)",
+              query: "Tsutenkaku Tower",
+              type: "attraction",
+            },
+            {
+              name: "聖瑪麗亞號 (觀光船)",
+              query: "Santa Maria Cruise Osaka",
+              type: "attraction",
+            },
+            {
+              name: "天保山摩天輪",
+              query: "Tempozan Ferris Wheel",
+              type: "attraction",
+            },
+            {
+              name: "宇宙塔展望台",
+              query: "Cosmo Tower Observatory",
+              type: "attraction",
+            },
+            {
+              name: "Yodobashi Umeda",
+              query: "Yodobashi Camera Multimedia Umeda",
+              type: "shopping",
             },
           ],
         },
-      ];
+      ],
+    };
 
-      const budgetData = [
-        { item: "USJ 娛樂", cost: 25000, note: "含周遊卡、海遊館、Express 4" },
-        {
-          item: "交通費",
-          cost: 23000,
-          note: "含 Shimakaze、近鐵周遊券及 VISON 交通",
-        },
-        {
-          item: "餐飲費",
-          cost: 50000,
-          note: "含志摩法餐、VISON 美食、梅之花懷石",
-        },
-        { item: "其他/門票", cost: 10000, note: "VISON 體驗、雜支" },
-      ];
+    // --- 2. 輔助函數 (Helper Functions) ---
 
-      const recommendedRoutes = [
-        {
-          id: 1,
-          day: "Day 1",
-          name: "機場 → Outlet",
-          from: "Chubu Centrair International Airport",
-          to: "Mitsui Outlet Park Jazz Dream Nagashima",
-          desc: "高速巴士直達 (約50分)",
-        },
-        {
-          id: 2,
-          day: "Day 1",
-          name: "Outlet → 津站",
-          from: "Mitsui Outlet Park Jazz Dream Nagashima",
-          to: "Tsu Station Mie",
-          desc: "巴士轉近鐵 (經桑名站)",
-        },
-        {
-          id: 3,
-          day: "Day 2",
-          name: "津站 → 伊勢神宮",
-          from: "Tsu Station Mie",
-          to: "Ise Jingu Geku",
-          desc: "近鐵特急 (約35分)",
-        },
-        {
-          id: 4,
-          day: "Day 2",
-          name: "外宮 → 內宮",
-          from: "Ise Jingu Geku",
-          to: "Ise Jingu Naiku",
-          desc: "CAN Bus 巴士 (約20分)",
-        },
-        {
-          id: 5,
-          day: "Day 2",
-          name: "內宮 → 賢島(飯店)",
-          from: "Ise Jingu Naiku",
-          to: "Kashikojima Station",
-          desc: "巴士至五十鈴川轉近鐵",
-        },
-        {
-          id: 6,
-          day: "Day 4",
-          name: "賢島 → VISON",
-          from: "Kashikojima Station",
-          to: "VISON Mie Japan",
-          desc: "近鐵至松阪轉巴士 (約90分)",
-        },
-        {
-          id: 7,
-          day: "Day 5",
-          name: "賢島 → 大阪難波",
-          from: "Kashikojima Station",
-          to: "Osaka-Namba Station",
-          desc: "Shimakaze 觀光特急 (約2.5小時)",
-        },
-        {
-          id: 8,
-          day: "Day 6",
-          name: "難波 → 大阪港",
-          from: "Osaka-Namba Station",
-          to: "Osaka Aquarium Kaiyukan",
-          desc: "地鐵移動 (聖瑪麗亞號/海遊館)",
-        },
-        {
-          id: 9,
-          day: "Day 7",
-          name: "難波 → 環球影城",
-          from: "Osaka-Namba Station",
-          to: "Universal Studios Japan",
-          desc: "阪神電車轉 JR (約20分)",
-        },
-        {
-          id: 10,
-          day: "Day 10",
-          name: "難波 → 奈良公園",
-          from: "Osaka-Namba Station",
-          to: "Nara Park",
-          desc: "近鐵快速急行 (約40分)",
-        },
-        {
-          id: 11,
-          day: "Day 11",
-          name: "難波 → 京都嵐山",
-          from: "Osaka-Namba Station",
-          to: "Arashiyama Kyoto",
-          desc: "地鐵轉阪急電車 (約60分)",
-        },
-        {
-          id: 12,
-          day: "Day 14",
-          name: "難波 → 關西機場",
-          from: "Osaka-Namba Station",
-          to: "Kansai International Airport",
-          desc: "南海電鐵 Rapi:t (約40分)",
-        },
-      ];
+    const cleanQuery = (text) => {
+      let cleaned = text.replace(
+        /[\u{1F600}-\u{1F6FF}|[\u{1F300}-\u{1F5FF}|[\u{1F680}-\u{1F6FF}|[\u{1F700}-\u{1F77F}|[\u{1F780}-\u{1F7FF}|[\u{1F800}-\u{1F8FF}|[\u{1F900}-\u{1F9FF}|[\u{1FA00}-\u{1FA6F}|[\u{1FA70}-\u{1FAFF}]/gu,
+        ""
+      );
+      cleaned = cleaned.replace(
+        /搭乘|移動|前往|抵達|入住|晚餐|午餐|參拜/g,
+        ""
+      );
+      cleaned = cleaned.replace(/[：:()（）]/g, " ");
+      return cleaned.trim();
+    };
 
-      const mapLocations = {
-        regions: [
-          {
-            name: "第一階段：名古屋 & 津 & 伊勢 (Day 1-5)",
-            description:
-              "從名古屋機場經 Outlet、Dormy Inn 津，前往伊勢神宮、賢島與 VISON 園區。",
-            routeLink:
-              "https://www.google.com/maps/dir/Chubu+Centrair+International+Airport/Mitsui+Outlet+Park+Jazz+Dream+Nagashima/Dormy+Inn+Tsu/Ise+Jingu+Naiku/Kashikojima+Station/Matsusaka+Station/VISON,+Taki/Osaka-Namba+Station",
-            spots: [
-              {
-                name: "名古屋中部國際機場 (NGO)",
-                query: "Chubu Centrair International Airport",
-                type: "transport",
-              },
-              {
-                name: "三井 Outlet 爵士之夢長島",
-                query: "Mitsui Outlet Park Jazz Dream Nagashima",
-                type: "shopping",
-              },
-              {
-                name: "津站 (Tsu Station)",
-                query: "Tsu Station Mie",
-                type: "transport",
-              },
-              {
-                name: "Dormy Inn 津 (天然溫泉)",
-                query: "Natural Hot Spring Dormy Inn Tsu",
-                type: "hotel",
-              },
-              {
-                name: "伊勢神宮 內宮",
-                query: "Ise Jingu Naiku",
-                type: "attraction",
-              },
-              {
-                name: "豆腐庵山中 (素食)",
-                query: "Tofuan Yamanaka Ise",
-                type: "food",
-              },
-              {
-                name: "賢島站 (住宿/遊船起點)",
-                query: "Kashikojima Station",
-                type: "transport",
-              },
-              {
-                name: "英虞灣遊覽船 (Esperanza)",
-                query: "Kashikojima Esparanza Cruise",
-                type: "attraction",
-              },
-              {
-                name: "松阪站 (VISON轉乘點)",
-                query: "Matsusaka Station Mie",
-                type: "transport",
-              },
-              {
-                name: "VISON (日本最大級度假園區)",
-                query: "VISON Mie Japan",
-                type: "attraction",
-              },
-              {
-                name: "志摩觀光飯店 (法餐)",
-                query: "Shima Kanko Hotel The Classic",
-                type: "hotel",
-              },
-            ],
-          },
-          {
-            name: "第二階段：大阪 & USJ & 京奈 (Day 6-14)",
-            description:
-              "以大阪難波為中心，前往環球影城、奈良、京都，最後前往關西機場。",
-            routeLink:
-              "https://www.google.com/maps/dir/Osaka-Namba+Station/Universal+Studios+Japan/Osaka+Aquarium+Kaiyukan/Nara+Park/Arashiyama,+Ukyo+Ward,+Kyoto/Kansai+International+Airport",
-            spots: [
-              {
-                name: "Green Earth (素食餐廳)",
-                query: "Green Earth Osaka",
-                type: "food",
-              },
-              {
-                name: "USJ 環球影城",
-                query: "Universal Studios Japan",
-                type: "attraction",
-              },
-              {
-                name: "大阪海遊館",
-                query: "Osaka Aquarium Kaiyukan",
-                type: "attraction",
-              },
-              {
-                name: "梅之花 本町店 (豆腐懷石)",
-                query: "Umenohana Honmachi",
-                type: "food",
-              },
-              {
-                name: "志津香釜飯 (奈良)",
-                query: "Kamameshi Shizuka Kouen-ten",
-                type: "food",
-              },
-              {
-                name: "篩月 (京都精進料理)",
-                query: "Shigetsu Arashiyama",
-                type: "food",
-              },
-              {
-                name: "2foods (梅田全素)",
-                query: "2foods Osaka",
-                type: "food",
-              },
-              {
-                name: "關西國際機場 (KIX)",
-                query: "Kansai International Airport",
-                type: "transport",
-              },
-              {
-                name: "通天閣 (Tower Slider)",
-                query: "Tsutenkaku Tower",
-                type: "attraction",
-              },
-              {
-                name: "聖瑪麗亞號 (觀光船)",
-                query: "Santa Maria Cruise Osaka",
-                type: "attraction",
-              },
-              {
-                name: "天保山摩天輪",
-                query: "Tempozan Ferris Wheel",
-                type: "attraction",
-              },
-              {
-                name: "宇宙塔展望台",
-                query: "Cosmo Tower Observatory",
-                type: "attraction",
-              },
-              {
-                name: "Yodobashi Umeda",
-                query: "Yodobashi Camera Multimedia Umeda",
-                type: "shopping",
-              },
-            ],
-          },
-        ],
-      };
+    const callGeminiAPI = async (prompt, systemContext = "") => {
+      const apiKey = ""; // 在此填入您的 API Key (如果有)
+      const model = "gemini-2.5-flash-preview-09-2025";
 
-      // --- 2. 輔助函數 (Helper Functions) ---
-
-      const cleanQuery = (text) => {
-        let cleaned = text.replace(
-          /[\u{1F600}-\u{1F6FF}|[\u{1F300}-\u{1F5FF}|[\u{1F680}-\u{1F6FF}|[\u{1F700}-\u{1F77F}|[\u{1F780}-\u{1F7FF}|[\u{1F800}-\u{1F8FF}|[\u{1F900}-\u{1F9FF}|[\u{1FA00}-\u{1FA6F}|[\u{1FA70}-\u{1FAFF}]/gu,
-          ""
-        );
-        cleaned = cleaned.replace(
-          /搭乘|移動|前往|抵達|入住|晚餐|午餐|參拜/g,
-          ""
-        );
-        cleaned = cleaned.replace(/[：:()（）]/g, " ");
-        return cleaned.trim();
-      };
-
-      const callGeminiAPI = async (prompt, systemContext = "") => {
-        const apiKey = ""; // 在此填入您的 API Key (如果有)
-        const model = "gemini-2.5-flash-preview-09-2025";
-
-        const fullSystemInstruction = `
+      const fullSystemInstruction = `
                 You are a helpful, expert travel concierge for a vegetarian trip to Japan (Ise-Shima and Osaka).
                 Current Itinerary Context: ${JSON.stringify(itineraryData)}
                 User Style Guide & Strategy: ${JSON.stringify(strategyData)}
@@ -858,149 +973,155 @@
                 Specific Instruction: ${systemContext}
             `;
 
-        try {
-          const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-            {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }],
-                systemInstruction: { parts: [{ text: fullSystemInstruction }] },
-              }),
-            }
-          );
-          const data = await response.json();
-          if (data.error) {
-            console.error("Gemini Error:", data.error);
-            return "抱歉，AI 服務暫時無法使用，請稍後再試。";
+      try {
+        const response = await fetch(
+          `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: prompt }] }],
+              systemInstruction: { parts: [{ text: fullSystemInstruction }] },
+            }),
           }
-          return (
-            data.candidates?.[0]?.content?.parts?.[0]?.text ||
-            "抱歉，AI 目前忙碌中。"
-          );
-        } catch (error) {
-          console.error("Fetch Error:", error);
-          return "連線發生錯誤，請檢查網路狀態。";
+        );
+        const data = await response.json();
+        if (data.error) {
+          console.error("Gemini Error:", data.error);
+          return "抱歉，AI 服務暫時無法使用，請稍後再試。";
         }
-      };
+        return (
+          data.candidates?.[0]?.content?.parts?.[0]?.text ||
+          "抱歉，AI 目前忙碌中。"
+        );
+      } catch (error) {
+        console.error("Fetch Error:", error);
+        return "連線發生錯誤，請檢查網路狀態。";
+      }
+    };
 
-      // --- 3. UI 元件 (Components) ---
+    // --- 3. UI 元件 (Components) ---
 
-      // 3.1 Header
-      const Header = () => (
-        <header className="relative w-full py-20 px-6 bg-primary text-white overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none">
-            <div className="absolute right-10 top-10 w-40 h-40 rounded-full bg-white blur-3xl anim-float"></div>
-            <div
-              className="absolute left-10 bottom-10 w-48 h-48 rounded-full bg-white blur-3xl anim-float"
-              style={{ animationDelay: "1.5s" }}
-            ></div>
-          </div>
-
-          <div className="max-w-5xl mx-auto text-center relative z-10">
-            <div className="inline-block px-5 py-2 mb-6 rounded-full bg-white/20 backdrop-blur-sm text-sm font-bold tracking-wider border border-white/30 animate-fade-up">
-              JP-ISE-OSA-2026-VEG-LUX
-            </div>
-            <h1 className="font-display text-5xl md:text-6xl font-black mb-6 leading-tight tracking-tight animate-fade-up animate-fade-up-delay-1">
-              伊勢志摩‧大阪
-              <br />
-              素食豪華慢旅
-            </h1>
-            <p className="text-lg md:text-xl text-white/80 max-w-xl mx-auto animate-fade-up animate-fade-up-delay-2">
-              14 天行程 · 名古屋進大阪出 · USJ 年票友善
-            </p>
-          </div>
-        </header>
-      );
-
-
-      // 3.2 SectionCard
-      const SectionCard = ({ icon: Icon, title, children, className = "" }) => (
-        <section
-          className={`bg-white rounded-3xl p-6 md:p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${className}`}
-        >
-          <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-            <div className="p-3 bg-primary/5 rounded-xl text-primary">
-              <Icon size={24} />
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
-          </div>
-          {children}
-        </section>
-      );
-
-      // 3.3 StrategySection
-      const StrategySection = () => (
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <SectionCard icon={Star} title="核心策略">
-            <p className="text-gray-600 text-lg leading-relaxed mb-4">
-              {strategyData.content}
-            </p>
-            <div className="flex flex-wrap gap-2">
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
-                名古屋進
-              </span>
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
-                預算升級
-              </span>
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
-                素食友善
-              </span>
-              <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-primary">
-                大眾運輸
-              </span>
-            </div>
-          </SectionCard>
-
-          <SectionCard icon={Train} title="交通與住宿">
-            <div className="space-y-4">
-              <div>
-                <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
-                  <Train size={18} className="text-primary" /> 奢華移動
-                </h3>
-                <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
-                  {strategyData.transport.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
-                  <Hotel size={18} className="text-primary" /> 住宿建議
-                </h3>
-                <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
-                  {strategyData.accommodation.map((item, idx) => (
-                    <li key={idx}>{item}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </SectionCard>
+    // 3.1 Header (Luxury Visual Update)
+    const Header = () => (
+      <header className="relative w-full py-32 px-6 text-white overflow-hidden">
+        {/* Background Image & Overlay */}
+        <div className="absolute inset-0 z-0 select-none">
+          <img
+            src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop"
+            alt="Japan Scenery"
+            className="w-full h-full object-cover opacity-90 scale-105 animate-[float_20s_ease-in-out_infinite]"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/60 to-surface/100"></div>
+          <div className="absolute inset-0 bg-primary/40 mix-blend-overlay"></div>
         </div>
-      );
 
-      // 3.4 DayCard (Refined: Smart Fallback Logic Added)
-      const DayCard = ({ dayData, onOpenRoute }) => (
-        <div className="relative bg-white rounded-3xl p-6 shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 mb-6 flex flex-col h-full">
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-2">
-            <div className="flex items-center gap-3">
-              <span className="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-xl bg-primary text-white font-bold text-lg shadow-sm">
-                {typeof dayData.day === "number"
-                  ? `D${dayData.day}`
-                  : dayData.day}
-              </span>
-              <div>
-                <h3 className="text-xl font-bold text-gray-800">
-                  {dayData.title}
-                </h3>
-                <div className="text-sm text-primary font-medium">
-                  {dayData.time}
-                </div>
-              </div>
+        <div className="max-w-5xl mx-auto text-center relative z-10">
+          <div className="inline-block px-5 py-2 mb-6 rounded-full bg-primary/30 backdrop-blur-md text-sm font-bold tracking-wider border border-accent/40 text-accent/90 animate-fade-up shadow-lg">
+            JP-ISE-OSA-2026-VEG-LUX
+          </div>
+          <h1 className="font-display text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight animate-fade-up animate-fade-up-delay-1 drop-shadow-xl text-yellow-50">
+            伊勢志摩‧大阪
+            <span className="block text-2xl md:text-4xl mt-4 font-light tracking-[0.2em] font-body opacity-90">
+              素食豪華慢旅
+            </span>
+          </h1>
+          <p className="text-lg md:text-xl text-white/90 max-w-xl mx-auto animate-fade-up animate-fade-up-delay-2 font-medium drop-shadow-md">
+            14 天行程 · 名古屋進大阪出 · USJ 年票友善
+          </p>
+        </div>
+      </header>
+    );
+
+
+    // 3.2 SectionCard
+    const SectionCard = ({ icon: Icon, title, children, className = "" }) => (
+      <section
+        className={`bg-white rounded-3xl p-6 md:p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${className}`}
+      >
+        <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
+          <div className="p-3 bg-accent/10 rounded-xl text-accent">
+            <Icon size={24} />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+        </div>
+        {children}
+      </section>
+    );
+
+    // 3.3 StrategySection
+    const StrategySection = () => (
+      <div className="grid md:grid-cols-2 gap-6 mb-8">
+        <SectionCard icon={Star} title="核心策略">
+          <p className="text-gray-600 text-lg leading-relaxed mb-4">
+            {strategyData.content}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
+              名古屋進
+            </span>
+            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
+              預算升級
+            </span>
+            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
+              素食友善
+            </span>
+            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
+              大眾運輸
+            </span>
+          </div>
+        </SectionCard>
+
+        <SectionCard icon={Train} title="交通與住宿">
+          <div className="space-y-4">
+            <div>
+              <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
+                <Train size={18} className="text-accent" /> 奢華移動
+              </h3>
+              <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
+                {strategyData.transport.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
+                <Hotel size={18} className="text-accent" /> 住宿建議
+              </h3>
+              <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
+                {strategyData.accommodation.map((item, idx) => (
+                  <li key={idx}>{item}</li>
+                ))}
+              </ul>
             </div>
           </div>
+        </SectionCard>
+      </div>
+    );
 
+    // 3.4 DayCard (Refined: Smart Fallback Logic Added)
+    const DayCard = ({ dayData, onOpenRoute }) => (
+      <div className="relative bg-white rounded-3xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 mb-6 flex flex-col h-full overflow-hidden group">
+        {/* Image Banner */}
+        <div className="h-48 w-full relative overflow-hidden">
+          <img
+            src={dayData.image}
+            alt={dayData.title}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent"></div>
+          <div className="absolute bottom-4 left-6 text-white">
+            <div className="text-sm font-bold opacity-90 mb-1 tracking-wider uppercase text-accent">{dayData.time}</div>
+            <h3 className="text-2xl font-bold font-display leading-tight">{dayData.title}</h3>
+          </div>
+          <div className="absolute top-4 right-4">
+            <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md text-white font-bold text-lg border border-white/20 shadow-lg">
+              {typeof dayData.day === "number" ? `D${dayData.day}` : dayData.day}
+            </span>
+          </div>
+        </div>
+
+        <div className="p-6 flex-1 flex flex-col">
           <div className="space-y-4 mb-6 flex-1">
             {dayData.activities.map((act, idx) => {
               // Check for explicit map data OR arrow for fallback route detection
@@ -1015,414 +1136,419 @@
                   <span className="text-xs font-bold text-indigo-400 min-w-[3rem] pt-1">
                     {act.time}
                   </span>
-                  <span className="flex-1 text-gray-600 text-sm leading-relaxed">
+                  <span className="flex-1 text-gray-600 text-sm leading-relaxed pr-8">
                     {act.text}
+                    {act.link && (
+                      <a
+                        href={act.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ml-1 text-indigo-500 hover:text-indigo-700 underline"
+                      >
+                        查時刻表 ↗
+                      </a>
+                    )}
                   </span>
 
-                  <button
-                    onClick={() => {
-                      if (hasExplicitMap) {
-                        onOpenRoute({
-                          type: act.map.type || "spot",
-                          name: cleanQuery(act.text),
-                          ...act.map,
-                        });
-                      } else if (hasArrow) {
-                        const parts = act.text.split("→");
-                        const origin = cleanQuery(parts[0]);
-                        const destination = cleanQuery(parts[parts.length - 1]);
-                        onOpenRoute({
-                          type: "route",
-                          name: cleanQuery(act.text),
-                          origin: origin,
-                          destination: destination,
-                        });
-                      } else {
-                        const cleanedText = cleanQuery(act.text);
-                        onOpenRoute({
-                          type: "spot",
-                          name: cleanedText,
-                          query: cleanedText,
-                        });
-                      }
-                    }}
-                    className={`
-                      flex-shrink-0 hover:scale-110 transition-transform cursor-pointer
-                      ${isRoute ? "text-primary" : "text-primary/70 hover:text-primary"}
-                    `}
-                    title={isRoute ? "查看交通路線" : "查看地點"}
-                  >
-                    {isRoute ? <Car size={18} /> : <MapPin size={18} />}
-                  </button>
+                  {(hasExplicitMap || hasArrow) && (
+                    <button
+                      onClick={() => {
+                        if (hasExplicitMap) {
+                          onOpenRoute({
+                            type: act.map.type || "spot",
+                            name: cleanQuery(act.text),
+                            ...act.map,
+                          });
+                        } else if (hasArrow) {
+                          const parts = act.text.split("→");
+                          const origin = cleanQuery(parts[0]);
+                          const destination = cleanQuery(parts[parts.length - 1]);
+                          onOpenRoute({
+                            type: "route",
+                            name: cleanQuery(act.text),
+                            origin: origin,
+                            destination: destination,
+                          });
+                        }
+                      }}
+                      className={`
+                          flex-shrink-0 hover:scale-110 transition-transform cursor-pointer
+                          ${isRoute ? "text-accent" : "text-subtle hover:text-accent"}
+                        `}
+                      title={isRoute ? "查看交通路線" : "查看地點"}
+                    >
+                      {isRoute ? <Train size={18} /> : <MapPin size={18} />}
+                    </button>
+                  )}
                 </div>
               );
             })}
           </div>
 
-          <div className="border-l-4 border-primary p-4 bg-primary/10 rounded-r-xl hover:bg-primary/15 transition-colors mt-auto">
-            <div className="text-sm font-semibold text-primary mb-1 flex items-center gap-1">
-              <Leaf size={14} /> 素食 / 亮點
+          <div className="mt-auto pt-6">
+            <div className="border-l-4 border-accent p-4 bg-accent/5 rounded-r-xl hover:bg-accent/10 transition-colors">
+              <div className="text-sm font-semibold text-accent mb-1 flex items-center gap-1">
+                <Leaf size={14} /> 素食 / 亮點
+              </div>
+              <div className="text-gray-700 font-medium leading-relaxed">
+                {dayData.highlight}
+              </div>
             </div>
-            <div className="text-gray-700 font-medium leading-relaxed">
-              {dayData.highlight}
+          </div>
+        </div>
+      </div>
+    );
+
+    // 3.5 BudgetTable
+    const BudgetTable = () => {
+      const total = budgetData.reduce((acc, curr) => acc + curr.cost, 0);
+
+      return (
+        <SectionCard icon={Wallet} title="預算概算 (2人同行，每人平均)">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse">
+              <thead>
+                <tr className="bg-primary text-white">
+                  <th className="p-4 font-semibold rounded-tl-lg font-display tracking-wider">項目</th>
+                  <th className="p-4 font-semibold">金額 (JPY)</th>
+                  <th className="p-4 font-semibold rounded-tr-lg">說明</th>
+                </tr>
+              </thead>
+              <tbody className="text-gray-600">
+                {budgetData.map((row, idx) => (
+                  <tr
+                    key={idx}
+                    className="border-b border-gray-100 hover:bg-accent/5 transition-colors"
+                  >
+                    <td className="p-4 font-medium text-primary font-display">
+                      {row.item}
+                    </td>
+                    <td className="p-4 font-mono text-dark">
+                      ¥{row.cost.toLocaleString()}
+                    </td>
+                    <td className="p-4 text-sm text-subtle">{row.note}</td>
+                  </tr>
+                ))}
+                <tr className="bg-gradient-to-r from-primary to-[#0A1A30] text-accent font-bold border-t-2 border-accent">
+                  <td className="p-4 rounded-bl-lg">總計</td>
+                  <td className="p-4 font-mono text-xl text-white">
+                    ¥{total.toLocaleString()}
+                  </td>
+                  <td className="p-4 rounded-br-lg text-white/80 font-normal">
+                    預算重點：吃得好、住得好、移動舒適
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </SectionCard>
+      );
+    };
+
+    // 3.6 MapModal (Fixed: Header icon now depends on data.type)
+    const MapModal = ({ isOpen, onClose, data }) => {
+      if (!isOpen || !data) return null;
+
+      let mapUrl = "";
+      let externalMapUrl = "";
+      // Use cleaned name from DayCard, or raw query as fallback
+      let title = data.name || data.query;
+
+      if (data.type === "route") {
+        mapUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(
+          data.origin
+        )}&daddr=${encodeURIComponent(data.destination)}&dirflg=r&output=embed`;
+        externalMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
+          data.origin
+        )}&destination=${encodeURIComponent(data.destination)}&travelmode=transit`;
+      } else {
+        mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(
+          data.query
+        )}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
+        externalMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+          data.query
+        )}`;
+      }
+
+      return (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white w-full max-w-3xl h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
+            <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
+              <div className="flex items-center gap-2 flex-1 min-w-0">
+                {data.type === "route" ? <Train size={22} /> : <MapPin size={22} />}
+                <h3 className="font-bold text-lg truncate">
+                  {title}
+                </h3>
+              </div>
+              <button
+                onClick={onClose}
+                className="ml-4 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded-full transition-colors text-2xl font-bold flex-shrink-0"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="flex-1 bg-gray-100 relative">
+              <iframe
+                width="100%"
+                height="100%"
+                frameBorder="0"
+                scrolling="no"
+                marginHeight="0"
+                marginWidth="0"
+                src={mapUrl}
+                title={title}
+                className="w-full h-full"
+              ></iframe>
+            </div>
+            <div className="p-4 bg-white border-t border-gray-100 flex justify-between items-center shrink-0">
+              <span className="text-xs text-gray-400">
+                * 預覽地圖可能因 Google 政策偶有載入限制
+              </span>
+              <a
+                href={externalMapUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg hover:bg-indigo-100 font-medium transition-colors text-sm"
+              >
+                在 Google Maps App 開啟 <ExternalLink size={14} />
+              </a>
             </div>
           </div>
         </div>
       );
+    };
 
-      // 3.5 BudgetTable
-      const BudgetTable = () => {
-        const total = budgetData.reduce((acc, curr) => acc + curr.cost, 0);
-
-        return (
-          <SectionCard icon={Wallet} title="預算概算 (2人同行，每人平均)">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-primary/5 text-indigo-800">
-                    <th className="p-4 font-semibold rounded-tl-lg">項目</th>
-                    <th className="p-4 font-semibold">金額 (JPY)</th>
-                    <th className="p-4 font-semibold rounded-tr-lg">說明</th>
-                  </tr>
-                </thead>
-                <tbody className="text-gray-600">
-                  {budgetData.map((row, idx) => (
-                    <tr
-                      key={idx}
-                      className="border-b border-indigo-50 hover:bg-gray-50 transition-colors"
-                    >
-                      <td className="p-4 font-medium text-gray-800">
-                        {row.item}
-                      </td>
-                      <td className="p-4 font-mono">
-                        ¥{row.cost.toLocaleString()}
-                      </td>
-                      <td className="p-4 text-sm">{row.note}</td>
-                    </tr>
-                  ))}
-                  <tr className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold">
-                    <td className="p-4 rounded-bl-lg">總計</td>
-                    <td className="p-4 font-mono text-xl">
-                      ¥{total.toLocaleString()}
-                    </td>
-                    <td className="p-4 rounded-br-lg">
-                      預算重點：吃得好、住得好、移動舒適
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </SectionCard>
-        );
-      };
-
-      // 3.6 MapModal (Fixed: Header icon now depends on data.type)
-      const MapModal = ({ isOpen, onClose, data }) => {
-        if (!isOpen || !data) return null;
-
-        let mapUrl = "";
-        let externalMapUrl = "";
-        // Use cleaned name from DayCard, or raw query as fallback
-        let title = data.name || data.query;
-
-        if (data.type === "route") {
-          mapUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(
-            data.origin
-          )}&daddr=${encodeURIComponent(data.destination)}&output=embed`;
-          externalMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
-            data.origin
-          )}&destination=${encodeURIComponent(data.destination)}`;
-        } else {
-          mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(
-            data.query
-          )}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-          externalMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-            data.query
-          )}`;
-        }
-
-        return (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-            <div className="bg-white w-full max-w-3xl h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
-              <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
-                <div className="flex items-center gap-2 flex-1 min-w-0">
-                  {data.type === "route" ? <Car size={22} /> : <MapPin size={22} />}
-                  <h3 className="font-bold text-lg truncate">
-                    {title}
-                  </h3>
-                </div>
-                <button
-                  onClick={onClose}
-                  className="ml-4 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded-full transition-colors text-2xl font-bold flex-shrink-0"
-                >
-                  ✕
-                </button>
-              </div>
-              <div className="flex-1 bg-gray-100 relative">
-                <iframe
-                  width="100%"
-                  height="100%"
-                  frameBorder="0"
-                  scrolling="no"
-                  marginHeight="0"
-                  marginWidth="0"
-                  src={mapUrl}
-                  title={title}
-                  className="w-full h-full"
-                ></iframe>
-              </div>
-              <div className="p-4 bg-white border-t border-gray-100 flex justify-between items-center shrink-0">
-                <span className="text-xs text-gray-400">
-                  * 預覽地圖可能因 Google 政策偶有載入限制
+    // 3.7 MapView
+    const MapView = ({ onOpenMap }) => {
+      return (
+        <div className="space-y-8 animate-fade-in">
+          <SectionCard icon={Navigation} title="行程導航路線">
+            <div className="mb-6 bg-primary/5 border border-indigo-100 p-4 rounded-xl flex items-start gap-3">
+              <Info className="text-primary shrink-0 mt-1" size={20} />
+              <p className="text-indigo-800 text-sm leading-relaxed">
+                地圖功能已升級：
+                <br />
+                <span className="font-bold">📍 單點搜尋</span>
+                ：點擊景點列表，查看單一位置。
+                <br />
+                <span className="font-bold text-primary">
+                  🚗 每日移動路徑
                 </span>
-                <a
-                  href={externalMapUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg hover:bg-indigo-100 font-medium transition-colors text-sm"
-                >
-                  在 Google Maps App 開啟 <ExternalLink size={14} />
-                </a>
-              </div>
+                ：已同步整合至「每日詳情」分頁中，您也可以在下方總覽關鍵路徑。
+              </p>
             </div>
-          </div>
-        );
-      };
 
-      // 3.7 MapView
-      const MapView = ({ onOpenMap }) => {
-        return (
-          <div className="space-y-8 animate-fade-in">
-            <SectionCard icon={Navigation} title="行程導航路線">
-              <div className="mb-6 bg-primary/5 border border-indigo-100 p-4 rounded-xl flex items-start gap-3">
-                <Info className="text-primary shrink-0 mt-1" size={20} />
-                <p className="text-indigo-800 text-sm leading-relaxed">
-                  地圖功能已升級：
-                  <br />
-                  <span className="font-bold">📍 單點搜尋</span>
-                  ：點擊景點列表，查看單一位置。
-                  <br />
-                  <span className="font-bold text-primary">
-                    🚗 每日移動路徑
-                  </span>
-                  ：已同步整合至「每日詳情」分頁中，您也可以在下方總覽關鍵路徑。
-                </p>
-              </div>
-
-              <div className="mb-8">
-                <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                  <RouteIcon className="text-primary" size={20} />
-                  每日關鍵交通移動路徑總覽
-                </h3>
-                <div className="grid md:grid-cols-2 gap-4">
-                  {recommendedRoutes.map((route) => (
-                    <button
-                      key={route.id}
-                      onClick={() =>
-                        onOpenMap({
-                          type: "route",
-                          name: route.name,
-                          origin: route.from,
-                          destination: route.to,
-                        })
-                      }
-                      className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-300 transition-all text-left flex items-start gap-3 group"
-                    >
-                      <div className="p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
-                        <div className="text-center">
-                          <div className="text-[10px] font-bold uppercase leading-none mb-1">
-                            {route.day.split(" ")[0]}
-                          </div>
-                          <div className="text-lg font-bold leading-none">
-                            {route.day.split(" ")[1]}
-                          </div>
-                        </div>
-                      </div>
-                      <div>
-                        <div className="font-bold text-gray-800 group-hover:text-indigo-700">
-                          {route.name}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-1">
-                          {route.desc}
-                        </div>
-                        <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                          {route.from.split(" ")[0]} <ArrowRight size={10} />{" "}
-                          {route.to.split(" ")[0]}
-                        </div>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid md:grid-cols-2 gap-8">
-                {mapLocations.regions.map((region, idx) => (
-                  <div
-                    key={idx}
-                    className="bg-white rounded-3xl shadow-md border border-gray-200 overflow-hidden flex flex-col"
+            <div className="mb-8">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <RouteIcon className="text-primary" size={20} />
+                每日關鍵交通移動路徑總覽
+              </h3>
+              <div className="grid md:grid-cols-2 gap-4">
+                {recommendedRoutes.map((route) => (
+                  <button
+                    key={route.id}
+                    onClick={() =>
+                      onOpenMap({
+                        type: "route",
+                        name: route.name,
+                        origin: route.from,
+                        destination: route.to,
+                      })
+                    }
+                    className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-300 transition-all text-left flex items-start gap-3 group"
                   >
-                    <div className="p-6 bg-primary/5 border-b border-indigo-100">
-                      <h3 className="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
-                        <MapPin className="text-primary" size={20} />
-                        {region.name}
-                      </h3>
-                      <p className="text-sm text-gray-600 mb-4 h-10 line-clamp-2">
-                        {region.description}
-                      </p>
-                      <a
-                        href={region.routeLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block w-full"
-                      >
-                        <div className="group bg-primary p-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-between">
-                          <div className="text-white">
-                            <span className="text-xs font-bold opacity-80 uppercase tracking-wider">
-                              Complete Route
-                            </span>
-                            <div className="font-bold flex items-center gap-2">
-                              開啟本階段完整路線{" "}
-                              <ExternalLink size={14} className="opacity-80" />
-                            </div>
-                          </div>
-                          <div className="bg-white/20 p-2 rounded-full group-hover:bg-white/30 transition-colors">
-                            <Navigation className="text-white" size={18} />
-                          </div>
+                    <div className="p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
+                      <div className="text-center">
+                        <div className="text-[10px] font-bold uppercase leading-none mb-1">
+                          {route.day.split(" ")[0]}
                         </div>
-                      </a>
-                    </div>
-                    <div className="p-4 flex-1 flex flex-col gap-2">
-                      <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 px-2">
-                        Key Locations
+                        <div className="text-lg font-bold leading-none">
+                          {route.day.split(" ")[1]}
+                        </div>
                       </div>
-                      {region.spots.map((spot, sIdx) => {
-                        const iconMap = {
-                          transport: Train,
-                          shopping: Wallet,
-                          attraction: Star,
-                          food: Utensils,
-                          hotel: Hotel,
-                        };
-                        const SpotIcon = iconMap[spot.type] || MapPin;
-                        return (
-                          <button
-                            key={sIdx}
-                            onClick={() =>
-                              onOpenMap({
-                                type: "spot",
-                                name: spot.name,
-                                query: spot.query,
-                              })
-                            }
-                            className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group border border-transparent hover:border-gray-200 text-left"
-                          >
-                            <div className="flex items-center gap-3">
-                              <div
-                                className={`p-2 rounded-lg ${
-                                  spot.type === "food"
-                                    ? "bg-green-50 text-green-600"
-                                    : "bg-gray-100 text-gray-500"
-                                }`}
-                              >
-                                <SpotIcon size={16} />
-                              </div>
-                              <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm">
-                                {spot.name}
-                              </span>
-                            </div>
-                            <ExternalLink
-                              size={14}
-                              className="text-gray-300 group-hover:text-indigo-400"
-                            />
-                          </button>
-                        );
-                      })}
                     </div>
-                  </div>
+                    <div>
+                      <div className="font-bold text-gray-800 group-hover:text-indigo-700">
+                        {route.name}
+                      </div>
+                      <div className="text-xs text-gray-500 mt-1">
+                        {route.desc}
+                      </div>
+                      <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
+                        {route.from.split(" ")[0]} <ArrowRight size={10} />{" "}
+                        {route.to.split(" ")[0]}
+                      </div>
+                    </div>
+                  </button>
                 ))}
               </div>
-            </SectionCard>
-          </div>
-        );
-      };
+            </div>
 
-      // 3.8 AI & Translation Components
-      const AIChatBubble = ({ sender, text }) => (
-        <div
-          className={`flex ${
-            sender === "user" ? "justify-end" : "justify-start"
-          } mb-4`}
-        >
-          <div
-            className={`max-w-[80%] rounded-3xl p-4 text-sm leading-relaxed ${
-              sender === "user"
-                ? "bg-indigo-600 text-white rounded-br-none"
-                : "bg-white border border-gray-100 text-gray-700 shadow-sm rounded-bl-none"
-            }`}
-          >
-            {text}
-          </div>
+            <div className="grid md:grid-cols-2 gap-8">
+              {mapLocations.regions.map((region, idx) => (
+                <div
+                  key={idx}
+                  className="bg-white rounded-3xl shadow-md border border-gray-200 overflow-hidden flex flex-col"
+                >
+                  <div className="p-6 bg-primary/5 border-b border-indigo-100">
+                    <h3 className="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
+                      <MapPin className="text-primary" size={20} />
+                      {region.name}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-4 h-10 line-clamp-2">
+                      {region.description}
+                    </p>
+                    <a
+                      href={region.routeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full"
+                    >
+                      <div className="group bg-primary p-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-between">
+                        <div className="text-white">
+                          <span className="text-xs font-bold opacity-80 uppercase tracking-wider">
+                            Complete Route
+                          </span>
+                          <div className="font-bold flex items-center gap-2">
+                            開啟本階段完整路線{" "}
+                            <ExternalLink size={14} className="opacity-80" />
+                          </div>
+                        </div>
+                        <div className="bg-white/20 p-2 rounded-full group-hover:bg-white/30 transition-colors">
+                          <Navigation className="text-white" size={18} />
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <div className="p-4 flex-1 flex flex-col gap-2">
+                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 px-2">
+                      Key Locations
+                    </div>
+                    {region.spots.map((spot, sIdx) => {
+                      const iconMap = {
+                        transport: Train,
+                        shopping: Wallet,
+                        attraction: Star,
+                        food: Utensils,
+                        hotel: Hotel,
+                      };
+                      const SpotIcon = iconMap[spot.type] || MapPin;
+                      return (
+                        <button
+                          key={sIdx}
+                          onClick={() =>
+                            onOpenMap({
+                              type: "spot",
+                              name: spot.name,
+                              query: spot.query,
+                            })
+                          }
+                          className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group border border-transparent hover:border-gray-200 text-left"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div
+                              className={`p-2 rounded-lg ${spot.type === "food"
+                                ? "bg-green-50 text-green-600"
+                                : "bg-gray-100 text-gray-500"
+                                }`}
+                            >
+                              <SpotIcon size={16} />
+                            </div>
+                            <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm">
+                              {spot.name}
+                            </span>
+                          </div>
+                          <ExternalLink
+                            size={14}
+                            className="text-gray-300 group-hover:text-indigo-400"
+                          />
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </SectionCard>
         </div>
       );
+    };
 
-      const TranslatorButton = ({ label, prompt, onTranslate, isLoading }) => (
-        <button
-          onClick={() => onTranslate(prompt)}
-          disabled={isLoading}
-          className="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-indigo-400 hover:bg-primary/5 transition-all duration-200 group flex items-center justify-between"
+    // 3.8 AI & Translation Components
+    const AIChatBubble = ({ sender, text }) => (
+      <div
+        className={`flex ${sender === "user" ? "justify-end" : "justify-start"
+          } mb-4`}
+      >
+        <div
+          className={`max-w-[80%] rounded-3xl p-4 text-sm leading-relaxed ${sender === "user"
+            ? "bg-indigo-600 text-white rounded-br-none"
+            : "bg-white border border-gray-100 text-gray-700 shadow-sm rounded-bl-none"
+            }`}
         >
-          <span className="font-medium text-gray-700 group-hover:text-indigo-700">
-            {label}
-          </span>
-          <Sparkles
-            size={16}
-            className="text-gray-300 group-hover:text-indigo-500"
-          />
-        </button>
-      );
+          {text}
+        </div>
+      </div>
+    );
 
-      const AIModal = ({ isOpen, onClose }) => {
-        const [activeFeature, setActiveFeature] = useState("chat");
-        const [chatHistory, setChatHistory] = useState([
-          {
-            sender: "ai",
-            text: "嗨！我是您的素食旅遊 AI 助手。關於行程、素食餐廳或日本旅遊的問題都可以問我喔！✨",
-          },
+    const TranslatorButton = ({ label, prompt, onTranslate, isLoading }) => (
+      <button
+        onClick={() => onTranslate(prompt)}
+        disabled={isLoading}
+        className="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-indigo-400 hover:bg-primary/5 transition-all duration-200 group flex items-center justify-between"
+      >
+        <span className="font-medium text-gray-700 group-hover:text-indigo-700">
+          {label}
+        </span>
+        <Sparkles
+          size={16}
+          className="text-gray-300 group-hover:text-indigo-500"
+        />
+      </button>
+    );
+
+    const AIModal = ({ isOpen, onClose }) => {
+      const [activeFeature, setActiveFeature] = useState("chat");
+      const [chatHistory, setChatHistory] = useState([
+        {
+          sender: "ai",
+          text: "嗨！我是您的素食旅遊 AI 助手。關於行程、素食餐廳或日本旅遊的問題都可以問我喔！✨",
+        },
+      ]);
+      const [inputText, setInputText] = useState("");
+      const [isLoading, setIsLoading] = useState(false);
+      const [translationResult, setTranslationResult] = useState(null);
+      const chatEndRef = useRef(null);
+
+      useEffect(() => {
+        if (chatEndRef.current) {
+          chatEndRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+      }, [chatHistory, activeFeature]);
+
+      if (!isOpen) return null;
+
+      const handleSendMessage = async () => {
+        if (!inputText.trim()) return;
+
+        const userMsg = inputText;
+        setChatHistory((prev) => [
+          ...prev,
+          { sender: "user", text: userMsg },
         ]);
-        const [inputText, setInputText] = useState("");
-        const [isLoading, setIsLoading] = useState(false);
-        const [translationResult, setTranslationResult] = useState(null);
-        const chatEndRef = useRef(null);
+        setInputText("");
+        setIsLoading(true);
 
-        useEffect(() => {
-          if (chatEndRef.current) {
-            chatEndRef.current.scrollIntoView({ behavior: "smooth" });
-          }
-        }, [chatHistory, activeFeature]);
+        const response = await callGeminiAPI(userMsg);
 
-        if (!isOpen) return null;
+        setChatHistory((prev) => [...prev, { sender: "ai", text: response }]);
+        setIsLoading(false);
+      };
 
-        const handleSendMessage = async () => {
-          if (!inputText.trim()) return;
-
-          const userMsg = inputText;
-          setChatHistory((prev) => [
-            ...prev,
-            { sender: "user", text: userMsg },
-          ]);
-          setInputText("");
-          setIsLoading(true);
-
-          const response = await callGeminiAPI(userMsg);
-
-          setChatHistory((prev) => [...prev, { sender: "ai", text: response }]);
-          setIsLoading(false);
-        };
-
-        const handleTranslate = async (restriction) => {
-          setIsLoading(true);
-          setTranslationResult(null);
-          const prompt = `
+      const handleTranslate = async (restriction) => {
+        setIsLoading(true);
+        setTranslationResult(null);
+        const prompt = `
                     Please translate the following dietary restriction into natural, polite Japanese for a restaurant staff member.
                     Constraint: "${restriction}"
                     
@@ -1431,342 +1557,338 @@
                     Pronunciation: [Romaji]
                     Meaning: [Brief explanation in Traditional Chinese]
                 `;
-          const response = await callGeminiAPI(
-            prompt,
-            "You are a translator. Keep formatting simple and clean."
-          );
-          setTranslationResult(response);
-          setIsLoading(false);
-        };
-
-        return (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
-            <div className="bg-gray-50 w-full max-w-lg h-[600px] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
-              <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
-                <div className="flex items-center gap-2">
-                  <Bot size={24} className="text-indigo-200" />
-                  <h3 className="font-bold text-lg">AI 旅遊助手</h3>
-                </div>
-                <button
-                  onClick={onClose}
-                  className="p-1 hover:bg-white/20 rounded-full transition-colors"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              <div className="flex p-2 bg-white border-b border-gray-100 gap-2 shrink-0">
-                <button
-                  onClick={() => setActiveFeature("chat")}
-                  className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${
-                    activeFeature === "chat"
-                      ? "bg-indigo-100 text-indigo-700"
-                      : "text-gray-500 hover:bg-gray-100"
-                  }`}
-                >
-                  <MessageCircle size={16} /> 行程顧問
-                </button>
-                <button
-                  onClick={() => setActiveFeature("translate")}
-                  className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${
-                    activeFeature === "translate"
-                      ? "bg-indigo-100 text-indigo-700"
-                      : "text-gray-500 hover:bg-gray-100"
-                  }`}
-                >
-                  <Languages size={16} /> 素食溝通卡
-                </button>
-              </div>
-
-              <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-                {activeFeature === "chat" && (
-                  <div className="flex flex-col min-h-full justify-end">
-                    <div className="flex-1 pb-4">
-                      {chatHistory.map((msg, idx) => (
-                        <AIChatBubble
-                          key={idx}
-                          sender={msg.sender}
-                          text={msg.text}
-                        />
-                      ))}
-                      {isLoading && (
-                        <div className="flex justify-start mb-4">
-                          <div className="bg-white border border-gray-100 rounded-3xl p-4 text-gray-400 text-sm shadow-sm flex items-center gap-2">
-                            <Sparkles
-                              size={14}
-                              className="animate-spin text-indigo-500"
-                            />{" "}
-                            AI 思考中...
-                          </div>
-                        </div>
-                      )}
-                      <div ref={chatEndRef} />
-                    </div>
-                  </div>
-                )}
-
-                {activeFeature === "translate" && (
-                  <div className="space-y-4">
-                    <div className="bg-white p-4 rounded-xl shadow-sm border border-indigo-100">
-                      <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
-                        <Leaf size={16} className="text-green-500" />{" "}
-                        選擇您的飲食需求
-                      </h4>
-                      <div className="grid grid-cols-1 gap-2">
-                        <TranslatorButton
-                          label="🚫 我不吃肉和魚 (Meat/Fish Free)"
-                          prompt="I do not eat meat or fish."
-                          onTranslate={handleTranslate}
-                          isLoading={isLoading}
-                        />
-                        <TranslatorButton
-                          label="🐟 我不能吃柴魚高湯 (No Dashi)"
-                          prompt="I cannot eat dashi (fish stock). Please verify if the soup or sauce contains fish stock."
-                          onTranslate={handleTranslate}
-                          isLoading={isLoading}
-                        />
-                        <TranslatorButton
-                          label="🧅 我不吃五辛 (No Alliums)"
-                          prompt="I do not eat onions, garlic, chives, leeks, or scallions. (Oriental Vegetarian)"
-                          onTranslate={handleTranslate}
-                          isLoading={isLoading}
-                        />
-                        <TranslatorButton
-                          label="🥚🥛 我不吃蛋奶 (Vegan)"
-                          prompt="I am Vegan. I do not eat meat, fish, eggs, milk, or honey."
-                          onTranslate={handleTranslate}
-                          isLoading={isLoading}
-                        />
-                      </div>
-                    </div>
-                    {isLoading && !translationResult && (
-                      <div className="text-center py-8 text-indigo-400 flex flex-col items-center gap-2">
-                        <Sparkles className="animate-spin" />
-                        <span className="text-sm">
-                          Gemini 正在為您撰寫日文...
-                        </span>
-                      </div>
-                    )}
-                    {translationResult && (
-                      <div className="bg-white border-2 border-indigo-500 rounded-xl p-5 shadow-md anim-slideUp-p">
-                        <div className="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
-                          <span className="text-xs font-bold text-indigo-500 uppercase tracking-wider">
-                            Show to Staff
-                          </span>
-                          <Sparkles size={14} className="text-yellow-500" />
-                        </div>
-                        <div className="whitespace-pre-wrap text-gray-800 leading-relaxed font-medium">
-                          {translationResult}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-
-              {activeFeature === "chat" && (
-                <div className="p-4 bg-white border-t border-gray-100 shrink-0">
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={inputText}
-                      onChange={(e) => setInputText(e.target.value)}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && handleSendMessage()
-                      }
-                      placeholder="輸入問題，例如：附近有推薦的點心嗎？"
-                      className="flex-1 px-4 py-2.5 bg-gray-100 border-none rounded-full focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-                    />
-                    <button
-                      onClick={handleSendMessage}
-                      disabled={isLoading}
-                      className="p-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 transition-colors shadow-md"
-                    >
-                      <Send size={18} />
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
+        const response = await callGeminiAPI(
+          prompt,
+          "You are a translator. Keep formatting simple and clean."
         );
+        setTranslationResult(response);
+        setIsLoading(false);
       };
 
-      // --- 4. 主程式 (Main Application) ---
-
-      const App = () => {
-        const [activeTab, setActiveTab] = useState("overview");
-        const [isAIModalOpen, setIsAIModalOpen] = useState(false);
-        const [mapModalData, setMapModalData] = useState({
-          isOpen: false,
-          data: null,
-        });
-
-        const tabs = [
-          { id: "overview", label: "行程總覽", icon: MapIcon },
-          { id: "itinerary", label: "每日詳情", icon: Calendar },
-          { id: "budget", label: "預算規劃", icon: Wallet },
-          { id: "map", label: "行程地圖", icon: Navigation },
-        ];
-
-        const handleOpenMap = (data) => {
-          setMapModalData({ isOpen: true, data });
-        };
-
-        return (
-          <div className="min-h-screen bg-gray-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 pb-24 md:pb-12">
-            <Header />
-
-            <div className="sticky top-0 z-40 glass shadow-sm border-b border-gray-100/50">
-              <div className="max-w-5xl mx-auto px-4">
-                <nav className="flex items-center justify-center gap-2 md:gap-8 py-4 overflow-x-auto no-scrollbar">
-                  {tabs.map((tab) => {
-                    const isActive = activeTab === tab.id;
-                    const TabIcon = tab.icon;
-                    return (
-                      <button
-                        key={tab.id}
-                        onClick={() => setActiveTab(tab.id)}
-                        className={`
-                                                flex items-center gap-2 px-5 py-2.5 rounded-full font-medium transition-all duration-300 whitespace-nowrap
-                                                ${
-                                                  isActive
-                                                    ? "bg-primary text-white shadow-md transform scale-105"
-                                                    : "bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
-                                                }
-                                            `}
-                      >
-                        <TabIcon size={18} />
-                        {tab.label}
-                      </button>
-                    );
-                  })}
-                </nav>
+      return (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-fade-in">
+          <div className="bg-gray-50 w-full max-w-lg h-[600px] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
+            <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
+              <div className="flex items-center gap-2">
+                <Bot size={24} className="text-indigo-200" />
+                <h3 className="font-bold text-lg">AI 旅遊助手</h3>
               </div>
+              <button
+                onClick={onClose}
+                className="p-1 hover:bg-white/20 rounded-full transition-colors"
+              >
+                <X size={20} />
+              </button>
             </div>
 
-            <main className="max-w-5xl mx-auto px-6 py-8">
-              {activeTab === "overview" && (
-                <div className="animate-fade-in space-y-8">
-                  <StrategySection />
+            <div className="flex p-2 bg-white border-b border-gray-100 gap-2 shrink-0">
+              <button
+                onClick={() => setActiveFeature("chat")}
+                className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${activeFeature === "chat"
+                  ? "bg-indigo-100 text-indigo-700"
+                  : "text-gray-500 hover:bg-gray-100"
+                  }`}
+              >
+                <MessageCircle size={16} /> 行程顧問
+              </button>
+              <button
+                onClick={() => setActiveFeature("translate")}
+                className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${activeFeature === "translate"
+                  ? "bg-indigo-100 text-indigo-700"
+                  : "text-gray-500 hover:bg-gray-100"
+                  }`}
+              >
+                <Languages size={16} /> 素食溝通卡
+              </button>
+            </div>
 
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {itineraryData.map((phase, idx) => (
-                      <div
+            <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
+              {activeFeature === "chat" && (
+                <div className="flex flex-col min-h-full justify-end">
+                  <div className="flex-1 pb-4">
+                    {chatHistory.map((msg, idx) => (
+                      <AIChatBubble
                         key={idx}
-                        className="bg-white rounded-3xl p-6 shadow-md border-t-4 border-indigo-500"
-                      >
-                        <h3 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
-                          {phase.phase}
-                        </h3>
-                        <div className="space-y-4">
-                          {phase.days.map((day, dIdx) => (
-                            <div key={dIdx} className="flex items-start gap-3">
-                              <div className="min-w-[3rem] text-sm font-bold text-indigo-500 bg-primary/5 px-2 py-1 rounded text-center">
-                                D{day.day}
-                              </div>
-                              <div className="text-gray-700 text-sm font-medium pt-1">
-                                {day.title}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                        <button
-                          onClick={() => setActiveTab("itinerary")}
-                          className="mt-6 w-full py-2 flex items-center justify-center gap-2 text-primary font-semibold text-sm hover:bg-primary/5 rounded-lg transition-colors"
-                        >
-                          查看詳情 <ArrowRight size={16} />
-                        </button>
-                      </div>
+                        sender={msg.sender}
+                        text={msg.text}
+                      />
                     ))}
+                    {isLoading && (
+                      <div className="flex justify-start mb-4">
+                        <div className="bg-white border border-gray-100 rounded-3xl p-4 text-gray-400 text-sm shadow-sm flex items-center gap-2">
+                          <Sparkles
+                            size={14}
+                            className="animate-spin text-indigo-500"
+                          />{" "}
+                          AI 思考中...
+                        </div>
+                      </div>
+                    )}
+                    <div ref={chatEndRef} />
                   </div>
                 </div>
               )}
 
-              {activeTab === "itinerary" && (
-                <div className="space-y-12">
-                  {itineraryData.map((phase, idx) => (
-                    <div key={idx} className="relative">
-                      <div className="sticky top-20 z-30 bg-gray-50/95 backdrop-blur py-4 mb-4">
-                        <h2 className="text-2xl font-bold text-gray-800 pl-4 border-l-4 border-purple-500">
-                          {phase.phase}
-                        </h2>
+              {activeFeature === "translate" && (
+                <div className="space-y-4">
+                  <div className="bg-white p-4 rounded-xl shadow-sm border border-indigo-100">
+                    <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+                      <Leaf size={16} className="text-green-500" />{" "}
+                      選擇您的飲食需求
+                    </h4>
+                    <div className="grid grid-cols-1 gap-2">
+                      <TranslatorButton
+                        label="🚫 我不吃肉和魚 (Meat/Fish Free)"
+                        prompt="I do not eat meat or fish."
+                        onTranslate={handleTranslate}
+                        isLoading={isLoading}
+                      />
+                      <TranslatorButton
+                        label="🐟 我不能吃柴魚高湯 (No Dashi)"
+                        prompt="I cannot eat dashi (fish stock). Please verify if the soup or sauce contains fish stock."
+                        onTranslate={handleTranslate}
+                        isLoading={isLoading}
+                      />
+                      <TranslatorButton
+                        label="🧅 我不吃五辛 (No Alliums)"
+                        prompt="I do not eat onions, garlic, chives, leeks, or scallions. (Oriental Vegetarian)"
+                        onTranslate={handleTranslate}
+                        isLoading={isLoading}
+                      />
+                      <TranslatorButton
+                        label="🥚🥛 我不吃蛋奶 (Vegan)"
+                        prompt="I am Vegan. I do not eat meat, fish, eggs, milk, or honey."
+                        onTranslate={handleTranslate}
+                        isLoading={isLoading}
+                      />
+                    </div>
+                  </div>
+                  {isLoading && !translationResult && (
+                    <div className="text-center py-8 text-indigo-400 flex flex-col items-center gap-2">
+                      <Sparkles className="animate-spin" />
+                      <span className="text-sm">
+                        Gemini 正在為您撰寫日文...
+                      </span>
+                    </div>
+                  )}
+                  {translationResult && (
+                    <div className="bg-white border-2 border-indigo-500 rounded-xl p-5 shadow-md anim-slideUp-p">
+                      <div className="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
+                        <span className="text-xs font-bold text-indigo-500 uppercase tracking-wider">
+                          Show to Staff
+                        </span>
+                        <Sparkles size={14} className="text-yellow-500" />
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      <div className="whitespace-pre-wrap text-gray-800 leading-relaxed font-medium">
+                        {translationResult}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+
+            {activeFeature === "chat" && (
+              <div className="p-4 bg-white border-t border-gray-100 shrink-0">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="text"
+                    value={inputText}
+                    onChange={(e) => setInputText(e.target.value)}
+                    onKeyDown={(e) =>
+                      e.key === "Enter" && handleSendMessage()
+                    }
+                    placeholder="輸入問題，例如：附近有推薦的點心嗎？"
+                    className="flex-1 px-4 py-2.5 bg-gray-100 border-none rounded-full focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                  />
+                  <button
+                    onClick={handleSendMessage}
+                    disabled={isLoading}
+                    className="p-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 transition-colors shadow-md"
+                  >
+                    <Send size={18} />
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      );
+    };
+
+    // --- 4. 主程式 (Main Application) ---
+
+    const App = () => {
+      const [activeTab, setActiveTab] = useState("itinerary");
+      const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+      const [mapModalData, setMapModalData] = useState({
+        isOpen: false,
+        data: null,
+      });
+
+      const tabs = [
+        { id: "overview", label: "行程總覽", icon: MapIcon },
+        { id: "itinerary", label: "每日詳情", icon: Calendar },
+        { id: "budget", label: "預算規劃", icon: Wallet },
+        { id: "map", label: "行程地圖", icon: Navigation },
+      ];
+
+      const handleOpenMap = (data) => {
+        setMapModalData({ isOpen: true, data });
+      };
+
+      return (
+        <div className="min-h-screen bg-gray-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 pb-24 md:pb-12">
+          <Header />
+
+          <div className="sticky top-0 z-40 glass shadow-sm border-b border-gray-100/50">
+            <div className="max-w-5xl mx-auto px-4">
+              <nav className="flex items-center justify-around gap-1 sm:gap-2 md:gap-8 py-3 md:py-4">
+                {tabs.map((tab) => {
+                  const isActive = activeTab === tab.id;
+                  const TabIcon = tab.icon;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`
+                                                flex items-center justify-center gap-1 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 rounded-full font-medium transition-all duration-300 whitespace-nowrap text-xs sm:text-sm md:text-base
+                                                ${isActive
+                          ? "bg-primary text-white shadow-md transform scale-105"
+                          : "bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                        }
+                                            `}
+                    >
+                      <TabIcon size={18} className="flex-shrink-0" />
+                      <span className="hidden sm:inline">{tab.label}</span>
+                    </button>
+                  );
+                })}
+              </nav>
+            </div>
+          </div>
+
+          <main className="max-w-5xl mx-auto px-6 py-8">
+            {activeTab === "overview" && (
+              <div className="animate-fade-in space-y-8">
+                <StrategySection />
+
+                <div className="grid md:grid-cols-2 gap-8">
+                  {itineraryData.map((phase, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-white rounded-3xl p-6 shadow-md border-t-4 border-indigo-500"
+                    >
+                      <h3 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
+                        {phase.phase}
+                      </h3>
+                      <div className="space-y-4">
                         {phase.days.map((day, dIdx) => (
-                          <DayCard
-                            key={dIdx}
-                            dayData={day}
-                            onOpenRoute={handleOpenMap}
-                          />
+                          <div key={dIdx} className="flex items-start gap-3">
+                            <div className="min-w-[3rem] text-sm font-bold text-indigo-500 bg-primary/5 px-2 py-1 rounded text-center">
+                              D{day.day}
+                            </div>
+                            <div className="text-gray-700 text-sm font-medium pt-1">
+                              {day.title}
+                            </div>
+                          </div>
                         ))}
                       </div>
+                      <button
+                        onClick={() => setActiveTab("itinerary")}
+                        className="mt-6 w-full py-2 flex items-center justify-center gap-2 text-primary font-semibold text-sm hover:bg-primary/5 rounded-lg transition-colors"
+                      >
+                        查看詳情 <ArrowRight size={16} />
+                      </button>
                     </div>
                   ))}
-
-                  <div className="flex justify-center mt-12">
-                    <button
-                      onClick={() =>
-                        window.scrollTo({ top: 0, behavior: "smooth" })
-                      }
-                      className="px-5 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
-                    >
-                      回到頂部
-                    </button>
-                  </div>
                 </div>
-              )}
+              </div>
+            )}
 
-              {activeTab === "budget" && (
-                <div className="max-w-3xl mx-auto">
-                  <BudgetTable />
-                  <div className="mt-8 p-6 bg-primary/5 rounded-3xl flex gap-4 items-start">
-                    <Info className="text-primary flex-shrink-0 mt-1" />
-                    <div className="text-sm text-indigo-800 leading-relaxed">
-                      <p className="font-bold mb-1">關於匯率與預訂</p>
-                      建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
-                      觀光特急需在乘車日前一個月上午 10:30 準時搶票。
+            {activeTab === "itinerary" && (
+              <div className="space-y-12">
+                {itineraryData.map((phase, idx) => (
+                  <div key={idx} className="relative">
+                    <div className="sticky top-20 z-30 bg-gray-50/95 backdrop-blur py-4 mb-4">
+                      <h2 className="text-2xl font-bold text-gray-800 pl-4 border-l-4 border-purple-500">
+                        {phase.phase}
+                      </h2>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {phase.days.map((day, dIdx) => (
+                        <DayCard
+                          key={dIdx}
+                          dayData={day}
+                          onOpenRoute={handleOpenMap}
+                        />
+                      ))}
                     </div>
                   </div>
+                ))}
+
+                <div className="flex justify-center mt-12">
+                  <button
+                    onClick={() =>
+                      window.scrollTo({ top: 0, behavior: "smooth" })
+                    }
+                    className="px-5 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
+                  >
+                    回到頂部
+                  </button>
                 </div>
-              )}
+              </div>
+            )}
 
-              {activeTab === "map" && <MapView onOpenMap={handleOpenMap} />}
-            </main>
+            {activeTab === "budget" && (
+              <div className="max-w-3xl mx-auto">
+                <BudgetTable />
+                <div className="mt-8 p-6 bg-primary/5 rounded-3xl flex gap-4 items-start">
+                  <Info className="text-primary flex-shrink-0 mt-1" />
+                  <div className="text-sm text-indigo-800 leading-relaxed">
+                    <p className="font-bold mb-1">關於匯率與預訂</p>
+                    建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
+                    觀光特急需在乘車日前一個月上午 10:30 準時搶票。
+                  </div>
+                </div>
+              </div>
+            )}
 
-            <button
-              onClick={() => setIsAIModalOpen(true)}
-              className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary text-white shadow-2xl hover:scale-110 hover:shadow-indigo-500/50 transition-all duration-300 group"
-            >
-              <Sparkles size={28} className="animate-pulse" />
-              <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-xs font-bold py-1 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                ✨ AI 旅遊顧問
-              </span>
-            </button>
+            {activeTab === "map" && <MapView onOpenMap={handleOpenMap} />}
+          </main>
 
-            <AIModal
-              isOpen={isAIModalOpen}
-              onClose={() => setIsAIModalOpen(false)}
-            />
-            <MapModal
-              isOpen={mapModalData.isOpen}
-              onClose={() =>
-                setMapModalData({ ...mapModalData, isOpen: false })
-              }
-              data={mapModalData.data}
-            />
+          <button
+            onClick={() => setIsAIModalOpen(true)}
+            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary text-white shadow-2xl hover:scale-110 hover:shadow-indigo-500/50 transition-all duration-300 group"
+          >
+            <Sparkles size={28} className="animate-pulse" />
+            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-xs font-bold py-1 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+              ✨ AI 旅遊顧問
+            </span>
+          </button>
 
-            <footer className="text-center py-8 text-gray-400 text-sm">
-              <p>© 2026 伊勢志摩‧大阪素食豪華慢旅 v5 (NGO 進出版)</p>
-            </footer>
-          </div>
-        );
-      };
+          <AIModal
+            isOpen={isAIModalOpen}
+            onClose={() => setIsAIModalOpen(false)}
+          />
+          <MapModal
+            isOpen={mapModalData.isOpen}
+            onClose={() =>
+              setMapModalData({ ...mapModalData, isOpen: false })
+            }
+            data={mapModalData.data}
+          />
 
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(<App />);
-    </script>
-  </body>
+          <footer className="text-center py-8 text-gray-400 text-sm">
+            <p>© 2026 伊勢志摩‧大阪素食豪華慢旅 v5 (NGO 進出版)</p>
+          </footer>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
+
 </html>
-
-
