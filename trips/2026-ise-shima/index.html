@@ -145,6 +145,8 @@
         RouteIcon: "route",
         Eye: "eye",
         Car: "car",
+        Bus: "bus",
+        Ship: "ship",
       };
 
       // 動態生成所有需要的圖示元件
@@ -179,6 +181,8 @@
         RouteIcon,
         Eye,
         Car,
+        Bus,
+        Ship,
       } = Icons;
 
       // --- 1. 資料常數 (Data Constants) ---
@@ -217,7 +221,7 @@
                 },
                 {
                   time: "14:00",
-                  text: "🚌 搭乘直達巴士 → 爵士之夢長島 Outlet (約50分)",
+                  text: "搭乘直達巴士 → 爵士之夢長島 Outlet (約50分)",
                   map: {
                     type: "route",
                     origin: "Chubu Centrair International Airport",
@@ -231,7 +235,7 @@
                 },
                 {
                   time: "18:00",
-                  text: "移動：Outlet → 🚌 巴士 → 桑名站 → 🚄 近鐵特急 → 津站",
+                  text: "移動：Outlet → 巴士 → 桑名站 → 近鐵特急 → 津站",
                   map: {
                     type: "route",
                     origin: "Mitsui Outlet Park Jazz Dream Nagashima",
@@ -258,7 +262,7 @@
               activities: [
                 {
                   time: "09:00",
-                  text: "津站 → 🚄 近鐵特急(30分) → 伊勢市站",
+                  text: "津站 → 近鐵特急(30分) → 伊勢市站",
                   map: {
                     type: "route",
                     origin: "Tsu Station Mie",
@@ -267,7 +271,7 @@
                 },
                 {
                   time: "10:00",
-                  text: "參拜外宮 (豐受大神宮) → 🚌 巴士 → 內宮",
+                  text: "參拜外宮 (豐受大神宮) → 巴士 → 內宮",
                   map: {
                     type: "route",
                     origin: "Ise Jingu Geku",
@@ -286,7 +290,7 @@
                 },
                 {
                   time: "17:00",
-                  text: "移動：內宮 → 🚌 巴士 → 五十鈴川站 → 🚄 近鐵 → 賢島",
+                  text: "移動：內宮 → 巴士 → 五十鈴川站 → 近鐵 → 賢島",
                   map: {
                     type: "route",
                     origin: "Ise Jingu Naiku",
@@ -305,7 +309,7 @@
               activities: [
                 {
                   time: "10:00",
-                  text: "🚢 英虞灣遊覽船 Esperanza (賢島站步行2分)",
+                  text: "英虞灣遊覽船 Esperanza (賢島站步行2分)",
                   map: { query: "Kashikojima Esparanza Cruise" },
                 },
                 { time: "11:30", text: "賢島港散策 / 參觀珍珠店" },
@@ -329,7 +333,7 @@
               activities: [
                 {
                   time: "09:30",
-                  text: "去程：賢島站 → 🚄 近鐵(45分) → 松阪站(Matsusaka)",
+                  text: "去程：賢島站 → 近鐵(45分) → 松阪站(Matsusaka)",
                   map: {
                     type: "route",
                     origin: "Kashikojima Station",
@@ -338,7 +342,7 @@
                 },
                 {
                   time: "10:25",
-                  text: "轉乘：松阪站(4號乘車處) → 🚌 三重交通巴士(45分) → VISON",
+                  text: "轉乘：松阪站(4號乘車處) → 三重交通巴士(45分) → VISON",
                   map: {
                     type: "route",
                     origin: "Matsusaka Station",
@@ -361,7 +365,7 @@
                 },
                 {
                   time: "16:30",
-                  text: "回程：VISON → 🚌 巴士 → 松阪站 → 🚄 近鐵 → 賢島",
+                  text: "回程：VISON → 巴士 → 松阪站 → 近鐵 → 賢島",
                   map: {
                     type: "route",
                     origin: "VISON Mie",
@@ -381,7 +385,7 @@
                 { time: "12:00", text: "退房，賢島車站周邊輕食" },
                 {
                   time: "16:00",
-                  text: "🚄 移動重頭戲：觀光特急 Shimakaze (賢島→大阪難波)",
+                  text: "移動重頭戲：觀光特急 Shimakaze (賢島→大阪難波)",
                   map: {
                     type: "route",
                     origin: "Kashikojima Station",
@@ -1016,12 +1020,12 @@
                       }
                     }}
                     className={`
-                      flex-shrink-0 text-base hover:scale-110 transition-transform cursor-pointer
-                      ${isRoute ? "opacity-100" : "opacity-80 hover:opacity-100"}
+                      flex-shrink-0 hover:scale-110 transition-transform cursor-pointer
+                      ${isRoute ? "text-primary" : "text-primary/70 hover:text-primary"}
                     `}
                     title={isRoute ? "查看交通路線" : "查看地點"}
                   >
-                    {isRoute ? "🚗" : "📍"}
+                    {isRoute ? <Car size={18} /> : <MapPin size={18} />}
                   </button>
                 </div>
               );
@@ -1115,7 +1119,7 @@
             <div className="bg-white w-full max-w-3xl h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
               <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
                 <div className="flex items-center gap-2 flex-1 min-w-0">
-                  <span className="text-xl">{data.type === "route" ? "🚗" : "📍"}</span>
+                  {data.type === "route" ? <Car size={22} /> : <MapPin size={22} />}
                   <h3 className="font-bold text-lg truncate">
                     {title}
                   </h3>
