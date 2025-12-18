@@ -3,5 +3,5 @@ description: 預覽網站
 ---
 
 // turbo
-1. 啟動本地伺服器並自動開啟瀏覽器
-   npx http-server . -o
+1. 啟動支援熱更新 (Hot Reload) 的伺服器
+   npx live-server
