@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
@@ -39,7 +39,9 @@
         font-family: "Shippori Mincho", serif;
       }
       .card-shadow {
-        box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+        box-shadow:
+          0 10px 15px -3px rgb(0 0 0 / 0.1),
+          0 4px 6px -4px rgb(0 0 0 / 0.1);
       }
 
       /* Navigation */
@@ -135,11 +137,15 @@
       </div>
     </header>
 
-    <main
-      class="flex-1 overflow-y-auto pt-28 pb-24 hide-scrollbar"
-    >
-        <div class="h-56 w-full bg-cover bg-center" style="background-image: url('https://images.unsplash.com/photo-1528114637695-8350a3d4d4a8?q=80&w=2670&auto=format&fit=crop'); margin-top: -7rem;"></div>
-        <div id="app-container" class="px-4"></div>
+    <main class="flex-1 overflow-y-auto pt-28 pb-24 hide-scrollbar">
+      <div
+        class="h-56 w-full bg-cover bg-center"
+        style="
+          background-image: url(&quot;https://images.unsplash.com/photo-1528114637695-8350a3d4d4a8?q=80&w=2670&auto=format&fit=crop&quot;);
+          margin-top: -7rem;
+        "
+      ></div>
+      <div id="app-container" class="px-4"></div>
     </main>
 
     <nav
@@ -589,8 +595,8 @@
                                         e.tag === "必吃"
                                           ? "tag-food"
                                           : e.tag === "交通"
-                                          ? "tag-transport"
-                                          : "bg-gray-100 text-gray-500"
+                                            ? "tag-transport"
+                                            : "bg-gray-100 text-gray-500"
                                       }">${e.tag}</span>`
                                     : ""
                                 }
@@ -602,7 +608,7 @@
                             </div>
                         </div>
                     </div>
-                `
+                `,
             )
             .join("");
 
@@ -612,8 +618,8 @@
                             <h3 class="font-serif font-bold text-lg text-[#2e4b71]">${
                               day.day
                             } <span class="text-sm text-gray-400 ml-2 font-sans">${
-            day.date
-          }</span></h3>
+                              day.date
+                            }</span></h3>
                             <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded"><i class="fas fa-map-marker-alt mr-1"></i>${
                               day.loc
                             }</span>
@@ -658,8 +664,8 @@
         for (const [key, list] of Object.entries(db.luggage)) {
           contentHtml += `
                     <div id="luggage-${key}" class="luggage-cat ${
-            key === "bao" ? "" : "hidden"
-          }">
+                      key === "bao" ? "" : "hidden"
+                    }">
                         <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
                             <div class="bg-[#f8fafc] px-4 py-3 border-b border-gray-100">
                                 <h3 class="font-bold text-gray-700">${
@@ -674,7 +680,7 @@
                                         <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-[#2e4b71] focus:ring-[#2e4b71]" id="${key}-${i}">
                                         <span class="ml-3 text-sm text-gray-700 select-none">${item}</span>
                                     </label>
-                                `
+                                `,
                                   )
                                   .join("")}
                             </div>
@@ -715,7 +721,7 @@
                               item.title
                             }</span>
                         </div>
-                    `
+                    `,
                       )
                       .join("")}
                 </div>
@@ -729,7 +735,7 @@
                             <i class="fas ${link.icon} text-2xl text-[#2e4b71] mb-2 opacity-80"></i>
                             <span class="text-xs font-medium text-gray-600 leading-tight">${link.title}</span>
                         </a>
-                    `
+                    `,
                       )
                       .join("")}
                 </div>

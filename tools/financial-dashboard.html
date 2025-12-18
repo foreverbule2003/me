@@ -1,247 +1,340 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-TW">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>財務數據分析儀表板 (Chart.js)</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="bg-gray-50">
-
+  </head>
+  <body class="bg-gray-50">
     <div class="p-6 min-h-screen relative">
-        <a
-          href="index.html"
-          class="absolute top-6 right-6 bg-white w-10 h-10 rounded-full flex items-center justify-center text-gray-500 active:scale-90 transition-transform shadow-md hover:shadow-lg hover:text-[#667eea]"
-        >
-          <i class="fas fa-home"></i>
-        </a>
-        <div class="max-w-7xl mx-auto">
-            <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">財務表現分析儀表板</h1>
-            
-            <div class="flex justify-center mb-8">
-                <div class="bg-white rounded-2xl p-1 shadow-md">
-                    <button id="btn-quarterly" class="px-6 py-2 rounded-md font-medium transition-colors bg-gradient-purple text-white shadow-md">季度數據</button>
-                    <button id="btn-halfyearly" class="px-6 py-2 rounded-md font-medium transition-colors text-gray-600 hover:text-[#764ba2]">半年度數據</button>
-                    <button id="btn-yearly" class="px-6 py-2 rounded-md font-medium transition-colors text-gray-600 hover:text-[#764ba2]">年度數據</button>
-                </div>
-            </div>
+      <a
+        href="index.html"
+        class="absolute top-6 right-6 bg-white w-10 h-10 rounded-full flex items-center justify-center text-gray-500 active:scale-90 transition-transform shadow-md hover:shadow-lg hover:text-[#667eea]"
+      >
+        <i class="fas fa-home"></i>
+      </a>
+      <div class="max-w-7xl mx-auto">
+        <h1 class="text-3xl font-bold text-center mb-8 text-gray-800">
+          財務表現分析儀表板
+        </h1>
 
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-[#667eea]">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">2025年營業收入 (至Q2)</h3>
-                    <p class="text-2xl font-bold text-[#667eea]">167,021</p>
-                    <p class="text-sm text-gray-600 mt-1">較2024年同期增長18.1%</p>
-                </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-[#764ba2]">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">2025年本期淨利 (至Q2)</h3>
-                    <p class="text-2xl font-bold text-[#764ba2]">25,688</p>
-                    <p class="text-sm text-gray-600 mt-1">較2024年同期增長81.4%</p>
-                </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-[#a78bfa]">
-                    <h3 class="text-sm font-medium text-gray-500 mb-2">獲利率 (2025年至Q2)</h3>
-                    <p class="text-2xl font-bold text-[#a78bfa]">15.4%</p>
-                    <p class="text-sm text-gray-600 mt-1">較2024年同期提升5.4個百分點</p>
-                </div>
-            </div>
-
-            <div class="space-y-8">
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="text-lg font-bold mb-4 text-gray-800">營業收入趨勢</h3>
-                    <canvas id="revenueChart"></canvas>
-                </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="text-lg font-bold mb-4 text-gray-800">獲利能力比較</h3>
-                    <canvas id="profitChart"></canvas>
-                </div>
-                <div class="bg-white p-6 rounded-2xl shadow-lg">
-                    <h3 class="text-lg font-bold mb-4 text-gray-800">營收與獲利綜合趨勢</h3>
-                    <canvas id="combinedChart"></canvas>
-                </div>
-            </div>
-
-            <div class="mt-8 bg-white p-6 rounded-2xl shadow-lg">
-                <h3 class="text-lg font-bold mb-4 text-gray-800">數據分析摘要</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                        <h4 class="font-semibold text-gray-700 mb-2">營業收入表現</h4>
-                        <ul class="text-sm text-gray-600 space-y-1 list-disc list-inside">
-                            <li>2024年營業收入較2023年增長49.3%</li>
-                            <li>2025年前兩季已達167,021，表現強勁</li>
-                            <li>季度營收在70,000-90,000區間穩定成長</li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-gray-700 mb-2">獲利能力分析</h4>
-                        <ul class="text-sm text-gray-600 space-y-1 list-disc list-inside">
-                            <li>2024年本期淨利較2023年增長120.9%</li>
-                            <li>2025年獲利率顯著提升至15.4%</li>
-                            <li>綜合損益總額與本期淨利保持一致</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+        <div class="flex justify-center mb-8">
+          <div class="bg-white rounded-2xl p-1 shadow-md">
+            <button
+              id="btn-quarterly"
+              class="px-6 py-2 rounded-md font-medium transition-colors bg-gradient-purple text-white shadow-md"
+            >
+              季度數據
+            </button>
+            <button
+              id="btn-halfyearly"
+              class="px-6 py-2 rounded-md font-medium transition-colors text-gray-600 hover:text-[#764ba2]"
+            >
+              半年度數據
+            </button>
+            <button
+              id="btn-yearly"
+              class="px-6 py-2 rounded-md font-medium transition-colors text-gray-600 hover:text-[#764ba2]"
+            >
+              年度數據
+            </button>
+          </div>
         </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div
+            class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-[#667eea]"
+          >
+            <h3 class="text-sm font-medium text-gray-500 mb-2">
+              2025年營業收入 (至Q2)
+            </h3>
+            <p class="text-2xl font-bold text-[#667eea]">167,021</p>
+            <p class="text-sm text-gray-600 mt-1">較2024年同期增長18.1%</p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-[#764ba2]"
+          >
+            <h3 class="text-sm font-medium text-gray-500 mb-2">
+              2025年本期淨利 (至Q2)
+            </h3>
+            <p class="text-2xl font-bold text-[#764ba2]">25,688</p>
+            <p class="text-sm text-gray-600 mt-1">較2024年同期增長81.4%</p>
+          </div>
+          <div
+            class="bg-white p-6 rounded-2xl shadow-lg border-l-4 border-[#a78bfa]"
+          >
+            <h3 class="text-sm font-medium text-gray-500 mb-2">
+              獲利率 (2025年至Q2)
+            </h3>
+            <p class="text-2xl font-bold text-[#a78bfa]">15.4%</p>
+            <p class="text-sm text-gray-600 mt-1">
+              較2024年同期提升5.4個百分點
+            </p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-bold mb-4 text-gray-800">營業收入趨勢</h3>
+            <canvas id="revenueChart"></canvas>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-bold mb-4 text-gray-800">獲利能力比較</h3>
+            <canvas id="profitChart"></canvas>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow-lg">
+            <h3 class="text-lg font-bold mb-4 text-gray-800">
+              營收與獲利綜合趨勢
+            </h3>
+            <canvas id="combinedChart"></canvas>
+          </div>
+        </div>
+
+        <div class="mt-8 bg-white p-6 rounded-2xl shadow-lg">
+          <h3 class="text-lg font-bold mb-4 text-gray-800">數據分析摘要</h3>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 class="font-semibold text-gray-700 mb-2">營業收入表現</h4>
+              <ul class="text-sm text-gray-600 space-y-1 list-disc list-inside">
+                <li>2024年營業收入較2023年增長49.3%</li>
+                <li>2025年前兩季已達167,021，表現強勁</li>
+                <li>季度營收在70,000-90,000區間穩定成長</li>
+              </ul>
+            </div>
+            <div>
+              <h4 class="font-semibold text-gray-700 mb-2">獲利能力分析</h4>
+              <ul class="text-sm text-gray-600 space-y-1 list-disc list-inside">
+                <li>2024年本期淨利較2023年增長120.9%</li>
+                <li>2025年獲利率顯著提升至15.4%</li>
+                <li>綜合損益總額與本期淨利保持一致</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // 數據源
-            const dataSources = {
-                quarterly: {
-                    labels: ['2023 Q1', '2023 Q2', '2023 Q3', '2023 Q4', '2024 Q1', '2024 Q2', '2024 Q3', '2024 Q4', '2025 Q1', '2025 Q2'],
-                    revenue: [35136, 55696, 58338, 57040, 64666, 76777, 89187, 75005, 84550, 82471],
-                    netProfit: [-1966, 4365, 4703, 5896, 5824, 8335, 10639, 3913, 13780, 11908],
-                    comprehensiveIncome: [-1966, 4365, 4703, 5896, 5824, 8335, 10639, 3913, 13780, 11908]
+      document.addEventListener("DOMContentLoaded", () => {
+        // 數據源
+        const dataSources = {
+          quarterly: {
+            labels: [
+              "2023 Q1",
+              "2023 Q2",
+              "2023 Q3",
+              "2023 Q4",
+              "2024 Q1",
+              "2024 Q2",
+              "2024 Q3",
+              "2024 Q4",
+              "2025 Q1",
+              "2025 Q2",
+            ],
+            revenue: [
+              35136, 55696, 58338, 57040, 64666, 76777, 89187, 75005, 84550,
+              82471,
+            ],
+            netProfit: [
+              -1966, 4365, 4703, 5896, 5824, 8335, 10639, 3913, 13780, 11908,
+            ],
+            comprehensiveIncome: [
+              -1966, 4365, 4703, 5896, 5824, 8335, 10639, 3913, 13780, 11908,
+            ],
+          },
+          yearly: {
+            labels: ["2023年", "2024年", "2025年"],
+            revenue: [206210, 307955, 167021],
+            netProfit: [12998, 28711, 25688],
+            comprehensiveIncome: [12998, 28711, 25688],
+          },
+          halfyearly: {
+            labels: ["2023 H1", "2023 H2", "2024 H1", "2024 H2", "2025 H1"],
+            revenue: [90832, 115378, 141443, 166512, 167021],
+            netProfit: [2399, 10599, 14159, 14552, 25688],
+            comprehensiveIncome: [2399, 10599, 14159, 14552, 25688],
+          },
+        };
+
+        let activeChartType = "quarterly";
+        let charts = {};
+
+        const numberFormatter = (value) => {
+          if (value === 0) return "0";
+          return `${(value / 1000).toFixed(1)}K`;
+        };
+
+        const createCharts = (dataType) => {
+          const data = dataSources[dataType];
+
+          // 銷毀舊圖表
+          Object.values(charts).forEach((chart) => chart.destroy());
+
+          // 1. 營業收入圖表 (Line)
+          const revenueCtx = document
+            .getElementById("revenueChart")
+            .getContext("2d");
+          charts.revenue = new Chart(revenueCtx, {
+            type: "line",
+            data: {
+              labels: data.labels,
+              datasets: [
+                {
+                  label: "營業收入",
+                  data: data.revenue,
+                  borderColor: "#667eea",
+                  backgroundColor: "rgba(102, 126, 234, 0.1)",
+                  borderWidth: 3,
+                  fill: true,
+                  tension: 0.3,
                 },
-                yearly: {
-                    labels: ['2023年', '2024年', '2025年'],
-                    revenue: [206210, 307955, 167021],
-                    netProfit: [12998, 28711, 25688],
-                    comprehensiveIncome: [12998, 28711, 25688]
+              ],
+            },
+            options: {
+              scales: { y: { ticks: { callback: numberFormatter } } },
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: (context) =>
+                      `${context.dataset.label}: ${context.raw.toLocaleString()}`,
+                  },
                 },
-                halfyearly: {
-                    labels: ['2023 H1', '2023 H2', '2024 H1', '2024 H2', '2025 H1'],
-                    revenue: [90832, 115378, 141443, 166512, 167021],
-                    netProfit: [2399, 10599, 14159, 14552, 25688],
-                    comprehensiveIncome: [2399, 10599, 14159, 14552, 25688]
-                }
-            };
+              },
+            },
+          });
 
-            let activeChartType = 'quarterly';
-            let charts = {};
+          // 2. 獲利能力圖表 (Bar)
+          const profitCtx = document
+            .getElementById("profitChart")
+            .getContext("2d");
+          charts.profit = new Chart(profitCtx, {
+            type: "bar",
+            data: {
+              labels: data.labels,
+              datasets: [
+                {
+                  label: "本期淨利",
+                  data: data.netProfit,
+                  backgroundColor: "#764ba2",
+                },
+                {
+                  label: "綜合損益總額",
+                  data: data.comprehensiveIncome,
+                  backgroundColor: "#a78bfa",
+                },
+              ],
+            },
+            options: {
+              scales: { y: { ticks: { callback: numberFormatter } } },
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: (context) =>
+                      `${context.dataset.label}: ${context.raw.toLocaleString()}`,
+                  },
+                },
+              },
+            },
+          });
 
-            const numberFormatter = (value) => {
-                if (value === 0) return '0';
-                return `${(value / 1000).toFixed(1)}K`;
-            };
+          // 3. 綜合趨勢圖表 (Line)
+          const combinedCtx = document
+            .getElementById("combinedChart")
+            .getContext("2d");
+          charts.combined = new Chart(combinedCtx, {
+            type: "line",
+            data: {
+              labels: data.labels,
+              datasets: [
+                {
+                  label: "營業收入",
+                  data: data.revenue,
+                  borderColor: "#667eea",
+                  yAxisID: "y",
+                  borderWidth: 3,
+                },
+                {
+                  label: "本期淨利",
+                  data: data.netProfit,
+                  borderColor: "#764ba2",
+                  yAxisID: "y1",
+                  borderWidth: 3,
+                },
+              ],
+            },
+            options: {
+              scales: {
+                y: {
+                  type: "linear",
+                  display: true,
+                  position: "left",
+                  ticks: { callback: numberFormatter },
+                },
+                y1: {
+                  type: "linear",
+                  display: true,
+                  position: "right",
+                  grid: { drawOnChartArea: false },
+                  ticks: { callback: numberFormatter },
+                },
+              },
+              plugins: {
+                tooltip: {
+                  callbacks: {
+                    label: (context) =>
+                      `${context.dataset.label}: ${context.raw.toLocaleString()}`,
+                  },
+                },
+              },
+            },
+          });
+        };
 
-            const createCharts = (dataType) => {
-                const data = dataSources[dataType];
-                
-                // 銷毀舊圖表
-                Object.values(charts).forEach(chart => chart.destroy());
+        // 按鈕事件監聽
+        const buttons = [
+          document.getElementById("btn-quarterly"),
+          document.getElementById("btn-halfyearly"),
+          document.getElementById("btn-yearly"),
+        ];
 
-                // 1. 營業收入圖表 (Line)
-                const revenueCtx = document.getElementById('revenueChart').getContext('2d');
-                charts.revenue = new Chart(revenueCtx, {
-                    type: 'line',
-                    data: {
-                        labels: data.labels,
-                        datasets: [{
-                            label: '營業收入',
-                            data: data.revenue,
-                            borderColor: '#667eea',
-                            backgroundColor: 'rgba(102, 126, 234, 0.1)',
-                            borderWidth: 3,
-                            fill: true,
-                            tension: 0.3
-                        }]
-                    },
-                    options: {
-                        scales: { y: { ticks: { callback: numberFormatter } } },
-                        plugins: { tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.raw.toLocaleString()}` } } }
-                    }
-                });
+        buttons.forEach((button) => {
+          button.addEventListener("click", (e) => {
+            const newType = e.target.id.split("-")[1];
+            if (newType !== activeChartType) {
+              activeChartType = newType;
+              createCharts(activeChartType);
 
-                // 2. 獲利能力圖表 (Bar)
-                const profitCtx = document.getElementById('profitChart').getContext('2d');
-                charts.profit = new Chart(profitCtx, {
-                    type: 'bar',
-                    data: {
-                        labels: data.labels,
-                        datasets: [
-                            {
-                                label: '本期淨利',
-                                data: data.netProfit,
-                                backgroundColor: '#764ba2'
-                            },
-                            {
-                                label: '綜合損益總額',
-                                data: data.comprehensiveIncome,
-                                backgroundColor: '#a78bfa'
-                            }
-                        ]
-                    },
-                    options: {
-                        scales: { y: { ticks: { callback: numberFormatter } } },
-                        plugins: { tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.raw.toLocaleString()}` } } }
-                    }
-                });
-
-                // 3. 綜合趨勢圖表 (Line)
-                const combinedCtx = document.getElementById('combinedChart').getContext('2d');
-                charts.combined = new Chart(combinedCtx, {
-                    type: 'line',
-                    data: {
-                        labels: data.labels,
-                        datasets: [
-                            {
-                                label: '營業收入',
-                                data: data.revenue,
-                                borderColor: '#667eea',
-                                yAxisID: 'y',
-                                borderWidth: 3,
-                            },
-                            {
-                                label: '本期淨利',
-                                data: data.netProfit,
-                                borderColor: '#764ba2',
-                                yAxisID: 'y1',
-                                borderWidth: 3,
-                            }
-                        ]
-                    },
-                    options: {
-                        scales: {
-                            y: {
-                                type: 'linear',
-                                display: true,
-                                position: 'left',
-                                ticks: { callback: numberFormatter }
-                            },
-                            y1: {
-                                type: 'linear',
-                                display: true,
-                                position: 'right',
-                                grid: { drawOnChartArea: false },
-                                ticks: { callback: numberFormatter }
-                            }
-                        },
-                         plugins: { tooltip: { callbacks: { label: (context) => `${context.dataset.label}: ${context.raw.toLocaleString()}` } } }
-                    }
-                });
-            };
-
-            // 按鈕事件監聽
-            const buttons = [
-                document.getElementById('btn-quarterly'),
-                document.getElementById('btn-halfyearly'),
-                document.getElementById('btn-yearly')
-            ];
-
-            buttons.forEach(button => {
-                button.addEventListener('click', (e) => {
-                    const newType = e.target.id.split('-')[1];
-                    if (newType !== activeChartType) {
-                        activeChartType = newType;
-                        createCharts(activeChartType);
-
-                        // 更新按鈕樣式
-                        buttons.forEach(btn => {
-                            btn.classList.remove('bg-gradient-purple', 'text-white', 'shadow-md');
-                            btn.classList.add('text-gray-600', 'hover:text-[#764ba2]');
-                        });
-                        e.target.classList.add('bg-gradient-purple', 'text-white', 'shadow-md');
-                        e.target.classList.remove('text-gray-600', 'hover:text-[#764ba2]');
-                    }
-                });
-            });
-
-            // 初始載入圖表
-            createCharts(activeChartType);
+              // 更新按鈕樣式
+              buttons.forEach((btn) => {
+                btn.classList.remove(
+                  "bg-gradient-purple",
+                  "text-white",
+                  "shadow-md",
+                );
+                btn.classList.add("text-gray-600", "hover:text-[#764ba2]");
+              });
+              e.target.classList.add(
+                "bg-gradient-purple",
+                "text-white",
+                "shadow-md",
+              );
+              e.target.classList.remove(
+                "text-gray-600",
+                "hover:text-[#764ba2]",
+              );
+            }
+          });
         });
+
+        // 初始載入圖表
+        createCharts(activeChartType);
+      });
     </script>
-</body>
+  </body>
 </html>
