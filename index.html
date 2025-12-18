@@ -1,378 +1,271 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>foreverbule2003 - 個人頁面</title>
+    <title>TimZ - POCKET DEVICE</title>
     <script src="https://cdn.tailwindcss.com"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
     <style>
-      /* Custom styles that are hard to replicate with Tailwind alone */
+      :root {
+        --gb-darkest: #0f380f;
+        --gb-dark: #306230;
+        --gb-light: #8bac0f;
+        --gb-lightest: #9bbc0f;
+      }
+      body {
+        font-family: 'DotGothic16', sans-serif;
+        background-color: #f0f0f0; /* Outer plastic shell color (light grey) */
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+      }
+      
+      /* The Device Shell */
+      .gb-shell {
+        background-color: #ddd;
+        border-radius: 10px 10px 40px 10px;
+        padding: 40px 40px 60px 40px;
+        box-shadow: -5px 5px 15px rgba(0,0,0,0.2), inset 2px 2px 5px rgba(255,255,255,1), inset -2px -2px 5px rgba(0,0,0,0.1);
+        max-width: 500px;
+        width: 100%;
+        position: relative;
+        border: 2px solid #ccc;
+      }
 
-      header::before {
-        content: "";
+      /* The Screen Bezel */
+      .gb-bezel {
+        background-color: #555;
+        border-radius: 10px 10px 30px 10px;
+        padding: 20px 30px;
+        box-shadow: inset 2px 2px 5px rgba(0,0,0,0.5);
+      }
+      
+      .gb-screen-glass {
+        background-color: var(--gb-lightest);
+        box-shadow: inset 3px 3px 5px rgba(0,0,0,0.2);
+        padding: 4px; /* inner spacing */
+        overflow: hidden;
+      }
+
+      /* The Screen Content */
+      .gb-content {
+        background-color: var(--gb-lightest);
+        color: var(--gb-darkest);
+        /* Dot Matrix Effect */
+        background-image: 
+          linear-gradient(var(--gb-light) 1px, transparent 1px),
+          linear-gradient(90deg, var(--gb-light) 1px, transparent 1px);
+        background-size: 3px 3px;
+        min-height: 480px; /* Increased height to fit more links */
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      /* Utilities */
+      .gb-border {
+        border: 4px solid var(--gb-darkest);
+        padding: 5px;
+        background: var(--gb-lightest);
+      }
+
+      .gb-btn {
+        display: block;
+        background: var(--gb-lightest);
+        border: 2px solid var(--gb-darkest);
+        color: var(--gb-darkest);
+        padding: 5px 10px;
+        text-align: left;
+        margin-bottom: 5px;
+        cursor: pointer;
+        transition: all 0.1s;
+        text-decoration: none;
+      }
+      .gb-btn:hover {
+        background: var(--gb-darkest);
+        color: var(--gb-lightest);
+      }
+      .gb-btn::before {
+        content: "►";
+        margin-right: 5px;
+        opacity: 0;
+      }
+      .gb-btn:hover::before {
+        opacity: 1;
+      }
+
+      /* Hardware Buttons Decor */
+      .d-pad {
+        width: 80px; height: 80px;
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,255,255,0.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="200" cy="200" r="80" fill="url(%23a)" opacity="0.6"><animate attributeName="cx" values="200;800;200" dur="20s" repeatCount="indefinite"/></circle><circle cx="700" cy="300" r="60" fill="url(%23a)" opacity="0.4"><animate attributeName="cy" values="300;100;300" dur="15s" repeatCount="indefinite"/></circle></svg>')
-          no-repeat center center;
-        background-size: cover;
-      }
-      .anim-float {
-        animation: float 3s ease-in-out infinite;
-      }
-      .anim-slideUp-h1 {
-        animation: slideUp 1s ease forwards 0.3s;
-      }
-      .anim-slideUp-p {
-        animation: slideUp 1s ease forwards 0.5s;
-      }
-      @keyframes float {
-        0%,
-        100% {
-          transform: translateY(0px);
-        }
-        50% {
-          transform: translateY(-10px);
-        }
-      }
-      @keyframes slideUp {
-        from {
-          opacity: 0;
-          transform: translateY(30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+        bottom: 80px; left: 30px;
+        opacity: 0.1; /* implied */
       }
     </style>
   </head>
-  <body class="font-sans">
-    <header
-      class="text-white py-12 text-center relative overflow-hidden bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-    >
-      <div class="max-w-4xl mx-auto px-5">
-        <div class="relative z-10">
-          <div
-            class="w-32 h-32 rounded-full border-4 border-white/30 mx-auto mb-4 bg-white/10 flex items-center justify-center text-5xl anim-float"
-          >
-            👨‍💻
-          </div>
-          <h1 class="text-4xl font-bold mb-2 opacity-0 anim-slideUp-h1">
-            TimZ
-          </h1>
-          <p class="text-xl opacity-0 anim-slideUp-p">歡迎來到我的個人空間</p>
+  <body>
+
+    <div class="gb-shell">
+      
+      <!-- Top Text -->
+      <div class="flex justify-between text-gray-400 text-xs mb-1 px-4 font-bold tracking-widest items-center">
+        <span>DOT MATRIX WITH STEREO SOUND</span>
+        <button id="soundToggle" class="text-xs bg-gray-300 text-gray-800 border-2 border-gray-500 px-3 py-1 rounded shadow-md hover:bg-white hover:text-black transition-all animate-pulse font-bold">
+          🔈 SOUND OFF
+        </button>
+      </div>
+
+      <div class="gb-bezel">
+        <div class="flex justify-between text-red-500 text-[10px] mb-1 px-2 items-center">
+           <div class="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_5px_red]"></div>
+           <span>BATTERY</span>
+        </div>
+
+        <div class="gb-screen-glass">
+           <div class="gb-content">
+             
+             <!-- Header -->
+             <div class="flex justify-between items-end border-b-4 border-[var(--gb-darkest)] pb-2 mb-4">
+               <div>
+                 <h1 class="text-2xl font-bold">TimZ</h1>
+                 <p class="text-sm">STATUS: ONLINE</p>
+               </div>
+               <img src="avatar.jpg" alt="Profile" class="w-12 h-12 grayscale contrast-200 border-2 border-[var(--gb-darkest)] object-cover">
+             </div>
+
+             <!-- Main Menu -->
+             <div class="bg-[var(--gb-light)]/50 p-2 mb-4">
+               <p class="mb-2 font-bold">ABOUT:</p>
+               <p class="text-sm leading-tight">
+                 熱愛學習與分享。
+                 專注於投資與技術。
+               </p>
+             </div>
+
+             <div class="flex-grow overflow-y-auto pr-1">
+               <p class="mb-2 font-bold">SELECT TRIP:</p>
+               <a href="trips/2026-ise-shima/index.html" class="gb-btn">2026 伊勢志摩</a>
+               <a href="trips/2026-hokkaido/index.html" class="gb-btn">2026 北海道 (TBD)</a>
+               <a href="trips/2025-cebu/index.html" class="gb-btn">2025 宿霧</a>
+               <a href="trips/2025-osaka/index.html" class="gb-btn">2025 大阪</a>
+               
+               <p class="mt-4 mb-2 font-bold">TOOLS & CONTACT:</p>
+               <a href="tools/financial-dashboard.html" class="gb-btn">財務儀表板</a>
+               <a href="mailto:foreverbule2003@gmail.com" class="gb-btn">聯絡我</a>
+             </div>
+
+           </div>
+        </div>
+        
+        <div class="text-center italic text-gray-400 font-bold mt-2 text-xl tracking-[0.2em] opacity-80">
+          TimBoy
         </div>
       </div>
-    </header>
 
-    <main class="py-12 bg-gray-50">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-          <!-- About Me Section -->
-          <section
-            class="section bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
-          >
-            <h2
-              class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
-            >
-              <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-              >
-                👋
-              </div>
-              關於我
-            </h2>
-            <div class="text-gray-600 leading-relaxed">
-              <p class="mb-4">嗨！我是 Tim，一個熱愛學習和分享的人。</p>
-              <p class="mb-4">
-                我對投資、產業研究、技術創新和充滿熱情，喜歡在這裡記錄我的學習心得和生活感悟。
-              </p>
-              <p>
-                透過持續學習和實踐，我希望能夠用技術來解決問題，創造有價值的內容。
-              </p>
+    </div>
 
-              <div class="flex flex-wrap gap-3 mt-6">
-                <span
-                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-                  >投資</span
-                >
-                <span
-                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-                  >金融工具</span
-                >
-                <span
-                  class="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-                  >產業研究</span
-                >
-              </div>
-            </div>
-          </section>
+    <script>
+      // 8-bit Web Audio API Sound Engine
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      let audioCtx;
+      let isMuted = true;
 
-          <!-- Contact Me Section -->
-          <section
-            class="section bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
-          >
-            <h2
-              class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
-            >
-              <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-              >
-                📧
-              </div>
-              連絡我
-            </h2>
-            <div class="text-gray-600 leading-relaxed">
-              <p class="mb-6">
-                如果你有任何問題、建議或想要討論技術相關話題，歡迎隨時聯絡我！
-              </p>
+      function initAudio() {
+        if (!audioCtx) {
+          audioCtx = new AudioContext();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+      }
 
-              <div class="space-y-4">
-                <div
-                  class="flex items-center gap-4 p-4 bg-indigo-50/70 rounded-xl hover:bg-indigo-100/80 transition-colors duration-300"
-                >
-                  <div
-                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] flex-shrink-0"
-                  >
-                    ✉️
-                  </div>
-                  <div class="flex-grow">
-                    <div class="font-semibold text-gray-800">電子郵件</div>
-                    <div class="text-indigo-600 break-all">
-                      <a
-                        href="mailto:foreverbule2003@gmail.com"
-                        class="hover:text-indigo-800"
-                        >foreverbule2003@gmail.com</a
-                      >
-                    </div>
-                  </div>
-                  <button
-                    class="copy-btn text-white px-4 py-2 rounded-lg text-sm font-semibold bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] hover:shadow-md transition-all duration-300"
-                    onclick="copyEmail()"
-                  >
-                    複製
-                  </button>
-                </div>
+      function playTone(freq, type, duration, vol = 0.1) {
+        if (isMuted || !audioCtx) return;
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        
+        osc.type = type; // 'square', 'sawtooth', 'triangle'
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        
+        gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
 
-                <div
-                  class="flex items-center gap-4 p-4 bg-indigo-50/70 rounded-xl hover:bg-indigo-100/80 transition-colors duration-300"
-                >
-                  <div
-                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] flex-shrink-0"
-                  >
-                    💬
-                  </div>
-                  <div>
-                    <div class="font-semibold text-gray-800">回覆時間</div>
-                    <div class="text-gray-600">通常在 24 小時內回覆</div>
-                  </div>
-                </div>
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      }
 
-                <div
-                  class="flex items-center gap-4 p-4 bg-indigo-50/70 rounded-xl hover:bg-indigo-100/80 transition-colors duration-300"
-                >
-                  <div
-                    class="w-12 h-12 rounded-full flex items-center justify-center text-white text-2xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] flex-shrink-0"
-                  >
-                    🤝
-                  </div>
-                  <div>
-                    <div class="font-semibold text-gray-800">交流分享</div>
-                    <div class="text-gray-600">歡迎技交流分享與心得回饋</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+      function playHover() {
+        // High pitched short blip
+        playTone(400, 'square', 0.05, 0.05);
+      }
 
-          <section
-            class="section md:col-span-2 bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
-          >
-            <h2
-              class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
-            >
-              <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-              >
-                🚀
-              </div>
-              傳送門
-            </h2>
-            <div class="text-gray-600 leading-relaxed">
-              <p class="mb-4">
-                這裡是我整理的一些專案作品以及其他頁面的快速連結：
-              </p>
+      function playClick() {
+        // "Coin" like sound
+        playTone(900, 'square', 0.1, 0.1);
+        setTimeout(() => playTone(1200, 'square', 0.2, 0.1), 100);
+      }
 
-              <div class="flex flex-wrap gap-4 mt-4">
-                <a
-                  href="trips/2025-cebu/index.html"
-                  class="inline-flex items-center gap-3 px-6 py-3 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <span>🏝️</span> 2025 宿霧之旅
-                </a>
+      function playBoot() {
+         // Classic GameBoy "Ding"
+         if(isMuted) return;
+         const o = audioCtx.createOscillator();
+         const g = audioCtx.createGain();
+         o.type = 'square';
+         o.frequency.setValueAtTime(100, audioCtx.currentTime);
+         o.frequency.exponentialRampToValueAtTime(2000, audioCtx.currentTime + 0.5);
+         
+         g.gain.setValueAtTime(0.3, audioCtx.currentTime);
+         g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 1.5);
 
-                <a
-                  href="trips/2025-osaka/index.html"
-                  class="inline-flex items-center gap-3 px-6 py-3 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <span>⛩️</span> 2025 大阪京都
-                </a>
+         o.connect(g);
+         g.connect(audioCtx.destination);
+         o.start();
+         o.stop(audioCtx.currentTime + 1.5);
+      }
 
-                <a
-                  href="trips/2026-ise-shima/index.html"
-                  class="inline-flex items-center gap-3 px-6 py-3 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <span>🇯🇵</span> 2026 伊勢志摩
-                </a>
+      // UI Logic
+      const soundToggle = document.getElementById('soundToggle');
+      const buttons = document.querySelectorAll('.gb-btn, button');
 
-                <a
-                  href="trips/2026-hokkaido/index.html"
-                  class="inline-flex items-center gap-3 px-6 py-3 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white font-semibold rounded-lg shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <span>❄️</span> 2026 北海道探索 (TBD)
-                </a>
+      soundToggle.addEventListener('click', () => {
+        initAudio();
+        isMuted = !isMuted;
+        
+        if (isMuted) {
+           soundToggle.innerHTML = "🔈 SOUND OFF";
+           soundToggle.classList.remove('bg-orange-500', 'text-white', 'border-red-700');
+           soundToggle.classList.add('bg-gray-300', 'text-gray-800', 'border-gray-500', 'animate-pulse');
+        } else {
+           soundToggle.innerHTML = "🔊 SOUND ON";
+           soundToggle.classList.remove('bg-gray-300', 'text-gray-800', 'border-gray-500', 'animate-pulse');
+           soundToggle.classList.add('bg-orange-500', 'text-white', 'border-red-700');
+           playBoot();
+        }
+      });
 
-                <a
-                  href="tools/financial-dashboard.html"
-                  class="inline-flex items-center gap-3 px-5 py-2.5 bg-white text-indigo-600 font-semibold rounded-lg border-2 border-indigo-500 hover:bg-indigo-50 hover:text-indigo-700 hover:border-indigo-700 hover:-translate-y-0.5 transition-all duration-300"
-                >
-                  <span>📊</span> 財務儀表板
-                </a>
-              </div>
-            </div>
-          </section>
+      buttons.forEach(btn => {
+        if(btn.id === 'soundToggle') return;
+        
+        btn.addEventListener('mouseenter', () => {
+           // Random pitch variation for fun
+           if (!isMuted && audioCtx) {
+              const freq = 300 + Math.random() * 200;
+              playTone(freq, 'square', 0.05, 0.03);
+           }
+        });
+        
+        btn.addEventListener('click', () => {
+           playClick();
+        });
+      });
+    </script>
 
-          <!-- Notes Section -->
-          <section
-            class="section md:col-span-2 bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative overflow-hidden"
-          >
-            <h2
-              class="text-2xl font-bold mb-6 text-gray-700 flex items-center gap-3"
-            >
-              <div
-                class="w-11 h-11 rounded-lg flex items-center justify-center text-white text-xl bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)]"
-              >
-                📝
-              </div>
-              我的筆記
-            </h2>
 
-            <button
-              class="w-full p-3 mb-4 text-white font-semibold rounded-lg bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] hover:shadow-lg transition-all"
-              onclick="toggleNoteForm()"
-            >
-              ✏️ 新增筆記
-            </button>
-
-            <div
-              class="bg-indigo-50/70 p-6 rounded-xl mb-4 hidden"
-              id="noteForm"
-            >
-              <div class="mb-4">
-                <label
-                  class="block mb-2 font-semibold text-gray-700"
-                  for="noteTitle"
-                  >標題</label
-                >
-                <input
-                  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
-                  type="text"
-                  id="noteTitle"
-                  placeholder="輸入筆記標題..."
-                />
-              </div>
-              <div class="mb-4">
-                <label
-                  class="block mb-2 font-semibold text-gray-700"
-                  for="noteContent"
-                  >內容</label
-                >
-                <textarea
-                  class="w-full p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
-                  id="noteContent"
-                  rows="4"
-                  placeholder="輸入筆記內容..."
-                ></textarea>
-              </div>
-              <div class="flex gap-4">
-                <button
-                  class="px-5 py-2 text-white font-semibold rounded-lg bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] hover:shadow-md transition-transform"
-                  onclick="addNote()"
-                >
-                  儲存
-                </button>
-                <button
-                  class="px-5 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
-                  onclick="toggleNoteForm()"
-                >
-                  取消
-                </button>
-              </div>
-            </div>
-
-            <div
-              class="max-h-96 overflow-y-auto space-y-4 pr-2"
-              id="notesContainer"
-            >
-              <div
-                class="border-l-4 border-indigo-500 p-4 bg-indigo-50/70 rounded-r-lg hover:bg-indigo-100/80 transition-colors"
-              >
-                <div class="text-sm font-semibold text-indigo-600 mb-1">
-                  2025-06-02
-                </div>
-                <div class="text-lg font-bold text-gray-800 mb-1">
-                  開始建立個人網站
-                </div>
-                <div class="text-gray-600 leading-relaxed">
-                  今天開始建立自己的個人網站，用來記錄學習歷程和分享心得。選擇了簡潔的設計風格，專注於內容本身。
-                </div>
-              </div>
-
-              <div
-                class="border-l-4 border-indigo-500 p-4 bg-indigo-50/70 rounded-r-lg hover:bg-indigo-100/80 transition-colors"
-              >
-                <div class="text-sm font-semibold text-indigo-600 mb-1">
-                  2025-06-01
-                </div>
-                <div class="text-lg font-bold text-gray-800 mb-1">
-                  學習 GitHub Pages
-                </div>
-                <div class="text-gray-600 leading-relaxed">
-                  學習如何使用 GitHub Pages
-                  來部署靜態網站，發現這是一個很棒的免費託管服務，特別適合個人網站和作品集。
-                </div>
-              </div>
-
-              <div
-                class="border-l-4 border-indigo-500 p-4 bg-indigo-50/70 rounded-r-lg hover:bg-indigo-100/80 transition-colors"
-              >
-                <div class="text-sm font-semibold text-indigo-600 mb-1">
-                  2025-05-30
-                </div>
-                <div class="text-lg font-bold text-gray-800 mb-1">
-                  前端開發心得
-                </div>
-                <div class="text-gray-600 leading-relaxed">
-                  深入學習了 CSS Grid 和 Flexbox，發現現代 CSS
-                  佈局變得更加靈活和強大。響應式設計的重要性不言而喻。
-                </div>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </main>
-
-    <footer>
-      <div class="container">
-        <p>&copy; 2025 foreverbule2003. 用心記錄，持續成長。</p>
-      </div>
-    </footer>
-
-    <script src="script.js" defer></script>
   </body>
 </html>
