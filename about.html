@@ -340,18 +340,9 @@
 
         <div class="gb-screen-glass relative"> <!-- Added relative for absolute positioning of boot screen -->
            
-           <!-- Power On / Click Mask -->
-           <div id="click-mask">
-              <div class="power-icon">⏻</div>
-              <div class="power-text">Click to Power On</div>
-           </div>
 
-           <!-- Boot Animation Screen -->
-           <div id="boot-screen" style="display: none;"> <!-- Hidden initially, shown by JS after click -->
-              <div class="boot-logo" id="boot-logo">
-                TimBoy<span class="boot-registered">®</span>
-              </div>
-           </div>
+
+
 
            <div class="gb-content">
              
@@ -364,10 +355,17 @@
                <img src="avatar.jpg" alt="Profile" class="w-12 h-12 grayscale contrast-200 border-2 border-[var(--gb-darkest)] object-cover">
              </div>
 
+             <!-- About Content -->
+             <div class="bg-[var(--gb-light)]/50 p-2 mb-4">
+               <h2 class="mb-2 font-bold text-xl border-b-2 border-[var(--gb-darkest)]">ABOUT</h2>
+               <div class="text-sm leading-relaxed mb-4">
+                 <p class="mb-2">熱愛學習與分享。</p>
+                 <p>專注於投資與技術。</p>
+               </div>
+             </div>
+
              <div class="flex-grow overflow-y-auto pr-1" id="menu-container">
-               <a href="about.html" class="gb-btn menu-item">ABOUT</a>
-               <a href="trips.html" class="gb-btn menu-item">SELECT TRIP</a>
-               <a href="tools.html" class="gb-btn menu-item">TOOLS & CONTACT</a>
+               <a href="index.html?booted=true#booted" class="gb-btn menu-item">BACK</a>
              </div>
 
            </div>
@@ -588,78 +586,14 @@
       });
 
       // --- Boot Sequence Logic ---
-      const clickMask = document.getElementById('click-mask');
-      const bootScreen = document.getElementById('boot-screen');
-      const bootLogo = document.getElementById('boot-logo');
+      // --- Boot Sequence Logic --- (Removed for subpages)
       const gbContent = document.querySelector('.gb-content');
+      gbContent.style.opacity = '1'; // Always visible
 
-      // Initialize state
-      const urlParams = new URLSearchParams(window.location.search);
-      const hasBooted = sessionStorage.getItem('gb_powered_on') || 
-                        urlParams.get('booted') === 'true' || 
-                        window.location.hash === '#booted';
-
-      if (hasBooted) {
-          // Skip animation
-          clickMask.style.display = 'none';
-          bootScreen.style.display = 'none';
-          gbContent.style.opacity = '1';
-          
-          // Try to init audio silently if allowed (often blocked, but harmless to try)
-          // We assume user expects sound enabled if they came from an internal link, 
-          // but we can't force it without gesture. Use 'isMuted' default state or persist that too?
-          // For now, just skip the visual block.
-      } else {
-          // Initial state for fresh boot
-          gbContent.style.opacity = '0'; 
-
-          clickMask.addEventListener('click', () => {
-             // Set flag
-             sessionStorage.setItem('gb_powered_on', 'true');
-
-             // 1. User gesture: Init Audio
-             initAudio();
-             isMuted = false; // Force unmute for boot
-             soundToggle.innerHTML = "🔊 SOUND ON";
-             soundToggle.classList.remove('bg-gray-300', 'text-gray-800', 'border-gray-500', 'animate-pulse');
-             soundToggle.classList.add('bg-orange-500', 'text-white', 'border-red-700');
-
-             // 2. Hide Mask, Show Boot Screen
-             clickMask.style.display = 'none';
-             bootScreen.style.display = 'flex';
-             
-             // 3. Start Animation
-             // Small delay to ensure display:flex applied
-             setTimeout(() => {
-                bootLogo.classList.add('scrolling-down');
-             }, 100);
-
-             // 4. Time the "Ding" sound
-             // Animation is 2.5s. The sound should play right when it settles or slightly before.
-             setTimeout(() => {
-                playBoot();
-             }, 2400);
-
-             // 5. Transition to Content
-             setTimeout(() => {
-                // Fade out boot screen
-                bootScreen.style.transition = 'opacity 0.5s';
-                bootScreen.style.opacity = '0';
-                
-                // Fade in content
-                gbContent.style.transition = 'opacity 0.5s';
-                gbContent.style.opacity = '1';
-                
-                // Cleanup
-                setTimeout(() => {
-                   bootScreen.style.display = 'none';
-                }, 500);
-             }, 3500); // 1s after sound
-          });
-      }
 
     </script>
 
 
   </body>
 </html>
+```

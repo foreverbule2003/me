@@ -1177,6 +1177,16 @@
       // 3.1 Header (Luxury Visual Update)
       const Header = () => (
         <header className="relative w-full py-32 px-6 text-white overflow-hidden">
+          <a
+            href="../../index.html?booted=true#booted"
+            className="absolute top-6 left-6 z-50 p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all border border-white/20 shadow-lg group"
+            title="回到首頁"
+          >
+            <ArrowRight
+              size={24}
+              className="rotate-180 group-hover:-translate-x-1 transition-transform"
+            />
+          </a>
           {/* Background Image & Overlay */}
           <div className="absolute inset-0 z-0 select-none">
             <img
