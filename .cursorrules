@@ -1,0 +1,4 @@
+# Project Rules
+
+## Core Principles
+1. **Single Source of Truth**: The development process always uses `spec.md` as the basis. When `spec.md` is changed, you must update `index.html` accordingly to maintain consistency.
