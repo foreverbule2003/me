@@ -93,21 +93,20 @@
     // --- 1. 資料常數 (Data Constants) ---
 
     const strategyData = {
-      title: "關鍵策略 (v21 高野山雪景版)",
+      title: "關鍵策略 (10日素食慢旅版)",
       content:
-        "由大阪 KIX 進出。Day 1 停留機場周邊，Day 2 直奔 VISON 連住兩晚，優化 5 日周遊券效益 (Day 2-6)。Day 10 安排高野山賞雪，體驗神聖氛圍。",
+        "由大阪 KIX 進出。Day 1 停留機場周邊，Day 2-3 直奔 VISON 連住兩晚，優化 5 日周遊券效益 (Day 2-6)。Day 7-8 大阪 USJ + 空庭溫泉，Day 9-10 返程。",
       transport: [
         "近鐵電車周遊券 5日券 plus (Day 2-6 使用)",
-        "觀光特急 Shimakaze (志摩之風) - Day 6 搭乘 (賢島→大阪難波)",
-        "南海高野線 (Day 10 使用)",
+        "特急券總費用約 ¥4,320/人",
       ],
       accommodation: [
         "Day 1 (機場): OMO 關西機場 by 星野集團 (大浴場)",
         "Day 2-3 (園區): Hotel Vison (連住兩晚)",
         "Day 4 (市區): 伊勢市區飯店 / Comfort Hotel",
-        "Day 5 (溫泉): 賢島寶生苑 (日式溫泉旅館)",
-        "Day 6-10 (都市): 大阪難波/心齋橋一帶",
-        "Day 11 (機場): 關西機場華盛頓飯店",
+        "Day 5 (溫泉): 賢島寶生苑 (含早晚餐)",
+        "Day 6-8 (都市): 大阪難波/心齋橋一帶",
+        "Day 9 (機場): 關西機場華盛頓飯店",
       ],
     };
 
@@ -262,24 +261,25 @@
             time: "10:00 - 住宿",
             activities: [
               { time: "10:00", text: "交通：伊勢市 → 賢島", subText: "近鐵特急 (特急券+¥520)", map: { type: "route", origin: "Iseshi Station", destination: "Kashikojima Station" } },
-              { time: "12:00", text: "午餐/午茶：志摩地中海村", subText: "海景咖啡廳", map: { query: "Shima Mediterranean Village" } },
               {
                 time: "15:00",
                 text: "入住：賢島寶生苑",
-                subText: "Kashikojima Hojoen",
+                subText: "Kashikojima Hojoen (含早晚餐)",
                 note: "車站提供免費接駁車 (約3分)",
-                tips: "車站全家超商 18:00 關門，請提早買宵夜",
+                tips: "車站全家超商 18:00 關門，請提早買孵夜",
                 map: { query: "Kashikojima Hojoen" }
               },
+              { time: "18:00", text: "晚餐：寶生苑懷石料理", subText: "含早晚餐方案 🍱", note: "可提前告知素食需求" },
             ],
-            highlight: "🌊 志摩半島絕美海景 + 傳統溫泉旅館懷石料理。",
+            highlight: "🌊 志摩半島絕美海景 + 傳統溫泉旅館懷石料理 (含早晚餐)。",
           },
           {
             day: 6,
-            title: "Shimakaze 豪華回程",
+            title: "賢島散策 & 近鐵特急返大阪",
             image: "https://images.unsplash.com/photo-1732142029568-605e2d534ac1?q=80&w=2070&auto=format&fit=crop",
-            time: "11:00 - 19:30",
+            time: "08:00 - 18:00",
             activities: [
+              { time: "08:00", text: "早餐：寶生苑早餐", subText: "含早晚餐方案 🍱" },
               { time: "11:00", text: "退房寄放行李", note: "車站置物櫃 (登機箱 ¥600/次)" },
               {
                 time: "11:30",
@@ -291,20 +291,20 @@
               { time: "12:30", text: "散步：賢島大橋 & 真珠店" },
               { time: "13:30", text: "午餐：賢島 Cafe", subText: "車站2F簡餐" },
               {
-                time: "16:00",
-                text: "交通：觀光特急 Shimakaze",
-                subText: "賢島 → 大阪難波",
-                tips: "需提前一個月預約，特急+車廂券 ¥2690",
+                time: "15:30",
+                text: "交通：近鐵特急",
+                subText: "賢島 → 大阪難波 (約2hr20m)",
+                note: "特急券 ¥1,640",
                 map: { type: "route", origin: "Kashikojima Station", destination: "Osaka-Namba Station" }
               },
-              { time: "19:30", text: "晚餐：大阪市區", note: "千房大阪燒 (素食) 等" },
+              { time: "18:00", text: "晚餐：大阪市區", note: "Check-in 大阪飯店" },
             ],
-            highlight: "🚂 頭等艙級 Shimakaze 觀光列車，為伊勢志摩之旅畫下豪華句點。",
+            highlight: "🚂 完美運用周遊券最後一天，英虞灣遊船觀光後返回大阪。",
           },
         ],
       },
       {
-        phase: "第二階段：大阪 & 高野山 & 返程 (Day 7 - Day 12)",
+        phase: "第二階段：大阪都市探索 & 返程 (Day 7 - Day 10)",
         days: [
           {
             day: 7,
@@ -333,30 +333,21 @@
                 tips: "善用 Single Rider 節省時間",
                 map: { query: "Universal Studios Japan" }
               },
+              { time: "20:00", text: "晚餐：園區內或 Citywalk" },
             ],
             highlight: "🎢 年票優勢：白天購物，傍晚入園避開人潮。",
           },
           {
             day: 8,
-            title: "海遊館療癒 & 哈利波特",
-            image: "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?q=80&w=2070&auto=format&fit=crop",
-            time: "10:00 - 20:00",
-            activities: [
-              { time: "10:00", text: "景點：大阪海遊館", subText: "鯨鯊、水母區必看", map: { query: "Osaka Aquarium Kaiyukan" } },
-              { time: "16:00", text: "樂園：二進 USJ", subText: "持年票入場", map: { query: "Universal Studios Japan" } },
-              { time: "18:00", text: "體驗：哈利波特魔法世界", note: "夜晚城堡光影與氛圍極佳" },
-            ],
-            highlight: "🦈 療癒海洋生物與魔法世界的完美結合。",
-          },
-          {
-            day: 9,
-            title: "空庭溫泉純享日",
+            title: "USJ 整日 & 空庭溫泉療癒",
             image: "https://images.unsplash.com/photo-1580536735231-158a127a3c75?q=80&w=2070&auto=format&fit=crop",
-            time: "10:00 - 19:00",
+            time: "09:00 - 21:00",
             activities: [
-              { time: "10:00", text: "交通：難波 → 弁天町", subText: "JR 大阪環狀線或地鐵", map: { type: "route", origin: "Osaka-Namba Station", destination: "Bentencho Station" } },
+              { time: "09:00", text: "樂園：USJ 環球影城", subText: "持年票入園，隨意暢玩", map: { query: "Universal Studios Japan" } },
+              { time: "12:00", text: "午餐：園區內" },
+              { time: "16:00", text: "交通：USJ → 弁天町", subText: "JR約15分", map: { type: "route", origin: "Universal City Station", destination: "Bentencho Station" } },
               {
-                time: "11:00",
+                time: "16:30",
                 text: "體驗：空庭溫泉",
                 subText: "Solaniwa Onsen",
                 subItems: [
@@ -365,39 +356,20 @@
                 ],
                 map: { query: "Solaniwa Onsen Osaka" }
               },
-              { time: "18:30", text: "晚餐：大阪市區素食", note: "梅之花 (豆腐懷石) 或 Green Earth" },
+              { time: "19:00", text: "晚餐：空庭溫泉館內", subText: "和食/居酒屋風" },
+              { time: "21:00", text: "返回大阪市區", note: "營業至 23:00" },
             ],
-            highlight: "♨️ 大阪市區最大溫泉主題樂園，不用舟車勞頓即可穿浴衣拍照打卡。",
+            highlight: "♨️ 玩累了直接泡湯！USJ + 空庭溫泉一日雙享受。",
           },
           {
-            day: 10,
-            title: "高野山雪景一日遊",
-            image: "https://images.unsplash.com/photo-1545569341-9eb8b30979d9?q=80&w=2070&auto=format&fit=crop",
-            time: "08:00 - 19:00",
-            activities: [
-              {
-                time: "08:00",
-                text: "交通：難波 → 極樂橋",
-                subText: "南海高野線 (急行約90分)",
-                map: { type: "route", origin: "Namba Station", destination: "Gokurakubashi Station" }
-              },
-              { time: "09:30", text: "交通：極樂橋 → 高野山", subText: "登山纜車 + 南海林間巴士" },
-              { time: "10:30", text: "參拜：壇上伽藍", note: "朱紅根本大塔與白雪絕景", map: { query: "Danjo Garan" } },
-              { time: "12:00", text: "午餐：精進料理", subText: "宿坊或周邊餐廳" },
-              { time: "14:00", text: "參拜：奧之院", note: "戰國武將古墓群，氣氛莊嚴", map: { query: "Okunoin Cemetery" } },
-              { time: "16:00", text: "交通：返回大阪難波", subText: "約 2 小時車程" },
-              { time: "晚上", text: "晚餐自由食", tips: "高野山1月氣溫零下，請著重裝保暖！" },
-            ],
-            highlight: "❄️ 1月限定絕美雪景，探訪世界遺產高野山神聖氛圍。",
-          },
-          {
-            day: 11,
+            day: 9,
             title: "最後採購 & 機場住宿",
             image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2070&auto=format&fit=crop",
             time: "10:00 - 19:00",
             activities: [
               { time: "10:00", text: "交通：大阪 → 臨空城", map: { type: "route", origin: "Namba Station", destination: "Rinku Town Station" } },
-              { time: "11:00", text: "購物：Rinku Premium Outlets", note: "最後衝刺，營業至20:00", map: { query: "Rinku Premium Outlets" } },
+              { time: "11:00", text: "購物：Rinku Premium Outlets", note: "營業至20:00", map: { query: "Rinku Premium Outlets" } },
+              { time: "13:00", text: "午餐：Outlet 內餐廳" },
               { time: "18:00", text: "晚餐：TRIAL 超市 (24H)", subText: "或 Outlet 內餐廳" },
               {
                 time: "19:00",
@@ -409,7 +381,7 @@
             highlight: "🛍️ 住機場旁，不用擔心早班機。",
           },
           {
-            day: 12,
+            day: 10,
             title: "優雅返程",
             image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2070&auto=format&fit=crop",
             time: "08:00 - 10:00",
@@ -436,13 +408,13 @@
       },
       {
         item: "交通 (特急券/其他)",
-        cost: 10370,
-        note: "約 $2,281 TWD (含 Shimakaze & 南海等)",
+        cost: 7320,
+        note: "約 $1,610 TWD (特急券 ¥4,320 + 其他 ¥3,000)",
       },
       {
-        item: "住宿 (11泊)",
-        cost: 80000,
-        note: "約 $17,600 TWD (含 OMO, VISON, 寶生苑等)",
+        item: "住宿 (9泊)",
+        cost: 64000,
+        note: "約 $14,080 TWD (含 OMO, VISON x2, 寶生苑等)",
       },
       {
         item: "餐飲費",
@@ -451,8 +423,8 @@
       },
       {
         item: "娛樂費",
-        cost: 5000,
-        note: "約 $1,100 TWD (海遊館、空庭溫泉)",
+        cost: 3000,
+        note: "約 $660 TWD (空庭溫泉、西班牙遊船)",
       },
     ];
 
@@ -460,90 +432,140 @@
       {
         id: 1,
         day: "Day 1",
-        name: "機場 → Outlet",
+        name: "機場 → Outlet → OMO",
         from: "Kansai International Airport",
-        to: "Rinku Premium Outlets",
-        desc: "接駁巴士 (約20分)",
+        to: "OMO Kansai Airport",
+        desc: "接駁巴士/南海電鐵",
+        duration: "20分",
       },
       {
         id: 2,
         day: "Day 2",
-        name: "難波 → VISON",
-        from: "Osaka-Namba Station",
+        name: "OMO → 難波 → VISON",
+        from: "Kansai Airport Station",
         to: "VISON Mie",
-        desc: "近鐵特急至松阪轉巴士",
+        desc: "南海電鐵+近鐵特急+巴士",
+        duration: "3.5hr",
       },
       {
         id: 3,
+        day: "Day 3",
+        name: "VISON 園區連住",
+        from: "VISON Mie",
+        to: "VISON Mie",
+        desc: "園區內移動，無長途交通",
+        duration: "—",
+      },
+      {
+        id: 4,
         day: "Day 4",
         name: "VISON → 伊勢神宮",
         from: "VISON Mie",
         to: "Ise Jingu Naiku",
-        desc: "巴士至松阪轉近鐵",
-      },
-      {
-        id: 4,
-        day: "Day 5",
-        name: "伊勢 → 賢島",
-        from: "Iseshi Station",
-        to: "Kashikojima Station",
-        desc: "近鐵特急 (約50分)",
+        desc: "巴士+近鐵特急",
+        duration: "1.5hr",
       },
       {
         id: 5,
+        day: "Day 5",
+        name: "伊勢市 → 賢島",
+        from: "Iseshi Station",
+        to: "Kashikojima Station",
+        desc: "近鐵特急",
+        duration: "50分",
+      },
+      {
+        id: 6,
         day: "Day 6",
         name: "賢島 → 大阪難波",
         from: "Kashikojima Station",
         to: "Osaka-Namba Station",
-        desc: "Shimakaze 觀光特急",
-      },
-      {
-        id: 6,
-        day: "Day 10",
-        name: "難波 → 高野山",
-        from: "Namba Station",
-        to: "Koyasan",
-        desc: "南海高野線 (約90分)",
+        desc: "近鐵特急",
+        duration: "2h20m",
       },
       {
         id: 7,
-        day: "Day 11",
-        name: "難波 → 臨空城",
+        day: "Day 7",
+        name: "梅田 → USJ",
+        from: "Umeda Station",
+        to: "Universal Studios Japan",
+        desc: "JR環狀線+夢咲線",
+        duration: "30分",
+      },
+      {
+        id: 8,
+        day: "Day 8",
+        name: "USJ → 空庭溫泉",
+        from: "Universal City Station",
+        to: "Solaniwa Onsen Osaka",
+        desc: "JR至弁天町",
+        duration: "15分",
+      },
+      {
+        id: 9,
+        day: "Day 9",
+        name: "大阪 → 臨空城",
         from: "Namba Station",
         to: "Rinku Town Station",
         desc: "南海電鐵",
+        duration: "40分",
+      },
+      {
+        id: 10,
+        day: "Day 10",
+        name: "飯店 → 機場",
+        from: "Kansai Airport Washington Hotel",
+        to: "Kansai International Airport",
+        desc: "飯店免費接駁車",
+        duration: "10分",
       },
     ];
 
-    const mapLocations = {
-      regions: [
+    // 實用連結：按類型分組，依行程順序排列
+    const usefulLinks = {
+      categories: [
         {
-          name: "第一階段：伊勢志摩 (Day 1-6)",
-          description: "KIX進出，經難波前往伊勢志摩，享受VISON與賢島度假。",
-          routeLink: "https://www.google.com/maps/dir/Kansai+International+Airport/Rinku+Premium+Outlets/Osaka-Namba+Station/Matsusaka+Station/VISON,+Taki/Ise+Jingu+Naiku/Kashikojima+Station/Osaka-Namba+Station",
-          spots: [
-            { name: "關西國際機場 (KIX)", query: "Kansai International Airport", type: "transport" },
-            { name: "Rinku Town (Outlet)", query: "Rinku Premium Outlets", type: "shopping" },
-            { name: "大阪難波 (轉乘點)", query: "Osaka-Namba Station", type: "transport" },
-            { name: "VISON (度假園區)", query: "VISON Mie Japan", type: "attraction" },
-            { name: "伊勢神宮 內宮", query: "Ise Jingu Naiku", type: "attraction" },
-            { name: "賢島寶生苑", query: "Kashikojima Hojoen", type: "hotel" },
+          type: "ticket",
+          label: "交通票券",
+          icon: "Train",
+          items: [
+            { name: "關西國際機場", day: "Day 1, 10", url: "https://www.kansai-airport.or.jp/tw/" },
+            { name: "近鐵周遊券 5日券 plus", day: "Day 2-6", url: "https://www.kintetsu.co.jp/foreign/chinese-han/ticket/krp_plus.html" },
           ],
         },
         {
-          name: "第二階段：大阪 & 高野山 (Day 7-12)",
-          description: "大阪市區漫遊、高野山雪景、以及最後的臨空城採購。",
-          routeLink: "https://www.google.com/maps/dir/Osaka-Namba+Station/Universal+Studios+Japan/Osaka+Aquarium+Kaiyukan/Koyasan/Rinku+Washington+Hotel/Kansai+International+Airport",
-          spots: [
-            { name: "USJ 環球影城", query: "Universal Studios Japan", type: "attraction" },
-            { name: "大阪海遊館", query: "Osaka Aquarium Kaiyukan", type: "attraction" },
-            { name: "空庭溫泉", query: "Solaniwa Onsen Osaka", type: "attraction" },
-            { name: "高野山 (壇上伽藍)", query: "Danjo Garan", type: "attraction" },
-            { name: "Rinku Washington Hotel", query: "Kansai Airport Washington Hotel", type: "hotel" },
+          type: "hotel",
+          label: "住宿",
+          icon: "Hotel",
+          items: [
+            { name: "OMO 關西機場 by 星野", day: "Day 1", url: "https://hoshinoresorts.com/zh_tw/hotels/omokansaiairport/" },
+            { name: "Hotel VISON", day: "Day 2-3", url: "https://vison.jp/stay/" },
+            { name: "賢島寶生苑", day: "Day 5", url: "https://www.hojoen.com/" },
+            { name: "關西機場華盛頓飯店", day: "Day 9", url: "https://washington-hotels.jp/kansai/" },
+          ],
+        },
+        {
+          type: "attraction",
+          label: "景點",
+          icon: "Star",
+          items: [
+            { name: "Rinku Premium Outlets", day: "Day 1, 9", url: "https://www.premiumoutlets.co.jp/cht/rinku/" },
+            { name: "VISON 度假園區", day: "Day 2-3", url: "https://vison.jp/" },
+            { name: "伊勢神宮", day: "Day 4", url: "https://www.isejingu.or.jp/" },
+            { name: "USJ 環球影城", day: "Day 7-8", url: "https://www.usj.co.jp/web/zh/tw" },
+            { name: "空庭溫泉", day: "Day 8", url: "https://solaniwa.com/" },
           ],
         },
       ],
     };
+
+    // 近鐵特急比較表數據
+    const kintetsuComparisonData = [
+      { day: "Day 2", route: "大阪難波 → 松阪", regular: "約 100~120 分", express: "約 80 分", cost: "¥1,640" },
+      { day: "Day 4", route: "松阪 → 伊勢市", regular: "約 25~30 分", express: "約 15~18 分", cost: "¥520" },
+      { day: "Day 5", route: "伊勢市 → 賢島", regular: "約 60 分", express: "約 45~50 分", cost: "¥520" },
+      { day: "Day 6", route: "賢島 → 大阪難波", regular: "約 3.5~4 小時", express: "約 2h20m", cost: "¥1,640" },
+    ];
 
     // --- 2. 輔助函數 (Helper Functions) ---
 
@@ -628,16 +650,16 @@
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
           <div className="inline-block px-5 py-2 mb-6 rounded-full bg-primary/30 backdrop-blur-md text-sm font-bold tracking-wider border border-accent/40 text-accent/90 animate-fade-up shadow-lg">
-            JP-ISE-OSA-2026-VEG-12D
+            JP-ISE-OSA-2026-VEG-10D
           </div>
           <h1 className="font-display text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight animate-fade-up animate-fade-up-delay-1 drop-shadow-xl text-yellow-50">
             伊勢志摩‧大阪
             <span className="block text-2xl md:text-4xl mt-4 font-light tracking-[0.2em] font-body opacity-90">
-              12日素食慢旅
+              10日素食慢旅
             </span>
           </h1>
           <p className="text-lg md:text-xl text-white/90 max-w-xl mx-auto animate-fade-up animate-fade-up-delay-2 font-medium drop-shadow-md">
-            高野山雪景 · VISON 連住 · Shimakaze 奢華體驗
+            VISON 連住 · 賢島寶生苑 · 空庭溫泉 · USJ
           </p>
         </div>
       </header>
@@ -759,38 +781,41 @@
                           )}
                         </div>
 
-                        {(hasExplicitMap || hasArrow) && (
-                          <button
-                            onClick={() => {
-                              if (hasExplicitMap) {
-                                onOpenRoute({
-                                  type: act.map.type || "spot",
-                                  name: cleanQuery(act.text),
-                                  ...act.map,
-                                });
-                              } else if (hasArrow) {
-                                const parts = act.text.split("→");
-                                const origin = cleanQuery(parts[0]);
-                                const destination = cleanQuery(
-                                  parts[parts.length - 1],
-                                );
-                                onOpenRoute({
-                                  type: "route",
-                                  name: cleanQuery(act.text),
-                                  origin: origin,
-                                  destination: destination,
-                                });
-                              }
-                            }}
-                            className={`
-                                flex-shrink-0 opacity-0 group-hover/item:opacity-100 transition-all cursor-pointer
-                                ${isRoute ? "text-accent" : "text-gray-400 hover:text-accent"}
-                              `}
-                            title={isRoute ? "查看交通路線" : "查看地點"}
-                          >
-                            {isRoute ? <Train size={16} /> : <MapPin size={16} />}
-                          </button>
-                        )}
+                        {(hasExplicitMap || hasArrow) && (() => {
+                          // 智慧判斷交通工具類型
+                          const isBus = act.text.includes("巴士") || act.subText?.includes("巴士");
+                          const TransportIcon = isBus ? Bus : Train;
+
+                          return (
+                            <button
+                              onClick={() => {
+                                if (hasExplicitMap) {
+                                  onOpenRoute({
+                                    type: act.map.type || "spot",
+                                    name: cleanQuery(act.text),
+                                    ...act.map,
+                                  });
+                                } else if (hasArrow) {
+                                  const parts = act.text.split("→");
+                                  const origin = cleanQuery(parts[0]);
+                                  const destination = cleanQuery(
+                                    parts[parts.length - 1],
+                                  );
+                                  onOpenRoute({
+                                    type: "route",
+                                    name: cleanQuery(act.text),
+                                    origin: origin,
+                                    destination: destination,
+                                  });
+                                }
+                              }}
+                              className="flex-shrink-0 transition-all cursor-pointer hover:scale-110 text-accent"
+                              title={isRoute ? "查看交通路線" : "查看地點"}
+                            >
+                              {isRoute ? <TransportIcon size={16} /> : <MapPin size={16} />}
+                            </button>
+                          );
+                        })()}
                       </div>
 
                       {/* Sub Text (Secondary Info) */}
@@ -990,6 +1015,50 @@
               </p>
             </div>
 
+            {/* 近鐵特急比較表 */}
+            <div className="mb-8">
+              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <Train className="text-primary" size={20} />
+                近鐵特急 vs 普通/急行 比較表
+              </h3>
+              <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="bg-primary text-white">
+                        <th className="p-3 font-semibold text-sm">日期</th>
+                        <th className="p-3 font-semibold text-sm">區間</th>
+                        <th className="p-3 font-semibold text-sm">普通/急行 (免費)</th>
+                        <th className="p-3 font-semibold text-sm">特急 (加價)</th>
+                        <th className="p-3 font-semibold text-sm">特急券費用</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-gray-600">
+                      {kintetsuComparisonData.map((row, idx) => (
+                        <tr key={idx} className="border-b border-gray-100 hover:bg-accent/5 transition-colors">
+                          <td className="p-3 font-bold text-primary text-sm">{row.day}</td>
+                          <td className="p-3 text-sm font-medium">{row.route}</td>
+                          <td className="p-3 text-sm text-gray-500">{row.regular}</td>
+                          <td className="p-3 text-sm text-green-600 font-medium">{row.express}</td>
+                          <td className="p-3 text-sm font-bold text-accent">{row.cost}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                    <tfoot>
+                      <tr className="bg-gradient-to-r from-primary to-[#0A1A30] text-white font-bold">
+                        <td colSpan={4} className="p-3 text-sm">特急券總費用 (全程搭特急)</td>
+                        <td className="p-3 text-lg text-accent">¥4,320</td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+                <div className="p-3 bg-orange-50 border-t border-orange-100 text-sm text-orange-700 flex items-start gap-2">
+                  <Info size={16} className="shrink-0 mt-0.5" />
+                  <span>近鐵周遊券 5日券 plus <strong>不含特急券</strong>，搭乘特急需另購特急券。普通/急行免費但耗時較長。</span>
+                </div>
+              </div>
+            </div>
+
             <div className="mb-8">
               <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
                 <RouteIcon className="text-primary" size={20} />
@@ -1019,16 +1088,19 @@
                         </div>
                       </div>
                     </div>
-                    <div>
-                      <div className="font-bold text-gray-800 group-hover:text-indigo-700">
-                        {route.name}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="font-bold text-gray-800 group-hover:text-indigo-700 truncate">
+                          {route.name}
+                        </div>
+                        {route.duration && route.duration !== "—" && (
+                          <span className="text-xs font-bold text-white bg-accent px-2 py-0.5 rounded-full shrink-0">
+                            {route.duration}
+                          </span>
+                        )}
                       </div>
                       <div className="text-xs text-gray-500 mt-1">
                         {route.desc}
-                      </div>
-                      <div className="text-xs text-gray-400 mt-1 flex items-center gap-1">
-                        {route.from.split(" ")[0]} <ArrowRight size={10} />{" "}
-                        {route.to.split(" ")[0]}
                       </div>
                     </div>
                   </button>
@@ -1036,90 +1108,57 @@
               </div>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {mapLocations.regions.map((region, idx) => (
-                <div
-                  key={idx}
-                  className="bg-white rounded-3xl shadow-md border border-gray-200 overflow-hidden flex flex-col"
-                >
-                  <div className="p-6 bg-primary/5 border-b border-indigo-100">
-                    <h3 className="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2">
-                      <MapPin className="text-primary" size={20} />
-                      {region.name}
-                    </h3>
-                    <p className="text-sm text-gray-600 mb-4 h-10 line-clamp-2">
-                      {region.description}
-                    </p>
-                    <a
-                      href={region.routeLink}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="block w-full"
+            <div className="mb-8">
+              <h3 className="text-lg font-bold text-accent mb-4 flex items-center gap-2">
+                <Sparkles className="text-accent" size={20} />
+                實用連結
+              </h3>
+              <div className="grid md:grid-cols-2 gap-6">
+                {usefulLinks.categories.map((category, idx) => {
+                  const iconMap = {
+                    Train: Train,
+                    Hotel: Hotel,
+                    Star: Star,
+                    MapPin: MapPin,
+                  };
+                  const CategoryIcon = iconMap[category.icon] || MapPin;
+                  return (
+                    <div
+                      key={idx}
+                      className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
                     >
-                      <div className="group bg-primary p-4 rounded-xl shadow-md hover:shadow-lg hover:-translate-y-1 transition-all duration-300 flex items-center justify-between">
-                        <div className="text-white">
-                          <span className="text-xs font-bold opacity-80 uppercase tracking-wider">
-                            Complete Route
-                          </span>
-                          <div className="font-bold flex items-center gap-2">
-                            開啟本階段完整路線{" "}
-                            <ExternalLink size={14} className="opacity-80" />
-                          </div>
-                        </div>
-                        <div className="bg-white/20 p-2 rounded-full group-hover:bg-white/30 transition-colors">
-                          <Navigation className="text-white" size={18} />
-                        </div>
+                      <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
+                        <CategoryIcon size={16} className="text-accent" />
+                        <span className="font-bold text-gray-700 text-sm">{category.label}</span>
                       </div>
-                    </a>
-                  </div>
-                  <div className="p-4 flex-1 flex flex-col gap-2">
-                    <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-1 px-2">
-                      Key Locations
-                    </div>
-                    {region.spots.map((spot, sIdx) => {
-                      const iconMap = {
-                        transport: Train,
-                        shopping: Wallet,
-                        attraction: Star,
-                        food: Utensils,
-                        hotel: Hotel,
-                      };
-                      const SpotIcon = iconMap[spot.type] || MapPin;
-                      return (
-                        <button
-                          key={sIdx}
-                          onClick={() =>
-                            onOpenMap({
-                              type: "spot",
-                              name: spot.name,
-                              query: spot.query,
-                            })
-                          }
-                          className="w-full flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group border border-transparent hover:border-gray-200 text-left"
-                        >
-                          <div className="flex items-center gap-3">
-                            <div
-                              className={`p-2 rounded-lg ${spot.type === "food"
-                                ? "bg-green-50 text-green-600"
-                                : "bg-gray-100 text-gray-500"
-                                }`}
-                            >
-                              <SpotIcon size={16} />
+                      <div className="p-2">
+                        {category.items.map((item, iIdx) => (
+                          <a
+                            key={iIdx}
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                          >
+                            <div className="flex items-center gap-3 min-w-0">
+                              <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm truncate">
+                                {item.name}
+                              </span>
+                              <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
+                                {item.day}
+                              </span>
                             </div>
-                            <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm">
-                              {spot.name}
-                            </span>
-                          </div>
-                          <ExternalLink
-                            size={14}
-                            className="text-gray-300 group-hover:text-indigo-400"
-                          />
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+                            <ExternalLink
+                              size={14}
+                              className="text-gray-300 group-hover:text-accent shrink-0 ml-2"
+                            />
+                          </a>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </SectionCard>
         </div>
@@ -1381,8 +1420,8 @@
       const tabs = [
         { id: "overview", label: "行程總覽", icon: MapIcon },
         { id: "itinerary", label: "每日詳情", icon: Calendar },
-        { id: "budget", label: "預算規劃", icon: Wallet },
         { id: "map", label: "行程地圖", icon: Navigation },
+        { id: "budget", label: "預算規劃", icon: Wallet },
       ];
 
       const handleOpenMap = (data) => {
