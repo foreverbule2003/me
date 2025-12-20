@@ -8,7 +8,7 @@ const tailwindConfig = {
   theme: {
     extend: {
       colors: {
-        primary: "#0F2540", // Shimakaze Deep Blue
+        primary: "#4F46E5", // Indigo 600 - 藍紫色
         accent: "#C5A059", // Champagne Gold
         dark: "#1C1C1E", // Elegant Black
         subtle: "#6E6E73", // Apple-like Grey

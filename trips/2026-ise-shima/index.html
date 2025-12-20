@@ -18,7 +18,8 @@
       theme: {
         extend: {
           colors: {
-            primary: "#0F2540", // Shimakaze Deep Blue
+            primary: "#4F46E5", // Indigo 600 - 藍紫色
+            headerPrimary: "#0F2540", // Shimakaze Deep Blue - Header專用深藍
             accent: "#E8968A", // Coral Rose (海邊夕陽)
             dark: "#1C1C1E", // Elegant Black
             subtle: "#6E6E73", // Apple-like Grey
@@ -116,6 +117,7 @@
         days: [
           {
             day: 1,
+            date: "1/12 (一)",
             title: "關西抵達．Rinku Outlet",
             image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2070&auto=format&fit=crop",
             time: "13:00 - 住宿",
@@ -141,8 +143,9 @@
           },
           {
             day: 2,
+            date: "1/13 (二)",
             title: "直奔 VISON．園區探索",
-            image: "https://images.unsplash.com/photo-1481026469463-66327c86e544?q=80&w=2108&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1492571350019-22de08371fd3?q=80&w=2108&auto=format&fit=crop",
             time: "10:00 - 20:00",
             activities: [
               {
@@ -196,8 +199,9 @@
           },
           {
             day: 3,
+            date: "1/14 (三)",
             title: "VISON 深度體驗 (連住)",
-            image: "https://images.unsplash.com/photo-1544367563-12123d8c115c?q=80&w=2070&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1481026469463-66327c86e544?q=80&w=2108&auto=format&fit=crop",
             time: "全日",
             activities: [
               {
@@ -223,6 +227,7 @@
           },
           {
             day: 4,
+            date: "1/15 (四)",
             title: "伊勢神宮內宮慢遊",
             image: "https://images.unsplash.com/photo-1694175173949-1c2bc79b99dc?q=80&w=2070&auto=format&fit=crop",
             time: "11:00 - 17:00",
@@ -256,8 +261,9 @@
           },
           {
             day: 5,
+            date: "1/16 (五)",
             title: "前往賢島度假",
-            image: "https://images.unsplash.com/photo-1490761668535-35497054764d?q=80&w=2070&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1554797589-7241bb691973?q=80&w=2070&auto=format&fit=crop",
             time: "10:00 - 住宿",
             activities: [
               { time: "10:00", text: "交通：伊勢市 → 賢島", subText: "近鐵特急 (特急券+¥520)", map: { type: "route", origin: "Iseshi Station", destination: "Kashikojima Station" } },
@@ -275,8 +281,9 @@
           },
           {
             day: 6,
+            date: "1/17 (六)",
             title: "賢島散策 & 近鐵特急返大阪",
-            image: "https://images.unsplash.com/photo-1732142029568-605e2d534ac1?q=80&w=2070&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1490761668535-35497054764d?q=80&w=2070&auto=format&fit=crop",
             time: "08:00 - 18:00",
             activities: [
               { time: "08:00", text: "早餐：寶生苑早餐", subText: "含早晚餐方案 🍱" },
@@ -308,6 +315,7 @@
         days: [
           {
             day: 7,
+            date: "1/18 (日)",
             title: "梅田悠閒購物 & USJ",
             image: "https://images.unsplash.com/photo-1612404834746-1ffba06de133?q=80&w=2070&auto=format&fit=crop",
             time: "11:00 - 20:00",
@@ -339,8 +347,9 @@
           },
           {
             day: 8,
+            date: "1/19 (一)",
             title: "USJ 整日 & 空庭溫泉療癒",
-            image: "https://images.unsplash.com/photo-1580536735231-158a127a3c75?q=80&w=2070&auto=format&fit=crop",
+            image: "https://images.unsplash.com/photo-1506045412240-22980140a405?q=80&w=2070&auto=format&fit=crop",
             time: "09:00 - 21:00",
             activities: [
               { time: "09:00", text: "樂園：USJ 環球影城", subText: "持年票入園，隨意暢玩", map: { query: "Universal Studios Japan" } },
@@ -363,6 +372,7 @@
           },
           {
             day: 9,
+            date: "1/20 (二)",
             title: "最後採購 & 機場住宿",
             image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2070&auto=format&fit=crop",
             time: "10:00 - 19:00",
@@ -382,6 +392,7 @@
           },
           {
             day: 10,
+            date: "1/21 (三)",
             title: "優雅返程",
             image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2070&auto=format&fit=crop",
             time: "08:00 - 10:00",
@@ -644,12 +655,12 @@
             alt="Japan Scenery"
             className="w-full h-full object-cover opacity-90 scale-105 animate-[float_20s_ease-in-out_infinite]"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/60 to-surface/100"></div>
-          <div className="absolute inset-0 bg-primary/40 mix-blend-overlay"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-headerPrimary/90 via-headerPrimary/60 to-surface/100"></div>
+          <div className="absolute inset-0 bg-headerPrimary/40 mix-blend-overlay"></div>
         </div>
 
         <div className="max-w-5xl mx-auto text-center relative z-10">
-          <div className="inline-block px-5 py-2 mb-6 rounded-full bg-primary/30 backdrop-blur-md text-sm font-bold tracking-wider border border-accent/40 text-accent/90 animate-fade-up shadow-lg">
+          <div className="inline-block px-5 py-2 mb-6 rounded-full bg-headerPrimary/30 backdrop-blur-md text-sm font-bold tracking-wider border border-accent/40 text-accent/90 animate-fade-up shadow-lg">
             JP-ISE-OSA-2026-VEG-10D
           </div>
           <h1 className="font-display text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight animate-fade-up animate-fade-up-delay-1 drop-shadow-xl text-yellow-50">
@@ -669,54 +680,87 @@
     const { SectionCard } = window.TripShared.components;
 
 
-    // 3.3 StrategySection
+    // 3.3 StrategySection - 行程亮點
     const StrategySection = () => (
-      <div className="grid md:grid-cols-2 gap-6 mb-8">
-        <SectionCard icon={Star} title="核心策略">
-          <p className="text-gray-600 text-lg leading-relaxed mb-4">
-            {strategyData.content}
-          </p>
-          <div className="flex flex-wrap gap-2">
-            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
-              大阪 KIX 進
-            </span>
-            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
-              預算升級
-            </span>
-            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
-              素食友善
-            </span>
-            <span className="text-white px-4 py-1.5 rounded-full text-sm font-medium bg-accent/90">
-              大眾運輸
-            </span>
+      <SectionCard icon={Sparkles} title="行程亮點">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div className="bg-primary/5 rounded-2xl p-4 text-center">
+            <div className="text-3xl font-bold text-primary mb-1">10</div>
+            <div className="text-sm text-gray-500">天 9 夜</div>
           </div>
-        </SectionCard>
+          <div className="bg-primary/5 rounded-2xl p-4 text-center">
+            <div className="text-3xl font-bold text-primary mb-1">5</div>
+            <div className="text-sm text-gray-500">日周遊券</div>
+          </div>
+          <div className="bg-accent/10 rounded-2xl p-4 text-center">
+            <div className="text-2xl mb-1">🌿</div>
+            <div className="text-sm text-gray-600 font-medium">素食友善</div>
+          </div>
+          <div className="bg-accent/10 rounded-2xl p-4 text-center">
+            <div className="text-2xl mb-1">♨️</div>
+            <div className="text-sm text-gray-600 font-medium">溫泉療癒</div>
+          </div>
+        </div>
+        <div className="mt-6 flex flex-wrap gap-2 justify-center">
+          <span className="px-3 py-1.5 bg-headerPrimary/10 text-headerPrimary rounded-full text-xs font-medium">VISON 連住</span>
+          <span className="px-3 py-1.5 bg-headerPrimary/10 text-headerPrimary rounded-full text-xs font-medium">賢島寶生苑</span>
+          <span className="px-3 py-1.5 bg-headerPrimary/10 text-headerPrimary rounded-full text-xs font-medium">空庭溫泉</span>
+          <span className="px-3 py-1.5 bg-headerPrimary/10 text-headerPrimary rounded-full text-xs font-medium">USJ</span>
+          <span className="px-3 py-1.5 bg-headerPrimary/10 text-headerPrimary rounded-full text-xs font-medium">KIX 進出</span>
+        </div>
+      </SectionCard>
+    );
 
-        <SectionCard icon={Train} title="交通與住宿">
-          <div className="space-y-4">
-            <div>
-              <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
-                <Train size={18} className="text-accent" /> 奢華移動
-              </h3>
-              <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
-                {strategyData.transport.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-2">
-                <Hotel size={18} className="text-accent" /> 住宿建議
-              </h3>
-              <ul className="list-disc list-inside text-gray-600 pl-2 space-y-1">
-                {strategyData.accommodation.map((item, idx) => (
-                  <li key={idx}>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </SectionCard>
-      </div>
+    // 3.3.1 UsefulLinksSection (行程總覽用)
+    const UsefulLinksSection = () => (
+      <SectionCard icon={Sparkles} title="實用連結">
+        <div className="grid md:grid-cols-3 gap-4">
+          {usefulLinks.categories.map((category, idx) => {
+            const iconMap = {
+              Train: Train,
+              Hotel: Hotel,
+              Star: Star,
+              MapPin: MapPin,
+            };
+            const CategoryIcon = iconMap[category.icon] || MapPin;
+            return (
+              <div
+                key={idx}
+                className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
+              >
+                <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
+                  <CategoryIcon size={16} className="text-accent" />
+                  <span className="font-bold text-gray-700 text-sm">{category.label}</span>
+                </div>
+                <div className="p-2">
+                  {category.items.map((item, iIdx) => (
+                    <a
+                      key={iIdx}
+                      href={item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+                    >
+                      <div className="flex items-center gap-2 min-w-0">
+                        <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm truncate">
+                          {item.name}
+                        </span>
+                        <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
+                          {item.day}
+                        </span>
+                      </div>
+                      <ExternalLink
+                        size={14}
+                        className="text-gray-300 group-hover:text-accent shrink-0 ml-2"
+                      />
+                    </a>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </SectionCard>
     );
 
     // 3.4 DayCard (Refined: Smart Fallback Logic Added)
@@ -738,12 +782,17 @@
               {dayData.title}
             </h3>
           </div>
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 text-right">
             <span className="flex items-center justify-center w-12 h-12 rounded-xl bg-white/10 backdrop-blur-md text-white font-bold text-lg border border-white/20 shadow-lg">
               {typeof dayData.day === "number"
                 ? `D${dayData.day}`
                 : dayData.day}
             </span>
+            {dayData.date && (
+              <div className="mt-1 text-xs text-white/90 font-medium">
+                {dayData.date}
+              </div>
+            )}
           </div>
         </div>
 
@@ -760,7 +809,7 @@
               return (
                 <div key={idx} className="group/item">
                   <div className="flex items-start gap-4">
-                    <span className="text-xs font-bold text-indigo-400 min-w-[3rem] pt-1.5 font-mono">
+                    <span className="text-xs font-bold text-primary/70 min-w-[3rem] pt-1.5 font-mono">
                       {act.time}
                     </span>
 
@@ -774,7 +823,7 @@
                               href={act.link}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="ml-2 text-xs text-indigo-500 hover:text-indigo-700 underline font-normal"
+                              className="ml-2 text-xs text-primary hover:text-primary/80 underline font-normal"
                             >
                               查時刻表 ↗
                             </a>
@@ -832,7 +881,7 @@
 
                       {/* Info Note */}
                       {act.note && (
-                        <div className="mt-1 text-xs text-indigo-600/80 flex items-start gap-1 leading-relaxed">
+                        <div className="mt-1 text-xs text-primary/70 flex items-start gap-1 leading-relaxed">
                           <Info size={12} className="mt-0.5 shrink-0" /> {act.note}
                         </div>
                       )}
@@ -985,7 +1034,7 @@
                 href={externalMapUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg hover:bg-indigo-100 font-medium transition-colors text-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg hover:bg-primary/10 font-medium transition-colors text-sm"
               >
                 在 Google Maps App 開啟 <ExternalLink size={14} />
               </a>
@@ -999,26 +1048,12 @@
     const MapView = ({ onOpenMap }) => {
       return (
         <div className="space-y-8 animate-fade-in">
-          <SectionCard icon={Navigation} title="行程導航路線">
-            <div className="mb-6 bg-primary/5 border border-indigo-100 p-4 rounded-xl flex items-start gap-3">
-              <Info className="text-primary shrink-0 mt-1" size={20} />
-              <p className="text-indigo-800 text-sm leading-relaxed">
-                地圖功能已升級：
-                <br />
-                <span className="font-bold">📍 單點搜尋</span>
-                ：點擊景點列表，查看單一位置。
-                <br />
-                <span className="font-bold text-primary">
-                  🚗 每日移動路徑
-                </span>
-                ：已同步整合至「每日詳情」分頁中，您也可以在下方總覽關鍵路徑。
-              </p>
-            </div>
+          <SectionCard icon={Train} title="交通資訊">
 
             {/* 近鐵特急比較表 */}
             <div className="mb-8">
-              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <Train className="text-primary" size={20} />
+              <h3 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <Train className="text-accent" size={18} />
                 近鐵特急 vs 普通/急行 比較表
               </h3>
               <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
@@ -1060,8 +1095,8 @@
             </div>
 
             <div className="mb-8">
-              <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <RouteIcon className="text-primary" size={20} />
+              <h3 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+                <RouteIcon className="text-accent" size={18} />
                 每日關鍵交通移動路徑總覽
               </h3>
               <div className="grid md:grid-cols-2 gap-4">
@@ -1076,9 +1111,9 @@
                         destination: route.to,
                       })
                     }
-                    className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-300 transition-all text-left flex items-start gap-3 group"
+                    className="bg-white border border-gray-200 p-4 rounded-xl shadow-sm hover:shadow-md hover:border-primary/40 transition-all text-left flex items-start gap-3 group"
                   >
-                    <div className="p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-indigo-600 group-hover:text-white transition-colors shrink-0">
+                    <div className="p-2 bg-primary/5 rounded-lg text-primary group-hover:bg-primary group-hover:text-white transition-colors shrink-0">
                       <div className="text-center">
                         <div className="text-[10px] font-bold uppercase leading-none mb-1">
                           {route.day.split(" ")[0]}
@@ -1090,7 +1125,7 @@
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between gap-2">
-                        <div className="font-bold text-gray-800 group-hover:text-indigo-700 truncate">
+                        <div className="font-bold text-gray-800 group-hover:text-primary truncate">
                           {route.name}
                         </div>
                         {route.duration && route.duration !== "—" && (
@@ -1107,65 +1142,151 @@
                 ))}
               </div>
             </div>
+          </SectionCard>
+        </div>
+      );
+    };
 
-            <div className="mb-8">
-              <h3 className="text-lg font-bold text-accent mb-4 flex items-center gap-2">
-                <Sparkles className="text-accent" size={20} />
-                實用連結
-              </h3>
-              <div className="grid md:grid-cols-2 gap-6">
-                {usefulLinks.categories.map((category, idx) => {
-                  const iconMap = {
-                    Train: Train,
-                    Hotel: Hotel,
-                    Star: Star,
-                    MapPin: MapPin,
-                  };
-                  const CategoryIcon = iconMap[category.icon] || MapPin;
-                  return (
-                    <div
-                      key={idx}
-                      className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
-                    >
-                      <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-                        <CategoryIcon size={16} className="text-accent" />
-                        <span className="font-bold text-gray-700 text-sm">{category.label}</span>
-                      </div>
-                      <div className="p-2">
-                        {category.items.map((item, iIdx) => (
-                          <a
-                            key={iIdx}
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                          >
-                            <div className="flex items-center gap-3 min-w-0">
-                              <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm truncate">
-                                {item.name}
-                              </span>
-                              <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
-                                {item.day}
-                              </span>
+    // 3.8 FoodView - 美食指南
+    const foodData = {
+      categories: [
+        {
+          location: "VISON 園區",
+          day: "Day 2-3",
+          sections: [
+            {
+              title: "🥗 素食友善餐廳",
+              items: [
+                { name: "HONZO lab. RINNE", type: "咖啡廳", desc: "純素餐點/甜點 (Vegan)", price: "¥1,000~1,500", recommended: true },
+                { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵)", price: "¥3,500 (套餐)" },
+                { name: "raf", type: "咖啡廳", desc: "當季蔬菜濃湯、咖哩", price: "¥800~1,200" },
+              ],
+            },
+            {
+              title: "🍳 早餐選項",
+              items: [
+                { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食", price: "含早餐", note: "⚠️ 需 5 天前預約", recommended: true },
+                { name: "VISON Buffet", type: "自助餐", desc: "和洋自助餐", price: "含早餐" },
+                { name: "NOUNIYELL", type: "西式", desc: "蛋料理+沙拉", price: "含早餐" },
+                { name: "Mariage de Farine", type: "麵包店", desc: "現烤麵包+咖啡", price: "自由入店" },
+              ],
+            },
+            {
+              title: "🍫 甜點/購物",
+              items: [
+                { name: "LE CHOCOLAT DE H", type: "巧克力專賣店", desc: "辻口博啓主理，60+種巧克力", note: "VISON 限定款 Meyer Lemon", recommended: true },
+                { name: "Mariage de Farine", type: "麵包店", desc: "三重縣產小麥石臼現磨" },
+              ],
+            },
+          ],
+        },
+        {
+          location: "伊勢 托福橫丁",
+          day: "Day 4",
+          sections: [
+            {
+              title: "🍡 必吃美食",
+              items: [
+                { name: "赤福", type: "和菓子", desc: "伊勢名物，紅豆麻糬", recommended: true },
+                { name: "豆腐冰淇淋", type: "甜點", desc: "濃郁豆香" },
+                { name: "伊勢烏龍", type: "麵食", desc: "粗軟Q彈的烏龍麵" },
+              ],
+            },
+          ],
+        },
+        {
+          location: "大阪 梅田",
+          day: "Day 7",
+          sections: [
+            {
+              title: "🍜 素食友善餐廳",
+              items: [
+                { name: "Chabuton", type: "拉麵", desc: "Yodobashi 8F，有素食拉麵選項" },
+                { name: "2foods", type: "全素", desc: "LUCUA Eagle Park，植物性料理", recommended: true },
+              ],
+            },
+          ],
+        },
+        {
+          location: "空庭溫泉",
+          day: "Day 8",
+          sections: [
+            {
+              title: "🍶 館內餐飲",
+              items: [
+                { name: "館內餐廳", type: "和食/居酒屋", desc: "泡湯後享用和食料理" },
+              ],
+            },
+          ],
+        },
+      ],
+    };
+
+    const FoodView = () => {
+      return (
+        <div className="space-y-8 animate-fade-in">
+          <SectionCard icon={Utensils} title="美食指南">
+            <p className="text-gray-600 mb-6">
+              行程中的素食友善餐廳、甜點與必吃美食整理。
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              {foodData.categories.map((category, idx) => (
+                <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                  <div className="px-5 py-4 bg-accent/10 border-b border-accent/20 flex items-center justify-between">
+                    <h3 className="font-bold text-gray-800 flex items-center gap-2">
+                      <MapPin size={18} className="text-accent" />
+                      {category.location}
+                    </h3>
+                    <span className="text-xs font-bold text-accent bg-white px-3 py-1 rounded-full">
+                      {category.day}
+                    </span>
+                  </div>
+                  <div className="p-4 space-y-6">
+                    {category.sections.map((section, sIdx) => (
+                      <div key={sIdx}>
+                        <h4 className="text-sm font-bold text-gray-800 mb-3">{section.title}</h4>
+                        <div className="space-y-2">
+                          {section.items.map((item, iIdx) => (
+                            <div
+                              key={iIdx}
+                              className={`p-3 rounded-xl border transition-colors ${item.recommended
+                                ? "bg-accent/5 border-accent/30"
+                                : "bg-gray-50 border-gray-100"
+                                }`}
+                            >
+                              <div className="flex items-start justify-between gap-2">
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center gap-2 flex-wrap">
+                                    <span className="font-bold text-gray-800 text-sm">{item.name}</span>
+                                    {item.recommended && (
+                                      <span className="text-[10px] font-bold text-white bg-accent px-1.5 py-0.5 rounded">推薦</span>
+                                    )}
+                                    <span className="text-xs text-gray-400">{item.type}</span>
+                                  </div>
+                                  <p className="text-xs text-gray-600 mt-1">{item.desc}</p>
+                                  {item.note && (
+                                    <p className="text-xs text-orange-600 mt-1">{item.note}</p>
+                                  )}
+                                </div>
+                                {item.price && (
+                                  <span className="text-xs font-medium text-gray-500 shrink-0">{item.price}</span>
+                                )}
+                              </div>
                             </div>
-                            <ExternalLink
-                              size={14}
-                              className="text-gray-300 group-hover:text-accent shrink-0 ml-2"
-                            />
-                          </a>
-                        ))}
+                          ))}
+                        </div>
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
             </div>
           </SectionCard>
         </div>
       );
     };
 
-    // 3.8 AI & Translation Components
+    // 3.9 AI & Translation Components
     const AIChatBubble = ({ sender, text }) => (
       <div
         className={`flex ${sender === "user" ? "justify-end" : "justify-start"
@@ -1173,7 +1294,7 @@
       >
         <div
           className={`max-w-[80%] rounded-3xl p-4 text-sm leading-relaxed ${sender === "user"
-            ? "bg-indigo-600 text-white rounded-br-none"
+            ? "bg-primary text-white rounded-br-none"
             : "bg-white border border-gray-100 text-gray-700 shadow-sm rounded-bl-none"
             }`}
         >
@@ -1186,14 +1307,14 @@
       <button
         onClick={() => onTranslate(prompt)}
         disabled={isLoading}
-        className="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-indigo-400 hover:bg-primary/5 transition-all duration-200 group flex items-center justify-between"
+        className="w-full text-left p-3 rounded-xl border border-gray-200 hover:border-primary/50 hover:bg-primary/5 transition-all duration-200 group flex items-center justify-between"
       >
-        <span className="font-medium text-gray-700 group-hover:text-indigo-700">
+        <span className="font-medium text-gray-700 group-hover:text-primary">
           {label}
         </span>
         <Sparkles
           size={16}
-          className="text-gray-300 group-hover:text-indigo-500"
+          className="text-gray-300 group-hover:text-primary"
         />
       </button>
     );
@@ -1261,7 +1382,7 @@
           <div className="bg-gray-50 w-full max-w-lg h-[600px] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
             <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
               <div className="flex items-center gap-2">
-                <Bot size={24} className="text-indigo-200" />
+                <Bot size={24} className="text-primary/30" />
                 <h3 className="font-bold text-lg">AI 旅遊助手</h3>
               </div>
               <button
@@ -1276,7 +1397,7 @@
               <button
                 onClick={() => setActiveFeature("chat")}
                 className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${activeFeature === "chat"
-                  ? "bg-indigo-100 text-indigo-700"
+                  ? "bg-primary/10 text-primary"
                   : "text-gray-500 hover:bg-gray-100"
                   }`}
               >
@@ -1285,7 +1406,7 @@
               <button
                 onClick={() => setActiveFeature("translate")}
                 className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${activeFeature === "translate"
-                  ? "bg-indigo-100 text-indigo-700"
+                  ? "bg-primary/10 text-primary"
                   : "text-gray-500 hover:bg-gray-100"
                   }`}
               >
@@ -1309,7 +1430,7 @@
                         <div className="bg-white border border-gray-100 rounded-3xl p-4 text-gray-400 text-sm shadow-sm flex items-center gap-2">
                           <Sparkles
                             size={14}
-                            className="animate-spin text-indigo-500"
+                            className="animate-spin text-primary"
                           />{" "}
                           AI 思考中...
                         </div>
@@ -1322,7 +1443,7 @@
 
               {activeFeature === "translate" && (
                 <div className="space-y-4">
-                  <div className="bg-white p-4 rounded-xl shadow-sm border border-indigo-100">
+                  <div className="bg-white p-4 rounded-xl shadow-sm border border-primary/20">
                     <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
                       <Leaf size={16} className="text-green-500" />{" "}
                       選擇您的飲食需求
@@ -1355,7 +1476,7 @@
                     </div>
                   </div>
                   {isLoading && !translationResult && (
-                    <div className="text-center py-8 text-indigo-400 flex flex-col items-center gap-2">
+                    <div className="text-center py-8 text-primary/60 flex flex-col items-center gap-2">
                       <Sparkles className="animate-spin" />
                       <span className="text-sm">
                         Gemini-3.0-Pro 正在為您撰寫日文...
@@ -1363,9 +1484,9 @@
                     </div>
                   )}
                   {translationResult && (
-                    <div className="bg-white border-2 border-indigo-500 rounded-xl p-5 shadow-md anim-slideUp-p">
+                    <div className="bg-white border-2 border-primary rounded-xl p-5 shadow-md anim-slideUp-p">
                       <div className="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
-                        <span className="text-xs font-bold text-indigo-500 uppercase tracking-wider">
+                        <span className="text-xs font-bold text-primary uppercase tracking-wider">
                           Show to Staff
                         </span>
                         <Sparkles size={14} className="text-yellow-500" />
@@ -1390,12 +1511,12 @@
                       e.key === "Enter" && handleSendMessage()
                     }
                     placeholder="輸入問題，例如：附近有推薦的點心嗎？"
-                    className="flex-1 px-4 py-2.5 bg-gray-100 border-none rounded-full focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
+                    className="flex-1 px-4 py-2.5 bg-gray-100 border-none rounded-full focus:ring-2 focus:ring-primary outline-none transition-all"
                   />
                   <button
                     onClick={handleSendMessage}
                     disabled={isLoading}
-                    className="p-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 transition-colors shadow-md"
+                    className="p-3 bg-primary text-white rounded-full hover:bg-primary/90 disabled:opacity-50 transition-colors shadow-md"
                   >
                     <Send size={18} />
                   </button>
@@ -1421,6 +1542,7 @@
         { id: "overview", label: "行程總覽", icon: MapIcon },
         { id: "itinerary", label: "每日詳情", icon: Calendar },
         { id: "map", label: "行程地圖", icon: Navigation },
+        { id: "food", label: "美食指南", icon: Utensils },
         { id: "budget", label: "預算規劃", icon: Wallet },
       ];
 
@@ -1429,7 +1551,7 @@
       };
 
       return (
-        <div className="min-h-screen bg-gray-50 font-sans selection:bg-indigo-200 selection:text-indigo-900 pb-24 md:pb-12">
+        <div className="min-h-screen bg-gray-50 font-sans selection:bg-primary/20 selection:text-primary pb-24 md:pb-12">
           <Header />
 
           <div className="sticky top-0 z-40 glass shadow-sm border-b border-gray-100/50">
@@ -1468,7 +1590,7 @@
                   {itineraryData.map((phase, idx) => (
                     <div
                       key={idx}
-                      className="bg-white rounded-3xl p-6 shadow-md border-t-4 border-indigo-500"
+                      className="bg-white rounded-3xl p-6 shadow-md border-t-4 border-primary"
                     >
                       <h3 className="text-xl font-bold text-gray-800 mb-4 pb-2 border-b border-gray-100">
                         {phase.phase}
@@ -1476,7 +1598,7 @@
                       <div className="space-y-4">
                         {phase.days.map((day, dIdx) => (
                           <div key={dIdx} className="flex items-start gap-3">
-                            <div className="min-w-[3rem] text-sm font-bold text-indigo-500 bg-primary/5 px-2 py-1 rounded text-center">
+                            <div className="min-w-[3rem] text-sm font-bold text-primary bg-primary/5 px-2 py-1 rounded text-center">
                               D{day.day}
                             </div>
                             <div className="text-gray-700 text-sm font-medium pt-1">
@@ -1494,6 +1616,8 @@
                     </div>
                   ))}
                 </div>
+
+                <UsefulLinksSection />
               </div>
             )}
 
@@ -1501,8 +1625,9 @@
               <div className="space-y-12">
                 {itineraryData.map((phase, idx) => (
                   <div key={idx} className="relative">
-                    <div className="sticky top-20 z-30 bg-gray-50/95 backdrop-blur py-4 mb-4">
-                      <h2 className="text-2xl font-bold text-gray-800 pl-4 border-l-4 border-purple-500">
+                    <div className="sticky top-20 z-30 bg-gray-50/95 backdrop-blur py-2 md:py-3 mb-3">
+                      <h2 className="text-sm md:text-lg font-bold text-gray-600 flex items-center gap-2">
+                        <span className="w-1 h-4 md:h-5 bg-accent rounded-full"></span>
                         {phase.phase}
                       </h2>
                     </div>
@@ -1536,7 +1661,7 @@
                 <BudgetTable />
                 <div className="mt-8 p-6 bg-primary/5 rounded-3xl flex gap-4 items-start">
                   <Info className="text-primary flex-shrink-0 mt-1" />
-                  <div className="text-sm text-indigo-800 leading-relaxed">
+                  <div className="text-sm text-primary leading-relaxed">
                     <p className="font-bold mb-1">關於匯率與預訂</p>
                     建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
                     觀光特急需在乘車日前一個月上午 10:30 準時搶票。
@@ -1546,11 +1671,13 @@
             )}
 
             {activeTab === "map" && <MapView onOpenMap={handleOpenMap} />}
+
+            {activeTab === "food" && <FoodView />}
           </main>
 
           <button
             onClick={() => setIsAIModalOpen(true)}
-            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary text-white shadow-2xl hover:scale-110 hover:shadow-indigo-500/50 transition-all duration-300 group"
+            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary text-white shadow-2xl hover:scale-110 hover:shadow-primary/50 transition-all duration-300 group"
           >
             <Sparkles size={28} className="animate-pulse" />
             <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-xs font-bold py-1 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">

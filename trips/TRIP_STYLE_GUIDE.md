@@ -37,3 +37,73 @@
   - 內部元素: `rounded-xl`
 - **陰影 Shadows**: 卡片 `shadow-lg`，浮層 `shadow-2xl`。
 - **動畫 Animations**: 統一使用 `animate-fade-up` 作為進場效果。
+
+### 2.4 標題層級 (Typography Hierarchy)
+
+| 層級                   | Class                                        | Icon 規格               | 用途         |
+| ---------------------- | -------------------------------------------- | ----------------------- | ------------ |
+| **SectionCard 主標題** | 共用元件控制                                 | `size={20}`             | 區塊大標題   |
+| **子標題 (h3)**        | `text-base font-bold text-gray-800`          | `text-accent size={18}` | 區塊內子標題 |
+| **小標題 (h4)**        | `text-sm font-bold text-gray-800`            | -                       | 分類標題     |
+| **階段橫幅**           | `text-sm md:text-lg font-bold text-gray-600` | 珊瑚色圓點指示器        | 手機優化     |
+
+```jsx
+// 子標題範例
+<h3 className="text-base font-bold text-gray-800 mb-4 flex items-center gap-2">
+  <IconName className="text-accent" size={18} />
+  標題文字
+</h3>
+
+// 階段橫幅範例 (手機優化)
+<h2 className="text-sm md:text-lg font-bold text-gray-600 flex items-center gap-2">
+  <span className="w-1 h-4 md:h-5 bg-accent rounded-full"></span>
+  第一階段：xxx
+</h2>
+```
+
+### 2.5 卡片樣式 (Card Styles)
+
+```jsx
+// 標準白底卡片
+<div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+
+// 帶頭部的卡片
+<div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+  <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
+    <Icon size={16} className="text-accent" />
+    <span className="font-bold text-gray-700 text-sm">標題</span>
+  </div>
+  <div className="p-4">...</div>
+</div>
+
+// Accent 主題卡片頭部
+<div className="px-5 py-4 bg-accent/10 border-b border-accent/20">
+```
+
+### 2.6 標籤樣式 (Tag Styles)
+
+| 類型         | Class                                                              | 用途     |
+| ------------ | ------------------------------------------------------------------ | -------- |
+| **日期標籤** | `text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full`       | Day 標記 |
+| **時間標籤** | `text-xs font-bold text-white bg-accent px-2 py-0.5 rounded-full`  | 交通時間 |
+| **推薦標籤** | `text-[10px] font-bold text-white bg-accent px-1.5 py-0.5 rounded` | 推薦項目 |
+
+### 2.7 間距規範 (Spacing)
+
+| 用途         | Class              |
+| ------------ | ------------------ |
+| 區塊間距     | `mb-8`             |
+| 卡片內間距   | `p-4` 或 `p-6`     |
+| 標題下間距   | `mb-4`             |
+| 列表項目間距 | `space-y-2`        |
+| 網格間距     | `gap-4` 或 `gap-6` |
+
+### 2.8 響應式網格 (Responsive Grid)
+
+```jsx
+// 兩欄佈局
+<div className="grid md:grid-cols-2 gap-6">
+
+// 三欄佈局
+<div className="grid md:grid-cols-3 gap-4">
+```
