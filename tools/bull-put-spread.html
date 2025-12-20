@@ -1,0 +1,534 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bull Put Spread 策略模擬器</title>
+    <meta name="description" content="互動式 Bull Put Spread 選擇權策略模擬器，即時計算損益並視覺化損益曲線" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+      .gradient-card {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+      .input-focus:focus {
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+      }
+      .profit-zone {
+        background: rgba(34, 197, 94, 0.1);
+      }
+      .loss-zone {
+        background: rgba(239, 68, 68, 0.1);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <div class="p-4 md:p-6 relative">
+      <!-- Home Button -->
+      <a
+        href="../index.html?booted=true#booted"
+        class="absolute top-4 right-4 md:top-6 md:right-6 bg-white w-10 h-10 rounded-full flex items-center justify-center text-gray-500 active:scale-90 transition-transform shadow-md hover:shadow-lg hover:text-[#667eea] z-10"
+      >
+        <i class="fas fa-home"></i>
+      </a>
+
+      <div class="max-w-5xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 md:mb-8">
+          <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+            <i class="fas fa-chart-line text-[#667eea] mr-2"></i>
+            Bull Put Spread 策略模擬器
+          </h1>
+          <p class="text-gray-500 text-sm md:text-base">
+            賣出看跌價差 — 看多策略，收取權利金
+          </p>
+        </div>
+
+        <!-- Strategy Info Card -->
+        <div class="gradient-card text-white p-4 md:p-6 rounded-2xl shadow-lg mb-6 md:mb-8">
+          <div class="flex items-start gap-3">
+            <i class="fas fa-info-circle text-xl mt-1"></i>
+            <div>
+              <h3 class="font-bold mb-2">策略說明</h3>
+              <div class="text-sm opacity-90 space-y-1">
+                <p><strong>Short Put (賣出)：</strong>較高履約價 → 收取權利金</p>
+                <p><strong>Long Put (買入)：</strong>較低履約價 → 支付權利金作為保護</p>
+                <p class="mt-2 opacity-75">適用情境：預期股價溫和上漲或持平</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
+          <!-- Input Panel -->
+          <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg">
+            <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <i class="fas fa-sliders-h text-[#667eea]"></i>
+              參數設定
+            </h2>
+            
+            <div class="space-y-4">
+              <!-- Stock Price -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  股票現價 ($)
+                </label>
+                <input
+                  type="number"
+                  id="stockPrice"
+                  value="100"
+                  step="0.01"
+                  class="w-full px-4 py-2.5 border border-gray-200 rounded-xl input-focus transition-all"
+                />
+              </div>
+
+              <!-- Short Put Section -->
+              <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                <h3 class="font-semibold text-red-700 mb-3 flex items-center gap-2">
+                  <i class="fas fa-arrow-down"></i>
+                  Short Put (賣出)
+                </h3>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">
+                      履約價 ($)
+                    </label>
+                    <input
+                      type="number"
+                      id="shortPutStrike"
+                      value="100"
+                      step="0.5"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-lg input-focus transition-all text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">
+                      權利金 ($)
+                    </label>
+                    <input
+                      type="number"
+                      id="shortPutPremium"
+                      value="5"
+                      step="0.01"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-lg input-focus transition-all text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Long Put Section -->
+              <div class="bg-green-50 p-4 rounded-xl border border-green-100">
+                <h3 class="font-semibold text-green-700 mb-3 flex items-center gap-2">
+                  <i class="fas fa-arrow-up"></i>
+                  Long Put (買入)
+                </h3>
+                <div class="grid grid-cols-2 gap-3">
+                  <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">
+                      履約價 ($)
+                    </label>
+                    <input
+                      type="number"
+                      id="longPutStrike"
+                      value="95"
+                      step="0.5"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-lg input-focus transition-all text-sm"
+                    />
+                  </div>
+                  <div>
+                    <label class="block text-xs font-medium text-gray-600 mb-1">
+                      權利金 ($)
+                    </label>
+                    <input
+                      type="number"
+                      id="longPutPremium"
+                      value="2"
+                      step="0.01"
+                      class="w-full px-3 py-2 border border-gray-200 rounded-lg input-focus transition-all text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Contracts -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  合約數量 (每張 = 100股)
+                </label>
+                <input
+                  type="number"
+                  id="contracts"
+                  value="1"
+                  min="1"
+                  step="1"
+                  class="w-full px-4 py-2.5 border border-gray-200 rounded-xl input-focus transition-all"
+                />
+              </div>
+
+              <!-- Error Message -->
+              <div id="errorMsg" class="hidden bg-red-100 text-red-700 px-4 py-3 rounded-xl text-sm">
+                <i class="fas fa-exclamation-triangle mr-2"></i>
+                <span id="errorText"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Results Panel -->
+          <div class="space-y-4">
+            <!-- Key Metrics Cards -->
+            <div class="grid grid-cols-2 gap-3 md:gap-4">
+              <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-[#667eea]">
+                <div class="text-xs text-gray-500 mb-1">淨權利金收入</div>
+                <div class="text-xl md:text-2xl font-bold text-[#667eea]" id="netCredit">$300</div>
+              </div>
+              <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-green-500">
+                <div class="text-xs text-gray-500 mb-1">最大獲利</div>
+                <div class="text-xl md:text-2xl font-bold text-green-600" id="maxProfit">$300</div>
+              </div>
+              <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-red-500">
+                <div class="text-xs text-gray-500 mb-1">最大損失</div>
+                <div class="text-xl md:text-2xl font-bold text-red-600" id="maxLoss">-$200</div>
+              </div>
+              <div class="bg-white p-4 rounded-xl shadow-md border-l-4 border-[#764ba2]">
+                <div class="text-xs text-gray-500 mb-1">損益兩平點</div>
+                <div class="text-xl md:text-2xl font-bold text-[#764ba2]" id="breakeven">$97.00</div>
+              </div>
+            </div>
+
+            <!-- Risk/Reward Ratio -->
+            <div class="bg-white p-4 rounded-xl shadow-md">
+              <div class="flex justify-between items-center">
+                <span class="text-gray-600 text-sm">報酬/風險比</span>
+                <span class="text-lg font-bold" id="riskReward">1.50</span>
+              </div>
+              <div class="mt-2 h-3 bg-gray-200 rounded-full overflow-hidden">
+                <div id="riskRewardBar" class="h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all" style="width: 60%"></div>
+              </div>
+              <div class="flex justify-between text-xs text-gray-400 mt-1">
+                <span>低風險</span>
+                <span>高風險</span>
+              </div>
+            </div>
+
+            <!-- Profit Probability -->
+            <div class="bg-white p-4 rounded-xl shadow-md">
+              <div class="text-xs text-gray-500 mb-2">股價需維持在此價位之上才能獲利</div>
+              <div class="flex items-center gap-3">
+                <div class="flex-1 bg-gray-100 rounded-lg p-3 text-center">
+                  <div class="text-2xl font-bold text-gray-800" id="breakevenPrice">$97.00</div>
+                  <div class="text-xs text-gray-500">損益兩平點</div>
+                </div>
+                <i class="fas fa-arrow-right text-gray-300"></i>
+                <div class="flex-1 bg-green-50 rounded-lg p-3 text-center border border-green-200">
+                  <div class="text-2xl font-bold text-green-600">∞</div>
+                  <div class="text-xs text-green-600">獲利區間</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PnL Chart -->
+        <div class="bg-white p-5 md:p-6 rounded-2xl shadow-lg mt-6 md:mt-8">
+          <h2 class="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <i class="fas fa-chart-area text-[#667eea]"></i>
+            到期日損益圖
+          </h2>
+          <div class="relative" style="height: 300px;">
+            <canvas id="pnlChart"></canvas>
+          </div>
+          <div class="flex justify-center gap-6 mt-4 text-sm">
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-green-500"></div>
+              <span class="text-gray-600">獲利區</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-3 h-3 rounded-full bg-red-500"></div>
+              <span class="text-gray-600">損失區</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <div class="w-4 h-0.5 bg-[#764ba2]"></div>
+              <span class="text-gray-600">損益兩平點</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Formula Reference -->
+        <div class="bg-gray-100 p-5 md:p-6 rounded-2xl mt-6 md:mt-8">
+          <h3 class="font-bold text-gray-700 mb-3">
+            <i class="fas fa-calculator mr-2"></i>計算公式
+          </h3>
+          <div class="grid md:grid-cols-2 gap-4 text-sm text-gray-600">
+            <div class="bg-white p-3 rounded-lg">
+              <div class="font-medium text-gray-800 mb-1">淨權利金</div>
+              <code class="text-xs bg-gray-50 px-2 py-1 rounded">(Short Premium - Long Premium) × 100 × 合約數</code>
+            </div>
+            <div class="bg-white p-3 rounded-lg">
+              <div class="font-medium text-gray-800 mb-1">最大損失</div>
+              <code class="text-xs bg-gray-50 px-2 py-1 rounded">(Short Strike - Long Strike - Net Credit) × 100 × 合約數</code>
+            </div>
+            <div class="bg-white p-3 rounded-lg">
+              <div class="font-medium text-gray-800 mb-1">損益兩平點</div>
+              <code class="text-xs bg-gray-50 px-2 py-1 rounded">Short Strike - 每股淨權利金</code>
+            </div>
+            <div class="bg-white p-3 rounded-lg">
+              <div class="font-medium text-gray-800 mb-1">最大獲利</div>
+              <code class="text-xs bg-gray-50 px-2 py-1 rounded">淨權利金收入 (股價 ≥ Short Strike)</code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Chart instance
+      let pnlChart = null;
+
+      // DOM Elements
+      const inputs = {
+        stockPrice: document.getElementById('stockPrice'),
+        shortPutStrike: document.getElementById('shortPutStrike'),
+        shortPutPremium: document.getElementById('shortPutPremium'),
+        longPutStrike: document.getElementById('longPutStrike'),
+        longPutPremium: document.getElementById('longPutPremium'),
+        contracts: document.getElementById('contracts'),
+      };
+
+      const outputs = {
+        netCredit: document.getElementById('netCredit'),
+        maxProfit: document.getElementById('maxProfit'),
+        maxLoss: document.getElementById('maxLoss'),
+        breakeven: document.getElementById('breakeven'),
+        breakevenPrice: document.getElementById('breakevenPrice'),
+        riskReward: document.getElementById('riskReward'),
+        riskRewardBar: document.getElementById('riskRewardBar'),
+        errorMsg: document.getElementById('errorMsg'),
+        errorText: document.getElementById('errorText'),
+      };
+
+      // Calculate Bull Put Spread
+      function calculate() {
+        const stockPrice = parseFloat(inputs.stockPrice.value) || 0;
+        const shortStrike = parseFloat(inputs.shortPutStrike.value) || 0;
+        const shortPremium = parseFloat(inputs.shortPutPremium.value) || 0;
+        const longStrike = parseFloat(inputs.longPutStrike.value) || 0;
+        const longPremium = parseFloat(inputs.longPutPremium.value) || 0;
+        const contracts = parseInt(inputs.contracts.value) || 1;
+
+        // Validation
+        if (shortStrike <= longStrike) {
+          showError('Short Put 履約價必須大於 Long Put 履約價');
+          return null;
+        }
+        if (shortPremium <= longPremium) {
+          showError('Short Put 權利金必須大於 Long Put 權利金 (否則策略無法獲得淨權利金)');
+          return null;
+        }
+        hideError();
+
+        // Calculations
+        const netCreditPerShare = shortPremium - longPremium;
+        const netCredit = netCreditPerShare * 100 * contracts;
+        const maxProfit = netCredit;
+        const spreadWidth = shortStrike - longStrike;
+        const maxLossPerShare = spreadWidth - netCreditPerShare;
+        const maxLoss = maxLossPerShare * 100 * contracts;
+        const breakeven = shortStrike - netCreditPerShare;
+        const riskRewardRatio = maxLoss > 0 ? maxProfit / maxLoss : 0;
+
+        return {
+          stockPrice,
+          shortStrike,
+          shortPremium,
+          longStrike,
+          longPremium,
+          contracts,
+          netCreditPerShare,
+          netCredit,
+          maxProfit,
+          maxLoss,
+          breakeven,
+          riskRewardRatio,
+        };
+      }
+
+      // Update UI
+      function updateUI(data) {
+        if (!data) return;
+
+        outputs.netCredit.textContent = formatCurrency(data.netCredit);
+        outputs.maxProfit.textContent = formatCurrency(data.maxProfit);
+        outputs.maxLoss.textContent = formatCurrency(-data.maxLoss);
+        outputs.breakeven.textContent = `$${data.breakeven.toFixed(2)}`;
+        outputs.breakevenPrice.textContent = `$${data.breakeven.toFixed(2)}`;
+        
+        const ratio = data.riskRewardRatio;
+        outputs.riskReward.textContent = ratio.toFixed(2);
+        
+        // Update risk bar (higher ratio = lower risk, scale 0-3 to 0-100%)
+        const barWidth = Math.min(100, (ratio / 3) * 100);
+        outputs.riskRewardBar.style.width = `${barWidth}%`;
+        
+        // Color based on ratio
+        if (ratio >= 1) {
+          outputs.riskRewardBar.className = 'h-full bg-gradient-to-r from-green-400 to-green-600 rounded-full transition-all';
+        } else if (ratio >= 0.5) {
+          outputs.riskRewardBar.className = 'h-full bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full transition-all';
+        } else {
+          outputs.riskRewardBar.className = 'h-full bg-gradient-to-r from-red-400 to-red-600 rounded-full transition-all';
+        }
+
+        updateChart(data);
+      }
+
+      // Update Chart
+      function updateChart(data) {
+        const { shortStrike, longStrike, breakeven, netCreditPerShare, contracts } = data;
+        
+        // Generate price range
+        const minPrice = Math.max(0, longStrike - 10);
+        const maxPrice = shortStrike + 15;
+        const step = (maxPrice - minPrice) / 100;
+        
+        const prices = [];
+        const pnlValues = [];
+        const colors = [];
+        
+        for (let price = minPrice; price <= maxPrice; price += step) {
+          prices.push(price.toFixed(2));
+          
+          let pnl;
+          if (price >= shortStrike) {
+            // Stock above short strike: max profit
+            pnl = netCreditPerShare * 100 * contracts;
+          } else if (price <= longStrike) {
+            // Stock below long strike: max loss
+            pnl = (netCreditPerShare - (shortStrike - longStrike)) * 100 * contracts;
+          } else {
+            // Between strikes: varies linearly
+            pnl = (netCreditPerShare - (shortStrike - price)) * 100 * contracts;
+          }
+          
+          pnlValues.push(pnl);
+          colors.push(pnl >= 0 ? 'rgba(34, 197, 94, 0.8)' : 'rgba(239, 68, 68, 0.8)');
+        }
+
+        const ctx = document.getElementById('pnlChart').getContext('2d');
+        
+        if (pnlChart) {
+          pnlChart.destroy();
+        }
+
+        pnlChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: prices,
+            datasets: [{
+              label: '損益 ($)',
+              data: pnlValues,
+              borderColor: '#667eea',
+              borderWidth: 2,
+              fill: {
+                target: 'origin',
+                above: 'rgba(34, 197, 94, 0.2)',
+                below: 'rgba(239, 68, 68, 0.2)',
+              },
+              pointRadius: 0,
+              tension: 0,
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: {
+              intersect: false,
+              mode: 'index',
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                callbacks: {
+                  title: (context) => `股價: $${context[0].label}`,
+                  label: (context) => `損益: ${formatCurrency(context.raw)}`,
+                },
+              },
+              annotation: {
+                annotations: {
+                  breakeven: {
+                    type: 'line',
+                    xMin: breakeven.toFixed(2),
+                    xMax: breakeven.toFixed(2),
+                    borderColor: '#764ba2',
+                    borderWidth: 2,
+                    borderDash: [5, 5],
+                    label: {
+                      display: true,
+                      content: `BE: $${breakeven.toFixed(2)}`,
+                      position: 'start',
+                    },
+                  },
+                },
+              },
+            },
+            scales: {
+              x: {
+                title: {
+                  display: true,
+                  text: '到期日股價 ($)',
+                },
+                ticks: {
+                  maxTicksLimit: 10,
+                },
+              },
+              y: {
+                title: {
+                  display: true,
+                  text: '損益 ($)',
+                },
+                ticks: {
+                  callback: (value) => formatCurrency(value),
+                },
+              },
+            },
+          },
+        });
+      }
+
+      // Helpers
+      function formatCurrency(value) {
+        const prefix = value >= 0 ? '$' : '-$';
+        return prefix + Math.abs(value).toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      }
+
+      function showError(message) {
+        outputs.errorMsg.classList.remove('hidden');
+        outputs.errorText.textContent = message;
+      }
+
+      function hideError() {
+        outputs.errorMsg.classList.add('hidden');
+      }
+
+      // Event Listeners
+      Object.values(inputs).forEach(input => {
+        input.addEventListener('input', () => {
+          const data = calculate();
+          if (data) updateUI(data);
+        });
+      });
+
+      // Initial calculation
+      document.addEventListener('DOMContentLoaded', () => {
+        const data = calculate();
+        if (data) updateUI(data);
+      });
+    </script>
+  </body>
+</html>
