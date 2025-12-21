@@ -132,10 +132,10 @@
                 note: "別忘了去 Hoka Store (區號6700)",
                 map: { query: "Rinku Premium Outlets" }
               },
-              { time: "18:00", text: "晚餐：Outlet 內/周邊", subText: "Snow Peak Eat, 蒼珉 等" },
+              { time: "18:00", text: "晚餐：Outlet 內/周邊", foodGuideLink: "臨空城" },
               {
                 time: "19:30",
-                text: "住宿：OMO Kansai Airport",
+                text: "入住：OMO Kansai Airport",
                 subText: "星野集團機場飯店",
                 note: "住客專用大浴場/桑拿",
                 map: { query: "OMO Kansai Airport" }
@@ -171,23 +171,19 @@
               },
               {
                 time: "14:00",
-                text: "午餐：NOUNIYELL 農場餐廳",
-                note: "有機蔬菜料理 (套餐 ¥3,500)"
+                text: "午餐：園區餐廳",
+                foodGuideLink: "VISON 園區"
               },
               {
                 time: "15:00",
-                text: "入住 Hotel Vison",
+                text: "入住：Hotel Vison",
                 subText: "Check-in 15:00",
                 map: { query: "Hotel Vison" }
               },
               {
                 time: "15:30",
-                text: "午後散步",
-                subText: "Sweet Village (甜點區)",
-                subItems: [
-                  { title: "LE CHOCOLAT DE H", content: "辻口博啓巧克力" },
-                  { title: "Mariage de Farine", content: "石臼現磨小麥麵包" }
-                ]
+                text: "午後散步：甜點區",
+                foodGuideLink: "VISON 園區"
               },
               {
                 time: "20:00",
@@ -208,22 +204,19 @@
             activities: [
               {
                 time: "08:00",
-                text: "早餐：嬉野とうふ 或 Buffet",
-                tips: "嬉野豆腐需提前 5 天預約"
+                text: "早餐：園區早餐",
+                foodGuideLink: "VISON 園區"
               },
               {
                 time: "10:00",
-                text: "晨間體驗",
-                subText: "本草湯晨湯 / HONZO lab. RINNE",
-                subItems: [
-                  { title: "HONZO lab.", content: "和草茶、純素甜點" },
-                  { title: "本草湯", content: "06:00 - 00:00 開放" }
-                ]
+                text: "晨間體驗：本草湯",
+                subText: "06:00 - 00:00 開放",
+                map: { query: "VISON Honzo Yu" }
               },
-              { time: "12:00", text: "午餐：raf 自助餐或濃湯", note: "提供當地蔬菜料理" },
+              { time: "12:00", text: "午餐：園區餐廳", foodGuideLink: "VISON 園區" },
               { time: "14:00", text: "購物時光", note: "購買 VISON 限定伴手禮" },
-              { time: "18:00", text: "晚餐：San Sebastian Street", subText: "西班牙風情美食街" },
-              { time: "20:00", text: "住宿：VISON (第二晚)" },
+              { time: "18:00", text: "晚餐：園區美食街", foodGuideLink: "VISON 園區" },
+              { time: "20:00", text: "入住：VISON (第二晚)" },
             ],
             highlight: "♨️ 不趕車的悠閒一天，住客免費無限次使用本草湯。",
           },
@@ -239,11 +232,8 @@
               {
                 time: "13:00",
                 text: "午餐：托福橫丁",
-                subText: "Oharai-machi",
-                subItems: [
-                  { title: "必吃", content: "豆腐冰淇淋" },
-                  { title: "名產", content: "赤福 (Akafuku)" }
-                ],
+                subText: "Oharai-machi 老街",
+                foodGuideLink: "伊勢 托福橫丁",
                 map: { query: "Oharai Machi Ise" }
               },
               {
@@ -272,9 +262,9 @@
               {
                 time: "15:00",
                 text: "入住：賢島寶生苑",
-                subText: "Kashikojima Hojoen (含早晚餐)",
+                subText: "含早晚餐",
                 note: "車站提供免費接駁車 (約3分)",
-                tips: "車站全家超商 18:00 關門，請提早買孵夜",
+                tips: "車站全家超商 18:00 關門",
                 map: { query: "Kashikojima Hojoen" }
               },
               { time: "18:00", text: "晚餐：寶生苑懷石料理", subText: "含早晚餐方案 🍱", note: "可提前告知素食需求" },
@@ -289,16 +279,14 @@
             time: "08:00 - 18:00",
             activities: [
               { time: "08:00", text: "早餐：寶生苑早餐", subText: "含早晚餐方案 🍱" },
-              { time: "11:00", text: "退房寄放行李", note: "車站置物櫃 (登機箱 ¥600/次)" },
               {
-                time: "11:30",
+                time: "11:00",
                 text: "觀光：賢島西班牙遊船",
                 subText: "英虞灣巡遊 (50分)",
-                note: "憑周遊券折抵 ¥100",
+                note: "憑周遊券折抵 ¥100 · 車站置物櫃 ¥600/次",
                 map: { query: "Kashikojima Espana Cruise" }
               },
-              { time: "12:30", text: "散步：賢島大橋 & 真珠店" },
-              { time: "13:30", text: "午餐：賢島 Cafe", subText: "車站2F簡餐" },
+              { time: "13:00", text: "午餐：賢島", foodGuideLink: "賢島" },
               {
                 time: "15:30",
                 text: "交通：近鐵特急",
@@ -306,7 +294,7 @@
                 note: "特急券 ¥1,640",
                 map: { type: "route", origin: "Kashikojima Station", destination: "Osaka-Namba Station" }
               },
-              { time: "18:00", text: "晚餐：大阪市區", note: "Check-in 大阪飯店" },
+              { time: "18:00", text: "晚餐：大阪市區", note: "Check-in 大阪飯店", foodGuideLink: "大阪 梅田" },
             ],
             highlight: "🚂 完美運用周遊券最後一天，英虞灣遊船觀光後返回大阪。",
           },
@@ -330,20 +318,16 @@
               },
               {
                 time: "13:00",
-                text: "午餐：梅田素食友善",
-                subItems: [
-                  { title: "Chabuton", content: "Yodobashi 8F (素食拉麵)" },
-                  { title: "2foods", content: "LUCUA Eagle Park (全素)" }
-                ]
+                text: "午餐：梅田商國",
+                foodGuideLink: "大阪 梅田"
               },
               {
                 time: "17:00",
                 text: "樂園：USJ 環球影城",
-                subText: "Evening Entry",
                 tips: "善用 Single Rider 節省時間",
                 map: { query: "Universal Studios Japan" }
               },
-              { time: "20:00", text: "晚餐：園區內或 Citywalk" },
+              { time: "20:00", text: "晚餐：園區內或 Citywalk", foodGuideLink: "USJ 環球影城" },
             ],
             highlight: "🎢 年票優勢：白天購物，傍晚入園避開人潮。",
           },
@@ -355,16 +339,12 @@
             time: "09:00 - 21:00",
             activities: [
               { time: "09:00", text: "樂園：USJ 環球影城", subText: "持年票入園，隨意暢玩", map: { query: "Universal Studios Japan" } },
-              { time: "12:00", text: "午餐：園區內" },
+              { time: "12:00", text: "午餐：園區內", foodGuideLink: "USJ 環球影城" },
               { time: "16:00", text: "交通：USJ → 弁天町", subText: "JR約15分", map: { type: "route", origin: "Universal City Station", destination: "Bentencho Station" } },
               {
                 time: "16:30",
-                text: "體驗：空庭溫泉",
-                subText: "Solaniwa Onsen",
-                subItems: [
-                  { title: "特色", content: "安土桃山時代造景" },
-                  { title: "設施", content: "免費浴衣、天空庭園足湯" }
-                ],
+                text: "體驗：空庭溫泉 Solaniwa Onsen",
+                note: "安土桃山時代造景 / 免費浴衣 / 天空庭園足湯",
                 map: { query: "Solaniwa Onsen Osaka" }
               },
               { time: "19:00", text: "晚餐：空庭溫泉館內", subText: "和食/居酒屋風" },
@@ -381,11 +361,11 @@
             activities: [
               { time: "10:00", text: "交通：大阪 → 臨空城", map: { type: "route", origin: "Namba Station", destination: "Rinku Town Station" } },
               { time: "11:00", text: "購物：Rinku Premium Outlets", note: "營業至20:00", map: { query: "Rinku Premium Outlets" } },
-              { time: "13:00", text: "午餐：Outlet 內餐廳" },
-              { time: "18:00", text: "晚餐：TRIAL 超市 (24H)", subText: "或 Outlet 內餐廳" },
+              { time: "13:00", text: "午餐：Outlet 內餐廳", foodGuideLink: "臨空城" },
+              { time: "18:00", text: "晚餐：Outlet 內餐廳" },
               {
                 time: "19:00",
-                text: "住宿：關西機場華盛頓飯店",
+                text: "入住：關西機場華盛頓飯店",
                 subText: "Kansai Airport Washington Hotel",
                 map: { query: "Kansai Airport Washington Hotel" }
               },
@@ -778,7 +758,7 @@
     );
 
     // 3.4 DayCard (Collapsible Version)
-    const DayCard = ({ dayData, onOpenRoute, isExpanded: controlledExpanded, onToggle }) => {
+    const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlledExpanded, onToggle }) => {
       // 使用受控或非受控模式
       // 當 controlledExpanded 為 null 或 undefined 時，使用內部狀態
       const [internalExpanded, setInternalExpanded] = useState(true);
@@ -862,14 +842,14 @@
                     return (
                       <div key={idx} className="group/item">
                         <div className="flex items-start gap-4">
-                          <span className="text-xs font-bold text-primary/70 min-w-[3rem] pt-1.5 font-mono">
+                          <span className="text-xs font-bold text-primary/70 min-w-[3rem] font-mono leading-6">
                             {act.time}
                           </span>
 
                           <div className="flex-1 min-w-0">
                             {/* Main Title Row */}
-                            <div className="flex items-start justify-between gap-2">
-                              <div className="text-gray-800 font-bold text-sm leading-relaxed">
+                            <div className="flex items-center justify-between gap-2">
+                              <div className="text-gray-800 font-bold text-sm leading-6 flex-1">
                                 {act.text}
                                 {act.link && (
                                   <a
@@ -912,13 +892,27 @@
                                         });
                                       }
                                     }}
-                                    className="flex-shrink-0 transition-all cursor-pointer hover:scale-110 text-accent"
+                                    className="flex-shrink-0 transition-all cursor-pointer hover:scale-110 text-accent w-6 h-6 flex items-center justify-center"
                                     title={isRoute ? "查看交通路線" : "查看地點"}
                                   >
                                     {isRoute ? <TransportIcon size={16} /> : <MapPin size={16} />}
                                   </button>
                                 );
                               })()}
+
+                              {/* 美食指南連結圖示 (只在沒有地圖圖示時顯示) */}
+                              {act.foodGuideLink && !hasExplicitMap && !hasArrow && onOpenFoodGuide && (
+                                <button
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    onOpenFoodGuide();
+                                  }}
+                                  className="flex-shrink-0 text-accent transition-all cursor-pointer hover:scale-110 w-6 h-6 flex items-center justify-center"
+                                  title={`查看「${act.foodGuideLink}」美食選項`}
+                                >
+                                  <Utensils size={16} />
+                                </button>
+                              )}
                             </div>
 
                             {/* Sub Text (Secondary Info) */}
@@ -1351,24 +1345,38 @@
     const foodData = {
       categories: [
         {
+          location: "臨空城",
+          day: "Day 1, 9",
+          sections: [
+            {
+              title: "🍽️ Outlet 美食",
+              items: [
+                // 待補充
+              ],
+            },
+          ],
+        },
+        {
           location: "VISON 園區",
           day: "Day 2-3",
           sections: [
             {
               title: "🥗 素食友善餐廳",
               items: [
-                { name: "HONZO lab. RINNE", type: "咖啡廳", desc: "純素餐點/甜點 (Vegan)", price: "¥1,000~1,500", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HONZO+lab+RINNE+VISON" },
-                { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵)", price: "¥3,500 (套餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
-                { name: "raf", type: "咖啡廳", desc: "當季蔬菜濃湯、咖哩", price: "¥800~1,200", mapUrl: "https://www.google.com/maps/search/?api=1&query=raf+cafe+VISON" },
+                { name: "HONZO lab. RINNE", type: "咖啡廳", desc: "純素餐點/甜點 (Vegan)，¥1,000~1,500", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HONZO+lab+RINNE+VISON" },
+                { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵)，¥3,500 套餐", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
+                { name: "raf", type: "咖啡廳", desc: "當季蔬菜濃湯、咖哩，¥800~1,200", mapUrl: "https://www.google.com/maps/search/?api=1&query=raf+cafe+VISON" },
               ],
             },
             {
               title: "🍳 早餐選項",
               items: [
-                { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食", price: "含早餐", note: "⚠️ 需 5 天前預約", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=嬉野とうふ+VISON" },
-                { name: "VISON Buffet", type: "自助餐", desc: "和洋自助餐", price: "含早餐", mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+VISON+Restaurant" },
-                { name: "NOUNIYELL", type: "西式", desc: "蛋料理+沙拉", price: "含早餐", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
-                { name: "Mariage de Farine", type: "麵包店", desc: "現烤麵包+咖啡", price: "自由入店", mapUrl: "https://www.google.com/maps/search/?api=1&query=Mariage+de+Farine+VISON" },
+                { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食 (含早餐)", note: "⚠️ 需 5 天前預約", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=嬉野とうふ+VISON" },
+                { name: "VISON Buffet", type: "自助餐", desc: "和洋自助餐 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+VISON+Restaurant" },
+                { name: "NOUNIYELL", type: "西式", desc: "蛋料理+沙拉 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
+                { name: "Confiture H", type: "法式", desc: "法式吐司 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Confiture+H+VISON" },
+                { name: "Mariage de Farine", type: "麵包店", desc: "現烤麵包+咖啡 (自由入店)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Mariage+de+Farine+VISON" },
+                { name: "猿田彥珈琲", type: "咖啡", desc: "熱三明治+咖啡 (自由入店)", mapUrl: "https://www.google.com/maps/search/?api=1&query=猿田彦珈琲+VISON" },
               ],
             },
             {
@@ -1395,6 +1403,18 @@
           ],
         },
         {
+          location: "賢島",
+          day: "Day 5-6",
+          sections: [
+            {
+              title: "🍽️ 餐廳",
+              items: [
+                // 待補充
+              ],
+            },
+          ],
+        },
+        {
           location: "大阪 梅田",
           day: "Day 7",
           sections: [
@@ -1413,6 +1433,18 @@
               items: [
                 { name: "HARBS 大丸梅田店", type: "蛋糕", desc: "招牌水果千層蛋糕", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+大丸梅田店" },
                 { name: "HARBS Diamor大阪店", type: "蛋糕", desc: "地下街分店，同款美味", mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+Diamor大阪店" },
+              ],
+            },
+          ],
+        },
+        {
+          location: "USJ 環球影城",
+          day: "Day 7-8",
+          sections: [
+            {
+              title: "🍕 園區美食",
+              items: [
+                // 待補充
               ],
             },
           ],
@@ -1958,6 +1990,7 @@
                           key={dIdx}
                           dayData={day}
                           onOpenRoute={handleOpenMap}
+                          onOpenFoodGuide={() => setActiveTab("food")}
                           isExpanded={allExpanded}
                           onToggle={() => setAllExpanded(null)}
                         />
