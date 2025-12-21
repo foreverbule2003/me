@@ -1357,25 +1357,25 @@
             {
               title: "🥗 素食友善餐廳",
               items: [
-                { name: "HONZO lab. RINNE", type: "咖啡廳", desc: "純素餐點/甜點 (Vegan)", price: "¥1,000~1,500", recommended: true },
-                { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵)", price: "¥3,500 (套餐)" },
-                { name: "raf", type: "咖啡廳", desc: "當季蔬菜濃湯、咖哩", price: "¥800~1,200" },
+                { name: "HONZO lab. RINNE", type: "咖啡廳", desc: "純素餐點/甜點 (Vegan)", price: "¥1,000~1,500", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HONZO+lab+RINNE+VISON" },
+                { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵)", price: "¥3,500 (套餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
+                { name: "raf", type: "咖啡廳", desc: "當季蔬菜濃湯、咖哩", price: "¥800~1,200", mapUrl: "https://www.google.com/maps/search/?api=1&query=raf+cafe+VISON" },
               ],
             },
             {
               title: "🍳 早餐選項",
               items: [
-                { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食", price: "含早餐", note: "⚠️ 需 5 天前預約", recommended: true },
-                { name: "VISON Buffet", type: "自助餐", desc: "和洋自助餐", price: "含早餐" },
-                { name: "NOUNIYELL", type: "西式", desc: "蛋料理+沙拉", price: "含早餐" },
-                { name: "Mariage de Farine", type: "麵包店", desc: "現烤麵包+咖啡", price: "自由入店" },
+                { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食", price: "含早餐", note: "⚠️ 需 5 天前預約", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=嬉野とうふ+VISON" },
+                { name: "VISON Buffet", type: "自助餐", desc: "和洋自助餐", price: "含早餐", mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+VISON+Restaurant" },
+                { name: "NOUNIYELL", type: "西式", desc: "蛋料理+沙拉", price: "含早餐", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
+                { name: "Mariage de Farine", type: "麵包店", desc: "現烤麵包+咖啡", price: "自由入店", mapUrl: "https://www.google.com/maps/search/?api=1&query=Mariage+de+Farine+VISON" },
               ],
             },
             {
               title: "🍫 甜點/購物",
               items: [
-                { name: "LE CHOCOLAT DE H", type: "巧克力專賣店", desc: "辻口博啓主理，60+種巧克力", note: "VISON 限定款 Meyer Lemon", recommended: true },
-                { name: "Mariage de Farine", type: "麵包店", desc: "三重縣產小麥石臼現磨" },
+                { name: "LE CHOCOLAT DE H", type: "巧克力專賣店", desc: "辻口博啓主理，60+種巧克力", note: "VISON 限定款 Meyer Lemon", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=LE+CHOCOLAT+DE+H+VISON" },
+                { name: "Mariage de Farine", type: "麵包店", desc: "三重縣產小麥石臼現磨", mapUrl: "https://www.google.com/maps/search/?api=1&query=Mariage+de+Farine+VISON" },
               ],
             },
           ],
@@ -1387,9 +1387,9 @@
             {
               title: "🍡 必吃美食",
               items: [
-                { name: "赤福", type: "和菓子", desc: "伊勢名物，紅豆麻糬", recommended: true },
-                { name: "豆腐冰淇淋", type: "甜點", desc: "濃郁豆香" },
-                { name: "伊勢烏龍", type: "麵食", desc: "粗軟Q彈的烏龍麵" },
+                { name: "赤福", type: "和菓子", desc: "伊勢名物，紅豆麻糬", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=赤福+托福橫丁" },
+                { name: "豆腐冰淇淋", type: "甜點", desc: "濃郁豆香", mapUrl: "https://www.google.com/maps/search/?api=1&query=豆腐+アイス+おかげ横丁" },
+                { name: "伊勢烏龍", type: "麵食", desc: "粗軟Q彈的烏龍麵", mapUrl: "https://www.google.com/maps/search/?api=1&query=伊勢うどん+おかげ横丁" },
               ],
             },
           ],
@@ -1401,20 +1401,18 @@
             {
               title: "🍜 素食友善餐廳",
               items: [
-                { name: "Chabuton", type: "拉麵", desc: "Yodobashi 8F，有素食拉麵選項" },
-                { name: "2foods", type: "全素", desc: "LUCUA Eagle Park，植物性料理", recommended: true },
+                { name: "素食串燒 あじゅ", type: "居酒屋", desc: "純素串燒體驗", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=あじゅ+梅田+素食串燒" },
+                { name: "おにぎりごりちゃん 中崎町本店", type: "飯糰", desc: "手作飯糰專賣店", mapUrl: "https://www.google.com/maps/search/?api=1&query=おにぎりごりちゃん+中崎町本店" },
+                { name: "MOON and BACK HEP FIVE", type: "咖啡廳", desc: "HEP FIVE 內，提供蔬食選項", mapUrl: "https://www.google.com/maps/search/?api=1&query=MOON+and+BACK+HEP+FIVE" },
+                { name: "Vegan and Gluten Free Osaka", type: "全素", desc: "純素無麩質餐廳 (夜間營業)", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=Vegan+and+Gluten+Free+Osaka" },
+                { name: "松葉ルクア大阪店", type: "烏龍麵", desc: "LUCUA 內知名烏龍麵店", mapUrl: "https://www.google.com/maps/search/?api=1&query=松葉+ルクア大阪店" },
               ],
             },
-          ],
-        },
-        {
-          location: "空庭溫泉",
-          day: "Day 8",
-          sections: [
             {
-              title: "🍶 館內餐飲",
+              title: "🍰 甜點",
               items: [
-                { name: "館內餐廳", type: "和食/居酒屋", desc: "泡湯後享用和食料理" },
+                { name: "HARBS 大丸梅田店", type: "蛋糕", desc: "招牌水果千層蛋糕", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+大丸梅田店" },
+                { name: "HARBS Diamor大阪店", type: "蛋糕", desc: "地下街分店，同款美味", mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+Diamor大阪店" },
               ],
             },
           ],
@@ -1423,6 +1421,56 @@
     };
 
     const FoodView = () => {
+      // 收合狀態
+      const [collapsedCategories, setCollapsedCategories] = React.useState({});
+
+      // 愛心收藏狀態 (使用 localStorage 持久化)
+      const [favorites, setFavorites] = React.useState(() => {
+        try {
+          const saved = localStorage.getItem('food-favorites');
+          return saved ? JSON.parse(saved) : {};
+        } catch {
+          return {};
+        }
+      });
+
+      // 儲存到 localStorage
+      React.useEffect(() => {
+        localStorage.setItem('food-favorites', JSON.stringify(favorites));
+      }, [favorites]);
+
+      const toggleCategory = (idx) => {
+        setCollapsedCategories(prev => ({
+          ...prev,
+          [idx]: !prev[idx]
+        }));
+      };
+
+      const toggleFavorite = (itemKey) => {
+        setFavorites(prev => ({
+          ...prev,
+          [itemKey]: !prev[itemKey]
+        }));
+      };
+
+      // 產生唯一的 item key (只使用索引確保唯一性)
+      const getItemKey = (catIdx, secIdx, itemIdx) => {
+        return `food-${catIdx}-${secIdx}-${itemIdx}`;
+      };
+
+      // 排序：愛心項目排在前面
+      const sortItems = (items, catIdx, secIdx) => {
+        return [...items].sort((a, b) => {
+          const aIdx = items.indexOf(a);
+          const bIdx = items.indexOf(b);
+          const aKey = getItemKey(catIdx, secIdx, aIdx);
+          const bKey = getItemKey(catIdx, secIdx, bIdx);
+          const aFav = favorites[aKey] ? 1 : 0;
+          const bFav = favorites[bKey] ? 1 : 0;
+          return bFav - aFav; // 愛心的排前面
+        });
+      };
+
       return (
         <div className="space-y-8 animate-fade-in">
           <SectionCard icon={Utensils} title="美食指南">
@@ -1430,56 +1478,105 @@
               行程中的素食友善餐廳、甜點與必吃美食整理。
             </p>
             <div className="grid md:grid-cols-2 gap-6">
-              {foodData.categories.map((category, idx) => (
-                <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
-                  <div className="px-5 py-4 bg-accent/10 border-b border-accent/20 flex items-center justify-between">
-                    <h3 className="font-bold text-gray-800 flex items-center gap-2">
-                      <MapPin size={18} className="text-accent" />
-                      {category.location}
-                    </h3>
-                    <span className="text-xs font-bold text-accent bg-white px-3 py-1 rounded-full">
-                      {category.day}
-                    </span>
-                  </div>
-                  <div className="p-4 space-y-6">
-                    {category.sections.map((section, sIdx) => (
-                      <div key={sIdx}>
-                        <h4 className="text-sm font-bold text-gray-800 mb-3">{section.title}</h4>
-                        <div className="space-y-2">
-                          {section.items.map((item, iIdx) => (
-                            <div
-                              key={iIdx}
-                              className={`p-3 rounded-xl border transition-colors ${item.recommended
-                                ? "bg-accent/5 border-accent/30"
-                                : "bg-gray-50 border-gray-100"
-                                }`}
-                            >
-                              <div className="flex items-start justify-between gap-2">
-                                <div className="flex-1 min-w-0">
-                                  <div className="flex items-center gap-2 flex-wrap">
-                                    <span className="font-bold text-gray-800 text-sm">{item.name}</span>
-                                    {item.recommended && (
-                                      <span className="text-[10px] font-bold text-white bg-accent px-1.5 py-0.5 rounded">推薦</span>
-                                    )}
-                                    <span className="text-xs text-gray-400">{item.type}</span>
-                                  </div>
-                                  <p className="text-xs text-gray-600 mt-1">{item.desc}</p>
-                                  {item.note && (
-                                    <p className="text-xs text-orange-600 mt-1">{item.note}</p>
-                                  )}
-                                </div>
-                                {item.price && (
-                                  <span className="text-xs font-medium text-gray-500 shrink-0">{item.price}</span>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+              {foodData.categories.map((category, idx) => {
+                const isCollapsed = collapsedCategories[idx];
+                return (
+                  <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden h-fit">
+                    <button
+                      onClick={() => toggleCategory(idx)}
+                      className="w-full px-5 py-4 bg-accent/10 border-b border-accent/20 flex items-center justify-between cursor-pointer hover:bg-accent/15 transition-colors text-left"
+                    >
+                      <h3 className="font-bold text-gray-800 flex items-center gap-2">
+                        <MapPin size={18} className="text-accent" />
+                        {category.location}
+                      </h3>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-bold text-accent bg-white px-3 py-1 rounded-full shadow-sm">
+                          {category.day}
+                        </span>
+                        <ChevronDown
+                          size={20}
+                          className={`text-accent/70 transition-transform duration-300 ${isCollapsed ? "" : "rotate-180"}`}
+                        />
                       </div>
-                    ))}
+                    </button>
+
+                    <div
+                      className={`transition-all duration-300 ease-in-out overflow-hidden ${isCollapsed ? 'max-h-0 opacity-0' : 'max-h-[5000px] opacity-100'}`}
+                    >
+                      <div className="p-4 space-y-6">
+                        {category.sections.map((section, sIdx) => (
+                          <div key={sIdx}>
+                            <h4 className="text-sm font-bold text-gray-800 mb-3">{section.title}</h4>
+                            <div className="space-y-2">
+                              {section.items.map((item, originalIdx) => {
+                                const itemKey = getItemKey(idx, sIdx, originalIdx);
+                                const isFavorite = favorites[itemKey];
+                                return { ...item, originalIdx, itemKey, isFavorite };
+                              }).sort((a, b) => (b.isFavorite ? 1 : 0) - (a.isFavorite ? 1 : 0))
+                                .map((item) => (
+                                  <div
+                                    key={item.itemKey}
+                                    className={`p-3 rounded-xl border transition-all duration-300 ${item.isFavorite
+                                      ? "bg-pink-50 border-pink-200"
+                                      : item.recommended
+                                        ? "bg-accent/5 border-accent/30"
+                                        : "bg-gray-50 border-gray-100"
+                                      }`}
+                                  >
+                                    <div className="flex items-start gap-2">
+                                      {/* 愛心按鈕 */}
+                                      <button
+                                        onClick={() => toggleFavorite(item.itemKey)}
+                                        className={`p-1.5 rounded-lg transition-all shrink-0 ${item.isFavorite
+                                          ? "bg-pink-100 text-pink-500"
+                                          : "bg-gray-100 text-gray-400 hover:bg-pink-50 hover:text-pink-400"
+                                          }`}
+                                        title={item.isFavorite ? "取消置頂" : "想吃！置頂"}
+                                      >
+                                        <Star size={14} fill={item.isFavorite ? "currentColor" : "none"} />
+                                      </button>
+
+                                      <div className="flex-1 min-w-0">
+                                        <div className="flex items-center gap-1.5 mb-0.5">
+                                          {item.recommended && (
+                                            <span className="text-[10px] font-bold text-white bg-accent px-1.5 py-0.5 rounded shrink-0">推薦</span>
+                                          )}
+                                          <span className="text-xs text-gray-400 shrink-0">{item.type}</span>
+                                        </div>
+                                        <div className="font-bold text-gray-800 text-sm leading-snug">{item.name}</div>
+                                        <p className="text-xs text-gray-600 mt-1">{item.desc}</p>
+                                        {item.note && (
+                                          <p className="text-xs text-orange-600 mt-1">{item.note}</p>
+                                        )}
+                                      </div>
+                                      <div className="flex items-center gap-2 shrink-0">
+                                        {item.price && (
+                                          <span className="text-xs font-medium text-gray-500">{item.price}</span>
+                                        )}
+                                        {item.mapUrl && (
+                                          <a
+                                            href={item.mapUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="p-1.5 bg-primary/10 rounded-lg text-primary hover:bg-primary hover:text-white transition-colors"
+                                            title="在 Google Maps 中開啟"
+                                          >
+                                            <Navigation size={14} />
+                                          </a>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </SectionCard>
         </div>
@@ -1838,8 +1935,8 @@
                       onClick={() => setPhaseExpanded(prev => ({ ...prev, [idx]: !prev[idx] }))}
                       className="sticky top-[52px] z-30 w-full bg-gray-50/95 backdrop-blur py-3 md:py-4 cursor-pointer text-left focus:outline-none group"
                     >
-                      <h2 className="text-sm md:text-lg font-bold text-gray-600 flex items-center gap-2">
-                        <span className="w-1 h-4 md:h-5 bg-accent rounded-full"></span>
+                      <h2 className="text-base md:text-xl font-bold text-gray-600 flex items-center gap-2">
+                        <span className="w-1 h-6 md:h-8 bg-accent rounded-full"></span>
                         {phase.phase}
 
 
