@@ -120,7 +120,7 @@
           {
             day: 1,
             date: "1/12 (一)",
-            title: "關西抵達．Rinku Outlet",
+            title: "抵達關西 · Rinku Outlet",
             image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2070&auto=format&fit=crop",
             time: "13:00 - 住宿",
             activities: [
@@ -146,7 +146,7 @@
           {
             day: 2,
             date: "1/13 (二)",
-            title: "直奔 VISON．園區探索",
+            title: "VISON 初探",
             image: "https://images.unsplash.com/photo-1492571350019-22de08371fd3?q=80&w=2108&auto=format&fit=crop",
             time: "10:00 - 20:00",
             activities: [
@@ -202,7 +202,7 @@
           {
             day: 3,
             date: "1/14 (三)",
-            title: "VISON 深度體驗 (連住)",
+            title: "VISON 深度體驗",
             image: "https://images.unsplash.com/photo-1481026469463-66327c86e544?q=80&w=2108&auto=format&fit=crop",
             time: "全日",
             activities: [
@@ -230,7 +230,7 @@
           {
             day: 4,
             date: "1/15 (四)",
-            title: "伊勢神宮內宮慢遊",
+            title: "伊勢神宮漫遊",
             image: "https://images.unsplash.com/photo-1694175173949-1c2bc79b99dc?q=80&w=2070&auto=format&fit=crop",
             time: "11:00 - 17:00",
             activities: [
@@ -264,7 +264,7 @@
           {
             day: 5,
             date: "1/16 (五)",
-            title: "前往賢島度假",
+            title: "賢島海景溫泉",
             image: "https://images.unsplash.com/photo-1554797589-7241bb691973?q=80&w=2070&auto=format&fit=crop",
             time: "10:00 - 住宿",
             activities: [
@@ -284,7 +284,7 @@
           {
             day: 6,
             date: "1/17 (六)",
-            title: "賢島散策 & 近鐵特急返大阪",
+            title: "賢英虞灣遊船 · 大阪返程",
             image: "https://images.unsplash.com/photo-1490761668535-35497054764d?q=80&w=2070&auto=format&fit=crop",
             time: "08:00 - 18:00",
             activities: [
@@ -313,12 +313,12 @@
         ],
       },
       {
-        phase: "第二階段：大阪都市探索 & 返程 (Day 7-10)",
+        phase: "第二階段：大阪都市探索 (Day 7-10)",
         days: [
           {
             day: 7,
             date: "1/18 (日)",
-            title: "梅田悠閒購物 & USJ",
+            title: "梅田購物 · USJ 夜遊",
             image: "https://images.unsplash.com/photo-1612404834746-1ffba06de133?q=80&w=2070&auto=format&fit=crop",
             time: "11:00 - 20:00",
             activities: [
@@ -350,7 +350,7 @@
           {
             day: 8,
             date: "1/19 (一)",
-            title: "USJ 整日 & 空庭溫泉療癒",
+            title: "USJ 暢玩 · 空庭溫泉",
             image: "https://images.unsplash.com/photo-1506045412240-22980140a405?q=80&w=2070&auto=format&fit=crop",
             time: "09:00 - 21:00",
             activities: [
@@ -375,7 +375,7 @@
           {
             day: 9,
             date: "1/20 (二)",
-            title: "最後採購 & 機場住宿",
+            title: "Rinku Outlet",
             image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2070&auto=format&fit=crop",
             time: "10:00 - 19:00",
             activities: [
@@ -599,6 +599,20 @@
       const apiKey = ""; // 在此填入您的 API Key (如果有)
       const model = "gemini-3.0-pro";
 
+      // 演示模式 (若無 API Key)
+      if (!apiKey) {
+        await new Promise(resolve => setTimeout(resolve, 1000)); // 模擬延遲
+
+        if (prompt.includes("素食")) {
+          return "目前為演示模式。關於素食餐廳，行程中推薦了「伊勢烏龍麵」與「豆腐懷石料理」，都非常適合素食者享用！(請配置 API Key 以獲取即時 AI 建議)";
+        }
+        if (prompt.includes("交通")) {
+          return "目前為演示模式。此行程主要使用近鐵廣域周遊券 (KINTETSU RAIL PASS)，包含特急券的預約建議提早進行。(請配置 API Key 以獲取即時 AI 建議)";
+        }
+
+        return `這是 AI 導遊的模擬回應。由於目前未設定 API Key，我無法連接到真正的 Gemini 模型。\n\n不過別擔心，您的行程規劃已經非常完整！您剛剛詢問關於：「${prompt.slice(0, 10)}${prompt.length > 10 ? '...' : ''}」的問題，建議您可以直接查看行程詳情頁面。`;
+      }
+
       const fullSystemInstruction = `
                 You are a helpful, expert travel concierge for a vegetarian trip to Japan (Ise-Shima and Osaka).
                 Current Itinerary Context: ${JSON.stringify(itineraryData)}
@@ -623,7 +637,7 @@
         const data = await response.json();
         if (data.error) {
           console.error("Gemini Error:", data.error);
-          return "抱歉，AI 服務暫時無法使用，請稍後再試。";
+          return "抱歉，AI 服務暫時無法使用 (API Key 可能無效或配額已滿)。";
         }
         return (
           data.candidates?.[0]?.content?.parts?.[0]?.text ||
@@ -771,26 +785,32 @@
       // 當 controlledExpanded 為 null 或 undefined 時，使用內部狀態
       const [internalExpanded, setInternalExpanded] = useState(true);
       const isControlled = controlledExpanded !== null && controlledExpanded !== undefined;
+
+      // 當外部控制狀態改變時，同步更新內部狀態
+      useEffect(() => {
+        if (isControlled) {
+          setInternalExpanded(controlledExpanded);
+        }
+      }, [controlledExpanded, isControlled]);
+
       const isExpanded = isControlled ? controlledExpanded : internalExpanded;
 
       const handleToggle = () => {
         if (isControlled && onToggle) {
-          // 受控模式：通知父層切換到個別控制模式
+          // 解除全域控制，並切換當前卡片狀態
           onToggle();
-          // 同時設定內部狀態為當前的反向值
           setInternalExpanded(!controlledExpanded);
         } else {
-          // 非受控模式：直接切換內部狀態
           setInternalExpanded(!internalExpanded);
         }
       };
 
       return (
-        <div className="relative bg-white rounded-3xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 mb-6 flex flex-col overflow-hidden group">
+        <div className={`relative bg-white rounded-3xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group ${isExpanded ? 'mb-6' : 'mb-3'}`}>
           {/* Image Banner - Clickable Header */}
           <button
             onClick={handleToggle}
-            className={`w-full relative overflow-hidden cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset transition-all duration-300 ${isExpanded ? 'h-48' : 'h-28'}`}
+            className="w-full relative overflow-hidden cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset transition-all duration-300 h-28"
           >
             <img
               src={dayData.image}
@@ -798,32 +818,25 @@
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent"></div>
-            {/* Top Left: Day Number + Date */}
-            <div className={`absolute left-4 transition-all duration-300 ${isExpanded ? 'top-4' : 'top-2'}`}>
-              <span className={`flex items-center justify-center rounded-xl bg-white/10 backdrop-blur-md text-white font-bold border border-white/20 shadow-lg transition-all duration-300 ${isExpanded ? 'w-12 h-12 text-lg' : 'w-10 h-10 text-base'}`}>
-                {typeof dayData.day === "number"
-                  ? `D${dayData.day}`
-                  : dayData.day}
+            {/* Top Left: Day Number + Date - Horizontal Badge */}
+            <div className="absolute left-4 top-4 transition-all duration-300">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-white font-bold text-sm border border-white/20 shadow-lg">
+                {typeof dayData.day === "number" ? `D${dayData.day}` : dayData.day}
+                {dayData.date && (
+                  <>
+                    <span className="text-white/50">·</span>
+                    <span className="font-bold">{dayData.date}</span>
+                  </>
+                )}
               </span>
-              {dayData.date && isExpanded && (
-                <div className="mt-1 text-xs text-white/90 font-medium text-center">
-                  {dayData.date}
-                </div>
-              )}
             </div>
             {/* Top Right: Expand/Collapse Button */}
-            <div className={`absolute right-4 p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/30 transition-all duration-300 ${isExpanded ? 'top-4' : 'top-2'}`} style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
-              <ChevronDown size={isExpanded ? 18 : 16} />
+            <div className="absolute right-4 top-4 p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/30 transition-all duration-300" style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}>
+              <ChevronDown size={16} />
             </div>
-            {/* Bottom: Title (full width) */}
-            <div className={`absolute left-6 right-6 text-white transition-all duration-300 ${isExpanded ? 'bottom-4' : 'bottom-2'}`}>
-              {isExpanded && (
-                <div className="text-sm font-bold opacity-90 mb-1 tracking-wider uppercase text-accent">
-                  {dayData.time}
-                </div>
-              )}
-              <h3 className={`font-bold font-display leading-tight transition-all duration-300 ${isExpanded ? 'text-xl md:text-2xl' : 'text-base md:text-lg'}`}>
-                {!isExpanded && dayData.date && <span className="text-white/70 font-normal mr-2">{dayData.date}</span>}
+            {/* Bottom: Title (full width, unified style) */}
+            <div className="absolute left-6 right-6 text-white bottom-8 transition-all duration-300">
+              <h3 className="font-bold font-display leading-tight text-xl md:text-2xl">
                 {dayData.title}
               </h3>
             </div>
@@ -1490,58 +1503,52 @@
               {activeFeature === "translate" && (
                 <div className="space-y-4">
                   <div className="bg-white p-4 rounded-xl shadow-sm border border-primary/20">
-                    <h4 className="font-bold text-gray-800 mb-2 flex items-center gap-2">
+                    <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
                       <Leaf size={16} className="text-green-500" />{" "}
-                      選擇您的飲食需求
+                      素食溝通卡 (請直接出示給店員)
                     </h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      <TranslatorButton
-                        label="🚫 我不吃肉和魚 (Meat/Fish Free)"
-                        prompt="I do not eat meat or fish."
-                        onTranslate={handleTranslate}
-                        isLoading={isLoading}
-                      />
-                      <TranslatorButton
-                        label="🐟 我不能吃柴魚高湯 (No Dashi)"
-                        prompt="I cannot eat dashi (fish stock). Please verify if the soup or sauce contains fish stock."
-                        onTranslate={handleTranslate}
-                        isLoading={isLoading}
-                      />
-                      <TranslatorButton
-                        label="🧅 我不吃五辛 (No Alliums)"
-                        prompt="I do not eat onions, garlic, chives, leeks, or scallions. (Oriental Vegetarian)"
-                        onTranslate={handleTranslate}
-                        isLoading={isLoading}
-                      />
-                      <TranslatorButton
-                        label="🥚🥛 我不吃蛋奶 (Vegan)"
-                        prompt="I am Vegan. I do not eat meat, fish, eggs, milk, or honey."
-                        onTranslate={handleTranslate}
-                        isLoading={isLoading}
-                      />
+
+                    <div className="space-y-4">
+                      {/* Card 1: 核心需求 (禁肉魚高湯，可蛋奶五辛) */}
+                      <div className="p-4 rounded-xl bg-red-50/50 border border-red-100">
+                        <p className="text-xs font-bold text-gray-500 mb-1">🚫 核心飲食禁忌</p>
+                        <p className="text-xl font-bold text-gray-900 mb-2 leading-relaxed">
+                          私は肉と魚介類が食べられません。<br />
+                          <span className="text-red-600">出汁（だし）やエキスもNGです。</span>
+                        </p>
+                        <hr className="my-2 border-red-100" />
+                        <p className="text-lg font-bold text-green-700 leading-relaxed">
+                          でも、卵・乳製品・ネギ・ニンニクは食べられます。
+                        </p>
+                        <div className="mt-3 pt-2 border-t border-red-100/50">
+                          <p className="text-sm font-medium text-gray-700">
+                            我不吃肉、魚、海鮮、高湯。<br />
+                            但我<span className="font-bold text-green-600">可以吃</span>蛋、奶、蔥、蒜。
+                          </p>
+                        </div>
+                      </div>
+
+                      {/* Card 2: 高湯確認 (最常遇到的問題) */}
+                      <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100">
+                        <p className="text-xs font-bold text-gray-500 mb-1">🐟 高湯確認 (Dashi Check)</p>
+                        <p className="text-xl font-bold text-gray-900 mb-2 leading-relaxed">
+                          この料理に、鰹節や魚の出汁は入っていますか？
+                        </p>
+                        <p className="text-xs text-gray-400">請問這道菜含有柴魚或魚類高湯嗎？(昆布高湯可以)</p>
+                      </div>
+
+                      {/* Card 3: 方便店員理解的總結 */}
+                      <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                        <p className="text-xs font-bold text-gray-500 mb-1">✅ 可食清單 (OK List)</p>
+                        <ul className="grid grid-cols-2 gap-2 mt-2">
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 卵 (Eggs)</li>
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 乳製品 (Milk)</li>
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 玉ねぎ (Onion)</li>
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> ニンニク (Garlic)</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
-                  {isLoading && !translationResult && (
-                    <div className="text-center py-8 text-primary/60 flex flex-col items-center gap-2">
-                      <Sparkles className="animate-spin" />
-                      <span className="text-sm">
-                        Gemini-3.0-Pro 正在為您撰寫日文...
-                      </span>
-                    </div>
-                  )}
-                  {translationResult && (
-                    <div className="bg-white border-2 border-primary rounded-xl p-5 shadow-md anim-slideUp-p">
-                      <div className="flex items-center justify-between mb-3 border-b border-gray-100 pb-2">
-                        <span className="text-xs font-bold text-primary uppercase tracking-wider">
-                          Show to Staff
-                        </span>
-                        <Sparkles size={14} className="text-yellow-500" />
-                      </div>
-                      <div className="whitespace-pre-wrap text-gray-800 leading-relaxed font-medium">
-                        {translationResult}
-                      </div>
-                    </div>
-                  )}
                 </div>
               )}
             </div>
@@ -1674,43 +1681,20 @@
             )}
 
             {activeTab === "itinerary" && (
-              <div className="space-y-12">
-                {/* 全部展開/折疊控制按鈕 - 精簡圖示版 */}
-                <div className="flex items-center justify-end">
-                  <div className="inline-flex items-center bg-white rounded-lg border border-gray-200 shadow-sm overflow-hidden">
-                    <button
-                      onClick={() => setAllExpanded(true)}
-                      title="全部展開"
-                      className={`p-2 transition-colors ${allExpanded === true
-                        ? 'bg-primary text-white'
-                        : 'text-gray-500 hover:bg-gray-50 hover:text-primary'
-                        }`}
-                    >
-                      <ChevronUp size={16} />
-                    </button>
-                    <div className="w-px h-5 bg-gray-200"></div>
-                    <button
-                      onClick={() => setAllExpanded(false)}
-                      title="全部折疊"
-                      className={`p-2 transition-colors ${allExpanded === false
-                        ? 'bg-primary text-white'
-                        : 'text-gray-500 hover:bg-gray-50 hover:text-primary'
-                        }`}
-                    >
-                      <ChevronDown size={16} />
-                    </button>
-                  </div>
-                </div>
+              <div className="space-y-6">
+                {/* 移除獨立的全域按鈕區塊，改整合進下方 */}
 
                 {itineraryData.map((phase, idx) => (
                   <div key={idx} className="relative">
                     <button
                       onClick={() => setPhaseExpanded(prev => ({ ...prev, [idx]: !prev[idx] }))}
-                      className="sticky top-[52px] z-30 w-full bg-gray-50/95 backdrop-blur py-2 md:py-3 cursor-pointer text-left focus:outline-none group"
+                      className="sticky top-[52px] z-30 w-full bg-gray-50/95 backdrop-blur py-3 md:py-4 cursor-pointer text-left focus:outline-none group"
                     >
                       <h2 className="text-sm md:text-lg font-bold text-gray-600 flex items-center gap-2">
                         <span className="w-1 h-4 md:h-5 bg-accent rounded-full"></span>
                         {phase.phase}
+
+
                         <span className="ml-auto text-gray-400 group-hover:text-primary transition-colors">
                           {phaseExpanded[idx] ? (
                             <ChevronUp size={18} />
@@ -1736,6 +1720,8 @@
                     </div>
                   </div>
                 ))}
+
+
 
                 <div className="flex justify-center mt-12">
                   <button
@@ -1769,15 +1755,32 @@
             {activeTab === "food" && <FoodView />}
           </main>
 
-          <button
-            onClick={() => setIsAIModalOpen(true)}
-            className="fixed bottom-6 right-6 z-50 p-4 rounded-full bg-primary text-white shadow-2xl hover:scale-110 hover:shadow-primary/50 transition-all duration-300 group"
-          >
-            <Sparkles size={28} className="animate-pulse" />
-            <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900 text-white text-xs font-bold py-1 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-              ✨ AI 旅遊顧問
-            </span>
-          </button>
+          {/* FAB Group */}
+          <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+            {/* Itinerary Toggle FAB */}
+            {activeTab === "itinerary" && (
+              <button
+                onClick={() => setAllExpanded(allExpanded === true ? false : true)}
+                className="p-3 rounded-full bg-white/70 backdrop-blur-md text-primary shadow-xl border border-white/50 hover:bg-white hover:text-primary transition-all duration-300 group relative"
+              >
+                {allExpanded === true ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
+                <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                  {allExpanded === true ? "全部折疊" : "全部展開"}
+                </span>
+              </button>
+            )}
+
+            {/* AI Assistant FAB */}
+            <button
+              onClick={() => setIsAIModalOpen(true)}
+              className="p-3 rounded-full bg-white/70 backdrop-blur-md text-primary shadow-xl border border-white/50 hover:bg-white hover:text-primary transition-all duration-300 group relative"
+            >
+              <Sparkles size={24} className="animate-pulse" />
+              <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+                AI 旅遊顧問
+              </span>
+            </button>
+          </div>
 
           <AIModal
             isOpen={isAIModalOpen}
