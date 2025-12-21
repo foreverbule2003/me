@@ -4,7 +4,7 @@
  * 使用方式：在頁面中引入此檔案，然後使用 Icons 物件
  */
 
-(function() {
+(function () {
   "use strict";
 
   // LucideIcon 核心元件 - 使用內嵌 SVG
@@ -198,6 +198,8 @@
           <circle cx="12" cy="12" r="3" />
         </>
       ),
+      "chevron-down": <path d="m6 9 6 6 6-6" />,
+      "chevron-up": <path d="m18 15-6-6-6 6" />,
 
       // === 通訊 ===
       send: (
@@ -302,6 +304,8 @@
     // UI 控制
     X: "x",
     Eye: "eye",
+    ChevronDown: "chevron-down",
+    ChevronUp: "chevron-up",
 
     // 通訊
     Send: "send",
