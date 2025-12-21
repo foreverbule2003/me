@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;700;800;900&family=DM+Sans:wght@400;500;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;500;700;800;900&display=swap"
     rel="stylesheet" />
   <!-- 2. 引入 Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -33,7 +33,7 @@
           },
           fontFamily: {
             display: ['"Noto Serif JP"', "serif"],
-            body: ['"DM Sans"', "sans-serif"],
+            body: ['"Inter"', "sans-serif"],
           },
         },
       },
@@ -681,7 +681,7 @@
           </div>
           <h1 className="font-display text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight animate-fade-up animate-fade-up-delay-1 drop-shadow-xl text-yellow-50">
             伊勢志摩‧大阪
-            <span className="block text-2xl md:text-4xl mt-4 font-light tracking-[0.2em] font-body opacity-90">
+            <span className="block text-2xl md:text-3xl mt-4 font-bold tracking-widest font-body opacity-90">
               10日素食慢旅
             </span>
           </h1>
@@ -986,15 +986,14 @@
 
       return (
         <SectionCard icon={Wallet} title="預算概算 (2人同行，每人平均)">
-          <div className="overflow-x-auto">
+          {/* Desktop View: Table */}
+          <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-100">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-primary text-white">
-                  <th className="p-4 font-semibold rounded-tl-lg font-display tracking-wider">
-                    項目
-                  </th>
-                  <th className="p-4 font-semibold">金額 (JPY)</th>
-                  <th className="p-4 font-semibold rounded-tr-lg">說明</th>
+                <tr className="bg-primary/5 text-primary">
+                  <th className="p-3 font-bold text-sm whitespace-nowrap">項目</th>
+                  <th className="p-3 font-bold text-sm whitespace-nowrap">金額 (JPY)</th>
+                  <th className="p-3 font-bold text-sm whitespace-nowrap">說明</th>
                 </tr>
               </thead>
               <tbody className="text-gray-600">
@@ -1003,26 +1002,51 @@
                     key={idx}
                     className="border-b border-gray-100 hover:bg-accent/5 transition-colors"
                   >
-                    <td className="p-4 font-medium text-primary font-display">
+                    <td className="p-3 font-bold text-gray-700 text-sm whitespace-nowrap">
                       {row.item}
                     </td>
-                    <td className="p-4 font-mono text-dark">
+                    <td className="p-3 font-bold tabular-nums text-gray-900 text-sm whitespace-nowrap">
                       ¥{row.cost.toLocaleString()}
                     </td>
-                    <td className="p-4 text-sm text-subtle">{row.note}</td>
+                    <td className="p-3 text-sm text-subtle min-w-[200px]">{row.note}</td>
                   </tr>
                 ))}
-                <tr className="bg-gradient-to-r from-primary to-[#0A1A30] text-accent font-bold border-t-2 border-accent">
-                  <td className="p-4 rounded-bl-lg">總計</td>
-                  <td className="p-4 font-mono text-xl text-white">
+                <tr className="bg-primary/5 text-gray-800 font-bold border-t-2 border-primary/20">
+                  <td className="p-3 rounded-bl-lg text-sm whitespace-nowrap">總計</td>
+                  <td className="p-3 font-bold tabular-nums text-xl text-primary font-black whitespace-nowrap">
                     ¥{total.toLocaleString()}
                   </td>
-                  <td className="p-4 rounded-br-lg text-white/80 font-normal">
+                  <td className="p-3 rounded-br-lg text-gray-500 font-normal text-sm">
                     預算重點：吃得好、住得好、移動舒適
                   </td>
                 </tr>
               </tbody>
             </table>
+          </div>
+
+          {/* Mobile View: Card List */}
+          <div className="md:hidden space-y-3">
+            {budgetData.map((row, idx) => (
+              <div key={idx} className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col gap-2">
+                <div className="flex justify-between items-start">
+                  <div className="font-bold text-gray-800 text-sm">{row.item}</div>
+                  <div className="font-bold tabular-nums text-primary text-sm">¥{row.cost.toLocaleString()}</div>
+                </div>
+                <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded-lg leading-relaxed">
+                  {row.note}
+                </div>
+              </div>
+            ))}
+            {/* Mobile Total Card */}
+            <div className="p-4 bg-primary/5 border border-primary/20 rounded-xl shadow-sm">
+              <div className="flex justify-between items-center mb-2">
+                <span className="font-bold text-gray-800 text-sm">總計 (預估)</span>
+                <span className="font-black tabular-nums text-xl text-primary">¥{total.toLocaleString()}</span>
+              </div>
+              <div className="text-xs text-gray-500 text-center pt-2 border-t border-primary/10">
+                預算重點：吃得好、住得好、移動舒適
+              </div>
+            </div>
           </div>
         </SectionCard>
       );
@@ -1117,14 +1141,14 @@
               </h3>
               <div className="bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
                 <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse">
+                  <table className="w-full text-left border-collapse whitespace-nowrap">
                     <thead>
-                      <tr className="bg-primary text-white">
-                        <th className="p-3 font-semibold text-sm">日期</th>
-                        <th className="p-3 font-semibold text-sm">區間</th>
-                        <th className="p-3 font-semibold text-sm">普通/急行 (免費)</th>
-                        <th className="p-3 font-semibold text-sm">特急 (加價)</th>
-                        <th className="p-3 font-semibold text-sm">特急券費用</th>
+                      <tr className="bg-primary/5 text-primary">
+                        <th className="p-3 font-bold text-sm">日期</th>
+                        <th className="p-3 font-bold text-sm">區間</th>
+                        <th className="p-3 font-bold text-sm">普通/急行 (免費)</th>
+                        <th className="p-3 font-bold text-sm">特急 (加價)</th>
+                        <th className="p-3 font-bold text-sm">特急券費用</th>
                       </tr>
                     </thead>
                     <tbody className="text-gray-600">
@@ -1134,14 +1158,14 @@
                           <td className="p-3 text-sm font-medium">{row.route}</td>
                           <td className="p-3 text-sm text-gray-500">{row.regular}</td>
                           <td className="p-3 text-sm text-green-600 font-medium">{row.express}</td>
-                          <td className="p-3 text-sm font-bold text-accent">{row.cost}</td>
+                          <td className="p-3 text-sm font-bold tabular-nums text-accent">{row.cost}</td>
                         </tr>
                       ))}
                     </tbody>
                     <tfoot>
-                      <tr className="bg-gradient-to-r from-primary to-[#0A1A30] text-white font-bold">
-                        <td colSpan={4} className="p-3 text-sm">特急券總費用 (全程搭特急)</td>
-                        <td className="p-3 text-lg text-accent">¥4,320</td>
+                      <tr className="bg-primary/5 text-gray-800 font-bold border-t-2 border-primary/20">
+                        <td colSpan={4} className="p-3 text-sm text-right pr-4">特急券總費用 (全程搭特急)</td>
+                        <td className="p-3 text-lg text-primary font-black">¥4,320</td>
                       </tr>
                     </tfoot>
                   </table>
@@ -1509,42 +1533,49 @@
                     </h4>
 
                     <div className="space-y-4">
-                      {/* Card 1: 核心需求 (禁肉魚高湯，可蛋奶五辛) */}
-                      <div className="p-4 rounded-xl bg-red-50/50 border border-red-100">
-                        <p className="text-xs font-bold text-gray-500 mb-1">🚫 核心飲食禁忌</p>
-                        <p className="text-xl font-bold text-gray-900 mb-2 leading-relaxed">
-                          私は肉と魚介類が食べられません。<br />
-                          <span className="text-red-600">出汁（だし）やエキスもNGです。</span>
+                      {/* Card 1: 分區飲食需求 (NG紅區 / OK綠區) */}
+                      <div className="p-4 rounded-xl bg-white border border-gray-200 shadow-sm">
+                        <p className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-1.5">
+                          <span className="text-red-500">🚫</span> 食事制限 (飲食禁忌)
                         </p>
-                        <hr className="my-2 border-red-100" />
-                        <p className="text-lg font-bold text-green-700 leading-relaxed">
-                          でも、卵・乳製品・ネギ・ニンニクは食べられます。
-                        </p>
-                        <div className="mt-3 pt-2 border-t border-red-100/50">
-                          <p className="text-sm font-medium text-gray-700">
-                            我不吃肉、魚、海鮮、高湯。<br />
-                            但我<span className="font-bold text-green-600">可以吃</span>蛋、奶、蔥、蒜。
+
+                        {/* NG Section */}
+                        <div className="mb-3 p-3 bg-red-50 border border-red-100 rounded-lg">
+                          <p className="text-lg font-bold text-red-600 leading-relaxed">
+                            私は肉と魚介類が食べられません。<br />
+                            <span className="border-b-2 border-red-200">肉や魚の出汁（だし）もNGです。</span>
                           </p>
+                          <p className="text-xs text-red-500/70 mt-2 font-medium">(我不吃肉、海鮮，以及含肉或魚的高湯)</p>
+                        </div>
+
+                        {/* OK Section */}
+                        <div className="p-3 bg-green-50 border border-green-100 rounded-lg">
+                          <p className="text-lg font-bold text-green-700 leading-relaxed">
+                            でも、卵・乳製品・ネギ・ニンニクは食べられます。
+                          </p>
+                          <div className="mt-2 text-xs text-green-700/70 font-medium">
+                            (但我<span className="font-bold border-b border-green-400">可以吃</span>雞蛋、牛奶、蔥、蒜)
+                          </div>
                         </div>
                       </div>
 
-                      {/* Card 2: 高湯確認 (最常遇到的問題) */}
+                      {/* Card 2: 高湯確認 */}
                       <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100">
-                        <p className="text-xs font-bold text-gray-500 mb-1">🐟 高湯確認 (Dashi Check)</p>
+                        <p className="text-xs font-bold text-gray-500 mb-1">🐟 出汁の確認 (高湯確認)</p>
                         <p className="text-xl font-bold text-gray-900 mb-2 leading-relaxed">
                           この料理に、鰹節や魚の出汁は入っていますか？
                         </p>
-                        <p className="text-xs text-gray-400">請問這道菜含有柴魚或魚類高湯嗎？(昆布高湯可以)</p>
+                        <p className="text-xs text-blue-500/70 mt-1 font-medium">(請問這道菜含有柴魚或魚類高湯嗎？)</p>
                       </div>
 
-                      {/* Card 3: 方便店員理解的總結 */}
+                      {/* Card 3: 可食清單 */}
                       <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
-                        <p className="text-xs font-bold text-gray-500 mb-1">✅ 可食清單 (OK List)</p>
+                        <p className="text-xs font-bold text-gray-500 mb-1">✅ 食べられるもの (可食清單)</p>
                         <ul className="grid grid-cols-2 gap-2 mt-2">
-                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 卵 (Eggs)</li>
-                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 乳製品 (Milk)</li>
-                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 玉ねぎ (Onion)</li>
-                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> ニンニク (Garlic)</li>
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 卵 (雞蛋)</li>
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 乳製品 (牛奶/起司)</li>
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 玉ねぎ (洋蔥)</li>
+                          <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> ニンニク (大蒜)</li>
                         </ul>
                       </div>
                     </div>
