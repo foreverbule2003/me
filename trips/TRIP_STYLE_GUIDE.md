@@ -107,3 +107,244 @@
 // 三欄佈局
 <div className="grid md:grid-cols-3 gap-4">
 ```
+
+## 3. 進階元件樣式 (Advanced Component Patterns)
+
+### 3.1 可折疊區塊 (Collapsible Sections)
+
+```jsx
+// 可折疊按鈕標題
+<button
+  onClick={() => setIsOpen(!isOpen)}
+  className="w-full text-base font-bold text-gray-800 mb-4 flex items-center justify-between gap-2 group"
+>
+  <div className="flex items-center gap-2">
+    <IconName className="text-accent" size={18} />
+    標題文字
+  </div>
+  <ChevronDown
+    size={20}
+    className={`text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+  />
+</button>
+
+// 可折疊內容區
+<div
+  className={`transition-all duration-300 ease-in-out overflow-hidden ${
+    isOpen ? 'max-h-[5000px] opacity-100' : 'max-h-0 opacity-0'
+  }`}
+>
+  {/* 內容 */}
+</div>
+```
+
+### 3.2 Modal 對話框 (Modal Dialog)
+
+```jsx
+// Modal 背景遮罩
+<div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+
+// Modal 主容器
+<div className="bg-white w-full max-w-3xl h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative">
+
+// Modal 標題列
+<div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
+  <div className="flex items-center gap-2">
+    <IconName size={22} />
+    <h3 className="font-bold text-lg">標題</h3>
+  </div>
+  <button className="p-1 hover:bg-white/20 rounded-full transition-colors">
+    <X size={20} />
+  </button>
+</div>
+```
+
+### 3.3 FAB 浮動按鈕 (Floating Action Buttons)
+
+```jsx
+// FAB 群組容器
+<div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+
+// 單一 FAB 按鈕樣式
+<button className="p-3 rounded-full bg-white/70 backdrop-blur-md text-primary shadow-xl border border-white/50 hover:bg-white hover:text-primary transition-all duration-300 group relative">
+  <IconName size={24} className="animate-pulse" />
+  
+  {/* Tooltip */}
+  <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+    按鈕說明
+  </span>
+</button>
+```
+
+### 3.4 響應式表格 (Responsive Tables)
+
+```jsx
+// 桌面版表格
+<div className="hidden md:block overflow-x-auto rounded-xl border border-gray-100">
+  <table className="w-full text-left border-collapse">
+    <thead>
+      <tr className="bg-primary/5 text-primary">
+        <th className="p-3 font-bold text-sm whitespace-nowrap">欄位</th>
+      </tr>
+    </thead>
+    <tbody className="text-gray-600">
+      <tr className="border-b border-gray-100 hover:bg-accent/5 transition-colors">
+        <td className="p-3 text-sm">內容</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+// 手機版卡片列表
+<div className="md:hidden space-y-3">
+  <div className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm">
+    {/* 卡片內容 */}
+  </div>
+</div>
+```
+
+### 3.5 實用連結區塊 (Useful Links Section)
+
+```jsx
+// 分類連結卡片
+<div className="grid md:grid-cols-3 gap-4">
+  <div className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+    {/* 卡片頭部 */}
+    <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
+      <IconName size={16} className="text-accent" />
+      <span className="font-bold text-gray-700 text-sm">分類名稱</span>
+    </div>
+    {/* 連結列表 */}
+    <div className="p-2">
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group"
+      >
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="text-gray-700 font-medium group-hover:text-primary transition-colors text-sm truncate">
+            連結名稱
+          </span>
+          <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
+            Day 1-2
+          </span>
+        </div>
+        <ExternalLink size={14} className="text-gray-300 group-hover:text-accent shrink-0 ml-2" />
+      </a>
+    </div>
+  </div>
+</div>
+```
+
+### 3.6 DayCard 可折疊行程卡片
+
+```jsx
+// 可折疊 DayCard
+<div className="relative bg-white rounded-3xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group">
+  {/* 可點擊的圖片頭部 */}
+  <button className="w-full relative overflow-hidden cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset transition-all duration-300 h-28">
+    <img src={imageUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+    <div className="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent" />
+    
+    {/* 左上角日期標籤 */}
+    <div className="absolute left-4 top-4">
+      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-white font-bold text-sm border border-white/20 shadow-lg">
+        D1 · 1/12 (一)
+      </span>
+    </div>
+    
+    {/* 右上角展開/折疊圖示 */}
+    <div className="absolute right-4 top-4 p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/30">
+      <ChevronDown size={16} />
+    </div>
+  </button>
+  
+  {/* 可折疊內容區 */}
+  <div style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr' }}>
+    <div className="min-h-0">
+      {/* 行程內容 */}
+    </div>
+  </div>
+</div>
+```
+
+## 4. 分頁導航 (Tab Navigation)
+
+```jsx
+// 分頁導航容器 (Sticky)
+<div className="sticky top-0 z-40 glass shadow-sm border-b border-gray-100/50">
+  <div className="max-w-5xl mx-auto px-4">
+    <nav className="flex items-center justify-around gap-1 sm:gap-2 md:gap-8 py-3 md:py-4">
+      {/* 分頁按鈕 */}
+      <button
+        className={`flex items-center justify-center gap-1 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 rounded-full font-medium transition-all duration-300 whitespace-nowrap text-xs sm:text-sm md:text-base
+          ${isActive
+            ? "bg-primary text-white shadow-md transform scale-105"
+            : "bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+          }
+        `}
+      >
+        <TabIcon size={18} className="flex-shrink-0" />
+        <span className="hidden sm:inline">{tab.label}</span>
+      </button>
+    </nav>
+  </div>
+</div>
+```
+
+## 5. 階段標題 (Phase Headers)
+
+```jsx
+// 可折疊的階段標題
+<button
+  onClick={() => togglePhase(idx)}
+  className="sticky top-[52px] z-30 w-full bg-gray-50/95 backdrop-blur py-3 md:py-4 cursor-pointer text-left focus:outline-none group"
+>
+  <h2 className="text-base md:text-xl font-bold text-gray-600 flex items-center gap-2">
+    <span className="w-1 h-6 md:h-8 bg-accent rounded-full" />
+    第一階段：伊勢志摩度假慢旅 (Day 1-6)
+    <span className="ml-auto text-gray-400 group-hover:text-primary transition-colors">
+      {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+    </span>
+  </h2>
+</button>
+```
+
+## 6. 活動項目樣式 (Activity Item Styles)
+
+```jsx
+// 時間軸活動項目
+<div className="flex items-start gap-4">
+  {/* 時間標籤 */}
+  <span className="text-xs font-bold text-primary/70 min-w-[3rem] font-mono leading-6">
+    14:00
+  </span>
+  
+  <div className="flex-1 min-w-0">
+    {/* 主標題行 */}
+    <div className="flex items-center justify-between gap-2">
+      <div className="text-gray-800 font-bold text-sm leading-6 flex-1">
+        活動標題
+      </div>
+      {/* 地圖/交通圖示按鈕 */}
+      <button className="flex-shrink-0 transition-all cursor-pointer hover:scale-110 text-accent w-6 h-6 flex items-center justify-center">
+        <Train size={16} />
+      </button>
+    </div>
+    
+    {/* 副標題 */}
+    <div className="text-xs text-gray-500 mt-0.5 font-medium">副標題說明</div>
+    
+    {/* 警告提示 */}
+    <div className="mt-2 text-xs text-orange-700 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-lg inline-block leading-relaxed">
+      <span className="font-bold mr-1">⚠️</span> 注意事項
+    </div>
+    
+    {/* 資訊提示 */}
+    <div className="mt-1 text-xs text-primary/70 flex items-start gap-1 leading-relaxed">
+      <Info size={12} className="mt-0.5 shrink-0" /> 補充資訊
+    </div>
+  </div>
+</div>
+```
