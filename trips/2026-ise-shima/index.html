@@ -92,6 +92,15 @@
       ChevronUp,
     } = Icons;
 
+    // 從共用元件庫引入元件
+    const SharedComponents = window.TripShared.components;
+    const {
+      CollapsibleSection,
+      MapModal: SharedMapModal,
+      FAB,
+      PhaseHeader,
+    } = SharedComponents;
+
 
     // --- 1. 資料常數 (Data Constants) ---
 
@@ -1059,80 +1068,7 @@
       );
     };
 
-    // 3.6 MapModal (Fixed: Header icon now depends on data.type)
-    const MapModal = ({ isOpen, onClose, data }) => {
-      if (!isOpen || !data) return null;
-
-      let mapUrl = "";
-      let externalMapUrl = "";
-      // Use cleaned name from DayCard, or raw query as fallback
-      let title = data.name || data.query;
-
-      if (data.type === "route") {
-        mapUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(
-          data.origin,
-        )}&daddr=${encodeURIComponent(data.destination)}&dirflg=r&output=embed`;
-        externalMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
-          data.origin,
-        )}&destination=${encodeURIComponent(data.destination)}&travelmode=transit`;
-      } else {
-        mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(
-          data.query,
-        )}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
-        externalMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-          data.query,
-        )}`;
-      }
-
-      return (
-        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="bg-white w-full max-w-3xl h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative anim-slideUp-h1">
-            <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
-              <div className="flex items-center gap-2 flex-1 min-w-0">
-                {data.type === "route" ? (
-                  <Train size={22} />
-                ) : (
-                  <MapPin size={22} />
-                )}
-                <h3 className="font-bold text-lg truncate">{title}</h3>
-              </div>
-              <button
-                onClick={onClose}
-                className="ml-4 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded-full transition-colors text-2xl font-bold flex-shrink-0"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="flex-1 bg-gray-100 relative">
-              <iframe
-                width="100%"
-                height="100%"
-                frameBorder="0"
-                scrolling="no"
-                marginHeight="0"
-                marginWidth="0"
-                src={mapUrl}
-                title={title}
-                className="w-full h-full"
-              ></iframe>
-            </div>
-            <div className="p-4 bg-white border-t border-gray-100 flex justify-between items-center shrink-0">
-              <span className="text-xs text-gray-400">
-                * 預覽地圖可能因 Google 政策偶有載入限制
-              </span>
-              <a
-                href={externalMapUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg hover:bg-primary/10 font-medium transition-colors text-sm"
-              >
-                在 Google Maps App 開啟 <ExternalLink size={14} />
-              </a>
-            </div>
-          </div>
-        </div>
-      );
-    };
+    // 3.6 MapModal - 使用共用元件 (SharedMapModal)
 
     // 3.7 MapView
     const MapView = ({ onOpenMap }) => {
@@ -2064,7 +2000,7 @@
             isOpen={isAIModalOpen}
             onClose={() => setIsAIModalOpen(false)}
           />
-          <MapModal
+          <SharedMapModal
             isOpen={mapModalData.isOpen}
             onClose={() =>
               setMapModalData({ ...mapModalData, isOpen: false })
