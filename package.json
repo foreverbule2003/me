@@ -1,12 +1,24 @@
 {
   "name": "my-landing-page",
   "version": "1.0.0",
-  "description": "",
+  "description": "TimZ 個人網站 - TimBoy 風格的互動式作品集",
   "main": "index.js",
   "scripts": {
+    "dev": "npx live-server --host=0.0.0.0",
+    "new-trip": "node tools/new-trip.js",
+    "format": "npx prettier --write \"**/*.{html,css,js,md}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  "keywords": [
+    "portfolio",
+    "landing-page",
+    "trip-planner",
+    "react"
+  ],
+  "author": "TimZ",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/foreverbule2003/me.git"
+  }
 }
