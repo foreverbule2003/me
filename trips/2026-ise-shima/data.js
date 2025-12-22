@@ -257,6 +257,111 @@
     { day: "Day 6", route: "賢島 → 大阪難波", regular: "約 3.5~4 小時", express: "約 2h20m", cost: "¥1,640" },
   ];
 
+  // 美食指南資料
+  const foodData = {
+    categories: [
+      {
+        location: "臨空城",
+        day: "Day 1, 9",
+        sections: [
+          {
+            title: "🍽️ Outlet 美食",
+            items: [],
+          },
+        ],
+      },
+      {
+        location: "VISON 園區",
+        day: "Day 2-3",
+        sections: [
+          {
+            title: "🥗 素食友善餐廳",
+            items: [
+              { name: "HONZO lab. RINNE", type: "咖啡廳", desc: "純素餐點/甜點 (Vegan)，¥1,000~1,500", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HONZO+lab+RINNE+VISON" },
+              { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵)，¥3,500 套餐", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
+              { name: "raf", type: "咖啡廳", desc: "當季蔬菜濃湯、咖哩，¥800~1,200", mapUrl: "https://www.google.com/maps/search/?api=1&query=raf+cafe+VISON" },
+            ],
+          },
+          {
+            title: "🍳 早餐選項",
+            items: [
+              { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食 (含早餐)", note: "⚠️ 需 5 天前預約", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=嬉野とうふ+VISON" },
+              { name: "VISON Buffet", type: "自助餐", desc: "和洋自助餐 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+VISON+Restaurant" },
+              { name: "NOUNIYELL", type: "西式", desc: "蛋料理+沙拉 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
+              { name: "Confiture H", type: "法式", desc: "法式吐司 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Confiture+H+VISON" },
+              { name: "Mariage de Farine", type: "麵包店", desc: "現烤麵包+咖啡 (自由入店)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Mariage+de+Farine+VISON" },
+              { name: "猿田彥珈琲", type: "咖啡", desc: "熱三明治+咖啡 (自由入店)", mapUrl: "https://www.google.com/maps/search/?api=1&query=猿田彦珈琲+VISON" },
+            ],
+          },
+          {
+            title: "🍫 甜點/購物",
+            items: [
+              { name: "LE CHOCOLAT DE H", type: "巧克力專賣店", desc: "辻口博啓主理，60+種巧克力", note: "VISON 限定款 Meyer Lemon", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=LE+CHOCOLAT+DE+H+VISON" },
+              { name: "Mariage de Farine", type: "麵包店", desc: "三重縣產小麥石臼現磨", mapUrl: "https://www.google.com/maps/search/?api=1&query=Mariage+de+Farine+VISON" },
+            ],
+          },
+        ],
+      },
+      {
+        location: "伊勢 托福橫丁",
+        day: "Day 4",
+        sections: [
+          {
+            title: "🍡 必吃美食",
+            items: [
+              { name: "赤福", type: "和菓子", desc: "伊勢名物，紅豆麻糬", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=赤福+托福橫丁" },
+              { name: "豆腐冰淇淋", type: "甜點", desc: "濃郁豆香", mapUrl: "https://www.google.com/maps/search/?api=1&query=豆腐+アイス+おかげ横丁" },
+              { name: "伊勢烏龍", type: "麵食", desc: "粗軟Q彈的烏龍麵", mapUrl: "https://www.google.com/maps/search/?api=1&query=伊勢うどん+おかげ横丁" },
+            ],
+          },
+        ],
+      },
+      {
+        location: "賢島",
+        day: "Day 5-6",
+        sections: [
+          {
+            title: "🍽️ 餐廳",
+            items: [],
+          },
+        ],
+      },
+      {
+        location: "大阪 梅田",
+        day: "Day 7",
+        sections: [
+          {
+            title: "🍜 素食友善餐廳",
+            items: [
+              { name: "素食串燒 あじゅ", type: "居酒屋", desc: "純素串燒體驗", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=あじゅ+梅田+素食串燒" },
+              { name: "おにぎりごりちゃん 中崎町本店", type: "飯糰", desc: "手作飯糰專賣店", mapUrl: "https://www.google.com/maps/search/?api=1&query=おにぎりごりちゃん+中崎町本店" },
+              { name: "MOON and BACK HEP FIVE", type: "咖啡廳", desc: "HEP FIVE 內，提供蔬食選項", mapUrl: "https://www.google.com/maps/search/?api=1&query=MOON+and+BACK+HEP+FIVE" },
+              { name: "Vegan and Gluten Free Osaka", type: "全素", desc: "純素無麩質餐廳 (夜間營業)", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=Vegan+and+Gluten+Free+Osaka" },
+              { name: "松葉ルクア大阪店", type: "烏龍麵", desc: "LUCUA 內知名烏龍麵店", mapUrl: "https://www.google.com/maps/search/?api=1&query=松葉+ルクア大阪店" },
+            ],
+          },
+          {
+            title: "🍰 甜點",
+            items: [
+              { name: "HARBS 大丸梅田店", type: "蛋糕", desc: "招牌水果千層蛋糕", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+大丸梅田店" },
+              { name: "HARBS Diamor大阪店", type: "蛋糕", desc: "地下街分店，同款美味", mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+Diamor大阪店" },
+            ],
+          },
+        ],
+      },
+      {
+        location: "USJ 環球影城",
+        day: "Day 7-8",
+        sections: [
+          {
+            title: "🍕 園區美食",
+            items: [],
+          },
+        ],
+      },
+    ],
+  };
+
   // 導出到全域
   if (typeof window !== "undefined") {
     window.TripData = {
@@ -266,6 +371,7 @@
       recommendedRoutes,
       usefulLinks,
       kintetsuComparisonData,
+      foodData,
     };
   }
 })();
