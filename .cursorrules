@@ -3,12 +3,19 @@
 ## Language Requirements (Critical)
 1. **Thought Process & Output**: 必須使用繁體中文 (Traditional Chinese) 進行所有思考、回答與進度更新。
 2. **Task Updates**: 使用 `task_boundary` 工具時，`TaskStatus` 與 `TaskSummary` 必須使用繁體中文描述。
+3. **Artifacts**: 所有產生的文件與計畫 (如 `implementation_plan.md`, `walkthrough.md`) 內容必須使用繁體中文。
 
 ## AI Behavior & Workflow
 1. **Model Roles**:
-   - **Claude**: 負責深度推理、後端邏輯、架構設計與除錯。
+   - **Claude (核心)**: 負責深度推理、後端邏輯、架構設計、除錯、任務分解與正式程式碼產出。
    - **Gemini**: 負責快速原型、UI/Frontend、多模態輸入與創意發想。
-2. **Delegation**: 遇到前端或大量生成的任務，優先委派給 Gemini，再由 Claude 進行審查與整合。
+2. **Delegation Strategy**:
+   - 前端/UI 任務、大型檔案分析 (>500行) 或創意發想，優先委派給 Gemini。
+   - 委派後務必批判性審查輸出，必要時由 Claude 進行優化與整合。
+3. **Execution Rules**:
+   - 輸出的程式碼必須乾淨、經過測試並附帶完整說明。
+   - 不自動執行可能有破壞性的操作 (如刪除檔案)，除非明確獲得確認。
+   - 進行 Git 操作前，先確認目前分支狀態。
 
 ## Core Principles
 1. **Single Source of Truth**: The development process always uses `spec.md` as the basis. When `spec.md` is changed, you must update `index.html` accordingly to maintain consistency.
