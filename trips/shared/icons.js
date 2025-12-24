@@ -243,6 +243,35 @@
           <path d="M14 18h6" />
         </>
       ),
+      // === 新增圖示 ===
+      plane: (
+        <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" style={{transform: 'rotate(45deg)', transformOrigin: 'center'}} />
+      ),
+      "shopping-bag": (
+        <>
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" />
+          <path d="M3 6h18" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </>
+      ),
+      suitcase: (
+        <>
+          <rect x="2" y="7" width="20" height="14" rx="2" ry="2" />
+          <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+        </>
+      ),
+      ticket: (
+        <>
+          <path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" />
+          <path d="M13 5v14" />
+        </>
+      ),
+      "check-square": (
+        <>
+          <polyline points="9 11 12 14 22 4" />
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
+        </>
+      ),
     };
 
     const pathContent = iconPaths[name];
@@ -316,6 +345,13 @@
     Bot: "bot",
     MessageCircle: "message-circle",
     Languages: "languages",
+
+    // Missing Icons added for 2025-osaka
+    Plane: "plane", // Generic plane
+    ShoppingBag: "shopping-bag",
+    Suitcase: "suitcase",
+    Ticket: "ticket",
+    CheckSquare: "check-square",
   };
 
   // 動態生成所有圖示元件

@@ -9,109 +9,59 @@
     <!-- GB Theme CSS -->
     <link rel="stylesheet" href="assets/gb-theme.css">
 
+    <!-- React & Babel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- GameBoy Shell Component -->
+    <script type="text/babel" src="js/gb-shell.js"></script>
   </head>
   <body>
+    <div id="root"></div>
 
-    <div class="gb-shell">
-      
-      <!-- Top Text -->
-      <div class="flex justify-between text-gray-400 text-xs mb-1 px-4 font-bold tracking-widest items-center">
-        <span>DOT MATRIX WITH STEREO SOUND</span>
-        <button id="soundToggle" class="text-xs bg-gray-300 text-gray-800 border-2 border-gray-500 px-3 py-1 rounded shadow-md hover:bg-white hover:text-black transition-all animate-pulse font-bold">
-          🔈 SOUND OFF
-        </button>
-      </div>
+    <script type="text/babel">
+      const { GameBoyShell } = window;
 
-      <div class="gb-bezel">
-        <div class="flex justify-between text-red-500 text-[10px] mb-1 px-2 items-center">
-           <div class="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_5px_red]"></div>
-           <span>BATTERY</span>
-        </div>
-
-        <div class="gb-screen-glass relative"> <!-- Added relative for absolute positioning of boot screen -->
-           
-           <!-- Power On / Click Mask -->
-           <div id="click-mask">
-              <div class="power-icon">⏻</div>
-              <div class="power-text">Click to Power On</div>
-           </div>
-
-           <!-- Boot Animation Screen -->
-           <div id="boot-screen" style="display: none;"> <!-- Hidden initially, shown by JS after click -->
-              <div class="boot-logo" id="boot-logo">
-                TimBoy<span class="boot-registered">®</span>
+      const IndexPage = () => {
+        return (
+          <GameBoyShell activePage="home">
+              
+              {/* Header */}
+              <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
+                <div>
+                  <h1 className="text-2xl font-bold">TimZ</h1>
+                  <p className="text-sm">STATUS: ONLINE</p>
+                </div>
+                {/* 
+                   Note: Using absolute path or ensure assets folder is accessible 
+                   Ref: img src="assets/images/avatar.jpg"
+                */}
+                <div className="w-12 h-12 grayscale contrast-200 border-2 border-[#0f380f] bg-gray-300 overflow-hidden relative">
+                    {/* Placeholder or Real Image */}
+                     <img src="assets/images/avatar.jpg" alt="Profile" className="w-full h-full object-cover" />
+                </div>
               </div>
-           </div>
 
-           <div class="gb-content">
-             
-             <!-- Header -->
-             <div class="flex justify-between items-end border-b-4 border-[var(--gb-darkest)] pb-2 mb-4">
-               <div>
-                 <h1 class="text-2xl font-bold">TimZ</h1>
-                 <p class="text-sm">STATUS: ONLINE</p>
-               </div>
-               <img src="assets/images/avatar.jpg" alt="Profile" class="w-12 h-12 grayscale contrast-200 border-2 border-[var(--gb-darkest)] object-cover">
-             </div>
+              {/* Menu */}
+              <div className="flex-grow overflow-y-auto pr-1" id="menu-container">
+                <a href="about.html" className="gb-btn menu-item">
+                    ABOUT
+                </a>
+                <a href="trips.html" className="gb-btn menu-item">
+                    SELECT TRIP
+                </a>
+                <a href="tools.html" className="gb-btn menu-item">
+                    TOOLS & CONTACT
+                </a>
+              </div>
 
-             <div class="flex-grow overflow-y-auto pr-1" id="menu-container">
-               <a href="about.html" class="gb-btn menu-item">ABOUT</a>
-               <a href="trips.html" class="gb-btn menu-item">SELECT TRIP</a>
-               <a href="tools.html" class="gb-btn menu-item">TOOLS & CONTACT</a>
-             </div>
+          </GameBoyShell>
+        );
+      };
 
-           </div>
-        </div>
-        
-        <div class="text-center italic text-gray-400 font-bold mt-2 text-xl tracking-[0.2em] opacity-80">
-          TimBoy
-        </div>
-      </div>
-
-      <!-- Controls Area -->
-      <div class="controls-area">
-         <!-- D-Pad -->
-         <div class="d-pad-container">
-            <div class="d-pad-h"></div>
-            <div class="d-pad-v"></div>
-            <div class="d-pad-center"></div>
-            <!-- Interactive invisible buttons -->
-            <div class="d-btn d-up" id="btn-up"></div>
-            <div class="d-btn d-right" id="btn-right"></div>
-            <div class="d-btn d-down" id="btn-down"></div>
-            <div class="d-btn d-left" id="btn-left"></div>
-         </div>
-
-         <!-- A/B Buttons -->
-         <div class="action-btns">
-            <div class="ab-btn-wrapper">
-               <div class="ab-btn" id="btn-b"></div>
-               <div class="ab-label">B</div>
-            </div>
-            <div class="ab-btn-wrapper" style="margin-top: -20px;"> <!-- B is usually lower than A, wait, A is right, B is left. A is usually higher? No game boy layout: B is lower-left of A. -->
-               <div class="ab-btn" id="btn-a"></div>
-               <div class="ab-label">A</div>
-            </div>
-         </div>
-      </div>
-
-      <!-- Start Select -->
-      <div class="start-select-container">
-         <div class="ss-btn-wrapper">
-            <div class="ss-btn" id="btn-select"></div>
-            <div class="ss-label">SELECT</div>
-         </div>
-         <div class="ss-btn-wrapper">
-            <div class="ss-btn" id="btn-start"></div>
-            <div class="ss-label">START</div>
-         </div>
-      </div>
-
-    </div>
-
-    <!-- GB Theme JavaScript -->
-    <script src="assets/gb-theme.js"></script>
-
-
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<IndexPage />);
+    </script>
   </body>
 </html>
