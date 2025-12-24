@@ -18,7 +18,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { getAuth, signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getAuth, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
@@ -50,7 +50,8 @@
     // Expose Auth to global for React components
     window.firebaseAuth = auth;
     window.firebaseGoogleProvider = googleProvider;
-    window.firebaseSignInWithPopup = signInWithPopup;
+    window.firebaseSignInWithRedirect = signInWithRedirect;
+    window.firebaseGetRedirectResult = getRedirectResult;
     window.firebaseSignOut = signOut;
     window.firebaseOnAuthStateChanged = onAuthStateChanged;
 
@@ -291,9 +292,20 @@
       const [user, setUser] = useState(null);
       const [authLoading, setAuthLoading] = useState(true);
 
-      // Listen to auth state
+      // Listen to auth state and handle redirect result
       useEffect(() => {
         if (!firebaseReady) return;
+        
+        // Check for redirect result on page load
+        window.firebaseGetRedirectResult(window.firebaseAuth)
+          .then((result) => {
+            if (result?.user) {
+              console.log('Logged in via redirect:', result.user.displayName);
+            }
+          })
+          .catch((error) => {
+            console.error('Redirect error:', error);
+          });
         
         const unsubscribe = window.firebaseOnAuthStateChanged(window.firebaseAuth, (currentUser) => {
           setUser(currentUser);
@@ -303,13 +315,9 @@
         return () => unsubscribe();
       }, [firebaseReady]);
 
-      const handleLogin = async () => {
-        try {
-          await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
-        } catch (error) {
-          console.error('Login error:', error);
-          alert('登入失敗：' + error.message);
-        }
+      const handleLogin = () => {
+        // Use redirect instead of popup for better cross-origin compatibility
+        window.firebaseSignInWithRedirect(window.firebaseAuth, window.firebaseGoogleProvider);
       };
 
       const handleLogout = async () => {
