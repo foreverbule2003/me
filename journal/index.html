@@ -14,25 +14,13 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-  <!-- Firebase -->
+  <!-- Firebase (使用共用設定) -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-    import { getAuth, signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
-      authDomain: "my-landing-page-2ca68.firebaseapp.com",
-      projectId: "my-landing-page-2ca68",
-      storageBucket: "my-landing-page-2ca68.firebasestorage.app",
-      messagingSenderId: "847051837050",
-      appId: "1:847051837050:web:c5e2bc56252e0d3ab835c3"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const googleProvider = new GoogleAuthProvider();
+    import { 
+      db, auth, googleProvider,
+      collection, doc, addDoc, getDocs, updateDoc, deleteDoc, orderBy, query, onSnapshot, serverTimestamp,
+      signInWithPopup, signOut, onAuthStateChanged
+    } from "../js/firebase-config.js";
 
     // Expose Firestore to global for React components
     window.firebaseDb = db;
