@@ -55,7 +55,16 @@
   
   <!-- 7. 引入行程資料 -->
   <script src="./data.js"></script>
-</head>
+  <!-- 7. 引入行程資料 -->
+  <script src="./data.js"></script>
+
+  <!-- 8. Inject Firestore (Module) -->
+  <script type="module">
+    import { db } from '../../js/firebase-config.js';
+    import { collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    window.TripDb = db;
+    window.TripFirestore = { collection, doc, setDoc, deleteDoc, onSnapshot };
+  </script>
 
 <body class="bg-surface font-body text-dark selection:bg-accent/20 selection:text-primary">
   <div id="root"></div>
@@ -765,20 +774,36 @@
       // 收合狀態
       const [collapsedCategories, setCollapsedCategories] = React.useState({});
 
-      // 愛心收藏狀態 (使用 localStorage 持久化)
-      const [favorites, setFavorites] = React.useState(() => {
-        try {
-          const saved = localStorage.getItem('food-favorites');
-          return saved ? JSON.parse(saved) : {};
-        } catch {
-          return {};
-        }
-      });
+      // Firestore 雲端同步狀態
+      const [favorites, setFavorites] = React.useState({});
+      const [isSyncing, setIsSyncing] = React.useState(true);
 
-      // 儲存到 localStorage
+      // 監聽 Firestore 變更
       React.useEffect(() => {
-        localStorage.setItem('food-favorites', JSON.stringify(favorites));
-      }, [favorites]);
+        if (!window.TripDb || !window.TripFirestore) {
+          console.warn("Firestore not initialized");
+          return;
+        }
+
+        const { collection, onSnapshot } = window.TripFirestore;
+        const db = window.TripDb;
+        const tripId = "2026-ise-shima"; // Hardcoded for this trip
+
+        // 訂閱 food_ratings 集合
+        const unsubscribe = onSnapshot(collection(db, "trips", tripId, "food_ratings"), (snapshot) => {
+          const newFavorites = {};
+          snapshot.forEach((doc) => {
+            newFavorites[doc.id] = true;
+          });
+          setFavorites(newFavorites);
+          setIsSyncing(false);
+        }, (error) => {
+          console.error("Firestore sync error:", error);
+          setIsSyncing(false);
+        });
+
+        return () => unsubscribe();
+      }, []);
 
       const toggleCategory = (idx) => {
         setCollapsedCategories(prev => ({
@@ -787,11 +812,29 @@
         }));
       };
 
-      const toggleFavorite = (itemKey) => {
-        setFavorites(prev => ({
-          ...prev,
-          [itemKey]: !prev[itemKey]
-        }));
+      const toggleFavorite = async (itemKey) => {
+        if (!window.TripDb || !window.TripFirestore) return;
+
+        const { doc, setDoc, deleteDoc } = window.TripFirestore;
+        const db = window.TripDb;
+        const tripId = "2026-ise-shima";
+        const docRef = doc(db, "trips", tripId, "food_ratings", itemKey);
+
+        // Optimistic UI update (optional, but Firestore is fast enough usually)
+        // Here we rely on the listener to update the UI
+        try {
+          if (favorites[itemKey]) {
+            await deleteDoc(docRef);
+          } else {
+            await setDoc(docRef, {
+              timestamp: new Date().toISOString(),
+              userId: "anonymous" // Could be enhanced later
+            });
+          }
+        } catch (e) {
+          console.error("Error updating rating:", e);
+          alert("同步失敗，請檢查網路連線");
+        }
       };
 
       // 產生唯一的 item key (只使用索引確保唯一性)
