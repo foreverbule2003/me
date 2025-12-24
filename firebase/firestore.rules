@@ -4,10 +4,7 @@ service cloud.firestore {
     // Allow collaborative star ratings for any trip (with validation)
     match /trips/{tripId}/food_ratings/{itemId} {
       allow read: if true;
-      allow write: if request.resource.data.keys().hasOnly(['rating', 'updatedAt'])
-                   && request.resource.data.rating is number
-                   && request.resource.data.rating >= 0
-                   && request.resource.data.rating <= 5;
+      allow write: if true; // Allow shared favorites (create/delete) for all users
     }
 
     // Allow public read/write for journal entries (personal site)
