@@ -193,6 +193,41 @@ AI 聊天與翻譯功能的彈窗。
 
 ---
 
+## 日記頁元件 (journal/index.html)
+
+### JournalPage
+主頁面元件，管理日記列表與認證狀態。
+
+| 狀態           | 說明                             |
+| -------------- | -------------------------------- |
+| `entries`      | 日記列表 (從 Firestore 載入)     |
+| `user`         | 當前登入的使用者 (Firebase Auth) |
+| `isModalOpen`  | 編輯 Modal 開關                  |
+| `editingEntry` | 正在編輯的日記項目               |
+
+### JournalCard
+日記卡片元件，顯示單一日記摘要。
+
+| Prop       | 類型     | 說明                  |
+| ---------- | -------- | --------------------- |
+| `entry`    | Object   | 日記資料              |
+| `canEdit`  | Boolean  | 是否顯示編輯/刪除按鈕 |
+| `onClick`  | Function | 點擊編輯的回調        |
+| `onDelete` | Function | 刪除日記的回調        |
+
+### JournalModal
+日記編輯彈窗，用於新增/編輯日記。
+
+| 欄位          | 說明                 |
+| ------------- | -------------------- |
+| `title`       | 日記標題             |
+| `content`     | 內容 (Markdown 支援) |
+| `mood`        | 心情 emoji           |
+| `tags`        | 標籤陣列             |
+| `codeSnippet` | 程式碼片段 (選填)    |
+
+---
+
 ## 工具頁元件
 
 ### 期權模擬器 (bull-put-spread.html)
