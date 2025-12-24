@@ -1,803 +1,358 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    />
-    <title>2025 京阪奈岡山・完整版</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="../unified-styles.css" />
-
-    <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Shippori+Mincho:wght@400;600&display=swap"
-      rel="stylesheet"
-    />
-    <style>
-      :root {
-        --jp-white: #ffffff;
-        --jp-bg: #f5f7fa;
-        --jp-navy: #1a2e47; /* 深藍 */
-        --jp-blue: #2e4b71; /* 藍鐵色 */
-        --jp-red: #b94047; /* 茜色 */
-        --jp-green: #687e5b; /* 苔色 */
-        --jp-gold: #c5a059; /* 芥子色 */
-      }
-      body {
-        font-family: "Noto Sans TC", sans-serif;
-        background-color: var(--jp-bg);
-        color: #333;
-        -webkit-tap-highlight-color: transparent;
-        padding-bottom: env(safe-area-inset-bottom);
-      }
-      .font-serif {
-        font-family: "Shippori Mincho", serif;
-      }
-      .card-shadow {
-        box-shadow:
-          0 10px 15px -3px rgb(0 0 0 / 0.1),
-          0 4px 6px -4px rgb(0 0 0 / 0.1);
-      }
-
-      /* Navigation */
-      .nav-item {
-        transition: all 0.2s;
-        position: relative;
-      }
-      .nav-item.active {
-        color: var(--jp-blue);
-        transform: translateY(-2px);
-      }
-      .nav-item.active i {
-        background: #eef2f6;
-        border-radius: 12px;
-      }
-
-      /* Tags */
-      .tag {
-        font-size: 10px;
-        padding: 2px 8px;
-        border-radius: 4px;
-        display: inline-block;
-        margin-right: 4px;
-      }
-      .tag-transport {
-        background: #e3f2fd;
-        color: #1565c0;
-      }
-      .tag-food {
-        background: #f1f8e9;
-        color: #33691e;
-      }
-      .tag-shopping {
-        background: #fff3e0;
-        color: #e65100;
-      }
-      .tag-important {
-        background: #ffebee;
-        color: #c62828;
-        font-weight: bold;
-      }
-
-      /* Luggage Tabs */
-      .luggage-tab {
-        border-bottom: 2px solid transparent;
-        color: #888;
-      }
-      .luggage-tab.active {
-        border-bottom: 2px solid var(--jp-blue);
-        color: var(--jp-blue);
-        font-weight: bold;
-      }
-      /* 共用樣式：用於隱藏滾動條 */
-      .hide-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-
-      .hide-scrollbar {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
-      }
-    </style>
-  </head>
-  <body class="h-screen flex flex-col overflow-hidden">
-    <header
-      class="bg-white/95 backdrop-blur-sm pt-12 pb-3 px-6 fixed w-full top-0 z-40 card-shadow border-b border-gray-100"
-    >
-      <div class="flex justify-between items-center">
-        <div>
-          <span class="text-[10px] tracking-[0.2em] text-gray-400 uppercase"
-            >2025 Summer Trip</span
-          >
-          <h1 class="text-xl font-serif font-bold text-[#1a2e47]">
-            京阪奈・瀬戸内
-          </h1>
-        </div>
-        <a
-          href="../../index.html?booted=true#booted"
-          class="absolute top-4 right-4 bg-white/80 w-8 h-8 rounded-full flex items-center justify-center text-gray-500 active:scale-90 transition-transform"
-        >
-          <i class="fas fa-home"></i>
-        </a>
-        <div class="text-right">
-          <span
-            class="text-xs bg-gray-100 px-2 py-1 rounded-full text-gray-600"
-          >
-            <i class="fas fa-plane-departure mr-1 text-[#2e4b71]"></i>D-<span
-              id="countdown"
-              >--</span
-            >
-          </span>
-        </div>
-      </div>
-    </header>
-
-    <main class="flex-1 overflow-y-auto pt-28 pb-24 hide-scrollbar">
-      <div
-        class="h-56 w-full bg-cover bg-center"
-        style="
-          background-image: url(&quot;https://images.unsplash.com/photo-1528114637695-8350a3d4d4a8?q=80&w=2670&auto=format&fit=crop&quot;);
-          margin-top: -7rem;
-        "
-      ></div>
-      <div id="app-container" class="px-4"></div>
-    </main>
-
-    <nav
-      class="fixed bottom-0 w-full bg-white border-t border-gray-100 pb-safe z-50"
-    >
-      <div class="flex justify-around items-center h-16 px-2">
-        <button
-          onclick="switchTab('itinerary')"
-          class="nav-item active flex-1 flex flex-col items-center p-2"
-          id="nav-itinerary"
-        >
-          <i class="fas fa-map-marked-alt text-lg mb-1 px-4 py-1"></i>
-          <span class="text-xs font-medium">行程</span>
-        </button>
-        <!-- <button
-          onclick="switchTab('luggage')"
-          class="nav-item text-gray-400 flex-1 flex flex-col items-center p-2"
-          id="nav-luggage"
-        >
-          <i class="fas fa-suitcase text-lg mb-1 px-4 py-1"></i>
-          <span class="text-xs font-medium">行李</span>
-        </button> -->
-        <button
-          onclick="switchTab('shopping')"
-          class="nav-item text-gray-400 flex-1 flex flex-col items-center p-2"
-          id="nav-shopping"
-        >
-          <i class="fas fa-shopping-bag text-lg mb-1 px-4 py-1"></i>
-          <span class="text-xs font-medium">購物&資訊</span>
-        </button>
-        <button
-          onclick="switchTab('budget')"
-          class="nav-item text-gray-400 flex-1 flex flex-col items-center p-2"
-          id="nav-budget"
-        >
-          <i class="fas fa-wallet text-lg mb-1 px-4 py-1"></i>
-          <span class="text-xs font-medium">開支</span>
-        </button>
-      </div>
-    </nav>
-
-    <script>
-      // --- DATA SOURCE (Parsed from your Trello) ---
-      const db = {
-        flight: {
-          out: {
-            date: "8/28 (四)",
-            code: "IT214",
-            time: "11:30 - 15:05",
-            from: "TPE T1",
-            to: "OKJ 岡山",
-            note: "環亞貴賓室(C區)",
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2025 京阪奈岡山・完整版</title>
+  
+  <!-- Fonts & Tailwind -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: "#2e4b71", // Japan Navy Blue
+            accent: "#b94047",  // Japan Red
+            surface: "#f5f7fa",
+            subtle: "#6E6E73",
           },
-          in: {
-            date: "9/05 (五)",
-            code: "回程",
-            time: "待確認",
-            from: "KIX",
-            to: "TPE",
-          },
+          fontFamily: {
+             display: ['"Noto Serif JP"', "serif"],
+             body: ['"Inter"', "sans-serif"],
+          }
         },
-        itinerary: [
-          {
-            day: "D1",
-            date: "8/28 (四)",
-            loc: "岡山 ➝ 倉敷",
-            events: [
-              {
-                time: "11:30",
-                title: "飛往岡山",
-                desc: "虎航 IT214 (T1航廈)",
-                note: "貴賓室在出境後左轉B1-B9方向4F",
-              },
-              {
-                time: "15:05",
-                title: "抵達岡山桃太郎機場",
-                desc: "入境VJW申請",
-                link: "https://vjw-lp.digital.go.jp/zh-hant/",
-              },
-              {
-                time: "16:00",
-                title: "前往倉敷",
-                desc: "Check-in 住宿",
-                tag: "住宿",
-              },
-              {
-                time: "18:00",
-                title: "倉敷晚餐",
-                desc: "富來屋本舖(千屋牛) 或 倉敷烏龍麵",
-                tag: "美食",
-              },
-            ],
-          },
-          {
-            day: "D2",
-            date: "8/29 (五)",
-            loc: "倉敷 ➝ 京都",
-            note: "★ 開始使用關西廣域周遊券 (Pass Day 1)",
-            events: [
-              {
-                time: "上午",
-                title: "移動至新大阪",
-                desc: "倉敷→岡山(17分)→新大阪(50分, Sakura號)",
-                note: "Pass可搭：Sakura, Hikari, Kodama。不可搭：Nozomi",
-              },
-              {
-                time: "轉乘",
-                title: "新大阪 ➝ 京都",
-                desc: "轉乘 Haruka 或 JR新快速 (不可搭新幹線)",
-                tag: "交通",
-              },
-              {
-                time: "下午",
-                title: "嵐山散策",
-                desc: "JR山陰本線 (約20分)",
-                tag: "景點",
-              },
-            ],
-          },
-          {
-            day: "D3",
-            date: "8/30 (六)",
-            loc: "保津川・嵐山",
-            events: [
-              {
-                time: "09:00",
-                title: "保津川遊船",
-                desc: "每小時一班，Klook購票",
-                link: "https://s.klook.com/c/my4zr7E2yO",
-                tag: "體驗",
-              },
-              {
-                time: "12:00",
-                title: "嵐山午餐",
-                desc: "廣川鰻魚飯 / 嵐山吉兆",
-                tag: "美食",
-              },
-              {
-                time: "14:00",
-                title: "嵐山景點",
-                desc: "竹林小徑、天龍寺",
-                tag: "景點",
-              },
-            ],
-          },
-          {
-            day: "D4",
-            date: "8/31 (日)",
-            loc: "宇治",
-            events: [
-              {
-                time: "上午",
-                title: "前往宇治",
-                desc: "JR 奈良線 (快速17分)",
-                tag: "交通",
-              },
-              {
-                time: "景點",
-                title: "平等院鳳凰堂",
-                desc: "世界遺產",
-                tag: "景點",
-              },
-              {
-                time: "美食",
-                title: "中村藤吉 本店",
-                desc: "必點：生茶果凍",
-                tag: "必吃",
-              },
-              {
-                time: "注意",
-                title: "交通提醒",
-                desc: "奈良-京都/大阪無特急，只有快速(45分)或普通(60分)",
-                tag: "重要",
-              },
-            ],
-          },
-          {
-            day: "D5",
-            date: "9/01 (一)",
-            loc: "小倉・任天堂",
-            events: [
-              {
-                time: "全日",
-                title: "任天堂博物館",
-                desc: "Nintendo Museum (小倉)",
-                link: "https://check.museum-tickets.nintendo.com/en/myticket",
-                tag: "重點",
-              },
-              {
-                time: "提醒",
-                title: "置物資訊",
-                desc: "有免費寄物櫃(100円退幣)、大型行李寄放",
-                tag: "資訊",
-              },
-            ],
-          },
-          {
-            day: "D6",
-            date: "9/02 (二)",
-            loc: "奈良",
-            events: [
-              {
-                time: "上午",
-                title: "奈良公園",
-                desc: "東大寺、餵鹿",
-                tag: "景點",
-              },
-              {
-                time: "資訊",
-                title: "USJ 預測",
-                desc: "查看明日入園人數",
-                link: "https://usjreal.asumirai.info/monthly/usj-forecast-2025-9.html",
-              },
-            ],
-          },
-          {
-            day: "D7",
-            date: "9/03 (三)",
-            loc: "USJ 環球影城",
-            note: "★ 門票/年票確認",
-            events: [
-              {
-                time: "08:00",
-                title: "USJ Day 1",
-                desc: "提早排隊",
-                tag: "玩樂",
-              },
-            ],
-          },
-          {
-            day: "D8",
-            date: "9/04 (四)",
-            loc: "USJ 環球影城",
-            events: [
-              {
-                time: "全日",
-                title: "USJ Day 2",
-                desc: "補玩設施",
-                tag: "玩樂",
-              },
-            ],
-          },
-          {
-            day: "D9",
-            date: "9/05 (五)",
-            loc: "大阪梅田 ✈️",
-            events: [
-              {
-                time: "上午",
-                title: "梅田購物",
-                desc: "LUCUA, 阪急",
-                tag: "購物",
-              },
-              {
-                time: "下午",
-                title: "前往機場",
-                desc: "Haruka 購票教學",
-                link: "https://www.instagram.com/reel/DIeF0H1TrAY/?igsh=cXlhNjJzbTNmeGJs",
-              },
-              {
-                time: "15:55",
-                title: "回程班機",
-                desc: "IT215 (預計)",
-                tag: "交通",
-              },
-            ],
-          },
-        ],
-        luggage: {
-          bao: {
-            title: "寶的清單",
-            items: [
-              "酒精(補充)",
-              "半包衛生紙/小衛生紙",
-              "香",
-              "眼鏡/太陽眼鏡",
-              "塑膠袋(髒衣/鞋)",
-              "睡衣(乾淨吊嘎)",
-              "襪子",
-              "內褲",
-              "行李束帶",
-              "護照/日幣",
-              "行動電源",
-              "手機繩",
-              "鑰匙/台幣",
-              "Cube卡",
-              "鴨舌帽",
-            ],
-          },
-          bei: {
-            title: "貝的清單",
-            items: [
-              "藥品(甲亢/頭痛/鼻)",
-              "化妝包(備用髮圈)",
-              "護墊/口罩",
-              "髒衣袋",
-              "耳環",
-              "水壺(方綠)",
-              "卸妝棉",
-              "洗漱組(洗面乳/棉花棒)",
-              "曬衣夾*3/衣架",
-              "Gogoro卡/J卡",
-              "耳機/悠遊卡",
-              "太陽眼鏡",
-            ],
-          },
-          morning: {
-            title: "早上檢查",
-            items: [
-              "牙刷",
-              "關窗/關插座",
-              "貝耳塞/藥",
-              "化妝包",
-              "小梳子",
-              "拔蚊香",
-              "香",
-              "充電線/豆腐頭",
-              "iPad",
-              "護照(再次確認)",
-              "浪耳機",
-              "早餐",
-            ],
-          },
-          clothes: {
-            title: "小豬衣物",
-            items: [
-              "襪子(穿1帶3)",
-              "內褲(穿1帶3, 無痕3+紫)",
-              "下半身(白洞洞裙/牛仔短褲)",
-              "內衣(白前扣/交叉白/平口)",
-              "口罩",
-              "黑短bra",
-              "白透外套",
-              "鴨舌帽",
-              "米奇睡衣/短褲",
-            ],
-          },
-        },
-        shopping: [
-          { title: "味噌", type: "food" },
-          { title: "桃屋辣油 (辣的)", type: "food" },
-          { title: "微波包子容器 (大創/3coins)", type: "goods" },
-        ],
-        links: [
-          {
-            title: "梅田 Visa 行李寄放",
-            url: "https://www.instagram.com/reel/DLFZxwIzf3t/",
-            icon: "fa-suitcase",
-          },
-          {
-            title: "Lawson OPENPOINT 集點",
-            url: "https://www.instagram.com/reel/DH_WnRlzpmX/",
-            icon: "fa-store",
-          },
-          {
-            title: "JCB 貴賓室資訊",
-            url: "https://parklounge.reservation.jcb/lounge/member/zh-tw/usj/reserve/loungeReserveTop.html",
-            icon: "fa-couch",
-          },
-          {
-            title: "eSim 購買連結",
-            url: "https://tw.trip.com/m/things-to-do/detail/37658069",
-            icon: "fa-sim-card",
-          },
-        ],
-        tips: [
-          "隨身行李液體限制：味噌算是液體，請託運！",
-          "關西廣域 Pass：只能搭岡山-新大阪的新幹線，不能搭新大阪-京都的新幹線。",
-          "奈良交通：奈良往返京都/大阪沒有特急，請搭快速列車。",
-        ],
+      },
+      safelist: ['text-primary', 'text-accent', 'bg-primary', 'bg-accent'] // Safe list dynamic colors
+    };
+  </script>
+
+  <!-- React & Babel -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Shared Components -->
+  <link rel="stylesheet" href="../shared/styles.css" />
+  <script src="../shared/config.js"></script>
+  <script type="text/babel" src="../shared/icons.js"></script>
+  <script type="text/babel" src="../shared/components.js"></script>
+  
+  <!-- Data -->
+  <script src="./data.js"></script>
+</head>
+<body class="bg-surface font-body text-gray-800 selection:bg-accent/20 selection:text-primary pb-24">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    const { 
+      SectionCard, PageHeader, ActivityItem, TabNavigation, BackButton, MapModal
+    } = window.TripShared.components;
+    
+    // Icons
+    const Icons = window.TripShared.Icons;
+    const { 
+        Plane, MapPin, ShoppingBag, Wallet, Info, CheckSquare, 
+        Utensils, Train, Suitcase, Star
+    } = Icons;
+
+    // --- Local Components ---
+
+    // 1. LuggageView
+    const LuggageView = () => {
+      const { luggageData } = window.TripData;
+      const [activeCat, setActiveCat] = useState('bao');
+      const [checkedItems, setCheckedItems] = useState({});
+
+      // Load checked state from localStorage
+      useEffect(() => {
+        const saved = localStorage.getItem('osaka_luggage_checked');
+        if (saved) setCheckedItems(JSON.parse(saved));
+      }, []);
+
+      const handleCheck = (key) => {
+        const newState = { ...checkedItems, [key]: !checkedItems[key] };
+        setCheckedItems(newState);
+        localStorage.setItem('osaka_luggage_checked', JSON.stringify(newState));
       };
 
-      // --- RENDER LOGIC ---
-      const app = document.getElementById("app-container");
+      const categories = [
+        { id: 'bao', label: '寶的清單' },
+        { id: 'bei', label: '貝的清單' },
+        { id: 'morning', label: '早上檢查' },
+        { id: 'clothes', label: '小豬衣物' }
+      ];
 
-      function switchTab(tabName) {
-        // Update Nav UI
-        document.querySelectorAll(".nav-item").forEach((el) => {
-          el.classList.remove("active", "text-[#2e4b71]");
-          el.classList.add("text-gray-400");
-        });
-        const activeBtn = document.getElementById(`nav-${tabName}`);
-        if (activeBtn) {
-          activeBtn.classList.add("active");
-          activeBtn.classList.remove("text-gray-400");
-        }
+      return (
+        <div className="max-w-2xl mx-auto px-4 mt-8">
+            {/* Tabs */}
+            <div className="flex border-b border-gray-200 mb-6 overflow-x-auto no-scrollbar">
+                {categories.map(cat => (
+                    <button 
+                        key={cat.id}
+                        onClick={() => setActiveCat(cat.id)}
+                        className={`flex-none px-4 py-2 text-sm font-medium transition-colors ${
+                            activeCat === cat.id 
+                            ? "text-primary border-b-2 border-primary" 
+                            : "text-gray-400 hover:text-gray-600"
+                        }`}
+                    >
+                        {cat.label}
+                    </button>
+                ))}
+            </div>
 
-        window.scrollTo(0, 0);
-
-        // Render Content
-        if (tabName === "itinerary") renderItinerary();
-        //else if (tabName === 'luggage') renderLuggage();
-        else if (tabName === "shopping") renderShopping();
-        else if (tabName === "budget") renderBudget();
-      }
-
-      function renderItinerary() {
-        let html = `
-                <div class="bg-gradient-to-r from-[#1a2e47] to-[#2e4b71] rounded-2xl p-5 text-white mb-6 card-shadow relative overflow-hidden">
-                    <div class="absolute right-[-20px] top-[-20px] opacity-10 text-8xl"><i class="fas fa-plane"></i></div>
-                    <div class="flex justify-between items-end mb-4 relative z-10">
-                        <div>
-                            <p class="text-xs opacity-80 mb-1">Outbound Flight</p>
-                            <h2 class="text-2xl font-bold font-mono">${db.flight.out.code}</h2>
-                        </div>
-                        <div class="text-right">
-                            <p class="text-xl font-bold">${db.flight.out.date}</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center justify-between text-sm font-medium relative z-10">
-                        <span>${db.flight.out.from}</span>
-                        <div class="h-[1px] bg-white/40 flex-1 mx-4"></div>
-                        <span>${db.flight.out.to}</span>
-                    </div>
-                    <div class="mt-3 text-xs bg-white/20 inline-block px-2 py-1 rounded">
-                        <i class="fas fa-info-circle mr-1"></i>${db.flight.out.note}
-                    </div>
+            {/* List */}
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden animate-fade-in">
+                <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
+                    <h3 className="font-bold text-gray-700">{luggageData[activeCat].title}</h3>
                 </div>
-            `;
-
-        db.itinerary.forEach((day) => {
-          let eventsHtml = day.events
-            .map(
-              (e) => `
-                    <div class="flex items-start mb-5 last:mb-0">
-                        <div class="w-12 text-xs text-gray-400 font-mono pt-1">${
-                          e.time
-                        }</div>
-                        <div class="flex-1 pb-4 border-b border-gray-100 last:border-0">
-                            <h4 class="text-sm font-bold text-gray-800 mb-1">${
-                              e.title
-                            }</h4>
-                            <p class="text-xs text-gray-600 leading-relaxed mb-2">${
-                              e.desc
-                            }</p>
-                            
-                            ${
-                              e.note
-                                ? `<p class="text-xs text-[#b94047] mb-2"><i class="fas fa-exclamation-triangle mr-1"></i>${e.note}</p>`
-                                : ""
-                            }
-                            
-                            <div class="flex flex-wrap gap-2">
-                                ${
-                                  e.tag
-                                    ? `<span class="tag ${
-                                        e.tag === "必吃"
-                                          ? "tag-food"
-                                          : e.tag === "交通"
-                                            ? "tag-transport"
-                                            : "bg-gray-100 text-gray-500"
-                                      }">${e.tag}</span>`
-                                    : ""
-                                }
-                                ${
-                                  e.link
-                                    ? `<a href="${e.link}" target="_blank" class="tag bg-blue-50 text-blue-600"><i class="fas fa-link mr-1"></i>連結</a>`
-                                    : ""
-                                }
-                            </div>
-                        </div>
-                    </div>
-                `,
-            )
-            .join("");
-
-          html += `
-                    <div class="bg-white rounded-2xl p-5 mb-4 card-shadow">
-                        <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-50">
-                            <h3 class="font-serif font-bold text-lg text-[#2e4b71]">${
-                              day.day
-                            } <span class="text-sm text-gray-400 ml-2 font-sans">${
-                              day.date
-                            }</span></h3>
-                            <span class="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded"><i class="fas fa-map-marker-alt mr-1"></i>${
-                              day.loc
-                            }</span>
-                        </div>
-                        ${
-                          day.note
-                            ? `<div class="bg-amber-50 text-amber-800 text-xs p-2 rounded mb-4"><i class="fas fa-star mr-1"></i>${day.note}</div>`
-                            : ""
-                        }
-                        <div>${eventsHtml}</div>
-                    </div>
-                `;
-        });
-
-        html += `<div class="h-8"></div>`;
-        app.innerHTML = html;
-      }
-
-      function renderLuggage() {
-        // Internal tab switching for luggage
-        window.switchLuggageCat = (cat) => {
-          document
-            .querySelectorAll(".luggage-cat")
-            .forEach((el) => el.classList.add("hidden"));
-          document.getElementById(`luggage-${cat}`).classList.remove("hidden");
-          document
-            .querySelectorAll(".luggage-tab")
-            .forEach((el) => el.classList.remove("active"));
-          document.getElementById(`tab-${cat}`).classList.add("active");
-        };
-
-        let navHtml = `
-                <div class="flex border-b border-gray-200 mb-6 overflow-x-auto hide-scrollbar">
-                    <button id="tab-bao" onclick="switchLuggageCat('bao')" class="luggage-tab active flex-none px-4 py-2 text-sm whitespace-nowrap">寶的清單</button>
-                    <button id="tab-bei" onclick="switchLuggageCat('bei')" class="luggage-tab flex-none px-4 py-2 text-sm whitespace-nowrap">貝的清單</button>
-                    <button id="tab-morning" onclick="switchLuggageCat('morning')" class="luggage-tab flex-none px-4 py-2 text-sm whitespace-nowrap">早上檢查</button>
-                    <button id="tab-clothes" onclick="switchLuggageCat('clothes')" class="luggage-tab flex-none px-4 py-2 text-sm whitespace-nowrap">小豬衣物</button>
+                <div className="divide-y divide-gray-50">
+                    {luggageData[activeCat].items.map((item, idx) => {
+                        const key = `${activeCat}-${idx}`;
+                        return (
+                            <label key={key} className="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer select-none transition-colors">
+                                <input 
+                                    type="checkbox" 
+                                    className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
+                                    checked={!!checkedItems[key]}
+                                    onChange={() => handleCheck(key)}
+                                />
+                                <span className={`ml-3 text-sm transition-all ${checkedItems[key] ? "text-gray-400 line-through" : "text-gray-700"}`}>
+                                    {item}
+                                </span>
+                            </label>
+                        );
+                    })}
                 </div>
-            `;
+            </div>
+            <p className="text-center text-xs text-gray-400 mt-6">進度自動儲存於此瀏覽器</p>
+        </div>
+      );
+    };
 
-        let contentHtml = "";
-        for (const [key, list] of Object.entries(db.luggage)) {
-          contentHtml += `
-                    <div id="luggage-${key}" class="luggage-cat ${
-                      key === "bao" ? "" : "hidden"
-                    }">
-                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-                            <div class="bg-[#f8fafc] px-4 py-3 border-b border-gray-100">
-                                <h3 class="font-bold text-gray-700">${
-                                  list.title
-                                }</h3>
-                            </div>
-                            <div class="divide-y divide-gray-50">
-                                ${list.items
-                                  .map(
-                                    (item, i) => `
-                                    <label class="flex items-center px-4 py-3 hover:bg-gray-50 active:bg-gray-100 cursor-pointer">
-                                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-[#2e4b71] focus:ring-[#2e4b71]" id="${key}-${i}">
-                                        <span class="ml-3 text-sm text-gray-700 select-none">${item}</span>
-                                    </label>
-                                `,
-                                  )
-                                  .join("")}
-                            </div>
-                        </div>
-                    </div>
-                `;
-        }
-
-        app.innerHTML =
-          navHtml +
-          contentHtml +
-          `<p class="text-center text-xs text-gray-400 mt-6">點擊方塊勾選，刷新頁面會重置</p>`;
-      }
-
-      function renderShopping() {
-        let html = `
-                <div class="bg-[#fff5f5] border border-[#feb2b2] rounded-2xl p-4 mb-6">
-                    <h3 class="text-[#c53030] font-bold text-sm mb-2"><i class="fas fa-exclamation-circle mr-2"></i>重要注意事項</h3>
-                    <ul class="list-disc list-inside text-xs text-[#c53030] space-y-1">
-                        ${db.tips.map((t) => `<li>${t}</li>`).join("")}
+    // 2. ShoppingView
+    const ShoppingView = () => {
+        const { shoppingData } = window.TripData;
+        
+        return (
+            <div className="max-w-2xl mx-auto px-4 mt-8 space-y-6">
+                {/* Warnings */}
+                <div className="bg-red-50 border border-red-100 rounded-2xl p-4">
+                    <h3 className="text-accent font-bold text-sm mb-2 flex items-center gap-2">
+                        <Info size={16} /> 重要注意事項
+                    </h3>
+                    <ul className="list-disc list-inside text-xs text-accent space-y-1 opacity-80">
+                        {shoppingData.tips.map((t, i) => <li key={i}>{t}</li>)}
                     </ul>
                 </div>
 
-                <h3 class="font-serif font-bold text-lg text-gray-800 mb-3 ml-1">必買清單</h3>
-                <div class="bg-white rounded-2xl shadow-lg p-4 mb-6">
-                    ${db.shopping
-                      .map(
-                        (item) => `
-                        <div class="flex items-center py-2 border-b border-gray-50 last:border-0">
-                            <div class="w-8 h-8 rounded-full bg-orange-50 text-orange-400 flex items-center justify-center text-xs mr-3">
-                                <i class="fas ${
-                                  item.type === "food"
-                                    ? "fa-utensils"
-                                    : "fa-box"
-                                }"></i>
+                {/* Shopping List */}
+                <SectionCard title="必買清單" icon={ShoppingBag}>
+                    <div className="space-y-2">
+                        {shoppingData.items.map((item, idx) => (
+                            <div key={idx} className="flex items-center py-2 border-b border-gray-50 last:border-0 hover:bg-gray-50 rounded px-2 transition-colors">
+                                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs mr-3 shrink-0 ${
+                                    item.type === 'food' ? 'bg-orange-50 text-orange-500' : 'bg-blue-50 text-blue-500'
+                                }`}>
+                                    {item.type === 'food' ? <Utensils size={14}/> : <ShoppingBag size={14}/>}
+                                </div>
+                                <span className="text-sm text-gray-700 font-medium">{item.title}</span>
                             </div>
-                            <span class="text-sm text-gray-700 font-medium">${
-                              item.title
-                            }</span>
-                        </div>
-                    `,
-                      )
-                      .join("")}
-                </div>
-
-                <h3 class="font-serif font-bold text-lg text-gray-800 mb-3 ml-1">實用連結 & 優惠</h3>
-                <div class="grid grid-cols-2 gap-3">
-                    ${db.links
-                      .map(
-                        (link) => `
-                        <a href="${link.url}" target="_blank" class="bg-white p-4 rounded-xl card-shadow flex flex-col items-center justify-center text-center active:scale-95 transition-transform border border-transparent hover:border-gray-200">
-                            <i class="fas ${link.icon} text-2xl text-[#2e4b71] mb-2 opacity-80"></i>
-                            <span class="text-xs font-medium text-gray-600 leading-tight">${link.title}</span>
-                        </a>
-                    `,
-                      )
-                      .join("")}
-                </div>
-            `;
-        app.innerHTML = html;
-      }
-
-      function renderBudget() {
-        app.innerHTML = `
-                <div class="text-center mt-10 mb-8">
-                    <div class="inline-block p-4 rounded-full bg-blue-50 text-[#2e4b71] text-3xl mb-4 shadow-sm">
-                        <i class="fas fa-sack-dollar"></i>
+                        ))}
                     </div>
-                    <h2 class="text-2xl font-serif font-bold text-gray-800">旅遊預算</h2>
-                    <p class="text-xs text-gray-400 mt-2">點擊下方按鈕查看 Google Sheets</p>
+                </SectionCard>
+
+                {/* Links */}
+                <h3 className="font-display font-bold text-lg text-gray-800 ml-1">實用連結 & 優惠</h3>
+                <div className="grid grid-cols-2 gap-3">
+                    {shoppingData.links.map((link, i) => (
+                        <a key={i} href={link.url} target="_blank" className="bg-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center text-center active:scale-95 transition-transform border border-transparent hover:border-gray-200">
+                             {/* Note: In a real app we'd map string icon names to components, here we cheat a bit or use generic */}
+                             <div className="text-primary mb-2 opacity-80"><Icons.ExternalLink size={24}/></div>
+                             <span className="text-xs font-medium text-gray-600 leading-tight">{link.title}</span>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        );
+    };
+
+    // 3. BudgetView
+    const BudgetView = () => {
+        return (
+            <div className="max-w-2xl mx-auto px-4 mt-8">
+                <div className="text-center mb-8">
+                    <div className="inline-block p-4 rounded-full bg-blue-50 text-primary mb-4 shadow-sm animate-bounce-slow">
+                        <Wallet size={32} />
+                    </div>
+                    <h2 className="text-2xl font-display font-bold text-gray-800">旅遊預算</h2>
+                    <p className="text-xs text-gray-400 mt-2">點擊下方按鈕查看 Google Sheets</p>
                 </div>
 
                 <a href="https://docs.google.com/spreadsheets/d/1RFGLe_BHZ48Opw4kOvMXEwZN7tPvhE3jDTv_-iB6sdg/edit?usp=drivesdk" target="_blank" 
-                   class="block bg-[#1a2e47] text-white rounded-xl p-5 text-center shadow-lg shadow-blue-900/20 active:bg-[#0f1d2e] transition-colors mx-4">
-                    <span class="font-bold text-lg">開啟記帳表</span>
-                    <i class="fas fa-external-link-alt ml-2 text-sm"></i>
+                   className="block bg-primary text-white rounded-xl p-4 text-center shadow-lg shadow-blue-900/20 active:scale-[0.98] transition-all hover:bg-primary/90 mx-4">
+                    <span className="font-bold flex items-center justify-center gap-2">
+                        開啟記帳表 <Icons.ExternalLink size={16}/>
+                    </span>
                 </a>
 
-                <div class="mt-8 px-4">
-                    <h3 class="font-bold text-gray-700 mb-4 border-l-4 border-[#b94047] pl-3">信用卡回饋攻略</h3>
+                <div className="mt-10 px-2">
+                    <h3 className="font-bold text-gray-700 mb-4 border-l-4 border-accent pl-3">信用卡回饋攻略</h3>
                     
-                    <div class="bg-white rounded-xl p-4 mb-3 card-shadow border border-gray-100">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-gray-800">大寶 Cube 卡</span>
-                            <span class="text-xs font-bold bg-red-100 text-red-600 px-2 py-1 rounded">3% 回饋</span>
+                    <div className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="font-bold text-gray-800">大寶 Cube 卡</span>
+                            <span className="text-xs font-bold bg-pink-50 text-pink-600 px-2 py-1 rounded">3% 回饋</span>
                         </div>
-                        <p class="text-xs text-gray-500">切換「趣旅行」權益。適用：訂房、Klook、當地實體刷卡。</p>
+                        <p className="text-xs text-gray-500">切換「趣旅行」權益。適用：訂房、Klook、當地實體刷卡。</p>
                     </div>
 
-                    <div class="bg-white rounded-xl p-4 mb-3 card-shadow border border-gray-100">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-gray-800">貝 Gogoro 卡</span>
-                            <span class="text-xs font-bold bg-green-100 text-green-600 px-2 py-1 rounded">4% 回饋</span>
+                    <div className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="font-bold text-gray-800">貝 Gogoro 卡</span>
+                            <span className="text-xs font-bold bg-green-50 text-green-600 px-2 py-1 rounded">4% 回饋</span>
                         </div>
-                        <p class="text-xs text-gray-500">免手續費。適用：海外實體消費、線上刷外幣。</p>
+                        <p className="text-xs text-gray-500">免手續費。適用：海外實體消費、線上刷外幣。</p>
                     </div>
 
-                    <div class="bg-white rounded-xl p-4 card-shadow border border-gray-100">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-gray-800">全支付 (PayPay)</span>
-                            <span class="text-xs font-bold bg-blue-100 text-blue-600 px-2 py-1 rounded">3.5% ~ 6%</span>
+                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                        <div className="flex justify-between items-center mb-1">
+                            <span className="font-bold text-gray-800">全支付 (PayPay)</span>
+                            <span className="text-xs font-bold bg-blue-50 text-blue-600 px-2 py-1 rounded">3.5% ~ 6%</span>
                         </div>
-                        <p class="text-xs text-gray-500">日本超商、藥妝店掃碼。注意：8月6%名額可能已滿。</p>
+                        <p className="text-xs text-gray-500">日本超商、藥妝店掃碼。注意：8月6%名額可能已滿。</p>
                     </div>
                 </div>
-            `;
-      }
+            </div>
+        );
+    };
 
-      // Initialize
-      switchTab("itinerary");
+    // 4. ItineraryView
+    const ItineraryView = () => {
+        const { flightData, itineraryData } = window.TripData;
 
-      // Simple Countdown
-      const tripDate = new Date("2025-08-28").getTime();
-      const now = new Date().getTime();
-      const diff = tripDate - now;
-      const days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-      document.getElementById("countdown").innerText = days > 0 ? days : "GO";
-    </script>
-  </body>
+        // Flight Card
+        const FlightCard = () => (
+            <div className="bg-gradient-to-r from-[#1a2e47] to-[#2e4b71] rounded-2xl p-6 text-white mb-8 shadow-xl relative overflow-hidden group">
+                <div className="absolute right-[-20px] top-[-20px] opacity-10 text-9xl group-hover:scale-110 transition-transform duration-700">
+                    <Plane />
+                </div>
+                <div className="relative z-10">
+                    <div className="flex justify-between items-end mb-4">
+                        <div>
+                            <p className="text-xs opacity-80 mb-1 tracking-wider uppercase">Outbound Flight</p>
+                            <h2 className="text-3xl font-bold font-mono tracking-tighter">{flightData.out.code}</h2>
+                        </div>
+                        <p className="text-xl font-bold">{flightData.out.date}</p>
+                    </div>
+                    <div className="flex items-center justify-between text-sm font-medium">
+                        <span>{flightData.out.from}</span>
+                        <div className="h-[1px] bg-white/40 flex-1 mx-4"></div>
+                        <span>{flightData.out.to}</span>
+                    </div>
+                    <div className="mt-4 text-xs bg-white/10 backdrop-blur inline-flex items-center px-3 py-1.5 rounded-lg border border-white/20">
+                        <Info size={12} className="mr-2"/>{flightData.out.note}
+                    </div>
+                </div>
+            </div>
+        );
+
+        return (
+            <div className="max-w-2xl mx-auto px-4 mt-8 pb-12">
+                <FlightCard />
+                
+                {itineraryData.map((day, idx) => (
+                    <div key={idx} className="bg-white rounded-3xl p-6 mb-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
+                        <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-50">
+                            <div>
+                                <h3 className="font-display font-bold text-xl text-primary flex items-center gap-2">
+                                    {day.day} 
+                                    <span className="text-sm font-body text-gray-400 font-normal">{day.date}</span>
+                                </h3>
+                            </div>
+                            <span className="text-xs text-subtle bg-gray-50 px-3 py-1.5 rounded-full flex items-center gap-1">
+                                <MapPin size={12} /> {day.loc}
+                            </span>
+                        </div>
+
+                        {day.note && (
+                            <div className="bg-amber-50 text-amber-800 text-xs p-3 rounded-xl mb-6 flex items-start gap-2 leading-relaxed">
+                                <Star size={14} className="shrink-0 mt-0.5" />
+                                {day.note}
+                            </div>
+                        )}
+
+                        <div className="space-y-6">
+                            {day.events.map((event, eIdx) => (
+                                <ActivityItem 
+                                    key={eIdx} 
+                                    activity={{
+                                        time: event.time,
+                                        text: event.title,
+                                        subText: event.desc,
+                                        tips: event.note,
+                                        note: event.link ? "點擊查看詳情" : null,
+                                        // Fake map data to trigger link behavior if link exists, 
+                                        // or simple display if not (ActivityItem isn't perfectly adapted for pure links without map, but good enough)
+                                        foodGuideLink: event.tag === "美食" ? event.desc : null
+                                    }}
+                                    onOpenRoute={() => event.link ? window.open(event.link, '_blank') : null}
+                                />
+                            ))}
+                        </div>
+                    </div>
+                ))}
+            </div>
+        );
+    };
+
+
+    // === Main App ===
+    const App = () => {
+      const [activeTab, setActiveTab] = useState('itinerary');
+
+      const tabs = [
+        { id: 'itinerary', label: '行程', Icon: MapPin },
+        { id: 'luggage', label: '行李', Icon: Suitcase }, // Re-enabled
+        { id: 'shopping', label: '購物', Icon: ShoppingBag },
+        { id: 'budget', label: '開支', Icon: Wallet },
+      ];
+
+      return (
+        <div className="min-h-screen flex flex-col">
+          <PageHeader 
+            title="京阪奈・瀬戸内"
+            subtitle="2025 Summer Trip"
+            backgroundImage="https://images.unsplash.com/photo-1528114637695-8350a3d4d4a8?q=80&w=2670&auto=format&fit=crop"
+            tags={[
+                { text: "岡山進出", icon: Icons.Plane }, 
+                { text: "關西廣域 Pass", icon: Icons.Ticket }
+            ]}
+          />
+          
+          <TabNavigation 
+            activeTab={activeTab} 
+            setActiveTab={setActiveTab} 
+            tabs={tabs} 
+          />
+
+          <main className="flex-grow bg-surface relative -mt-6 rounded-t-[2.5rem] z-30 pt-4">
+            {activeTab === 'itinerary' && <ItineraryView />}
+            {activeTab === 'luggage' && <LuggageView />}
+            {activeTab === 'shopping' && <ShoppingView />}
+            {activeTab === 'budget' && <BudgetView />}
+          </main>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
 </html>
