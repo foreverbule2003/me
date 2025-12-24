@@ -20,5 +20,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/foreverbule2003/me.git"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "firebase": "^12.7.0"
   }
 }
