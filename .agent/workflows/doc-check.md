@@ -12,19 +12,19 @@ description: 提交前檢查文件是否需要更新
    - 是否新增了需要說明的重大功能？
    - 是否修改了專案的安裝或使用方式？
 
-2. **FEATURES.md** - 功能清單
+2. **docs/FEATURES.md** - 功能清單
    - 是否新增了使用者可見的功能？
    - 是否修改了現有功能的行為？
 
-3. **COMPONENTS.md** - 元件文件
+3. **docs/COMPONENTS.md** - 元件文件
    - 是否新增了共用元件？
    - 是否修改了元件的 Props 或 API？
 
-4. **SITEMAP.md** - 網站地圖
+4. **docs/SITEMAP.md** - 網站地圖
    - 是否新增了頁面？
    - 是否修改了頁面路徑？
 
-5. **STYLE_GUIDE.md** - 全站樣式指南
+5. **docs/STYLE_GUIDE.md** - 全站樣式指南
    - 是否修改了全站設計規範（顏色、字體、間距）？
 
 6. **trips/TRIP_STYLE_GUIDE.md** - 旅程樣式指南

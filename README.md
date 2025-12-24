@@ -68,12 +68,11 @@ my-landing-page/
 - **構建**：無構建步驟，純 HTML/JS
 - **部署**：GitHub Pages
 
-## 📖 文件
-
-- [FEATURES.md](./FEATURES.md) - 功能清單
-- [COMPONENTS.md](./COMPONENTS.md) - 元件文件
-- [SITEMAP.md](./SITEMAP.md) - 網站地圖
-- [STYLE_GUIDE.md](./STYLE_GUIDE.md) - 樣式指南
+## 📚 相關文件
+- [FEATURES.md](./docs/FEATURES.md) - 功能清單
+- [COMPONENTS.md](./docs/COMPONENTS.md) - 元件文件
+- [SITEMAP.md](./docs/SITEMAP.md) - 網站地圖
+- [STYLE_GUIDE.md](./docs/STYLE_GUIDE.md) - 程式碼風格指南
 
 ## 🔗 連結
 
