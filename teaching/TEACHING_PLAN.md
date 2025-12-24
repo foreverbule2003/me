@@ -56,10 +56,47 @@
 **目標**：透過 Antigravity 操作 Git。
 
 1. **自動化 Workflow**：
-   - 教導使用我們設定好的 Workflow：`@/commit`、`@/deploy`。
+   - 教導使用我們設定好的 Workflow：`/commit`、`/deploy`。
    - 體驗輸入一個指令，Antigravity 自動完成加檔案、寫訊息、推送的全過程。
 2. **文件維護**：
-   - 讓 Antigravity 執行 `@/doc-check`，培養好習慣。
+   - 讓 Antigravity 執行 `/doc-check`，培養好習慣。
+
+---
+
+## 🔄 第三部分：Workflows - 你的快捷指令
+
+Workflows 是預先定義的「自動化腳本」，讓你一個指令完成複雜操作。
+
+### 什麼是 Workflow？
+想像它像是**巨集**或**快捷鍵**：
+- 你只需說 `/commit`
+- Antigravity 會自動執行：加入變更 → 寫 commit message → 提交
+
+### 本專案可用的 Workflows
+
+| 指令         | 說明                       | 使用時機       |
+| ------------ | -------------------------- | -------------- |
+| `/run`       | 啟動本地預覽伺服器         | 想看網站效果時 |
+| `/commit`    | 提交變更（含文件檢查提醒） | 完成一個功能後 |
+| `/deploy`    | 推送到 GitHub              | 想讓線上版更新 |
+| `/doc-check` | 檢查文件是否需要更新       | 提交前確認     |
+| `/review`    | 請 AI 做全面架構審查       | 定期健檢       |
+| `/new-trip`  | 快速建立新旅程頁面         | 規劃新行程時   |
+| `/sync`      | 從 GitHub 拉取最新程式碼   | 多人協作時     |
+
+### 如何使用？
+直接在對話框輸入 `/指令名稱`，例如：
+```
+/commit
+```
+
+Antigravity 會讀取 `.agent/workflows/` 資料夾中的設定檔，並按步驟執行。
+
+### 如何新增 Workflow？
+告訴 Antigravity：
+> 「幫我建立一個新的 Workflow 叫做 `/backup`，用來備份資料庫。」
+
+它會在 `.agent/workflows/backup.md` 建立設定檔。
 
 ---
 
@@ -69,5 +106,7 @@
 2. **善用 `data.js`**：本專案已將資料 (JSON) 與邏輯分離。盡量讓新手只動 `data.js` 或 Markdown 檔案，風險最小。
 3. **建立「信心」**：第一次成功修改並看到畫面變更，是最大的動力。讓他們先試著改改看自己的名字或標題。
 4. **賦予 AI 角色**：告訴他們「AI 是你的資深工程師學長，有問題先問他，他不會生氣」。
+5. **鼓勵使用 Workflows**：強調「斜線指令」是最省力的操作方式。
 
 ---
+
