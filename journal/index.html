@@ -154,12 +154,12 @@
     const MOODS = ['🤯', '💡', '🔥', '😅', '🤔', '✨', '🎉', '😤'];
 
     // Journal Entry Card
-    const JournalCard = ({ entry, onClick, onDelete, canEdit }) => {
+    const JournalCard = ({ entry, onView, onEdit, onDelete, canEdit }) => {
       const date = entry.createdAt?.toDate?.() || new Date();
       const dateStr = date.toLocaleDateString('zh-TW', { month: 'short', day: 'numeric' });
       
       return (
-        <div className="journal-card" onClick={() => onClick(entry)}>
+        <div className="journal-card" onClick={() => onView(entry)}>
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-2">
@@ -169,10 +169,18 @@
               <div className="text-xs opacity-70 mt-1">{dateStr}</div>
             </div>
             {canEdit && (
-              <button 
-                className="text-xs opacity-50 hover:opacity-100 px-2"
-                onClick={(e) => { e.stopPropagation(); onDelete(entry.id); }}
-              >✕</button>
+              <div className="flex gap-1">
+                <button 
+                  className="text-xs opacity-50 hover:opacity-100 px-2 py-1"
+                  onClick={(e) => { e.stopPropagation(); onEdit(entry); }}
+                  title="編輯"
+                >✎</button>
+                <button 
+                  className="text-xs opacity-50 hover:opacity-100 px-2 py-1 hover:text-red-500"
+                  onClick={(e) => { e.stopPropagation(); onDelete(entry.id); }}
+                  title="刪除"
+                >✕</button>
+              </div>
             )}
           </div>
           {entry.tags?.length > 0 && (
@@ -187,7 +195,7 @@
     };
 
     // Edit/Create Modal
-    const JournalModal = ({ entry, onSave, onClose, canEdit }) => {
+    const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
       const [title, setTitle] = useState(entry?.title || '');
       const [content, setContent] = useState(entry?.content || '');
       const [mood, setMood] = useState(entry?.mood || '💡');
@@ -206,8 +214,8 @@
       };
 
       
-      // Read-Only Mode (for guests)
-      if (!canEdit && entry) {
+      // Read-Only Mode (View Mode)
+      if (mode === 'view' && entry) {
         return (
           <div className="journal-modal" onClick={onClose}>
             <div className="journal-modal-content" onClick={e => e.stopPropagation()}>
@@ -314,6 +322,7 @@
       const [entries, setEntries] = useState([]);
       const [isModalOpen, setIsModalOpen] = useState(false);
       const [editingEntry, setEditingEntry] = useState(null);
+      const [modalMode, setModalMode] = useState('view'); // 'view' or 'edit'
       const [isLoading, setIsLoading] = useState(true);
       const [firebaseReady, setFirebaseReady] = useState(false);
       const [user, setUser] = useState(null);
@@ -436,13 +445,21 @@
         }
       };
 
+      const openView = (entry) => {
+        setEditingEntry(entry);
+        setModalMode('view');
+        setIsModalOpen(true);
+      };
+
       const openEdit = (entry) => {
         setEditingEntry(entry);
+        setModalMode('edit');
         setIsModalOpen(true);
       };
 
       const openCreate = () => {
         setEditingEntry(null);
+        setModalMode('edit');
         setIsModalOpen(true);
       };
 
@@ -484,7 +501,8 @@
                 <JournalCard
                   key={entry.id}
                   entry={entry}
-                  onClick={openEdit}
+                  onView={openView}
+                  onEdit={openEdit}
                   onDelete={handleDelete}
                   canEdit={!!user}
                 />
@@ -504,6 +522,7 @@
               onSave={handleSave}
               onClose={() => { setIsModalOpen(false); setEditingEntry(null); }}
               canEdit={!!user}
+              mode={modalMode}
             />
           )}
         </GameBoyShell>
