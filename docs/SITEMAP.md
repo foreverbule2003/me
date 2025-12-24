@@ -35,7 +35,10 @@
 │       │   └── USJ 環球影城
 │       └── 💰 預算規劃 (budget)
 │
-└── 🔧 TOOLS & CONTACT (tools.html)
+├── 📓 JOURNAL (journal/)
+│   └── Vibe Coding 日記
+│
+└── 🔧 TOOLS & CONTACT (tools/)
     ├── 📊 財務儀表板 (tools/financial-dashboard.html)
     ├── 📈 期權策略模擬器 (tools/bull-put-spread.html)
     └── 📧 聯絡方式
@@ -55,6 +58,7 @@
 | 2025 大阪     | `/trips/2025-osaka/index.html`     | 🚧 建置中 |
 | 2026 北海道   | `/trips/2026-hokkaido/index.html`  | 🚧 建置中 |
 | 2026 伊勢志摩 | `/trips/2026-ise-shima/index.html` | ✅ 完成   |
+| 日記          | `/journal/`                        | ✅ 完成   |
 | 財務儀表板    | `/tools/financial-dashboard.html`  | ✅ 完成   |
 | 期權模擬器    | `/tools/bull-put-spread.html`      | ✅ 完成   |
 
