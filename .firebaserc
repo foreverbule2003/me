@@ -1,5 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "default": "my-landing-page-2ca68"
+  },
   "targets": {},
   "etags": {}
 }

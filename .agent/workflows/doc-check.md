@@ -34,6 +34,16 @@ description: 提交前檢查文件是否需要更新
    - 是否修改了特定旅程的資料結構？
    - 是否新增了旅程專屬功能？
 
+## 🔐 安全性檢查
+
+8. **API Keys 安全性**
+   - 公開的 API Key 是否已在 [Google Cloud Console](https://console.cloud.google.com/apis/credentials) 設定 HTTP Referrer 限制？
+   - 允許的網域：`https://foreverbule2003.github.io/*`, `http://localhost:*`
+
+9. **Firebase 規則** (`firebase/firestore.rules`)
+   - 新增的 collection 是否有適當的讀寫權限？
+   - 是否需要 Firebase Auth 保護敏感資料？
+
 ## ✅ 更新順序建議
 
 | 變更規模     | 建議順序                                   |

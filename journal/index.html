@@ -18,20 +18,23 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, orderBy, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getAuth, signInWithPopup, signOut, onAuthStateChanged, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyAOV3PR7U9kKoFT-_iGbTvbMBnVGF7sHgU",
-      authDomain: "my-landing-page-bf7e4.firebaseapp.com",
-      projectId: "my-landing-page-bf7e4",
-      storageBucket: "my-landing-page-bf7e4.firebasestorage.app",
-      messagingSenderId: "715931292529",
-      appId: "1:715931292529:web:7f60de41a5e85ced6dfe69"
+      apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
+      authDomain: "my-landing-page-2ca68.firebaseapp.com",
+      projectId: "my-landing-page-2ca68",
+      storageBucket: "my-landing-page-2ca68.firebasestorage.app",
+      messagingSenderId: "847051837050",
+      appId: "1:847051837050:web:c5e2bc56252e0d3ab835c3"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
+    const auth = getAuth(app);
+    const googleProvider = new GoogleAuthProvider();
 
-    // Expose to global for React components
+    // Expose Firestore to global for React components
     window.firebaseDb = db;
     window.firebaseCollection = collection;
     window.firebaseAddDoc = addDoc;
@@ -43,6 +46,13 @@
     window.firebaseQuery = query;
     window.firebaseOnSnapshot = onSnapshot;
     window.firebaseServerTimestamp = serverTimestamp;
+
+    // Expose Auth to global for React components
+    window.firebaseAuth = auth;
+    window.firebaseGoogleProvider = googleProvider;
+    window.firebaseSignInWithPopup = signInWithPopup;
+    window.firebaseSignOut = signOut;
+    window.firebaseOnAuthStateChanged = onAuthStateChanged;
 
     // Signal that Firebase is ready
     window.dispatchEvent(new Event('firebase-ready'));
@@ -124,6 +134,25 @@
       resize: vertical;
       margin-bottom: 8px;
     }
+    .login-btn {
+      background: #0f380f;
+      color: #9bbc0f;
+      padding: 4px 8px;
+      font-size: 10px;
+      border: 2px solid #9bbc0f;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .login-btn:hover {
+      background: #9bbc0f;
+      color: #0f380f;
+    }
+    .user-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      border: 2px solid #0f380f;
+    }
   </style>
 </head>
 
@@ -137,12 +166,12 @@
     const MOODS = ['🤯', '💡', '🔥', '😅', '🤔', '✨', '🎉', '😤'];
 
     // Journal Entry Card
-    const JournalCard = ({ entry, onClick, onDelete }) => {
+    const JournalCard = ({ entry, onClick, onDelete, canEdit }) => {
       const date = entry.createdAt?.toDate?.() || new Date();
       const dateStr = date.toLocaleDateString('zh-TW', { month: 'short', day: 'numeric' });
       
       return (
-        <div className="journal-card" onClick={() => onClick(entry)}>
+        <div className="journal-card" onClick={() => canEdit && onClick(entry)}>
           <div className="flex justify-between items-start">
             <div className="flex-1">
               <div className="flex items-center gap-2">
@@ -151,10 +180,12 @@
               </div>
               <div className="text-xs opacity-70 mt-1">{dateStr}</div>
             </div>
-            <button 
-              className="text-xs opacity-50 hover:opacity-100 px-2"
-              onClick={(e) => { e.stopPropagation(); onDelete(entry.id); }}
-            >✕</button>
+            {canEdit && (
+              <button 
+                className="text-xs opacity-50 hover:opacity-100 px-2"
+                onClick={(e) => { e.stopPropagation(); onDelete(entry.id); }}
+              >✕</button>
+            )}
           </div>
           {entry.tags?.length > 0 && (
             <div className="mt-1">
@@ -257,6 +288,37 @@
       const [editingEntry, setEditingEntry] = useState(null);
       const [isLoading, setIsLoading] = useState(true);
       const [firebaseReady, setFirebaseReady] = useState(false);
+      const [user, setUser] = useState(null);
+      const [authLoading, setAuthLoading] = useState(true);
+
+      // Listen to auth state
+      useEffect(() => {
+        if (!firebaseReady) return;
+        
+        const unsubscribe = window.firebaseOnAuthStateChanged(window.firebaseAuth, (currentUser) => {
+          setUser(currentUser);
+          setAuthLoading(false);
+        });
+        
+        return () => unsubscribe();
+      }, [firebaseReady]);
+
+      const handleLogin = async () => {
+        try {
+          await window.firebaseSignInWithPopup(window.firebaseAuth, window.firebaseGoogleProvider);
+        } catch (error) {
+          console.error('Login error:', error);
+          alert('登入失敗：' + error.message);
+        }
+      };
+
+      const handleLogout = async () => {
+        try {
+          await window.firebaseSignOut(window.firebaseAuth);
+        } catch (error) {
+          console.error('Logout error:', error);
+        }
+      };
 
       // Wait for Firebase
       useEffect(() => {
@@ -362,12 +424,23 @@
           <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
             <div>
               <h1 className="text-xl font-bold">📓 JOURNAL</h1>
-              <p className="text-xs">Vibe Coding Diary</p>
+              <p className="text-xs">
+                {user ? `Hi, ${user.displayName?.split(' ')[0] || 'User'}` : 'Vibe Coding Diary'}
+              </p>
             </div>
-            <button 
-              className="gb-btn text-sm px-3"
-              onClick={openCreate}
-            >+ NEW</button>
+            <div className="flex items-center gap-2">
+              {authLoading ? null : user ? (
+                <>
+                  <button 
+                    className="gb-btn text-sm px-3"
+                    onClick={openCreate}
+                  >+ NEW</button>
+                  <button className="login-btn" onClick={handleLogout}>登出</button>
+                </>
+              ) : (
+                <button className="login-btn" onClick={handleLogin}>🔑 登入</button>
+              )}
+            </div>
           </div>
 
           {/* Entry List */}
@@ -376,7 +449,7 @@
               <div className="text-center py-4 text-sm">載入中...</div>
             ) : entries.length === 0 ? (
               <div className="text-center py-4 text-sm opacity-70">
-                還沒有任何日記<br/>點擊 +NEW 開始記錄！
+                還沒有任何日記<br/>{user ? '點擊 +NEW 開始記錄！' : '登入後即可新增'}
               </div>
             ) : (
               entries.map(entry => (
@@ -385,6 +458,7 @@
                   entry={entry}
                   onClick={openEdit}
                   onDelete={handleDelete}
+                  canEdit={!!user}
                 />
               ))
             )}
