@@ -4,11 +4,11 @@
 
 ## 網站概覽
 
-| 項目         | 說明                                                                |
-| ------------ | ------------------------------------------------------------------- |
-| **網站主題** | TimZ - POCKET DEVICE（復古 Game Boy 風格個人網站）                  |
-| **視覺風格** | 像素風格、復古電玩配色（綠色調螢幕）                                |
-| **技術棧**   | HTML, CSS, JavaScript, TailwindCSS, React (CDN), Firebase Firestore |
+| 項目         | 說明                                                                               |
+| ------------ | ---------------------------------------------------------------------------------- |
+| **網站主題** | TimZ - POCKET DEVICE（復古 Game Boy 風格個人網站）                                 |
+| **視覺風格** | 像素風格、復古電玩配色（綠色調螢幕）                                               |
+| **技術棧**   | HTML, CSS, JavaScript, TailwindCSS, React (CDN), Firebase Firestore, Web Audio API |
 
 ---
 
