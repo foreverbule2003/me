@@ -87,7 +87,7 @@
           activities: [
             { time: "11:00", text: "交通：VISON → 松阪", subText: "巴士", map: { type: "route", origin: "VISON Mie", destination: "Matsusaka Station" } },
             { time: "12:00", text: "交通：松阪 → 伊勢市", subText: "近鐵特急 (特急券+¥520)", map: { type: "route", origin: "Matsusaka Station", destination: "Iseshi Station" } },
-            { time: "13:00", text: "午餐：托福橫丁", subText: "Oharai-machi 老街", foodGuideLink: "伊勢 托福橫丁", map: { query: "Oharai Machi Ise" } },
+            { time: "13:00", text: "午餐：托福橫丁", subText: "Oharai-machi 老街", foodGuideLink: "伊勢 (Day 4)", map: { query: "Oharai Machi Ise" } },
             { time: "14:30", text: "參拜：伊勢神宮 (內宮)", note: "日本人心靈故鄉，下午人潮較少", map: { query: "Ise Jingu Naiku" } },
             { time: "17:00", text: "入住：伊勢市區飯店", subText: "Comfort Hotel Ise", map: { query: "Comfort Hotel Ise" } },
           ],
@@ -277,15 +277,15 @@
           {
             title: "🥗 素食友善餐廳",
             items: [
-              { name: "HONZO lab. RINNE", type: "咖啡廳", desc: "純素餐點/甜點 (Vegan)，¥1,000~1,500", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HONZO+lab+RINNE+VISON" },
-              { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵)，¥3,500 套餐", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
+              { name: "NOUNIYELL (農場餐廳)", type: "義式料理", desc: "有機蔬菜料理 (沙拉/時蔬麵/Pizza)，¥1,500~3,500", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
               { name: "raf", type: "咖啡廳", desc: "當季蔬菜濃湯、咖哩，¥800~1,200", mapUrl: "https://www.google.com/maps/search/?api=1&query=raf+cafe+VISON" },
+              { name: "豊農米蔵", type: "米飯料理", desc: "鹽味飯糰可食 (味噌湯含魚湯)，¥500~1,000", mapUrl: "https://www.google.com/maps/search/?api=1&query=豊農米蔵+VISON" },
             ],
           },
           {
             title: "🍳 早餐選項",
             items: [
-              { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食 (含早餐)", note: "⚠️ 需 5 天前預約", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=嬉野とうふ+VISON" },
+              { name: "嬉野とうふ のせ", type: "豆腐定食", desc: "現做溫豆腐定食 (含早餐)", note: "⚠️ 需預約", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=嬉野とうふ+VISON" },
               { name: "VISON Buffet", type: "自助餐", desc: "和洋自助餐 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+VISON+Restaurant" },
               { name: "NOUNIYELL", type: "西式", desc: "蛋料理+沙拉 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=NOUNIYELL+VISON" },
               { name: "Confiture H", type: "法式", desc: "法式吐司 (含早餐)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Confiture+H+VISON" },
@@ -298,20 +298,31 @@
             items: [
               { name: "LE CHOCOLAT DE H", type: "巧克力專賣店", desc: "辻口博啓主理，60+種巧克力", note: "VISON 限定款 Meyer Lemon", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=LE+CHOCOLAT+DE+H+VISON" },
               { name: "Mariage de Farine", type: "麵包店", desc: "三重縣產小麥石臼現磨", mapUrl: "https://www.google.com/maps/search/?api=1&query=Mariage+de+Farine+VISON" },
+              { name: "EGUN ON", type: "巴斯克起司塔", desc: "濃郁綿密的重乳酪口感", mapUrl: "https://www.google.com/maps/search/?api=1&query=EGUN+ON+VISON" },
             ],
           },
         ],
       },
       {
-        location: "伊勢 托福橫丁",
+        location: "伊勢 (Day 4)",
         day: "Day 4",
         sections: [
           {
-            title: "🍡 必吃美食",
+            title: "⛩️ 外宮參道 / 伊勢市站周邊",
             items: [
-              { name: "赤福", type: "和菓子", desc: "伊勢名物，紅豆麻糬", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=赤福+托福橫丁" },
+              { name: "Kishin (喜心)", type: "純素日式定食", desc: "九格小菜+味噌湯", recommended: true, mapUrl: "https://maps.app.goo.gl/iVnL3LNxxyXR6LCZA" },
+              { name: "Killbilli", type: "可麗餅", desc: "復古美式風格，日式可麗餅", mapUrl: "https://www.google.com/maps/search/?api=1&query=Killbilli+Ise" },
+              { name: "Camino Coffee", type: "咖啡廳", desc: "站前烘焙咖啡，早餐供蜂蜜起司吐司", mapUrl: "https://www.google.com/maps/search/?api=1&query=Camino+Coffee+Ise" },
+              { name: "Hanakago’me", type: "創意蒸料理", desc: "當地食材蒸籠料理", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=Hanakago'me+Ise" },
+            ],
+          },
+          {
+            title: "🍡 內宮前 托福橫丁",
+            items: [
+              { name: "赤福 本店", type: "和菓子", desc: "伊勢名物，紅豆麻糬", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=赤福+托福橫丁" },
+              { name: "五十鈴川河畔 豆腐屋", type: "豆腐", desc: "豆腐田樂、湯豆腐 (醬汁含魚湯)", mapUrl: "https://www.google.com/maps/search/?api=1&query=伊勢+豆腐屋" },
+              { name: "伊勢烏龍 ふくすけ", type: "麵食", desc: "濃口醬油烏龍麵 (醬汁含魚湯)", mapUrl: "https://www.google.com/maps/search/?api=1&query=伊勢うどん+ふくすけ" },
               { name: "豆腐冰淇淋", type: "甜點", desc: "濃郁豆香", mapUrl: "https://www.google.com/maps/search/?api=1&query=豆腐+アイス+おかげ横丁" },
-              { name: "伊勢烏龍", type: "麵食", desc: "粗軟Q彈的烏龍麵", mapUrl: "https://www.google.com/maps/search/?api=1&query=伊勢うどん+おかげ横丁" },
             ],
           },
         ],
@@ -333,11 +344,12 @@
           {
             title: "🍜 素食友善餐廳",
             items: [
-              { name: "素食串燒 あじゅ", type: "居酒屋", desc: "純素串燒體驗", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=あじゅ+梅田+素食串燒" },
-              { name: "おにぎりごりちゃん 中崎町本店", type: "飯糰", desc: "手作飯糰專賣店", mapUrl: "https://www.google.com/maps/search/?api=1&query=おにぎりごりちゃん+中崎町本店" },
-              { name: "MOON and BACK HEP FIVE", type: "咖啡廳", desc: "HEP FIVE 內，提供蔬食選項", mapUrl: "https://www.google.com/maps/search/?api=1&query=MOON+and+BACK+HEP+FIVE" },
-              { name: "Vegan and Gluten Free Osaka", type: "全素", desc: "純素無麩質餐廳 (夜間營業)", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=Vegan+and+Gluten+Free+Osaka" },
-              { name: "松葉ルクア大阪店", type: "烏龍麵", desc: "LUCUA 內知名烏龍麵店", mapUrl: "https://www.google.com/maps/search/?api=1&query=松葉+ルクア大阪店" },
+              { name: "[東梅田] 素食串燒 あじゅ", type: "居酒屋", desc: "純素串燒、大阪燒體驗", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=あじゅ+梅田+素食串燒" },
+              { name: "[東梅田] おにぎりごりちゃん 中崎町本店", type: "飯糰", desc: "手作飯糰＋茶泡飯專賣店（上次吃的分店）", mapUrl: "https://www.google.com/maps/search/?api=1&query=おにぎりごりちゃん+中崎町本店" },
+              { name: "[東梅田] MOON and BACK HEP FIVE", type: "拉麵", desc: "純素擔擔麵、蒸餃", mapUrl: "https://www.google.com/maps/search/?api=1&query=MOON+and+BACK+HEP+FIVE" },
+              { name: "[梅田北口] Vegan and Gluten Free Osaka", type: "全素", desc: "大阪燒、章魚燒、拉麵、串炸 (完全素食)", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=Vegan+and+Gluten+Free+Osaka" },
+              { name: "[梅田南口] 松葉ルクア大阪店", type: "串炸", desc: "LUCUA 內知名串炸（上次吃的）", mapUrl: "https://www.google.com/maps/search/?api=1&query=松葉+ルクア大阪店" },
+              { name: "[福島] 花くじら (Hanakujira)", type: "關東煮", desc: "大阪必吃關東煮 (⚠️湯頭含魚)", mapUrl: "https://www.google.com/maps/search/?api=1&query=花くじら+福島" },
             ],
           },
           {

@@ -130,6 +130,19 @@
     const { cleanQuery, callGeminiAPI } = window.TripShared.AppCore;
 
     // --- 3. UI 元件 (Components) ---
+    
+    // 3.0 ToggleFAB (Shared Floating Action Button)
+    const ToggleFAB = ({ isExpanded, onToggle }) => (
+      <button
+        onClick={() => onToggle(isExpanded === true ? false : true)}
+        className="p-3 rounded-full bg-white/70 backdrop-blur-md text-primary shadow-xl border border-white/50 hover:bg-white hover:text-primary transition-all duration-300 group relative"
+      >
+        {isExpanded === true ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
+        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+          {isExpanded === true ? "全部折疊" : "全部展開"}
+        </span>
+      </button>
+    );
 
     // 3.1 Header (Luxury Visual Update)
     const Header = () => (
@@ -562,10 +575,24 @@
     // 3.6 MapModal - 使用共用元件 (SharedMapModal)
 
     // 3.7 MapView
-    const MapView = ({ onOpenMap }) => {
+    const MapView = ({ onOpenMap, allExpanded, onManualToggle }) => {
       const [isKintetsuOpen, setIsKintetsuOpen] = React.useState(true);
       const [isBusOpen, setIsBusOpen] = React.useState(true);
       const [isRoutesOpen, setIsRoutesOpen] = React.useState(true);
+
+      // 監聽全域展開/折疊狀態
+      React.useEffect(() => {
+        if (allExpanded !== null && allExpanded !== undefined) {
+          setIsKintetsuOpen(allExpanded);
+          setIsBusOpen(allExpanded);
+          setIsRoutesOpen(allExpanded);
+        }
+      }, [allExpanded]);
+
+      const handleToggle = (setter, currentVal) => {
+        setter(!currentVal);
+        if (onManualToggle) onManualToggle();
+      };
 
       return (
         <div className="space-y-8 animate-fade-in">
@@ -574,7 +601,7 @@
             {/* 近鐵特急比較表 */}
             <div className="mb-8">
               <button
-                onClick={() => setIsKintetsuOpen(!isKintetsuOpen)}
+                onClick={() => handleToggle(setIsKintetsuOpen, isKintetsuOpen)}
                 className="w-full text-base font-bold text-gray-800 mb-4 flex items-center justify-between gap-2 group"
               >
                 <div className="flex items-center gap-2">
@@ -631,7 +658,7 @@
             {/* 三重交通巴士時刻表 */}
             <div className="mb-8">
               <button
-                onClick={() => setIsBusOpen(!isBusOpen)}
+                onClick={() => handleToggle(setIsBusOpen, isBusOpen)}
                 className="w-full text-base font-bold text-gray-800 mb-4 flex items-center justify-between gap-2 group"
               >
                 <div className="flex items-center gap-2">
@@ -705,7 +732,7 @@
 
             <div className="mb-8">
               <button
-                onClick={() => setIsRoutesOpen(!isRoutesOpen)}
+                onClick={() => handleToggle(setIsRoutesOpen, isRoutesOpen)}
                 className="w-full text-base font-bold text-gray-800 mb-4 flex items-center justify-between gap-2 group"
               >
                 <div className="flex items-center gap-2">
@@ -770,9 +797,23 @@
 
     // 3.8 FoodView - 美食指南 (使用 data.js 中的 foodData)
 
-    const FoodView = () => {
+    const FoodView = ({ allExpanded, onManualToggle }) => {
       // 收合狀態
       const [collapsedCategories, setCollapsedCategories] = React.useState({});
+
+      // 監聽全域展開/折疊狀態
+      React.useEffect(() => {
+        if (allExpanded !== null && allExpanded !== undefined) {
+          // allExpanded = true (全部展開) => collapsed = false
+          // allExpanded = false (全部折疊) => collapsed = true
+          const shouldCollapse = !allExpanded;
+          const newCollapsedState = {};
+          foodData.categories.forEach((_, idx) => {
+             newCollapsedState[idx] = shouldCollapse;
+          });
+          setCollapsedCategories(newCollapsedState);
+        }
+      }, [allExpanded]);
 
       // Firestore 雲端同步狀態
       const [favorites, setFavorites] = React.useState({});
@@ -810,6 +851,7 @@
           ...prev,
           [idx]: !prev[idx]
         }));
+        if (onManualToggle) onManualToggle();
       };
 
       const toggleFavorite = async (itemKey) => {
@@ -1221,6 +1263,8 @@
       });
       // 全部展開/折疊狀態：true = 全部展開, false = 全部折疊, null = 個別控制
       const [allExpanded, setAllExpanded] = useState(true);
+      const [mapAllExpanded, setMapAllExpanded] = useState(true);
+      const [foodAllExpanded, setFoodAllExpanded] = useState(true);
       // 階段收合狀態：{ 0: true, 1: true } 代表兩個階段都展開
       const [phaseExpanded, setPhaseExpanded] = useState(
         itineraryData.reduce((acc, _, idx) => ({ ...acc, [idx]: true }), {})
@@ -1380,24 +1424,26 @@
               </div>
             )}
 
-            {activeTab === "map" && <MapView onOpenMap={handleOpenMap} />}
+            {activeTab === "map" && <MapView onOpenMap={handleOpenMap} allExpanded={mapAllExpanded} onManualToggle={() => setMapAllExpanded(null)} />}
 
-            {activeTab === "food" && <FoodView />}
+            {activeTab === "food" && <FoodView allExpanded={foodAllExpanded} onManualToggle={() => setFoodAllExpanded(null)} />}
           </main>
 
           {/* FAB Group */}
           <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
             {/* Itinerary Toggle FAB */}
             {activeTab === "itinerary" && (
-              <button
-                onClick={() => setAllExpanded(allExpanded === true ? false : true)}
-                className="p-3 rounded-full bg-white/70 backdrop-blur-md text-primary shadow-xl border border-white/50 hover:bg-white hover:text-primary transition-all duration-300 group relative"
-              >
-                {allExpanded === true ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-                <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                  {allExpanded === true ? "全部折疊" : "全部展開"}
-                </span>
-              </button>
+              <ToggleFAB isExpanded={allExpanded} onToggle={setAllExpanded} />
+            )}
+            
+            {/* Map Toggle FAB */}
+            {activeTab === "map" && (
+              <ToggleFAB isExpanded={mapAllExpanded} onToggle={setMapAllExpanded} />
+            )}
+
+            {/* Food Toggle FAB */}
+            {activeTab === "food" && (
+              <ToggleFAB isExpanded={foodAllExpanded} onToggle={setFoodAllExpanded} />
             )}
 
             {/* AI Assistant FAB */}
