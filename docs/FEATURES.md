@@ -4,11 +4,11 @@
 
 ## 網站概覽
 
-| 項目         | 說明                                                                               |
-| ------------ | ---------------------------------------------------------------------------------- |
-| **網站主題** | TimZ - POCKET DEVICE（復古 Game Boy 風格個人網站）                                 |
-| **視覺風格** | 像素風格、復古電玩配色（綠色調螢幕）                                               |
-| **技術棧**   | HTML, CSS, JavaScript, TailwindCSS, React (CDN), Firebase Firestore, Web Audio API |
+| 項目         | 說明                                                               |
+| ------------ | ------------------------------------------------------------------ |
+| **網站主題** | TimZ - POCKET DEVICE（復古 Game Boy 風格個人網站）                 |
+| **視覺風格** | 像素風格、復古電玩配色（綠色調螢幕）                               |
+| **技術棧**   | Vite 6.0, React 18, TailwindCSS, Firebase Firestore, Web Audio API |
 
 ---
 
@@ -16,16 +16,21 @@
 
 ```
 my-landing-page/
-├── index.html          # 首頁（TimBoy 模擬器）
-├── about.html          # 關於我
-├── trips.html          # 旅程列表
-├── tools.html          # 工具箱
+├── index.html              # 首頁（TimBoy 模擬器）
+├── about/index.html        # 關於我
+├── trips/index.html        # 旅程列表
+├── tools/index.html        # 工具箱
+├── src/                    # Vite ESM 入口點
+│   ├── main.jsx
+│   ├── components/
+│   ├── lib/
+│   └── pages/
 ├── trips/
-│   ├── 2025-cebu/      # 2025 宿霧
-│   ├── 2025-osaka/     # 2025 大阪
-│   ├── 2026-hokkaido/  # 2026 北海道
-│   ├── 2026-ise-shima/ # 2026 伊勢志摩
-│   └── shared/         # 共用元件
+│   ├── 2025-cebu/          # 2025 宿霧
+│   ├── 2025-osaka/         # 2025 大阪
+│   ├── 2026-hokkaido/      # 2026 北海道
+│   ├── 2026-ise-shima/     # 2026 伊勢志摩
+│   └── shared/             # 共用元件
 └── tools/
     ├── bull-put-spread.html      # 期權策略模擬器
     └── financial-dashboard.html  # 財務儀表板
