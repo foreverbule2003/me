@@ -25,3 +25,6 @@ build/
 # Temp files
 *.tmp
 *.temp
+
+# AI-generated reports (regeneratable via /review workflow)
+ARCHITECTURAL_REVIEW.md
