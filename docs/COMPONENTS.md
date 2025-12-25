@@ -178,9 +178,12 @@ AI 聊天與翻譯功能的彈窗。
 
 ### TimBoy 模擬器 (GameBoyShell)
 
-**位置**: `js/gb-shell.js`
+**位置**: 
+- `src/components/GameBoyShell.jsx` (Vite ESM 版本 - 主要)
+- `js/gb-shell.jsx` (Vite ESM 版本 - 備份)
+- `js/gb-shell.js` (舊版 CDN Babel 版本 - 待移除)
 
- React 封裝的 Game Boy 外殼元件，處理所有外觀與互動邏輯。
+React 封裝的 Game Boy 外殼元件，處理所有外觀與互動邏輯。
 
 | Prop         | 類型      | 說明                                            |
 | ------------ | --------- | ----------------------------------------------- |
@@ -200,6 +203,30 @@ AI 聊天與翻譯功能的彈窗。
 - **開機動畫**: 處理電源開啟時的 Nintendo 風格動畫
 - **音效管理**: 內建 Web Audio API 音效 (開機、點擊、懸停)
 - **電源狀態**: 使用 `sessionStorage` 記憶開機狀態
+
+---
+
+## Vite 頁面入口點 (src/pages/)
+
+### 頁面結構
+
+| 頁面       | 入口點                       | HTML                 |
+| ---------- | ---------------------------- | -------------------- |
+| 首頁       | `src/main.jsx`               | `index.html`         |
+| About      | `src/pages/about/main.jsx`   | `about/index.html`   |
+| Trips 列表 | `src/pages/trips/main.jsx`   | `trips/index.html`   |
+| Tools      | `src/pages/tools/main.jsx`   | `tools/index.html`   |
+| Journal    | `src/pages/journal/main.jsx` | `journal/index.html` |
+
+### Firebase 設定
+
+**位置**: `src/lib/firebase.js`
+
+整合 Firebase Firestore 與 Auth，供 Journal 頁面使用。
+
+```javascript
+import { db, auth, googleProvider, ... } from '../lib/firebase.js';
+```
 
 ---
 

@@ -4,7 +4,10 @@
   "description": "TimZ 個人網站 - TimBoy 風格的互動式作品集",
   "main": "index.js",
   "scripts": {
-    "dev": "npx live-server --host=0.0.0.0",
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "dev:legacy": "npx live-server --host=0.0.0.0",
     "new-trip": "node tools/new-trip.js",
     "format": "npx prettier --write \"**/*.{html,css,js,md}\"",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,6 +26,12 @@
   },
   "dependencies": {
     "dotenv": "^17.2.3",
-    "firebase": "^12.7.0"
+    "firebase": "^12.7.0",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^5.1.2",
+    "vite": "^7.3.0"
   }
 }
