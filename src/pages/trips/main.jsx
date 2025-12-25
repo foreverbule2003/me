@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { GameBoyShell } from '../../components/GameBoyShell.jsx';
+import '../../../assets/gb-theme.css';
 
 const TripsPage = () => {
     return (

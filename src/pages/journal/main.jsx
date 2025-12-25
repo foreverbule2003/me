@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { GameBoyShell } from '../../components/GameBoyShell.jsx';
+import '../../../assets/gb-theme.css';
 import {
     db,
     auth,
