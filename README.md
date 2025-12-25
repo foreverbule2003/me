@@ -17,64 +17,71 @@
 ## 🚀 快速開始
 
 ```bash
-# 安裝依賴 (Live Server)
-npm install -g live-server
+# 安裝依賴
+npm install
 
-# 啟動開發伺服器
+# 啟動開發伺服器 (Vite)
 npm run dev
 
-# 瀏覽器開啟 http://localhost:8080
+# 建構 Production Bundle
+npm run build
+
+# 預覽 Production Build
+npm run preview
 ```
 
 ## 📁 專案結構
 
 ```
 my-landing-page/
-├── index.html          # 首頁 (TimBoy 模擬器)
-├── about.html          # 關於頁面
-├── trips.html          # 旅程列表
-├── tools.html          # 工具箱入口
-├── journal/            # 📓 開發日記
+├── index.html              # 首頁 (TimBoy 模擬器)
+├── about/index.html        # 關於頁面
+├── trips/index.html        # 旅程列表
+├── tools/index.html        # 工具箱入口
+├── journal/                # 📓 開發日記
 │
-├── trips/              # 旅程詳情
-│   ├── shared/         # 共用元件庫
-│   │   ├── components.js
-│   │   ├── icons.js
-│   │   └── styles.css
+├── src/                    # Vite ESM 入口點
+│   ├── main.jsx            # 首頁入口
+│   ├── components/         # 共用元件
+│   │   └── GameBoyShell.jsx
+│   ├── lib/                # 工具庫
+│   │   └── firebase.js
+│   └── pages/              # 各頁面入口
+│       ├── about/main.jsx
+│       ├── trips/main.jsx
+│       ├── tools/main.jsx
+│       └── journal/main.jsx
+│
+├── trips/                  # 旅程詳情
+│   ├── shared/             # 共用元件庫
 │   ├── 2025-cebu/
 │   ├── 2026-ise-shima/
 │   └── TRIP_STYLE_GUIDE.md
 │
-├── tools/              # 工具頁面
-│   ├── financial-dashboard.html
-│   ├── bull-put-spread.html
-│   └── new-trip.js     # 新旅程腳本
-│
-├── js/                 # 共用 JS
-│   ├── gb-shell.js     # Game Boy 外殼元件
-│   └── firebase-config.js  # Firebase 統一設定
-│
-├── teaching/           # 教學文件
-│
-└── .agent/workflows/   # AI 助手 Workflows
+├── tools/                  # 工具頁面
+├── public/                 # 靜態資源 (Vite 直接複製)
+├── assets/                 # CSS 與圖片
+└── vite.config.js          # Vite 設定檔
 ```
 
 ## 📜 可用腳本
 
-| 指令               | 說明               |
-| ------------------ | ------------------ |
-| `npm run dev`      | 啟動本地開發伺服器 |
-| `npm run new-trip` | 互動式建立新旅程   |
-| `npm run format`   | 格式化所有程式碼   |
+| 指令               | 說明                          |
+| ------------------ | ----------------------------- |
+| `npm run dev`      | 啟動 Vite 開發伺服器 (熱更新) |
+| `npm run build`    | 建構 Production Bundle        |
+| `npm run preview`  | 預覽 Production Build         |
+| `npm run new-trip` | 互動式建立新旅程              |
+| `npm run format`   | 格式化所有程式碼              |
 
 ## 🛠️ 技術棧
 
-- **前端框架**：React 18 (CDN)
+- **建構工具**：Vite 6.0
+- **前端框架**：React 18
 - **樣式**：Tailwind CSS
 - **圖示**：Lucide Icons (自訂封裝)
 - **即時同步**：Firebase Firestore
-- **構建**：無構建步驟，純 HTML/JS
-- **部署**：GitHub Pages
+- **部署**：GitHub Actions + GitHub Pages
 
 ## 📚 相關文件
 - [FEATURES.md](./docs/FEATURES.md) - 功能清單
