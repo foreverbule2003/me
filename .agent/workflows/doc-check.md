@@ -34,6 +34,20 @@ description: 提交前檢查文件是否需要更新
    - 是否修改了特定旅程的資料結構？
    - 是否新增了旅程專屬功能？
 
+## 🧩 元件結構檢查
+
+8. **元件一致性**
+   - 新增的元件是否放在正確位置？
+     - 首頁相關：`src/components/`
+     - 旅程頁面：`trips/shared/`
+   - 是否有重複的元件需要合併？
+   
+9. **Vite 入口點**
+   - 新增頁面是否有對應的入口點？
+     - HTML：`[page]/index.html`
+     - JS：`src/pages/[page]/main.jsx`
+   - 是否已加入 `vite.config.js` 的 `build.rollupOptions.input`？
+
 ## 🔐 安全性檢查
 
 8. **API Keys 安全性**

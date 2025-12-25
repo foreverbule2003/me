@@ -178,10 +178,7 @@ AI 聊天與翻譯功能的彈窗。
 
 ### TimBoy 模擬器 (GameBoyShell)
 
-**位置**: 
-- `src/components/GameBoyShell.jsx` (Vite ESM 版本 - 主要)
-- `js/gb-shell.jsx` (Vite ESM 版本 - 備份)
-- `js/gb-shell.js` (舊版 CDN Babel 版本 - 待移除)
+**位置**: `src/components/GameBoyShell.jsx`
 
 React 封裝的 Game Boy 外殼元件，處理所有外觀與互動邏輯。
 
