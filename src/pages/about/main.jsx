@@ -13,7 +13,7 @@ const AboutPage = () => {
                     <p className="text-sm">STATUS: ONLINE</p>
                 </div>
                 <div className="w-12 h-12 grayscale contrast-200 border-2 border-[#0f380f] bg-gray-300 overflow-hidden relative">
-                    <img src="../assets/images/avatar.jpg" alt="Profile" className="w-full h-full object-cover" />
+                    <img src="/assets/images/avatar.jpg" alt="Profile" className="w-full h-full object-cover" />
                 </div>
             </div>
 
