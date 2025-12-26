@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { GameBoyShell } from '../../components/GameBoyShell.jsx';
+import '../../index.css';  // Tailwind CSS
 import '../../../assets/gb-theme.css';
 import avatarImg from '../../../assets/images/avatar.jpg';
 
