@@ -60,8 +60,22 @@
 
   <!-- 8. Inject Firestore (Module) -->
   <script type="module">
-    import { db } from '../../js/firebase-config.js';
-    import { collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getFirestore, collection, doc, setDoc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+    
+    // Firebase 設定 (內聯以避免路徑問題)
+    const firebaseConfig = {
+      apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
+      authDomain: "my-landing-page-2ca68.firebaseapp.com",
+      projectId: "my-landing-page-2ca68",
+      storageBucket: "my-landing-page-2ca68.firebasestorage.app",
+      messagingSenderId: "847051837050",
+      appId: "1:847051837050:web:c5e2bc56252e0d3ab835c3"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    
     window.TripDb = db;
     window.TripFirestore = { collection, doc, setDoc, deleteDoc, onSnapshot };
   </script>
