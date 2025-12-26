@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { GameBoyShell } from '../../components/GameBoyShell.jsx';
 import '../../../assets/gb-theme.css';
+import avatarImg from '../../../assets/images/avatar.jpg';
 
 const TripsPage = () => {
     return (
@@ -13,7 +14,7 @@ const TripsPage = () => {
                     <p className="text-sm">STATUS: ONLINE</p>
                 </div>
                 <div className="w-12 h-12 grayscale contrast-200 border-2 border-[#0f380f] bg-gray-300 overflow-hidden relative">
-                    <img src="/assets/images/avatar.jpg" alt="Profile" className="w-full h-full object-cover" />
+                    <img src={avatarImg} alt="Profile" className="w-full h-full object-cover" />
                 </div>
             </div>
 
