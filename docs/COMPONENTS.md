@@ -1,8 +1,28 @@
 # 元件清單 (Components)
 
-> 最後更新：2025-12-25
+> 最後更新：2025-12-26
 
-## 共用元件 (trips/shared/)
+## 共用元件庫 (兩套架構並存)
+
+### CDN 版 (trips/shared/)
+供 CDN React + Babel 頁面使用，透過 `window.TripShared` 全域暴露。
+
+### Vite 版 (src/components/trips/) ✨ NEW
+供 Vite + React 頁面使用，ESM 模組格式。
+
+| 檔案                 | 說明                                 |
+| -------------------- | ------------------------------------ |
+| `TripIcons.jsx`      | lucide-react 圖示統一導出            |
+| `TripComponents.jsx` | SectionCard, MapModal 等共用 UI 元件 |
+| `index.js`           | 統一導出入口                         |
+
+**輔助函式**：`src/lib/trip-helpers.js`
+- `cleanQuery()` - 清理 Gemini API 回應
+- `callGeminiAPI()` - 呼叫 Gemini API
+
+---
+
+## CDN 版共用元件 (trips/shared/)
 
 ### 1. SectionCard
 **位置**: `trips/shared/components.js`
