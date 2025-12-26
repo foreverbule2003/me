@@ -1,0 +1,109 @@
+/* 
+ * Trip Theme CSS - Vite 版本
+ * Trip 頁面專用的主題樣式和動畫
+ */
+
+/* === Tailwind 主題色變數 === */
+:root {
+  --trip-primary: #4F46E5;         /* Indigo 600 */
+  --trip-header-primary: #0F2540;  /* Shimakaze Deep Blue */
+  --trip-accent: #E8968A;          /* Coral Rose */
+  --trip-dark: #1C1C1E;            /* Elegant Black */
+  --trip-subtle: #6E6E73;          /* Apple-like Grey */
+  --trip-surface: #F5F5F0;         /* Washi Paper White */
+  --trip-star: #E8968A;            /* Coral Rose */
+  --trip-love: #C32F2F;            /* Deep Red */
+}
+
+/* === 基礎設定 === */
+.trip-page {
+  @apply bg-[#F5F5F0] font-body text-[#1C1C1E];
+}
+
+.trip-page ::selection {
+  @apply bg-[#E8968A]/20 text-[#4F46E5];
+}
+
+/* === 動畫 === */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 0.6s ease-out forwards;
+}
+
+.animate-fade-up-delay-1 {
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.animate-fade-up-delay-2 {
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.animate-fade-up-delay-3 {
+  animation-delay: 0.3s;
+  opacity: 0;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.anim-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* === 隱藏捲軸但保留功能 === */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* === Glass 效果 === */
+.glass {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* === 字型設定 === */
+.font-display {
+  font-family: "Noto Serif JP", serif;
+}
+
+.font-body {
+  font-family: "Inter", sans-serif;
+}
