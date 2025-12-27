@@ -20,6 +20,22 @@
 
 ---
 
+## 📱 PWA 離線支援（中優先）
+
+讓旅程頁面可離線使用，出國無網路時仍可查看行程。
+
+### 實作項目
+- [ ] 建立 `manifest.json` (App 名稱、圖示、主題色)
+- [ ] 準備多尺寸 App 圖示 (192x192, 512x512)
+- [ ] 建立 `service-worker.js` (Cache First 策略)
+- [ ] 在 HTML 註冊 Service Worker
+- [ ] 快取旅程頁面靜態資源 (HTML/CSS/JS/圖片)
+- [ ] 測試離線模式
+
+**參考**：[Vite PWA Plugin](https://vite-pwa-org.netlify.app/)
+
+---
+
 ## 📋 其他待辦
 
 ### 功能增強
