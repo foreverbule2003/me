@@ -1,5 +1,5 @@
 ---
-description: 快速建立新旅程 (使用共用元件模板)
+description: 快速建立新旅程 (Vite + React 架構)
 ---
 
 // turbo
@@ -9,20 +9,33 @@ description: 快速建立新旅程 (使用共用元件模板)
 
 ---
 
-## 此腳本會：
-- 建立 `trips/{year}-{location}/` 目錄
-- 產生 `index.html` (使用共用元件)
-- 產生 `spec.md` (行程規劃文件)
-- 建立 `images/` 資料夾
+## 此腳本會建立：
+
+### trips/{year}-{location}/
+- `index.html` - Vite 入口點
+- `spec.md` - 行程規劃文件
+
+### src/pages/trips/{locationCode}/
+- `main.jsx` - React 入口 (使用共用 Firebase)
+- `App.jsx` - 主應用程式
+- `data.js` - 行程資料 (ESM 格式)
+- `{locationCode}.css` - 頁面專用樣式
+
+## 模板參考
+基於最完善的 **伊勢志摩** 實作 (`src/pages/trips/ise-shima/`)
 
 ## 使用的共用元件
+從 `src/components/trips/` 導入：
 - SectionCard
-- CollapsibleSection
 - MapModal
-- FAB
-- PhaseHeader
+- CollapsibleSection
+- ActivityItem
 
 ## 下一步
-1. 編輯 `spec.md` 規劃行程
-2. 修改 `index.html` 中的 `TRIP_CONFIG`、`itineraryData`、`budgetData`
-3. 執行 `npm run dev` 預覽
+1. 編輯 `trips/{year}-{location}/spec.md` 規劃行程
+2. 修改 `src/pages/trips/{locationCode}/data.js` 資料
+3. **手動更新 `vite.config.js`** 加入入口點：
+   ```javascript
+   'trips-{locationCode}': resolve(__dirname, 'trips/{year}-{location}/index.html'),
+   ```
+4. 執行 `npm run dev` 預覽
