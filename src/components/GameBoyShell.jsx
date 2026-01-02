@@ -85,17 +85,17 @@ export const GameBoyShell = ({ children, activePage = 'home' }) => {
 
         // 2. Start Boot Sequence
         setBootStep('booting');
-        setTimeout(() => setShowBootLogo(true), 100);
+        setTimeout(() => setShowBootLogo(true), 50);
 
         // 3. Play Sound after slight delay
-        setTimeout(() => playBootSound(), 2400);
+        setTimeout(() => playBootSound(), 800);
 
         // 4. Show Content
         setTimeout(() => {
             setBootStep('on');
             setContentOpacity(1);
             sessionStorage.setItem('gb_powered_on', 'true');
-        }, 3500);
+        }, 1200);
     };
 
     const toggleSound = () => {

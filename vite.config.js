@@ -16,7 +16,6 @@ export default defineConfig({
                 // Trips
                 trips: resolve(__dirname, 'trips/index.html'),
                 'trips-ise-shima': resolve(__dirname, 'trips/2026-ise-shima/index.html'),
-                'trips-ise-shima-vite': resolve(__dirname, 'trips/2026-ise-shima-vite/index.html'),
                 'trips-hokkaido': resolve(__dirname, 'trips/2026-hokkaido/index.html'),
                 'trips-cebu': resolve(__dirname, 'trips/2025-cebu/index.html'),
                 'trips-osaka': resolve(__dirname, 'trips/2025-osaka/index.html'),
