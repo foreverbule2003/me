@@ -120,16 +120,16 @@ export const SectionCard = ({
     }, [forceOpen]);
 
     const HeaderContent = () => (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2">
             {Icon && (
-                <div className="p-3 bg-accent/10 rounded-xl text-accent">
-                    <Icon size={24} />
+                <div className="p-2 bg-accent/10 rounded-lg text-accent">
+                    <Icon size={18} />
                 </div>
             )}
-            <h2 className="text-xl md:text-2xl font-bold text-gray-800 flex-1 text-left">{title}</h2>
+            <h2 className="text-lg md:text-xl font-bold text-gray-800 flex-1 text-left">{title}</h2>
             {collapsible && (
                 <div className={`text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
-                    <ChevronDown size={24} />
+                    <ChevronDown size={20} />
                 </div>
             )}
         </div>
@@ -137,23 +137,23 @@ export const SectionCard = ({
 
     return (
         <section
-            className={`bg-white rounded-3xl transition-all duration-300 shadow-lg ${!collapsible ? 'hover:shadow-xl hover:-translate-y-1 p-3 md:p-8' : 'hover:shadow-md overflow-hidden'} ${className}`}
+            className={`bg-white rounded-3xl transition-all duration-300 shadow-lg ${!collapsible ? 'hover:shadow-xl hover:-translate-y-1 p-3 md:p-6' : 'hover:shadow-md overflow-hidden'} ${className}`}
         >
             {collapsible ? (
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`w-full block transition-all duration-300 py-3 px-5 text-left ${isOpen ? "border-b border-gray-100 bg-gray-50/30" : ""}`}
+                    className={`w-full block transition-all duration-300 py-3 px-4 text-left ${isOpen ? "border-b border-gray-100 bg-gray-50/30" : ""}`}
                 >
                     <HeaderContent />
                 </button>
             ) : (
-                <div className="mb-6 border-b border-gray-100 pb-4">
+                <div className="mb-5 border-b border-gray-100 pb-3">
                     <HeaderContent />
                 </div>
             )}
 
             <div className={`transition-all duration-500 ease-in-out ${collapsible ? (isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0") : ""}`}>
-                <div className={collapsible ? "p-3 md:p-8 pt-4" : ""}>
+                <div className={collapsible ? "p-3 md:p-6 pt-4" : ""}>
                     {children}
                 </div>
             </div>

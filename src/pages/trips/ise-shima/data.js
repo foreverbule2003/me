@@ -381,8 +381,8 @@ export const shoppingData = {
       icon: "🧴",
       items: [
         { func: "卸睫毛", type: "必買", name: "Kiss Me 睫毛膏卸除液", nameJp: "キスミー ヒロインメイク スピーディーマスカラリムーバー", desc: "粉藍色漸層瓶", price: 924, note: "【唯一解鎖鑰匙】沒買到它之前，請勿刷睫毛膏", mustBuy: true },
-        { func: "卸妝", type: "試用", name: "DUO 卸妝膏 (20g 迷你罐)", nameJp: "DUO ザ クレンジングバーム ミニ", desc: "推薦：💛 黃色 (Clear)", price: 880, note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
-        { func: "卸妝", type: "囤貨", name: "DUO 卸妝膏 (90g 大罐正貨)", nameJp: "DUO ザ クレンジングバーム", desc: "黃色 / 紅色", price: 3960, note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
+        { func: "卸妝", type: "試用", name: "DUO 卸妝膏 (20g 迷你罐)", nameJp: "DUO ザ クレンジングバーム ミニ", desc: "💛 黃色 (Clear)", price: 880, note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
+        { func: "卸妝", type: "囤貨", name: "DUO 卸妝膏 (90g)", nameJp: "DUO ザ クレンジングバーム", desc: "黃色 / 紅色", price: 3960, note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
       ],
     },
     {
@@ -393,7 +393,7 @@ export const shoppingData = {
         { func: "眼霜", type: "必買", name: "SANA 豆乳眼霜", nameJp: "サナ なめらか本舗 目元ふっくらクリーム", price: 900, note: "【妝前消腫】早上妝前使用，讓眼下不卡紋" },
         { func: "眼霜", type: "必買", name: "Melano CC 集中對策眼霜", nameJp: "メラノCC 集中対策 目もと集中美容液", price: 1100, note: "【去黑眼圈】晚上使用，針對色素沈澱" },
         { func: "化妝水", type: "囤貨", name: "肌研化妝水 (補充包)", nameJp: "肌ラボ 極潤 ヒアルロン液 つめかえ用", price: 700, note: "【囤貨帶回台灣】愛用品補貨，放托運" },
-        { func: "眼藥水", type: "必買", name: "Rohto Digi-Eye (ロート デジアイ)", nameJp: "ロート デジアイ", desc: "鮮黃色盒子", price: 680, note: "【藍光修復眼藥水】針對長時間盯電腦。含B2 (液體黃色)，請裸眼使用", warning: true },
+        { func: "眼藥水", type: "必買", name: "Rohto Digi-Eye", nameJp: "ロート デジアイ", desc: "鮮黃色盒子", price: 680, note: "【藍光修復眼藥水】針對長時間盯電腦。含B2 (液體黃色)，請裸眼使用", warning: true },
       ],
     },
     {

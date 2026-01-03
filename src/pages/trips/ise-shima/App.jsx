@@ -29,20 +29,20 @@ import { db, collection, doc, setDoc, deleteDoc, onSnapshot } from '../../../lib
 
 // Header 元件
 const Header = () => (
-    <header className="relative w-full py-12 px-6 text-white overflow-hidden">
+    <header className="relative w-full py-8 px-6 text-white overflow-hidden">
         <a
             href="../../index.html?booted=true#booted"
-            className="absolute top-6 left-6 z-50 p-3 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all border border-white/20 shadow-lg group"
+            className="absolute top-4 left-4 z-50 p-2 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all border border-white/20 shadow-lg group"
             title="回到首頁"
         >
             <ArrowRight
-                size={24}
+                size={20}
                 className="rotate-180 group-hover:-translate-x-1 transition-transform"
             />
         </a>
         <div className="absolute inset-0 z-0 select-none">
             <img
-                src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?q=80&w=2070&auto=format&fit=crop"
+                src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?q=80&w=2070&auto=format&fit=crop"
                 alt="Japan Scenery"
                 className="w-full h-full object-cover opacity-90 scale-105"
                 style={{ animation: 'float 20s ease-in-out infinite' }}
@@ -51,12 +51,12 @@ const Header = () => (
             <div className="absolute inset-0 bg-[#0F2540]/40 mix-blend-overlay"></div>
         </div>
         <div className="max-w-5xl mx-auto text-center relative z-10">
-            <div className="inline-block px-5 py-2 mb-6 rounded-full bg-[#0F2540]/30 backdrop-blur-md text-sm font-bold tracking-wider border border-[#E8968A]/40 text-[#E8968A]/90 animate-fade-up shadow-lg">
+            <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-[#0F2540]/30 backdrop-blur-md text-xs font-medium tracking-wider border border-[#E8968A]/40 text-[#E8968A]/90 animate-fade-up shadow-lg">
                 JP-ISE-OSA-2026-VEG-10D
             </div>
-            <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight animate-fade-up text-yellow-50">
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight tracking-tight animate-fade-up text-yellow-50">
                 伊勢志摩‧大阪
-                <span className="block text-2xl md:text-3xl mt-4 font-bold tracking-widest opacity-90">
+                <span className="block text-xl md:text-2xl mt-3 font-medium tracking-widest opacity-90">
                     10日素食慢旅
                 </span>
             </h1>
@@ -113,7 +113,7 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
 
 // StrategySection - 行程亮點
 const StrategySection = ({ forceOpen }) => (
-    <SectionCard icon={Sparkles} title="行程亮點" collapsible={true} forceOpen={forceOpen}>
+    <SectionCard icon={Sparkles} title="行程亮點" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-indigo-50 rounded-2xl p-4 text-center">
                 <div className="text-3xl font-bold text-indigo-600 mb-1">10</div>
@@ -147,7 +147,7 @@ const UsefulLinksSection = ({ forceOpen }) => {
     const iconMap = { Train, Hotel, Star, MapPin };
 
     return (
-        <SectionCard icon={Sparkles} title="實用連結" collapsible={true} forceOpen={forceOpen}>
+        <SectionCard icon={Sparkles} title="實用連結" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
             <div className="grid md:grid-cols-3 gap-4">
                 {usefulLinks.categories.map((category, idx) => {
                     const CategoryIcon = iconMap[category.icon] || MapPin;
@@ -195,8 +195,9 @@ const BudgetTable = ({ forceOpen }) => {
     return (
         <SectionCard
             icon={Wallet}
-            title={<div className="flex flex-col md:flex-row md:items-end gap-1"><span>預算概算</span><span className="text-sm font-normal text-gray-400 md:ml-2 mb-0.5">(2人同行，每人平均)</span></div>}
+            title={<div className="flex items-center gap-2"><span>預算概算</span><span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">每人</span></div>}
             collapsible={true}
+            defaultOpen={false}
             forceOpen={forceOpen}
         >
             {/* Desktop View */}
@@ -424,7 +425,7 @@ const VegetarianCard = ({ forceOpen }) => (
 
 // ========== 主應用程式 ==========
 
-const CollapsibleSubsection = ({ title, count, children, defaultOpen = true, forceOpen = null }) => {
+const CollapsibleSubsection = ({ title, count, children, defaultOpen = false, forceOpen = null }) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
     useEffect(() => {
@@ -465,8 +466,9 @@ const CollapsibleSubsection = ({ title, count, children, defaultOpen = true, for
 
 // StickyPhaseHeader - 吸附式標題
 // StickyPhaseHeader - 吸附式標題
-const StickyPhaseHeader = ({ title, children, defaultOpen = true, forceOpen = null, image }) => {
+const StickyPhaseHeader = ({ title, children, defaultOpen = false, forceOpen = null, image }) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
+    const containerRef = useRef(null);
 
     useEffect(() => {
         if (forceOpen !== null) {
@@ -475,8 +477,25 @@ const StickyPhaseHeader = ({ title, children, defaultOpen = true, forceOpen = nu
         }
     }, [forceOpen]);
 
+    const handleToggle = () => {
+        const wasCollapsed = !isOpen;
+        setIsOpen(!isOpen);
+
+        // 如果從收合狀態展開，滾動到頂部讓 Banner 吸附
+        if (wasCollapsed && containerRef.current) {
+            setTimeout(() => {
+                const headerHeight = 72; // TabNavigation height
+                const elementTop = containerRef.current.getBoundingClientRect().top + window.scrollY;
+                window.scrollTo({
+                    top: elementTop - headerHeight,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    };
+
     return (
-        <div className="mb-6">
+        <div className="mb-6" ref={containerRef}>
             <div className={`transition-all duration-500 ease-in-out overflow-hidden
                 ${isOpen
                     ? 'sticky top-[72px] z-30 -mx-4 md:mx-0 md:rounded-xl shadow-sm'
@@ -484,8 +503,8 @@ const StickyPhaseHeader = ({ title, children, defaultOpen = true, forceOpen = nu
                 }`}
             >
                 <button
-                    onClick={() => setIsOpen(!isOpen)}
-                    className={`w-full relative block transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? 'h-[64px]' : 'h-40'}`}
+                    onClick={handleToggle}
+                    className={`w-full relative block transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? 'h-[56px]' : 'h-24 md:h-36'}`}
                 >
                     {/* 背景層：毛玻璃 (Open) vs 圖片 (Closed) */}
                     <div className="absolute inset-0">
@@ -501,24 +520,24 @@ const StickyPhaseHeader = ({ title, children, defaultOpen = true, forceOpen = nu
 
                     {/* 內容層：Open 狀態內容 */}
                     <div className={`absolute inset-0 px-5 flex items-center justify-between transition-all duration-500 ${isOpen ? 'opacity-100 translate-y-0 delay-100' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
-                        <h2 className="text-base font-bold text-[#0F2540] flex items-center gap-2">
-                            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#E8968A]/10 text-[#E8968A]">
-                                <MapPin size={14} />
+                        <h2 className="text-sm font-medium text-[#0F2540] flex items-center gap-2">
+                            <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#E8968A]/10 text-[#E8968A]">
+                                <MapPin size={12} />
                             </span>
                             {title}
                         </h2>
                         <div className="text-gray-400 rotate-180">
-                            <ChevronDown size={18} />
+                            <ChevronDown size={16} />
                         </div>
                     </div>
 
                     {/* 內容層：Closed 狀態內容 */}
-                    <div className={`absolute inset-0 px-6 py-4 flex items-end justify-between transition-all duration-500 ${isOpen ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0 delay-100'}`}>
-                        <h2 className="text-2xl font-bold text-white mb-1 drop-shadow-md flex items-center gap-2">
+                    <div className={`absolute inset-0 px-5 py-3 flex items-end justify-between transition-all duration-500 ${isOpen ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0 delay-100'}`}>
+                        <h2 className="text-lg md:text-xl font-medium text-white mb-0.5 drop-shadow-md">
                             {title}
                         </h2>
-                        <div className="text-white/80 mb-2">
-                            <ChevronDown size={24} />
+                        <div className="text-white/80 mb-1">
+                            <ChevronDown size={20} />
                         </div>
                     </div>
                 </button>
@@ -534,7 +553,7 @@ const StickyPhaseHeader = ({ title, children, defaultOpen = true, forceOpen = nu
 export default function App() {
 
 
-    const [activeTab, setActiveTab] = useState('overview');
+    const [activeTab, setActiveTab] = useState('itinerary');
     const [allExpanded, setAllExpanded] = useState(null);
     const [mapModalData, setMapModalData] = useState({ isOpen: false, data: null });
 
@@ -733,7 +752,7 @@ export default function App() {
                 {activeTab === 'map' && (
                     <div className="max-w-3xl mx-auto space-y-6">
                         {/* 近鐵特急比較表 */}
-                        <SectionCard icon={Train} title="近鐵特急 vs 普通/急行 比較表" collapsible={true} forceOpen={allExpanded}>
+                        <SectionCard icon={Train} title="近鐵比較表" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse whitespace-nowrap">
                                     <thead>
@@ -764,7 +783,7 @@ export default function App() {
                         </SectionCard>
 
                         {/* 每日交通路線 */}
-                        <SectionCard icon={MapPin} title="每日交通路線" collapsible={true} forceOpen={allExpanded}>
+                        <SectionCard icon={MapPin} title="每日交通路線" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
                             <div className="space-y-3">
                                 {recommendedRoutes.map((route, idx) => (
                                     <div key={idx} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-indigo-200 transition-colors">
@@ -798,7 +817,12 @@ export default function App() {
                             <SectionCard
                                 key={cIdx}
                                 icon={Utensils}
-                                title={`${category.location} (${category.day})`}
+                                title={
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                        <span>{category.location}</span>
+                                        <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{category.day}</span>
+                                    </div>
+                                }
                                 collapsible={true}
                                 forceOpen={allExpanded}
                             >
@@ -910,24 +934,18 @@ export default function App() {
                                                                         {item.func}
                                                                     </span>
                                                                 )}
-                                                                {item.type && (
+                                                                {item.type && !['必買', '囤貨', '補貨'].includes(item.type) && (
                                                                     <span className={`px-2 py-0.5 text-xs font-medium rounded ${isPurchased ? 'bg-gray-200 text-gray-500' :
-                                                                        item.type === '必買' ? 'bg-pink-500 text-white' :
-                                                                            item.type === '首選' ? 'bg-green-100 text-green-600' :
-                                                                                item.type === '試用' ? 'bg-yellow-100 text-yellow-700' :
-                                                                                    item.type === '囤貨' || item.type === '補貨' ? 'bg-blue-100 text-blue-600' :
-                                                                                        'bg-gray-100 text-gray-500'
+                                                                        item.type === '首選' ? 'bg-green-100 text-green-600' :
+                                                                            item.type === '試用' ? 'bg-yellow-100 text-yellow-700' :
+                                                                                'bg-gray-100 text-gray-500'
                                                                         }`}>
                                                                         {item.type}
                                                                     </span>
                                                                 )}
-                                                                <span className={`font-bold ${isPurchased ? 'text-gray-500 line-through' : 'text-gray-800'}`}>{item.name}</span>
                                                             </div>
-                                                            {item.nameJp && <div className={`text-xs mb-1 ${isPurchased ? 'text-gray-400' : 'text-pink-400'}`}>🇯🇵 {item.nameJp}</div>}
-                                                            {item.desc && <div className={`text-sm mb-1 ${isPurchased ? 'text-gray-400' : 'text-gray-500'}`}>{item.desc}</div>}
-                                                            <div className={`text-xs leading-relaxed ${isPurchased ? 'text-gray-400' : 'text-gray-600'}`}>
-                                                                {item.note}
-                                                            </div>
+                                                            <div className={`font-bold mb-1 ${isPurchased ? 'text-gray-500 line-through' : 'text-gray-800'}`}>{item.name}</div>
+                                                            {item.desc && <div className={`text-sm ${isPurchased ? 'text-gray-400' : 'text-gray-500'}`}>{item.desc}</div>}
                                                         </div>
 
                                                         <div className="text-right shrink-0">
