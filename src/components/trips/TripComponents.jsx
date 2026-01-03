@@ -137,12 +137,12 @@ export const SectionCard = ({
 
     return (
         <section
-            className={`bg-white rounded-3xl p-6 md:p-8 shadow-lg transition-all duration-300 ${!collapsible ? 'hover:shadow-xl hover:-translate-y-1' : ''} ${className}`}
+            className={`bg-white rounded-3xl transition-all duration-300 shadow-lg ${!collapsible ? 'hover:shadow-xl hover:-translate-y-1 p-3 md:p-8' : 'hover:shadow-md overflow-hidden'} ${className}`}
         >
             {collapsible ? (
                 <button
                     onClick={() => setIsOpen(!isOpen)}
-                    className={`w-full block transition-all duration-300 ${isOpen ? "mb-6 border-b border-gray-100 pb-4" : "mb-0 border-b-0 pb-0"}`}
+                    className={`w-full block transition-all duration-300 py-3 px-5 text-left ${isOpen ? "border-b border-gray-100 bg-gray-50/30" : ""}`}
                 >
                     <HeaderContent />
                 </button>
@@ -152,8 +152,10 @@ export const SectionCard = ({
                 </div>
             )}
 
-            <div className={`transition-all duration-500 ease-in-out overflow-hidden ${collapsible ? (isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0") : ""}`}>
-                {children}
+            <div className={`transition-all duration-500 ease-in-out ${collapsible ? (isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0") : ""}`}>
+                <div className={collapsible ? "p-3 md:p-8 pt-4" : ""}>
+                    {children}
+                </div>
             </div>
         </section>
     );

@@ -112,8 +112,8 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
 };
 
 // StrategySection - 行程亮點
-const StrategySection = () => (
-    <SectionCard icon={Sparkles} title="行程亮點">
+const StrategySection = ({ forceOpen }) => (
+    <SectionCard icon={Sparkles} title="行程亮點" collapsible={true} forceOpen={forceOpen}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-indigo-50 rounded-2xl p-4 text-center">
                 <div className="text-3xl font-bold text-indigo-600 mb-1">10</div>
@@ -143,11 +143,11 @@ const StrategySection = () => (
 );
 
 // UsefulLinksSection
-const UsefulLinksSection = () => {
+const UsefulLinksSection = ({ forceOpen }) => {
     const iconMap = { Train, Hotel, Star, MapPin };
 
     return (
-        <SectionCard icon={Sparkles} title="實用連結">
+        <SectionCard icon={Sparkles} title="實用連結" collapsible={true} forceOpen={forceOpen}>
             <div className="grid md:grid-cols-3 gap-4">
                 {usefulLinks.categories.map((category, idx) => {
                     const CategoryIcon = iconMap[category.icon] || MapPin;
@@ -187,7 +187,7 @@ const UsefulLinksSection = () => {
 };
 
 // BudgetTable
-const BudgetTable = () => {
+const BudgetTable = ({ forceOpen }) => {
     const RATE_TWD = 0.22;
     const totalJPY = budgetData.reduce((acc, curr) => acc + curr.cost, 0);
     const totalTWD = Math.round(totalJPY * RATE_TWD);
@@ -196,6 +196,8 @@ const BudgetTable = () => {
         <SectionCard
             icon={Wallet}
             title={<div className="flex flex-col md:flex-row md:items-end gap-1"><span>預算概算</span><span className="text-sm font-normal text-gray-400 md:ml-2 mb-0.5">(2人同行，每人平均)</span></div>}
+            collapsible={true}
+            forceOpen={forceOpen}
         >
             {/* Desktop View */}
             <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-100">
@@ -302,12 +304,12 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
 
             {/* Content */}
             {isExpanded && (
-                <div className="p-6">
+                <div className="p-4 md:p-6">
                     <div className="space-y-4">
                         {dayData.activities.map((act, idx) => (
-                            <div key={idx} className="flex gap-4">
-                                <div className="w-14 shrink-0 text-right">
-                                    <span className="text-sm font-bold text-indigo-600">{act.time}</span>
+                            <div key={idx} className="flex gap-2 md:gap-4">
+                                <div className="w-11 md:w-14 shrink-0 text-right">
+                                    <span className="text-xs md:text-sm font-bold text-indigo-600">{act.time}</span>
                                 </div>
                                 <div className="flex-1 pb-4 border-b border-gray-50 last:border-0">
                                     <div className="flex justify-between items-start gap-2">
@@ -369,213 +371,56 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
     );
 };
 
-// CollapsiblePhase 元件 (取代 PhaseHeader)
-const CollapsiblePhase = ({ title, children, defaultOpen = true, forceOpen = null }) => {
-    const [isOpen, setIsOpen] = useState(defaultOpen);
 
-    useEffect(() => {
-        if (forceOpen !== null) {
-            setIsOpen(forceOpen);
-        }
-    }, [forceOpen]);
 
-    return (
-        <div className="mb-6 mt-10 first:mt-0">
-            <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="w-full flex items-center justify-between mb-6 group cursor-pointer"
-            >
-                <h2 className="text-xl font-bold text-[#0F2540] flex items-center gap-2 group-hover:opacity-80 transition-opacity">
-                    <div className="w-1 h-6 bg-[#E8968A] rounded-full"></div>
-                    {title}
-                </h2>
-                <div className={`text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
-                    <ChevronDown size={24} />
+// 素食溝通卡元件
+const VegetarianCard = ({ forceOpen }) => (
+    <SectionCard icon={Leaf} title="素食溝通卡" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
+        <div className="space-y-4 bg-gray-50/50 p-2 rounded-xl">
+            {/* NG Section */}
+            <div className="p-4 rounded-xl bg-white border border-gray-200 shadow-sm">
+                <p className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-1.5">
+                    <span className="text-red-500">🚫</span> 食事制限 (飲食禁忌)
+                </p>
+                <div className="mb-3 p-3 bg-red-50 border border-red-100 rounded-lg">
+                    <p className="text-lg font-bold text-red-600 leading-relaxed">
+                        私は肉と魚介類が食べられません。<br />
+                        <span className="border-b-2 border-red-200">肉や魚の出汁（だし）もNGです。</span>
+                    </p>
+                    <p className="text-xs text-red-500/70 mt-2 font-medium">(我不吃肉、海鮮，以及含肉或魚的高湯)</p>
                 </div>
-            </button>
-            <div className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
-                <div className="overflow-hidden">
-                    {children}
+                <div className="p-3 bg-green-50 border border-green-100 rounded-lg">
+                    <p className="text-lg font-bold text-green-700 leading-relaxed">
+                        でも、卵・乳製品・ネギ・ニンニクは食べられます。
+                    </p>
+                    <div className="mt-2 text-xs text-green-700/70 font-medium">
+                        (但我<span className="font-bold border-b border-green-400">可以吃</span>雞蛋、牛奶、蔥、蒜)
+                    </div>
                 </div>
             </div>
-        </div>
-    );
-};
 
-// AIChatBubble 元件
-const AIChatBubble = ({ sender, text }) => (
-    <div className={`flex ${sender === "user" ? "justify-end" : "justify-start"} mb-4`}>
-        <div
-            className={`max-w-[80%] rounded-3xl p-4 text-sm leading-relaxed ${sender === "user"
-                ? "bg-indigo-600 text-white rounded-br-none"
-                : "bg-white border border-gray-100 text-gray-700 shadow-sm rounded-bl-none"
-                }`}
-        >
-            {text}
+            {/* 高湯確認 */}
+            <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100">
+                <p className="text-xs font-bold text-gray-500 mb-1">🐟 出汁の確認 (高湯確認)</p>
+                <p className="text-xl font-bold text-gray-900 mb-2 leading-relaxed">
+                    この料理に、鰹節や魚の出汁は入っていますか？
+                </p>
+                <p className="text-xs text-blue-500/70 mt-1 font-medium">(請問這道菜含有柴魚或魚類高湯嗎？)</p>
+            </div>
+
+            {/* 可食清單 */}
+            <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
+                <p className="text-xs font-bold text-gray-500 mb-1">✅ 食べられるもの (可食清單)</p>
+                <ul className="grid grid-cols-2 gap-2 mt-2">
+                    <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 卵 (雞蛋)</li>
+                    <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 乳製品 (牛奶/起司)</li>
+                    <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 玉ねぎ (洋蔥)</li>
+                    <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> ニンニク (大蒜)</li>
+                </ul>
+            </div>
         </div>
-    </div>
+    </SectionCard>
 );
-
-// AIModal 元件
-const AIModal = ({ isOpen, onClose }) => {
-    const [activeFeature, setActiveFeature] = useState("chat");
-    const [chatHistory, setChatHistory] = useState([
-        { sender: "ai", text: "嗨！我是您的素食旅遊 AI 助手。關於行程、素食餐廳或日本旅遊的問題都可以問我喔！✨" }
-    ]);
-    const [inputText, setInputText] = useState("");
-    const [isLoading, setIsLoading] = useState(false);
-    const chatEndRef = useRef(null);
-
-    useEffect(() => {
-        if (chatEndRef.current) {
-            chatEndRef.current.scrollIntoView({ behavior: "smooth" });
-        }
-    }, [chatHistory, activeFeature]);
-
-    if (!isOpen) return null;
-
-    const handleSendMessage = async () => {
-        if (!inputText.trim()) return;
-        const userMsg = inputText;
-        setChatHistory(prev => [...prev, { sender: "user", text: userMsg }]);
-        setInputText("");
-        setIsLoading(true);
-
-        const response = await callGeminiAPI(userMsg);
-        setChatHistory(prev => [...prev, { sender: "ai", text: response }]);
-        setIsLoading(false);
-    };
-
-    return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-            <div className="bg-gray-50 w-full max-w-lg h-[600px] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative">
-                {/* Header */}
-                <div className="bg-indigo-600 p-4 flex items-center justify-between text-white shrink-0">
-                    <div className="flex items-center gap-2">
-                        <Bot size={24} />
-                        <h3 className="font-bold text-lg">AI 旅遊助手</h3>
-                    </div>
-                    <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-full transition-colors">
-                        <X size={20} />
-                    </button>
-                </div>
-
-                {/* Tab Buttons */}
-                <div className="flex p-2 bg-white border-b border-gray-100 gap-2 shrink-0">
-                    <button
-                        onClick={() => setActiveFeature("chat")}
-                        className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${activeFeature === "chat" ? "bg-indigo-100 text-indigo-600" : "text-gray-500 hover:bg-gray-100"}`}
-                    >
-                        <MessageCircle size={16} /> 行程顧問
-                    </button>
-                    <button
-                        onClick={() => setActiveFeature("translate")}
-                        className={`flex-1 py-2 flex items-center justify-center gap-2 rounded-lg text-sm font-semibold transition-colors ${activeFeature === "translate" ? "bg-indigo-100 text-indigo-600" : "text-gray-500 hover:bg-gray-100"}`}
-                    >
-                        <Languages size={16} /> 素食溝通卡
-                    </button>
-                </div>
-
-                {/* Content */}
-                <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-                    {activeFeature === "chat" && (
-                        <div className="flex flex-col min-h-full justify-end">
-                            <div className="flex-1 pb-4">
-                                {chatHistory.map((msg, idx) => (
-                                    <AIChatBubble key={idx} sender={msg.sender} text={msg.text} />
-                                ))}
-                                {isLoading && (
-                                    <div className="flex justify-start mb-4">
-                                        <div className="bg-white border border-gray-100 rounded-3xl p-4 text-gray-400 text-sm shadow-sm flex items-center gap-2">
-                                            <Sparkles size={14} className="animate-spin text-indigo-600" /> AI 思考中...
-                                        </div>
-                                    </div>
-                                )}
-                                <div ref={chatEndRef} />
-                            </div>
-                        </div>
-                    )}
-
-                    {activeFeature === "translate" && (
-                        <div className="space-y-4">
-                            <div className="bg-white p-4 rounded-xl shadow-sm border border-indigo-100">
-                                <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                                    <Leaf size={16} className="text-green-500" /> 素食溝通卡 (請直接出示給店員)
-                                </h4>
-                                <div className="space-y-4">
-                                    {/* NG Section */}
-                                    <div className="p-4 rounded-xl bg-white border border-gray-200 shadow-sm">
-                                        <p className="text-sm font-bold text-gray-800 mb-3 flex items-center gap-1.5">
-                                            <span className="text-red-500">🚫</span> 食事制限 (飲食禁忌)
-                                        </p>
-                                        <div className="mb-3 p-3 bg-red-50 border border-red-100 rounded-lg">
-                                            <p className="text-lg font-bold text-red-600 leading-relaxed">
-                                                私は肉と魚介類が食べられません。<br />
-                                                <span className="border-b-2 border-red-200">肉や魚の出汁（だし）もNGです。</span>
-                                            </p>
-                                            <p className="text-xs text-red-500/70 mt-2 font-medium">(我不吃肉、海鮮，以及含肉或魚的高湯)</p>
-                                        </div>
-                                        <div className="p-3 bg-green-50 border border-green-100 rounded-lg">
-                                            <p className="text-lg font-bold text-green-700 leading-relaxed">
-                                                でも、卵・乳製品・ネギ・ニンニクは食べられます。
-                                            </p>
-                                            <div className="mt-2 text-xs text-green-700/70 font-medium">
-                                                (但我<span className="font-bold border-b border-green-400">可以吃</span>雞蛋、牛奶、蔥、蒜)
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* 高湯確認 */}
-                                    <div className="p-4 rounded-xl bg-blue-50/50 border border-blue-100">
-                                        <p className="text-xs font-bold text-gray-500 mb-1">🐟 出汁の確認 (高湯確認)</p>
-                                        <p className="text-xl font-bold text-gray-900 mb-2 leading-relaxed">
-                                            この料理に、鰹節や魚の出汁は入っていますか？
-                                        </p>
-                                        <p className="text-xs text-blue-500/70 mt-1 font-medium">(請問這道菜含有柴魚或魚類高湯嗎？)</p>
-                                    </div>
-
-                                    {/* 可食清單 */}
-                                    <div className="p-4 rounded-xl bg-gray-50 border border-gray-200">
-                                        <p className="text-xs font-bold text-gray-500 mb-1">✅ 食べられるもの (可食清單)</p>
-                                        <ul className="grid grid-cols-2 gap-2 mt-2">
-                                            <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 卵 (雞蛋)</li>
-                                            <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 乳製品 (牛奶/起司)</li>
-                                            <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> 玉ねぎ (洋蔥)</li>
-                                            <li className="flex items-center gap-2 text-sm font-bold text-gray-700"><span className="text-green-500">✔</span> ニンニク (大蒜)</li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                </div>
-
-                {/* Chat Input */}
-                {activeFeature === "chat" && (
-                    <div className="p-4 bg-white border-t border-gray-100 shrink-0">
-                        <div className="flex items-center gap-2">
-                            <input
-                                type="text"
-                                value={inputText}
-                                onChange={(e) => setInputText(e.target.value)}
-                                onKeyDown={(e) => e.key === "Enter" && handleSendMessage()}
-                                placeholder="輸入問題，例如：附近有推薦的點心嗎？"
-                                className="flex-1 px-4 py-2.5 bg-gray-100 border-none rounded-full focus:ring-2 focus:ring-indigo-500 outline-none transition-all"
-                            />
-                            <button
-                                onClick={handleSendMessage}
-                                disabled={isLoading}
-                                className="p-3 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 disabled:opacity-50 transition-colors shadow-md"
-                            >
-                                <Send size={18} />
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
-};
 
 // ========== 主應用程式 ==========
 
@@ -618,13 +463,81 @@ const CollapsibleSubsection = ({ title, count, children, defaultOpen = true, for
     );
 };
 
+// StickyPhaseHeader - 吸附式標題
+// StickyPhaseHeader - 吸附式標題
+const StickyPhaseHeader = ({ title, children, defaultOpen = true, forceOpen = null, image }) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
+
+    useEffect(() => {
+        if (forceOpen !== null) {
+            // 當點擊全部展開/折疊時，總是保持標題展開，以便查看下方的每日卡片
+            setIsOpen(true);
+        }
+    }, [forceOpen]);
+
+    return (
+        <div className="mb-6">
+            <div className={`transition-all duration-500 ease-in-out overflow-hidden
+                ${isOpen
+                    ? 'sticky top-[72px] z-30 -mx-4 md:mx-0 md:rounded-xl shadow-sm'
+                    : 'relative z-0 mx-0 rounded-3xl shadow-md my-4 hover:shadow-lg hover:scale-[1.01] cursor-pointer'
+                }`}
+            >
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={`w-full relative block transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] ${isOpen ? 'h-[64px]' : 'h-40'}`}
+                >
+                    {/* 背景層：毛玻璃 (Open) vs 圖片 (Closed) */}
+                    <div className="absolute inset-0">
+                        {/* Open Background */}
+                        <div className={`absolute inset-0 bg-white/95 backdrop-blur-md border-b border-gray-100/50 transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0'}`}></div>
+
+                        {/* Closed Background */}
+                        <div className={`absolute inset-0 transition-opacity duration-500 ${isOpen ? 'opacity-0' : 'opacity-100'}`}>
+                            {image && <img src={image} className="w-full h-full object-cover transition-transform duration-700 hover:scale-105" alt="" />}
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                        </div>
+                    </div>
+
+                    {/* 內容層：Open 狀態內容 */}
+                    <div className={`absolute inset-0 px-5 flex items-center justify-between transition-all duration-500 ${isOpen ? 'opacity-100 translate-y-0 delay-100' : 'opacity-0 -translate-y-4 pointer-events-none'}`}>
+                        <h2 className="text-base font-bold text-[#0F2540] flex items-center gap-2">
+                            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#E8968A]/10 text-[#E8968A]">
+                                <MapPin size={14} />
+                            </span>
+                            {title}
+                        </h2>
+                        <div className="text-gray-400 rotate-180">
+                            <ChevronDown size={18} />
+                        </div>
+                    </div>
+
+                    {/* 內容層：Closed 狀態內容 */}
+                    <div className={`absolute inset-0 px-6 py-4 flex items-end justify-between transition-all duration-500 ${isOpen ? 'opacity-0 translate-y-4 pointer-events-none' : 'opacity-100 translate-y-0 delay-100'}`}>
+                        <h2 className="text-2xl font-bold text-white mb-1 drop-shadow-md flex items-center gap-2">
+                            {title}
+                        </h2>
+                        <div className="text-white/80 mb-2">
+                            <ChevronDown size={24} />
+                        </div>
+                    </div>
+                </button>
+            </div>
+
+            <div className={`transition-all duration-500 ease-in-out ${isOpen ? 'opacity-100 max-h-[5000px] mt-4' : 'opacity-0 max-h-0 overflow-hidden mt-0'}`}>
+                {children}
+            </div>
+        </div>
+    );
+};
+
 export default function App() {
 
 
     const [activeTab, setActiveTab] = useState('overview');
     const [allExpanded, setAllExpanded] = useState(null);
     const [mapModalData, setMapModalData] = useState({ isOpen: false, data: null });
-    const [isAIModalOpen, setIsAIModalOpen] = useState(false);
+
 
     // 美食收藏功能
     const [favorites, setFavorites] = useState({});
@@ -758,12 +671,12 @@ export default function App() {
             <Header />
             <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-            <main className="max-w-5xl mx-auto px-4 py-8">
+            <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
                 {/* 總覽 Tab */}
                 {activeTab === 'overview' && (
                     <div className="space-y-8">
-                        <StrategySection />
-                        <UsefulLinksSection />
+                        <StrategySection forceOpen={allExpanded} />
+                        <UsefulLinksSection forceOpen={allExpanded} />
                     </div>
                 )}
 
@@ -772,7 +685,11 @@ export default function App() {
                     <div>
                         {itineraryData.map((phase, pIdx) => (
                             <div key={pIdx}>
-                                <CollapsiblePhase title={phase.phase} forceOpen={allExpanded}>
+                                <StickyPhaseHeader
+                                    title={phase.phase}
+                                    forceOpen={allExpanded}
+                                    image={pIdx === 0 ? phase.days[3].image : phase.days[1].image}
+                                >
                                     {phase.days.map((day, dIdx) => (
                                         <DayCard
                                             key={dIdx}
@@ -783,7 +700,7 @@ export default function App() {
                                             onToggle={() => setAllExpanded(null)}
                                         />
                                     ))}
-                                </CollapsiblePhase>
+                                </StickyPhaseHeader>
                             </div>
                         ))}
                         <div className="flex justify-center mt-12">
@@ -800,7 +717,7 @@ export default function App() {
                 {/* 預算 Tab */}
                 {activeTab === 'budget' && (
                     <div className="max-w-3xl mx-auto">
-                        <BudgetTable />
+                        <BudgetTable forceOpen={allExpanded} />
                         <div className="mt-8 p-6 bg-indigo-50 rounded-3xl flex gap-4 items-start">
                             <Info className="text-indigo-600 flex-shrink-0 mt-1" />
                             <div className="text-sm text-indigo-600 leading-relaxed">
@@ -816,7 +733,7 @@ export default function App() {
                 {activeTab === 'map' && (
                     <div className="max-w-3xl mx-auto space-y-6">
                         {/* 近鐵特急比較表 */}
-                        <SectionCard icon={Train} title="近鐵特急 vs 普通/急行 比較表">
+                        <SectionCard icon={Train} title="近鐵特急 vs 普通/急行 比較表" collapsible={true} forceOpen={allExpanded}>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse whitespace-nowrap">
                                     <thead>
@@ -847,7 +764,7 @@ export default function App() {
                         </SectionCard>
 
                         {/* 每日交通路線 */}
-                        <SectionCard icon={MapPin} title="每日交通路線">
+                        <SectionCard icon={MapPin} title="每日交通路線" collapsible={true} forceOpen={allExpanded}>
                             <div className="space-y-3">
                                 {recommendedRoutes.map((route, idx) => (
                                     <div key={idx} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-indigo-200 transition-colors">
@@ -873,6 +790,9 @@ export default function App() {
                                 ✨ 正在同步雲端收藏...
                             </div>
                         )}
+
+
+
 
                         {foodData.categories.filter(cat => cat.sections[0].items.length > 0).map((category, cIdx) => (
                             <SectionCard
@@ -916,6 +836,8 @@ export default function App() {
                                                                 {item.note && <div className="text-xs text-orange-600 mt-1">{item.note}</div>}
                                                             </div>
 
+
+
                                                             {/* 地圖按鈕 (保留在右側) */}
                                                             {item.mapUrl && (
                                                                 <a
@@ -936,6 +858,7 @@ export default function App() {
                                 ))}
                             </SectionCard>
                         ))}
+                        <VegetarianCard forceOpen={allExpanded} />
                     </div>
                 )}
 
@@ -1027,20 +950,10 @@ export default function App() {
 
             {/* FAB Group */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
-                {['itinerary', 'food', 'shopping'].includes(activeTab) && (
+                {['itinerary', 'food', 'shopping', 'overview', 'budget', 'map'].includes(activeTab) && (
                     <ToggleFAB isExpanded={allExpanded} onToggle={setAllExpanded} />
                 )}
-                {/* AI 助手 FAB */}
-                <button
-                    onClick={() => setIsAIModalOpen(true)}
-                    className="p-4 rounded-full bg-indigo-600 text-white shadow-xl hover:bg-indigo-700 transition-all duration-300 group relative"
-                    title="AI 旅遊助手"
-                >
-                    <Bot size={24} />
-                    <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-                        AI 助手 / 素食溝通卡
-                    </span>
-                </button>
+
             </div>
 
             <footer className="text-center py-8 text-gray-400 text-sm">
@@ -1054,11 +967,7 @@ export default function App() {
                 data={mapModalData.data}
             />
 
-            {/* AI Modal */}
-            <AIModal
-                isOpen={isAIModalOpen}
-                onClose={() => setIsAIModalOpen(false)}
-            />
+
         </div>
     );
 }
