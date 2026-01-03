@@ -7,6 +7,12 @@ service cloud.firestore {
       allow write: if true; // Allow shared favorites (create/delete) for all users
     }
 
+    // Allow shopping list purchased status sync
+    match /trips/{tripId}/shopping_purchased/{itemId} {
+      allow read: if true;
+      allow write: if true; // Allow shared checkbox state for all users
+    }
+
     // Allow public read/write for journal entries (personal site)
     match /journal_entries/{entryId} {
       allow read: if true;  // 公開瀏覽

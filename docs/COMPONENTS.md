@@ -43,6 +43,11 @@ SectionCard({
 - 邊框 (`border border-gray-100`)
 - 毛玻璃效果的背景
 
+**新增 Props (Vite 版)**:
+- `collapsible`: Boolean (是否可折疊)
+- `defaultOpen`: Boolean (預設展開狀態)
+- `forceOpen`: Boolean|Null (受控模式強制展開狀態)
+
 ---
 
 ## 旅程頁面元件 (2026-ise-shima/index.html)

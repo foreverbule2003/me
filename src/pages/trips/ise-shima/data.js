@@ -301,7 +301,7 @@ export const foodData = {
       ],
     },
     {
-      location: "伊勢 (Day 4)",
+      location: "伊勢",
       day: "Day 4",
       sections: [
         {
@@ -373,63 +373,41 @@ export const foodData = {
 
 // 購物清單資料
 export const shoppingData = {
-  version: "v13.0",
-  updateDate: "2026/01/03",
   targetStores: ["LUCUA 1100", "唐吉訶德"],
-  skinProfile: {
-    type: "混合偏乾 / 容易脫水 (T字油、臉頰乾)",
-    darkCircle: "過敏型 (咖啡色/青紫)，需用紅/橘色校正",
-    needs: "電腦族藍光修復、內雙眼皮放大、Baby Face 甜美感",
-  },
-  rules: [
-    { icon: "🔓", title: "解鎖", desc: "必須先買到 **Kiss Me 卸除液**，才能刷睫毛膏" },
-    { icon: "🚫", title: "禁忌", desc: "**嚴禁**使用卸妝巾；**嚴禁**雙重清潔 (卸妝後不可再用洗面乳)" },
-    { icon: "✨", title: "修飾", desc: "顴骨暗沉可使用家裡的**珠光腮紅 (Canmake)** 轉移注意力" },
-  ],
   categories: [
     {
-      title: "【歸零】卸妝與清潔",
+      title: "卸妝",
       subtitle: "最重要的步驟，長粉刺的關鍵戰場",
       icon: "🧴",
       items: [
-        { priority: "P1", name: "Kiss Me 睫毛膏卸除液", desc: "粉藍色漸層瓶", price: 924, note: "【唯一解鎖鑰匙】沒買到它之前，請勿刷睫毛膏", mustBuy: true },
-        { priority: "P2", name: "DUO 卸妝膏 (20g 迷你罐)", desc: "推薦：💛 黃色 (Clear)", price: 880, note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
-        { priority: "P3", name: "DUO 卸妝膏 (90g 大罐正貨)", desc: "黃色 / 紅色", price: 3960, note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
+        { func: "卸睫毛", type: "必買", name: "Kiss Me 睫毛膏卸除液", nameJp: "キスミー ヒロインメイク スピーディーマスカラリムーバー", desc: "粉藍色漸層瓶", price: 924, note: "【唯一解鎖鑰匙】沒買到它之前，請勿刷睫毛膏", mustBuy: true },
+        { func: "卸妝", type: "試用", name: "DUO 卸妝膏 (20g 迷你罐)", nameJp: "DUO ザ クレンジングバーム ミニ", desc: "推薦：💛 黃色 (Clear)", price: 880, note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
+        { func: "卸妝", type: "囤貨", name: "DUO 卸妝膏 (90g 大罐正貨)", nameJp: "DUO ザ クレンジングバーム", desc: "黃色 / 紅色", price: 3960, note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
       ],
     },
     {
-      title: "【修復】保養與舒緩",
+      title: "保養",
       subtitle: "針對乾燥、黑眼圈與藍光疲勞",
       icon: "💆",
       items: [
-        { priority: "P4", name: "SANA 豆乳眼霜", price: 900, note: "【妝前消腫】早上妝前使用，讓眼下不卡紋" },
-        { priority: "P5", name: "Melano CC 集中對策眼霜", price: 1100, note: "【去黑眼圈】晚上使用，針對色素沈澱" },
-        { priority: "P6", name: "肌研化妝水 (補充包)", price: 700, note: "【囤貨帶回台灣】愛用品補貨，放托運" },
-        { priority: "P7", name: "Rohto Digi-Eye (ロート デジアイ)", desc: "鮮黃色盒子", price: 680, note: "【藍光修復眼藥水】針對長時間盯電腦。含B2 (液體黃色)，請裸眼使用", warning: true },
+        { func: "眼霜", type: "必買", name: "SANA 豆乳眼霜", nameJp: "サナ なめらか本舗 目元ふっくらクリーム", price: 900, note: "【妝前消腫】早上妝前使用，讓眼下不卡紋" },
+        { func: "眼霜", type: "必買", name: "Melano CC 集中對策眼霜", nameJp: "メラノCC 集中対策 目もと集中美容液", price: 1100, note: "【去黑眼圈】晚上使用，針對色素沈澱" },
+        { func: "化妝水", type: "囤貨", name: "肌研化妝水 (補充包)", nameJp: "肌ラボ 極潤 ヒアルロン液 つめかえ用", price: 700, note: "【囤貨帶回台灣】愛用品補貨，放托運" },
+        { func: "眼藥水", type: "必買", name: "Rohto Digi-Eye (ロート デジアイ)", nameJp: "ロート デジアイ", desc: "鮮黃色盒子", price: 680, note: "【藍光修復眼藥水】針對長時間盯電腦。含B2 (液體黃色)，請裸眼使用", warning: true },
       ],
     },
     {
-      title: "【上妝】底妝與彩妝",
-      subtitle: "依照化妝步驟：遮瑕 → 底妝 → 眼線 → 臥蠶",
+      title: "上妝",
+      subtitle: "遮瑕 → 底妝 → 眼線 → 臥蠶",
       icon: "💄",
       items: [
-        { step: "Step 1 遮瑕", option: "首選", name: "Visee 紅色遮瑕盤", desc: "Red Trick Iconcealer", price: 1210, note: "【高CP值戰神】認明紅色格。先紅再膚。優點：便宜、輕薄、不易失手" },
-        { step: "Step 1 遮瑕", option: "備案", name: "&be 雙色遮瑕膏", desc: "Fanシーler", price: 3850, note: "【貴婦保濕神物】若現場試用 Visee 覺得乾，改買這盤。優點：極潤、橘色校正力更強", isBackup: true },
-        { step: "Step 2 底妝", option: "首選", name: "CLIO Kill Cover 氣墊", desc: "色號：03 Linen / 黑方盒", price: 2970, note: "【混合肌霧面遮瑕】遮瑕度高，持妝好。適合：喜歡無瑕妝感、怕T字出油" },
-        { step: "Step 2 底妝", option: "備案", name: "TIRTIR 紅色氣墊", desc: "Mask Fit Red / 色號：21N", price: 2970, note: "【保濕光澤首選】紅色蛋型。比 CLIO 潤，帶光澤。適合：日本天氣太乾脫皮、喜歡韓系水光", isBackup: true },
-        { step: "Step 3 眼線", option: "必買", name: "KATE 進化版持久液體眼線筆", desc: "色號：BR-1 自然棕", price: 1320, note: "【愛用補貨】日本買比較便宜。畫在睫毛根部，眼神深邃", mustBuy: true },
-        { step: "Step 4 臥蠶", option: "必買", name: "Cezanne 描繪雙眼皮/臥蠶眼線液", desc: "色號：10 影用棕", price: 660, note: "【內雙放大術】畫在臥蠶下方陰影，記得暈開。搭配家裡的 Canmake 腮紅打亮臥蠶肉", mustBuy: true },
+        { func: "遮瑕", type: "首選", name: "Visee 紅色遮瑕盤", nameJp: "ヴィセ リシェ レッドトリック アイコンシーラー", desc: "Red Trick Iconcealer", price: 1210, note: "【高CP值戰神】認明紅色格。先紅再膚。優點：便宜、輕薄、不易失手" },
+        { func: "遮瑕", type: "備案", name: "&be 雙色遮瑕膏", nameJp: "アンドビー ファンシーラー", desc: "Fanシーler", price: 3850, note: "【貴婦保濕神物】若現場試用 Visee 覺得乾，改買這盤。優點：極潤、橘色校正力更強", isBackup: true },
+        { func: "底妝", type: "首選", name: "CLIO Kill Cover 氣墊", nameJp: "クリオ キルカバー ファンウェア クッション オールニュー", desc: "色號：03 Linen / 黑方盒", price: 2970, note: "【混合肌霧面遮瑕】遮瑕度高，持妝好。適合：喜歡無瑕妝感、怕T字出油" },
+        { func: "底妝", type: "備案", name: "TIRTIR 紅色氣墊", nameJp: "ティルティル マスクフィット レッドクッション", desc: "Mask Fit Red / 色號：21N", price: 2970, note: "【保濕光澤首選】紅色蛋型。比 CLIO 潤，帶光澤。適合：日本天氣太乾脫皮、喜歡韓系水光", isBackup: true },
+        { func: "眼線", type: "補貨", name: "KATE 進化版持久液體眼線筆", nameJp: "ケイト レアフィットジェルペンシル", desc: "色號：BR-1 自然棕", price: 1320, note: "【愛用補貨】日本買比較便宜。畫在睫毛根部，眼神深邃" },
+        { func: "臥蠶", type: "必買", name: "Cezanne 描繪雙眼皮/臥蠶眼線液", nameJp: "セザンヌ 描くふたえアイライナー", desc: "色號：10 影用棕", price: 660, note: "【內雙放大術】畫在臥蠶下方陰影，記得暈開。搭配家裡的 Canmake 腮紅打亮臥蠶肉", mustBuy: true },
       ],
     },
   ],
-  checklist: {
-    bringToJapan: [
-      "1028 腮紅盤 (霧面 / WEGO微辣風)",
-      "Canmake 腮紅盤 (光澤 / 甜美Baby Face風)",
-      "分裝好的 MUJI 乳液 (<100ml)",
-      "自備少量化妝水 (第一晚用)",
-    ],
-    dontBring: ["卸妝巾 (請留在家裡)"],
-    returnLuggage: ["肌研補充包", "DUO 大罐", "任何 >100ml 液體戰利品"],
-  },
 };

@@ -550,7 +550,48 @@ const AIModal = ({ isOpen, onClose }) => {
 
 // ========== 主應用程式 ==========
 
+const CollapsibleSubsection = ({ title, count, children, defaultOpen = true, forceOpen = null }) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
+
+    useEffect(() => {
+        if (forceOpen !== null) {
+            setIsOpen(forceOpen);
+        }
+    }, [forceOpen]);
+
+    return (
+        <div className="mb-4 last:mb-0">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center justify-between py-2 text-left group"
+            >
+                <div className="flex items-center gap-2">
+                    <h4 className="font-bold text-gray-700">{title}</h4>
+                    {count !== undefined && (
+                        <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
+                            {count}
+                        </span>
+                    )}
+                </div>
+                <div className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}>
+                    <ChevronDown size={20} />
+                </div>
+            </button>
+            <div
+                className={`grid transition-all duration-300 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0 mt-0'
+                    }`}
+            >
+                <div className="overflow-hidden">
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 export default function App() {
+
+
     const [activeTab, setActiveTab] = useState('overview');
     const [allExpanded, setAllExpanded] = useState(null);
     const [mapModalData, setMapModalData] = useState({ isOpen: false, data: null });
@@ -560,6 +601,9 @@ export default function App() {
     const [favorites, setFavorites] = useState({});
     const [isSyncing, setIsSyncing] = useState(true);
     const TRIP_ID = "2026-ise-shima";
+
+    // 購物清單已購買狀態
+    const [purchased, setPurchased] = useState({});
 
     // Firebase Firestore 即時同步
     useEffect(() => {
@@ -580,6 +624,29 @@ export default function App() {
         );
         return () => unsubscribe();
     }, []);
+
+    // 購物清單 Firebase 即時同步
+    useEffect(() => {
+        const unsubscribe = onSnapshot(
+            collection(db, "trips", TRIP_ID, "shopping_purchased"),
+            (snapshot) => {
+                const newPurchased = {};
+                snapshot.forEach((docSnap) => {
+                    newPurchased[docSnap.id] = true;
+                });
+                setPurchased(newPurchased);
+            },
+            (error) => {
+                console.error("Shopping sync error:", error);
+            }
+        );
+        return () => unsubscribe();
+    }, []);
+
+    // 切換分頁時重置全域折疊狀態
+    useEffect(() => {
+        setAllExpanded(null);
+    }, [activeTab]);
 
     // 切換收藏狀態
     const toggleFavorite = async (itemKey) => {
@@ -612,6 +679,38 @@ export default function App() {
             const aFav = favorites[aKey] ? 1 : 0;
             const bFav = favorites[bKey] ? 1 : 0;
             return bFav - aFav;
+        });
+    };
+
+    // 購物清單：產生唯一的 item key
+    const getShoppingItemKey = (catIdx, itemIdx) => `shopping-${catIdx}-${itemIdx}`;
+
+    // 購物清單：切換已購買狀態
+    const togglePurchased = async (itemKey) => {
+        const docRef = doc(db, "trips", TRIP_ID, "shopping_purchased", itemKey);
+        try {
+            if (purchased[itemKey]) {
+                await deleteDoc(docRef);
+            } else {
+                await setDoc(docRef, {
+                    timestamp: new Date().toISOString()
+                });
+            }
+        } catch (e) {
+            console.error("Error updating purchase status:", e);
+        }
+    };
+
+    // 購物清單：排序（已購買移到底部）
+    const sortShoppingItems = (items, catIdx) => {
+        return [...items].sort((a, b) => {
+            const aIdx = items.indexOf(a);
+            const bIdx = items.indexOf(b);
+            const aKey = getShoppingItemKey(catIdx, aIdx);
+            const bKey = getShoppingItemKey(catIdx, bIdx);
+            const aPurchased = purchased[aKey] ? 1 : 0;
+            const bPurchased = purchased[bKey] ? 1 : 0;
+            return aPurchased - bPurchased; // 已購買的排後面
         });
     };
 
@@ -748,10 +847,15 @@ export default function App() {
                         )}
 
                         {foodData.categories.filter(cat => cat.sections[0].items.length > 0).map((category, cIdx) => (
-                            <SectionCard key={cIdx} icon={Utensils} title={`${category.location} (${category.day})`}>
+                            <SectionCard
+                                key={cIdx}
+                                icon={Utensils}
+                                title={`${category.location} (${category.day})`}
+                                collapsible={true}
+                                forceOpen={allExpanded}
+                            >
                                 {category.sections.map((section, sIdx) => (
-                                    <div key={sIdx} className="mb-4 last:mb-0">
-                                        <h4 className="font-bold text-gray-700 mb-3">{section.title}</h4>
+                                    <CollapsibleSubsection key={sIdx} title={section.title} count={section.items.length} forceOpen={allExpanded}>
                                         <div className="space-y-2">
                                             {sortItems(section.items, cIdx, sIdx).map((item) => {
                                                 const originalIdx = section.items.indexOf(item);
@@ -799,7 +903,7 @@ export default function App() {
                                                 );
                                             })}
                                         </div>
-                                    </div>
+                                    </CollapsibleSubsection>
                                 ))}
                             </SectionCard>
                         ))}
@@ -809,150 +913,85 @@ export default function App() {
                 {/* 購物 Tab */}
                 {activeTab === 'shopping' && (
                     <div className="max-w-3xl mx-auto space-y-6">
-                        {/* 版本與更新日期 */}
-                        <div className="text-center mb-6">
-                            <h2 className="text-2xl font-bold text-gray-800 mb-2">💄 美妝購物攻略</h2>
-                            <div className="text-sm text-gray-500">
-                                {shoppingData.version} · 更新於 {shoppingData.updateDate}
-                            </div>
-                            <div className="flex justify-center gap-2 mt-3 flex-wrap">
-                                {shoppingData.targetStores.map((store, idx) => (
-                                    <span key={idx} className="px-3 py-1 bg-pink-100 text-pink-600 rounded-full text-xs font-medium">
-                                        📍 {store}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-
-                        {/* 三大護膚鐵律 */}
-                        <SectionCard icon={Sparkles} title="三大護膚鐵律">
-                            <div className="space-y-3">
-                                {shoppingData.rules.map((rule, idx) => (
-                                    <div key={idx} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
-                                        <span className="text-2xl">{rule.icon}</span>
-                                        <div>
-                                            <div className="font-bold text-gray-800">{rule.title}</div>
-                                            <div className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: rule.desc.replace(/\*\*(.*?)\*\*/g, '<strong class="text-pink-600">$1</strong>') }} />
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        </SectionCard>
-
                         {/* 購物清單分類 */}
-                        {shoppingData.categories.map((category, cIdx) => (
-                            <SectionCard key={cIdx} icon={ShoppingBag} title={`${category.icon} ${category.title}`}>
-                                <p className="text-sm text-gray-500 mb-4 italic">{category.subtitle}</p>
-                                <div className="space-y-3">
-                                    {category.items.map((item, iIdx) => (
-                                        <div
-                                            key={iIdx}
-                                            className={`p-4 rounded-xl border transition-colors ${item.mustBuy
-                                                ? 'bg-pink-50 border-pink-200'
-                                                : item.isBackup
-                                                    ? 'bg-gray-50 border-gray-200 border-dashed'
-                                                    : 'bg-white border-gray-100 hover:border-pink-200'
-                                                }`}
-                                        >
-                                            <div className="flex items-start justify-between gap-3">
-                                                <div className="flex-1">
-                                                    <div className="flex items-center gap-2 flex-wrap mb-1">
-                                                        {item.priority && (
-                                                            <span className={`px-2 py-0.5 text-xs font-bold rounded ${item.priority === 'P1' ? 'bg-red-500 text-white' :
-                                                                item.priority === 'P2' ? 'bg-orange-500 text-white' :
-                                                                    'bg-gray-400 text-white'
-                                                                }`}>
-                                                                {item.priority}
-                                                            </span>
-                                                        )}
-                                                        {item.step && (
-                                                            <span className="px-2 py-0.5 text-xs font-bold bg-indigo-100 text-indigo-600 rounded">
-                                                                {item.step}
-                                                            </span>
-                                                        )}
-                                                        {item.option && (
-                                                            <span className={`px-2 py-0.5 text-xs font-medium rounded ${item.option === '必買' ? 'bg-pink-500 text-white' :
-                                                                item.option === '首選' ? 'bg-green-100 text-green-600' :
-                                                                    'bg-gray-100 text-gray-500'
-                                                                }`}>
-                                                                {item.option}
-                                                            </span>
-                                                        )}
-                                                        <span className="font-bold text-gray-800">{item.name}</span>
-                                                    </div>
-                                                    {item.desc && <div className="text-sm text-gray-500 mb-1">{item.desc}</div>}
-                                                    <div className={`text-xs leading-relaxed ${item.warning ? 'text-orange-600' : 'text-gray-600'}`}>
-                                                        {item.note}
-                                                    </div>
-                                                </div>
-                                                <div className="text-right shrink-0">
-                                                    <div className="font-bold text-pink-600 tabular-nums">¥{item.price.toLocaleString()}</div>
-                                                    <div className="text-xs text-gray-400 tabular-nums">≈${Math.round(item.price * 0.22).toLocaleString()}</div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </SectionCard>
-                        ))}
+                        <SectionCard icon={ShoppingBag} title="美妝購物攻略">
+                            {shoppingData.categories.map((category, cIdx) => (
+                                <CollapsibleSubsection key={cIdx} title={category.title} count={category.items.length} forceOpen={allExpanded}>
+                                    <div className="space-y-3">
+                                        {sortShoppingItems(category.items, cIdx).map((item) => {
+                                            const originalIdx = category.items.indexOf(item);
+                                            const itemKey = getShoppingItemKey(cIdx, originalIdx);
+                                            const isPurchased = purchased[itemKey];
+                                            return (
+                                                <div
+                                                    key={originalIdx}
+                                                    className={`p-4 rounded-xl border transition-all ${isPurchased
+                                                        ? 'bg-gray-100 border-gray-200 opacity-60'
+                                                        : item.isBackup
+                                                            ? 'bg-gray-50 border-gray-200 border-dashed'
+                                                            : 'bg-white border-gray-100 hover:border-pink-200'
+                                                        }`}
+                                                >
+                                                    <div className="flex items-start gap-3">
+                                                        {/* Checkbox */}
+                                                        <button
+                                                            onClick={() => togglePurchased(itemKey)}
+                                                            className={`mt-1 w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors ${isPurchased
+                                                                ? 'bg-green-500 border-green-500 text-white'
+                                                                : 'border-gray-300 hover:border-pink-400'
+                                                                }`}
+                                                        >
+                                                            {isPurchased && <Check size={14} strokeWidth={3} />}
+                                                        </button>
 
-                        {/* 行李檢查表 */}
-                        <SectionCard icon={Check} title="🎒 行李檢查表">
-                            <div className="grid md:grid-cols-3 gap-4">
-                                <div className="p-4 bg-green-50 rounded-xl border border-green-100">
-                                    <div className="font-bold text-green-700 mb-3 flex items-center gap-2">
-                                        ✅ 帶去日本 (隨身)
+                                                        <div className="flex-1 min-w-0">
+                                                            <div className="flex items-center gap-2 flex-wrap mb-1">
+                                                                {item.func && (
+                                                                    <span className={`px-2 py-0.5 text-xs font-bold rounded ${isPurchased ? 'bg-gray-200 text-gray-500' : 'bg-indigo-100 text-indigo-600'}`}>
+                                                                        {item.func}
+                                                                    </span>
+                                                                )}
+                                                                {item.type && (
+                                                                    <span className={`px-2 py-0.5 text-xs font-medium rounded ${isPurchased ? 'bg-gray-200 text-gray-500' :
+                                                                        item.type === '必買' ? 'bg-pink-500 text-white' :
+                                                                            item.type === '首選' ? 'bg-green-100 text-green-600' :
+                                                                                item.type === '試用' ? 'bg-yellow-100 text-yellow-700' :
+                                                                                    item.type === '囤貨' || item.type === '補貨' ? 'bg-blue-100 text-blue-600' :
+                                                                                        'bg-gray-100 text-gray-500'
+                                                                        }`}>
+                                                                        {item.type}
+                                                                    </span>
+                                                                )}
+                                                                <span className={`font-bold ${isPurchased ? 'text-gray-500 line-through' : 'text-gray-800'}`}>{item.name}</span>
+                                                            </div>
+                                                            {item.nameJp && <div className={`text-xs mb-1 ${isPurchased ? 'text-gray-400' : 'text-pink-400'}`}>🇯🇵 {item.nameJp}</div>}
+                                                            {item.desc && <div className={`text-sm mb-1 ${isPurchased ? 'text-gray-400' : 'text-gray-500'}`}>{item.desc}</div>}
+                                                            <div className={`text-xs leading-relaxed ${isPurchased ? 'text-gray-400' : 'text-gray-600'}`}>
+                                                                {item.note}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="text-right shrink-0">
+                                                            <div className={`font-bold tabular-nums ${isPurchased ? 'text-gray-400' : 'text-pink-600'}`}>¥{item.price.toLocaleString()}</div>
+                                                            <div className="text-xs text-gray-400 tabular-nums">≈${Math.round(item.price * 0.22).toLocaleString()}</div>
+                                                            {isPurchased && <div className="text-xs text-green-500 mt-1">✓ 已購買</div>}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
                                     </div>
-                                    <ul className="space-y-2">
-                                        {shoppingData.checklist.bringToJapan.map((item, idx) => (
-                                            <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
-                                                <span className="text-green-500">•</span>
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div className="p-4 bg-red-50 rounded-xl border border-red-100">
-                                    <div className="font-bold text-red-700 mb-3 flex items-center gap-2">
-                                        ❌ 不帶去日本
-                                    </div>
-                                    <ul className="space-y-2">
-                                        {shoppingData.checklist.dontBring.map((item, idx) => (
-                                            <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
-                                                <span className="text-red-500">•</span>
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                                <div className="p-4 bg-blue-50 rounded-xl border border-blue-100">
-                                    <div className="font-bold text-blue-700 mb-3 flex items-center gap-2">
-                                        📦 回程托運
-                                    </div>
-                                    <ul className="space-y-2">
-                                        {shoppingData.checklist.returnLuggage.map((item, idx) => (
-                                            <li key={idx} className="text-sm text-gray-600 flex items-start gap-2">
-                                                <span className="text-blue-500">•</span>
-                                                {item}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </div>
+                                </CollapsibleSubsection>
+                            ))}
                         </SectionCard>
 
-                        {/* 祝福語 */}
-                        <div className="text-center py-6 text-gray-500">
-                            <p className="text-lg">祝 1/12 大阪之旅順利！✈️</p>
-                            <p className="text-sm mt-1">這份清單包含了所有備案，進可攻退可守！</p>
-                        </div>
                     </div>
                 )}
             </main>
 
             {/* FAB Group */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
-                {activeTab === 'itinerary' && (
+                {['itinerary', 'food', 'shopping'].includes(activeTab) && (
                     <ToggleFAB isExpanded={allExpanded} onToggle={setAllExpanded} />
                 )}
                 {/* AI 助手 FAB */}

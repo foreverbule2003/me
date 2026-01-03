@@ -100,25 +100,61 @@ export const PageHeader = ({
 };
 
 // === 3. Section 卡片容器 ===
+// === 3. Section 卡片容器 ===
 export const SectionCard = ({
     icon: Icon,
     title,
     children,
     className = "",
+    collapsible = false,
+    defaultOpen = true,
+    forceOpen = null,
 }) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
+
+    // 監聽外部強制開關狀態
+    React.useEffect(() => {
+        if (forceOpen !== null) {
+            setIsOpen(forceOpen);
+        }
+    }, [forceOpen]);
+
+    const HeaderContent = () => (
+        <div className="flex items-center gap-3">
+            {Icon && (
+                <div className="p-3 bg-accent/10 rounded-xl text-accent">
+                    <Icon size={24} />
+                </div>
+            )}
+            <h2 className="text-2xl font-bold text-gray-800 flex-1 text-left">{title}</h2>
+            {collapsible && (
+                <div className={`text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
+                    <ChevronDown size={24} />
+                </div>
+            )}
+        </div>
+    );
+
     return (
         <section
-            className={`bg-white rounded-3xl p-6 md:p-8 shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${className}`}
+            className={`bg-white rounded-3xl p-6 md:p-8 shadow-lg transition-all duration-300 ${!collapsible ? 'hover:shadow-xl hover:-translate-y-1' : ''} ${className}`}
         >
-            <div className="flex items-center gap-3 mb-6 border-b border-gray-100 pb-4">
-                {Icon && (
-                    <div className="p-3 bg-accent/10 rounded-xl text-accent">
-                        <Icon size={24} />
-                    </div>
-                )}
-                <h2 className="text-2xl font-bold text-gray-800">{title}</h2>
+            {collapsible ? (
+                <button
+                    onClick={() => setIsOpen(!isOpen)}
+                    className={`w-full block transition-all duration-300 ${isOpen ? "mb-6 border-b border-gray-100 pb-4" : "mb-0 border-b-0 pb-0"}`}
+                >
+                    <HeaderContent />
+                </button>
+            ) : (
+                <div className="mb-6 border-b border-gray-100 pb-4">
+                    <HeaderContent />
+                </div>
+            )}
+
+            <div className={`transition-all duration-500 ease-in-out overflow-hidden ${collapsible ? (isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0") : ""}`}>
+                {children}
             </div>
-            {children}
         </section>
     );
 };
@@ -134,8 +170,8 @@ export const TabNavigation = ({ activeTab, setActiveTab, tabs = [] }) => {
                             key={id}
                             onClick={() => setActiveTab(id)}
                             className={`flex-1 py-4 flex flex-col items-center gap-1 transition-colors ${activeTab === id
-                                    ? "text-primary font-bold"
-                                    : "text-subtle hover:text-primary"
+                                ? "text-primary font-bold"
+                                : "text-subtle hover:text-primary"
                                 }`}
                         >
                             <Icon
