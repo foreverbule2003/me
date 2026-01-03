@@ -898,7 +898,7 @@ export default function App() {
                             forceOpen={allExpanded}
                         >
                             {shoppingData.categories.map((category, cIdx) => (
-                                <CollapsibleSubsection key={cIdx} title={category.title} count={category.items.length} forceOpen={allExpanded}>
+                                <CollapsibleSubsection key={cIdx} title={`${category.icon} ${category.title}`} count={category.items.length} forceOpen={allExpanded}>
                                     <div className="space-y-3">
                                         {sortShoppingItems(category.items, cIdx).map((item) => {
                                             const originalIdx = category.items.indexOf(item);

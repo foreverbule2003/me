@@ -381,8 +381,8 @@ export const shoppingData = {
       icon: "🧴",
       items: [
         { func: "卸睫毛", type: "必買", name: "Kiss Me 睫毛膏卸除液", nameJp: "キスミー ヒロインメイク スピーディーマスカラリムーバー", desc: "粉藍色漸層瓶", price: 924, note: "【唯一解鎖鑰匙】沒買到它之前，請勿刷睫毛膏", mustBuy: true },
-        { func: "卸妝", type: "試用", name: "DUO 卸妝膏 (20g 迷你罐)", nameJp: "DUO ザ クレンジングバーム ミニ", desc: "💛 黃色 (Clear)", price: 880, note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
-        { func: "卸妝", type: "囤貨", name: "DUO 卸妝膏 (90g)", nameJp: "DUO ザ クレンジングバーム", desc: "黃色 / 紅色", price: 3960, note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
+        { func: "卸妝", type: "試用", name: "DUO 卸妝膏 (20g 迷你罐)", nameJp: "DUO ザ クレンジングバーム ミニ", desc: "💛 黃色-深層淨化", price: 880, note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
+        { func: "卸妝", type: "囤貨", name: "DUO 卸妝膏 (90g)", nameJp: "DUO ザ クレンジングバーム", desc: "💛 黃色-深層淨化", price: 3960, note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
       ],
     },
     {
@@ -405,8 +405,8 @@ export const shoppingData = {
         { func: "遮瑕", type: "備案", name: "&be 雙色遮瑕膏", nameJp: "アンドビー ファンシーラー", desc: "Fanシーler", price: 3850, note: "【貴婦保濕神物】若現場試用 Visee 覺得乾，改買這盤。優點：極潤、橘色校正力更強", isBackup: true },
         { func: "底妝", type: "首選", name: "CLIO Kill Cover 氣墊", nameJp: "クリオ キルカバー ファンウェア クッション オールニュー", desc: "色號：03 Linen / 黑方盒", price: 2970, note: "【混合肌霧面遮瑕】遮瑕度高，持妝好。適合：喜歡無瑕妝感、怕T字出油" },
         { func: "底妝", type: "備案", name: "TIRTIR 紅色氣墊", nameJp: "ティルティル マスクフィット レッドクッション", desc: "Mask Fit Red / 色號：21N", price: 2970, note: "【保濕光澤首選】紅色蛋型。比 CLIO 潤，帶光澤。適合：日本天氣太乾脫皮、喜歡韓系水光", isBackup: true },
-        { func: "眼線", type: "補貨", name: "KATE 進化版持久液體眼線筆", nameJp: "ケイト レアフィットジェルペンシル", desc: "色號：BR-1 自然棕", price: 1320, note: "【愛用補貨】日本買比較便宜。畫在睫毛根部，眼神深邃" },
-        { func: "臥蠶", type: "必買", name: "Cezanne 描繪雙眼皮/臥蠶眼線液", nameJp: "セザンヌ 描くふたえアイライナー", desc: "色號：10 影用棕", price: 660, note: "【內雙放大術】畫在臥蠶下方陰影，記得暈開。搭配家裡的 Canmake 腮紅打亮臥蠶肉", mustBuy: true },
+        { func: "眼線", type: "補貨", name: "KATE持色眼線液筆EX4.0", nameJp: "ケイト レアフィットジェルペンシル", desc: "色號：BR-1 自然棕", price: 1320, note: "【愛用補貨】日本買比較便宜。畫在睫毛根部，眼神深邃" },
+        { func: "臥蠶", type: "必買", name: "Cezanne 雙眼皮/臥蠶眼線液", nameJp: "セザンヌ 描くふたえアイライナー", desc: "色號：10 影用棕", price: 660, note: "【內雙放大術】畫在臥蠶下方陰影，記得暈開。搭配家裡的 Canmake 腮紅打亮臥蠶肉", mustBuy: true },
       ],
     },
   ],
