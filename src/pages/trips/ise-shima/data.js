@@ -372,6 +372,9 @@ export const foodData = {
 };
 
 // 購物清單資料
+// 圖片請放在 src/assets/images/products/ 資料夾中
+// import kissMeImg from '../../../assets/images/products/kissme_remover.jpg';
+
 export const shoppingData = {
   targetStores: ["LUCUA 1100", "唐吉訶德"],
   categories: [
@@ -380,9 +383,19 @@ export const shoppingData = {
       subtitle: "最重要的步驟，長粉刺的關鍵戰場",
       icon: "🧴",
       items: [
-        { func: "卸睫毛", type: "必買", name: "Kiss Me 睫毛膏卸除液", nameJp: "キスミー ヒロインメイク スピーディーマスカラリムーバー", desc: "粉藍色漸層瓶", price: 924, note: "【唯一解鎖鑰匙】沒買到它之前，請勿刷睫毛膏", mustBuy: true },
-        { func: "卸妝", type: "試用", name: "DUO 卸妝膏 (20g 迷你罐)", nameJp: "DUO ザ クレンジングバーム ミニ", desc: "💛 黃色-深層淨化", price: 880, note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
-        { func: "卸妝", type: "囤貨", name: "DUO 卸妝膏 (90g)", nameJp: "DUO ザ クレンジングバーム", desc: "💛 黃色-深層淨化", price: 3960, note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
+        {
+          func: "卸睫毛",
+          type: "必買",
+          name: "Kiss Me 睫毛膏卸除液",
+          nameJp: "キスミー ヒロインメイク スピーディーマスカラリムーバー",
+          desc: "粉藍色漸層瓶",
+          price: 924,
+          image: "/me/images/products/kissme_remover.png",
+          note: "【唯一解鎖鑰匙】沒買到它之前，請勿刷睫毛膏",
+          mustBuy: true
+        },
+        { func: "卸妝", type: "試用", name: "DUO 卸妝膏 (20g 迷你罐)", nameJp: "DUO ザ クレンジングバーム ミニ", desc: "💛 黃色-深層淨化", price: 880, image: "/me/images/products/duo_mini_20g.jpg", note: "【粉刺終結者 - 試用】先買小罐這幾天旅行用，測試膚感 (若無黃色，改買紅色)" },
+        { func: "卸妝", type: "囤貨", name: "DUO 卸妝膏 (90g)", nameJp: "DUO ザ クレンジングバーム", desc: "💛 黃色-深層淨化", price: 3960, image: "https://www.p-antiaging.com/duo/wp/wp-content/uploads/2025/04/balm_clear_EX.png", note: "【囤貨帶回台灣】若小罐好用，回程買大罐放托運" },
       ],
     },
     {

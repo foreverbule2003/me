@@ -16,6 +16,17 @@ import {
     recommendedRoutes, usefulLinks, kintetsuComparisonData, foodData, shoppingData
 } from './data.js';
 
+// 導入圖片 (如果檔案不存在，請確認路徑或先放入圖片)
+// 暫時註解避免報錯，請將圖片命名為 kissme_remover.jpg 並放入 src/assets/images/products/
+// import kissMeImage from '../../../assets/images/products/kissme_remover.jpg';
+// const kissMeImage = "https://www.isehan.co.jp/heroine/wp-content/uploads/sites/4/2018/12/speedymascararemover_660_660_2408.png"; 
+
+// 為了讓使用者容易替換，我們先用一個變數。等您放入檔案後，我們可以改為 import 方式，或是您直接覆蓋這個網址。
+// 但既然您要上傳檔案，我建議放在 public 資料夾可能更簡單，或者 src/assets。
+// 這裡我們先設定資料結構。
+
+
+
 // 導入共用元件
 import { SectionCard, MapModal, CollapsibleSection, ActivityItem } from '../../../components/trips';
 
