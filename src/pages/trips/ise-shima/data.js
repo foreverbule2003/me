@@ -25,7 +25,7 @@ export const strategyData = {
 // 每日行程資料
 export const itineraryData = [
   {
-    phase: "第一階段：伊勢志摩度假慢旅 (Day 1-6)",
+    phase: "伊勢志摩慢旅",
     days: [
       {
         day: 1,

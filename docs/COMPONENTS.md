@@ -1,6 +1,6 @@
 # 元件清單 (Components)
 
-> 最後更新：2025-12-26
+> 最後更新：2026-01-03
 
 ## 共用元件庫 (兩套架構並存)
 
@@ -47,6 +47,16 @@ SectionCard({
 - `collapsible`: Boolean (是否可折疊)
 - `defaultOpen`: Boolean (預設展開狀態)
 - `forceOpen`: Boolean|Null (受控模式強制展開狀態)
+
+### 1.1 CollapsiblePhase (Vite 版內部元件)
+**位置**: `src/pages/trips/ise-shima/App.jsx`
+
+用於行程分頁的階段標題折疊容器。
+
+| Prop        | 類型    | 說明                  |
+| ----------- | ------- | --------------------- |
+| `title`     | String  | 階段標題              |
+| `forceOpen` | Boolean | 受控強制展開 (Global) |
 
 ---
 

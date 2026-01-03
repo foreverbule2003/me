@@ -54,9 +54,9 @@ const Header = () => (
             <div className="inline-block px-5 py-2 mb-6 rounded-full bg-[#0F2540]/30 backdrop-blur-md text-sm font-bold tracking-wider border border-[#E8968A]/40 text-[#E8968A]/90 animate-fade-up shadow-lg">
                 JP-ISE-OSA-2026-VEG-10D
             </div>
-            <h1 className="font-serif text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight animate-fade-up text-yellow-50">
+            <h1 className="text-5xl md:text-7xl font-black mb-6 leading-tight tracking-tight animate-fade-up text-yellow-50">
                 伊勢志摩‧大阪
-                <span className="block text-2xl md:text-3xl mt-4 font-bold tracking-widest font-serif opacity-90">
+                <span className="block text-2xl md:text-3xl mt-4 font-bold tracking-widest opacity-90">
                     10日素食慢旅
                 </span>
             </h1>
@@ -82,10 +82,10 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
     const tabs = [
         { id: 'overview', label: '總覽', Icon: Star },
         { id: 'itinerary', label: '行程', Icon: Calendar },
-        { id: 'budget', label: '預算', Icon: Wallet },
         { id: 'map', label: '交通', Icon: Train },
         { id: 'food', label: '美食', Icon: Utensils },
         { id: 'shopping', label: '購物', Icon: ShoppingBag },
+        { id: 'budget', label: '預算', Icon: Wallet },
     ];
 
     return (
@@ -292,7 +292,7 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
                         <div className="text-white/80 text-xs font-bold tracking-wider mb-1">
                             DAY {dayData.day} • {dayData.date}
                         </div>
-                        <h3 className="text-white text-xl font-bold font-serif">{dayData.title}</h3>
+                        <h3 className="text-white text-xl font-bold">{dayData.title}</h3>
                     </div>
                     <div className="text-white/70">
                         {isExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
@@ -310,8 +310,32 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
                                     <span className="text-sm font-bold text-indigo-600">{act.time}</span>
                                 </div>
                                 <div className="flex-1 pb-4 border-b border-gray-50 last:border-0">
-                                    <div className="font-bold text-gray-800 mb-1">{act.text}</div>
-                                    {act.subText && <div className="text-sm text-gray-500">{act.subText}</div>}
+                                    <div className="flex justify-between items-start gap-2">
+                                        <div className="flex-1 min-w-0">
+                                            <div className="font-bold text-gray-800 mb-1">{act.text}</div>
+                                            {act.subText && <div className="text-sm text-gray-500">{act.subText}</div>}
+                                        </div>
+                                        <div className="flex items-center gap-1 shrink-0 mt-0.5">
+                                            {act.map && (
+                                                <button
+                                                    onClick={() => onOpenRoute(act.map)}
+                                                    className="p-1.5 text-gray-400 hover:text-indigo-600 transition-colors rounded-lg hover:bg-gray-50"
+                                                    title="查看地圖"
+                                                >
+                                                    <MapPin size={16} />
+                                                </button>
+                                            )}
+                                            {act.foodGuideLink && (
+                                                <button
+                                                    onClick={() => onOpenFoodGuide()}
+                                                    className="p-1.5 text-gray-400 hover:text-[#E8968A] transition-colors rounded-lg hover:bg-[#E8968A]/10"
+                                                    title="美食指南"
+                                                >
+                                                    <Utensils size={16} />
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
                                     {act.note && (
                                         <div className="mt-1 text-xs text-indigo-600/70 flex items-start gap-1">
                                             <Info size={12} className="mt-0.5 shrink-0" /> {act.note}
@@ -322,24 +346,6 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
                                             <span className="font-bold mr-1">⚠️</span> {act.tips}
                                         </div>
                                     )}
-                                    <div className="mt-2 flex gap-2 flex-wrap">
-                                        {act.map && (
-                                            <button
-                                                onClick={() => onOpenRoute(act.map)}
-                                                className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded hover:bg-indigo-100 hover:text-indigo-600 transition-colors"
-                                            >
-                                                📍 地圖
-                                            </button>
-                                        )}
-                                        {act.foodGuideLink && (
-                                            <button
-                                                onClick={() => onOpenFoodGuide()}
-                                                className="text-xs px-2 py-1 bg-gray-100 text-gray-600 rounded hover:bg-[#E8968A]/20 hover:text-[#E8968A] transition-colors"
-                                            >
-                                                🍽️ 美食指南
-                                            </button>
-                                        )}
-                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -363,15 +369,38 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
     );
 };
 
-// PhaseHeader 元件
-const PhaseHeader = ({ phase }) => (
-    <div className="mb-6 mt-10 first:mt-0">
-        <h2 className="text-xl font-bold text-[#0F2540] font-serif flex items-center gap-2">
-            <div className="w-1 h-6 bg-[#E8968A] rounded-full"></div>
-            {phase}
-        </h2>
-    </div>
-);
+// CollapsiblePhase 元件 (取代 PhaseHeader)
+const CollapsiblePhase = ({ title, children, defaultOpen = true, forceOpen = null }) => {
+    const [isOpen, setIsOpen] = useState(defaultOpen);
+
+    useEffect(() => {
+        if (forceOpen !== null) {
+            setIsOpen(forceOpen);
+        }
+    }, [forceOpen]);
+
+    return (
+        <div className="mb-6 mt-10 first:mt-0">
+            <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="w-full flex items-center justify-between mb-6 group cursor-pointer"
+            >
+                <h2 className="text-xl font-bold text-[#0F2540] flex items-center gap-2 group-hover:opacity-80 transition-opacity">
+                    <div className="w-1 h-6 bg-[#E8968A] rounded-full"></div>
+                    {title}
+                </h2>
+                <div className={`text-gray-400 transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>
+                    <ChevronDown size={24} />
+                </div>
+            </button>
+            <div className={`grid transition-all duration-500 ease-in-out ${isOpen ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
+                <div className="overflow-hidden">
+                    {children}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 // AIChatBubble 元件
 const AIChatBubble = ({ sender, text }) => (
@@ -743,8 +772,7 @@ export default function App() {
                     <div>
                         {itineraryData.map((phase, pIdx) => (
                             <div key={pIdx}>
-                                <PhaseHeader phase={phase.phase} />
-                                <div>
+                                <CollapsiblePhase title={phase.phase} forceOpen={allExpanded}>
                                     {phase.days.map((day, dIdx) => (
                                         <DayCard
                                             key={dIdx}
@@ -755,7 +783,7 @@ export default function App() {
                                             onToggle={() => setAllExpanded(null)}
                                         />
                                     ))}
-                                </div>
+                                </CollapsiblePhase>
                             </div>
                         ))}
                         <div className="flex justify-center mt-12">
@@ -865,8 +893,21 @@ export default function App() {
                                                 return (
                                                     <div key={itemKey} className={`p-3 rounded-xl transition-colors ${isFavorite ? 'bg-pink-50 border border-pink-200' : 'bg-gray-50 hover:bg-gray-100'
                                                         }`}>
-                                                        <div className="flex items-start justify-between">
-                                                            <div className="flex-1">
+                                                        <div className="flex items-start gap-3">
+                                                            {/* 收藏按鈕 (移至左側) */}
+                                                            <button
+                                                                onClick={() => toggleFavorite(itemKey)}
+                                                                className={`p-2 rounded-full transition-all shrink-0 ${isFavorite
+                                                                    ? 'text-pink-500 bg-pink-100 hover:bg-pink-200'
+                                                                    : 'text-gray-300 hover:text-pink-400 hover:bg-pink-50'
+                                                                    }`}
+                                                                title={isFavorite ? '取消收藏' : '加入收藏'}
+                                                            >
+                                                                <Star size={18} className={isFavorite ? 'fill-current' : ''} />
+                                                            </button>
+
+                                                            {/* 內容區域 */}
+                                                            <div className="flex-1 min-w-0 pt-1">
                                                                 <div className="font-bold text-gray-800 flex items-center gap-2">
                                                                     {item.name}
                                                                     {item.recommended && <Star size={14} className="text-yellow-500 fill-yellow-500" />}
@@ -874,30 +915,18 @@ export default function App() {
                                                                 <div className="text-xs text-gray-500 mt-1">{item.type} • {item.desc}</div>
                                                                 {item.note && <div className="text-xs text-orange-600 mt-1">{item.note}</div>}
                                                             </div>
-                                                            <div className="flex items-center gap-1">
-                                                                {/* 收藏按鈕 */}
-                                                                <button
-                                                                    onClick={() => toggleFavorite(itemKey)}
-                                                                    className={`p-2 rounded-full transition-all ${isFavorite
-                                                                        ? 'text-pink-500 bg-pink-100 hover:bg-pink-200'
-                                                                        : 'text-gray-300 hover:text-pink-400 hover:bg-pink-50'
-                                                                        }`}
-                                                                    title={isFavorite ? '取消收藏' : '加入收藏'}
+
+                                                            {/* 地圖按鈕 (保留在右側) */}
+                                                            {item.mapUrl && (
+                                                                <a
+                                                                    href={item.mapUrl}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="p-2 text-gray-400 hover:text-indigo-600 transition-colors shrink-0"
                                                                 >
-                                                                    <Star size={18} className={isFavorite ? 'fill-current' : ''} />
-                                                                </button>
-                                                                {/* 地圖連結 */}
-                                                                {item.mapUrl && (
-                                                                    <a
-                                                                        href={item.mapUrl}
-                                                                        target="_blank"
-                                                                        rel="noopener noreferrer"
-                                                                        className="p-2 text-gray-400 hover:text-indigo-600 transition-colors"
-                                                                    >
-                                                                        <MapPin size={16} />
-                                                                    </a>
-                                                                )}
-                                                            </div>
+                                                                    <MapPin size={16} />
+                                                                </a>
+                                                            )}
                                                         </div>
                                                     </div>
                                                 );
@@ -914,7 +943,13 @@ export default function App() {
                 {activeTab === 'shopping' && (
                     <div className="max-w-3xl mx-auto space-y-6">
                         {/* 購物清單分類 */}
-                        <SectionCard icon={ShoppingBag} title="美妝購物攻略">
+                        {/* 購物清單分類 */}
+                        <SectionCard
+                            icon={ShoppingBag}
+                            title="美妝購物攻略"
+                            collapsible={true}
+                            forceOpen={allExpanded}
+                        >
                             {shoppingData.categories.map((category, cIdx) => (
                                 <CollapsibleSubsection key={cIdx} title={category.title} count={category.items.length} forceOpen={allExpanded}>
                                     <div className="space-y-3">
@@ -934,14 +969,15 @@ export default function App() {
                                                 >
                                                     <div className="flex items-start gap-3">
                                                         {/* Checkbox */}
+                                                        {/* Checkbox */}
                                                         <button
                                                             onClick={() => togglePurchased(itemKey)}
-                                                            className={`mt-1 w-6 h-6 rounded-md border-2 flex items-center justify-center shrink-0 transition-colors ${isPurchased
-                                                                ? 'bg-green-500 border-green-500 text-white'
-                                                                : 'border-gray-300 hover:border-pink-400'
+                                                            className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${isPurchased
+                                                                ? 'bg-green-500 border-green-500 text-white shadow-sm'
+                                                                : 'border-gray-300 bg-white hover:border-pink-400'
                                                                 }`}
                                                         >
-                                                            {isPurchased && <Check size={14} strokeWidth={3} />}
+                                                            {isPurchased && <Check size={12} strokeWidth={4} />}
                                                         </button>
 
                                                         <div className="flex-1 min-w-0">

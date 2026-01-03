@@ -126,7 +126,7 @@ export const SectionCard = ({
                     <Icon size={24} />
                 </div>
             )}
-            <h2 className="text-2xl font-bold text-gray-800 flex-1 text-left">{title}</h2>
+            <h2 className="text-xl md:text-2xl font-bold text-gray-800 flex-1 text-left">{title}</h2>
             {collapsible && (
                 <div className={`text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}>
                     <ChevronDown size={24} />
