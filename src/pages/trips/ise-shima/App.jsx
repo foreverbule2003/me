@@ -425,6 +425,56 @@ const VegetarianCard = ({ forceOpen }) => (
 
 // ========== 主應用程式 ==========
 
+// ProductModal - 商品詳情彈窗
+const ProductModal = ({ isOpen, onClose, product }) => {
+    if (!isOpen || !product) return null;
+
+    return (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
+            <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+            <div
+                className="relative bg-white rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden animate-fade-up"
+                onClick={(e) => e.stopPropagation()}
+            >
+                {/* 關閉按鈕 */}
+                <button
+                    onClick={onClose}
+                    className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
+                >
+                    <X size={20} className="text-gray-500" />
+                </button>
+
+                {/* 圖片區域 (預留位置) */}
+                <div className="w-full aspect-square bg-gradient-to-br from-pink-50 to-indigo-50 flex items-center justify-center">
+                    {product.image ? (
+                        <img src={product.image} alt={product.name} className="w-full h-full object-contain p-4" />
+                    ) : (
+                        <div className="text-center text-gray-300">
+                            <ShoppingBag size={64} className="mx-auto mb-2 opacity-30" />
+                            <p className="text-sm">尚無圖片</p>
+                        </div>
+                    )}
+                </div>
+
+                {/* 商品資訊 */}
+                <div className="p-6">
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
+                    {product.nameJp && (
+                        <p className="text-sm text-pink-500 mb-3">🇯🇵 {product.nameJp}</p>
+                    )}
+                    {product.desc && (
+                        <p className="text-sm text-gray-500 mb-3">{product.desc}</p>
+                    )}
+                    <div className="flex items-baseline gap-2">
+                        <span className="text-2xl font-bold text-pink-600">¥{product.price.toLocaleString()}</span>
+                        <span className="text-sm text-gray-400">≈${Math.round(product.price * 0.22).toLocaleString()}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const CollapsibleSubsection = ({ title, count, children, defaultOpen = false, forceOpen = null }) => {
     const [isOpen, setIsOpen] = useState(defaultOpen);
 
@@ -556,6 +606,7 @@ export default function App() {
     const [activeTab, setActiveTab] = useState('itinerary');
     const [allExpanded, setAllExpanded] = useState(null);
     const [mapModalData, setMapModalData] = useState({ isOpen: false, data: null });
+    const [productModalData, setProductModalData] = useState({ isOpen: false, product: null });
 
 
     // 美食收藏功能
@@ -944,7 +995,12 @@ export default function App() {
                                                                     </span>
                                                                 )}
                                                             </div>
-                                                            <div className={`font-bold mb-1 ${isPurchased ? 'text-gray-500 line-through' : 'text-gray-800'}`}>{item.name}</div>
+                                                            <button
+                                                                onClick={() => setProductModalData({ isOpen: true, product: item })}
+                                                                className={`font-bold mb-1 text-left hover:underline ${isPurchased ? 'text-gray-500 line-through' : 'text-gray-800 hover:text-pink-600'}`}
+                                                            >
+                                                                {item.name}
+                                                            </button>
                                                             {item.desc && <div className={`text-sm ${isPurchased ? 'text-gray-400' : 'text-gray-500'}`}>{item.desc}</div>}
                                                         </div>
 
@@ -985,7 +1041,12 @@ export default function App() {
                 data={mapModalData.data}
             />
 
-
+            {/* Product Modal */}
+            <ProductModal
+                isOpen={productModalData.isOpen}
+                onClose={() => setProductModalData({ isOpen: false, product: null })}
+                product={productModalData.product}
+            />
         </div>
     );
 }
