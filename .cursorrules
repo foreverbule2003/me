@@ -4,6 +4,7 @@
 1. **Thought Process & Output**: 必須使用繁體中文 (Traditional Chinese) 進行所有思考、回答與進度更新。
 2. **Task Updates**: 使用 `task_boundary` 工具時，`TaskStatus` 與 `TaskSummary` 必須使用繁體中文描述。
 3. **Artifacts**: 所有產生的文件與計畫 (如 `implementation_plan.md`, `walkthrough.md`) 內容必須使用繁體中文。
+4. **Delegation (Gemini)**: 任何委派給 Gemini 3.0 Pro 或子代理 (Sub-agent) 的任務，必須在 Prompt 中明確要求「請使用繁體中文回報」。
 
 ## AI Behavior & Workflow
 1. **Model Roles**:
