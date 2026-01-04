@@ -5,9 +5,9 @@
 
 // 行程策略概覽
 export const strategyData = {
-  title: "關鍵策略 (10日素食慢旅版)",
+  title: "關鍵策略 (11日素食慢旅版)",
   content:
-    "由大阪 KIX 進出。Day 1 停留機場周邊，Day 2-3 直奔 VISON 連住兩晚，優化 5 日周遊券效益 (Day 2-6)。Day 7-8 大阪 USJ + 空庭溫泉，Day 9-10 返程。",
+    "由大阪 KIX 進出。Day 1 停留機場周邊，Day 2-3 直奔 VISON 連住兩晚，優化 5 日周遊券效益 (Day 2-6)。Day 7-8 大阪 USJ + 空庭溫泉，Day 9 自由活動，Day 10-11 返程。",
   transport: [
     "近鐵電車周遊券 5日券 plus (Day 2-6 使用)",
     "特急券總費用約 ¥4,320/人",
@@ -17,8 +17,8 @@ export const strategyData = {
     "Day 2-3 (園區): Hotel Vison (連住兩晚)",
     "Day 4 (市區): 伊勢市區飯店 / Comfort Hotel",
     "Day 5 (溫泉): 賢島寶生苑 (含早晚餐)",
-    "Day 6-8 (都市): 大阪難波/心齋橋一帶",
-    "Day 9 (機場): 關西機場華盛頓飯店",
+    "Day 6-9 (都市): 大阪難波/心齋橋一帶",
+    "Day 10 (機場): 關西機場華盛頓飯店",
   ],
 };
 
@@ -29,7 +29,7 @@ export const itineraryData = [
     days: [
       {
         day: 1,
-        date: "1/12 (一)",
+        date: "1/11 (日)",
         title: "抵達關西 · Rinku Outlet",
         image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2070&auto=format&fit=crop",
         time: "13:00 - 住宿",
@@ -44,7 +44,7 @@ export const itineraryData = [
       },
       {
         day: 2,
-        date: "1/13 (二)",
+        date: "1/12 (一)",
         title: "VISON 初探",
         image: "https://images.unsplash.com/photo-1492571350019-22de08371fd3?q=80&w=2108&auto=format&fit=crop",
         time: "10:00 - 20:00",
@@ -61,7 +61,7 @@ export const itineraryData = [
       },
       {
         day: 3,
-        date: "1/14 (三)",
+        date: "1/13 (二)",
         title: "VISON 深度體驗",
         image: "https://images.unsplash.com/photo-1481026469463-66327c86e544?q=80&w=2108&auto=format&fit=crop",
         time: "全日",
@@ -77,7 +77,7 @@ export const itineraryData = [
       },
       {
         day: 4,
-        date: "1/15 (四)",
+        date: "1/14 (三)",
         title: "伊勢神宮漫遊",
         image: "https://images.unsplash.com/photo-1694175173949-1c2bc79b99dc?q=80&w=2070&auto=format&fit=crop",
         time: "11:00 - 17:00",
@@ -92,7 +92,7 @@ export const itineraryData = [
       },
       {
         day: 5,
-        date: "1/16 (五)",
+        date: "1/15 (四)",
         title: "賢島海景溫泉",
         image: "https://images.unsplash.com/photo-1554797589-7241bb691973?q=80&w=2070&auto=format&fit=crop",
         time: "10:00 - 住宿",
@@ -105,7 +105,7 @@ export const itineraryData = [
       },
       {
         day: 6,
-        date: "1/17 (六)",
+        date: "1/16 (五)",
         title: "賢英虞灣遊船 · 大阪返程",
         image: "https://images.unsplash.com/photo-1490761668535-35497054764d?q=80&w=2070&auto=format&fit=crop",
         time: "08:00 - 18:00",
@@ -121,11 +121,11 @@ export const itineraryData = [
     ],
   },
   {
-    phase: "大阪都市探索 (Day 7-10)",
+    phase: "大阪都市探索 (Day 7-11)",
     days: [
       {
         day: 7,
-        date: "1/18 (日)",
+        date: "1/17 (六)",
         title: "梅田購物 · USJ 夜遊",
         image: "https://images.unsplash.com/photo-1612404834746-1ffba06de133?q=80&w=2070&auto=format&fit=crop",
         time: "11:00 - 20:00",
@@ -139,7 +139,7 @@ export const itineraryData = [
       },
       {
         day: 8,
-        date: "1/19 (一)",
+        date: "1/18 (日)",
         title: "USJ 暢玩 · 空庭溫泉",
         image: "https://images.unsplash.com/photo-1506045412240-22980140a405?q=80&w=2070&auto=format&fit=crop",
         time: "09:00 - 21:00",
@@ -155,6 +155,18 @@ export const itineraryData = [
       },
       {
         day: 9,
+        date: "1/19 (一)",
+        title: "大阪自由活動",
+        image: "https://images.unsplash.com/photo-1590559899731-a382839e5549?q=80&w=2070&auto=format&fit=crop",
+        time: "全日",
+        activities: [
+          { time: "全日", text: "自由活動", note: "可選擇繼續購物、大阪市區觀光或休息" },
+          { time: "19:00", text: "入住：大阪市區飯店", subText: "最後一晚" },
+        ],
+        highlight: "🗓️ 彈性一天！可以補買遺珠、再訪喜歡的餐廳或純粹休息。",
+      },
+      {
+        day: 10,
         date: "1/20 (二)",
         title: "Rinku Outlet",
         image: "https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2070&auto=format&fit=crop",
@@ -163,13 +175,13 @@ export const itineraryData = [
           { time: "10:00", text: "交通：大阪 → 臨空城", map: { type: "route", origin: "Namba Station", destination: "Rinku Town Station" } },
           { time: "11:00", text: "購物：Rinku Premium Outlets", note: "營業至20:00", map: { query: "Rinku Premium Outlets" } },
           { time: "13:00", text: "午餐：Outlet 內餐廳", foodGuideLink: "臨空城" },
-          { time: "18:00", text: "晚餐：Outlet 內餐廳" },
+          { time: "18:00", text: "晚餐：TRIAL 超市 (24H) 或 Outlet 餐廳" },
           { time: "19:00", text: "入住：關西機場華盛頓飯店", subText: "Kansai Airport Washington Hotel", map: { query: "Kansai Airport Washington Hotel" } },
         ],
         highlight: "🛍️ 住機場旁，不用擔心早班機。",
       },
       {
-        day: 10,
+        day: 11,
         date: "1/21 (三)",
         title: "優雅返程",
         image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2070&auto=format&fit=crop",
@@ -189,7 +201,7 @@ export const budgetData = [
   { item: "機票 (TPE-KIX)", cost: 42000, note: "約 $9,240 TWD (來回估算)" },
   { item: "交通 (近鐵周遊券)", cost: 6900, note: "約 $1,518 TWD (5日券 plus)" },
   { item: "交通 (特急券/其他)", cost: 7320, note: "約 $1,610 TWD (特急券 ¥4,320 + 其他 ¥3,000)" },
-  { item: "住宿 (9泊)", cost: 64000, note: "約 $14,080 TWD (含 OMO, VISON x2, 寶生苑等)" },
+  { item: "住宿 (10泊)", cost: 72000, note: "約 $15,840 TWD (含 OMO, VISON x2, 寶生苑, 大阪x3, 華盛頓)" },
   { item: "餐飲費", cost: 30000, note: "約 $6,600 TWD (每日素食)" },
   { item: "娛樂費", cost: 3000, note: "約 $660 TWD (空庭溫泉、西班牙遊船)" },
 ];
@@ -204,8 +216,9 @@ export const recommendedRoutes = [
   { id: 6, day: "Day 6", name: "賢島 → 大阪難波", from: "Kashikojima Station", to: "Osaka-Namba Station", desc: "近鐵特急", duration: "2h20m" },
   { id: 7, day: "Day 7", name: "梅田 → USJ", from: "Umeda Station", to: "Universal Studios Japan", desc: "JR環狀線+夢咲線", duration: "30分" },
   { id: 8, day: "Day 8", name: "USJ → 空庭溫泉", from: "Universal City Station", to: "Solaniwa Onsen Osaka", desc: "JR至弁天町", duration: "15分" },
-  { id: 9, day: "Day 9", name: "大阪 → 臨空城", from: "Namba Station", to: "Rinku Town Station", desc: "南海電鐵", duration: "40分" },
-  { id: 10, day: "Day 10", name: "飯店 → 機場", from: "Kansai Airport Washington Hotel", to: "Kansai International Airport", desc: "飯店免費接駁車", duration: "10分" },
+  { id: 9, day: "Day 9", name: "大阪自由活動", from: "Osaka", to: "Osaka", desc: "市區移動", duration: "—" },
+  { id: 10, day: "Day 10", name: "大阪 → 臨空城", from: "Namba Station", to: "Rinku Town Station", desc: "南海電鐵", duration: "40分" },
+  { id: 11, day: "Day 11", name: "飯店 → 機場", from: "Kansai Airport Washington Hotel", to: "Kansai International Airport", desc: "飯店免費接駁車", duration: "10分" },
 ];
 
 // 實用連結
@@ -216,7 +229,7 @@ export const usefulLinks = {
       label: "交通票券",
       icon: "Train",
       items: [
-        { name: "關西國際機場", day: "Day 1, 10", url: "https://www.kansai-airport.or.jp/tw/" },
+        { name: "關西國際機場", day: "Day 1, 11", url: "https://www.kansai-airport.or.jp/tw/" },
         { name: "近鐵周遊券 5日券 plus", day: "Day 2-6", url: "https://www.kintetsu.co.jp/foreign/chinese-han/ticket/krp_plus.html" },
       ],
     },
@@ -236,7 +249,7 @@ export const usefulLinks = {
       label: "景點",
       icon: "Star",
       items: [
-        { name: "Rinku Premium Outlets", day: "Day 1, 9", url: "https://www.premiumoutlets.co.jp/cht/rinku/" },
+        { name: "Rinku Premium Outlets", day: "Day 1, 10", url: "https://www.premiumoutlets.co.jp/cht/rinku/" },
         { name: "VISON 度假園區", day: "Day 2-3", url: "https://vison.jp/" },
         { name: "伊勢神宮", day: "Day 4", url: "https://www.isejingu.or.jp/" },
         { name: "USJ 環球影城", day: "Day 7-8", url: "https://www.usj.co.jp/web/zh/tw" },
@@ -254,12 +267,21 @@ export const kintetsuComparisonData = [
   { day: "Day 6", route: "賢島 → 大阪難波", regular: "約 3.5~4 小時", express: "約 2h20m", cost: "¥1,640" },
 ];
 
+// 特急列車加購價格表 (難波⇄松阪)
+export const expressPricingData = [
+  { train: "志摩之風", seat: "展望席", price: "¥2,690", note: "特急 ¥1,640 + 車廂 ¥1,050" },
+  { train: "Liner 豪華", seat: "Deluxe", price: "¥2,160", note: "特急 ¥1,640 + 車廂 ¥520" },
+  { train: "Liner 一般", seat: "Regular", price: "¥1,640", note: "僅特急費" },
+  { train: "Vista Car", seat: "二樓席", price: "¥1,640", note: "僅特急費" },
+  { train: "一般特急", seat: "標準", price: "¥1,640", note: "僅特急費" },
+];
+
 // 美食指南資料
 export const foodData = {
   categories: [
     {
       location: "臨空城",
-      day: "Day 1, 9",
+      day: "Day 1, 10",
       sections: [
         {
           title: "🍽️ Outlet 美食",

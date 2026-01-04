@@ -1,5 +1,5 @@
 /**
- * 2026 伊勢志摩‧大阪 10日素食慢旅
+ * 2026 伊勢志摩‧大阪 11日素食慢旅
  * Vite + React 版本
  */
 import React, { useState, useEffect, useRef } from 'react';
@@ -13,7 +13,7 @@ import {
 // 導入資料
 import {
     strategyData, itineraryData, budgetData,
-    recommendedRoutes, usefulLinks, kintetsuComparisonData, foodData, shoppingData
+    recommendedRoutes, usefulLinks, kintetsuComparisonData, expressPricingData, foodData, shoppingData
 } from './data.js';
 
 // 導入圖片 (如果檔案不存在，請確認路徑或先放入圖片)
@@ -68,7 +68,7 @@ const Header = () => (
             <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight tracking-tight animate-fade-up text-yellow-50">
                 伊勢志摩‧大阪
                 <span className="block text-xl md:text-2xl mt-3 font-medium tracking-widest opacity-90">
-                    10日素食慢旅
+                    11日素食慢旅
                 </span>
             </h1>
         </div>
@@ -835,6 +835,35 @@ export default function App() {
                             </div>
                         </SectionCard>
 
+                        {/* 特急加購價格表 */}
+                        <SectionCard icon={Train} title="特急加購價格" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left border-collapse whitespace-nowrap">
+                                    <thead>
+                                        <tr className="bg-indigo-50 text-indigo-600">
+                                            <th className="p-3 font-bold text-sm">列車</th>
+                                            <th className="p-3 font-bold text-sm">座位</th>
+                                            <th className="p-3 font-bold text-sm">價格</th>
+                                            <th className="p-3 font-bold text-sm">備註</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-gray-600">
+                                        {expressPricingData.map((row, idx) => (
+                                            <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
+                                                <td className="p-3 text-sm font-bold text-gray-800">{row.train}</td>
+                                                <td className="p-3 text-sm">{row.seat}</td>
+                                                <td className="p-3 text-sm font-bold text-[#E8968A]">{row.price}</td>
+                                                <td className="p-3 text-sm text-gray-500">{row.note}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="mt-4 p-3 bg-amber-50 rounded-lg text-sm text-amber-700">
+                                💡 持「近鐵5日券」已含基本運費，上表僅為額外加購費用
+                            </div>
+                        </SectionCard>
+
                         {/* VISON 巴士時刻表 */}
                         <SectionCard icon={Bus} title="VISON 巴士時刻表" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
                             <div className="space-y-6">
@@ -1181,7 +1210,7 @@ export default function App() {
             </div>
 
             <footer className="text-center py-8 text-gray-400 text-sm">
-                <p>© 2026 伊勢志摩‧大阪素食豪華慢旅 v6 (Vite 版)</p>
+                <p>© 2026 伊勢志摩‧大阪 11日素食慢旅 v7 (Vite 版)</p>
             </footer>
 
             {/* Map Modal */}
