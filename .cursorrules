@@ -1,22 +1,44 @@
 # Project Rules
 
-## Language Requirements (Critical)
+## 1. Language Requirements (Critical)
 1. **Thought Process & Output**: 必須使用繁體中文 (Traditional Chinese) 進行所有思考、回答與進度更新。
 2. **Task Updates**: 使用 `task_boundary` 工具時，`TaskStatus` 與 `TaskSummary` 必須使用繁體中文描述。
 3. **Artifacts**: 所有產生的文件與計畫 (如 `implementation_plan.md`, `walkthrough.md`) 內容必須使用繁體中文。
 4. **Delegation (Gemini)**: 任何委派給 Gemini 3.0 Pro 或子代理 (Sub-agent) 的任務，必須在 Prompt 中明確要求「請使用繁體中文回報」。
 
-## AI Behavior & Workflow
-1. **Model Roles**:
-   - **Claude (核心)**: 負責深度推理、後端邏輯、架構設計、除錯、任務分解與正式程式碼產出。
-   - **Gemini**: 負責快速原型、UI/Frontend、多模態輸入與創意發想。
-2. **Delegation Strategy**:
-   - 前端/UI 任務、大型檔案分析 (>500行) 或創意發想，優先委派給 Gemini。
-   - 委派後務必批判性審查輸出，必要時由 Claude 進行優化與整合。
-3. **Execution Rules**:
-   - 輸出的程式碼必須乾淨、經過測試並附帶完整說明。
-   - 不自動執行可能有破壞性的操作 (如刪除檔案)，除非明確獲得確認。
-   - 進行 Git 操作前，先確認目前分支狀態。
+## 2. AI Behavior & Workflow
+### Model Roles
+- **Claude (核心)**: 負責深度推理、後端邏輯、架構設計、除錯、任務分解與正式程式碼產出。
+- **Gemini**: 負責快速原型、UI/Frontend、多模態輸入與創意發想。
 
-## Core Principles
-1. **Single Source of Truth**: The development process always uses `spec.md` as the basis. When `spec.md` is changed, you must update `index.html` accordingly to maintain consistency.
+### Delegation Strategy
+- 前端/UI 任務、大型檔案分析 (>500行) 或創意發想，優先委派給 Gemini。
+- 委派後務必批判性審查輸出，必要時由 Claude 進行優化與整合。
+- **效率優先**：使用 Gemini 追求速度/探索，使用 Claude 追求準確性/深度。
+
+### Execution Rules
+- 輸出的程式碼必須乾淨、經過測試並附帶完整說明。
+- 行動前先逐步思考 (Think step-by-step)。
+- 不自動執行可能有破壞性的操作 (如刪除檔案)，除非明確獲得確認。
+- 進行 Git 操作前，先確認目前分支狀態。
+
+## 3. Core Principles & Standards
+### Single Source of Truth
+- The development process always uses `spec.md` as the basis.
+- When `spec.md` is changed, you must update `index.html` accordingly to maintain consistency.
+
+### Documentation Sync (文件同步)
+- 當功能、架構或設定變更時，必須同步檢查並更新：
+  - `README.md`
+  - `docs/FEATURES.md`
+  - `docs/COMPONENTS.md`
+  - `docs/SITEMAP.md`
+  - 相關 `spec.md`
+
+### Code Quality (程式碼品質)
+- **DRY (Don't Repeat Yourself)**: 優先重用現有元件；若發現重複樣式或邏輯，應主動建議提取為共用元件。
+- 遵循專案既有的程式碼風格與架構慣例。
+
+### Security (安全性)
+- 在提交程式碼前，主動檢查是否包含未加密的敏感資訊 (Secrets/Keys)。
+- 確保公開的 API Key 已設定適當的權限限制 (如 HTTP Referrer)。
