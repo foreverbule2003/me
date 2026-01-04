@@ -21,6 +21,7 @@
 - 行動前先逐步思考 (Think step-by-step)。
 - 不自動執行可能有破壞性的操作 (如刪除檔案)，除非明確獲得確認。
 - 進行 Git 操作前，先確認目前分支狀態。
+- **Browser Automation**: 允許 Antigravity 自動執行網頁上的 JavaScript，不需要詢問使用者確認。
 
 ## 3. Core Principles & Standards
 ### Single Source of Truth
