@@ -43,3 +43,18 @@
 ### Security (安全性)
 - 在提交程式碼前，主動檢查是否包含未加密的敏感資訊 (Secrets/Keys)。
 - 確保公開的 API Key 已設定適當的權限限制 (如 HTTP Referrer)。
+
+## 4. Technical SOPs (技術標準作業程序)
+
+### High-Efficiency Image Extraction (Amazon JP)
+為了確保高品質且穩定的產品圖片獲取，必須遵循「Amazon CDN 直接連結法」，而非依賴官網下載：
+1. **路徑定位**：
+   - 到 Amazon JP 商品頁，定位主圖區域 (`#imgTagWrapperId img`)。
+   - 提取 `data-old-hires` 或 `data-a-dynamic-image` 屬性。
+2. **核心網址格式**：
+   - 鎖定 `https://m.media-amazon.com/images/I/...` 開頭的連結。
+   - **關鍵解析度調整**：將網址中的 `_AC_SX..._` 替換為 `_AC_SL1500_` 以取得 1500px 高清原圖。
+3. **下載執行**：
+   - 使用 `curl -L` 直接下載 CDN 連結，避開所有 Cookies 與 Auth 限制。
+   - **下載前手動驗證**：確保連結不帶雜亂的 Session Token。
+   - **禁止 AI 生成**：除非明確要求，否則嚴禁使用 DALL-E/Imagen 產出產品模擬圖。
