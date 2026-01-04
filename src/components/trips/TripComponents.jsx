@@ -11,7 +11,6 @@ import {
     Train,
     Bus,
     MapPin,
-    Utensils,
     Info,
     ExternalLink,
 } from 'lucide-react';
@@ -273,7 +272,7 @@ export const ActivityItem = ({ activity, onOpenRoute, onOpenFoodGuide }) => {
                     {activity.time}
                 </span>
                 <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-start justify-between gap-2">
                         <div className="text-gray-800 font-bold text-sm leading-6 flex-1">
                             {activity.text}
                         </div>
@@ -286,21 +285,6 @@ export const ActivityItem = ({ activity, onOpenRoute, onOpenFoodGuide }) => {
                                 {isRoute ? <TransportIcon size={16} /> : <MapPin size={16} />}
                             </button>
                         )}
-                        {activity.foodGuideLink &&
-                            !hasExplicitMap &&
-                            !hasArrow &&
-                            onOpenFoodGuide && (
-                                <button
-                                    onClick={(e) => {
-                                        e.stopPropagation();
-                                        onOpenFoodGuide();
-                                    }}
-                                    className="flex-shrink-0 text-accent transition-all cursor-pointer hover:scale-110 w-6 h-6 flex items-center justify-center"
-                                    title={`查看「${activity.foodGuideLink}」美食選項`}
-                                >
-                                    <Utensils size={16} />
-                                </button>
-                            )}
                     </div>
                     {activity.subText && (
                         <div className="text-xs text-gray-500 mt-0.5 font-medium">

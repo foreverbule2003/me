@@ -329,7 +329,7 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
                                             <div className="font-bold text-gray-800 mb-1">{act.text}</div>
                                             {act.subText && <div className="text-sm text-gray-500">{act.subText}</div>}
                                         </div>
-                                        <div className="flex items-center gap-1 shrink-0 mt-0.5">
+                                        <div className="flex items-start gap-1 shrink-0">
                                             {act.map && (
                                                 <button
                                                     onClick={() => onOpenRoute(act.map)}
@@ -337,15 +337,6 @@ const DayCard = ({ dayData, onOpenRoute, onOpenFoodGuide, isExpanded: controlled
                                                     title="查看地圖"
                                                 >
                                                     <MapPin size={16} />
-                                                </button>
-                                            )}
-                                            {act.foodGuideLink && (
-                                                <button
-                                                    onClick={() => onOpenFoodGuide()}
-                                                    className="p-1.5 text-gray-400 hover:text-[#E8968A] transition-colors rounded-lg hover:bg-[#E8968A]/10"
-                                                    title="美食指南"
-                                                >
-                                                    <Utensils size={16} />
                                                 </button>
                                             )}
                                         </div>
@@ -842,6 +833,154 @@ export default function App() {
                             <div className="mt-4 p-3 bg-indigo-50 rounded-lg text-sm text-indigo-600">
                                 <strong>特急券總費用</strong>：全程搭特急約 <strong>¥4,320/人</strong>
                             </div>
+                        </SectionCard>
+
+                        {/* VISON 巴士時刻表 */}
+                        <SectionCard icon={Bus} title="VISON 巴士時刻表" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                            <div className="space-y-6">
+                                {/* 松阪駅前 → VISON */}
+                                <div>
+                                    <h4 className="font-bold text-gray-700 mb-3 flex items-center gap-2">
+                                        <span className="text-indigo-600">【平日】</span>松阪駅前 → VISON
+                                    </h4>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm border-collapse whitespace-nowrap">
+                                            <thead>
+                                                <tr className="bg-gray-50 text-gray-600">
+                                                    <th className="p-2 text-left font-medium border-b">行先</th>
+                                                    <th className="p-2 text-center font-medium border-b">おおだい</th>
+                                                    <th className="p-2 text-center font-medium border-b">VISON</th>
+                                                    <th className="p-2 text-center font-medium border-b">おおだい</th>
+                                                    <th className="p-2 text-center font-medium border-b bg-indigo-50">VISON</th>
+                                                    <th className="p-2 text-center font-medium border-b bg-indigo-50">VISON</th>
+                                                    <th className="p-2 text-center font-medium border-b">おおだい</th>
+                                                    <th className="p-2 text-center font-medium border-b">VISON</th>
+                                                    <th className="p-2 text-center font-medium border-b">三瀬谷</th>
+                                                    <th className="p-2 text-center font-medium border-b">VISON</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr className="border-b">
+                                                    <td className="p-2 font-medium">松阪駅前 発</td>
+                                                    <td className="p-2 text-center">8:05</td>
+                                                    <td className="p-2 text-center">9:30</td>
+                                                    <td className="p-2 text-center">10:25</td>
+                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">12:45</td>
+                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">13:20</td>
+                                                    <td className="p-2 text-center">14:45</td>
+                                                    <td className="p-2 text-center">15:45</td>
+                                                    <td className="p-2 text-center">17:05</td>
+                                                    <td className="p-2 text-center">18:05</td>
+                                                </tr>
+                                                <tr className="border-b text-gray-400">
+                                                    <td className="p-2"></td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center bg-indigo-50">↓</td>
+                                                    <td className="p-2 text-center bg-indigo-50">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="p-2 font-medium">VISON 着</td>
+                                                    <td className="p-2 text-center">8:55</td>
+                                                    <td className="p-2 text-center">10:12</td>
+                                                    <td className="p-2 text-center">11:07</td>
+                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">13:27</td>
+                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">14:02</td>
+                                                    <td className="p-2 text-center">15:27</td>
+                                                    <td className="p-2 text-center">16:27</td>
+                                                    <td className="p-2 text-center">17:51</td>
+                                                    <td className="p-2 text-center">18:47</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {/* VISON → 松阪駅前 */}
+                                <div>
+                                    <h4 className="font-bold text-gray-700 mb-3 flex items-center gap-2">
+                                        <span className="text-indigo-600">【平日】</span>VISON → 松阪駅前
+                                    </h4>
+                                    <div className="overflow-x-auto">
+                                        <table className="w-full text-sm border-collapse whitespace-nowrap">
+                                            <thead>
+                                                <tr className="bg-gray-50 text-gray-600">
+                                                    <th className="p-2 text-left font-medium border-b">行先</th>
+                                                    <th className="p-2 text-center font-medium border-b" colSpan="7">松阪駅前</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody className="text-gray-700">
+                                                <tr className="border-b">
+                                                    <td className="p-2 font-medium">VISON 発</td>
+                                                    <td className="p-2 text-center">10:23</td>
+                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">11:00</td>
+                                                    <td className="p-2 text-center">12:23</td>
+                                                    <td className="p-2 text-center">14:00</td>
+                                                    <td className="p-2 text-center">15:28</td>
+                                                    <td className="p-2 text-center">16:40</td>
+                                                    <td className="p-2 text-center">17:08</td>
+                                                    <td className="p-2 text-center">19:05</td>
+                                                </tr>
+                                                <tr className="border-b text-gray-400">
+                                                    <td className="p-2"></td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center bg-indigo-50">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                    <td className="p-2 text-center">↓</td>
+                                                </tr>
+                                                <tr>
+                                                    <td className="p-2 font-medium">松阪駅前 着</td>
+                                                    <td className="p-2 text-center">11:06</td>
+                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">11:43</td>
+                                                    <td className="p-2 text-center">13:06</td>
+                                                    <td className="p-2 text-center">14:43</td>
+                                                    <td className="p-2 text-center">16:11</td>
+                                                    <td className="p-2 text-center">17:23</td>
+                                                    <td className="p-2 text-center">18:02</td>
+                                                    <td className="p-2 text-center">19:48</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div className="p-3 bg-amber-50 rounded-lg text-sm text-amber-700 flex items-start gap-2">
+                                    <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                                    <div>平日時刻表，假日班次可能不同。建議出發前至<a href="https://vison.jp/access/" target="_blank" rel="noopener noreferrer" className="underline font-bold">VISON 官網</a>確認。</div>
+                                </div>
+                            </div>
+                        </SectionCard>
+
+                        {/* VISON 園區地圖 */}
+                        <SectionCard icon={MapPin} title="VISON 園區地圖" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                            <a
+                                href="https://vison.jp/upload_fileuploder/VISON_MAP_251010.pdf"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block p-4 bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl border border-indigo-100 hover:border-indigo-300 transition-all group"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center gap-3">
+                                        <div className="p-2 bg-white rounded-lg shadow-sm">
+                                            <MapPin size={20} className="text-indigo-600" />
+                                        </div>
+                                        <div>
+                                            <div className="font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">VISON 園區地圖 (PDF)</div>
+                                            <div className="text-sm text-gray-500">含店舖配置、停車場、溫泉位置</div>
+                                        </div>
+                                    </div>
+                                    <ExternalLink size={18} className="text-gray-400 group-hover:text-indigo-600 transition-colors" />
+                                </div>
+                            </a>
                         </SectionCard>
 
                         {/* 每日交通路線 */}
