@@ -405,7 +405,8 @@ export const shoppingData = {
       items: [
         { func: "眼霜", type: "必買", name: "SANA 豆乳眼霜", nameJp: "サナ なめらか本舗 目元ふっくらクリーム", price: 900, image: "/me/images/products/sana_eye_cream.png", note: "【妝前消腫】早上妝前使用，讓眼下不卡紋" },
         { func: "眼霜", type: "必買", name: "Melano CC 集中對策眼霜", nameJp: "メラノCC 集中対策 目もと集中美容液", price: 1100, image: "/me/images/products/melano_cc_eye.png", note: "【去黑眼圈】晚上使用，針對色素沈澱" },
-        { func: "化妝水", type: "囤貨", name: "肌研化妝水 (補充包)", nameJp: "肌ラボ 極潤 ヒアルロン液 つめかえ用", price: 700, image: "/me/images/products/hada_labo_refill.png", note: "【囤貨帶回台灣】愛用品補貨，放托運" },
+        { func: "化妝水", type: "首選", name: "肌研化妝水 白潤Premium", nameJp: "肌ラボ 白潤プレミアム 薬用浸透美白化粧水", desc: "清爽型", price: 990, image: "/me/images/products/hada_labo_premium.png", note: "【美白化妝水】含傳明酸，適合想改善暗沉" },
+        { func: "化妝水", type: "備案", name: "肌研化妝水 綠瓶補充包", nameJp: "肌ラボ 極潤 ヒアルロン液 つめかえ用", price: 700, image: "/me/images/products/hada_labo_refill.png", note: "【囤貨帶回台灣】愛用品補貨，放托運", isBackup: true },
         { func: "眼藥水", type: "必買", name: "Rohto Digi-Eye", nameJp: "ロート デジアイ", desc: "鮮黃色盒子", price: 680, image: "/me/images/products/rohto_digi_eye.png", note: "【藍光修復眼藥水】針對長時間盯電腦。含B2 (液體黃色)，請裸眼使用", warning: true },
       ],
     },
