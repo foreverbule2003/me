@@ -447,3 +447,16 @@ export const shoppingData = {
     },
   ],
 };
+
+// 待訂清單資料
+export const todoData = [
+  { category: "交通", item: "機票 (TPE-KIX)" },
+  { category: "交通", item: "機場接送服務" },
+  { category: "交通", item: "近鐵電車周遊券 5日券plus" },
+  { category: "交通", item: "觀光特急 志摩之風 (Shimakaze)" },
+  { category: "交通", item: "近鐵特急 (大阪-松阪 / Ise-Shima Liner 或 Vista Car)" },
+  { category: "景點", item: "空庭溫泉 (含岩盤浴套票)" },
+  { category: "通訊", item: "日本上網 eSIM" },
+  { category: "住宿", item: "Hotel Vison" },
+  { category: "住宿", item: "賢島寶生苑" },
+];

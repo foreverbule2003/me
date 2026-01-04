@@ -7,13 +7,13 @@ import {
     MapPin, Calendar, Wallet, Train, Utensils, Hotel,
     ArrowRight, Leaf, Star, Info, ChevronDown, ChevronUp,
     ExternalLink, Sparkles, Clock, AlertCircle, X,
-    MessageCircle, Languages, Bot, Bus, Check, ShoppingBag, Send
+    MessageCircle, Languages, Bot, Bus, Check, ShoppingBag, Send, ClipboardList
 } from 'lucide-react';
 
 // 導入資料
 import {
     strategyData, itineraryData, budgetData,
-    recommendedRoutes, usefulLinks, kintetsuComparisonData, expressPricingData, foodData, shoppingData
+    recommendedRoutes, usefulLinks, kintetsuComparisonData, expressPricingData, foodData, shoppingData, todoData
 } from './data.js';
 
 // 導入圖片 (如果檔案不存在，請確認路徑或先放入圖片)
@@ -63,7 +63,7 @@ const Header = () => (
         </div>
         <div className="max-w-5xl mx-auto text-center relative z-10">
             <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-[#0F2540]/30 backdrop-blur-md text-xs font-medium tracking-wider border border-[#E8968A]/40 text-[#E8968A]/90 animate-fade-up shadow-lg">
-                JP-ISE-OSA-2026-VEG-10D
+                JP-ISE-OSA-2026-VEG-11D
             </div>
             <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight tracking-tight animate-fade-up text-yellow-50">
                 伊勢志摩‧大阪
@@ -127,8 +127,8 @@ const StrategySection = ({ forceOpen }) => (
     <SectionCard icon={Sparkles} title="行程亮點" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             <div className="bg-indigo-50 rounded-2xl p-4 text-center">
-                <div className="text-3xl font-bold text-indigo-600 mb-1">10</div>
-                <div className="text-sm text-gray-500">天 9 夜</div>
+                <div className="text-3xl font-bold text-indigo-600 mb-1">11</div>
+                <div className="text-sm text-gray-500">天 10 夜</div>
             </div>
             <div className="bg-indigo-50 rounded-2xl p-4 text-center">
                 <div className="text-3xl font-bold text-indigo-600 mb-1">5</div>
@@ -149,6 +149,37 @@ const StrategySection = ({ forceOpen }) => (
                     {tag}
                 </span>
             ))}
+        </div>
+    </SectionCard>
+);
+
+// TodoSection - 待訂清單
+const TodoSection = ({ forceOpen }) => (
+    <SectionCard icon={ClipboardList} title="待訂清單" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
+        <div className="overflow-x-auto">
+            <table className="w-full text-left border-collapse whitespace-nowrap">
+                <thead>
+                    <tr className="bg-gray-50 text-gray-600">
+                        <th className="p-3 font-bold text-sm">類別</th>
+                        <th className="p-3 font-bold text-sm">項目</th>
+                        <th className="p-3 font-bold text-sm text-center">狀態</th>
+                    </tr>
+                </thead>
+                <tbody className="text-gray-600">
+                    {todoData.map((row, idx) => (
+                        <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="p-3 text-sm font-bold text-gray-500">{row.category}</td>
+                            <td className="p-3 text-sm font-medium text-gray-800">{row.item}</td>
+                            <td className="p-3 text-sm text-center">
+                                <span className="inline-block w-4 h-4 border-2 border-gray-300 rounded-sm"></span>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+        <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-500">
+            📝 這裡列出出發前需要預訂或確認的重要事項
         </div>
     </SectionCard>
 );
@@ -748,6 +779,7 @@ export default function App() {
                 {activeTab === 'overview' && (
                     <div className="space-y-8">
                         <StrategySection forceOpen={allExpanded} />
+                        <TodoSection forceOpen={allExpanded} />
                         <UsefulLinksSection forceOpen={allExpanded} />
                     </div>
                 )}
