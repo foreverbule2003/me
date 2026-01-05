@@ -91,7 +91,7 @@ const ToggleFAB = ({ isExpanded, onToggle }) => (
 // 導航標籤
 const TabNavigation = ({ activeTab, setActiveTab }) => {
     const tabs = [
-        { id: 'overview', label: '總覽', Icon: Star },
+        { id: 'overview', label: '準備', Icon: Star },
         { id: 'itinerary', label: '行程', Icon: Calendar },
         { id: 'map', label: '交通', Icon: Train },
         { id: 'food', label: '美食', Icon: Utensils },
@@ -122,33 +122,59 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
     );
 };
 
-// StrategySection - 行程亮點
+// StrategySection - 行程概要
 const StrategySection = ({ forceOpen }) => (
-    <SectionCard icon={Sparkles} title="行程亮點" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="bg-indigo-50 rounded-2xl p-4 text-center">
-                <div className="text-3xl font-bold text-indigo-600 mb-1">11</div>
-                <div className="text-sm text-gray-500">天 10 夜</div>
+    <SectionCard icon={Sparkles} title="行程概要" collapsible={true} defaultOpen={true} forceOpen={forceOpen}>
+        <div className="space-y-4">
+            {/* 航班資訊 */}
+            <div>
+                <h4 className="font-medium text-gray-600 mb-2 text-sm">✈️ 航班資訊</h4>
+                <div className="grid md:grid-cols-2 gap-3">
+                    <div className="p-3 bg-white rounded-lg border border-gray-200">
+                        <div className="flex items-center justify-between text-sm font-medium text-gray-800 mb-1">
+                            <span>去程</span>
+                            <span className="text-xs text-gray-500">01/11 (日)</span>
+                        </div>
+                        <div className="text-sm text-gray-600">
+                            <span className="font-mono text-gray-400">待確認</span>
+                            {/* TODO: 例如 JL805 TPE 09:00 → KIX 12:40 */}
+                        </div>
+                    </div>
+                    <div className="p-3 bg-white rounded-lg border border-gray-200">
+                        <div className="flex items-center justify-between text-sm font-medium text-gray-800 mb-1">
+                            <span>回程</span>
+                            <span className="text-xs text-gray-500">01/21 (三)</span>
+                        </div>
+                        <div className="text-sm text-gray-600">
+                            <span className="font-mono text-gray-400">待確認</span>
+                            {/* TODO: 例如 MM028 KIX 19:30 → TPE 21:45 */}
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div className="bg-indigo-50 rounded-2xl p-4 text-center">
-                <div className="text-3xl font-bold text-indigo-600 mb-1">5</div>
-                <div className="text-sm text-gray-500">日周遊券</div>
+
+            {/* 主題亮點 */}
+            <div>
+                <h4 className="font-medium text-gray-600 mb-2 text-sm">🌸 主題亮點</h4>
+                <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+                    {[
+                        { icon: '⛩️', text: '伊勢神宮' },
+                        { icon: '🛍️', text: 'VISON' },
+                        { icon: '♨️', text: '賢島寶生苑' },
+                        { icon: '🎢', text: 'USJ' },
+                        { icon: '🌿', text: '空庭溫泉' },
+                        { icon: '🥗', text: '素食友善' },
+                    ].map((item, idx) => (
+                        <div
+                            key={idx}
+                            className="flex flex-col items-center p-3 bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 shadow-sm"
+                        >
+                            <span className="text-2xl mb-1">{item.icon}</span>
+                            <span className="text-xs font-medium text-gray-700 text-center">{item.text}</span>
+                        </div>
+                    ))}
+                </div>
             </div>
-            <div className="bg-[#E8968A]/10 rounded-2xl p-4 text-center">
-                <div className="text-2xl mb-1">🌿</div>
-                <div className="text-sm text-gray-600 font-medium">素食友善</div>
-            </div>
-            <div className="bg-[#E8968A]/10 rounded-2xl p-4 text-center">
-                <div className="text-2xl mb-1">♨️</div>
-                <div className="text-sm text-gray-600 font-medium">溫泉療癒</div>
-            </div>
-        </div>
-        <div className="mt-6 flex flex-wrap gap-2 justify-center">
-            {['VISON 連住', '賢島寶生苑', '空庭溫泉', 'USJ', 'KIX 進出'].map((tag, idx) => (
-                <span key={idx} className="px-3 py-1.5 bg-[#0F2540]/10 text-[#0F2540] rounded-full text-xs font-medium">
-                    {tag}
-                </span>
-            ))}
         </div>
     </SectionCard>
 );
@@ -183,29 +209,27 @@ const TodoSection = ({ forceOpen, completed = {}, onToggle }) => {
                         >
                             <div className="flex items-center gap-3">
                                 <div
-                                    className={`w-6 h-6 rounded-md border flex items-center justify-center shrink-0 transition-all ${isDone
+                                    className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${isDone
                                         ? 'bg-green-500 border-green-500 text-white shadow-sm'
-                                        : 'border-gray-300 bg-white hover:border-indigo-400'
+                                        : 'border-gray-300 bg-white hover:border-pink-400'
                                         }`}
                                 >
-                                    {isDone && <Check size={14} strokeWidth={3} />}
+                                    {isDone && <Check size={12} strokeWidth={4} />}
                                 </div>
                                 <div className="flex-1">
-                                    <div className={`font-medium text-base ${isDone ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
+                                    <div className="mb-1">
+                                        <span className={`px-2 py-0.5 text-xs font-bold rounded ${isDone ? 'bg-gray-200 text-gray-500' : 'bg-indigo-100 text-indigo-600'}`}>
+                                            {row.category}
+                                        </span>
+                                    </div>
+                                    <span className={`font-bold ${isDone ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
                                         {row.item}
-                                    </div>
-                                    <div className="text-xs text-gray-500 mt-1 inline-block bg-gray-100 px-2 py-0.5 rounded">
-                                        {row.category}
-                                    </div>
+                                    </span>
                                 </div>
                             </div>
                         </div>
                     );
                 })}
-            </div>
-            <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-500 flex items-center justify-between">
-                <span>📝 這裡列出出發前需要預訂或確認的重要事項</span>
-                <span className="text-xs text-gray-400">雲端同步中</span>
             </div>
         </SectionCard>
     );
