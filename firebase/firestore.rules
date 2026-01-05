@@ -13,6 +13,12 @@ service cloud.firestore {
       allow write: if true; // Allow shared checkbox state for all users
     }
 
+    // Allow to-do list completion status sync
+    match /trips/{tripId}/todo_completed/{itemId} {
+      allow read: if true;
+      allow write: if true; // Allow shared checkbox state for all users
+    }
+
     // Allow public read/write for journal entries (personal site)
     match /journal_entries/{entryId} {
       allow read: if true;  // 公開瀏覽

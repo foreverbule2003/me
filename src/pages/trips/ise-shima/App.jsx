@@ -154,35 +154,62 @@ const StrategySection = ({ forceOpen }) => (
 );
 
 // TodoSection - 待訂清單
-const TodoSection = ({ forceOpen }) => (
-    <SectionCard icon={ClipboardList} title="待訂清單" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
-        <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse whitespace-nowrap">
-                <thead>
-                    <tr className="bg-gray-50 text-gray-600">
-                        <th className="p-3 font-bold text-sm">類別</th>
-                        <th className="p-3 font-bold text-sm">項目</th>
-                        <th className="p-3 font-bold text-sm text-center">狀態</th>
-                    </tr>
-                </thead>
-                <tbody className="text-gray-600">
-                    {todoData.map((row, idx) => (
-                        <tr key={idx} className="border-b border-gray-100 hover:bg-gray-50">
-                            <td className="p-3 text-sm font-bold text-gray-500">{row.category}</td>
-                            <td className="p-3 text-sm font-medium text-gray-800">{row.item}</td>
-                            <td className="p-3 text-sm text-center">
-                                <span className="inline-block w-4 h-4 border-2 border-gray-300 rounded-sm"></span>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
-        <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-500">
-            📝 這裡列出出發前需要預訂或確認的重要事項
-        </div>
-    </SectionCard>
-);
+const TodoSection = ({ forceOpen, completed = {}, onToggle }) => {
+    // 排序：已完成的項目移到最下面
+    const sortedItems = todoData
+        .map((row, idx) => ({ ...row, originalIdx: idx }))
+        .sort((a, b) => {
+            const aKey = `todo-${a.originalIdx}`;
+            const bKey = `todo-${b.originalIdx}`;
+            const aDone = completed[aKey] ? 1 : 0;
+            const bDone = completed[bKey] ? 1 : 0;
+            return aDone - bDone;
+        });
+
+    return (
+        <SectionCard icon={ClipboardList} title="待訂清單" collapsible={true} defaultOpen={false} forceOpen={forceOpen}>
+            <div className="space-y-3">
+                {sortedItems.map((row) => {
+                    const itemKey = `todo-${row.originalIdx}`;
+                    const isDone = completed[itemKey];
+                    return (
+                        <div
+                            key={row.originalIdx}
+                            className={`p-4 rounded-xl border transition-all cursor-pointer active:scale-[0.98] active:bg-gray-50 ${isDone
+                                ? 'bg-gray-100 border-gray-200 opacity-60'
+                                : 'bg-white border-gray-100 hover:border-indigo-200 shadow-sm'
+                                }`}
+                            onClick={() => onToggle && onToggle(itemKey)}
+                        >
+                            <div className="flex items-center gap-3">
+                                <div
+                                    className={`w-6 h-6 rounded-md border flex items-center justify-center shrink-0 transition-all ${isDone
+                                        ? 'bg-green-500 border-green-500 text-white shadow-sm'
+                                        : 'border-gray-300 bg-white hover:border-indigo-400'
+                                        }`}
+                                >
+                                    {isDone && <Check size={14} strokeWidth={3} />}
+                                </div>
+                                <div className="flex-1">
+                                    <div className={`font-medium text-base ${isDone ? 'text-gray-500 line-through' : 'text-gray-800'}`}>
+                                        {row.item}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1 inline-block bg-gray-100 px-2 py-0.5 rounded">
+                                        {row.category}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+            <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-500 flex items-center justify-between">
+                <span>📝 這裡列出出發前需要預訂或確認的重要事項</span>
+                <span className="text-xs text-gray-400">雲端同步中</span>
+            </div>
+        </SectionCard>
+    );
+};
 
 // UsefulLinksSection
 const UsefulLinksSection = ({ forceOpen }) => {
@@ -650,6 +677,9 @@ export default function App() {
     // 購物清單已購買狀態
     const [purchased, setPurchased] = useState({});
 
+    // 待訂清單完成狀態
+    const [todoCompleted, setTodoCompleted] = useState({});
+
     // Firebase Firestore 即時同步
     useEffect(() => {
         const unsubscribe = onSnapshot(
@@ -683,6 +713,26 @@ export default function App() {
             },
             (error) => {
                 console.error("Shopping sync error:", error);
+            }
+        );
+        return () => unsubscribe();
+    }, []);
+
+    // 訂閱待訂清單狀態
+    useEffect(() => {
+        const q = collection(db, "trips", TRIP_ID, "todo_completed");
+        const unsubscribe = onSnapshot(
+            q,
+            (snapshot) => {
+                const newCompleted = {};
+                snapshot.forEach((docSnap) => {
+                    newCompleted[docSnap.id] = true;
+                });
+                setTodoCompleted(newCompleted);
+            },
+            (error) => {
+                console.error("Todo sync error:", error);
+                // alert("同步失敗: " + error.message); // Optional: notify user if init fails
             }
         );
         return () => unsubscribe();
@@ -746,6 +796,25 @@ export default function App() {
         }
     };
 
+    // 待訂清單：切換完成狀態
+    const toggleTodoCompleted = async (itemKey) => {
+        // console.log("Toggling todo:", itemKey); // DEBUG
+        const docRef = doc(db, "trips", TRIP_ID, "todo_completed", itemKey);
+        try {
+            if (todoCompleted[itemKey]) {
+                await deleteDoc(docRef);
+            } else {
+                await setDoc(docRef, {
+                    timestamp: new Date().toISOString(),
+                    userId: "anonymous" // 確保符合潛在的權限規則
+                });
+            }
+        } catch (e) {
+            console.error("Error updating todo status:", e);
+            alert("同步失敗: " + e.message); // Show error to user
+        }
+    };
+
     // 購物清單：排序（已購買移到底部）
     const sortShoppingItems = (items, catIdx) => {
         return [...items].sort((a, b) => {
@@ -779,7 +848,7 @@ export default function App() {
                 {activeTab === 'overview' && (
                     <div className="space-y-8">
                         <StrategySection forceOpen={allExpanded} />
-                        <TodoSection forceOpen={allExpanded} />
+                        <TodoSection forceOpen={allExpanded} completed={todoCompleted} onToggle={toggleTodoCompleted} />
                         <UsefulLinksSection forceOpen={allExpanded} />
                     </div>
                 )}
@@ -894,69 +963,56 @@ export default function App() {
                             <div className="mt-4 p-3 bg-amber-50 rounded-lg text-sm text-amber-700">
                                 💡 持「近鐵5日券」已含基本運費，上表僅為額外加購費用
                             </div>
+                            <div className="mt-3 text-center">
+                                <a
+                                    href="https://www.ticket.kintetsu.co.jp/vs/en/T/TZZ/TZZ10.do?op=tDisplayVisitorMenu"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+                                >
+                                    <Train size={16} />
+                                    近鐵特急線上訂票
+                                    <ExternalLink size={14} />
+                                </a>
+                            </div>
                         </SectionCard>
 
                         {/* VISON 巴士時刻表 */}
                         <SectionCard icon={Bus} title="VISON 巴士時刻表" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 {/* 松阪駅前 → VISON */}
                                 <div>
-                                    <h4 className="font-bold text-gray-700 mb-3 flex items-center gap-2">
-                                        <span className="text-indigo-600">【平日】</span>松阪駅前 → VISON
-                                    </h4>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">平日</span>
+                                        <h4 className="font-bold text-gray-800 text-sm">松阪駅前 → VISON</h4>
+                                    </div>
                                     <div className="overflow-x-auto">
-                                        <table className="w-full text-sm border-collapse whitespace-nowrap">
+                                        <table className="w-full text-sm border-collapse">
                                             <thead>
-                                                <tr className="bg-gray-50 text-gray-600">
-                                                    <th className="p-2 text-left font-medium border-b">行先</th>
-                                                    <th className="p-2 text-center font-medium border-b">おおだい</th>
-                                                    <th className="p-2 text-center font-medium border-b">VISON</th>
-                                                    <th className="p-2 text-center font-medium border-b">おおだい</th>
-                                                    <th className="p-2 text-center font-medium border-b bg-indigo-50">VISON</th>
-                                                    <th className="p-2 text-center font-medium border-b bg-indigo-50">VISON</th>
-                                                    <th className="p-2 text-center font-medium border-b">おおだい</th>
-                                                    <th className="p-2 text-center font-medium border-b">VISON</th>
-                                                    <th className="p-2 text-center font-medium border-b">三瀬谷</th>
-                                                    <th className="p-2 text-center font-medium border-b">VISON</th>
+                                                <tr className="bg-gray-50">
+                                                    <th className="p-2 text-left font-medium text-gray-600 border-b">出發</th>
+                                                    <th className="p-2 text-left font-medium text-gray-600 border-b">抵達</th>
+                                                    <th className="p-2 text-left font-medium text-gray-600 border-b">車程</th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="text-gray-700">
-                                                <tr className="border-b">
-                                                    <td className="p-2 font-medium">松阪駅前 発</td>
-                                                    <td className="p-2 text-center">8:05</td>
-                                                    <td className="p-2 text-center">9:30</td>
-                                                    <td className="p-2 text-center">10:25</td>
-                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">12:45</td>
-                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">13:20</td>
-                                                    <td className="p-2 text-center">14:45</td>
-                                                    <td className="p-2 text-center">15:45</td>
-                                                    <td className="p-2 text-center">17:05</td>
-                                                    <td className="p-2 text-center">18:05</td>
-                                                </tr>
-                                                <tr className="border-b text-gray-400">
-                                                    <td className="p-2"></td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center bg-indigo-50">↓</td>
-                                                    <td className="p-2 text-center bg-indigo-50">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 font-medium">VISON 着</td>
-                                                    <td className="p-2 text-center">8:55</td>
-                                                    <td className="p-2 text-center">10:12</td>
-                                                    <td className="p-2 text-center">11:07</td>
-                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">13:27</td>
-                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">14:02</td>
-                                                    <td className="p-2 text-center">15:27</td>
-                                                    <td className="p-2 text-center">16:27</td>
-                                                    <td className="p-2 text-center">17:51</td>
-                                                    <td className="p-2 text-center">18:47</td>
-                                                </tr>
+                                            <tbody>
+                                                {[
+                                                    ['8:05', '8:55', '50分'],
+                                                    ['9:30', '10:12', '42分'],
+                                                    ['10:25', '11:07', '42分'],
+                                                    ['12:45', '13:27', '42分', true],
+                                                    ['13:20', '14:02', '42分', true],
+                                                    ['14:45', '15:27', '42分'],
+                                                    ['15:45', '16:27', '42分'],
+                                                    ['17:05', '17:51', '46分'],
+                                                    ['18:05', '18:47', '42分'],
+                                                ].map(([dep, arr, dur, rec], idx) => (
+                                                    <tr key={idx} className={`border-b border-gray-100 ${rec ? 'bg-indigo-50' : 'hover:bg-gray-50'}`}>
+                                                        <td className={`p-2 ${rec ? 'font-bold text-indigo-600' : 'text-gray-700'}`}>{dep}</td>
+                                                        <td className={`p-2 ${rec ? 'font-bold text-indigo-600' : 'text-gray-700'}`}>{arr}</td>
+                                                        <td className="p-2 text-gray-500 text-xs">{dur}</td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </table>
                                     </div>
@@ -964,51 +1020,36 @@ export default function App() {
 
                                 {/* VISON → 松阪駅前 */}
                                 <div>
-                                    <h4 className="font-bold text-gray-700 mb-3 flex items-center gap-2">
-                                        <span className="text-indigo-600">【平日】</span>VISON → 松阪駅前
-                                    </h4>
+                                    <div className="flex items-center gap-2 mb-2">
+                                        <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">平日</span>
+                                        <h4 className="font-bold text-gray-800 text-sm">VISON → 松阪駅前</h4>
+                                    </div>
                                     <div className="overflow-x-auto">
-                                        <table className="w-full text-sm border-collapse whitespace-nowrap">
+                                        <table className="w-full text-sm border-collapse">
                                             <thead>
-                                                <tr className="bg-gray-50 text-gray-600">
-                                                    <th className="p-2 text-left font-medium border-b">行先</th>
-                                                    <th className="p-2 text-center font-medium border-b" colSpan="7">松阪駅前</th>
+                                                <tr className="bg-gray-50">
+                                                    <th className="p-2 text-left font-medium text-gray-600 border-b">出發</th>
+                                                    <th className="p-2 text-left font-medium text-gray-600 border-b">抵達</th>
+                                                    <th className="p-2 text-left font-medium text-gray-600 border-b">車程</th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="text-gray-700">
-                                                <tr className="border-b">
-                                                    <td className="p-2 font-medium">VISON 発</td>
-                                                    <td className="p-2 text-center">10:23</td>
-                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">11:00</td>
-                                                    <td className="p-2 text-center">12:23</td>
-                                                    <td className="p-2 text-center">14:00</td>
-                                                    <td className="p-2 text-center">15:28</td>
-                                                    <td className="p-2 text-center">16:40</td>
-                                                    <td className="p-2 text-center">17:08</td>
-                                                    <td className="p-2 text-center">19:05</td>
-                                                </tr>
-                                                <tr className="border-b text-gray-400">
-                                                    <td className="p-2"></td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center bg-indigo-50">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                    <td className="p-2 text-center">↓</td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 font-medium">松阪駅前 着</td>
-                                                    <td className="p-2 text-center">11:06</td>
-                                                    <td className="p-2 text-center bg-indigo-50 font-bold text-indigo-600">11:43</td>
-                                                    <td className="p-2 text-center">13:06</td>
-                                                    <td className="p-2 text-center">14:43</td>
-                                                    <td className="p-2 text-center">16:11</td>
-                                                    <td className="p-2 text-center">17:23</td>
-                                                    <td className="p-2 text-center">18:02</td>
-                                                    <td className="p-2 text-center">19:48</td>
-                                                </tr>
+                                            <tbody>
+                                                {[
+                                                    ['10:23', '11:06', '43分'],
+                                                    ['11:00', '11:43', '43分', true],
+                                                    ['12:23', '13:06', '43分'],
+                                                    ['14:00', '14:43', '43分'],
+                                                    ['15:28', '16:11', '43分'],
+                                                    ['16:40', '17:23', '43分'],
+                                                    ['17:08', '18:02', '54分'],
+                                                    ['19:05', '19:48', '43分'],
+                                                ].map(([dep, arr, dur, rec], idx) => (
+                                                    <tr key={idx} className={`border-b border-gray-100 ${rec ? 'bg-indigo-50' : 'hover:bg-gray-50'}`}>
+                                                        <td className={`p-2 ${rec ? 'font-bold text-indigo-600' : 'text-gray-700'}`}>{dep}</td>
+                                                        <td className={`p-2 ${rec ? 'font-bold text-indigo-600' : 'text-gray-700'}`}>{arr}</td>
+                                                        <td className="p-2 text-gray-500 text-xs">{dur}</td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </table>
                                     </div>
@@ -1016,7 +1057,9 @@ export default function App() {
 
                                 <div className="p-3 bg-amber-50 rounded-lg text-sm text-amber-700 flex items-start gap-2">
                                     <AlertCircle size={16} className="mt-0.5 shrink-0" />
-                                    <div>平日時刻表，假日班次可能不同。建議出發前至<a href="https://vison.jp/access/" target="_blank" rel="noopener noreferrer" className="underline font-bold">VISON 官網</a>確認。</div>
+                                    <div>
+                                        <span className="font-bold text-indigo-600">藍色</span>為推薦班次。平日時刻表，假日班次可能不同。建議出發前至<a href="https://vison.jp/access/" target="_blank" rel="noopener noreferrer" className="underline font-bold">VISON 官網</a>確認。
+                                    </div>
                                 </div>
                             </div>
                         </SectionCard>
