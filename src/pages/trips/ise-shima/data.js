@@ -130,7 +130,7 @@ export const itineraryData = [
         image: "https://images.unsplash.com/photo-1612404834746-1ffba06de133?q=80&w=2070&auto=format&fit=crop",
         time: "11:00 - 20:00",
         activities: [
-          { time: "11:00", text: "購物：梅田商圈", subText: "LUCUA / Yodobashi / Grand Front", map: { query: "LUCUA Osaka" } },
+          { time: "11:00", text: "購物：梅田商圈", subText: "LUCUA: TRUFFLE(2F), Daniel(1F), PBS(B1) / 大丸: HARBS(6F)", map: { query: "LUCUA Osaka" } },
           { time: "13:00", text: "午餐：梅田商國", foodGuideLink: "大阪 梅田" },
           { time: "17:00", text: "樂園：USJ 環球影城", tips: "善用 Single Rider 節省時間", map: { query: "Universal Studios Japan" } },
           { time: "20:00", text: "晚餐：園區內或 Citywalk", foodGuideLink: "USJ 環球影城" },
@@ -372,10 +372,14 @@ export const foodData = {
           ],
         },
         {
-          title: "🍰 甜點",
+          title: "🍰 甜點/麵包",
           items: [
-            { name: "HARBS 大丸梅田店", type: "蛋糕", desc: "招牌水果千層蛋糕", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+大丸梅田店" },
+            { name: "HARBS 大丸梅田店", type: "蛋糕", desc: "招牌水果千層蛋糕 (大丸梅田 6F)", recommended: true, mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+大丸梅田店" },
             { name: "HARBS Diamor大阪店", type: "蛋糕", desc: "地下街分店，同款美味", mapUrl: "https://www.google.com/maps/search/?api=1&query=HARBS+Diamor大阪店" },
+            { name: "Orange Fields Bread Factory", type: "法式吐司", desc: "天神橋筋商店街，超厚法式吐司", mapUrl: "https://www.google.com/maps/search/?api=1&query=Orange+Fields+Bread+Factory" },
+            { name: "TRUFFLE mini LUCUA", type: "麵包", desc: "白松露鹽可頌 (LUCUA 1100 2F)", mapUrl: "https://www.google.com/maps/search/?api=1&query=TRUFFLE+mini+LUCUA" },
+            { name: "PRESS BUTTER SAND", type: "伴手禮", desc: "焦糖奶油夾心餅 (LUCUA B1F)", mapUrl: "https://www.google.com/maps/search/?api=1&query=PRESS+BUTTER+SAND+LUCUA" },
+            { name: "Daniel", type: "可麗露", desc: "神戶人氣可麗露 (LUCUA 1F)", mapUrl: "https://www.google.com/maps/search/?api=1&query=Daniel+LUCUA" },
           ],
         },
       ],
