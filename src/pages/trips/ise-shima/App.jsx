@@ -130,24 +130,52 @@ const StrategySection = ({ forceOpen }) => (
             <div>
                 <h4 className="font-medium text-gray-600 mb-2 text-sm">✈️ 航班資訊</h4>
                 <div className="grid md:grid-cols-2 gap-3">
-                    <div className="p-3 bg-white rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between text-sm font-medium text-gray-800 mb-1">
-                            <span>去程</span>
-                            <span className="text-xs text-gray-500">01/11 (日)</span>
+                    {/* 去程 */}
+                    <div className="p-4 bg-white rounded-lg border border-gray-200">
+                        <div className="flex items-center justify-between mb-3">
+                            <span className="text-sm font-medium text-gray-800">去程</span>
+                            <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">泰國獅航 SL396</span>
                         </div>
-                        <div className="text-sm text-gray-600">
-                            <span className="font-mono text-gray-400">待確認</span>
-                            {/* TODO: 例如 JL805 TPE 09:00 → KIX 12:40 */}
+                        <div className="flex items-center justify-between">
+                            <div className="text-center">
+                                <div className="text-lg font-bold text-gray-800">09:00</div>
+                                <div className="text-xs text-gray-500">TPE 桃園</div>
+                            </div>
+                            <div className="flex-1 flex flex-col items-center px-3">
+                                <div className="text-xs text-gray-400 mb-1">3h30m</div>
+                                <div className="w-full h-px bg-gray-300 relative">
+                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
+                                </div>
+                                <div className="text-xs text-gray-400 mt-1">01/11 (日)</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-lg font-bold text-gray-800">12:30</div>
+                                <div className="text-xs text-gray-500">KIX 關西</div>
+                            </div>
                         </div>
                     </div>
-                    <div className="p-3 bg-white rounded-lg border border-gray-200">
-                        <div className="flex items-center justify-between text-sm font-medium text-gray-800 mb-1">
-                            <span>回程</span>
-                            <span className="text-xs text-gray-500">01/21 (三)</span>
+                    {/* 回程 */}
+                    <div className="p-4 bg-white rounded-lg border border-gray-200">
+                        <div className="flex items-center justify-between mb-3">
+                            <span className="text-sm font-medium text-gray-800">回程</span>
+                            <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">國泰航空 CX565</span>
                         </div>
-                        <div className="text-sm text-gray-600">
-                            <span className="font-mono text-gray-400">待確認</span>
-                            {/* TODO: 例如 MM028 KIX 19:30 → TPE 21:45 */}
+                        <div className="flex items-center justify-between">
+                            <div className="text-center">
+                                <div className="text-lg font-bold text-gray-800">16:15</div>
+                                <div className="text-xs text-gray-500">KIX 關西</div>
+                            </div>
+                            <div className="flex-1 flex flex-col items-center px-3">
+                                <div className="text-xs text-gray-400 mb-1">2h15m</div>
+                                <div className="w-full h-px bg-gray-300 relative">
+                                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
+                                </div>
+                                <div className="text-xs text-gray-400 mt-1">01/21 (三)</div>
+                            </div>
+                            <div className="text-center">
+                                <div className="text-lg font-bold text-gray-800">18:30</div>
+                                <div className="text-xs text-gray-500">TPE 桃園</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -156,7 +184,7 @@ const StrategySection = ({ forceOpen }) => (
             {/* 主題亮點 */}
             <div>
                 <h4 className="font-medium text-gray-600 mb-2 text-sm">🌸 主題亮點</h4>
-                <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+                <div className="flex flex-wrap gap-2">
                     {[
                         { icon: '⛩️', text: '伊勢神宮' },
                         { icon: '🛍️', text: 'VISON' },
@@ -165,13 +193,13 @@ const StrategySection = ({ forceOpen }) => (
                         { icon: '🌿', text: '空庭溫泉' },
                         { icon: '🥗', text: '素食友善' },
                     ].map((item, idx) => (
-                        <div
+                        <span
                             key={idx}
-                            className="flex flex-col items-center p-3 bg-gradient-to-b from-white to-gray-50 rounded-xl border border-gray-100 shadow-sm"
+                            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-full text-sm text-gray-700"
                         >
-                            <span className="text-2xl mb-1">{item.icon}</span>
-                            <span className="text-xs font-medium text-gray-700 text-center">{item.text}</span>
-                        </div>
+                            <span>{item.icon}</span>
+                            <span>{item.text}</span>
+                        </span>
                     ))}
                 </div>
             </div>
