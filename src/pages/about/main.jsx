@@ -28,6 +28,14 @@ const AboutPage = () => {
                 </div>
             </div>
 
+            {/* AI Application Showcase */}
+            <div className="mb-4">
+                <h2 className="mb-2 font-bold text-xl border-b-2 border-[#0f380f]">AI 應用展示</h2>
+                <a href="../tools/stock-analyzer/?booted=true#booted" className="gb-btn menu-item">
+                    🤖 台股分析自動化
+                </a>
+            </div>
+
             {/* Menu */}
             <div className="flex-grow overflow-y-auto pr-1" id="menu-container">
                 <a href="../?booted=true#booted" className="gb-btn menu-item">

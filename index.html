@@ -68,7 +68,35 @@
         opacity: 0.5;
       }
     }
+
+    /* 淡出過渡 - 解決 React mount 閃爍 */
+    .loading-container {
+      transition: opacity 0.3s ease-out;
+    }
+
+    .loading-container.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
   </style>
+  <script>
+    // 在 React mount 前觸發淡出，避免閃爍
+    window.addEventListener('DOMContentLoaded', () => {
+      const loader = document.querySelector('.loading-container');
+      if (loader) {
+        // 監聽 React root 變化
+        const observer = new MutationObserver((mutations, obs) => {
+          // 當 React 插入新內容時觸發淡出
+          if (document.querySelector('.gb-shell')) {
+            loader.classList.add('fade-out');
+            setTimeout(() => loader.remove(), 300);
+            obs.disconnect();
+          }
+        });
+        observer.observe(document.getElementById('root'), { childList: true, subtree: true });
+      }
+    });
+  </script>
 </head>
 
 <body>
