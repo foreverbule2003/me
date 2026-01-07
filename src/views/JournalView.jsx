@@ -201,14 +201,33 @@ const JournalView = ({ onSetActions, onLoadState }) => {
 
     const handleSave = async (data) => {
         try {
+            // Sanitize data to ensure no undefined values
+            const payload = {
+                title: data.title || '無標題',
+                content: data.content || '',
+                mood: data.mood || '💡',
+                tags: Array.isArray(data.tags) ? data.tags : [],
+                codeSnippet: data.codeSnippet || '',
+                updatedAt: serverTimestamp()
+            };
+
+            console.log('Saving entry:', { id: data.id, payload });
+
             if (data.id) {
-                await updateDoc(doc(db, 'journal_entries', data.id), { ...data, updatedAt: serverTimestamp() });
+                await updateDoc(doc(db, 'journal_entries', data.id), payload);
             } else {
-                await addDoc(collection(db, 'journal_entries'), { ...data, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
+                // Explicitly reconstruct object for addDoc
+                await addDoc(collection(db, 'journal_entries'), {
+                    ...payload,
+                    createdAt: serverTimestamp()
+                });
             }
             setIsModalOpen(false);
             setEditingEntry(null);
-        } catch (error) { console.error('Error saving entry:', error); alert('儲存失敗'); }
+        } catch (error) {
+            console.error('Error saving entry:', error);
+            alert('儲存失敗：' + (error.message || '未知錯誤'));
+        }
     };
 
     const handleDelete = async (id) => {
