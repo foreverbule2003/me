@@ -251,39 +251,35 @@ const JournalPage = () => {
 
     const handleSave = async (data) => {
         try {
+            // Sanitize data to ensure no undefined values
+            const payload = {
+                title: data.title || '無標題',
+                content: data.content || '',
+                mood: data.mood || '💡',
+                tags: Array.isArray(data.tags) ? data.tags : [],
+                codeSnippet: data.codeSnippet || '',
+                updatedAt: serverTimestamp()
+            };
+
+            console.log('Saving entry:', { id: data.id, payload });
+
             if (data.id) {
                 // Update existing
-                await updateDoc(
-                    doc(db, 'journal_entries', data.id),
-                    {
-                        title: data.title,
-                        content: data.content,
-                        mood: data.mood,
-                        tags: data.tags,
-                        codeSnippet: data.codeSnippet,
-                        updatedAt: serverTimestamp()
-                    }
-                );
+                await updateDoc(doc(db, 'journal_entries', data.id), payload);
             } else {
                 // Create new
-                await addDoc(
-                    collection(db, 'journal_entries'),
-                    {
-                        title: data.title,
-                        content: data.content,
-                        mood: data.mood,
-                        tags: data.tags,
-                        codeSnippet: data.codeSnippet,
-                        createdAt: serverTimestamp(),
-                        updatedAt: serverTimestamp()
-                    }
-                );
+                // Explicitly reconstruct object to ensure no hidden 'id' or undefined fields
+                await addDoc(collection(db, 'journal_entries'), {
+                    ...payload,
+                    createdAt: serverTimestamp()
+                });
             }
             setIsModalOpen(false);
             setEditingEntry(null);
+            // Relaxed reload to just refresh list
         } catch (error) {
             console.error('Error saving entry:', error);
-            alert('儲存失敗，請稍後再試');
+            alert('儲存失敗：' + (error.message || '未知錯誤'));
         }
     };
 
