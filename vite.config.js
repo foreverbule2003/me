@@ -5,26 +5,20 @@ import { resolve } from 'path';
 export default defineConfig({
     plugins: [react()],
 
-    // 多頁面應用設定
+    // 多頁面與單頁面混合設定
     build: {
         rollupOptions: {
             input: {
-                // 主頁
+                // 主入口 (SPA)
                 main: resolve(__dirname, 'index.html'),
-                // About
-                about: resolve(__dirname, 'about/index.html'),
-                // Trips
-                trips: resolve(__dirname, 'trips/index.html'),
+                
+                // 尚未遷移為 SPA 的遺留頁面或子頁面
                 'trips-ise-shima': resolve(__dirname, 'trips/2026-ise-shima/index.html'),
                 'trips-hokkaido': resolve(__dirname, 'trips/2026-hokkaido/index.html'),
                 'trips-cebu': resolve(__dirname, 'trips/2025-cebu/index.html'),
                 'trips-osaka': resolve(__dirname, 'trips/2025-osaka/index.html'),
-                // Tools
-                tools: resolve(__dirname, 'tools/index.html'),
                 'tools-options': resolve(__dirname, 'tools/bull-put-spread.html'),
                 'tools-dashboard': resolve(__dirname, 'tools/financial-dashboard.html'),
-                // Journal
-                journal: resolve(__dirname, 'journal/index.html'),
             },
         },
     },

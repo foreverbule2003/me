@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
-import { GameBoyShell } from '../../components/GameBoyShell.jsx';
-import '../../../assets/gb-theme.css';
+import { useNavigate } from 'react-router-dom';
 import {
     db,
     auth,
@@ -9,7 +7,6 @@ import {
     collection,
     doc,
     addDoc,
-    getDocs,
     updateDoc,
     deleteDoc,
     orderBy,
@@ -19,11 +16,10 @@ import {
     signInWithPopup,
     signOut,
     onAuthStateChanged
-} from '../../lib/firebase.js';
+} from '../lib/firebase.js';
 
 const MOODS = ['🤯', '💡', '🔥', '😅', '🤔', '✨', '🎉', '😤'];
 
-// Journal Entry Card
 const JournalCard = ({ entry, onView, onEdit, onDelete, canEdit }) => {
     const date = entry.createdAt?.toDate?.() || new Date();
     const dateStr = date.toLocaleDateString('zh-TW', { month: 'short', day: 'numeric' });
@@ -64,8 +60,7 @@ const JournalCard = ({ entry, onView, onEdit, onDelete, canEdit }) => {
     );
 };
 
-// Edit/Create Modal
-const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
+const JournalModal = ({ entry, onSave, onClose, mode }) => {
     const [title, setTitle] = useState(entry?.title || '');
     const [content, setContent] = useState(entry?.content || '');
     const [mood, setMood] = useState(entry?.mood || '💡');
@@ -83,7 +78,6 @@ const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
         });
     };
 
-    // Read-Only Mode (View Mode)
     if (mode === 'view' && entry) {
         return (
             <div className="journal-modal" onClick={onClose}>
@@ -95,11 +89,9 @@ const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
                         </div>
                         <button onClick={onClose} className="text-xl font-bold hover:text-red-600 px-2">✕</button>
                     </div>
-
                     <div className="mb-6 whitespace-pre-wrap font-mono min-h-[100px] text-sm leading-relaxed">
                         {entry.content}
                     </div>
-
                     {entry.tags && entry.tags.length > 0 && (
                         <div className="mb-4">
                             {entry.tags.map((tag, i) => (
@@ -107,13 +99,11 @@ const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
                             ))}
                         </div>
                     )}
-
                     {entry.codeSnippet && (
                         <div className="bg-gray-100 p-3 border-2 border-[#0f380f] font-mono text-xs overflow-x-auto mb-4 rounded">
                             <pre>{entry.codeSnippet}</pre>
                         </div>
                     )}
-
                     <div className="text-right text-xs opacity-50">
                         {entry.createdAt?.toDate?.().toLocaleString('zh-TW') || ''}
                     </div>
@@ -128,14 +118,12 @@ const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
                 <h3 className="font-bold text-lg mb-4 border-b-2 border-[#0f380f] pb-2">
                     {entry?.id ? '編輯日記' : '新增日記'}
                 </h3>
-
                 <input
                     className="journal-input"
                     placeholder="標題..."
                     value={title}
                     onChange={e => setTitle(e.target.value)}
                 />
-
                 <div className="mb-2">
                     <label className="text-xs font-bold">心情：</label>
                     <div className="flex flex-wrap gap-1 mt-1">
@@ -148,21 +136,18 @@ const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
                         ))}
                     </div>
                 </div>
-
                 <textarea
                     className="journal-textarea"
                     placeholder="今天學到了什麼？有什麼想法？"
                     value={content}
                     onChange={e => setContent(e.target.value)}
                 />
-
                 <input
                     className="journal-input"
                     placeholder="標籤 (逗號分隔，如: React, AI, 重構)"
                     value={tags}
                     onChange={e => setTags(e.target.value)}
                 />
-
                 <textarea
                     className="journal-textarea"
                     style={{ minHeight: '60px', fontFamily: 'monospace', fontSize: '12px' }}
@@ -170,213 +155,128 @@ const JournalModal = ({ entry, onSave, onClose, canEdit, mode }) => {
                     value={codeSnippet}
                     onChange={e => setCodeSnippet(e.target.value)}
                 />
-
                 <div className="flex gap-2 mt-4">
-                    <button
-                        className="gb-btn flex-1 text-center"
-                        onClick={handleSave}
-                    >💾 儲存</button>
-                    <button
-                        className="gb-btn flex-1 text-center opacity-70"
-                        onClick={onClose}
-                    >取消</button>
+                    <button className="gb-btn flex-1 text-center" onClick={handleSave}>💾 儲存</button>
+                    <button className="gb-btn flex-1 text-center opacity-70" onClick={onClose}>取消</button>
                 </div>
             </div>
         </div>
     );
 };
 
-// Main Journal Page
-const JournalPage = () => {
+const JournalView = ({ onSetActions, onLoadState }) => {
     const [entries, setEntries] = useState([]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingEntry, setEditingEntry] = useState(null);
-    const [modalMode, setModalMode] = useState('view'); // 'view' or 'edit'
+    const [modalMode, setModalMode] = useState('view');
     const [isLoading, setIsLoading] = useState(true);
     const [user, setUser] = useState(null);
     const [authLoading, setAuthLoading] = useState(true);
-    const [isMinLoad, setIsMinLoad] = useState(true);
+    const navigate = useNavigate();
 
-    // Minimum Loading Time for UX Consistency
-    useEffect(() => {
-        const timer = setTimeout(() => setIsMinLoad(false), 800);
-        return () => clearTimeout(timer);
-    }, []);
-
-    // Listen to auth state
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
             setUser(currentUser);
             setAuthLoading(false);
         });
+        return () => unsubscribe();
+    }, []);
 
+    useEffect(() => {
+        const q = query(collection(db, 'journal_entries'), orderBy('createdAt', 'desc'));
+        const unsubscribe = onSnapshot(q, (snapshot) => {
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setEntries(data);
+            setIsLoading(false);
+        });
         return () => unsubscribe();
     }, []);
 
     const handleLogin = async () => {
-        try {
-            await signInWithPopup(auth, googleProvider);
-        } catch (error) {
-            console.error('Login error:', error);
-            alert('登入失敗：' + error.message);
-        }
+        try { await signInWithPopup(auth, googleProvider); }
+        catch (error) { console.error('Login error:', error); alert('登入失敗：' + error.message); }
     };
 
-    const handleLogout = async () => {
-        try {
-            await signOut(auth);
-        } catch (error) {
-            console.error('Logout error:', error);
-        }
-    };
-
-    // Subscribe to entries
-    useEffect(() => {
-        const q = query(
-            collection(db, 'journal_entries'),
-            orderBy('createdAt', 'desc')
-        );
-
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-            const data = snapshot.docs.map(doc => ({
-                id: doc.id,
-                ...doc.data()
-            }));
-            setEntries(data);
-            setIsLoading(false);
-        });
-
-        return () => unsubscribe();
-    }, []);
+    const handleLogout = async () => { try { await signOut(auth); } catch (error) { console.error('Logout error:', error); } };
 
     const handleSave = async (data) => {
         try {
             if (data.id) {
-                // Update existing
-                await updateDoc(
-                    doc(db, 'journal_entries', data.id),
-                    {
-                        title: data.title,
-                        content: data.content,
-                        mood: data.mood,
-                        tags: data.tags,
-                        codeSnippet: data.codeSnippet,
-                        updatedAt: serverTimestamp()
-                    }
-                );
+                await updateDoc(doc(db, 'journal_entries', data.id), { ...data, updatedAt: serverTimestamp() });
             } else {
-                // Create new
-                await addDoc(
-                    collection(db, 'journal_entries'),
-                    {
-                        title: data.title,
-                        content: data.content,
-                        mood: data.mood,
-                        tags: data.tags,
-                        codeSnippet: data.codeSnippet,
-                        createdAt: serverTimestamp(),
-                        updatedAt: serverTimestamp()
-                    }
-                );
+                await addDoc(collection(db, 'journal_entries'), { ...data, createdAt: serverTimestamp(), updatedAt: serverTimestamp() });
             }
             setIsModalOpen(false);
             setEditingEntry(null);
-        } catch (error) {
-            console.error('Error saving entry:', error);
-            alert('儲存失敗，請稍後再試');
-        }
+        } catch (error) { console.error('Error saving entry:', error); alert('儲存失敗'); }
     };
 
     const handleDelete = async (id) => {
         if (!confirm('確定要刪除這篇日記嗎？')) return;
-
-        try {
-            await deleteDoc(doc(db, 'journal_entries', id));
-        } catch (error) {
-            console.error('Error deleting entry:', error);
-            alert('刪除失敗');
-        }
-    };
-
-    const openView = (entry) => {
-        setEditingEntry(entry);
-        setModalMode('view');
-        setIsModalOpen(true);
-    };
-
-    const openEdit = (entry) => {
-        setEditingEntry(entry);
-        setModalMode('edit');
-        setIsModalOpen(true);
-    };
-
-    const openCreate = () => {
-        setEditingEntry(null);
-        setModalMode('edit');
-        setIsModalOpen(true);
+        try { await deleteDoc(doc(db, 'journal_entries', id)); }
+        catch (error) { console.error('Error deleting entry:', error); alert('刪除失敗'); }
     };
 
     const handleBack = () => {
-        if (isModalOpen) {
-            setIsModalOpen(false);
-            setEditingEntry(null);
-        } else {
-            window.location.href = '../?booted=true#booted';
-        }
+        if (isModalOpen) { setIsModalOpen(false); setEditingEntry(null); }
+        else { navigate('/'); }
     };
 
-    const handleCreateShortcut = () => {
-        if (!isModalOpen && user) {
-            openCreate();
-        }
-    };
+    const openCreate = () => { setEditingEntry(null); setModalMode('edit'); setIsModalOpen(true); };
+
+    useEffect(() => {
+        onSetActions({
+            onBack: handleBack,
+            onStart: () => { if (!isModalOpen && user) openCreate(); },
+            onSelect: () => { },
+            onUp: () => { },
+            onDown: () => { },
+        });
+    }, [isModalOpen, user, navigate, onSetActions]);
+
+    // Lift loading state up
+    useEffect(() => {
+        onLoadState(isLoading);
+    }, [isLoading, onLoadState]);
 
     return (
-        <GameBoyShell headless={true}
-            isLoading={isLoading || isMinLoad}
-            activePage="journal"
-            onBack={handleBack}
-            // Optional: Map 'Start' or 'Select' to create new if logged in
-            onStart={handleCreateShortcut}
-        >
+        <>
             {/* Header */}
             <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
                 <div>
-                    <h1 className="text-xl font-bold">📓 JOURNAL</h1>
-                    <p className="text-xs">
-                        {user ? `Hi, ${user.displayName?.split(' ')[0] || 'User'}` : 'Vibe Coding Diary'}
-                    </p>
+                    <h1 className="text-2xl font-bold">TimZ</h1>
+                    <p className="text-sm">STATUS: ONLINE</p>
                 </div>
                 <div className="flex items-center gap-2">
                     {authLoading ? null : user ? (
                         <>
-                            <button
-                                className="gb-btn text-sm px-3"
-                                onClick={openCreate}
-                            >+ NEW</button>
+                            <button className="gb-btn text-sm px-3" onClick={openCreate}>+ NEW</button>
                             <button className="login-btn" onClick={handleLogout}>登出</button>
                         </>
                     ) : (
-                        <button className="login-btn" onClick={handleLogin}>🔑 登入</button>
+                        <button className="login-btn" onClick={handleLogin}>登入</button>
                     )}
                 </div>
             </div>
 
-            {/* Entry List */}
+            {/* Page Title */}
+            <div className="border-b-4 border-[#0f380f] pb-1 mb-4 flex justify-between items-end">
+                <div>
+                    <h2 className="text-xl font-bold">JOURNAL</h2>
+                    <p className="text-xs">{user ? `Hi, ${user.displayName?.split(' ')[0] || 'User'}` : 'Vibe Coding Diary'}</p>
+                </div>
+            </div>
+
             <div className="flex-grow overflow-y-auto pr-1" style={{ maxHeight: '200px' }}>
-                {isLoading ? (
-                    <div className="text-center py-4 text-sm">載入中...</div>
-                ) : entries.length === 0 ? (
-                    <div className="text-center py-4 text-sm opacity-70">
-                        還沒有任何日記<br />{user ? '點擊 +NEW 開始記錄！' : '登入後即可新增'}
-                    </div>
+                {entries.length === 0 ? (
+                    <div className="text-center py-4 text-sm opacity-70">還沒有任何日記<br />{user ? '點擊 +NEW 開始記錄！' : '登入後即可新增'}</div>
                 ) : (
                     entries.map(entry => (
                         <JournalCard
                             key={entry.id}
                             entry={entry}
-                            onView={openView}
-                            onEdit={openEdit}
+                            onView={(e) => { setEditingEntry(e); setModalMode('view'); setIsModalOpen(true); }}
+                            onEdit={(e) => { setEditingEntry(e); setModalMode('edit'); setIsModalOpen(true); }}
                             onDelete={handleDelete}
                             canEdit={!!user}
                         />
@@ -384,23 +284,18 @@ const JournalPage = () => {
                 )}
             </div>
 
-            {/* Back Button */}
-            <a href="../?booted=true#booted" className="gb-btn menu-item mt-4">
-                BACK
-            </a>
+            <div onClick={handleBack} className="gb-btn menu-item mt-4">BACK</div>
 
-            {/* Modal */}
             {isModalOpen && (
                 <JournalModal
                     entry={editingEntry}
                     onSave={handleSave}
                     onClose={() => { setIsModalOpen(false); setEditingEntry(null); }}
-                    canEdit={!!user}
                     mode={modalMode}
                 />
             )}
-        </GameBoyShell>
+        </>
     );
 };
 
-ReactDOM.createRoot(document.getElementById('root')).render(<JournalPage />);
+export default JournalView;

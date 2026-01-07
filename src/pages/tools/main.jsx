@@ -7,26 +7,36 @@ import avatarImg from '../../../assets/images/avatar.jpg';
 
 const ToolsPage = () => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    // Simulate Data Loading
+    React.useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 800);
+        return () => clearTimeout(timer);
+    }, []);
+
     const menuItems = [
-        { label: '財務儀表板', href: './financial-dashboard.html' },
-        { label: '期權策略模擬器', href: './bull-put-spread.html' },
-        { label: '台股分析自動化', href: './stock-analyzer/' },
+        { label: '財務儀表板', href: '/me/tools/financial-dashboard.html' },
+        { label: '期權策略模擬器', href: '/me/tools/bull-put-spread.html' },
+        { label: '台股分析自動化', href: '/me/tools/stock-analyzer/' },
         { label: '聯絡我', href: 'mailto:foreverbule2003@gmail.com' },
-        { label: 'BACK', href: '../?booted=true#booted', isBack: true },
+        { label: 'BACK', href: '/me/?booted=true', isBack: true },
     ];
 
     const handleUp = () => setSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
     const handleDown = () => setSelectedIndex(prev => (prev < menuItems.length - 1 ? prev + 1 : prev));
     const handleSelect = () => {
+        if (isLoading) return;
         const item = menuItems[selectedIndex];
         window.location.href = item.href;
     };
     const handleBack = () => {
-        window.location.href = '../?booted=true#booted';
+        window.location.href = '/me/?booted=true';
     };
 
     return (
-        <GameBoyShell
+        <GameBoyShell headless={true}
+            isLoading={isLoading}
             activePage="tools"
             onUp={handleUp}
             onDown={handleDown}

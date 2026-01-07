@@ -42,7 +42,7 @@ import { db, collection, doc, setDoc, deleteDoc, onSnapshot } from '../../../lib
 const Header = () => (
     <header className="relative w-full py-8 px-6 text-white overflow-hidden">
         <a
-            href="../../index.html?booted=true#booted"
+            href="/me/?booted=true"
             className="absolute top-4 left-4 z-50 p-2 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all border border-white/20 shadow-lg group"
             title="回到首頁"
         >

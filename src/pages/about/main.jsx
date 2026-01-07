@@ -7,6 +7,14 @@ import avatarImg from '../../../assets/images/avatar.jpg';
 
 const AboutPage = () => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [isLoading, setIsLoading] = React.useState(true);
+
+    // Simulate Data Loading
+    React.useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 800);
+        return () => clearTimeout(timer);
+    }, []);
+
     const menuItems = [
         { label: '🤖 台股分析自動化', href: '../tools/stock-analyzer/?booted=true#booted' },
         { label: 'BACK', href: '../?booted=true#booted', isBack: true },
@@ -15,6 +23,7 @@ const AboutPage = () => {
     const handleUp = () => setSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
     const handleDown = () => setSelectedIndex(prev => (prev < menuItems.length - 1 ? prev + 1 : prev));
     const handleSelect = () => {
+        if (isLoading) return;
         const item = menuItems[selectedIndex];
         window.location.href = item.href;
     };
@@ -23,7 +32,8 @@ const AboutPage = () => {
     };
 
     return (
-        <GameBoyShell
+        <GameBoyShell headless={true}
+            isLoading={isLoading}
             activePage="about"
             onUp={handleUp}
             onDown={handleDown}

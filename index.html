@@ -9,107 +9,199 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap" rel="stylesheet">
   <style>
-    /* 防止寬度跳動 */
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      background: #9bbc0f;
+    html, body {
+      margin: 0; padding: 0; background: #f0f0f0; overflow-x: hidden;
+    }
+    
+    .loading-container {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      min-height: 100vh; min-height: 100dvh; background: #f0f0f0;
+      font-family: 'DotGothic16', monospace; color: #0f380f; box-sizing: border-box; padding: 20px;
     }
 
-    /* 載入動畫 - 模擬 GameBoy Shell 佈局 */
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      min-height: 100dvh;
-      background: #9bbc0f;
-      font-family: 'DotGothic16', monospace;
-      color: #0f380f;
+    #root { width: 100%; height: 100%; }
+
+    /* GameBoy Shell - Exact Match to gb-theme.css */
+    .loading-gb-shell {
+      background-color: #ddd;
+      border-radius: 10px 10px 40px 10px;
+      padding: 40px 40px 60px 40px;
+      box-shadow: -5px 5px 15px rgba(0, 0, 0, 0.2), inset 2px 2px 5px rgba(255, 255, 255, 1), inset -2px -2px 5px rgba(0, 0, 0, 0.1);
+      width: 100%; 
+      max-width: 500px;
+      position: relative;
+      border: 2px solid #ccc;
       box-sizing: border-box;
     }
 
-    .loading-shell {
-      width: 320px;
-      max-width: 100%;
-      padding: 24px;
-      background: #9bbc0f;
-      border: 4px solid #0f380f;
-      border-radius: 16px;
-      text-align: center;
+    .loading-gb-top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 8px; padding: 0 5px;
     }
+    .loading-gb-text { color: #aaa; font-family: sans-serif; font-size: 10px; font-weight: bold; letter-spacing: 1px; }
+    .loading-battery { width: 8px; height: 8px; background: #aaa; border-radius: 50%; transition: all 0.3s; }
+    .loading-battery.on { background: #d00; box-shadow: 0 0 5px #d00; }
+
+    .sound-btn {
+        font-size:10px; padding:2px 6px; border-radius:4px; 
+        border:2px solid #888; background:#ddd; color:#555; 
+        font-weight:bold; cursor:pointer; font-family:sans-serif;
+        margin-right: 10px; white-space: nowrap;
+    }
+    .sound-btn:active { background: #fff; }
+
+    .loading-gb-bezel {
+      background-color: #555;
+      border-radius: 10px 10px 30px 10px;
+      padding: 20px 30px;
+      box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.5);
+      box-sizing: border-box;
+      margin-bottom: 30px;
+      position: relative;
+    }
+    
+    .loading-gb-screen {
+      background-color: #9bbc0f;
+      color: #0f380f; /* Add default text color */
+      background-image:
+        linear-gradient(#8bac0f 1px, transparent 1px),
+        linear-gradient(90deg, #8bac0f 1px, transparent 1px);
+      background-size: 3px 3px;
+      box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+      min-height: 480px; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      box-sizing: border-box;
+    }
+
+    .logo-text { 
+        font-family: sans-serif; font-weight: 800; font-style: italic; 
+        font-size: 18px; letter-spacing: 1px; color: #fff; opacity: 1;
+        text-align: center; margin-top: 6px; text-shadow: 2px 2px 3px rgba(0,0,0,0.5);
+    }
+
+    .loading-controls {
+      display: flex; justify-content: space-between; align-items: flex-end; padding: 0 10px;
+    }
+    .l-dpad { position: relative; width: 90px; height: 90px; }
+    .l-dpad-h { position: absolute; top: 30px; left: 0; width: 100%; height: 30px; background: #333; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+    .l-dpad-v { position: absolute; top: 0; left: 30px; width: 30px; height: 100%; background: #333; border-radius: 3px; box-shadow: 1px 1px 3px rgba(0,0,0,0.3); }
+    .l-dpad-c { position: absolute; top: 30px; left: 30px; width: 30px; height: 30px; background: radial-gradient(circle, #2a2a2a 20%, #333 80%); border-radius: 50%; }
+
+    .l-btns { display: flex; gap: 15px; transform: rotate(-15deg); margin-bottom: 10px; }
+    .l-btn { width: 35px; height: 35px; background: #8b1d3a; border-radius: 50%; box-shadow: 2px 3px 4px rgba(0,0,0,0.4); cursor: pointer; }
+    .l-btn-group { display: flex; flex-direction: column; align-items: center; }
+    .l-btn-label { font-size: 10px; font-weight: bold; color: #0f380f; margin-top: 5px; font-family: sans-serif; }
+
+    .loading-ss { display: flex; justify-content: center; gap: 20px; margin-top: 30px; }
+    .l-ss-btn { width: 50px; height: 12px; background: #999; border-radius: 8px; border: 1px solid #777; transform: rotate(-15deg); box-shadow: 1px 1px 2px rgba(0,0,0,0.2); cursor: pointer; }
+
+    .interactive-btn { position: absolute; cursor: pointer; z-index: 100; opacity: 0; }
 
     .loading-spinner {
-      width: 40px;
-      height: 40px;
-      margin: 0 auto;
-      border: 4px solid #0f380f;
-      border-top-color: transparent;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
+      width: 40px; height: 40px; border: 4px solid #0f380f; border-top-color: transparent; border-radius: 50%; animation: loading-spin 1s linear infinite;
     }
-
-    .loading-text {
-      margin-top: 16px;
-      font-size: 14px;
-      animation: blink 1s steps(2) infinite;
+    .loading-text { 
+      margin-top: 16px; font-size: 14px; letter-spacing: 2px; font-weight: bold;
+      animation: loading-blink 1s steps(2) infinite; 
     }
+    @keyframes loading-spin { to { transform: rotate(360deg); } }
+    @keyframes loading-blink { 50% { opacity: 0.5; } }
 
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
+    @media (max-width: 480px) {
+        .loading-gb-shell { padding: 20px 20px 40px 20px; border-radius: 10px 10px 20px 10px; }
+        .loading-gb-bezel { padding: 15px 20px; }
+        .loading-controls { transform: scale(0.9); transform-origin: center top; margin-top: 20px; }
+        .loading-ss { transform: scale(0.9); margin-top: 10px; }
     }
-
-    @keyframes blink {
-      50% {
-        opacity: 0.5;
-      }
+    
+    /* Stage 1: Initial White Overlay */
+    #initial-overlay {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: #ffffff; z-index: 9999;
+        display: flex; align-items: center; justify-content: center;
+        transition: opacity 0.5s ease-out;
     }
-
-    /* 淡出過渡 - 解決 React mount 閃爍 */
-    .loading-container {
-      transition: opacity 0.3s ease-out;
-    }
-
-    .loading-container.fade-out {
-      opacity: 0;
-      pointer-events: none;
+    #initial-overlay.fade-out { opacity: 0; pointer-events: none; }
+    .simple-spinner {
+        width: 40px; height: 40px; border: 4px solid #f3f3f3;
+        border-top: 4px solid #333; border-radius: 50%;
+        animation: spin 1s linear infinite;
     }
   </style>
   <script>
-    // 在 React mount 前觸發淡出，避免閃爍
-    window.addEventListener('DOMContentLoaded', () => {
-      const loader = document.querySelector('.loading-container');
-      if (loader) {
-        // 監聽 React root 變化
-        const observer = new MutationObserver((mutations, obs) => {
-          // 當 React 插入新內容時觸發淡出
-          if (document.querySelector('.gb-shell')) {
-            loader.classList.add('fade-out');
-            setTimeout(() => loader.remove(), 300);
-            obs.disconnect();
-          }
-        });
-        observer.observe(document.getElementById('root'), { childList: true, subtree: true });
-      }
-    });
+    // Optimizing Loading Flow: Skip White Overlay on subsequent visits
+    if (sessionStorage.getItem('site_visited')) {
+        var style = document.createElement('style');
+        style.innerHTML = '#initial-overlay { display: none !important; }';
+        document.head.appendChild(style);
+    }
   </script>
 </head>
-
 <body>
-  <div id="root">
-    <!-- 載入中提示 (React mount 後會被替換) -->
-    <div class="loading-container">
-      <div class="loading-shell">
-        <div class="loading-spinner"></div>
-        <div class="loading-text">LOADING...</div>
-      </div>
+  <!-- Stage 1 Overlay -->
+  <div id="initial-overlay"><div class="simple-spinner"></div></div>
+  <script>
+    window.addEventListener('load', () => {
+        // Mark site as visited
+        sessionStorage.setItem('site_visited', 'true');
+        
+        setTimeout(() => {
+            const overlay = document.getElementById('initial-overlay');
+            if (overlay) {
+                overlay.classList.add('fade-out');
+                setTimeout(() => overlay.remove(), 500);
+            }
+        }, 500); 
+    });
+  </script>
+  <div class="loading-container">
+    <div class="loading-gb-shell">
+        <div class="loading-gb-top">
+            <div class="loading-gb-text">DOT MATRIX WITH STEREO SOUND</div>
+            <div style="display:flex; align-items:center;">
+                <button class="sound-btn" onclick="window.dispatchEvent(new CustomEvent('gb-toggle-sound'))">SOUND</button>
+                <div class="loading-battery on"></div>
+                <div style="font-size:10px; color:#aaa; font-weight:bold; margin-left:5px; font-family:sans-serif;">BATTERY</div>
+            </div>
+        </div>
+        <div class="loading-gb-bezel">
+          <div class="loading-gb-screen">
+             <!-- ROOT MOUNT POINT -->
+             <div id="root">
+                <div style="height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">LOADING...</div>
+                </div>
+             </div>
+          </div>
+          <div class="logo-text">TimBoy</div>
+        </div>
+        <div class="loading-controls">
+            <div class="l-dpad">
+                <div class="l-dpad-h"></div><div class="l-dpad-v"></div><div class="l-dpad-c"></div>
+                <div class="interactive-btn" style="top:0; left:30px; width:30px; height:30px;" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 'ArrowUp'}))"></div>
+                <div class="interactive-btn" style="bottom:0; left:30px; width:30px; height:30px;" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 'ArrowDown'}))"></div>
+                <div class="interactive-btn" style="top:30px; left:0; width:30px; height:30px;" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 'ArrowLeft'}))"></div>
+                <div class="interactive-btn" style="top:30px; right:0; width:30px; height:30px;" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 'ArrowRight'}))"></div>
+            </div>
+            <div class="l-btns">
+                <div class="l-btn-group" style="margin-top: 15px;">
+                    <div class="l-btn" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Backspace'}))"></div>
+                    <div class="l-btn-label">B</div>
+                </div>
+                <div class="l-btn-group">
+                    <div class="l-btn" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Enter'}))"></div>
+                    <div class="l-btn-label">A</div>
+                </div>
+            </div>
+        </div>
+        <div class="loading-ss">
+            <div class="l-ss-btn" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 'Shift'}))"></div>
+            <div class="l-ss-btn" onclick="window.dispatchEvent(new KeyboardEvent('keydown', {'key': 's'}))"></div>
+        </div>
     </div>
   </div>
   <script type="module" src="/src/main.jsx"></script>
 </body>
-
 </html>

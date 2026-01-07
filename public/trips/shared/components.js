@@ -11,7 +11,7 @@
   "use strict";
 
   // === 1. 返回首頁按鈕 ===
-  const BackButton = ({ href = "../../index.html?booted=true#booted" }) => {
+  const BackButton = ({ href = "/me/?booted=true" }) => {
     const { ArrowRight } = window.TripShared.Icons;
 
     return React.createElement(

@@ -1,13 +1,3 @@
-/**
- * GameBoy Shell React Component (Vite ESM Version)
- * 
- * Handles:
- * - Boot Sequence (Animation + Sound)
- * - Audio Context Management (Web Audio API)
- * - Control Inputs (D-Pad, Buttons)
- * - Reusable UI Layout
- */
-
 import React, { useState, useEffect, useRef } from 'react';
 
 export const GameBoyShell = ({
@@ -20,17 +10,30 @@ export const GameBoyShell = ({
     onSelect, // A button
     onBack,   // B button
     onStart,  // Start button
-    onOp      // Select button
+    onOp,     // Select button
+    headless = false,
+    isLoading = false
 }) => {
+    // --- Boot Status Check ---
+    const checkBootStatus = () => {
+        if (headless) return true;
+        if (typeof window === 'undefined') return false;
+        return sessionStorage.getItem('gb_powered_on') === 'true' ||
+            window.location.search.includes('booted=true') ||
+            window.location.hash === '#booted';
+    };
+
+    const initialBooted = checkBootStatus();
+
     // --- Audio State ---
     const audioCtxRef = useRef(null);
     const [isMuted, setIsMuted] = useState(true);
-    const [isPoweredOn, setIsPoweredOn] = useState(false);
+    const [isPoweredOn, setIsPoweredOn] = useState(initialBooted);
 
     // --- Boot Sequence State ---
-    const [bootStep, setBootStep] = useState('off'); // off -> booting -> on
+    const [bootStep, setBootStep] = useState(initialBooted ? 'on' : 'off'); // off -> booting -> on
     const [showBootLogo, setShowBootLogo] = useState(false);
-    const [contentOpacity, setContentOpacity] = useState(0);
+    const [contentOpacity, setContentOpacity] = useState(initialBooted ? 1 : 0);
 
     // --- Audio Engine ---
     const initAudio = () => {
@@ -63,9 +66,9 @@ export const GameBoyShell = ({
         osc.stop(ctx.currentTime + duration);
     };
 
-    const playHover = () => playTone(400, 'square', 0.05, 0.05);
+    const playHover = () => playTone(200, 'square', 0.05, 0.05);
     const playClick = () => {
-        playTone(900, 'square', 0.1, 0.1);
+        playTone(400, 'square', 0.1, 0.1);
         setTimeout(() => playTone(1200, 'square', 0.2, 0.1), 100);
     };
     const playBootSound = () => {
@@ -153,6 +156,15 @@ export const GameBoyShell = ({
                     onBack && onBack();
                     playTone(150, 'square', 0.1, 0.1);
                     break;
+                case 's':
+                case 'S':
+                    onStart && onStart();
+                    playTone(200, 'square', 0.05, 0.05);
+                    break;
+                case 'Shift':
+                    onOp && onOp();
+                    playTone(200, 'square', 0.05, 0.05);
+                    break;
             }
         };
 
@@ -160,19 +172,12 @@ export const GameBoyShell = ({
         return () => window.removeEventListener('keydown', handleKeyDown);
     }, [isPoweredOn, onUp, onDown, onLeft, onRight, onSelect, onBack]);
 
-    // --- Boot Check Effect ---
+    // --- Headless Event Listeners ---
     useEffect(() => {
-        // Check if already booted in this session
-        const hasBooted = sessionStorage.getItem('gb_powered_on') ||
-            window.location.search.includes('booted=true') ||
-            window.location.hash === '#booted';
-
-        if (hasBooted) {
-            setIsPoweredOn(true);
-            setBootStep('on');
-            setContentOpacity(1);
-        }
-    }, []);
+        const handleCustomToggle = () => toggleSound();
+        window.addEventListener('gb-toggle-sound', handleCustomToggle);
+        return () => window.removeEventListener('gb-toggle-sound', handleCustomToggle);
+    }, [isMuted]); // Re-bind to capture current isMuted state
 
     // --- Render Helpers ---
     const DPad = () => (
@@ -188,19 +193,52 @@ export const GameBoyShell = ({
         </div>
     );
 
-    const ActionButton = ({ label, id, style }) => (
-        <div className="ab-btn-wrapper" style={style}>
-            <div
-                className="ab-btn"
-                id={id}
-                onMouseDown={() => {
-                    if (label === 'A') { onSelect && onSelect(); playTone(400, 'square', 0.1, 0.1); }
-                    else { onBack && onBack(); playTone(150, 'square', 0.1, 0.1); }
-                }}
-            ></div>
-            <div className="ab-label">{label}</div>
+    const ABButtons = ({ labelA, labelB }) => (
+        <div className="action-btns">
+            <div className="ab-btn-wrapper">
+                <div className="ab-btn" onMouseDown={() => { onSelect && onSelect(); playTone(400, 'square', 0.1, 0.1); }}></div>
+                <div className="ab-label">{labelA || 'A'}</div>
+            </div>
+            <div className="ab-btn-wrapper">
+                <div className="ab-btn" onMouseDown={() => { onBack && onBack(); playTone(150, 'square', 0.1, 0.1); }}></div>
+                <div className="ab-label">{labelB || 'B'}</div>
+            </div>
         </div>
     );
+
+    const StartSelectButtons = ({ labelStart, labelSelect }) => (
+        <div className="start-select-container">
+            <div className="ss-btn-wrapper">
+                <div className="ss-btn" onMouseDown={() => { onOp && onOp(); playTone(200, 'square', 0.05, 0.05); }}></div>
+                <div className="ss-label">{labelSelect || 'SELECT'}</div>
+            </div>
+            <div className="ss-btn-wrapper">
+                <div className="ss-btn" onMouseDown={() => { onStart && onStart(); playTone(200, 'square', 0.05, 0.05); }}></div>
+                <div className="ss-label">{labelStart || 'START'}</div>
+            </div>
+        </div>
+    );
+
+    if (headless) {
+        return (
+            <div style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
+                {isLoading && (
+                    <div style={{
+                        position: 'absolute', inset: 0,
+                        backgroundColor: '#9bbc0f', zIndex: 50,
+                        display: 'flex', flexDirection: 'column',
+                        alignItems: 'center', justifyContent: 'center',
+                    }}>
+                        <div className="loading-spinner"></div>
+                        <div className="loading-text">LOADING...</div>
+                    </div>
+                )}
+                <div style={{ opacity: isLoading ? 0 : 1, transition: 'opacity 0.3s', height: '100%' }}>
+                    {children}
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="gb-shell">
@@ -210,73 +248,54 @@ export const GameBoyShell = ({
                 <button
                     onClick={toggleSound}
                     className={`text-xs px-3 py-1 rounded shadow-md border-2 font-bold transition-all 
-            ${isMuted
+                            ${isMuted
                             ? 'bg-gray-300 text-gray-800 border-gray-500 animate-pulse hover:bg-white'
-                            : 'bg-orange-500 text-white border-red-700'}`}
+                            : 'bg-red-600 text-white border-red-800 hover:bg-red-500'}`}
                 >
-                    {isMuted ? "🔈 SOUND OFF" : "🔊 SOUND ON"}
+                    {isMuted ? 'SOUND OFF' : 'SOUND ON'}
                 </button>
             </div>
 
-            {/* Bezel & Screen */}
+            {/* Bezel */}
             <div className="gb-bezel">
-                {/* Battery Indicator */}
-                <div className="flex justify-between text-red-500 text-[10px] mb-1 px-2 items-center">
-                    <div className="w-2 h-2 rounded-full bg-red-600 animate-pulse shadow-[0_0_5px_red]"></div>
-                    <span>BATTERY</span>
+                <div className="flex space-x-2 mb-1 items-center">
+                    <div className={`w-3 h-3 rounded-full border border-gray-600 transition-colors duration-300 ${isPoweredOn ? 'bg-red-600 shadow-[0_0_8px_red]' : 'bg-gray-800'}`}></div>
+                    <span className="text-[10px] text-gray-500 font-bold">BATTERY</span>
                 </div>
 
+                {/* Screen */}
                 <div className="gb-screen-glass relative">
-                    {/* 1. Click Mask (Power On) */}
-                    {!isPoweredOn && (
-                        <div id="click-mask" onClick={handlePowerOn} style={{ display: 'flex' }}>
-                            <div className="power-icon">⏻</div>
-                            <div className="power-text">Click to Power On</div>
+                    {!isPoweredOn ? (
+                        <div className="absolute inset-0 bg-[#8b9c0f] opacity-20 flex items-center justify-center cursor-pointer" onClick={handlePowerOn}>
+                            <span className="text-[#0f380f] font-bold animate-pulse">CLICK TO POWER ON</span>
                         </div>
-                    )}
+                    ) : (
+                        <>
+                            {bootStep === 'booting' && (
+                                <div className={`absolute inset-0 z-50 flex items-center justify-center bg-[#9bbc0f] transition-opacity duration-1000 ${showBootLogo ? 'opacity-100' : 'opacity-0'}`}>
+                                    <h1 className="text-4xl font-bold tracking-widest text-[#0f380f] animate-bounce">Nintendo®</h1>
+                                </div>
+                            )}
 
-                    {/* 2. Boot Screen */}
-                    {bootStep === 'booting' && (
-                        <div id="boot-screen" style={{ display: 'flex', opacity: 1, transition: 'opacity 0.5s' }}>
-                            <div className={`boot-logo ${showBootLogo ? 'scrolling-down' : ''}`} id="boot-logo">
-                                TimBoy<span className="boot-registered">®</span>
+                            <div
+                                className="gb-content transition-opacity duration-500"
+                                style={{ opacity: contentOpacity }}
+                            >
+                                {children}
                             </div>
-                        </div>
+                        </>
                     )}
-
-                    {/* 3. Main Content */}
-                    <div className="gb-content" style={{ opacity: contentOpacity, transition: 'opacity 0.5s' }}>
-                        {children}
-                    </div>
-                </div>
-
-                <div className="text-center italic text-gray-400 font-bold mt-2 text-xl tracking-[0.2em] opacity-80">
-                    TimBoy
                 </div>
             </div>
 
-            {/* Controls Area */}
-            <div className="controls-area">
-                <DPad />
-                <div className="action-btns">
-                    <ActionButton label="B" id="btn-b" />
-                    <ActionButton label="A" id="btn-a" style={{ marginTop: '-20px' }} />
+            {/* Controls */}
+            <div className="controls-area mt-8 px-4">
+                <div className="flex justify-between items-end">
+                    <DPad />
+                    <ABButtons />
                 </div>
-            </div>
-
-            {/* Start/Select */}
-            <div className="start-select-container">
-                <div className="ss-btn-wrapper">
-                    <div className="ss-btn" id="btn-select" onMouseDown={() => playTone(300, 'square', 0.1, 0.05)}></div>
-                    <div className="ss-label">SELECT</div>
-                </div>
-                <div className="ss-btn-wrapper">
-                    <div className="ss-btn" id="btn-start" onMouseDown={playBootSound}></div>
-                    <div className="ss-label">START</div>
-                </div>
+                <StartSelectButtons />
             </div>
         </div>
     );
 };
-
-export default GameBoyShell;
