@@ -309,8 +309,28 @@ const JournalPage = () => {
         setIsModalOpen(true);
     };
 
+    const handleBack = () => {
+        if (isModalOpen) {
+            setIsModalOpen(false);
+            setEditingEntry(null);
+        } else {
+            window.location.href = '../?booted=true#booted';
+        }
+    };
+
+    const handleCreateShortcut = () => {
+        if (!isModalOpen && user) {
+            openCreate();
+        }
+    };
+
     return (
-        <GameBoyShell activePage="journal">
+        <GameBoyShell
+            activePage="journal"
+            onBack={handleBack}
+            // Optional: Map 'Start' or 'Select' to create new if logged in
+            onStart={handleCreateShortcut}
+        >
             {/* Header */}
             <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
                 <div>

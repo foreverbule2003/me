@@ -6,8 +6,31 @@ import '../../../assets/gb-theme.css';
 import avatarImg from '../../../assets/images/avatar.jpg';
 
 const AboutPage = () => {
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const menuItems = [
+        { label: '🤖 台股分析自動化', href: '../tools/stock-analyzer/?booted=true#booted' },
+        { label: 'BACK', href: '../?booted=true#booted', isBack: true },
+    ];
+
+    const handleUp = () => setSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
+    const handleDown = () => setSelectedIndex(prev => (prev < menuItems.length - 1 ? prev + 1 : prev));
+    const handleSelect = () => {
+        const item = menuItems[selectedIndex];
+        window.location.href = item.href;
+    };
+    const handleBack = () => {
+        window.location.href = '../?booted=true#booted';
+    };
+
     return (
-        <GameBoyShell activePage="about">
+        <GameBoyShell
+            activePage="about"
+            onUp={handleUp}
+            onDown={handleDown}
+            onSelect={handleSelect}
+            onStart={handleSelect}
+            onBack={handleBack}
+        >
             {/* Header */}
             <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
                 <div>
@@ -28,18 +51,29 @@ const AboutPage = () => {
                 </div>
             </div>
 
-            {/* AI Application Showcase */}
-            <div className="mb-4">
-                <h2 className="mb-2 font-bold text-xl border-b-2 border-[#0f380f]">AI 應用展示</h2>
-                <a href="../tools/stock-analyzer/?booted=true#booted" className="gb-btn menu-item">
-                    🤖 台股分析自動化
-                </a>
-            </div>
+            {/* AI Application Showcase - Now integrated in manual loop or just map them */}
+            {/* Since structure is a bit split (Showcase section vs bottom menu), let's render them consistently highlight based on index */}
 
-            {/* Menu */}
             <div className="flex-grow overflow-y-auto pr-1" id="menu-container">
-                <a href="../?booted=true#booted" className="gb-btn menu-item">
-                    BACK
+                {/* Custom rendering to match previous layout but with active-focus class */}
+                <div className="mb-4">
+                    <h2 className="mb-2 font-bold text-xl border-b-2 border-[#0f380f]">AI 應用展示</h2>
+                    <a
+                        href={menuItems[0].href}
+                        className={`gb-btn menu-item ${selectedIndex === 0 ? 'active-focus' : ''}`}
+                        onMouseEnter={() => setSelectedIndex(0)}
+                    >
+                        {menuItems[0].label}
+                    </a>
+                </div>
+
+                {/* Bottom Menu */}
+                <a
+                    href={menuItems[1].href}
+                    className={`gb-btn menu-item ${selectedIndex === 1 ? 'active-focus' : ''}`}
+                    onMouseEnter={() => setSelectedIndex(1)}
+                >
+                    {menuItems[1].label}
                 </a>
             </div>
         </GameBoyShell>

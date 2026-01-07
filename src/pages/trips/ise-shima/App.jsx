@@ -881,13 +881,7 @@ export default function App() {
     };
 
     const handleOpenMap = (mapData) => {
-        if (mapData.type === 'route') {
-            const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(mapData.origin)}&destination=${encodeURIComponent(mapData.destination)}&travelmode=transit`;
-            window.open(url, '_blank');
-        } else if (mapData.query) {
-            const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapData.query)}`;
-            window.open(url, '_blank');
-        }
+        setMapModalData({ isOpen: true, data: mapData });
     };
 
     return (
@@ -1143,7 +1137,11 @@ export default function App() {
                         <SectionCard icon={MapPin} title="每日交通路線" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
                             <div className="space-y-3">
                                 {recommendedRoutes.map((route, idx) => (
-                                    <div key={idx} className="p-4 bg-white rounded-xl border border-gray-100 hover:border-indigo-200 transition-colors">
+                                    <div
+                                        key={idx}
+                                        className="p-4 bg-white rounded-xl border border-gray-100 hover:border-indigo-200 transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
+                                        onClick={() => handleOpenMap(route)}
+                                    >
                                         <div className="flex items-center justify-between mb-2">
                                             <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded">{route.day}</span>
                                             <span className="text-xs text-gray-400">{route.duration}</span>

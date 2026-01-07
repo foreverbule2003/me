@@ -316,9 +316,11 @@ export const MapModal = ({ isOpen, onClose, data }) => {
     const title = data.name || data.query;
 
     if (data.type === "route") {
-        mapUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(
+        // 使用更強制的路徑規劃參數 f=d (Directions)
+        mapUrl = `https://maps.google.com/maps?f=d&source=s_d&saddr=${encodeURIComponent(
             data.origin
-        )}&daddr=${encodeURIComponent(data.destination)}&dirflg=r&output=embed`;
+        )}&daddr=${encodeURIComponent(data.destination)}&hl=zh-TW&geocode=&aq=&sll=&sspn=&g=0&ie=UTF8&z=10&dirflg=r&output=embed`;
+
         externalMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
             data.origin
         )}&destination=${encodeURIComponent(data.destination)}&travelmode=transit`;
@@ -335,7 +337,7 @@ export const MapModal = ({ isOpen, onClose, data }) => {
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
             <div className="bg-white w-full max-w-3xl h-[80vh] rounded-3xl shadow-2xl flex flex-col overflow-hidden relative">
                 {/* Header */}
-                <div className="bg-primary p-4 flex items-center justify-between text-white shrink-0">
+                <div className="bg-indigo-600 p-4 flex items-center justify-between text-white shrink-0">
                     <div className="flex items-center gap-2 flex-1 min-w-0">
                         {data.type === "route" ? <Train size={22} /> : <MapPin size={22} />}
                         <h3 className="font-bold text-lg truncate">{title}</h3>

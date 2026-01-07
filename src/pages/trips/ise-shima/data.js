@@ -208,17 +208,17 @@ export const budgetData = [
 
 // 推薦路線 (行程地圖用)
 export const recommendedRoutes = [
-  { id: 1, day: "Day 1", name: "機場 → Outlet → OMO", from: "Kansai International Airport", to: "OMO Kansai Airport", desc: "接駁巴士/南海電鐵", duration: "20分" },
-  { id: 2, day: "Day 2", name: "OMO → 難波 → VISON", from: "Kansai Airport Station", to: "VISON Mie", desc: "南海電鐵+近鐵特急+巴士", duration: "3.5hr" },
-  { id: 3, day: "Day 3", name: "VISON 園區連住", from: "VISON Mie", to: "VISON Mie", desc: "園區內移動，無長途交通", duration: "—" },
-  { id: 4, day: "Day 4", name: "VISON → 伊勢神宮", from: "VISON Mie", to: "Ise Jingu Naiku", desc: "巴士+近鐵特急", duration: "1.5hr" },
-  { id: 5, day: "Day 5", name: "伊勢市 → 賢島", from: "Iseshi Station", to: "Kashikojima Station", desc: "近鐵特急", duration: "50分" },
-  { id: 6, day: "Day 6", name: "賢島 → 大阪難波", from: "Kashikojima Station", to: "Osaka-Namba Station", desc: "近鐵特急", duration: "2h20m" },
-  { id: 7, day: "Day 7", name: "梅田 → USJ", from: "Umeda Station", to: "Universal Studios Japan", desc: "JR環狀線+夢咲線", duration: "30分" },
-  { id: 8, day: "Day 8", name: "USJ → 空庭溫泉", from: "Universal City Station", to: "Solaniwa Onsen Osaka", desc: "JR至弁天町", duration: "15分" },
-  { id: 9, day: "Day 9", name: "大阪自由活動", from: "Osaka", to: "Osaka", desc: "市區移動", duration: "—" },
-  { id: 10, day: "Day 10", name: "大阪 → 臨空城", from: "Namba Station", to: "Rinku Town Station", desc: "南海電鐵", duration: "40分" },
-  { id: 11, day: "Day 11", name: "飯店 → 機場", from: "Kansai Airport Washington Hotel", to: "Kansai International Airport", desc: "飯店免費接駁車", duration: "10分" },
+  { id: 1, day: "Day 1", type: "route", name: "機場 → Outlet → OMO", origin: "Kansai International Airport", destination: "OMO Kansai Airport", desc: "接駁巴士/南海電鐵", duration: "20分" },
+  { id: 2, day: "Day 2", type: "route", name: "OMO → 難波 → VISON", origin: "Kansai Airport Station", destination: "VISON Mie", desc: "南海電鐵+近鐵特急+巴士", duration: "3.5hr" },
+  { id: 3, day: "Day 3", type: "search", name: "VISON 園區連住", query: "VISON Mie", desc: "園區內移動，無長途交通", duration: "—" },
+  { id: 4, day: "Day 4", type: "route", name: "VISON → 伊勢神宮", origin: "VISON Mie", destination: "Ise Jingu Naiku", desc: "巴士+近鐵特急", duration: "1.5hr" },
+  { id: 5, day: "Day 5", type: "route", name: "伊勢市 → 賢島", origin: "Iseshi Station", destination: "Kashikojima Station", desc: "近鐵特急", duration: "50分" },
+  { id: 6, day: "Day 6", type: "route", name: "賢島 → 大阪難波", origin: "Kashikojima Station", destination: "Osaka-Namba Station", desc: "近鐵特急", duration: "2h20m" },
+  { id: 7, day: "Day 7", type: "route", name: "梅田 → USJ", origin: "Umeda Station", destination: "Universal Studios Japan", desc: "JR環狀線+夢咲線", duration: "30分" },
+  { id: 8, day: "Day 8", type: "route", name: "USJ → 空庭溫泉", origin: "Universal City Station", destination: "Solaniwa Onsen Osaka", desc: "JR至弁天町", duration: "15分" },
+  { id: 9, day: "Day 9", type: "search", name: "大阪自由活動", query: "Osaka Station", desc: "市區移動", duration: "—" },
+  { id: 10, day: "Day 10", type: "route", name: "大阪 → 臨空城", origin: "Namba Station", destination: "Rinku Town Station", desc: "南海電鐵", duration: "40分" },
+  { id: 11, day: "Day 11", type: "route", name: "飯店 → 機場", origin: "Kansai Airport Washington Hotel", destination: "Kansai International Airport", desc: "飯店免費接駁車", duration: "10分" },
 ];
 
 // 實用連結

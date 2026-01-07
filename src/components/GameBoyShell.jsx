@@ -10,7 +10,18 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 
-export const GameBoyShell = ({ children, activePage = 'home' }) => {
+export const GameBoyShell = ({
+    children,
+    activePage = 'home',
+    onUp,
+    onDown,
+    onLeft,
+    onRight,
+    onSelect, // A button
+    onBack,   // B button
+    onStart,  // Start button
+    onOp      // Select button
+}) => {
     // --- Audio State ---
     const audioCtxRef = useRef(null);
     const [isMuted, setIsMuted] = useState(true);
@@ -108,7 +119,48 @@ export const GameBoyShell = ({ children, activePage = 'home' }) => {
         }
     };
 
-    // --- Effects ---
+    // --- Keyboard Controls ---
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!isPoweredOn) return;
+
+            switch (e.key) {
+                case 'ArrowUp':
+                    onUp && onUp();
+                    playTone(200, 'square', 0.05, 0.05);
+                    break;
+                case 'ArrowDown':
+                    onDown && onDown();
+                    playTone(200, 'square', 0.05, 0.05);
+                    break;
+                case 'ArrowLeft':
+                    onLeft && onLeft();
+                    playTone(200, 'square', 0.05, 0.05);
+                    break;
+                case 'ArrowRight':
+                    onRight && onRight();
+                    playTone(200, 'square', 0.05, 0.05);
+                    break;
+                case 'Enter': // A Button
+                case 'z':
+                case 'Z':
+                    onSelect && onSelect();
+                    playTone(400, 'square', 0.1, 0.1);
+                    break;
+                case 'Backspace': // B Button
+                case 'x':
+                case 'X':
+                    onBack && onBack();
+                    playTone(150, 'square', 0.1, 0.1);
+                    break;
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [isPoweredOn, onUp, onDown, onLeft, onRight, onSelect, onBack]);
+
+    // --- Boot Check Effect ---
     useEffect(() => {
         // Check if already booted in this session
         const hasBooted = sessionStorage.getItem('gb_powered_on') ||
@@ -129,10 +181,10 @@ export const GameBoyShell = ({ children, activePage = 'home' }) => {
             <div className="d-pad-v"></div>
             <div className="d-pad-center"></div>
             {/* Interactive mock buttons */}
-            <div className="d-btn d-up" onMouseDown={() => playTone(200, 'square', 0.05, 0.05)}></div>
-            <div className="d-btn d-right" onMouseDown={() => playTone(200, 'square', 0.05, 0.05)}></div>
-            <div className="d-btn d-down" onMouseDown={() => playTone(200, 'square', 0.05, 0.05)}></div>
-            <div className="d-btn d-left" onMouseDown={() => playTone(200, 'square', 0.05, 0.05)}></div>
+            <div className="d-btn d-up" onMouseDown={() => { onUp && onUp(); playTone(200, 'square', 0.05, 0.05); }}></div>
+            <div className="d-btn d-right" onMouseDown={() => { onRight && onRight(); playTone(200, 'square', 0.05, 0.05); }}></div>
+            <div className="d-btn d-down" onMouseDown={() => { onDown && onDown(); playTone(200, 'square', 0.05, 0.05); }}></div>
+            <div className="d-btn d-left" onMouseDown={() => { onLeft && onLeft(); playTone(200, 'square', 0.05, 0.05); }}></div>
         </div>
     );
 
@@ -141,7 +193,10 @@ export const GameBoyShell = ({ children, activePage = 'home' }) => {
             <div
                 className="ab-btn"
                 id={id}
-                onMouseDown={() => playTone(label === 'A' ? 400 : 150, 'square', 0.1, 0.1)}
+                onMouseDown={() => {
+                    if (label === 'A') { onSelect && onSelect(); playTone(400, 'square', 0.1, 0.1); }
+                    else { onBack && onBack(); playTone(150, 'square', 0.1, 0.1); }
+                }}
             ></div>
             <div className="ab-label">{label}</div>
         </div>

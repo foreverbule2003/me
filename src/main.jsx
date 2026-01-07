@@ -6,8 +6,29 @@ import '../assets/gb-theme.css';
 import avatarImg from '../assets/images/avatar.jpg';
 
 const IndexPage = () => {
+    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const menuItems = [
+        { label: '👤 ABOUT', href: './about/' },
+        { label: '✈️ SELECT TRIP', href: './trips/' },
+        { label: '📓 JOURNAL', href: './journal/' },
+        { label: '🔧 TOOLS & CONTACT', href: './tools/' }
+    ];
+
+    const handleUp = () => setSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
+    const handleDown = () => setSelectedIndex(prev => (prev < menuItems.length - 1 ? prev + 1 : prev));
+    const handleSelect = () => {
+        const item = menuItems[selectedIndex];
+        window.location.href = item.href;
+    };
+
     return (
-        <GameBoyShell activePage="home">
+        <GameBoyShell
+            activePage="home"
+            onUp={handleUp}
+            onDown={handleDown}
+            onSelect={handleSelect}
+            onStart={handleSelect}
+        >
             {/* Header */}
             <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
                 <div>
@@ -21,18 +42,16 @@ const IndexPage = () => {
 
             {/* Menu */}
             <div className="flex-grow overflow-y-auto pr-1" id="menu-container">
-                <a href="./about/" className="gb-btn menu-item">
-                    👤 ABOUT
-                </a>
-                <a href="./trips/" className="gb-btn menu-item">
-                    ✈️ SELECT TRIP
-                </a>
-                <a href="./journal/" className="gb-btn menu-item">
-                    📓 JOURNAL
-                </a>
-                <a href="./tools/" className="gb-btn menu-item">
-                    🔧 TOOLS & CONTACT
-                </a>
+                {menuItems.map((item, index) => (
+                    <a
+                        key={index}
+                        href={item.href}
+                        className={`gb-btn menu-item ${index === selectedIndex ? 'active-focus' : ''}`}
+                        onMouseEnter={() => setSelectedIndex(index)}
+                    >
+                        {item.label}
+                    </a>
+                ))}
             </div>
         </GameBoyShell>
     );
