@@ -8,11 +8,10 @@ import {
     ArrowRight,
     ChevronDown,
     ChevronUp,
-    Train,
-    Bus,
-    MapPin,
-    Info,
+    ArrowUp,
     ExternalLink,
+    FoldVertical,
+    UnfoldVertical,
 } from 'lucide-react';
 
 // === 1. 返回首頁按鈕 ===
@@ -424,14 +423,49 @@ export const PhaseHeader = ({
 };
 
 // === 10. Toggle FAB ===
+// === 10. Toggle FAB ===
 export const ToggleFAB = ({ isExpanded, onToggle }) => (
     <button
         onClick={() => onToggle(!isExpanded)}
-        className="p-3 rounded-full bg-white/70 backdrop-blur-md text-primary shadow-xl border border-white/50 hover:bg-white hover:text-primary transition-all duration-300 group relative"
+        className="p-3 rounded-full bg-white/70 backdrop-blur-md text-indigo-600 shadow-xl border border-white/50 hover:bg-white hover:text-indigo-600 transition-all duration-300 group relative"
+        title={isExpanded ? "全部折疊" : "全部展開"}
     >
-        {isExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            {isExpanded ? "全部折疊" : "全部展開"}
-        </span>
+        {isExpanded ? <FoldVertical size={24} /> : <UnfoldVertical size={24} />}
     </button>
 );
+
+// === 11. ScrollToTop FAB ===
+export const ScrollToTop = () => {
+    const [isVisible, setIsVisible] = useState(false);
+
+    React.useEffect(() => {
+        const toggleVisibility = () => {
+            if (window.scrollY > 300) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener('scroll', toggleVisibility);
+        return () => window.removeEventListener('scroll', toggleVisibility);
+    }, []);
+
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    };
+
+    return (
+        <button
+            onClick={scrollToTop}
+            className={`fixed bottom-24 right-6 z-40 p-3 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-200 transition-all duration-300 hover:bg-indigo-700 hover:-translate-y-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+                }`}
+            aria-label="回到頂部"
+        >
+            <ArrowUp size={24} />
+        </button>
+    );
+};

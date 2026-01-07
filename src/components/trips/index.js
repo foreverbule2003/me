@@ -17,4 +17,5 @@ export {
   FAB,
   PhaseHeader,
   ToggleFAB,
+  ScrollToTop,
 } from './TripComponents.jsx';

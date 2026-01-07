@@ -187,14 +187,26 @@ AI 聊天與翻譯功能的彈窗。
 - `TranslatorButton` - 翻譯按鈕
 
 ### 11.0 ToggleFAB (展開/折疊按鈕)
-**位置**: `index.html` (本地元件)
+**位置**: `src/components/trips/TripComponents.jsx`
 
 共用的懸浮收合按鈕 (FAB)，用於控制各頁面的全域展開/折疊狀態。
 
-| Prop         | 類型     | 說明               |
-| ------------ | -------- | ------------------ |
-| `isExpanded` | Boolean  | 當前展開狀態       |
-| `onToggle`   | Function | 切換狀態的回調函數 |
+**特點**:
+- **Smart Logic**: 智慧偵測狀態。若有任何項目被展開，按鈕會顯示「全部折疊」；只有當所有項目都關閉時，才顯示「全部展開」。
+- **圖示設計**: 使用 `FoldVertical` (折疊) 與 `UnfoldVertical` (展開) 圖示。
+
+| Prop         | 類型     | 說明                         |
+| ------------ | -------- | ---------------------------- |
+| `isExpanded` | Boolean  | 邏輯判斷結果 (isAnyExpanded) |
+| `onToggle`   | Function | 切換回調                     |
+
+### 11.1 ScrollToTop (回到頂部按鈕)
+**位置**: `src/components/trips/TripComponents.jsx`
+
+滾動超過 300px 後出現的懸浮按鈕 (FAB)。
+
+- **位置**: 位於右下角，`ToggleFAB` 上方。
+- **互動**: 平滑滾動至頁面頂部。
 
 ### 11. App (主程式)
 應用程式根元件，管理全局狀態和路由。

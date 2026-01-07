@@ -28,7 +28,7 @@ import {
 
 
 // 導入共用元件
-import { SectionCard, MapModal, CollapsibleSection, ActivityItem } from '../../../components/trips';
+import { SectionCard, MapModal, CollapsibleSection, ActivityItem, ScrollToTop, ToggleFAB } from '../../../components/trips';
 
 // 導入輔助函式
 import { cleanQuery, callGeminiAPI } from '../../../lib/trip-helpers.js';
@@ -76,17 +76,7 @@ const Header = () => (
 );
 
 // ToggleFAB 元件
-const ToggleFAB = ({ isExpanded, onToggle }) => (
-    <button
-        onClick={() => onToggle(isExpanded === true ? false : true)}
-        className="p-3 rounded-full bg-white/70 backdrop-blur-md text-indigo-600 shadow-xl border border-white/50 hover:bg-white hover:text-indigo-600 transition-all duration-300 group relative"
-    >
-        {isExpanded === true ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
-        <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
-            {isExpanded === true ? "全部折疊" : "全部展開"}
-        </span>
-    </button>
-);
+
 
 // 導航標籤
 const TabNavigation = ({ activeTab, setActiveTab }) => {
@@ -123,8 +113,15 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
 };
 
 // StrategySection - 行程概要
-const StrategySection = ({ forceOpen }) => (
-    <SectionCard icon={Sparkles} title="行程概要" collapsible={true} defaultOpen={true} forceOpen={forceOpen}>
+const StrategySection = ({ isExpanded, onToggle }) => (
+    <SectionCard
+        icon={Sparkles}
+        title="行程概要"
+        collapsible={true}
+        defaultOpen={true}
+        forceOpen={isExpanded}
+        onToggle={onToggle} // Pass if SectionCard supports controlled toggle (it might need update or we rely on forceOpen logic wrapper)
+    >
         <div className="space-y-4">
             {/* 航班資訊 */}
             <div>
@@ -716,7 +713,10 @@ export default function App() {
 
 
     const [activeTab, setActiveTab] = useState('itinerary');
-    const [allExpanded, setAllExpanded] = useState(null);
+
+    // Smart Expand/Collapse State
+    const [expandedDays, setExpandedDays] = useState({}); // { "pIdx-dIdx": boolean }
+
     const [mapModalData, setMapModalData] = useState({ isOpen: false, data: null });
     const [productModalData, setProductModalData] = useState({ isOpen: false, product: null });
 
@@ -790,10 +790,38 @@ export default function App() {
         return () => unsubscribe();
     }, []);
 
-    // 切換分頁時重置全域折疊狀態
-    useEffect(() => {
-        setAllExpanded(null);
-    }, [activeTab]);
+    // 切換分頁時重置全域折疊狀態 (Optional, user preference if they want to keep state)
+    // useEffect(() => {
+    //     setExpandedDays({});
+    // }, [activeTab]);
+
+    // Check if ANY day is currently expanded
+    const isAnyExpanded = Object.values(expandedDays).some(Boolean);
+
+    // Toggle specific day
+    const toggleDay = (key) => {
+        setExpandedDays(prev => ({
+            ...prev,
+            [key]: !prev[key]
+        }));
+    };
+
+    // Smart Toggle Action for FAB
+    const handleSmartToggle = () => {
+        if (isAnyExpanded) {
+            // If ANY are open, collapse ALL
+            setExpandedDays({});
+        } else {
+            // If ALL are closed, expand ALL
+            const newExpanded = {};
+            itineraryData.forEach((phase, pIdx) => {
+                phase.days.forEach((_, dIdx) => {
+                    newExpanded[`${pIdx}-${dIdx}`] = true;
+                });
+            });
+            setExpandedDays(newExpanded);
+        }
+    };
 
     // 切換收藏狀態
     const toggleFavorite = async (itemKey) => {
@@ -893,9 +921,9 @@ export default function App() {
                 {/* 總覽 Tab */}
                 {activeTab === 'overview' && (
                     <div className="space-y-8">
-                        <StrategySection forceOpen={allExpanded} />
-                        <TodoSection forceOpen={allExpanded} completed={todoCompleted} onToggle={toggleTodoCompleted} />
-                        <UsefulLinksSection forceOpen={allExpanded} />
+                        <StrategySection forceOpen={isAnyExpanded} />
+                        <TodoSection forceOpen={isAnyExpanded} completed={todoCompleted} onToggle={toggleTodoCompleted} />
+                        <UsefulLinksSection forceOpen={isAnyExpanded} />
                     </div>
                 )}
 
@@ -906,37 +934,33 @@ export default function App() {
                             <div key={pIdx}>
                                 <StickyPhaseHeader
                                     title={phase.phase}
-                                    forceOpen={allExpanded}
+                                    forceOpen={isAnyExpanded}
                                     image={pIdx === 0 ? phase.days[3].image : phase.days[1].image}
                                 >
-                                    {phase.days.map((day, dIdx) => (
-                                        <DayCard
-                                            key={dIdx}
-                                            dayData={day}
-                                            onOpenRoute={handleOpenMap}
-                                            onOpenFoodGuide={() => setActiveTab('food')}
-                                            isExpanded={allExpanded}
-                                            onToggle={() => setAllExpanded(null)}
-                                        />
-                                    ))}
+                                    {phase.days.map((day, dIdx) => {
+                                        const dayKey = `${pIdx}-${dIdx}`;
+                                        return (
+                                            <DayCard
+                                                key={dIdx}
+                                                dayData={day}
+                                                onOpenRoute={handleOpenMap}
+                                                onOpenFoodGuide={() => setActiveTab('food')}
+                                                isExpanded={!!expandedDays[dayKey]}
+                                                onToggle={() => toggleDay(dayKey)}
+                                            />
+                                        );
+                                    })}
                                 </StickyPhaseHeader>
                             </div>
                         ))}
-                        <div className="flex justify-center mt-12">
-                            <button
-                                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-                                className="px-5 py-2 bg-gray-200 text-gray-800 font-semibold rounded-lg hover:bg-gray-300 transition-colors"
-                            >
-                                回到頂部
-                            </button>
-                        </div>
+
                     </div>
                 )}
 
                 {/* 預算 Tab */}
                 {activeTab === 'budget' && (
                     <div className="max-w-3xl mx-auto">
-                        <BudgetTable forceOpen={allExpanded} />
+                        <BudgetTable forceOpen={isAnyExpanded} />
                         <div className="mt-8 p-6 bg-indigo-50 rounded-3xl flex gap-4 items-start">
                             <Info className="text-indigo-600 flex-shrink-0 mt-1" />
                             <div className="text-sm text-indigo-600 leading-relaxed">
@@ -952,7 +976,7 @@ export default function App() {
                 {activeTab === 'map' && (
                     <div className="max-w-3xl mx-auto space-y-6">
                         {/* 近鐵特急比較表 */}
-                        <SectionCard icon={Train} title="近鐵比較表" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                        <SectionCard icon={Train} title="近鐵比較表" collapsible={true} defaultOpen={false} forceOpen={isAnyExpanded}>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse whitespace-nowrap">
                                     <thead>
@@ -983,7 +1007,7 @@ export default function App() {
                         </SectionCard>
 
                         {/* 特急加購價格表 */}
-                        <SectionCard icon={Train} title="特急加購價格" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                        <SectionCard icon={Train} title="特急加購價格" collapsible={true} defaultOpen={false} forceOpen={isAnyExpanded}>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse whitespace-nowrap">
                                     <thead>
@@ -1024,7 +1048,7 @@ export default function App() {
                         </SectionCard>
 
                         {/* VISON 巴士時刻表 */}
-                        <SectionCard icon={Bus} title="VISON 巴士時刻表" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                        <SectionCard icon={Bus} title="VISON 巴士時刻表" collapsible={true} defaultOpen={false} forceOpen={isAnyExpanded}>
                             <div className="space-y-4">
                                 {/* 松阪駅前 → VISON */}
                                 <div>
@@ -1111,7 +1135,7 @@ export default function App() {
                         </SectionCard>
 
                         {/* VISON 園區地圖 */}
-                        <SectionCard icon={MapPin} title="VISON 園區地圖" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                        <SectionCard icon={MapPin} title="VISON 園區地圖" collapsible={true} defaultOpen={false} forceOpen={isAnyExpanded}>
                             <a
                                 href="https://vison.jp/upload_fileuploder/VISON_MAP_251010.pdf"
                                 target="_blank"
@@ -1134,7 +1158,7 @@ export default function App() {
                         </SectionCard>
 
                         {/* 每日交通路線 */}
-                        <SectionCard icon={MapPin} title="每日交通路線" collapsible={true} defaultOpen={false} forceOpen={allExpanded}>
+                        <SectionCard icon={MapPin} title="每日交通路線" collapsible={true} defaultOpen={false} forceOpen={isAnyExpanded}>
                             <div className="space-y-3">
                                 {recommendedRoutes.map((route, idx) => (
                                     <div
@@ -1179,10 +1203,10 @@ export default function App() {
                                     </div>
                                 }
                                 collapsible={true}
-                                forceOpen={allExpanded}
+                                forceOpen={isAnyExpanded}
                             >
                                 {category.sections.map((section, sIdx) => (
-                                    <CollapsibleSubsection key={sIdx} title={section.title} count={section.items.length} forceOpen={allExpanded}>
+                                    <CollapsibleSubsection key={sIdx} title={section.title} count={section.items.length} forceOpen={isAnyExpanded}>
                                         <div className="space-y-2">
                                             {sortItems(section.items, cIdx, sIdx).map((item) => {
                                                 const originalIdx = section.items.indexOf(item);
@@ -1237,7 +1261,7 @@ export default function App() {
                                 ))}
                             </SectionCard>
                         ))}
-                        <VegetarianCard forceOpen={allExpanded} />
+                        <VegetarianCard forceOpen={isAnyExpanded} />
                     </div>
                 )}
 
@@ -1250,10 +1274,10 @@ export default function App() {
                             icon={ShoppingBag}
                             title="美妝購物攻略"
                             collapsible={true}
-                            forceOpen={allExpanded}
+                            forceOpen={isAnyExpanded}
                         >
                             {shoppingData.categories.map((category, cIdx) => (
-                                <CollapsibleSubsection key={cIdx} title={`${category.icon} ${category.title}`} count={category.items.length} forceOpen={allExpanded}>
+                                <CollapsibleSubsection key={cIdx} title={`${category.icon} ${category.title}`} count={category.items.length} forceOpen={isAnyExpanded}>
                                     <div className="space-y-3">
                                         {sortShoppingItems(category.items, cIdx).map((item) => {
                                             const originalIdx = category.items.indexOf(item);
@@ -1329,12 +1353,19 @@ export default function App() {
             {/* FAB Group */}
             <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
                 {['itinerary', 'food', 'shopping', 'overview', 'budget', 'map'].includes(activeTab) && (
-                    <ToggleFAB isExpanded={allExpanded} onToggle={setAllExpanded} />
+                    <ToggleFAB isExpanded={isAnyExpanded} onToggle={handleSmartToggle} />
                 )}
 
             </div>
 
-            <footer className="text-center py-8 text-gray-400 text-sm">
+            <ScrollToTop />
+
+            <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6">
+                <div className="flex items-center justify-center gap-2 mb-2 opacity-50">
+                    <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                    <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                    <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
+                </div>
                 <p>© 2026 伊勢志摩‧大阪 11日素食慢旅 v7 (Vite 版)</p>
             </footer>
 
