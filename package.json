@@ -10,7 +10,7 @@
     "dev:legacy": "npx live-server --host=0.0.0.0",
     "new-trip": "node tools/new-trip.js",
     "format": "npx prettier --write \"**/*.{html,css,js,md}\"",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node scripts/test-placeholder.js"
   },
   "keywords": [
     "portfolio",
