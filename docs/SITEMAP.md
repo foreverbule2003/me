@@ -1,6 +1,6 @@
 # 網站地圖 (Sitemap)
 
-> 最後更新：2026-01-03
+> 最後更新：2026-01-07
 
 ## 視覺化結構
 
@@ -43,6 +43,7 @@
 └── 🔧 TOOLS & CONTACT (tools/)
     ├── 📊 財務儀表板 (tools/financial-dashboard.html)
     ├── 📈 期權策略模擬器 (tools/bull-put-spread.html)
+    ├── 🤖 台股分析自動化 (tools/stock-analyzer/) [Vite+React]
     └── 📧 聯絡方式
 ```
 
@@ -59,8 +60,9 @@
 | 2026 北海道   | `/trips/2026-hokkaido/index.html`  | 🚧 建置中 | CDN+Babel   |
 | 2026 伊勢志摩 | `/trips/2026-ise-shima/index.html` | ✅ 完成   | Vite+React  |
 | 日記          | `/journal/`                        | ✅ 完成   | Vite+React  |
-| 財務儀表板    | `/tools/financial-dashboard.html`  | ✅ 完成   | CDN+Vanilla |
-| 期權模擬器    | `/tools/bull-put-spread.html`      | ✅ 完成   | CDN+Vanilla |
+| 財務儀表板    | `/tools/financial-dashboard.html`  | ✅ 完成   | CDN+Vanilla |\r
+| 期權模擬器    | `/tools/bull-put-spread.html`      | ✅ 完成   | CDN+Vanilla |\r
+| 台股分析自動化 | `/tools/stock-analyzer/`          | ✅ 完成   | Vite+React  |\r
 
 ## 旅程詳情頁分頁結構
 

@@ -29,6 +29,9 @@ const ToolsPage = () => {
                 <a href="./bull-put-spread.html" className="gb-btn menu-item">
                     期權策略模擬器
                 </a>
+                <a href="./stock-analyzer/" className="gb-btn menu-item">
+                    台股分析自動化
+                </a>
                 <a href="mailto:foreverbule2003@gmail.com" className="gb-btn menu-item">
                     聯絡我
                 </a>
