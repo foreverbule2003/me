@@ -18,6 +18,7 @@ import {
   ChevronUp,
   ExternalLink,
   Sparkles,
+  Plane,
   Clock,
   AlertCircle,
   X,
@@ -153,97 +154,124 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
   );
 };
 
-// StrategySection - 行程概要
+// StrategySection - 航班資訊
 const StrategySection = ({ isExpanded, onToggle }) => (
   <SectionCard
-    icon={Sparkles}
-    title="行程概要"
+    icon={Plane}
+    title="航班資訊"
     collapsible={true}
     defaultOpen={true}
     forceOpen={isExpanded}
-    onToggle={onToggle} // Pass if SectionCard supports controlled toggle (it might need update or we rely on forceOpen logic wrapper)
+    onToggle={onToggle}
   >
-    <div className="space-y-4">
-      {/* 航班資訊 */}
-      <div>
-        <h4 className="font-medium text-gray-600 mb-2 text-sm">✈️ 航班資訊</h4>
-        <div className="grid md:grid-cols-2 gap-3">
-          {/* 去程 */}
-          <div className="p-4 bg-white rounded-lg border border-gray-200">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-gray-800">去程</span>
-              <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">
-                泰國獅航 SL396
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <div className="text-center">
-                <div className="text-lg font-bold text-gray-800">09:00</div>
-                <div className="text-xs text-gray-500">TPE 桃園</div>
-              </div>
-              <div className="flex-1 flex flex-col items-center px-3">
-                <div className="text-xs text-gray-400 mb-1">3h30m</div>
-                <div className="w-full h-px bg-gray-300 relative">
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
-                </div>
-                <div className="text-xs text-gray-400 mt-1">01/11 (日)</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-bold text-gray-800">12:30</div>
-                <div className="text-xs text-gray-500">KIX 關西</div>
-              </div>
-            </div>
+    <div className="grid md:grid-cols-2 gap-3">
+      {/* 去程 */}
+      <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-sm font-medium text-gray-800">去程</span>
+          <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">
+            泰國獅航 SL396
+          </span>
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="text-center">
+            <div className="text-lg font-bold text-gray-800">09:00</div>
+            <div className="text-xs text-gray-500">TPE 桃園</div>
           </div>
-          {/* 回程 */}
-          <div className="p-4 bg-white rounded-lg border border-gray-200">
-            <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-gray-800">回程</span>
-              <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">
-                國泰航空 CX565
-              </span>
+          <div className="flex-1 flex flex-col items-center px-3">
+            <div className="text-xs text-gray-400 mb-1">3h30m</div>
+            <div className="w-full h-px bg-gray-300 relative">
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="text-center">
-                <div className="text-lg font-bold text-gray-800">16:15</div>
-                <div className="text-xs text-gray-500">KIX 關西</div>
-              </div>
-              <div className="flex-1 flex flex-col items-center px-3">
-                <div className="text-xs text-gray-400 mb-1">2h15m</div>
-                <div className="w-full h-px bg-gray-300 relative">
-                  <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
-                </div>
-                <div className="text-xs text-gray-400 mt-1">01/21 (三)</div>
-              </div>
-              <div className="text-center">
-                <div className="text-lg font-bold text-gray-800">18:30</div>
-                <div className="text-xs text-gray-500">TPE 桃園</div>
-              </div>
-            </div>
+            <div className="text-xs text-gray-400 mt-1">01/11 (日)</div>
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-bold text-gray-800">12:30</div>
+            <div className="text-xs text-gray-500">KIX 關西</div>
           </div>
         </div>
       </div>
-
-      {/* 主題亮點 */}
-      <div>
-        <h4 className="font-medium text-gray-600 mb-2 text-sm">🌸 主題亮點</h4>
-        <div className="flex flex-wrap gap-2">
-          {[
-            { icon: "⛩️", text: "伊勢神宮" },
-            { icon: "🛍️", text: "VISON" },
-            { icon: "♨️", text: "賢島寶生苑" },
-            { icon: "🎢", text: "USJ" },
-            { icon: "🌿", text: "空庭溫泉" },
-            { icon: "🥗", text: "素食友善" },
-          ].map((item, idx) => (
-            <span
-              key={idx}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-full text-sm text-gray-700"
-            >
-              <span>{item.icon}</span>
-              <span>{item.text}</span>
-            </span>
-          ))}
+      {/* 回程 */}
+      <div className="p-4 bg-white rounded-lg border border-gray-200">
+        <div className="flex items-center justify-between mb-3">
+          <span className="text-sm font-medium text-gray-800">回程</span>
+          <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">
+            國泰航空 CX565
+          </span>
         </div>
+        <div className="flex items-center justify-between">
+          <div className="text-center">
+            <div className="text-lg font-bold text-gray-800">16:15</div>
+            <div className="text-xs text-gray-500">KIX 關西</div>
+          </div>
+          <div className="flex-1 flex flex-col items-center px-3">
+            <div className="text-xs text-gray-400 mb-1">2h15m</div>
+            <div className="w-full h-px bg-gray-300 relative">
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
+            </div>
+            <div className="text-xs text-gray-400 mt-1">01/21 (三)</div>
+          </div>
+          <div className="text-center">
+            <div className="text-lg font-bold text-gray-800">18:30</div>
+            <div className="text-xs text-gray-500">TPE 桃園</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </SectionCard>
+);
+
+// OverviewSection - 行程概覽 (時間軸)
+const overviewData = [
+  { day: 1, date: "1/11 (日)", title: "Rinku Outlet", hotel: "OMO 關西機場" },
+  { day: 2, date: "1/12 (一)", title: "大阪 → VISON", hotel: "Hotel VISON" },
+  { day: 3, date: "1/13 (二)", title: "VISON 深度體驗", hotel: "Hotel VISON" },
+  { day: 4, date: "1/14 (三)", title: "伊勢神宮", hotel: "Comfort Hotel" },
+  { day: 5, date: "1/15 (四)", title: "賢島溫泉", hotel: "賢島寶生苑" },
+  { day: 6, date: "1/16 (五)", title: "英虞灣 → 大阪", hotel: "大阪市區" },
+  { day: 7, date: "1/17 (六)", title: "梅田 + USJ", hotel: "大阪市區" },
+  { day: 8, date: "1/18 (日)", title: "USJ + 空庭溫泉", hotel: "大阪市區" },
+  { day: 9, date: "1/19 (一)", title: "自由活動", hotel: "大阪市區" },
+  { day: 10, date: "1/20 (二)", title: "Rinku Outlet", hotel: "華盛頓飯店" },
+  { day: 11, date: "1/21 (三)", title: "返程", hotel: "✈️ 回家" },
+];
+
+const OverviewSection = ({ forceOpen }) => (
+  <SectionCard
+    icon={Calendar}
+    title="行程概覽"
+    collapsible={true}
+    defaultOpen={true}
+    forceOpen={forceOpen}
+  >
+    <div className="relative">
+      {/* 時間軸線 */}
+      <div className="absolute left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full" />
+
+      <div className="space-y-2">
+        {overviewData.map((item, idx) => (
+          <div key={idx} className="flex items-start gap-3 pl-1">
+            {/* 時間軸節點 */}
+            <div className="w-5 h-5 rounded-full bg-white border-2 border-indigo-400 flex items-center justify-center z-10 shrink-0 mt-0.5">
+              <span className="text-[10px] font-bold text-indigo-600">
+                {item.day}
+              </span>
+            </div>
+            {/* 內容 */}
+            <div className="flex-1 pb-2">
+              <div className="flex items-center gap-2 mb-0.5">
+                <span className="text-xs text-gray-500">{item.date}</span>
+                <span className="text-sm font-bold text-gray-800">
+                  {item.title}
+                </span>
+              </div>
+              <div className="flex items-center gap-1 text-xs text-gray-500">
+                <Hotel size={12} />
+                <span>{item.hotel}</span>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   </SectionCard>
@@ -1132,6 +1160,7 @@ export default function App() {
         {activeTab === "overview" && (
           <div className="space-y-8">
             <StrategySection forceOpen={isAnyExpanded} />
+            <OverviewSection forceOpen={isAnyExpanded} />
             <TodoSection
               forceOpen={isAnyExpanded}
               completed={todoCompleted}
