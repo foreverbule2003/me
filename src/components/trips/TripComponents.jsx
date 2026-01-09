@@ -102,7 +102,6 @@ export const PageHeader = ({
 };
 
 // === 3. Section 卡片容器 ===
-// === 3. Section 卡片容器 ===
 export const SectionCard = ({
   icon: Icon,
   title,
@@ -113,13 +112,20 @@ export const SectionCard = ({
   forceOpen = null,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
+  const [enableTransition, setEnableTransition] = useState(false);
 
-  // 監聽外部強制開關狀態
+  // 監聯外部強制開關狀態 (不觸發動畫)
   React.useEffect(() => {
     if (forceOpen !== null) {
       setIsOpen(forceOpen);
     }
   }, [forceOpen]);
+
+  // 用戶點擊時才啟用動畫
+  const handleToggle = () => {
+    if (!enableTransition) setEnableTransition(true);
+    setIsOpen(!isOpen);
+  };
 
   const HeaderContent = () => (
     <div className="flex items-center gap-2">
@@ -133,7 +139,7 @@ export const SectionCard = ({
       </h2>
       {collapsible && (
         <div
-          className={`text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}
+          className={`text-gray-400 ${enableTransition ? "transition-transform duration-300" : ""} ${isOpen ? "rotate-180" : ""}`}
         >
           <ChevronDown size={20} />
         </div>
@@ -141,14 +147,19 @@ export const SectionCard = ({
     </div>
   );
 
+  const transitionClass = enableTransition ? "transition-all duration-300" : "";
+  const contentTransitionClass = enableTransition
+    ? "transition-all duration-500 ease-in-out"
+    : "";
+
   return (
     <section
-      className={`bg-white rounded-3xl transition-all duration-300 shadow-lg ${!collapsible ? "hover:shadow-xl hover:-translate-y-1 p-3 md:p-6" : "hover:shadow-md overflow-hidden"} ${className}`}
+      className={`bg-white rounded-3xl shadow-lg ${transitionClass} ${!collapsible ? "hover:shadow-xl hover:-translate-y-1 p-3 md:p-6" : "hover:shadow-md overflow-hidden"} ${className}`}
     >
       {collapsible ? (
         <button
-          onClick={() => setIsOpen(!isOpen)}
-          className={`w-full block transition-all duration-300 py-3 px-4 text-left ${isOpen ? "border-b border-gray-100 bg-gray-50/30" : ""}`}
+          onClick={handleToggle}
+          className={`w-full block ${transitionClass} py-3 px-4 text-left ${isOpen ? "border-b border-gray-100 bg-gray-50/30" : ""}`}
         >
           <HeaderContent />
         </button>
@@ -159,7 +170,7 @@ export const SectionCard = ({
       )}
 
       <div
-        className={`transition-all duration-500 ease-in-out ${collapsible ? (isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0") : ""}`}
+        className={`${contentTransitionClass} ${collapsible ? (isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0") : ""}`}
       >
         <div className={collapsible ? "p-3 md:p-6 pt-4" : ""}>{children}</div>
       </div>

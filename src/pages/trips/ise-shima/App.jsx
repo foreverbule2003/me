@@ -122,7 +122,7 @@ const Header = () => (
 // 導航標籤
 const TabNavigation = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { id: "overview", label: "準備", Icon: Star },
+    { id: "overview", label: "總覽", Icon: Star },
     { id: "itinerary", label: "行程", Icon: Calendar },
     { id: "map", label: "交通", Icon: Train },
     { id: "food", label: "美食", Icon: Utensils },
@@ -160,7 +160,7 @@ const StrategySection = ({ isExpanded, onToggle }) => (
     icon={Plane}
     title="航班資訊"
     collapsible={true}
-    defaultOpen={true}
+    defaultOpen={false}
     forceOpen={isExpanded}
     onToggle={onToggle}
   >
@@ -305,7 +305,7 @@ const TodoSection = ({ forceOpen, completed = {}, onToggle }) => {
           return (
             <div
               key={row.originalIdx}
-              className={`p-4 rounded-xl border transition-all cursor-pointer active:scale-[0.98] active:bg-gray-50 ${
+              className={`py-2.5 px-4 rounded-xl border transition-all cursor-pointer active:scale-[0.98] active:bg-gray-50 ${
                 isDone
                   ? "bg-gray-100 border-gray-200 opacity-60"
                   : "bg-white border-gray-100 hover:border-indigo-200 shadow-sm"
@@ -943,7 +943,7 @@ const StickyPhaseHeader = ({
 };
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState("itinerary");
+  const [activeTab, setActiveTab] = useState("overview");
 
   // Smart Expand/Collapse State
   const [expandedDays, setExpandedDays] = useState({}); // { "pIdx-dIdx": boolean }
@@ -1159,14 +1159,13 @@ export default function App() {
         {/* 總覽 Tab */}
         {activeTab === "overview" && (
           <div className="space-y-8">
-            <StrategySection forceOpen={isAnyExpanded} />
-            <OverviewSection forceOpen={isAnyExpanded} />
+            <StrategySection />
+            <OverviewSection />
             <TodoSection
-              forceOpen={isAnyExpanded}
               completed={todoCompleted}
               onToggle={toggleTodoCompleted}
             />
-            <UsefulLinksSection forceOpen={isAnyExpanded} />
+            <UsefulLinksSection />
           </div>
         )}
 
