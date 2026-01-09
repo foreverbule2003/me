@@ -1,62 +1,58 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2025-12-27
+> 最後更新：2026-01-10 (Advisor Prioritization)
 
-## 🔧 Vite 遷移（中優先）
+## 🔴 P0: 立即執行 (High Visual ROI)
 
-### Trip 頁面遷移
+**目標**：修復視覺斷層，讓現有功能完整化。
 
-目前使用 CDN React + Babel，可選擇遷移到 Vite + React：
+*(已完成)*
 
-- [x] `trips/2026-ise-shima/` → Vite 版 ✅ 已完成
-- [ ] `trips/2026-hokkaido/` → Vite 版
-- [ ] `trips/2025-osaka/` → Vite 版
-- [ ] `trips/2025-cebu/` → Vite 版
+---
 
-**遷移模板**：參考 `src/pages/trips/ise-shima/`
+## 🟡 P1: 技術清理 (High Value / Low Risk)
 
-### 遷移後清理
+**目標**：確保地基乾淨，為 PWA 做準備。
 
-- [x] 確認 Vite 版正常後，移除舊版 CDN 頁面 ✅ ise-shima 已整合
+- [ ] **Tech Lead Audit**: 檢查專案中殘留的廢棄代碼 (如 `src/pages` vs `src/views` 結構整理)
 - [ ] 更新 `trips/index.html` 連結指向 Vite 版
 
 ---
 
-## 📱 PWA 離線支援（中優先）
+## 🟢 P2: PWA 核心建設 (MUST-HAVE)
 
-讓旅程頁面可離線使用，出國無網路時仍可查看行程。
+**目標**：確保伊勢志摩旅程可離線使用。
 
-### 實作項目
-
+### Phase 1: 可安裝化
 - [ ] 建立 `manifest.json` (App 名稱、圖示、主題色)
 - [ ] 準備多尺寸 App 圖示 (192x192, 512x512)
+
+### Phase 2: 離線能力
 - [ ] 建立 `service-worker.js` (Cache First 策略)
 - [ ] 在 HTML 註冊 Service Worker
 - [ ] 快取旅程頁面靜態資源 (HTML/CSS/JS/圖片)
 - [ ] 測試離線模式
 
-**參考**：[Vite PWA Plugin](https://vite-pwa-org.netlify.app/)
-
 ---
 
-## 🧹 維護與重構
+## ⚪ P3: 未來規劃 / 待定
 
-- [ ] **Tech Lead Audit**: 檢查專案中殘留的廢棄代碼 (如 `src/pages` vs `src/views` 結構整理)
-- [x] **UX 優化**: 修復伊勢志摩頁面導航切換閃爍問題 (改用 CSS Visibility) ✅
+### Trip 頁面遷移 (Vite + React)
+- [ ] `trips/2026-hokkaido/` → Vite 版
+- [ ] `trips/2025-osaka/` → Vite 版
+- [ ] `trips/2025-cebu/` → Vite 版
 
----
-
-## 📋 其他待辦
-
-### 功能增強
-
+### 功能與資料
 - [ ] 新增更多素食餐廳資料
 - [ ] 完善 AI 旅遊助手功能
-- [ ] **補完購物清單產品圖片**：
-  - [ ] 保養類 (SANA 眼霜、Melano CC、肌研、眼藥水)
-  - [ ] 上妝類 (Visee 遮瑕、CLIO/TIRTIR 氣墊、KATE 眼線、Cezanne 臥蠶)
-
-### 文件
-
 - [ ] 完成 2025-osaka 行程規劃
 - [ ] 完成 2026-hokkaido 行程規劃
+
+---
+
+## 🏁 已完成歸檔 (Archived)
+
+- [x] **補完購物清單產品圖片** (Completed: 2026-01-10)
+- [x] `trips/2026-ise-shima/` → Vite 版 ✅ 已完成
+- [x] 確認 Vite 版正常後，移除舊版 CDN 頁面 ✅ ise-shima 已整合
+- [x] **UX 優化**: 修復伊勢志摩頁面導航切換閃爍問題 (改用 CSS Visibility) ✅ (Completed: 2026-01-10)
