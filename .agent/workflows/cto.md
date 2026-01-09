@@ -1,10 +1,10 @@
 ---
-description: 呼叫技術長 (Tech Lead)
+description: 呼叫技術長 (CTO)
 ---
 
-# Invoke Tech Lead
+# Invoke CTO
 
-This workflow activates the Tech Lead persona.
+This workflow activates the CTO persona.
 
 1.  Read the Tech Lead Persona
     // turbo
@@ -16,7 +16,7 @@ This workflow activates the Tech Lead persona.
 
 ## 🔍 架構審查模式 (Review Mode)
 
-> 使用 `/tech review` 啟動完整架構審查。
+> 使用 `/cto review` 啟動完整架構審查。
 
 ### 審查清單
 
