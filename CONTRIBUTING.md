@@ -11,19 +11,23 @@
 ## 🛠️ 開發流程
 
 ### 1. 安裝
+
 ```bash
 npm install
 ```
 
 ### 2. 本地執行
+
 ```bash
 npm run dev
 ```
 
 ### 3. 新增內容
+
 我們使用互動式腳本來新增標準內容。
 
 **新增旅程 (Trip):**
+
 ```bash
 npm run new-trip
 # 跟隨提示建立新的旅程資料夾 (例如：trips/2026-tokyo)
@@ -34,9 +38,10 @@ npm run new-trip
 
 ## 📝 Pull Requests / 變更
 
--   **分支 (Branching)**：`feature/your-feature-name` 或 `fix/issue-description`。
--   **Commits**：使用 Conventional Commits (例如：`feat: add new trip`, `fix: header alignment`)。
--   **測試**：在推送前執行 `npm test` 確保沒有破壞現有功能。
+- **分支 (Branching)**：`feature/your-feature-name` 或 `fix/issue-description`。
+- **Commits**：使用 Conventional Commits (例如：`feat: add new trip`, `fix: header alignment`)。
+- **測試**：在推送前執行 `npm test` 確保沒有破壞現有功能。
 
 ## 🎨 風格指南
+
 請參閱 [STYLE_GUIDE.md](./docs/STYLE_GUIDE.md) 獲取詳細的 CSS 與元件使用規範。

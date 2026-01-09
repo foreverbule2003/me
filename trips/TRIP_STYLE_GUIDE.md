@@ -12,6 +12,7 @@
 ## 2. 設計系統 (Design System)
 
 ### 2.1 色彩計畫 (Color Palette)
+
 建議定義於 Tailwind Config 中，可根據特定旅程微調，但基礎語意應保持一致：
 
 | 顏色名稱 (Name) | 範例色碼 (Standard) | 用途 (Usage)                         |
@@ -168,7 +169,7 @@
 // 單一 FAB 按鈕樣式
 <button className="p-3 rounded-full bg-white/70 backdrop-blur-md text-primary shadow-xl border border-white/50 hover:bg-white hover:text-primary transition-all duration-300 group relative">
   <IconName size={24} className="animate-pulse" />
-  
+
   {/* Tooltip */}
   <span className="absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
     按鈕說明
@@ -230,7 +231,10 @@
             Day 1-2
           </span>
         </div>
-        <ExternalLink size={14} className="text-gray-300 group-hover:text-accent shrink-0 ml-2" />
+        <ExternalLink
+          size={14}
+          className="text-gray-300 group-hover:text-accent shrink-0 ml-2"
+        />
       </a>
     </div>
   </div>
@@ -244,27 +248,30 @@
 <div className="relative bg-white rounded-3xl shadow-md border border-gray-100 hover:shadow-lg transition-all duration-300 flex flex-col overflow-hidden group">
   {/* 可點擊的圖片頭部 */}
   <button className="w-full relative overflow-hidden cursor-pointer text-left focus:outline-none focus:ring-2 focus:ring-primary/50 focus:ring-inset transition-all duration-300 h-28">
-    <img src={imageUrl} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+    <img
+      src={imageUrl}
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+    />
     <div className="absolute inset-0 bg-gradient-to-t from-dark/80 to-transparent" />
-    
+
     {/* 左上角日期標籤 */}
     <div className="absolute left-4 top-4">
       <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-white font-bold text-sm border border-white/20 shadow-lg">
         D1 · 1/12 (一)
       </span>
     </div>
-    
+
     {/* 右上角展開/折疊圖示 */}
     <div className="absolute right-4 top-4 p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/30">
       <ChevronDown size={16} />
     </div>
   </button>
-  
+
   {/* 可折疊內容區 */}
-  <div style={{ display: 'grid', gridTemplateRows: isExpanded ? '1fr' : '0fr' }}>
-    <div className="min-h-0">
-      {/* 行程內容 */}
-    </div>
+  <div
+    style={{ display: "grid", gridTemplateRows: isExpanded ? "1fr" : "0fr" }}
+  >
+    <div className="min-h-0">{/* 行程內容 */}</div>
   </div>
 </div>
 ```
@@ -279,9 +286,10 @@
       {/* 分頁按鈕 */}
       <button
         className={`flex items-center justify-center gap-1 sm:gap-2 px-3 py-2 sm:px-4 sm:py-2.5 md:px-5 rounded-full font-medium transition-all duration-300 whitespace-nowrap text-xs sm:text-sm md:text-base
-          ${isActive
-            ? "bg-primary text-white shadow-md transform scale-105"
-            : "bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+          ${
+            isActive
+              ? "bg-primary text-white shadow-md transform scale-105"
+              : "bg-transparent text-gray-500 hover:bg-gray-100 hover:text-gray-700"
           }
         `}
       >
@@ -320,7 +328,7 @@
   <span className="text-xs font-bold text-primary/70 min-w-[3rem] font-mono leading-6">
     14:00
   </span>
-  
+
   <div className="flex-1 min-w-0">
     {/* 主標題行 */}
     <div className="flex items-center justify-between gap-2">
@@ -332,15 +340,15 @@
         <Train size={16} />
       </button>
     </div>
-    
+
     {/* 副標題 */}
     <div className="text-xs text-gray-500 mt-0.5 font-medium">副標題說明</div>
-    
+
     {/* 警告提示 */}
     <div className="mt-2 text-xs text-orange-700 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-lg inline-block leading-relaxed">
       <span className="font-bold mr-1">⚠️</span> 注意事項
     </div>
-    
+
     {/* 資訊提示 */}
     <div className="mt-1 text-xs text-primary/70 flex items-start gap-1 leading-relaxed">
       <Info size={12} className="mt-0.5 shrink-0" /> 補充資訊

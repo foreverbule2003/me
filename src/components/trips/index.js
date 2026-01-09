@@ -3,7 +3,7 @@
  */
 
 // Icons
-export * from './TripIcons.jsx';
+export * from "./TripIcons.jsx";
 
 // Components
 export {
@@ -18,4 +18,4 @@ export {
   PhaseHeader,
   ToggleFAB,
   ScrollToTop,
-} from './TripComponents.jsx';
+} from "./TripComponents.jsx";

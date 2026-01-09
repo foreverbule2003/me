@@ -5,9 +5,11 @@
 ## 共用元件庫 (兩套架構並存)
 
 ### CDN 版 (trips/shared/)
+
 供 CDN React + Babel 頁面使用，透過 `window.TripShared` 全域暴露。
 
 ### Vite 版 (src/components/trips/) ✨ NEW
+
 供 Vite + React 頁面使用，ESM 模組格式。
 
 | 檔案                 | 說明                                 |
@@ -17,6 +19,7 @@
 | `index.js`           | 統一導出入口                         |
 
 **輔助函式**：`src/lib/trip-helpers.js`
+
 - `cleanQuery()` - 清理 Gemini API 回應
 - `callGeminiAPI()` - 呼叫 Gemini API
 
@@ -25,6 +28,7 @@
 ## CDN 版共用元件 (trips/shared/)
 
 ### 1. SectionCard
+
 **位置**: `trips/shared/components.js`
 
 統一的內容卡片容器，用於旅程詳情頁的各個區塊。
@@ -38,17 +42,20 @@ SectionCard({
 ```
 
 **樣式特點**:
+
 - 白底圓角卡片 (`rounded-3xl`)
 - 陰影效果 (`shadow-lg`)
 - 邊框 (`border border-gray-100`)
 - 毛玻璃效果的背景
 
 **新增 Props (Vite 版)**:
+
 - `collapsible`: Boolean (是否可折疊)
 - `defaultOpen`: Boolean (預設展開狀態)
 - `forceOpen`: Boolean|Null (受控模式強制展開狀態)
 
 ### 1.1 CollapsiblePhase (Vite 版內部元件)
+
 **位置**: `src/pages/trips/ise-shima/App.jsx`
 
 用於行程分頁的階段標題折疊容器。
@@ -63,6 +70,7 @@ SectionCard({
 ## 旅程頁面元件 (2026-ise-shima/index.html)
 
 ### 2. Header
+
 頁面頂部橫幅，包含背景圖片、漸層遮罩、標題文字。
 
 | 屬性     | 說明                                                        |
@@ -73,6 +81,7 @@ SectionCard({
 | 標籤     | 旅程代號標籤 (如 JP-ISE-OSA-2026-VEG-10D)                   |
 
 ### 3. StrategySection (行程亮點)
+
 顯示行程摘要統計卡片。
 
 | 元素     | 說明                            |
@@ -82,6 +91,7 @@ SectionCard({
 | 亮點標籤 | VISON 連住、賢島寶生苑等關鍵詞  |
 
 ### 4. UsefulLinksSection (實用連結)
+
 分類展示外部連結，含交通票券、住宿、景點三大類。
 
 ```javascript
@@ -91,13 +101,14 @@ usefulLinks = {
       type: "ticket",
       label: "交通票券",
       icon: "Train",
-      items: [{ name, day, url }]
-    }
-  ]
-}
+      items: [{ name, day, url }],
+    },
+  ],
+};
 ```
 
 ### 5. DayCard (每日行程卡片)
+
 可折疊的每日行程卡片，支援受控與非受控模式。
 
 | 屬性              | 類型     | 說明                       |
@@ -109,6 +120,7 @@ usefulLinks = {
 | `onToggle`        | Function | 切換展開狀態的回調         |
 
 **活動項目資料結構**:
+
 ```javascript
 {
   time: "14:00",
@@ -122,6 +134,7 @@ usefulLinks = {
 ```
 
 ### 6. BudgetTable (預算概算表)
+
 響應式預算表格，桌面版顯示表格，手機版顯示卡片列表。
 
 | 資料欄位 | 說明         |
@@ -131,11 +144,13 @@ usefulLinks = {
 | note     | 說明備註     |
 
 **功能**:
+
 - 自動計算總計
 - 支援多幣別顯示 (JPY/TWD)
 - 響應式切換表格/卡片
 
 ### 7. MapModal (地圖彈窗)
+
 嵌入 Google Maps iframe 的彈窗。
 
 | 模式    | 說明                                |
@@ -144,6 +159,7 @@ usefulLinks = {
 | `spot`  | 定點模式（顯示單一地點）            |
 
 ### 8. MapView (交通地圖頁)
+
 交通資訊總覽頁面，包含三個可折疊區塊。
 
 | 區塊              | 說明                          |
@@ -153,9 +169,11 @@ usefulLinks = {
 | 每日交通路徑總覽  | 可點擊開啟地圖的路線卡片      |
 
 ### 9. FoodView (美食指南)
+
 美食資訊列表，支援收藏功能。
 
 **功能**:
+
 - 按地區分類 (臨空城、VISON、伊勢、大阪等)
 - 愛心收藏 (localStorage 持久化)
 - 收藏項目自動排序至頂部
@@ -163,18 +181,23 @@ usefulLinks = {
 
 ```javascript
 foodData = {
-  categories: [{
-    location: "地區名",
-    day: "Day 1-2",
-    sections: [{
-      title: "分類標題",
-      items: [{ name, type, desc, note, recommended, mapUrl }]
-    }]
-  }]
-}
+  categories: [
+    {
+      location: "地區名",
+      day: "Day 1-2",
+      sections: [
+        {
+          title: "分類標題",
+          items: [{ name, type, desc, note, recommended, mapUrl }],
+        },
+      ],
+    },
+  ],
+};
 ```
 
 ### 10. AIModal (AI 旅遊助手)
+
 AI 聊天與翻譯功能的彈窗。
 
 | 分頁       | 說明                          |
@@ -183,15 +206,18 @@ AI 聊天與翻譯功能的彈窗。
 | 素食溝通卡 | 預設的日文素食需求卡片        |
 
 **子元件**:
+
 - `AIChatBubble` - 聊天氣泡
 - `TranslatorButton` - 翻譯按鈕
 
 ### 11.0 ToggleFAB (展開/折疊按鈕)
+
 **位置**: `src/components/trips/TripComponents.jsx`
 
 共用的懸浮收合按鈕 (FAB)，用於控制各頁面的全域展開/折疊狀態。
 
 **特點**:
+
 - **Smart Logic**: 智慧偵測狀態。若有任何項目被展開，按鈕會顯示「全部折疊」；只有當所有項目都關閉時，才顯示「全部展開」。
 - **圖示設計**: 使用 `FoldVertical` (折疊) 與 `UnfoldVertical` (展開) 圖示。
 
@@ -201,6 +227,7 @@ AI 聊天與翻譯功能的彈窗。
 | `onToggle`   | Function | 切換回調                     |
 
 ### 11.1 ScrollToTop (回到頂部按鈕)
+
 **位置**: `src/components/trips/TripComponents.jsx`
 
 滾動超過 300px 後出現的懸浮按鈕 (FAB)。
@@ -209,6 +236,7 @@ AI 聊天與翻譯功能的彈窗。
 - **互動**: 平滑滾動至頁面頂部。
 
 ### 11. App (主程式)
+
 應用程式根元件，管理全局狀態和路由。
 
 | 狀態            | 說明                                          |
@@ -244,6 +272,7 @@ React 封裝的 Game Boy 外殼元件，處理所有外觀與互動邏輯。
 | 選單項目 | `.gb-btn`          | 可選擇的選單按鈕        |
 
 **功能**:
+
 - **開機動畫**: 處理電源開啟時的 Nintendo 風格動畫
 - **音效管理**: 內建 Web Audio API 音效 (開機、點擊、懸停)
 - **電源狀態**: 使用 `sessionStorage` 記憶開機狀態
@@ -277,6 +306,7 @@ import { db, auth, googleProvider, ... } from '../lib/firebase.js';
 ## 日記頁元件 (journal/index.html)
 
 ### JournalPage
+
 主頁面元件，管理日記列表與認證狀態。
 
 | 狀態           | 說明                             |
@@ -287,6 +317,7 @@ import { db, auth, googleProvider, ... } from '../lib/firebase.js';
 | `editingEntry` | 正在編輯的日記項目               |
 
 ### JournalCard
+
 日記卡片元件，顯示單一日記摘要。
 
 | Prop       | 類型     | 說明                  |
@@ -297,6 +328,7 @@ import { db, auth, googleProvider, ... } from '../lib/firebase.js';
 | `onDelete` | Function | 刪除日記的回調        |
 
 ### JournalModal
+
 日記編輯彈窗，用於新增/編輯日記。
 
 | 欄位          | 說明                 |
@@ -333,6 +365,7 @@ import { db, auth, googleProvider, ... } from '../lib/firebase.js';
 ## CSS 變數
 
 ### 首頁 (Game Boy 風格)
+
 ```css
 :root {
   --gb-darkest: #0f380f;
@@ -343,23 +376,24 @@ import { db, auth, googleProvider, ... } from '../lib/firebase.js';
 ```
 
 ### 旅程頁 (Tailwind 擴展)
+
 ```javascript
 tailwind.config = {
   theme: {
     extend: {
       colors: {
-        primary: "#4F46E5",      // Indigo
+        primary: "#4F46E5", // Indigo
         headerPrimary: "#0F2540", // Deep Blue
-        accent: "#E8968A",        // Coral Rose
+        accent: "#E8968A", // Coral Rose
         dark: "#1C1C1E",
         subtle: "#6E6E73",
         surface: "#F5F5F0",
         star: "#E8968A",
-        love: "#C32F2F"
-      }
-    }
-  }
-}
+        love: "#C32F2F",
+      },
+    },
+  },
+};
 ```
 
 ---

@@ -1,13 +1,14 @@
-const fs = require('fs');
-const path = require('path');
-const readline = require('readline');
+const fs = require("fs");
+const path = require("path");
+const readline = require("readline");
 
 const rl = readline.createInterface({
   input: process.stdin,
-  output: process.stdout
+  output: process.stdout,
 });
 
-const askQuestion = (query) => new Promise(resolve => rl.question(query, resolve));
+const askQuestion = (query) =>
+  new Promise((resolve) => rl.question(query, resolve));
 
 // ============================================================
 // 模板：HTML 入口點 (Vite 版)
@@ -670,14 +671,14 @@ function generateSpecMd(year, location, title, tripCode) {
 // 主程式
 // ============================================================
 async function main() {
-  console.log('--- 🚀 快速建立新旅程 (v3.0 - Vite + React 版) ---\n');
+  console.log("--- 🚀 快速建立新旅程 (v3.0 - Vite + React 版) ---\n");
 
-  const year = await askQuestion('📅 請輸入年份 (例如 2027): ');
-  const location = await askQuestion('📍 請輸入地點代碼 (例如 sapporo): ');
-  const title = await askQuestion('✨ 請輸入旅程標題 (例如 北海道美食之旅): ');
+  const year = await askQuestion("📅 請輸入年份 (例如 2027): ");
+  const location = await askQuestion("📍 請輸入地點代碼 (例如 sapporo): ");
+  const title = await askQuestion("✨ 請輸入旅程標題 (例如 北海道美食之旅): ");
 
   if (!year || !location) {
-    console.error('\n❌ 年份與地點為必填項目！');
+    console.error("\n❌ 年份與地點為必填項目！");
     process.exit(1);
   }
 
@@ -687,13 +688,22 @@ async function main() {
   const tripCode = `JP-${location.toUpperCase()}-${year}`;
 
   // 路徑
-  const tripsDir = path.join(__dirname, '..', 'trips', folderName);
-  const srcPagesDir = path.join(__dirname, '..', 'src', 'pages', 'trips', locationCode);
-  const viteConfigPath = path.join(__dirname, '..', 'vite.config.js');
+  const tripsDir = path.join(__dirname, "..", "trips", folderName);
+  const srcPagesDir = path.join(
+    __dirname,
+    "..",
+    "src",
+    "pages",
+    "trips",
+    locationCode,
+  );
+  const viteConfigPath = path.join(__dirname, "..", "vite.config.js");
 
   // 檢查是否已存在
   if (fs.existsSync(tripsDir) || fs.existsSync(srcPagesDir)) {
-    console.error(`\n❌ 錯誤：目錄 ${folderName} 或 ${locationCode} 已經存在！`);
+    console.error(
+      `\n❌ 錯誤：目錄 ${folderName} 或 ${locationCode} 已經存在！`,
+    );
     process.exit(1);
   }
 
@@ -706,27 +716,45 @@ async function main() {
   fs.mkdirSync(srcPagesDir, { recursive: true });
 
   // 3. 產生 HTML 入口點
-  fs.writeFileSync(path.join(tripsDir, 'index.html'), generateHTML(year, location, tripTitle, locationCode));
+  fs.writeFileSync(
+    path.join(tripsDir, "index.html"),
+    generateHTML(year, location, tripTitle, locationCode),
+  );
   console.log(`✅ trips/${folderName}/index.html`);
 
   // 4. 產生 spec.md
-  fs.writeFileSync(path.join(tripsDir, 'spec.md'), generateSpecMd(year, location, tripTitle, tripCode));
+  fs.writeFileSync(
+    path.join(tripsDir, "spec.md"),
+    generateSpecMd(year, location, tripTitle, tripCode),
+  );
   console.log(`✅ trips/${folderName}/spec.md`);
 
   // 5. 產生 main.jsx
-  fs.writeFileSync(path.join(srcPagesDir, 'main.jsx'), generateMainJsx(locationCode));
+  fs.writeFileSync(
+    path.join(srcPagesDir, "main.jsx"),
+    generateMainJsx(locationCode),
+  );
   console.log(`✅ src/pages/trips/${locationCode}/main.jsx`);
 
   // 6. 產生 App.jsx
-  fs.writeFileSync(path.join(srcPagesDir, 'App.jsx'), generateAppJsx(year, location, tripTitle, tripCode));
+  fs.writeFileSync(
+    path.join(srcPagesDir, "App.jsx"),
+    generateAppJsx(year, location, tripTitle, tripCode),
+  );
   console.log(`✅ src/pages/trips/${locationCode}/App.jsx`);
 
   // 7. 產生 data.js
-  fs.writeFileSync(path.join(srcPagesDir, 'data.js'), generateDataJs(year, location, tripTitle, tripCode));
+  fs.writeFileSync(
+    path.join(srcPagesDir, "data.js"),
+    generateDataJs(year, location, tripTitle, tripCode),
+  );
   console.log(`✅ src/pages/trips/${locationCode}/data.js`);
 
   // 8. 產生 CSS
-  fs.writeFileSync(path.join(srcPagesDir, `${locationCode}.css`), generateCss(locationCode));
+  fs.writeFileSync(
+    path.join(srcPagesDir, `${locationCode}.css`),
+    generateCss(locationCode),
+  );
   console.log(`✅ src/pages/trips/${locationCode}/${locationCode}.css`);
 
   // 9. 更新 vite.config.js (提示用戶手動添加)

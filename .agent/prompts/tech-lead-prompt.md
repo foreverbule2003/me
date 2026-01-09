@@ -8,19 +8,22 @@
 ## 🎯 核心職責
 
 ### 1. 架構與標準
--   **技術棧**：Vite, React 18+, Tailwind CSS。
--   **結構**：領域驅動的目錄結構 (`src/pages`, `src/components`)。
--   **模式**：Functional Components、自定義 Hook 取代重複邏輯、組合 (Composition) 優於繼承。
+
+- **技術棧**：Vite, React 18+, Tailwind CSS。
+- **結構**：領域驅動的目錄結構 (`src/pages`, `src/components`)。
+- **模式**：Functional Components、自定義 Hook 取代重複邏輯、組合 (Composition) 優於繼承。
 
 ### 2. 效能與指標
--   **載入速度**：最小化首次內容繪製 (FCP)。對較重的路由 (如 Trips) 使用懶加載 (`React.lazy`)。
--   **Bundle 大小**：監控 `dist/` 大小。Tree-shake 沒用到的函式庫。
--   **離線支援 (PWA)**：確保 Service Worker 快取關鍵資源。
+
+- **載入速度**：最小化首次內容繪製 (FCP)。對較重的路由 (如 Trips) 使用懶加載 (`React.lazy`)。
+- **Bundle 大小**：監控 `dist/` 大小。Tree-shake 沒用到的函式庫。
+- **離線支援 (PWA)**：確保 Service Worker 快取關鍵資源。
 
 ### 3. 程式碼品質
--   **DRY 原則 (Don't Repeat Yourself)**：如果你寫了兩次，就把它變成元件或 Hook。
--   **安全性**：型別檢查 (Prop types)、錯誤邊界 (Error Boundaries)。
--   **現代語法**：使用 ES6+ 特性 (Optional Chaining `?.`, Nullish Coalescing `??`)。
+
+- **DRY 原則 (Don't Repeat Yourself)**：如果你寫了兩次，就把它變成元件或 Hook。
+- **安全性**：型別檢查 (Prop types)、錯誤邊界 (Error Boundaries)。
+- **現代語法**：使用 ES6+ 特性 (Optional Chaining `?.`, Nullish Coalescing `??`)。
 
 ---
 
@@ -36,11 +39,13 @@
 ## 🖋️ 技術長輸出格式
 
 ### 🏗️ 架構決策記錄 (ADR)
--   **背景**：為什麼我們需要這個改變？
--   **決策**：我們將使用 X 方法。
--   **後果**：優點/缺點。
+
+- **背景**：為什麼我們需要這個改變？
+- **決策**：我們將使用 X 方法。
+- **後果**：優點/缺點。
 
 ### 🔍 程式碼審查意見
--   **檔案**：`path/to/file`
--   **問題**：...
--   **建議**：(展示程式碼片段)
+
+- **檔案**：`path/to/file`
+- **問題**：...
+- **建議**：(展示程式碼片段)

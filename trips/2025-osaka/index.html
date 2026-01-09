@@ -1,7 +1,6 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-TW">
-
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2025 京阪奈岡山・完整版</title>
@@ -10,32 +9,39 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;500;700;800;900&display=swap"
-        rel="stylesheet" />
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: "#2e4b71", // Japan Navy Blue
-                        accent: "#b94047",  // Japan Red
-                        surface: "#f5f7fa",
-                        subtle: "#6E6E73",
-                    },
-                    fontFamily: {
-                        display: ['"Noto Serif JP"', "serif"],
-                        body: ['"Inter"', "sans-serif"],
-                    }
-                },
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#2e4b71", // Japan Navy Blue
+              accent: "#b94047", // Japan Red
+              surface: "#f5f7fa",
+              subtle: "#6E6E73",
             },
-            safelist: ['text-primary', 'text-accent', 'bg-primary', 'bg-accent'] // Safe list dynamic colors
-        };
+            fontFamily: {
+              display: ['"Noto Serif JP"', "serif"],
+              body: ['"Inter"', "sans-serif"],
+            },
+          },
+        },
+        safelist: ["text-primary", "text-accent", "bg-primary", "bg-accent"], // Safe list dynamic colors
+      };
     </script>
 
     <!-- React & Babel -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    ></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <!-- Shared Components -->
@@ -46,322 +52,411 @@
 
     <!-- Data -->
     <script src="./data.js"></script>
-</head>
+  </head>
 
-<body class="bg-surface font-body text-gray-800 selection:bg-accent/20 selection:text-primary pb-24">
+  <body
+    class="bg-surface font-body text-gray-800 selection:bg-accent/20 selection:text-primary pb-24"
+  >
     <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
-        const {
-            SectionCard, PageHeader, ActivityItem, TabNavigation, BackButton, MapModal
-        } = window.TripShared.components;
+      const { useState, useEffect } = React;
+      const {
+        SectionCard,
+        PageHeader,
+        ActivityItem,
+        TabNavigation,
+        BackButton,
+        MapModal,
+      } = window.TripShared.components;
 
-        // Icons
-        const Icons = window.TripShared.Icons;
-        const {
-            Plane, MapPin, ShoppingBag, Wallet, Info, CheckSquare,
-            Utensils, Train, Suitcase, Star
-        } = Icons;
+      // Icons
+      const Icons = window.TripShared.Icons;
+      const {
+        Plane,
+        MapPin,
+        ShoppingBag,
+        Wallet,
+        Info,
+        CheckSquare,
+        Utensils,
+        Train,
+        Suitcase,
+        Star,
+      } = Icons;
 
-        // --- Local Components ---
+      // --- Local Components ---
 
-        // 1. LuggageView
-        const LuggageView = () => {
-            const { luggageData } = window.TripData;
-            const [activeCat, setActiveCat] = useState('bao');
-            const [checkedItems, setCheckedItems] = useState({});
+      // 1. LuggageView
+      const LuggageView = () => {
+        const { luggageData } = window.TripData;
+        const [activeCat, setActiveCat] = useState("bao");
+        const [checkedItems, setCheckedItems] = useState({});
 
-            // Load checked state from localStorage
-            useEffect(() => {
-                const saved = localStorage.getItem('osaka_luggage_checked');
-                if (saved) setCheckedItems(JSON.parse(saved));
-            }, []);
+        // Load checked state from localStorage
+        useEffect(() => {
+          const saved = localStorage.getItem("osaka_luggage_checked");
+          if (saved) setCheckedItems(JSON.parse(saved));
+        }, []);
 
-            const handleCheck = (key) => {
-                const newState = { ...checkedItems, [key]: !checkedItems[key] };
-                setCheckedItems(newState);
-                localStorage.setItem('osaka_luggage_checked', JSON.stringify(newState));
-            };
-
-            const categories = [
-                { id: 'bao', label: '寶的清單' },
-                { id: 'bei', label: '貝的清單' },
-                { id: 'morning', label: '早上檢查' },
-                { id: 'clothes', label: '小豬衣物' }
-            ];
-
-            return (
-                <div className="max-w-2xl mx-auto px-4 mt-8">
-                    {/* Tabs */}
-                    <div className="flex border-b border-gray-200 mb-6 overflow-x-auto no-scrollbar">
-                        {categories.map(cat => (
-                            <button
-                                key={cat.id}
-                                onClick={() => setActiveCat(cat.id)}
-                                className={`flex-none px-4 py-2 text-sm font-medium transition-colors ${activeCat === cat.id
-                                        ? "text-primary border-b-2 border-primary"
-                                        : "text-gray-400 hover:text-gray-600"
-                                    }`}
-                            >
-                                {cat.label}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* List */}
-                    <div className="bg-white rounded-2xl shadow-sm overflow-hidden animate-fade-in">
-                        <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
-                            <h3 className="font-bold text-gray-700">{luggageData[activeCat].title}</h3>
-                        </div>
-                        <div className="divide-y divide-gray-50">
-                            {luggageData[activeCat].items.map((item, idx) => {
-                                const key = `${activeCat}-${idx}`;
-                                return (
-                                    <label key={key} className="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer select-none transition-colors">
-                                        <input
-                                            type="checkbox"
-                                            className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
-                                            checked={!!checkedItems[key]}
-                                            onChange={() => handleCheck(key)}
-                                        />
-                                        <span className={`ml-3 text-sm transition-all ${checkedItems[key] ? "text-gray-400 line-through" : "text-gray-700"}`}>
-                                            {item}
-                                        </span>
-                                    </label>
-                                );
-                            })}
-                        </div>
-                    </div>
-                    <p className="text-center text-xs text-gray-400 mt-6">進度自動儲存於此瀏覽器</p>
-                </div>
-            );
+        const handleCheck = (key) => {
+          const newState = { ...checkedItems, [key]: !checkedItems[key] };
+          setCheckedItems(newState);
+          localStorage.setItem(
+            "osaka_luggage_checked",
+            JSON.stringify(newState),
+          );
         };
 
-        // 2. ShoppingView
-        const ShoppingView = () => {
-            const { shoppingData } = window.TripData;
+        const categories = [
+          { id: "bao", label: "寶的清單" },
+          { id: "bei", label: "貝的清單" },
+          { id: "morning", label: "早上檢查" },
+          { id: "clothes", label: "小豬衣物" },
+        ];
 
-            return (
-                <div className="max-w-2xl mx-auto px-4 mt-8 space-y-6">
-                    {/* Warnings */}
-                    <div className="bg-red-50 border border-red-100 rounded-2xl p-4">
-                        <h3 className="text-accent font-bold text-sm mb-2 flex items-center gap-2">
-                            <Info size={16} /> 重要注意事項
-                        </h3>
-                        <ul className="list-disc list-inside text-xs text-accent space-y-1 opacity-80">
-                            {shoppingData.tips.map((t, i) => <li key={i}>{t}</li>)}
-                        </ul>
-                    </div>
+        return (
+          <div className="max-w-2xl mx-auto px-4 mt-8">
+            {/* Tabs */}
+            <div className="flex border-b border-gray-200 mb-6 overflow-x-auto no-scrollbar">
+              {categories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCat(cat.id)}
+                  className={`flex-none px-4 py-2 text-sm font-medium transition-colors ${
+                    activeCat === cat.id
+                      ? "text-primary border-b-2 border-primary"
+                      : "text-gray-400 hover:text-gray-600"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
+            </div>
 
-                    {/* Shopping List */}
-                    <SectionCard title="必買清單" icon={ShoppingBag}>
-                        <div className="space-y-2">
-                            {shoppingData.items.map((item, idx) => (
-                                <div className="flex items-center py-2 border-b border-gray-50 last:border-0 hover:bg-gray-50 rounded px-2 transition-colors">
-                                    {item.image ? (
-                                        <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 mr-3 border border-gray-100">
-                                            <img src={item.image} alt={item.title} className="w-full h-full object-cover" />
-                                        </div>
-                                    ) : (
-                                        <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs mr-3 shrink-0 ${item.type === 'food' ? 'bg-orange-50 text-orange-500' : 'bg-blue-50 text-blue-500'
-                                            }`}>
-                                            {item.type === 'food' ? <Utensils size={14} /> : <ShoppingBag size={14} />}
-                                        </div>
-                                    )}
-                                    <span className="text-sm text-gray-700 font-medium">{item.title}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </SectionCard>
+            {/* List */}
+            <div className="bg-white rounded-2xl shadow-sm overflow-hidden animate-fade-in">
+              <div className="bg-gray-50 px-4 py-3 border-b border-gray-100">
+                <h3 className="font-bold text-gray-700">
+                  {luggageData[activeCat].title}
+                </h3>
+              </div>
+              <div className="divide-y divide-gray-50">
+                {luggageData[activeCat].items.map((item, idx) => {
+                  const key = `${activeCat}-${idx}`;
+                  return (
+                    <label
+                      key={key}
+                      className="flex items-center px-4 py-3 hover:bg-gray-50 cursor-pointer select-none transition-colors"
+                    >
+                      <input
+                        type="checkbox"
+                        className="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary"
+                        checked={!!checkedItems[key]}
+                        onChange={() => handleCheck(key)}
+                      />
+                      <span
+                        className={`ml-3 text-sm transition-all ${checkedItems[key] ? "text-gray-400 line-through" : "text-gray-700"}`}
+                      >
+                        {item}
+                      </span>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+            <p className="text-center text-xs text-gray-400 mt-6">
+              進度自動儲存於此瀏覽器
+            </p>
+          </div>
+        );
+      };
 
-                    {/* Links */}
-                    <h3 className="font-display font-bold text-lg text-gray-800 ml-1">實用連結 & 優惠</h3>
-                    <div className="grid grid-cols-2 gap-3">
-                        {shoppingData.links.map((link, i) => (
-                            <a key={i} href={link.url} target="_blank" className="bg-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center text-center active:scale-95 transition-transform border border-transparent hover:border-gray-200">
-                                {/* Note: In a real app we'd map string icon names to components, here we cheat a bit or use generic */}
-                                <div className="text-primary mb-2 opacity-80"><Icons.ExternalLink size={24} /></div>
-                                <span className="text-xs font-medium text-gray-600 leading-tight">{link.title}</span>
-                            </a>
-                        ))}
-                    </div>
+      // 2. ShoppingView
+      const ShoppingView = () => {
+        const { shoppingData } = window.TripData;
+
+        return (
+          <div className="max-w-2xl mx-auto px-4 mt-8 space-y-6">
+            {/* Warnings */}
+            <div className="bg-red-50 border border-red-100 rounded-2xl p-4">
+              <h3 className="text-accent font-bold text-sm mb-2 flex items-center gap-2">
+                <Info size={16} /> 重要注意事項
+              </h3>
+              <ul className="list-disc list-inside text-xs text-accent space-y-1 opacity-80">
+                {shoppingData.tips.map((t, i) => (
+                  <li key={i}>{t}</li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Shopping List */}
+            <SectionCard title="必買清單" icon={ShoppingBag}>
+              <div className="space-y-2">
+                {shoppingData.items.map((item, idx) => (
+                  <div className="flex items-center py-2 border-b border-gray-50 last:border-0 hover:bg-gray-50 rounded px-2 transition-colors">
+                    {item.image ? (
+                      <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 mr-3 border border-gray-100">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-xs mr-3 shrink-0 ${
+                          item.type === "food"
+                            ? "bg-orange-50 text-orange-500"
+                            : "bg-blue-50 text-blue-500"
+                        }`}
+                      >
+                        {item.type === "food" ? (
+                          <Utensils size={14} />
+                        ) : (
+                          <ShoppingBag size={14} />
+                        )}
+                      </div>
+                    )}
+                    <span className="text-sm text-gray-700 font-medium">
+                      {item.title}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+
+            {/* Links */}
+            <h3 className="font-display font-bold text-lg text-gray-800 ml-1">
+              實用連結 & 優惠
+            </h3>
+            <div className="grid grid-cols-2 gap-3">
+              {shoppingData.links.map((link, i) => (
+                <a
+                  key={i}
+                  href={link.url}
+                  target="_blank"
+                  className="bg-white p-4 rounded-xl shadow-sm flex flex-col items-center justify-center text-center active:scale-95 transition-transform border border-transparent hover:border-gray-200"
+                >
+                  {/* Note: In a real app we'd map string icon names to components, here we cheat a bit or use generic */}
+                  <div className="text-primary mb-2 opacity-80">
+                    <Icons.ExternalLink size={24} />
+                  </div>
+                  <span className="text-xs font-medium text-gray-600 leading-tight">
+                    {link.title}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      };
+
+      // 3. BudgetView
+      const BudgetView = () => {
+        return (
+          <div className="max-w-2xl mx-auto px-4 mt-8">
+            <div className="text-center mb-8">
+              <div className="inline-block p-4 rounded-full bg-blue-50 text-primary mb-4 shadow-sm animate-bounce-slow">
+                <Wallet size={32} />
+              </div>
+              <h2 className="text-2xl font-display font-bold text-gray-800">
+                旅遊預算
+              </h2>
+              <p className="text-xs text-gray-400 mt-2">
+                點擊下方按鈕查看 Google Sheets
+              </p>
+            </div>
+
+            <a
+              href="https://docs.google.com/spreadsheets/d/1RFGLe_BHZ48Opw4kOvMXEwZN7tPvhE3jDTv_-iB6sdg/edit?usp=drivesdk"
+              target="_blank"
+              className="block bg-primary text-white rounded-xl p-4 text-center shadow-lg shadow-blue-900/20 active:scale-[0.98] transition-all hover:bg-primary/90 mx-4"
+            >
+              <span className="font-bold flex items-center justify-center gap-2">
+                開啟記帳表 <Icons.ExternalLink size={16} />
+              </span>
+            </a>
+
+            <div className="mt-10 px-2">
+              <h3 className="font-bold text-gray-700 mb-4 border-l-4 border-accent pl-3">
+                信用卡回饋攻略
+              </h3>
+
+              <div className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-bold text-gray-800">大寶 Cube 卡</span>
+                  <span className="text-xs font-bold bg-pink-50 text-pink-600 px-2 py-1 rounded">
+                    3% 回饋
+                  </span>
                 </div>
-            );
-        };
+                <p className="text-xs text-gray-500">
+                  切換「趣旅行」權益。適用：訂房、Klook、當地實體刷卡。
+                </p>
+              </div>
 
-        // 3. BudgetView
-        const BudgetView = () => {
-            return (
-                <div className="max-w-2xl mx-auto px-4 mt-8">
-                    <div className="text-center mb-8">
-                        <div className="inline-block p-4 rounded-full bg-blue-50 text-primary mb-4 shadow-sm animate-bounce-slow">
-                            <Wallet size={32} />
-                        </div>
-                        <h2 className="text-2xl font-display font-bold text-gray-800">旅遊預算</h2>
-                        <p className="text-xs text-gray-400 mt-2">點擊下方按鈕查看 Google Sheets</p>
-                    </div>
-
-                    <a href="https://docs.google.com/spreadsheets/d/1RFGLe_BHZ48Opw4kOvMXEwZN7tPvhE3jDTv_-iB6sdg/edit?usp=drivesdk" target="_blank"
-                        className="block bg-primary text-white rounded-xl p-4 text-center shadow-lg shadow-blue-900/20 active:scale-[0.98] transition-all hover:bg-primary/90 mx-4">
-                        <span className="font-bold flex items-center justify-center gap-2">
-                            開啟記帳表 <Icons.ExternalLink size={16} />
-                        </span>
-                    </a>
-
-                    <div className="mt-10 px-2">
-                        <h3 className="font-bold text-gray-700 mb-4 border-l-4 border-accent pl-3">信用卡回饋攻略</h3>
-
-                        <div className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <div className="flex justify-between items-center mb-1">
-                                <span className="font-bold text-gray-800">大寶 Cube 卡</span>
-                                <span className="text-xs font-bold bg-pink-50 text-pink-600 px-2 py-1 rounded">3% 回饋</span>
-                            </div>
-                            <p className="text-xs text-gray-500">切換「趣旅行」權益。適用：訂房、Klook、當地實體刷卡。</p>
-                        </div>
-
-                        <div className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <div className="flex justify-between items-center mb-1">
-                                <span className="font-bold text-gray-800">貝 Gogoro 卡</span>
-                                <span className="text-xs font-bold bg-green-50 text-green-600 px-2 py-1 rounded">4% 回饋</span>
-                            </div>
-                            <p className="text-xs text-gray-500">免手續費。適用：海外實體消費、線上刷外幣。</p>
-                        </div>
-
-                        <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                            <div className="flex justify-between items-center mb-1">
-                                <span className="font-bold text-gray-800">全支付 (PayPay)</span>
-                                <span className="text-xs font-bold bg-blue-50 text-blue-600 px-2 py-1 rounded">3.5% ~ 6%</span>
-                            </div>
-                            <p className="text-xs text-gray-500">日本超商、藥妝店掃碼。注意：8月6%名額可能已滿。</p>
-                        </div>
-                    </div>
+              <div className="bg-white rounded-xl p-4 mb-3 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-bold text-gray-800">貝 Gogoro 卡</span>
+                  <span className="text-xs font-bold bg-green-50 text-green-600 px-2 py-1 rounded">
+                    4% 回饋
+                  </span>
                 </div>
-            );
-        };
+                <p className="text-xs text-gray-500">
+                  免手續費。適用：海外實體消費、線上刷外幣。
+                </p>
+              </div>
 
-        // 4. ItineraryView
-        const ItineraryView = () => {
-            const { flightData, itineraryData } = window.TripData;
-
-            // Flight Card
-            const FlightCard = () => (
-                <div className="bg-gradient-to-r from-[#1a2e47] to-[#2e4b71] rounded-2xl p-6 text-white mb-8 shadow-xl relative overflow-hidden group">
-                    <div className="absolute right-[-20px] top-[-20px] opacity-10 text-9xl group-hover:scale-110 transition-transform duration-700">
-                        <Plane />
-                    </div>
-                    <div className="relative z-10">
-                        <div className="flex justify-between items-end mb-4">
-                            <div>
-                                <p className="text-xs opacity-80 mb-1 tracking-wider uppercase">Outbound Flight</p>
-                                <h2 className="text-3xl font-bold font-mono tracking-tighter">{flightData.out.code}</h2>
-                            </div>
-                            <p className="text-xl font-bold">{flightData.out.date}</p>
-                        </div>
-                        <div className="flex items-center justify-between text-sm font-medium">
-                            <span>{flightData.out.from}</span>
-                            <div className="h-[1px] bg-white/40 flex-1 mx-4"></div>
-                            <span>{flightData.out.to}</span>
-                        </div>
-                        <div className="mt-4 text-xs bg-white/10 backdrop-blur inline-flex items-center px-3 py-1.5 rounded-lg border border-white/20">
-                            <Info size={12} className="mr-2" />{flightData.out.note}
-                        </div>
-                    </div>
+              <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
+                <div className="flex justify-between items-center mb-1">
+                  <span className="font-bold text-gray-800">
+                    全支付 (PayPay)
+                  </span>
+                  <span className="text-xs font-bold bg-blue-50 text-blue-600 px-2 py-1 rounded">
+                    3.5% ~ 6%
+                  </span>
                 </div>
-            );
+                <p className="text-xs text-gray-500">
+                  日本超商、藥妝店掃碼。注意：8月6%名額可能已滿。
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      };
 
-            return (
-                <div className="max-w-2xl mx-auto px-4 mt-8 pb-12">
-                    <FlightCard />
+      // 4. ItineraryView
+      const ItineraryView = () => {
+        const { flightData, itineraryData } = window.TripData;
 
-                    {itineraryData.map((day, idx) => (
-                        <div key={idx} className="bg-white rounded-3xl p-6 mb-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300">
-                            <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-50">
-                                <div>
-                                    <h3 className="font-display font-bold text-xl text-primary flex items-center gap-2">
-                                        {day.day}
-                                        <span className="text-sm font-body text-gray-400 font-normal">{day.date}</span>
-                                    </h3>
-                                </div>
-                                <span className="text-xs text-subtle bg-gray-50 px-3 py-1.5 rounded-full flex items-center gap-1">
-                                    <MapPin size={12} /> {day.loc}
-                                </span>
-                            </div>
-
-                            {day.note && (
-                                <div className="bg-amber-50 text-amber-800 text-xs p-3 rounded-xl mb-6 flex items-start gap-2 leading-relaxed">
-                                    <Star size={14} className="shrink-0 mt-0.5" />
-                                    {day.note}
-                                </div>
-                            )}
-
-                            <div className="space-y-6">
-                                {day.events.map((event, eIdx) => (
-                                    <ActivityItem
-                                        key={eIdx}
-                                        activity={{
-                                            time: event.time,
-                                            text: event.title,
-                                            subText: event.desc,
-                                            tips: event.note,
-                                            note: event.link ? "點擊查看詳情" : null,
-                                            // Fake map data to trigger link behavior if link exists, 
-                                            // or simple display if not (ActivityItem isn't perfectly adapted for pure links without map, but good enough)
-                                            foodGuideLink: event.tag === "美食" ? event.desc : null
-                                        }}
-                                        onOpenRoute={() => event.link ? window.open(event.link, '_blank') : null}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                    ))}
+        // Flight Card
+        const FlightCard = () => (
+          <div className="bg-gradient-to-r from-[#1a2e47] to-[#2e4b71] rounded-2xl p-6 text-white mb-8 shadow-xl relative overflow-hidden group">
+            <div className="absolute right-[-20px] top-[-20px] opacity-10 text-9xl group-hover:scale-110 transition-transform duration-700">
+              <Plane />
+            </div>
+            <div className="relative z-10">
+              <div className="flex justify-between items-end mb-4">
+                <div>
+                  <p className="text-xs opacity-80 mb-1 tracking-wider uppercase">
+                    Outbound Flight
+                  </p>
+                  <h2 className="text-3xl font-bold font-mono tracking-tighter">
+                    {flightData.out.code}
+                  </h2>
                 </div>
-            );
-        };
+                <p className="text-xl font-bold">{flightData.out.date}</p>
+              </div>
+              <div className="flex items-center justify-between text-sm font-medium">
+                <span>{flightData.out.from}</span>
+                <div className="h-[1px] bg-white/40 flex-1 mx-4"></div>
+                <span>{flightData.out.to}</span>
+              </div>
+              <div className="mt-4 text-xs bg-white/10 backdrop-blur inline-flex items-center px-3 py-1.5 rounded-lg border border-white/20">
+                <Info size={12} className="mr-2" />
+                {flightData.out.note}
+              </div>
+            </div>
+          </div>
+        );
 
+        return (
+          <div className="max-w-2xl mx-auto px-4 mt-8 pb-12">
+            <FlightCard />
 
-        // === Main App ===
-        const App = () => {
-            const [activeTab, setActiveTab] = useState('itinerary');
+            {itineraryData.map((day, idx) => (
+              <div
+                key={idx}
+                className="bg-white rounded-3xl p-6 mb-6 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex justify-between items-center mb-6 pb-4 border-b border-gray-50">
+                  <div>
+                    <h3 className="font-display font-bold text-xl text-primary flex items-center gap-2">
+                      {day.day}
+                      <span className="text-sm font-body text-gray-400 font-normal">
+                        {day.date}
+                      </span>
+                    </h3>
+                  </div>
+                  <span className="text-xs text-subtle bg-gray-50 px-3 py-1.5 rounded-full flex items-center gap-1">
+                    <MapPin size={12} /> {day.loc}
+                  </span>
+                </div>
 
-            const tabs = [
-                { id: 'itinerary', label: '行程', Icon: MapPin },
-                { id: 'luggage', label: '行李', Icon: Suitcase }, // Re-enabled
-                { id: 'shopping', label: '購物', Icon: ShoppingBag },
-                { id: 'budget', label: '開支', Icon: Wallet },
-            ];
+                {day.note && (
+                  <div className="bg-amber-50 text-amber-800 text-xs p-3 rounded-xl mb-6 flex items-start gap-2 leading-relaxed">
+                    <Star size={14} className="shrink-0 mt-0.5" />
+                    {day.note}
+                  </div>
+                )}
 
-            return (
-                <div className="min-h-screen flex flex-col">
-                    <PageHeader
-                        title="京阪奈・瀬戸内"
-                        subtitle="2025 Summer Trip"
-                        backgroundImage="https://images.unsplash.com/photo-1528114637695-8350a3d4d4a8?q=80&w=2670&auto=format&fit=crop"
-                        tags={[
-                            { text: "岡山進出", icon: Icons.Plane },
-                            { text: "關西廣域 Pass", icon: Icons.Ticket }
-                        ]}
+                <div className="space-y-6">
+                  {day.events.map((event, eIdx) => (
+                    <ActivityItem
+                      key={eIdx}
+                      activity={{
+                        time: event.time,
+                        text: event.title,
+                        subText: event.desc,
+                        tips: event.note,
+                        note: event.link ? "點擊查看詳情" : null,
+                        // Fake map data to trigger link behavior if link exists,
+                        // or simple display if not (ActivityItem isn't perfectly adapted for pure links without map, but good enough)
+                        foodGuideLink: event.tag === "美食" ? event.desc : null,
+                      }}
+                      onOpenRoute={() =>
+                        event.link ? window.open(event.link, "_blank") : null
+                      }
                     />
-
-                    <TabNavigation
-                        activeTab={activeTab}
-                        setActiveTab={setActiveTab}
-                        tabs={tabs}
-                    />
-
-                    <main className="flex-grow bg-surface relative -mt-6 rounded-t-[2.5rem] z-30 pt-4">
-                        {activeTab === 'itinerary' && <ItineraryView />}
-                        {activeTab === 'luggage' && <LuggageView />}
-                        {activeTab === 'shopping' && <ShoppingView />}
-                        {activeTab === 'budget' && <BudgetView />}
-                    </main>
+                  ))}
                 </div>
-            );
-        };
+              </div>
+            ))}
+          </div>
+        );
+      };
 
-        const root = ReactDOM.createRoot(document.getElementById("root"));
-        root.render(<App />);
+      // === Main App ===
+      const App = () => {
+        const [activeTab, setActiveTab] = useState("itinerary");
+
+        const tabs = [
+          { id: "itinerary", label: "行程", Icon: MapPin },
+          { id: "luggage", label: "行李", Icon: Suitcase }, // Re-enabled
+          { id: "shopping", label: "購物", Icon: ShoppingBag },
+          { id: "budget", label: "開支", Icon: Wallet },
+        ];
+
+        return (
+          <div className="min-h-screen flex flex-col">
+            <PageHeader
+              title="京阪奈・瀬戸内"
+              subtitle="2025 Summer Trip"
+              backgroundImage="https://images.unsplash.com/photo-1528114637695-8350a3d4d4a8?q=80&w=2670&auto=format&fit=crop"
+              tags={[
+                { text: "岡山進出", icon: Icons.Plane },
+                { text: "關西廣域 Pass", icon: Icons.Ticket },
+              ]}
+            />
+
+            <TabNavigation
+              activeTab={activeTab}
+              setActiveTab={setActiveTab}
+              tabs={tabs}
+            />
+
+            <main className="flex-grow bg-surface relative -mt-6 rounded-t-[2.5rem] z-30 pt-4">
+              {activeTab === "itinerary" && <ItineraryView />}
+              {activeTab === "luggage" && <LuggageView />}
+              {activeTab === "shopping" && <ShoppingView />}
+              {activeTab === "budget" && <BudgetView />}
+            </main>
+          </div>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
     </script>
-</body>
-
+  </body>
 </html>

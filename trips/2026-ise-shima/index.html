@@ -1,75 +1,79 @@
 <!doctype html>
 <html lang="zh-TW">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>伊勢志摩‧大阪 10日素食慢旅 | TimZ</title>
-  <meta name="description" content="2026 伊勢志摩‧大阪 10日素食慢旅行程規劃">
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;500;700;800;900&display=swap"
-    rel="stylesheet" />
-  <style>
-    /* 載入動畫 */
-    .loading-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      background: #F5F5F0;
-      font-family: 'Inter', sans-serif;
-    }
-
-    .loading-spinner {
-      width: 48px;
-      height: 48px;
-      border: 3px solid #E8968A;
-      border-top-color: #4F46E5;
-      border-radius: 50%;
-      animation: spin 0.8s ease-in-out infinite;
-    }
-
-    .loading-text {
-      margin-top: 20px;
-      font-size: 14px;
-      font-weight: 500;
-      color: #6E6E73;
-      animation: pulse 1.5s ease-in-out infinite;
-    }
-
-    @keyframes spin {
-      to {
-        transform: rotate(360deg);
-      }
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 0.6;
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>伊勢志摩‧大阪 10日素食慢旅 | TimZ</title>
+    <meta
+      name="description"
+      content="2026 伊勢志摩‧大阪 10日素食慢旅行程規劃"
+    />
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700&family=Inter:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* 載入動畫 */
+      .loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        background: #f5f5f0;
+        font-family: "Inter", sans-serif;
       }
 
-      50% {
-        opacity: 1;
+      .loading-spinner {
+        width: 48px;
+        height: 48px;
+        border: 3px solid #e8968a;
+        border-top-color: #4f46e5;
+        border-radius: 50%;
+        animation: spin 0.8s ease-in-out infinite;
       }
-    }
-  </style>
-</head>
 
-<body>
-  <div id="root">
-    <!-- 載入中提示 (React mount 後會被替換) -->
-    <div class="loading-container">
-      <div class="loading-spinner"></div>
-      <div class="loading-text">載入行程中...</div>
+      .loading-text {
+        margin-top: 20px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #6e6e73;
+        animation: pulse 1.5s ease-in-out infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+
+        50% {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root">
+      <!-- 載入中提示 (React mount 後會被替換) -->
+      <div class="loading-container">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">載入行程中...</div>
+      </div>
     </div>
-  </div>
-  <script type="module" src="../../src/pages/trips/ise-shima/main.jsx"></script>
-</body>
-
+    <script
+      type="module"
+      src="../../src/pages/trips/ise-shima/main.jsx"
+    ></script>
+  </body>
 </html>

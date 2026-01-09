@@ -305,17 +305,61 @@
 
   const shoppingData = {
     items: [
-      { title: "&be 雙色遮瑕膏 (淺膚/橘)", type: "cosme", image: "/me/images/products/andbe_concealer.png" },
-      { title: "CLIO Kill Cover 氣墊 02 Lingerie", type: "cosme", image: "/me/images/products/clio_cushion.png" },
-      { title: "TIRTIR 紅色氣墊 21N", type: "cosme", image: "/me/images/products/tirtir_cushion.png" },
-      { title: "DUO 卸妝膏 (深層淨化 90g)", type: "cosme", image: "/me/images/products/duo_cleansing_balm_90g.png" },
-      { title: "DUO 卸妝膏 (迷你 20g)", type: "cosme", image: "/me/images/products/duo_mini_20g.jpg" },
-      { title: "極潤化妝水 (補充包)", type: "cosme", image: "/me/images/products/hada_labo_refill.png" },
-      { title: "Kissme 睫毛卸除液", type: "cosme", image: "/me/images/products/kissme_remover.png" },
-      { title: "Melano CC 集中對策眼霜", type: "cosme", image: "/me/images/products/melano_cc_eye.png" },
-      { title: "Rohto Digi Eye 眼藥水 (初音)", type: "drug", image: "/me/images/products/rohto_digi_eye.png" },
-      { title: "SANA 豆乳美肌眼霜", type: "cosme", image: "/me/images/products/sana_eye_cream.png" },
-      { title: "Visee 遮瑕筆", type: "cosme", image: "/me/images/products/visee_concealer.png" },
+      {
+        title: "&be 雙色遮瑕膏 (淺膚/橘)",
+        type: "cosme",
+        image: "/me/images/products/andbe_concealer.png",
+      },
+      {
+        title: "CLIO Kill Cover 氣墊 02 Lingerie",
+        type: "cosme",
+        image: "/me/images/products/clio_cushion.png",
+      },
+      {
+        title: "TIRTIR 紅色氣墊 21N",
+        type: "cosme",
+        image: "/me/images/products/tirtir_cushion.png",
+      },
+      {
+        title: "DUO 卸妝膏 (深層淨化 90g)",
+        type: "cosme",
+        image: "/me/images/products/duo_cleansing_balm_90g.png",
+      },
+      {
+        title: "DUO 卸妝膏 (迷你 20g)",
+        type: "cosme",
+        image: "/me/images/products/duo_mini_20g.jpg",
+      },
+      {
+        title: "極潤化妝水 (補充包)",
+        type: "cosme",
+        image: "/me/images/products/hada_labo_refill.png",
+      },
+      {
+        title: "Kissme 睫毛卸除液",
+        type: "cosme",
+        image: "/me/images/products/kissme_remover.png",
+      },
+      {
+        title: "Melano CC 集中對策眼霜",
+        type: "cosme",
+        image: "/me/images/products/melano_cc_eye.png",
+      },
+      {
+        title: "Rohto Digi Eye 眼藥水 (初音)",
+        type: "drug",
+        image: "/me/images/products/rohto_digi_eye.png",
+      },
+      {
+        title: "SANA 豆乳美肌眼霜",
+        type: "cosme",
+        image: "/me/images/products/sana_eye_cream.png",
+      },
+      {
+        title: "Visee 遮瑕筆",
+        type: "cosme",
+        image: "/me/images/products/visee_concealer.png",
+      },
       { title: "味噌", type: "food" },
       { title: "桃屋辣油 (辣的)", type: "food" },
       { title: "微波包子容器 (大創/3coins)", type: "goods" },

@@ -5,14 +5,14 @@
 
 /* === Tailwind 主題色變數 === */
 :root {
-  --trip-primary: #4F46E5;         /* Indigo 600 */
-  --trip-header-primary: #0F2540;  /* Shimakaze Deep Blue */
-  --trip-accent: #E8968A;          /* Coral Rose */
-  --trip-dark: #1C1C1E;            /* Elegant Black */
-  --trip-subtle: #6E6E73;          /* Apple-like Grey */
-  --trip-surface: #F5F5F0;         /* Washi Paper White */
-  --trip-star: #E8968A;            /* Coral Rose */
-  --trip-love: #C32F2F;            /* Deep Red */
+  --trip-primary: #4f46e5; /* Indigo 600 */
+  --trip-header-primary: #0f2540; /* Shimakaze Deep Blue */
+  --trip-accent: #e8968a; /* Coral Rose */
+  --trip-dark: #1c1c1e; /* Elegant Black */
+  --trip-subtle: #6e6e73; /* Apple-like Grey */
+  --trip-surface: #f5f5f0; /* Washi Paper White */
+  --trip-star: #e8968a; /* Coral Rose */
+  --trip-love: #c32f2f; /* Deep Red */
 }
 
 /* === 基礎設定 === */

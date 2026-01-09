@@ -1,6 +1,7 @@
 ---
 description: 檢查遠端 repo 並同步程式碼到最新
 ---
+
 // turbo-all
 
 1. 取得遠端變更並檢查狀態

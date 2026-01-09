@@ -245,7 +245,10 @@
       ),
       // === 新增圖示 ===
       plane: (
-        <path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z" style={{transform: 'rotate(45deg)', transformOrigin: 'center'}} />
+        <path
+          d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"
+          style={{ transform: "rotate(45deg)", transformOrigin: "center" }}
+        />
       ),
       "shopping-bag": (
         <>
@@ -283,7 +286,7 @@
     return React.createElement(
       "svg",
       svgProps,
-      React.createElement("circle", { cx: "12", cy: "12", r: "10" })
+      React.createElement("circle", { cx: "12", cy: "12", r: "10" }),
     );
   };
 
@@ -359,7 +362,7 @@
     Object.entries(iconNames).map(([componentName, iconName]) => [
       componentName,
       (props) => React.createElement(LucideIcon, { name: iconName, ...props }),
-    ])
+    ]),
   );
 
   // 導出（但元件定義保持在 IIFE 內部）

@@ -10,21 +10,23 @@ description: 將目前專案的好點子同步回 Second-Brain 知識庫
 
 1. **掃描目前專案可複用資產**：
    // turbo
+
    ```bash
    echo "=== Workflows ===" && dir /b .agent\workflows\*.md 2>nul && echo. && echo "=== Prompts ===" && dir /b .agent\prompts\*.md 2>nul && echo. && echo "=== Knowledge ===" && dir /b knowledge\*.md 2>nul
    ```
 
 2. **比對 Second-Brain 現有資產**：
    // turbo
+
    ```bash
    echo "=== Second-Brain Workflows ===" && dir /b c:\Users\forev\myDev\second-brain\.agent\workflows\*.md 2>nul && echo. && echo "=== Second-Brain Prompts ===" && dir /b c:\Users\forev\myDev\second-brain\.agent\prompts\*.md 2>nul && echo. && echo "=== Second-Brain Knowledge ===" && dir /b c:\Users\forev\myDev\second-brain\knowledge\*.md 2>nul
    ```
 
 3. **分析差異**：
    根據掃描結果，識別以下類型的項目：
-   
-   | 類型   | 說明                    | 建議動作       |
-   | ------ | ----------------------- | -------------- |
+
+   | 類型    | 說明                    | 建議動作       |
+   | ------- | ----------------------- | -------------- |
    | 🆕 新增 | Second-Brain 沒有的項目 | 複製並調整     |
    | 🔄 更新 | 兩邊都有但內容不同      | 檢視差異後合併 |
    | ✅ 相同 | 已同步                  | 跳過           |
@@ -41,10 +43,12 @@ description: 將目前專案的好點子同步回 Second-Brain 知識庫
 從專案複製到 second-brain 時，需調整以下內容：
 
 **程式碼範例**：
+
 - 移除專案特定的路徑名稱
 - 將具體元件名稱改為通用描述
 
 **文件內容**：
+
 - 抽象化專案特定的描述
 - 將「me 專案」改為「目標專案」
 

@@ -1,13 +1,13 @@
 /**
  * 共用 React 元件 - Shared React Components
  * 提供可重用的 UI 元件給所有旅程頁面
- * 
+ *
  * 需要先引入：
  * - React (from CDN)
  * - icons.js (圖示系統)
  */
 
-(function() {
+(function () {
   "use strict";
 
   // === 1. 返回首頁按鈕 ===
@@ -24,9 +24,8 @@
       },
       React.createElement(ArrowRight, {
         size: 24,
-        className:
-          "rotate-180 group-hover:-translate-x-1 transition-transform",
-      })
+        className: "rotate-180 group-hover:-translate-x-1 transition-transform",
+      }),
     );
   };
 
@@ -47,8 +46,7 @@
     return React.createElement(
       "header",
       {
-        className:
-          "relative w-full py-32 px-6 text-white overflow-hidden",
+        className: "relative w-full py-32 px-6 text-white overflow-hidden",
       },
       // 返回按鈕
       React.createElement(BackButton),
@@ -96,8 +94,8 @@
               "div",
               { className: "flex items-center gap-2" },
               React.createElement(BadgeIcon, { size: 16 }),
-              badge
-            )
+              badge,
+            ),
           ),
 
         // 標題
@@ -116,8 +114,8 @@
                 className:
                   "block text-2xl md:text-4xl mt-4 font-light tracking-[0.2em] font-body opacity-90",
               },
-              subtitle
-            )
+              subtitle,
+            ),
         ),
 
         // 標籤
@@ -138,24 +136,19 @@
                     "flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-lg",
                 },
                 tag.icon && React.createElement(tag.icon, { size: 18 }),
-                React.createElement("span", null, tag.text)
-              )
-            )
+                React.createElement("span", null, tag.text),
+              ),
+            ),
           ),
 
         // 自定義內容
-        children
-      )
+        children,
+      ),
     );
   };
 
   // === 3. Section 卡片容器 ===
-  const SectionCard = ({
-    icon: Icon,
-    title,
-    children,
-    className = "",
-  }) => {
+  const SectionCard = ({ icon: Icon, title, children, className = "" }) => {
     return React.createElement(
       "section",
       {
@@ -174,18 +167,18 @@
             {
               className: "p-3 bg-accent/10 rounded-xl text-accent",
             },
-            React.createElement(Icon, { size: 24 })
+            React.createElement(Icon, { size: 24 }),
           ),
         React.createElement(
           "h2",
           {
             className: "text-2xl font-bold text-gray-800",
           },
-          title
-        )
+          title,
+        ),
       ),
       // 內容
-      children
+      children,
     );
   };
 
@@ -221,20 +214,19 @@
               },
               React.createElement(Icon, {
                 size: 24,
-                className:
-                  activeTab === id ? "transform -translate-y-0.5" : "",
+                className: activeTab === id ? "transform -translate-y-0.5" : "",
               }),
               React.createElement(
                 "span",
                 {
                   className: "text-xs tracking-wide",
                 },
-                label
-              )
-            )
-          )
-        )
-      )
+                label,
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   };
 
@@ -263,15 +255,16 @@
         React.createElement(
           "div",
           { className: "flex items-center gap-2" },
-          Icon && React.createElement(Icon, { className: "text-accent", size: 18 }),
-          title
+          Icon &&
+            React.createElement(Icon, { className: "text-accent", size: 18 }),
+          title,
         ),
         React.createElement(ChevronDown, {
           size: 20,
           className: `text-gray-400 transition-transform duration-300 ${
             isOpen ? "rotate-180" : ""
           }`,
-        })
+        }),
       ),
       // 可折疊內容
       React.createElement(
@@ -281,38 +274,29 @@
             isOpen ? "max-h-[5000px] opacity-100" : "max-h-0 opacity-0"
           }`,
         },
-        children
-      )
+        children,
+      ),
     );
   };
 
   // === 6. 活動項目 (ActivityItem) ===
-  const ActivityItem = ({
-    activity,
-    onOpenRoute,
-    onOpenFoodGuide,
-  }) => {
+  const ActivityItem = ({ activity, onOpenRoute, onOpenFoodGuide }) => {
     const { Info, Train, Bus, MapPin, Utensils } = window.TripShared.Icons;
 
     // 輔助函數：清理查詢字串
     const cleanQuery = (text) => {
       let cleaned = text.replace(
         /[\u{1F600}-\u{1F6FF}|[\u{1F300}-\u{1F5FF}|[\u{1F680}-\u{1F6FF}|[\u{1F700}-\u{1F77F}|[\u{1F780}-\u{1F7FF}|[\u{1F800}-\u{1F8FF}|[\u{1F900}-\u{1F9FF}|[\u{1FA00}-\u{1FA6F}|[\u{1FA70}-\u{1FAFF}]/gu,
-        ""
+        "",
       );
-      cleaned = cleaned.replace(
-        /搭乘|移動|前往|抵達|入住|晚餐|午餐|參拜/g,
-        ""
-      );
+      cleaned = cleaned.replace(/搭乘|移動|前往|抵達|入住|晚餐|午餐|參拜/g, "");
       cleaned = cleaned.replace(/[：:()（）]/g, " ");
       return cleaned.trim();
     };
 
     const hasExplicitMap = !!activity.map;
     const hasArrow = activity.text.includes("→");
-    const isRoute = hasExplicitMap
-      ? activity.map.type === "route"
-      : hasArrow;
+    const isRoute = hasExplicitMap ? activity.map.type === "route" : hasArrow;
 
     // 判斷交通工具類型
     const isBus =
@@ -353,7 +337,7 @@
             className:
               "text-xs font-bold text-primary/70 min-w-[3rem] font-mono leading-6",
           },
-          activity.time
+          activity.time,
         ),
         React.createElement(
           "div",
@@ -365,7 +349,7 @@
             React.createElement(
               "div",
               { className: "text-gray-800 font-bold text-sm leading-6 flex-1" },
-              activity.text
+              activity.text,
             ),
             // 地圖/交通圖示按鈕
             (hasExplicitMap || hasArrow) &&
@@ -379,7 +363,7 @@
                 },
                 isRoute
                   ? React.createElement(TransportIcon, { size: 16 })
-                  : React.createElement(MapPin, { size: 16 })
+                  : React.createElement(MapPin, { size: 16 }),
               ),
             // 美食指南連結圖示
             activity.foodGuideLink &&
@@ -397,15 +381,15 @@
                     "flex-shrink-0 text-accent transition-all cursor-pointer hover:scale-110 w-6 h-6 flex items-center justify-center",
                   title: `查看「${activity.foodGuideLink}」美食選項`,
                 },
-                React.createElement(Utensils, { size: 16 })
-              )
+                React.createElement(Utensils, { size: 16 }),
+              ),
           ),
           // 副標題
           activity.subText &&
             React.createElement(
               "div",
               { className: "text-xs text-gray-500 mt-0.5 font-medium" },
-              activity.subText
+              activity.subText,
             ),
           // 警告提示
           activity.tips &&
@@ -415,9 +399,13 @@
                 className:
                   "mt-2 text-xs text-orange-700 bg-orange-50 border border-orange-100 px-3 py-1.5 rounded-lg inline-block leading-relaxed",
               },
-              React.createElement("span", { className: "font-bold mr-1" }, "⚠️"),
+              React.createElement(
+                "span",
+                { className: "font-bold mr-1" },
+                "⚠️",
+              ),
               " ",
-              activity.tips
+              activity.tips,
             ),
           // 資訊提示
           activity.note &&
@@ -427,12 +415,15 @@
                 className:
                   "mt-1 text-xs text-primary/70 flex items-start gap-1 leading-relaxed",
               },
-              React.createElement(Info, { size: 12, className: "mt-0.5 shrink-0" }),
+              React.createElement(Info, {
+                size: 12,
+                className: "mt-0.5 shrink-0",
+              }),
               " ",
-              activity.note
-            )
-        )
-      )
+              activity.note,
+            ),
+        ),
+      ),
     );
   };
 
@@ -448,17 +439,17 @@
 
     if (data.type === "route") {
       mapUrl = `https://maps.google.com/maps?saddr=${encodeURIComponent(
-        data.origin
+        data.origin,
       )}&daddr=${encodeURIComponent(data.destination)}&dirflg=r&output=embed`;
       externalMapUrl = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
-        data.origin
+        data.origin,
       )}&destination=${encodeURIComponent(data.destination)}&travelmode=transit`;
     } else {
       mapUrl = `https://maps.google.com/maps?q=${encodeURIComponent(
-        data.query
+        data.query,
       )}&t=&z=15&ie=UTF8&iwloc=&output=embed`;
       externalMapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-        data.query
+        data.query,
       )}`;
     }
 
@@ -490,8 +481,8 @@
             React.createElement(
               "h3",
               { className: "font-bold text-lg truncate" },
-              title
-            )
+              title,
+            ),
           ),
           React.createElement(
             "button",
@@ -500,8 +491,8 @@
               className:
                 "ml-4 w-10 h-10 flex items-center justify-center bg-white/20 hover:bg-white/40 rounded-full transition-colors text-2xl font-bold flex-shrink-0",
             },
-            "✕"
-          )
+            "✕",
+          ),
         ),
         // Map iframe
         React.createElement(
@@ -517,7 +508,7 @@
             src: mapUrl,
             title: title,
             className: "w-full h-full",
-          })
+          }),
         ),
         // Footer
         React.createElement(
@@ -529,7 +520,7 @@
           React.createElement(
             "span",
             { className: "text-xs text-gray-400" },
-            "* 預覽地圖可能因 Google 政策偶有載入限制"
+            "* 預覽地圖可能因 Google 政策偶有載入限制",
           ),
           React.createElement(
             "a",
@@ -541,10 +532,10 @@
                 "flex items-center gap-2 px-4 py-2 bg-primary/5 text-primary rounded-lg hover:bg-primary/10 font-medium transition-colors text-sm",
             },
             "在 Google Maps App 開啟 ",
-            React.createElement(ExternalLink, { size: 14 })
-          )
-        )
-      )
+            React.createElement(ExternalLink, { size: 14 }),
+          ),
+        ),
+      ),
     );
   };
 
@@ -564,8 +555,8 @@
             className:
               "absolute right-full mr-3 top-1/2 -translate-y-1/2 bg-gray-900/80 backdrop-blur text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none",
           },
-          tooltip
-        )
+          tooltip,
+        ),
     );
   };
 
@@ -598,9 +589,9 @@
           },
           isExpanded
             ? React.createElement(ChevronUp, { size: 18 })
-            : React.createElement(ChevronDown, { size: 18 })
-        )
-      )
+            : React.createElement(ChevronDown, { size: 18 }),
+        ),
+      ),
     );
   };
 

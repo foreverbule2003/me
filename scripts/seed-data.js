@@ -9,7 +9,7 @@ const firebaseConfig = {
   storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
   messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
   appId: process.env.FIREBASE_APP_ID,
-  measurementId: process.env.FIREBASE_MEASUREMENT_ID
+  measurementId: process.env.FIREBASE_MEASUREMENT_ID,
 };
 
 // Initialize Firebase
@@ -29,8 +29,8 @@ async function seedData() {
         sortDate: "2025-01-20",
         members: ["Tim", "Friends"],
         budget: 30000,
-        currency: "TWD"
-      }
+        currency: "TWD",
+      },
     },
     {
       id: "2026-ise-shima",
@@ -41,8 +41,8 @@ async function seedData() {
         sortDate: "2026-06-01",
         description: "Solaniwa Onsen pure enjoyment version",
         budget: 50000,
-        currency: "TWD"
-      }
+        currency: "TWD",
+      },
     },
     {
       id: "2025-osaka",
@@ -53,8 +53,8 @@ async function seedData() {
         sortDate: "2025-08-28",
         description: "Summer Trip (Kyoto/Osaka/Nara)",
         budget: 45000,
-        currency: "TWD"
-      }
+        currency: "TWD",
+      },
     },
     {
       id: "2026-hokkaido",
@@ -65,9 +65,9 @@ async function seedData() {
         sortDate: "2026-12-01",
         description: "Winter Trip",
         budget: 60000,
-        currency: "TWD"
-      }
-    }
+        currency: "TWD",
+      },
+    },
   ];
 
   for (const trip of trips) {

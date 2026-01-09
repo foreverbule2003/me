@@ -41,7 +41,6 @@ description: 提交前檢查文件是否需要更新
      - 首頁相關：`src/components/`
      - 旅程頁面：`trips/shared/`
    - 是否有重複的元件需要合併？
-   
 9. **Vite 入口點**
    - 新增頁面是否有對應的入口點？
      - HTML：`[page]/index.html`
@@ -68,6 +67,7 @@ description: 提交前檢查文件是否需要更新
 ## 🔧 提交指令
 
 確認文件更新完成後：
+
 ```bash
 git add . && git commit -m "[message]"
 ```

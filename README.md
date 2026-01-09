@@ -84,6 +84,7 @@ my-landing-page/
 - **部署**：GitHub Actions + GitHub Pages
 
 ## 📚 相關文件
+
 - [FEATURES.md](./docs/FEATURES.md) - 功能清單
 - [COMPONENTS.md](./docs/COMPONENTS.md) - 元件文件
 - [SITEMAP.md](./docs/SITEMAP.md) - 網站地圖

@@ -9,7 +9,7 @@
 export const cleanQuery = (text) => {
   let cleaned = text.replace(
     /[\u{1F600}-\u{1F6FF}|[\u{1F300}-\u{1F5FF}|[\u{1F680}-\u{1F6FF}|[\u{1F700}-\u{1F77F}|[\u{1F780}-\u{1F7FF}|[\u{1F800}-\u{1F8FF}|[\u{1F900}-\u{1F9FF}|[\u{1FA00}-\u{1FA6F}|[\u{1FA70}-\u{1FAFF}]/gu,
-    ""
+    "",
   );
   cleaned = cleaned.replace(/搭乘|移動|前往|抵達|入住|晚餐|午餐|參拜/g, "");
   cleaned = cleaned.replace(/[：:()（）]/g, " ");
@@ -19,7 +19,11 @@ export const cleanQuery = (text) => {
 /**
  * 呼叫 Gemini API
  */
-export const callGeminiAPI = async (prompt, systemContext = "", apiKey = "") => {
+export const callGeminiAPI = async (
+  prompt,
+  systemContext = "",
+  apiKey = "",
+) => {
   const model = "gemini-3.0-pro";
 
   // 演示模式 (若無 API Key)
@@ -52,7 +56,7 @@ export const callGeminiAPI = async (prompt, systemContext = "", apiKey = "") => 
           contents: [{ parts: [{ text: prompt }] }],
           systemInstruction: { parts: [{ text: fullSystemInstruction }] },
         }),
-      }
+      },
     );
     const data = await response.json();
     if (data.error) {
@@ -60,8 +64,7 @@ export const callGeminiAPI = async (prompt, systemContext = "", apiKey = "") => 
       return "抱歉，AI 服務暫時無法使用 (API Key 可能無效或配額已滿)。";
     }
     return (
-      data.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "抱歉，AI 目前忙碌中。"
+      data.candidates?.[0]?.content?.parts?.[0]?.text || "抱歉，AI 目前忙碌中。"
     );
   } catch (error) {
     console.error("Fetch Error:", error);
