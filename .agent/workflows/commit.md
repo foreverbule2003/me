@@ -41,6 +41,14 @@ description: 快速提交變更到目前分支 (不推送)
 
 // turbo
 
-## 步驟 3：提交變更 (Commit)
+## 步驟 3：格式化程式碼 (Optional)
+
+> 💡 在提交前自動格式化，保持代碼風格一致。
+
+```bash
+npx prettier --write "**/*.{html,js,jsx,css,md}" --ignore-path .gitignore
+```
+
+## 步驟 4：提交變更 (Commit)
 
 git add . && git commit -m "[message]"
