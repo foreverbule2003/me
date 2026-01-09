@@ -1157,620 +1157,618 @@ export default function App() {
 
       <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
         {/* 總覽 Tab */}
-        {activeTab === "overview" && (
-          <div className="space-y-8">
-            <StrategySection />
-            <OverviewSection />
-            <TodoSection
-              completed={todoCompleted}
-              onToggle={toggleTodoCompleted}
-            />
-            <UsefulLinksSection />
-          </div>
-        )}
+        <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
+          <StrategySection />
+          <OverviewSection />
+          <TodoSection
+            completed={todoCompleted}
+            onToggle={toggleTodoCompleted}
+          />
+          <UsefulLinksSection />
+        </div>
 
         {/* 行程 Tab */}
-        {activeTab === "itinerary" && (
-          <div>
-            {itineraryData.map((phase, pIdx) => (
-              <div key={pIdx}>
-                <StickyPhaseHeader
-                  title={phase.phase}
-                  forceOpen={isAnyExpanded}
-                  image={pIdx === 0 ? phase.days[3].image : phase.days[1].image}
-                >
-                  {phase.days.map((day, dIdx) => {
-                    const dayKey = `${pIdx}-${dIdx}`;
-                    return (
-                      <DayCard
-                        key={dIdx}
-                        dayData={day}
-                        onOpenRoute={handleOpenMap}
-                        onOpenFoodGuide={() => setActiveTab("food")}
-                        isExpanded={!!expandedDays[dayKey]}
-                        onToggle={() => toggleDay(dayKey)}
-                      />
-                    );
-                  })}
-                </StickyPhaseHeader>
-              </div>
-            ))}
-          </div>
-        )}
+        <div className={activeTab === "itinerary" ? "" : "hidden"}>
+          {itineraryData.map((phase, pIdx) => (
+            <div key={pIdx}>
+              <StickyPhaseHeader
+                title={phase.phase}
+                forceOpen={isAnyExpanded}
+                image={pIdx === 0 ? phase.days[3].image : phase.days[1].image}
+              >
+                {phase.days.map((day, dIdx) => {
+                  const dayKey = `${pIdx}-${dIdx}`;
+                  return (
+                    <DayCard
+                      key={dIdx}
+                      dayData={day}
+                      onOpenRoute={handleOpenMap}
+                      onOpenFoodGuide={() => setActiveTab("food")}
+                      isExpanded={!!expandedDays[dayKey]}
+                      onToggle={() => toggleDay(dayKey)}
+                    />
+                  );
+                })}
+              </StickyPhaseHeader>
+            </div>
+          ))}
+        </div>
 
         {/* 預算 Tab */}
-        {activeTab === "budget" && (
-          <div className="max-w-3xl mx-auto">
-            <BudgetTable forceOpen={isAnyExpanded} />
-            <div className="mt-8 p-6 bg-indigo-50 rounded-3xl flex gap-4 items-start">
-              <Info className="text-indigo-600 flex-shrink-0 mt-1" />
-              <div className="text-sm text-indigo-600 leading-relaxed">
-                <p className="font-bold mb-1">關於預訂</p>
-                建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
-                觀光特急需在乘車日前一個月上午 10:30 準時搶票。
-              </div>
+        <div
+          className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
+        >
+          <BudgetTable forceOpen={isAnyExpanded} />
+          <div className="mt-8 p-6 bg-indigo-50 rounded-3xl flex gap-4 items-start">
+            <Info className="text-indigo-600 flex-shrink-0 mt-1" />
+            <div className="text-sm text-indigo-600 leading-relaxed">
+              <p className="font-bold mb-1">關於預訂</p>
+              建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
+              觀光特急需在乘車日前一個月上午 10:30 準時搶票。
             </div>
           </div>
-        )}
+        </div>
 
         {/* 交通 Tab */}
-        {activeTab === "map" && (
-          <div className="max-w-3xl mx-auto space-y-6">
-            {/* 近鐵特急比較表 */}
-            <SectionCard
-              icon={Train}
-              title="近鐵比較表"
-              collapsible={true}
-              defaultOpen={false}
-              forceOpen={isAnyExpanded}
-            >
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse whitespace-nowrap">
-                  <thead>
-                    <tr className="bg-indigo-50 text-indigo-600">
-                      <th className="p-3 font-bold text-sm">日期</th>
-                      <th className="p-3 font-bold text-sm">區間</th>
-                      <th className="p-3 font-bold text-sm">普通/急行</th>
-                      <th className="p-3 font-bold text-sm">特急</th>
-                      <th className="p-3 font-bold text-sm">特急券</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-gray-600">
-                    {kintetsuComparisonData.map((row, idx) => (
-                      <tr
-                        key={idx}
-                        className="border-b border-gray-100 hover:bg-gray-50"
-                      >
-                        <td className="p-3 text-sm font-bold text-indigo-600">
-                          {row.day}
-                        </td>
-                        <td className="p-3 text-sm font-medium">{row.route}</td>
-                        <td className="p-3 text-sm text-gray-500">
-                          {row.regular}
-                        </td>
-                        <td className="p-3 text-sm font-bold text-green-600">
-                          {row.express}
-                        </td>
-                        <td className="p-3 text-sm font-bold text-[#E8968A]">
-                          {row.cost}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="mt-4 p-3 bg-indigo-50 rounded-lg text-sm text-indigo-600">
-                <strong>特急券總費用</strong>：全程搭特急約{" "}
-                <strong>¥4,320/人</strong>
-              </div>
-            </SectionCard>
-
-            {/* 特急加購價格表 */}
-            <SectionCard
-              icon={Train}
-              title="特急加購價格"
-              collapsible={true}
-              defaultOpen={false}
-              forceOpen={isAnyExpanded}
-            >
-              <div className="overflow-x-auto">
-                <table className="w-full text-left border-collapse whitespace-nowrap">
-                  <thead>
-                    <tr className="bg-indigo-50 text-indigo-600">
-                      <th className="p-3 font-bold text-sm">列車</th>
-                      <th className="p-3 font-bold text-sm">座位</th>
-                      <th className="p-3 font-bold text-sm">價格</th>
-                      <th className="p-3 font-bold text-sm">備註</th>
-                    </tr>
-                  </thead>
-                  <tbody className="text-gray-600">
-                    {expressPricingData.map((row, idx) => (
-                      <tr
-                        key={idx}
-                        className="border-b border-gray-100 hover:bg-gray-50"
-                      >
-                        <td className="p-3 text-sm font-bold text-gray-800">
-                          {row.train}
-                        </td>
-                        <td className="p-3 text-sm">{row.seat}</td>
-                        <td className="p-3 text-sm font-bold text-[#E8968A]">
-                          {row.price}
-                        </td>
-                        <td className="p-3 text-sm text-gray-500">
-                          {row.note}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="mt-4 p-3 bg-amber-50 rounded-lg text-sm text-amber-700">
-                💡 持「近鐵5日券」已含基本運費，上表僅為額外加購費用
-              </div>
-              <div className="mt-3 text-center">
-                <a
-                  href="https://www.ticket.kintetsu.co.jp/vs/en/T/TZZ/TZZ10.do?op=tDisplayVisitorMenu"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
-                >
-                  <Train size={16} />
-                  近鐵特急線上訂票
-                  <ExternalLink size={14} />
-                </a>
-              </div>
-            </SectionCard>
-
-            {/* VISON 巴士時刻表 */}
-            <SectionCard
-              icon={Bus}
-              title="VISON 巴士時刻表"
-              collapsible={true}
-              defaultOpen={false}
-              forceOpen={isAnyExpanded}
-            >
-              <div className="space-y-4">
-                {/* 松阪駅前 → VISON */}
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">
-                      平日
-                    </span>
-                    <h4 className="font-bold text-gray-800 text-sm">
-                      松阪駅前 → VISON
-                    </h4>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm border-collapse">
-                      <thead>
-                        <tr className="bg-gray-50">
-                          <th className="p-2 text-left font-medium text-gray-600 border-b">
-                            出發
-                          </th>
-                          <th className="p-2 text-left font-medium text-gray-600 border-b">
-                            抵達
-                          </th>
-                          <th className="p-2 text-left font-medium text-gray-600 border-b">
-                            車程
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[
-                          ["8:05", "8:55", "50分"],
-                          ["9:30", "10:12", "42分"],
-                          ["10:25", "11:07", "42分"],
-                          ["12:45", "13:27", "42分", true],
-                          ["13:20", "14:02", "42分", true],
-                          ["14:45", "15:27", "42分"],
-                          ["15:45", "16:27", "42分"],
-                          ["17:05", "17:51", "46分"],
-                          ["18:05", "18:47", "42分"],
-                        ].map(([dep, arr, dur, rec], idx) => (
-                          <tr
-                            key={idx}
-                            className={`border-b border-gray-100 ${rec ? "bg-indigo-50" : "hover:bg-gray-50"}`}
-                          >
-                            <td
-                              className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                            >
-                              {dep}
-                            </td>
-                            <td
-                              className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                            >
-                              {arr}
-                            </td>
-                            <td className="p-2 text-gray-500 text-xs">{dur}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                {/* VISON → 松阪駅前 */}
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">
-                      平日
-                    </span>
-                    <h4 className="font-bold text-gray-800 text-sm">
-                      VISON → 松阪駅前
-                    </h4>
-                  </div>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm border-collapse">
-                      <thead>
-                        <tr className="bg-gray-50">
-                          <th className="p-2 text-left font-medium text-gray-600 border-b">
-                            出發
-                          </th>
-                          <th className="p-2 text-left font-medium text-gray-600 border-b">
-                            抵達
-                          </th>
-                          <th className="p-2 text-left font-medium text-gray-600 border-b">
-                            車程
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {[
-                          ["10:23", "11:06", "43分"],
-                          ["11:00", "11:43", "43分", true],
-                          ["12:23", "13:06", "43分"],
-                          ["14:00", "14:43", "43分"],
-                          ["15:28", "16:11", "43分"],
-                          ["16:40", "17:23", "43分"],
-                          ["17:08", "18:02", "54分"],
-                          ["19:05", "19:48", "43分"],
-                        ].map(([dep, arr, dur, rec], idx) => (
-                          <tr
-                            key={idx}
-                            className={`border-b border-gray-100 ${rec ? "bg-indigo-50" : "hover:bg-gray-50"}`}
-                          >
-                            <td
-                              className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                            >
-                              {dep}
-                            </td>
-                            <td
-                              className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                            >
-                              {arr}
-                            </td>
-                            <td className="p-2 text-gray-500 text-xs">{dur}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-amber-50 rounded-lg text-sm text-amber-700 flex items-start gap-2">
-                  <AlertCircle size={16} className="mt-0.5 shrink-0" />
-                  <div>
-                    <span className="font-bold text-indigo-600">藍色</span>
-                    為推薦班次。平日時刻表，假日班次可能不同。建議出發前至
-                    <a
-                      href="https://vison.jp/access/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="underline font-bold"
+        <div
+          className={
+            activeTab === "map" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+          }
+        >
+          {/* 近鐵特急比較表 */}
+          <SectionCard
+            icon={Train}
+            title="近鐵比較表"
+            collapsible={true}
+            defaultOpen={false}
+            forceOpen={isAnyExpanded}
+          >
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse whitespace-nowrap">
+                <thead>
+                  <tr className="bg-indigo-50 text-indigo-600">
+                    <th className="p-3 font-bold text-sm">日期</th>
+                    <th className="p-3 font-bold text-sm">區間</th>
+                    <th className="p-3 font-bold text-sm">普通/急行</th>
+                    <th className="p-3 font-bold text-sm">特急</th>
+                    <th className="p-3 font-bold text-sm">特急券</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-600">
+                  {kintetsuComparisonData.map((row, idx) => (
+                    <tr
+                      key={idx}
+                      className="border-b border-gray-100 hover:bg-gray-50"
                     >
-                      VISON 官網
-                    </a>
-                    確認。
-                  </div>
-                </div>
-              </div>
-            </SectionCard>
+                      <td className="p-3 text-sm font-bold text-indigo-600">
+                        {row.day}
+                      </td>
+                      <td className="p-3 text-sm font-medium">{row.route}</td>
+                      <td className="p-3 text-sm text-gray-500">
+                        {row.regular}
+                      </td>
+                      <td className="p-3 text-sm font-bold text-green-600">
+                        {row.express}
+                      </td>
+                      <td className="p-3 text-sm font-bold text-[#E8968A]">
+                        {row.cost}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 p-3 bg-indigo-50 rounded-lg text-sm text-indigo-600">
+              <strong>特急券總費用</strong>：全程搭特急約{" "}
+              <strong>¥4,320/人</strong>
+            </div>
+          </SectionCard>
 
-            {/* VISON 園區地圖 */}
-            <SectionCard
-              icon={MapPin}
-              title="VISON 園區地圖"
-              collapsible={true}
-              defaultOpen={false}
-              forceOpen={isAnyExpanded}
-            >
+          {/* 特急加購價格表 */}
+          <SectionCard
+            icon={Train}
+            title="特急加購價格"
+            collapsible={true}
+            defaultOpen={false}
+            forceOpen={isAnyExpanded}
+          >
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse whitespace-nowrap">
+                <thead>
+                  <tr className="bg-indigo-50 text-indigo-600">
+                    <th className="p-3 font-bold text-sm">列車</th>
+                    <th className="p-3 font-bold text-sm">座位</th>
+                    <th className="p-3 font-bold text-sm">價格</th>
+                    <th className="p-3 font-bold text-sm">備註</th>
+                  </tr>
+                </thead>
+                <tbody className="text-gray-600">
+                  {expressPricingData.map((row, idx) => (
+                    <tr
+                      key={idx}
+                      className="border-b border-gray-100 hover:bg-gray-50"
+                    >
+                      <td className="p-3 text-sm font-bold text-gray-800">
+                        {row.train}
+                      </td>
+                      <td className="p-3 text-sm">{row.seat}</td>
+                      <td className="p-3 text-sm font-bold text-[#E8968A]">
+                        {row.price}
+                      </td>
+                      <td className="p-3 text-sm text-gray-500">{row.note}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 p-3 bg-amber-50 rounded-lg text-sm text-amber-700">
+              💡 持「近鐵5日券」已含基本運費，上表僅為額外加購費用
+            </div>
+            <div className="mt-3 text-center">
               <a
-                href="https://vison.jp/upload_fileuploder/VISON_MAP_251010.pdf"
+                href="https://www.ticket.kintetsu.co.jp/vs/en/T/TZZ/TZZ10.do?op=tDisplayVisitorMenu"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block p-4 bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl border border-indigo-100 hover:border-indigo-300 transition-all group"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-white rounded-lg shadow-sm">
-                      <MapPin size={20} className="text-indigo-600" />
-                    </div>
-                    <div>
-                      <div className="font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
-                        VISON 園區地圖 (PDF)
-                      </div>
-                      <div className="text-sm text-gray-500">
-                        含店舖配置、停車場、溫泉位置
-                      </div>
-                    </div>
-                  </div>
-                  <ExternalLink
-                    size={18}
-                    className="text-gray-400 group-hover:text-indigo-600 transition-colors"
-                  />
-                </div>
+                <Train size={16} />
+                近鐵特急線上訂票
+                <ExternalLink size={14} />
               </a>
-            </SectionCard>
+            </div>
+          </SectionCard>
 
-            {/* 每日交通路線 */}
-            <SectionCard
-              icon={MapPin}
-              title="每日交通路線"
-              collapsible={true}
-              defaultOpen={false}
-              forceOpen={isAnyExpanded}
-            >
-              <div className="space-y-3">
-                {recommendedRoutes.map((route, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 bg-white rounded-xl border border-gray-100 hover:border-indigo-200 transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
-                    onClick={() => handleOpenMap(route)}
-                  >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
-                        {route.day}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {route.duration}
-                      </span>
-                    </div>
-                    <div className="font-bold text-gray-800 mb-1">
-                      {route.name}
-                    </div>
-                    <div className="text-sm text-gray-500">{route.desc}</div>
-                  </div>
-                ))}
+          {/* VISON 巴士時刻表 */}
+          <SectionCard
+            icon={Bus}
+            title="VISON 巴士時刻表"
+            collapsible={true}
+            defaultOpen={false}
+            forceOpen={isAnyExpanded}
+          >
+            <div className="space-y-4">
+              {/* 松阪駅前 → VISON */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">
+                    平日
+                  </span>
+                  <h4 className="font-bold text-gray-800 text-sm">
+                    松阪駅前 → VISON
+                  </h4>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50">
+                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                          出發
+                        </th>
+                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                          抵達
+                        </th>
+                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                          車程
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["8:05", "8:55", "50分"],
+                        ["9:30", "10:12", "42分"],
+                        ["10:25", "11:07", "42分"],
+                        ["12:45", "13:27", "42分", true],
+                        ["13:20", "14:02", "42分", true],
+                        ["14:45", "15:27", "42分"],
+                        ["15:45", "16:27", "42分"],
+                        ["17:05", "17:51", "46分"],
+                        ["18:05", "18:47", "42分"],
+                      ].map(([dep, arr, dur, rec], idx) => (
+                        <tr
+                          key={idx}
+                          className={`border-b border-gray-100 ${rec ? "bg-indigo-50" : "hover:bg-gray-50"}`}
+                        >
+                          <td
+                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
+                          >
+                            {dep}
+                          </td>
+                          <td
+                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
+                          >
+                            {arr}
+                          </td>
+                          <td className="p-2 text-gray-500 text-xs">{dur}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               </div>
-            </SectionCard>
-          </div>
-        )}
+
+              {/* VISON → 松阪駅前 */}
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="px-2 py-0.5 bg-indigo-100 text-indigo-700 text-xs font-bold rounded">
+                    平日
+                  </span>
+                  <h4 className="font-bold text-gray-800 text-sm">
+                    VISON → 松阪駅前
+                  </h4>
+                </div>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm border-collapse">
+                    <thead>
+                      <tr className="bg-gray-50">
+                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                          出發
+                        </th>
+                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                          抵達
+                        </th>
+                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                          車程
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {[
+                        ["10:23", "11:06", "43分"],
+                        ["11:00", "11:43", "43分", true],
+                        ["12:23", "13:06", "43分"],
+                        ["14:00", "14:43", "43分"],
+                        ["15:28", "16:11", "43分"],
+                        ["16:40", "17:23", "43分"],
+                        ["17:08", "18:02", "54分"],
+                        ["19:05", "19:48", "43分"],
+                      ].map(([dep, arr, dur, rec], idx) => (
+                        <tr
+                          key={idx}
+                          className={`border-b border-gray-100 ${rec ? "bg-indigo-50" : "hover:bg-gray-50"}`}
+                        >
+                          <td
+                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
+                          >
+                            {dep}
+                          </td>
+                          <td
+                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
+                          >
+                            {arr}
+                          </td>
+                          <td className="p-2 text-gray-500 text-xs">{dur}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              <div className="p-3 bg-amber-50 rounded-lg text-sm text-amber-700 flex items-start gap-2">
+                <AlertCircle size={16} className="mt-0.5 shrink-0" />
+                <div>
+                  <span className="font-bold text-indigo-600">藍色</span>
+                  為推薦班次。平日時刻表，假日班次可能不同。建議出發前至
+                  <a
+                    href="https://vison.jp/access/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline font-bold"
+                  >
+                    VISON 官網
+                  </a>
+                  確認。
+                </div>
+              </div>
+            </div>
+          </SectionCard>
+
+          {/* VISON 園區地圖 */}
+          <SectionCard
+            icon={MapPin}
+            title="VISON 園區地圖"
+            collapsible={true}
+            defaultOpen={false}
+            forceOpen={isAnyExpanded}
+          >
+            <a
+              href="https://vison.jp/upload_fileuploder/VISON_MAP_251010.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block p-4 bg-gradient-to-br from-indigo-50 to-pink-50 rounded-xl border border-indigo-100 hover:border-indigo-300 transition-all group"
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-white rounded-lg shadow-sm">
+                    <MapPin size={20} className="text-indigo-600" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-800 group-hover:text-indigo-600 transition-colors">
+                      VISON 園區地圖 (PDF)
+                    </div>
+                    <div className="text-sm text-gray-500">
+                      含店舖配置、停車場、溫泉位置
+                    </div>
+                  </div>
+                </div>
+                <ExternalLink
+                  size={18}
+                  className="text-gray-400 group-hover:text-indigo-600 transition-colors"
+                />
+              </div>
+            </a>
+          </SectionCard>
+
+          {/* 每日交通路線 */}
+          <SectionCard
+            icon={MapPin}
+            title="每日交通路線"
+            collapsible={true}
+            defaultOpen={false}
+            forceOpen={isAnyExpanded}
+          >
+            <div className="space-y-3">
+              {recommendedRoutes.map((route, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 bg-white rounded-xl border border-gray-100 hover:border-indigo-200 transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
+                  onClick={() => handleOpenMap(route)}
+                >
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded">
+                      {route.day}
+                    </span>
+                    <span className="text-xs text-gray-400">
+                      {route.duration}
+                    </span>
+                  </div>
+                  <div className="font-bold text-gray-800 mb-1">
+                    {route.name}
+                  </div>
+                  <div className="text-sm text-gray-500">{route.desc}</div>
+                </div>
+              ))}
+            </div>
+          </SectionCard>
+        </div>
 
         {/* 美食 Tab */}
-        {activeTab === "food" && (
-          <div className="max-w-3xl mx-auto space-y-6">
-            {/* 同步狀態提示 */}
-            {isSyncing && (
-              <div className="text-center text-gray-400 text-sm py-2">
-                ✨ 正在同步雲端收藏...
-              </div>
-            )}
+        <div
+          className={
+            activeTab === "food" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+          }
+        >
+          {/* 同步狀態提示 */}
+          {isSyncing && (
+            <div className="text-center text-gray-400 text-sm py-2">
+              ✨ 正在同步雲端收藏...
+            </div>
+          )}
 
-            {foodData.categories
-              .filter((cat) => cat.sections[0].items.length > 0)
-              .map((category, cIdx) => (
-                <SectionCard
-                  key={cIdx}
-                  icon={Utensils}
-                  title={
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span>{category.location}</span>
-                      <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                        {category.day}
-                      </span>
-                    </div>
-                  }
-                  collapsible={true}
-                  forceOpen={isAnyExpanded}
-                >
-                  {category.sections.map((section, sIdx) => (
-                    <CollapsibleSubsection
-                      key={sIdx}
-                      title={section.title}
-                      count={section.items.length}
-                      forceOpen={isAnyExpanded}
-                    >
-                      <div className="space-y-2">
-                        {sortItems(section.items, cIdx, sIdx).map((item) => {
-                          const originalIdx = section.items.indexOf(item);
-                          const itemKey = getItemKey(cIdx, sIdx, originalIdx);
-                          const isFavorite = favorites[itemKey];
+          {foodData.categories
+            .filter((cat) => cat.sections[0].items.length > 0)
+            .map((category, cIdx) => (
+              <SectionCard
+                key={cIdx}
+                icon={Utensils}
+                title={
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span>{category.location}</span>
+                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                      {category.day}
+                    </span>
+                  </div>
+                }
+                collapsible={true}
+                forceOpen={isAnyExpanded}
+              >
+                {category.sections.map((section, sIdx) => (
+                  <CollapsibleSubsection
+                    key={sIdx}
+                    title={section.title}
+                    count={section.items.length}
+                    forceOpen={isAnyExpanded}
+                  >
+                    <div className="space-y-2">
+                      {sortItems(section.items, cIdx, sIdx).map((item) => {
+                        const originalIdx = section.items.indexOf(item);
+                        const itemKey = getItemKey(cIdx, sIdx, originalIdx);
+                        const isFavorite = favorites[itemKey];
 
-                          return (
-                            <div
-                              key={itemKey}
-                              className={`p-3 rounded-xl transition-colors ${
-                                isFavorite
-                                  ? "bg-pink-50 border border-pink-200"
-                                  : "bg-gray-50 hover:bg-gray-100"
-                              }`}
-                            >
-                              <div className="flex items-start gap-3">
-                                {/* 收藏按鈕 (移至左側) */}
-                                <button
-                                  onClick={() => toggleFavorite(itemKey)}
-                                  className={`p-2 rounded-full transition-all shrink-0 ${
-                                    isFavorite
-                                      ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
-                                      : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
-                                  }`}
-                                  title={isFavorite ? "取消收藏" : "加入收藏"}
-                                >
-                                  <Star
-                                    size={18}
-                                    className={isFavorite ? "fill-current" : ""}
-                                  />
-                                </button>
-
-                                {/* 內容區域 */}
-                                <div className="flex-1 min-w-0 pt-1">
-                                  <div className="font-bold text-gray-800 flex items-center gap-2">
-                                    {item.name}
-                                    {item.recommended && (
-                                      <Star
-                                        size={14}
-                                        className="text-yellow-500 fill-yellow-500"
-                                      />
-                                    )}
-                                  </div>
-                                  <div className="text-xs text-gray-500 mt-1">
-                                    {item.type} • {item.desc}
-                                  </div>
-                                  {item.note && (
-                                    <div className="text-xs text-orange-600 mt-1">
-                                      {item.note}
-                                    </div>
-                                  )}
-                                </div>
-
-                                {/* 地圖按鈕 (保留在右側) */}
-                                {item.mapUrl && (
-                                  <a
-                                    href={item.mapUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-2 text-gray-400 hover:text-indigo-600 transition-colors shrink-0"
-                                  >
-                                    <MapPin size={16} />
-                                  </a>
-                                )}
-                              </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </CollapsibleSubsection>
-                  ))}
-                </SectionCard>
-              ))}
-            <VegetarianCard forceOpen={isAnyExpanded} />
-          </div>
-        )}
-
-        {/* 購物 Tab */}
-        {activeTab === "shopping" && (
-          <div className="max-w-3xl mx-auto space-y-6">
-            {/* 購物清單分類 */}
-            {/* 購物清單分類 */}
-            <SectionCard
-              icon={ShoppingBag}
-              title="美妝購物攻略"
-              collapsible={true}
-              forceOpen={isAnyExpanded}
-            >
-              {shoppingData.categories.map((category, cIdx) => (
-                <CollapsibleSubsection
-                  key={cIdx}
-                  title={`${category.icon} ${category.title}`}
-                  count={category.items.length}
-                  forceOpen={isAnyExpanded}
-                >
-                  <div className="space-y-3">
-                    {sortShoppingItems(category.items, cIdx).map((item) => {
-                      const originalIdx = category.items.indexOf(item);
-                      const itemKey = getShoppingItemKey(cIdx, originalIdx);
-                      const isPurchased = purchased[itemKey];
-                      return (
-                        <div
-                          key={originalIdx}
-                          className={`p-4 rounded-xl border transition-all ${
-                            isPurchased
-                              ? "bg-gray-100 border-gray-200 opacity-60"
-                              : item.isBackup
-                                ? "bg-gray-50 border-gray-200 border-dashed"
-                                : "bg-white border-gray-100 hover:border-pink-200"
-                          }`}
-                        >
-                          <div className="flex items-start gap-3">
-                            {/* Checkbox */}
-                            {/* Checkbox */}
-                            <button
-                              onClick={() => togglePurchased(itemKey)}
-                              className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${
-                                isPurchased
-                                  ? "bg-green-500 border-green-500 text-white shadow-sm"
-                                  : "border-gray-300 bg-white hover:border-pink-400"
-                              }`}
-                            >
-                              {isPurchased && (
-                                <Check size={12} strokeWidth={4} />
-                              )}
-                            </button>
-
-                            <div className="flex-1 min-w-0">
-                              <div className="flex items-center gap-2 flex-wrap mb-1">
-                                {item.func && (
-                                  <span
-                                    className={`px-2 py-0.5 text-xs font-bold rounded ${isPurchased ? "bg-gray-200 text-gray-500" : "bg-indigo-100 text-indigo-600"}`}
-                                  >
-                                    {item.func}
-                                  </span>
-                                )}
-                                {item.type &&
-                                  !["必買", "囤貨", "補貨"].includes(
-                                    item.type,
-                                  ) && (
-                                    <span
-                                      className={`px-2 py-0.5 text-xs font-medium rounded ${
-                                        isPurchased
-                                          ? "bg-gray-200 text-gray-500"
-                                          : item.type === "首選"
-                                            ? "bg-green-100 text-green-600"
-                                            : item.type === "試用"
-                                              ? "bg-yellow-100 text-yellow-700"
-                                              : "bg-gray-100 text-gray-500"
-                                      }`}
-                                    >
-                                      {item.type}
-                                    </span>
-                                  )}
-                              </div>
+                        return (
+                          <div
+                            key={itemKey}
+                            className={`p-3 rounded-xl transition-colors ${
+                              isFavorite
+                                ? "bg-pink-50 border border-pink-200"
+                                : "bg-gray-50 hover:bg-gray-100"
+                            }`}
+                          >
+                            <div className="flex items-start gap-3">
+                              {/* 收藏按鈕 (移至左側) */}
                               <button
-                                onClick={() =>
-                                  setProductModalData({
-                                    isOpen: true,
-                                    product: item,
-                                  })
-                                }
-                                className={`font-bold mb-1 text-left hover:underline ${isPurchased ? "text-gray-500 line-through" : "text-gray-800 hover:text-pink-600"}`}
+                                onClick={() => toggleFavorite(itemKey)}
+                                className={`p-2 rounded-full transition-all shrink-0 ${
+                                  isFavorite
+                                    ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
+                                    : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
+                                }`}
+                                title={isFavorite ? "取消收藏" : "加入收藏"}
                               >
-                                {item.name}
+                                <Star
+                                  size={18}
+                                  className={isFavorite ? "fill-current" : ""}
+                                />
                               </button>
-                              {item.desc && (
-                                <div
-                                  className={`text-sm ${isPurchased ? "text-gray-400" : "text-gray-500"}`}
-                                >
-                                  {item.desc}
-                                </div>
-                              )}
-                            </div>
 
-                            <div className="text-right shrink-0">
-                              <div
-                                className={`font-bold tabular-nums ${isPurchased ? "text-gray-400" : "text-pink-600"}`}
-                              >
-                                ¥{item.price.toLocaleString()}
-                              </div>
-                              <div className="text-xs text-gray-400 tabular-nums">
-                                ≈$
-                                {Math.round(item.price * 0.22).toLocaleString()}
-                              </div>
-                              {isPurchased && (
-                                <div className="text-xs text-green-500 mt-1">
-                                  ✓ 已購買
+                              {/* 內容區域 */}
+                              <div className="flex-1 min-w-0 pt-1">
+                                <div className="font-bold text-gray-800 flex items-center gap-2">
+                                  {item.name}
+                                  {item.recommended && (
+                                    <Star
+                                      size={14}
+                                      className="text-yellow-500 fill-yellow-500"
+                                    />
+                                  )}
                                 </div>
+                                <div className="text-xs text-gray-500 mt-1">
+                                  {item.type} • {item.desc}
+                                </div>
+                                {item.note && (
+                                  <div className="text-xs text-orange-600 mt-1">
+                                    {item.note}
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* 地圖按鈕 (保留在右側) */}
+                              {item.mapUrl && (
+                                <a
+                                  href={item.mapUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-2 text-gray-400 hover:text-indigo-600 transition-colors shrink-0"
+                                >
+                                  <MapPin size={16} />
+                                </a>
                               )}
                             </div>
                           </div>
+                        );
+                      })}
+                    </div>
+                  </CollapsibleSubsection>
+                ))}
+              </SectionCard>
+            ))}
+          <VegetarianCard forceOpen={isAnyExpanded} />
+        </div>
+
+        {/* 購物 Tab */}
+        <div
+          className={
+            activeTab === "shopping" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+          }
+        >
+          {/* 購物清單分類 */}
+          {/* 購物清單分類 */}
+          <SectionCard
+            icon={ShoppingBag}
+            title="美妝購物攻略"
+            collapsible={true}
+            forceOpen={isAnyExpanded}
+          >
+            {shoppingData.categories.map((category, cIdx) => (
+              <CollapsibleSubsection
+                key={cIdx}
+                title={`${category.icon} ${category.title}`}
+                count={category.items.length}
+                forceOpen={isAnyExpanded}
+              >
+                <div className="space-y-3">
+                  {sortShoppingItems(category.items, cIdx).map((item) => {
+                    const originalIdx = category.items.indexOf(item);
+                    const itemKey = getShoppingItemKey(cIdx, originalIdx);
+                    const isPurchased = purchased[itemKey];
+                    return (
+                      <div
+                        key={originalIdx}
+                        className={`p-4 rounded-xl border transition-all ${
+                          isPurchased
+                            ? "bg-gray-100 border-gray-200 opacity-60"
+                            : item.isBackup
+                              ? "bg-gray-50 border-gray-200 border-dashed"
+                              : "bg-white border-gray-100 hover:border-pink-200"
+                        }`}
+                      >
+                        <div className="flex items-start gap-3">
+                          {/* Checkbox */}
+                          {/* Checkbox */}
+                          <button
+                            onClick={() => togglePurchased(itemKey)}
+                            className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${
+                              isPurchased
+                                ? "bg-green-500 border-green-500 text-white shadow-sm"
+                                : "border-gray-300 bg-white hover:border-pink-400"
+                            }`}
+                          >
+                            {isPurchased && <Check size={12} strokeWidth={4} />}
+                          </button>
+
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 flex-wrap mb-1">
+                              {item.func && (
+                                <span
+                                  className={`px-2 py-0.5 text-xs font-bold rounded ${isPurchased ? "bg-gray-200 text-gray-500" : "bg-indigo-100 text-indigo-600"}`}
+                                >
+                                  {item.func}
+                                </span>
+                              )}
+                              {item.type &&
+                                !["必買", "囤貨", "補貨"].includes(
+                                  item.type,
+                                ) && (
+                                  <span
+                                    className={`px-2 py-0.5 text-xs font-medium rounded ${
+                                      isPurchased
+                                        ? "bg-gray-200 text-gray-500"
+                                        : item.type === "首選"
+                                          ? "bg-green-100 text-green-600"
+                                          : item.type === "試用"
+                                            ? "bg-yellow-100 text-yellow-700"
+                                            : "bg-gray-100 text-gray-500"
+                                    }`}
+                                  >
+                                    {item.type}
+                                  </span>
+                                )}
+                            </div>
+                            <button
+                              onClick={() =>
+                                setProductModalData({
+                                  isOpen: true,
+                                  product: item,
+                                })
+                              }
+                              className={`font-bold mb-1 text-left hover:underline ${isPurchased ? "text-gray-500 line-through" : "text-gray-800 hover:text-pink-600"}`}
+                            >
+                              {item.name}
+                            </button>
+                            {item.desc && (
+                              <div
+                                className={`text-sm ${isPurchased ? "text-gray-400" : "text-gray-500"}`}
+                              >
+                                {item.desc}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="text-right shrink-0">
+                            <div
+                              className={`font-bold tabular-nums ${isPurchased ? "text-gray-400" : "text-pink-600"}`}
+                            >
+                              ¥{item.price.toLocaleString()}
+                            </div>
+                            <div className="text-xs text-gray-400 tabular-nums">
+                              ≈$
+                              {Math.round(item.price * 0.22).toLocaleString()}
+                            </div>
+                            {isPurchased && (
+                              <div className="text-xs text-green-500 mt-1">
+                                ✓ 已購買
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      );
-                    })}
-                  </div>
-                </CollapsibleSubsection>
-              ))}
-            </SectionCard>
-          </div>
-        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </CollapsibleSubsection>
+            ))}
+          </SectionCard>
+        </div>
       </main>
 
       {/* FAB Group */}

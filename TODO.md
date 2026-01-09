@@ -42,6 +42,7 @@
 ## 🧹 維護與重構
 
 - [ ] **Tech Lead Audit**: 檢查專案中殘留的廢棄代碼 (如 `src/pages` vs `src/views` 結構整理)
+- [x] **UX 優化**: 修復伊勢志摩頁面導航切換閃爍問題 (改用 CSS Visibility) ✅
 
 ---
 
