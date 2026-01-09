@@ -44,8 +44,13 @@ _(已完成)_
 - [ ] `trips/2025-osaka/` → Vite 版
 - [ ] `trips/2025-cebu/` → Vite 版
 
+### UX / UI 優化
+
+- [ ] 行程概覽區塊預設全部收合 (Timeline, Flight Info etc.)
+
 ### 功能與資料
 
+- [ ] 新增臨空城 (Rinku Town) 美食清單
 - [ ] 新增更多素食餐廳資料
 - [ ] 完善 AI 旅遊助手功能
 - [ ] 完成 2025-osaka 行程規劃
