@@ -288,7 +288,12 @@ my-landing-page/
 - ✅ Google Maps 整合
 - ✅ AI API 整合 (Gemini)
 - ✅ 毛玻璃效果 (backdrop-blur)
+- ✅ 毛玻璃效果 (backdrop-blur)
 - ✅ Sticky 導航元素
+- ✅ PWA 離線支援 (Service Worker + Manifest)
+    - 可安裝於桌面/手機
+    - Cache First 策略 (優先快取 App Shell)
+    - 離線瀏覽伊勢志摩旅程頁面
 
 ---
 
@@ -298,5 +303,8 @@ my-landing-page/
 - [ ] 更多財務分析工具
 - [ ] 部落格系統
 - [ ] 多語言支援
-- [ ] 離線支援 (PWA)
+- [ ] 更多旅程頁面
+- [ ] 更多財務分析工具
+- [ ] 部落格系統
+- [ ] 多語言支援
 - [ ] 行程分享功能

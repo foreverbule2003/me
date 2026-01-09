@@ -24,15 +24,15 @@ _(已完成)_
 
 ### Phase 1: 可安裝化
 
-- [ ] 建立 `manifest.json` (App 名稱、圖示、主題色)
-- [ ] 準備多尺寸 App 圖示 (192x192, 512x512)
+- [x] 建立 `manifest.json` (App 名稱、圖示、主題色)
+- [x] 準備多尺寸 App 圖示 (192x192, 512x512)
 
 ### Phase 2: 離線能力
 
-- [ ] 建立 `service-worker.js` (Cache First 策略)
-- [ ] 在 HTML 註冊 Service Worker
-- [ ] 快取旅程頁面靜態資源 (HTML/CSS/JS/圖片)
-- [ ] 測試離線模式
+- [x] 建立 `service-worker.js` (Cache First 策略)
+- [x] 在 HTML 註冊 Service Worker
+- [x] 快取旅程頁面靜態資源 (HTML/CSS/JS/圖片)
+- [x] 測試離線模式
 
 ---
 
