@@ -14,7 +14,7 @@ _(已完成)_
 
 **目標**：確保地基乾淨，為 PWA 做準備。
 
-- [x] **App.jsx 進階模組化**: 提取 Flight, Budget, Checklist, Links 為共用元件，移除 Firestore 依賴 ✅ (Completed: 2026-01-10)
+_(已完成)_
 
 ---
 
@@ -22,17 +22,7 @@ _(已完成)_
 
 **目標**：確保伊勢志摩旅程可離線使用。
 
-### Phase 1: 可安裝化
-
-- [x] 建立 `manifest.json` (App 名稱、圖示、主題色)
-- [x] 準備多尺寸 App 圖示 (192x192, 512x512)
-
-### Phase 2: 離線能力
-
-- [x] 建立 `service-worker.js` (Cache First 策略)
-- [x] 在 HTML 註冊 Service Worker
-- [x] 快取旅程頁面靜態資源 (HTML/CSS/JS/圖片)
-- [x] 測試離線模式
+_(已完成)_
 
 ---
 
@@ -68,3 +58,5 @@ _(已完成)_
 - [x] `trips/2026-ise-shima/` → Vite 版 ✅ 已完成
 - [x] 確認 Vite 版正常後，移除舊版 CDN 頁面 ✅ ise-shima 已整合
 - [x] **UX 優化**: 修復伊勢志摩頁面導航切換閃爍問題 (改用 CSS Visibility) ✅ (Completed: 2026-01-10)
+- [x] **App.jsx 進階模組化**: 提取 Flight, Budget, Checklist, Links 為共用元件，移除 Firestore 依賴 ✅ (Completed: 2026-01-10)
+- [x] **PWA 核心建設 (Phase 1-3)**: 建立 Manifest, Service Worker, 支援離線與解決路徑問題 ✅ (Completed: 2026-01-10)

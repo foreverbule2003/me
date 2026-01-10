@@ -57,105 +57,107 @@ import { SectionCard } from "../../../components/trips";
 // 為了 icon，我需要引入 lucide-react。
 
 const Timeline = ({
-    data = [],
-    title = "行程概覽",
-    icon: Icon = Calendar,
-    forceOpen = false,
-    onDayClick,
+  data = [],
+  title = "行程概覽",
+  icon: Icon = Calendar,
+  forceOpen = false,
+  onDayClick,
 }) => {
-    // 取得今天的日期 (格式: "1/11")
-    const now = new Date();
-    const todayStr = `${now.getMonth() + 1}/${now.getDate()}`;
+  // 取得今天的日期 (格式: "1/11")
+  const now = new Date();
+  const todayStr = `${now.getMonth() + 1}/${now.getDate()}`;
 
-    // 判斷是否為當日
-    const isToday = (dateStr) => {
-        const match = dateStr.match(/^(\d+\/\d+)/);
-        return match && match[1] === todayStr;
-    };
+  // 判斷是否為當日
+  const isToday = (dateStr) => {
+    const match = dateStr.match(/^(\d+\/\d+)/);
+    return match && match[1] === todayStr;
+  };
 
-    // 如果沒有傳入 SectionCard，我們就只渲染內容 (或者報錯，這裡假設父層會處理)
-    // 但為了好用，Timeline 應該就是一個 Section。
-    // 我們可以讓 Timeline 接收 children? 不，它是展示資料的。
+  // 如果沒有傳入 SectionCard，我們就只渲染內容 (或者報錯，這裡假設父層會處理)
+  // 但為了好用，Timeline 應該就是一個 Section。
+  // 我們可以讓 Timeline 接收 children? 不，它是展示資料的。
 
-    // 讓我們回頭看 App.jsx 的 SectionCard。
-    // 它是一個簡單的 functional component。
-    // 為了讓 Timeline.jsx 獨立，我應該 import SectionCard。
-    // 我決定：同時建立 SectionCard.jsx 和 Timeline.jsx。
-    // 這是對架構最好的決定。
+  // 讓我們回頭看 App.jsx 的 SectionCard。
+  // 它是一個簡單的 functional component。
+  // 為了讓 Timeline.jsx 獨立，我應該 import SectionCard。
+  // 我決定：同時建立 SectionCard.jsx 和 Timeline.jsx。
+  // 這是對架構最好的決定。
 
-    // 暫時先只建立 Timeline.jsx 內容，等一下再寫入檔案。
-    return (
-        <SectionCard
-            icon={Icon}
-            title={title}
-            collapsible={true}
-            defaultOpen={false}
-            forceOpen={forceOpen}
-        >
-            <div className="relative">
-                {/* 時間軸線 - 置中於節點，底部縮短避免超出最後一天 */}
-                <div className="absolute left-[13px] top-4 bottom-8 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full z-[1]" />
+  // 暫時先只建立 Timeline.jsx 內容，等一下再寫入檔案。
+  return (
+    <SectionCard
+      icon={Icon}
+      title={title}
+      collapsible={true}
+      defaultOpen={false}
+      forceOpen={forceOpen}
+    >
+      <div className="relative">
+        {/* 時間軸線 - 置中於節點，底部縮短避免超出最後一天 */}
+        <div className="absolute left-[13px] top-4 bottom-8 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full z-[1]" />
 
-                <div className="space-y-1">
-                    {data.map((item, idx) => {
-                        const today = isToday(item.date);
-                        return (
-                            <div
-                                key={idx}
-                                className="relative flex items-start gap-3 pl-1 py-1 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
-                                onClick={() => onDayClick?.(item.day)}
-                            >
-                                {/* 背景層 (z-0 讓線條顯示在上面) */}
-                                {today && (
-                                    <div className="absolute inset-0 bg-indigo-50 rounded-lg z-0" />
-                                )}
-                                {/* 時間軸節點 */}
-                                <div
-                                    className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${today
-                                        ? "bg-indigo-500 border-2 border-indigo-500"
-                                        : "bg-white border-2 border-indigo-400"
-                                        }`}
-                                >
-                                    <span
-                                        className={`text-[10px] font-bold ${today ? "text-white" : "text-indigo-600"
-                                            }`}
-                                    >
-                                        {item.day}
-                                    </span>
-                                </div>
-                                {/* 內容 */}
-                                <div className="relative flex-1 pb-1">
-                                    <div className="flex items-center gap-2 mb-0.5">
-                                        {today && (
-                                            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-indigo-500 text-white rounded shrink-0">
-                                                TODAY
-                                            </span>
-                                        )}
-                                        <span
-                                            className={`text-xs font-medium ${today ? "text-indigo-600" : "text-gray-500"}`}
-                                        >
-                                            {item.date}
-                                        </span>
-                                        <span
-                                            className={`text-sm font-bold ${today ? "text-indigo-700" : "text-gray-800"}`}
-                                        >
-                                            {item.title}
-                                        </span>
-                                    </div>
-                                    <div
-                                        className={`flex items-center gap-1 text-xs ${today ? "text-indigo-500" : "text-gray-500"}`}
-                                    >
-                                        <Hotel size={12} />
-                                        <span>{item.hotel}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        );
-                    })}
+        <div className="space-y-1">
+          {data.map((item, idx) => {
+            const today = isToday(item.date);
+            return (
+              <div
+                key={idx}
+                className="relative flex items-start gap-3 pl-1 py-1 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
+                onClick={() => onDayClick?.(item.day)}
+              >
+                {/* 背景層 (z-0 讓線條顯示在上面) */}
+                {today && (
+                  <div className="absolute inset-0 bg-indigo-50 rounded-lg z-0" />
+                )}
+                {/* 時間軸節點 */}
+                <div
+                  className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${
+                    today
+                      ? "bg-indigo-500 border-2 border-indigo-500"
+                      : "bg-white border-2 border-indigo-400"
+                  }`}
+                >
+                  <span
+                    className={`text-[10px] font-bold ${
+                      today ? "text-white" : "text-indigo-600"
+                    }`}
+                  >
+                    {item.day}
+                  </span>
                 </div>
-            </div>
-        </SectionCard>
-    );
+                {/* 內容 */}
+                <div className="relative flex-1 pb-1">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    {today && (
+                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-indigo-500 text-white rounded shrink-0">
+                        TODAY
+                      </span>
+                    )}
+                    <span
+                      className={`text-xs font-medium ${today ? "text-indigo-600" : "text-gray-500"}`}
+                    >
+                      {item.date}
+                    </span>
+                    <span
+                      className={`text-sm font-bold ${today ? "text-indigo-700" : "text-gray-800"}`}
+                    >
+                      {item.title}
+                    </span>
+                  </div>
+                  <div
+                    className={`flex items-center gap-1 text-xs ${today ? "text-indigo-500" : "text-gray-500"}`}
+                  >
+                    <Hotel size={12} />
+                    <span>{item.hotel}</span>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </SectionCard>
+  );
 };
 
 export default Timeline;
