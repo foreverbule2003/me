@@ -1,28 +1,28 @@
 {
-    "name": "TimBoy - Pocket Device",
-    "short_name": "TimBoy",
-    "start_url": "/me/index.html",
-    "scope": "/me/",
-    "display": "standalone",
-    "background_color": "#f0f0f0",
-    "theme_color": "#9bbc0f",
-    "orientation": "portrait",
-    "icons": [
-        {
-            "src": "/me/icons/icon-192.png",
-            "sizes": "192x192",
-            "type": "image/png"
-        },
-        {
-            "src": "/me/icons/icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png"
-        },
-        {
-            "src": "/me/icons/icon-512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        }
-    ]
+  "name": "TimBoy - Pocket Device",
+  "short_name": "TimBoy",
+  "start_url": "/me/index.html",
+  "scope": "/me/",
+  "display": "standalone",
+  "background_color": "#f0f0f0",
+  "theme_color": "#9bbc0f",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/me/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/me/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/me/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
 }

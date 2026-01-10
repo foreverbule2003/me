@@ -5,6 +5,7 @@ description: 快速管理待辦事項 (TODO)
 # TODO Workflow
 
 > 管理專案待辦事項與掃描程式碼標記。
+> 📝 **寫作規範**：詳見 [docs/TODO_SPEC.md](../../docs/TODO_SPEC.md)
 
 ## 🎯 使用方式
 

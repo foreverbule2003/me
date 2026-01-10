@@ -2,27 +2,21 @@
 
 > 最後更新：2026-01-10 (Advisor Prioritization)
 
-## 🔴 P0: 立即執行 (High Visual ROI)
+## 🔴 P0: 立即執行 (Pending)
 
-**目標**：修復視覺斷層，讓現有功能完整化。
-
-_(已完成)_
+_(暫無 P0 項目)_
 
 ---
 
 ## 🟡 P1: 技術清理 (High Value / Low Risk)
 
-**目標**：確保地基乾淨，為 PWA 做準備。
-
-_(已完成)_
+_(暫無 P1 項目)_
 
 ---
 
 ## 🟢 P2: PWA 核心建設 (MUST-HAVE)
 
-**目標**：確保伊勢志摩旅程可離線使用。
-
-_(已完成)_
+_(已完成，進入維護階段)_
 
 ---
 
@@ -60,3 +54,5 @@ _(已完成)_
 - [x] **UX 優化**: 修復伊勢志摩頁面導航切換閃爍問題 (改用 CSS Visibility) ✅ (Completed: 2026-01-10)
 - [x] **App.jsx 進階模組化**: 提取 Flight, Budget, Checklist, Links 為共用元件，移除 Firestore 依賴 ✅ (Completed: 2026-01-10)
 - [x] **PWA 核心建設 (Phase 1-3)**: 建立 Manifest, Service Worker, 支援離線與解決路徑問題 ✅ (Completed: 2026-01-10)
+- [x] **Goal (P0)**: 修復視覺斷層，讓現有功能完整化 ✅ (Completed: 2026-01-10)
+- [x] **Goal (P1)**: 技術清理 - 確保地基乾淨 (App.jsx Refactor) ✅ (Completed: 2026-01-10)
