@@ -139,8 +139,8 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
               key={id}
               onClick={() => setActiveTab(id)}
               className={`flex-1 min-w-[80px] py-4 flex flex-col items-center gap-1 transition-colors ${activeTab === id
-                  ? "text-indigo-600 font-bold border-b-2 border-indigo-600"
-                  : "text-gray-400 hover:text-indigo-600"
+                ? "text-indigo-600 font-bold border-b-2 border-indigo-600"
+                : "text-gray-400 hover:text-indigo-600"
                 }`}
             >
               <Icon size={20} />
@@ -274,8 +274,8 @@ const OverviewSection = ({ forceOpen, onDayClick }) => {
                 {/* 時間軸節點 */}
                 <div
                   className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${today
-                      ? "bg-indigo-500 border-2 border-indigo-500"
-                      : "bg-white border-2 border-indigo-400"
+                    ? "bg-indigo-500 border-2 border-indigo-500"
+                    : "bg-white border-2 border-indigo-400"
                     }`}
                 >
                   <span
@@ -349,16 +349,16 @@ const TodoSection = ({ forceOpen, completed = {}, onToggle }) => {
             <div
               key={row.originalIdx}
               className={`py-2.5 px-4 rounded-xl border transition-all cursor-pointer active:scale-[0.98] active:bg-gray-50 ${isDone
-                  ? "bg-gray-100 border-gray-200 opacity-60"
-                  : "bg-white border-gray-100 hover:border-indigo-200 shadow-sm"
+                ? "bg-gray-100 border-gray-200 opacity-60"
+                : "bg-white border-gray-100 hover:border-indigo-200 shadow-sm"
                 }`}
               onClick={() => onToggle && onToggle(itemKey)}
             >
               <div className="flex items-center gap-3">
                 <div
                   className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${isDone
-                      ? "bg-green-500 border-green-500 text-white shadow-sm"
-                      : "border-gray-300 bg-white hover:border-pink-400"
+                    ? "bg-green-500 border-green-500 text-white shadow-sm"
+                    : "border-gray-300 bg-white hover:border-pink-400"
                     }`}
                 >
                   {isDone && <Check size={12} strokeWidth={4} />}
@@ -864,8 +864,8 @@ const CollapsibleSubsection = ({
       </button>
       <div
         className={`grid transition-all duration-300 ease-in-out ${isOpen
-            ? "grid-rows-[1fr] opacity-100 mt-2"
-            : "grid-rows-[0fr] opacity-0 mt-0"
+          ? "grid-rows-[1fr] opacity-100 mt-2"
+          : "grid-rows-[0fr] opacity-0 mt-0"
           }`}
       >
         <div className="overflow-hidden">{children}</div>
@@ -1732,8 +1732,8 @@ export default function App() {
                           <div
                             key={itemKey}
                             className={`p-3 rounded-xl transition-colors ${isFavorite
-                                ? "bg-pink-50 border border-pink-200"
-                                : "bg-gray-50 hover:bg-gray-100"
+                              ? "bg-pink-50 border border-pink-200"
+                              : "bg-gray-50 hover:bg-gray-100"
                               }`}
                           >
                             <div className="flex items-start gap-3">
@@ -1741,8 +1741,8 @@ export default function App() {
                               <button
                                 onClick={() => toggleFavorite(itemKey)}
                                 className={`p-2 rounded-full transition-all shrink-0 ${isFavorite
-                                    ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
-                                    : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
+                                  ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
+                                  : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
                                   }`}
                                 title={isFavorite ? "取消收藏" : "加入收藏"}
                               >
@@ -1846,10 +1846,10 @@ export default function App() {
                       <div
                         key={originalIdx}
                         className={`p-4 rounded-xl border transition-all ${isPurchased
-                            ? "bg-gray-100 border-gray-200 opacity-60"
-                            : item.isBackup
-                              ? "bg-gray-50 border-gray-200 border-dashed"
-                              : "bg-white border-gray-100 hover:border-pink-200"
+                          ? "bg-gray-100 border-gray-200 opacity-60"
+                          : item.isBackup
+                            ? "bg-gray-50 border-gray-200 border-dashed"
+                            : "bg-white border-gray-100 hover:border-pink-200"
                           }`}
                       >
                         <div className="flex items-start gap-3">
@@ -1858,8 +1858,8 @@ export default function App() {
                           <button
                             onClick={() => togglePurchased(itemKey)}
                             className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${isPurchased
-                                ? "bg-green-500 border-green-500 text-white shadow-sm"
-                                : "border-gray-300 bg-white hover:border-pink-400"
+                              ? "bg-green-500 border-green-500 text-white shadow-sm"
+                              : "border-gray-300 bg-white hover:border-pink-400"
                               }`}
                           >
                             {isPurchased && <Check size={12} strokeWidth={4} />}
@@ -1880,12 +1880,12 @@ export default function App() {
                                 ) && (
                                   <span
                                     className={`px-2 py-0.5 text-xs font-medium rounded ${isPurchased
-                                        ? "bg-gray-200 text-gray-500"
-                                        : item.type === "首選"
-                                          ? "bg-green-100 text-green-600"
-                                          : item.type === "試用"
-                                            ? "bg-yellow-100 text-yellow-700"
-                                            : "bg-gray-100 text-gray-500"
+                                      ? "bg-gray-200 text-gray-500"
+                                      : item.type === "首選"
+                                        ? "bg-green-100 text-green-600"
+                                        : item.type === "試用"
+                                          ? "bg-yellow-100 text-yellow-700"
+                                          : "bg-gray-100 text-gray-500"
                                       }`}
                                   >
                                     {item.type}
