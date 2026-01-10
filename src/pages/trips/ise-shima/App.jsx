@@ -17,26 +17,44 @@ import {
   ChevronDown,
   ChevronUp,
   ExternalLink,
-  Sparkles,
-  Plane,
-  Clock,
   AlertCircle,
   X,
   MessageCircle,
   Languages,
   Bot,
   Bus,
-  Check,
   ShoppingBag,
   Send,
-  ClipboardList,
   CloudSun,
 } from "lucide-react";
 
 // 導入共用元件
 import Timeline from "../shared/Timeline";
+import FlightInfoSection from "../shared/FlightInfoSection";
+import BudgetSection from "../shared/BudgetSection";
+import ChecklistSection from "../shared/ChecklistSection";
+import LinksGallery from "../shared/LinksGallery";
 
-// 導入本地資料 (如果需要)
+// 航班資訊資料
+const flightData = {
+  outbound: {
+    airline: "泰國獅航",
+    flightNo: "SL396",
+    time: { depart: "09:00", arrive: "12:30" },
+    airport: { depart: "TPE 桃園", arrive: "KIX 關西" },
+    duration: "3h30m",
+    date: "01/11 (日)",
+  },
+  inbound: {
+    airline: "國泰航空",
+    flightNo: "CX565",
+    time: { depart: "16:15", arrive: "18:30" },
+    airport: { depart: "KIX 關西", arrive: "TPE 桃園" },
+    duration: "2h15m",
+    date: "01/21 (三)",
+  },
+};
+
 import {
   strategyData,
   itineraryData,
@@ -157,72 +175,7 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
   );
 };
 
-// StrategySection - 航班資訊
-const StrategySection = ({ isExpanded, onToggle }) => (
-  <SectionCard
-    icon={Plane}
-    title="航班資訊"
-    collapsible={true}
-    defaultOpen={false}
-    forceOpen={isExpanded}
-    onToggle={onToggle}
-  >
-    <div className="grid md:grid-cols-2 gap-3">
-      {/* 去程 */}
-      <div className="p-4 bg-white rounded-lg border border-gray-200">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-medium text-gray-800">去程</span>
-          <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">
-            泰國獅航 SL396
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="text-center">
-            <div className="text-lg font-bold text-gray-800">09:00</div>
-            <div className="text-xs text-gray-500">TPE 桃園</div>
-          </div>
-          <div className="flex-1 flex flex-col items-center px-3">
-            <div className="text-xs text-gray-400 mb-1">3h30m</div>
-            <div className="w-full h-px bg-gray-300 relative">
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
-            </div>
-            <div className="text-xs text-gray-400 mt-1">01/11 (日)</div>
-          </div>
-          <div className="text-center">
-            <div className="text-lg font-bold text-gray-800">12:30</div>
-            <div className="text-xs text-gray-500">KIX 關西</div>
-          </div>
-        </div>
-      </div>
-      {/* 回程 */}
-      <div className="p-4 bg-white rounded-lg border border-gray-200">
-        <div className="flex items-center justify-between mb-3">
-          <span className="text-sm font-medium text-gray-800">回程</span>
-          <span className="text-xs px-2 py-0.5 bg-indigo-50 text-indigo-600 rounded-full">
-            國泰航空 CX565
-          </span>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="text-center">
-            <div className="text-lg font-bold text-gray-800">16:15</div>
-            <div className="text-xs text-gray-500">KIX 關西</div>
-          </div>
-          <div className="flex-1 flex flex-col items-center px-3">
-            <div className="text-xs text-gray-400 mb-1">2h15m</div>
-            <div className="w-full h-px bg-gray-300 relative">
-              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-4 border-l-gray-400 border-y-2 border-y-transparent"></div>
-            </div>
-            <div className="text-xs text-gray-400 mt-1">01/21 (三)</div>
-          </div>
-          <div className="text-center">
-            <div className="text-lg font-bold text-gray-800">18:30</div>
-            <div className="text-xs text-gray-500">TPE 桃園</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </SectionCard>
-);
+
 
 // OverviewSection - 行程概覽 (時間軸)
 const overviewData = [
@@ -324,247 +277,11 @@ const OverviewSection = ({ forceOpen, onDayClick }) => {
   );
 };
 
-// TodoSection - 待訂清單
-const TodoSection = ({ forceOpen, completed = {}, onToggle }) => {
-  // 排序：已完成的項目移到最下面
-  const sortedItems = todoData
-    .map((row, idx) => ({ ...row, originalIdx: idx }))
-    .sort((a, b) => {
-      const aKey = `todo-${a.originalIdx}`;
-      const bKey = `todo-${b.originalIdx}`;
-      const aDone = completed[aKey] ? 1 : 0;
-      const bDone = completed[bKey] ? 1 : 0;
-      return aDone - bDone;
-    });
 
-  return (
-    <SectionCard
-      icon={ClipboardList}
-      title="待訂清單"
-      collapsible={true}
-      defaultOpen={false}
-      forceOpen={forceOpen}
-    >
-      <div className="space-y-3">
-        {sortedItems.map((row) => {
-          const itemKey = `todo-${row.originalIdx}`;
-          const isDone = completed[itemKey];
-          return (
-            <div
-              key={row.originalIdx}
-              className={`py-2.5 px-4 rounded-xl border transition-all cursor-pointer active:scale-[0.98] active:bg-gray-50 ${isDone
-                ? "bg-gray-100 border-gray-200 opacity-60"
-                : "bg-white border-gray-100 hover:border-indigo-200 shadow-sm"
-                }`}
-              onClick={() => onToggle && onToggle(itemKey)}
-            >
-              <div className="flex items-center gap-3">
-                <div
-                  className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${isDone
-                    ? "bg-green-500 border-green-500 text-white shadow-sm"
-                    : "border-gray-300 bg-white hover:border-pink-400"
-                    }`}
-                >
-                  {isDone && <Check size={12} strokeWidth={4} />}
-                </div>
-                <div className="flex-1">
-                  <div className="mb-1">
-                    <span
-                      className={`px-2 py-0.5 text-xs font-bold rounded ${isDone ? "bg-gray-200 text-gray-500" : "bg-indigo-100 text-indigo-600"}`}
-                    >
-                      {row.category}
-                    </span>
-                  </div>
-                  <span
-                    className={`font-bold ${isDone ? "text-gray-500 line-through" : "text-gray-800"}`}
-                  >
-                    {row.item}
-                  </span>
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </SectionCard>
-  );
-};
 
-// UsefulLinksSection
-const UsefulLinksSection = ({ forceOpen }) => {
-  const iconMap = { Train, Hotel, Star, MapPin };
 
-  return (
-    <SectionCard
-      icon={Sparkles}
-      title="實用連結"
-      collapsible={true}
-      defaultOpen={false}
-      forceOpen={forceOpen}
-    >
-      <div className="grid md:grid-cols-3 gap-4">
-        {usefulLinks.categories.map((category, idx) => {
-          const CategoryIcon = iconMap[category.icon] || MapPin;
-          return (
-            <div
-              key={idx}
-              className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
-            >
-              <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-                <CategoryIcon size={16} className="text-[#E8968A]" />
-                <span className="font-bold text-gray-700 text-sm">
-                  {category.label}
-                </span>
-              </div>
-              <div className="p-2">
-                {category.items.map((item, iIdx) => (
-                  <a
-                    key={iIdx}
-                    href={item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group"
-                  >
-                    <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-gray-700 font-medium group-hover:text-indigo-600 transition-colors text-sm truncate">
-                        {item.name}
-                      </span>
-                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
-                        {item.day}
-                      </span>
-                    </div>
-                    <ExternalLink
-                      size={14}
-                      className="text-gray-300 group-hover:text-[#E8968A] shrink-0 ml-2"
-                    />
-                  </a>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </SectionCard>
-  );
-};
 
-// BudgetTable
-const BudgetTable = ({ forceOpen }) => {
-  const RATE_TWD = 0.22;
-  const totalJPY = budgetData.reduce((acc, curr) => acc + curr.cost, 0);
-  const totalTWD = Math.round(totalJPY * RATE_TWD);
 
-  return (
-    <SectionCard
-      icon={Wallet}
-      title={
-        <div className="flex items-center gap-2">
-          <span>預算概算</span>
-          <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-            每人
-          </span>
-        </div>
-      }
-      collapsible={true}
-      defaultOpen={false}
-      forceOpen={forceOpen}
-    >
-      {/* Desktop View */}
-      <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-100">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-indigo-50 text-indigo-600">
-              <th className="p-3 font-bold text-sm whitespace-nowrap">項目</th>
-              <th className="p-3 font-bold text-sm whitespace-nowrap">
-                金額 (JPY)
-              </th>
-              <th className="p-3 font-bold text-sm whitespace-nowrap">
-                預估台幣 (約)
-              </th>
-              <th className="p-3 font-bold text-sm whitespace-nowrap">說明</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-600">
-            {budgetData.map((row, idx) => (
-              <tr
-                key={idx}
-                className="border-b border-gray-100 hover:bg-[#E8968A]/5 transition-colors"
-              >
-                <td className="p-3 font-bold text-gray-700 text-sm whitespace-nowrap">
-                  {row.item}
-                </td>
-                <td className="p-3 font-bold tabular-nums text-gray-900 text-sm whitespace-nowrap">
-                  ¥{row.cost.toLocaleString()}
-                </td>
-                <td className="p-3 font-bold tabular-nums text-gray-500 text-sm whitespace-nowrap">
-                  ${Math.round(row.cost * RATE_TWD).toLocaleString()}
-                </td>
-                <td className="p-3 text-sm text-gray-500 min-w-[200px]">
-                  {row.note}
-                </td>
-              </tr>
-            ))}
-            <tr className="bg-indigo-50 text-gray-800 font-bold border-t-2 border-indigo-200">
-              <td className="p-3 rounded-bl-lg text-sm whitespace-nowrap">
-                總計
-              </td>
-              <td className="p-3 font-bold tabular-nums text-xl text-indigo-600 font-black whitespace-nowrap">
-                ¥{totalJPY.toLocaleString()}
-              </td>
-              <td className="p-3 font-bold tabular-nums text-xl text-gray-500 font-black whitespace-nowrap">
-                ${totalTWD.toLocaleString()}
-              </td>
-              <td className="p-3 rounded-br-lg text-gray-500 font-normal text-sm">
-                預算重點：吃得好、住得好、移動舒適 (匯率: {RATE_TWD})
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      {/* Mobile View */}
-      <div className="md:hidden space-y-3">
-        {budgetData.map((row, idx) => (
-          <div
-            key={idx}
-            className="p-4 bg-white border border-gray-100 rounded-xl shadow-sm flex flex-col gap-2"
-          >
-            <div className="flex justify-between items-start">
-              <div className="font-bold text-gray-800 text-sm">{row.item}</div>
-              <div className="text-right">
-                <div className="font-bold tabular-nums text-indigo-600 text-sm">
-                  ¥{row.cost.toLocaleString()}
-                </div>
-                <div className="text-xs text-gray-400 tabular-nums">
-                  約 ${Math.round(row.cost * RATE_TWD).toLocaleString()}
-                </div>
-              </div>
-            </div>
-            <div className="text-xs text-gray-500 bg-gray-50 p-2 rounded-lg leading-relaxed">
-              {row.note}
-            </div>
-          </div>
-        ))}
-        <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-xl shadow-sm">
-          <div className="flex justify-between items-center mb-2">
-            <span className="font-bold text-gray-800 text-sm">總計 (預估)</span>
-            <div className="text-right">
-              <div className="font-black tabular-nums text-xl text-indigo-600">
-                ¥{totalJPY.toLocaleString()}
-              </div>
-              <div className="text-sm text-gray-500 tabular-nums font-bold">
-                約 ${totalTWD.toLocaleString()}
-              </div>
-            </div>
-          </div>
-          <div className="text-xs text-gray-500 text-center pt-2 border-t border-indigo-100">
-            預算重點：吃得好、住得好、移動舒適 (匯率: {RATE_TWD})
-          </div>
-        </div>
-      </div>
-    </SectionCard>
-  );
-};
 
 // DayCard 元件
 const DayCard = ({
@@ -1011,8 +728,7 @@ export default function App() {
   // 購物清單已購買狀態
   const [purchased, setPurchased] = useState({});
 
-  // 待訂清單完成狀態
-  const [todoCompleted, setTodoCompleted] = useState({});
+
 
   // Firebase Firestore 即時同步
   useEffect(() => {
@@ -1052,25 +768,7 @@ export default function App() {
     return () => unsubscribe();
   }, []);
 
-  // 訂閱待訂清單狀態
-  useEffect(() => {
-    const q = collection(db, "trips", TRIP_ID, "todo_completed");
-    const unsubscribe = onSnapshot(
-      q,
-      (snapshot) => {
-        const newCompleted = {};
-        snapshot.forEach((docSnap) => {
-          newCompleted[docSnap.id] = true;
-        });
-        setTodoCompleted(newCompleted);
-      },
-      (error) => {
-        console.error("Todo sync error:", error);
-        // alert("同步失敗: " + error.message); // Optional: notify user if init fails
-      },
-    );
-    return () => unsubscribe();
-  }, []);
+
 
   // 切換分頁時重置全域折疊狀態 (Optional, user preference if they want to keep state)
   // useEffect(() => {
@@ -1160,24 +858,7 @@ export default function App() {
     }
   };
 
-  // 待訂清單：切換完成狀態
-  const toggleTodoCompleted = async (itemKey) => {
-    // console.log("Toggling todo:", itemKey); // DEBUG
-    const docRef = doc(db, "trips", TRIP_ID, "todo_completed", itemKey);
-    try {
-      if (todoCompleted[itemKey]) {
-        await deleteDoc(docRef);
-      } else {
-        await setDoc(docRef, {
-          timestamp: new Date().toISOString(),
-          userId: "anonymous", // 確保符合潛在的權限規則
-        });
-      }
-    } catch (e) {
-      console.error("Error updating todo status:", e);
-      alert("同步失敗: " + e.message); // Show error to user
-    }
-  };
+
 
   // 購物清單：排序（已購買移到底部）
   const sortShoppingItems = (items, catIdx) => {
@@ -1204,7 +885,12 @@ export default function App() {
       <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
         {/* 總覽 Tab */}
         <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
-          <StrategySection isExpanded={isAnyExpanded} />
+          <FlightInfoSection
+            outbound={flightData.outbound}
+            inbound={flightData.inbound}
+            forceOpen={isAnyExpanded}
+          />
+
           {/* 全行程天氣預報 */}
           <SectionCard
             icon={CloudSun}
@@ -1288,12 +974,16 @@ export default function App() {
               }, 100);
             }}
           />
-          <TodoSection
+          <ChecklistSection
+            title="待訂清單"
+            items={todoData}
+            storageKey="ise_shima_todos_v1"
             forceOpen={isAnyExpanded}
-            completed={todoCompleted}
-            onToggle={toggleTodoCompleted}
           />
-          <UsefulLinksSection forceOpen={isAnyExpanded} />
+          <LinksGallery
+            links={usefulLinks?.categories || []}
+            forceOpen={isAnyExpanded}
+          />
         </div>
 
         {/* 行程 Tab */}
@@ -1327,15 +1017,20 @@ export default function App() {
         <div
           className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
         >
-          <BudgetTable forceOpen={isAnyExpanded} />
-          <div className="mt-8 p-6 bg-indigo-50 rounded-3xl flex gap-4 items-start">
-            <Info className="text-indigo-600 flex-shrink-0 mt-1" />
-            <div className="text-sm text-indigo-600 leading-relaxed">
-              <p className="font-bold mb-1">關於預訂</p>
-              建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
-              觀光特急需在乘車日前一個月上午 10:30 準時搶票。
-            </div>
-          </div>
+          <BudgetSection
+            data={budgetData}
+            forceOpen={isAnyExpanded}
+            notes={
+              <div className="flex gap-4 items-start w-full">
+                <Info className="text-indigo-600 flex-shrink-0 mt-1" />
+                <div className="text-sm text-indigo-600 leading-relaxed">
+                  <p className="font-bold mb-1">關於預訂</p>
+                  建議提前 3-6 個月開始預訂住宿以確保早鳥優惠。Shimakaze
+                  觀光特急需在乘車日前一個月上午 10:30 準時搶票。
+                </div>
+              </div>
+            }
+          />
         </div>
 
         {/* 交通 Tab */}
