@@ -44,6 +44,7 @@ const flightData = {
     flightNo: "SL396",
     time: { depart: "09:00", arrive: "12:30" },
     airport: { depart: "TPE 桃園", arrive: "KIX 關西" },
+    terminal: { depart: "T1", arrive: "T1" },
     duration: "3h30m",
     date: "01/11 (日)",
   },
@@ -52,6 +53,7 @@ const flightData = {
     flightNo: "CX565",
     time: { depart: "16:15", arrive: "18:30" },
     airport: { depart: "KIX 關西", arrive: "TPE 桃園" },
+    terminal: { depart: "T1", arrive: "T1" },
     duration: "2h15m",
     date: "01/21 (三)",
   },
@@ -760,10 +762,7 @@ export default function App() {
             forceOpen={isAnyExpanded}
           />
 
-          {/* 全行程天氣預報 */}
-          {/* 天氣預報 */}
-          <WeatherForecastSection forceOpen={isAnyExpanded} />
-
+          {/* 行程概覽 (Timeline) - 原本在下方，現在移到天氣預報上方 */}
           <Timeline
             data={overviewData}
             forceOpen={isAnyExpanded}
@@ -795,6 +794,9 @@ export default function App() {
               }, 100);
             }}
           />
+
+          {/* 全行程天氣預報 - 原本在上方，現在移到 Timeline 下方 */}
+          <WeatherForecastSection forceOpen={isAnyExpanded} />
           <ChecklistSection
             title="待訂清單"
             items={todoData}

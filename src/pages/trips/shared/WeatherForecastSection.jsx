@@ -149,8 +149,33 @@ const WeatherForecastSection = ({ forceOpen }) => {
     },
   ];
 
-  // DEMO: 模擬今天是 1/11
-  const DEMO_TODAY = "1/11";
+  // Get current date string matching data format "M/D" (e.g., "1/11")
+  const todayObj = new Date();
+  const TODAY_STR = `${todayObj.getMonth() + 1}/${todayObj.getDate()}`;
+
+  // Auto-scroll to today
+  const scrollContainerRef = React.useRef(null);
+
+  React.useEffect(() => {
+    if (scrollContainerRef.current) {
+      // Find the index of today
+      const todayIndex = forecastData.findIndex((d) => d.date === TODAY_STR);
+      if (todayIndex !== -1) {
+        const cardWidth = 100; // w-[100px]
+        const gap = 12; // gap-3 = 12px
+
+        const scrollPos = (cardWidth + gap) * todayIndex;
+
+        // Wait a tick for layout to stabilize if needed
+        setTimeout(() => {
+          scrollContainerRef.current.scrollTo({
+            left: scrollPos,
+            behavior: "smooth",
+          });
+        }, 300);
+      }
+    }
+  }, [TODAY_STR]);
 
   return (
     <SectionCard
@@ -162,16 +187,20 @@ const WeatherForecastSection = ({ forceOpen }) => {
     >
       {/* Horizontal Scroll Container */}
       <div className="relative -mx-4 md:mx-0">
-        <div className="flex overflow-x-auto pb-4 px-4 md:px-0 gap-3 snap-x snap-mandatory no-scrollbar">
+        {/* Adjusted padding to pt-3 pb-6: specific tuning to fit shadow without excess spacing */}
+        <div
+          ref={scrollContainerRef}
+          className="flex overflow-x-auto pt-3 pb-6 px-4 md:px-0 gap-3 snap-x snap-mandatory no-scrollbar"
+        >
           {forecastData.map((item, idx) => {
-            const isToday = item.date === DEMO_TODAY;
+            const isToday = item.date === TODAY_STR;
 
             return (
               <div
                 key={idx}
-                className={`snap-center shrink-0 w-[100px] flex flex-col items-center p-3 rounded-2xl border transition-all ${
+                className={`snap-center shrink-0 w-[100px] flex flex-col items-center p-3 rounded-2xl border-2 transition-all ${
                   isToday
-                    ? "bg-white border-2 border-indigo-500 shadow-xl shadow-indigo-100 scale-[1.02] z-10"
+                    ? "bg-white border-indigo-500 shadow-lg shadow-indigo-200/50 scale-[1.02] z-10"
                     : "bg-white border-gray-100 hover:border-indigo-100 shadow-sm hover:shadow-md"
                 }`}
               >
@@ -181,15 +210,18 @@ const WeatherForecastSection = ({ forceOpen }) => {
                     isToday ? "border-indigo-100" : "border-gray-50"
                   }`}
                 >
-                  {isToday ? (
-                    <div className="text-[10px] font-extrabold text-white bg-indigo-500 rounded-full px-2 py-0.5 tracking-widest mb-1 mx-auto w-fit shadow-sm">
-                      TODAY
-                    </div>
-                  ) : (
-                    <div className="text-[10px] font-extrabold text-indigo-300 tracking-widest mb-0.5">
-                      DAY {idx + 1}
-                    </div>
-                  )}
+                  {/* Fixed height container for label to match alignment */}
+                  <div className="h-[22px] flex items-center justify-center mb-1">
+                    {isToday ? (
+                      <div className="text-[10px] font-extrabold text-white bg-indigo-500 rounded-full px-2 py-0.5 tracking-widest shadow-sm">
+                        DAY {idx + 1}
+                      </div>
+                    ) : (
+                      <div className="text-[10px] font-extrabold text-indigo-300 tracking-widest">
+                        DAY {idx + 1}
+                      </div>
+                    )}
+                  </div>
 
                   <div className="flex items-baseline justify-center gap-1">
                     <span

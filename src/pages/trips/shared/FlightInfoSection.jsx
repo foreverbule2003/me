@@ -23,7 +23,14 @@ const FlightInfoSection = ({
           <div className="text-lg font-bold text-gray-800">
             {data.time.depart}
           </div>
-          <div className="text-xs text-gray-500">{data.airport.depart}</div>
+          <div className="text-xs text-gray-500">
+            {data.airport.depart}
+            {data.terminal?.depart && (
+              <span className="ml-1 font-bold text-indigo-600">
+                {data.terminal.depart}
+              </span>
+            )}
+          </div>
         </div>
         <div className="flex-1 flex flex-col items-center px-3">
           <div className="text-xs text-gray-400 mb-1">{data.duration}</div>
@@ -36,7 +43,14 @@ const FlightInfoSection = ({
           <div className="text-lg font-bold text-gray-800">
             {data.time.arrive}
           </div>
-          <div className="text-xs text-gray-500">{data.airport.arrive}</div>
+          <div className="text-xs text-gray-500">
+            {data.airport.arrive}
+            {data.terminal?.arrive && (
+              <span className="ml-1 font-bold text-indigo-600">
+                {data.terminal.arrive}
+              </span>
+            )}
+          </div>
         </div>
       </div>
     </div>
