@@ -22,10 +22,10 @@ description: 快速提交變更到目前分支 (不推送)
 
 | 變更類型                     | 應同步到 Second-Brain |
 | ---------------------------- | --------------------- |
-| 新增 `.agent/workflows/*.md` | ⭐ 是 (通用工作流程)  |
-| 新增 `.agent/prompts/*.md`   | ⭐ 是 (通用 AI 角色)  |
-| 新增 `knowledge/*.md`        | ⭐ 是 (思維模型)      |
-| Commit 含 `[reusable]` 標記  | ⭐ 是                 |
+| 新增 `.agent/workflows/*.md` | ⭐ 是 (通用工作流程)   |
+| 新增 `.agent/prompts/*.md`   | ⭐ 是 (通用 AI 角色)   |
+| 新增 `knowledge/*.md`        | ⭐ 是 (思維模型)       |
+| Commit 含 `[reusable]` 標記  | ⭐ 是                  |
 
 > 💡 若有可複用項目，提交後執行 `/sync-to-brain`
 
@@ -40,6 +40,14 @@ description: 快速提交變更到目前分支 (不推送)
 
 **指令範例**：
 `/help pm cto 請 review 以上變更與文件同步狀況，準備進行 commit。`
+
+## 步驟 2.8：👀 用戶驗證 (User Verification)
+
+> 🛑 **Critical Stop**: 在提交之前，必須讓用戶有機會檢視結果。
+
+1. **暫停執行**：不要自動連續執行 `git add/commit`。
+2. **通知用戶**：使用 `notify_user` 告知變更已完成，請求確認。
+3. **等待批准**：用戶回應 LGTM 或確認後，再繼續步驟 4。
 
 // turbo
 
