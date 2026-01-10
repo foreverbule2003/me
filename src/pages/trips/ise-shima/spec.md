@@ -390,6 +390,7 @@
 ### USJ 環球影城 (Day 7-8)
 
 > 園區內有多處美食餐廳，但純素選項有限。適用對象：方便素 / 蛋奶五辛素 (Lacto-Ovo Vegetarian + Alliums)。
+> 官方參考：[USJ 蔬食菜單資訊](https://www.usj.co.jp/web/zh/tw/service-guide/barrier-free/dietary-restriction/plant-based-menu)
 
 #### 🍽️ 推薦清單
 

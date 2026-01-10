@@ -1081,6 +1081,7 @@ export const foodData = {
     {
       location: "USJ 環球影城",
       day: "Day 7-8",
+      url: "https://www.usj.co.jp/web/zh/tw/service-guide/barrier-free/dietary-restriction/plant-based-menu",
       sections: [
         {
           title: "🍕 園區內美食",

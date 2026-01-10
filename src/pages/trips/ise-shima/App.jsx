@@ -1717,6 +1717,26 @@ export default function App() {
                         );
                       })}
                     </div>
+
+                    {/* USJ 官方連結特製區塊 */}
+                    {section.title === "🍕 園區內美食" &&
+                      category.location === "USJ 環球影城" &&
+                      category.url && (
+                        <div className="mt-3">
+                          <a
+                            href={category.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center justify-center gap-2 py-2.5 px-4 bg-indigo-50 text-indigo-600 rounded-xl border border-indigo-100 hover:bg-indigo-100 transition-all text-sm font-bold group"
+                          >
+                            <ExternalLink
+                              size={16}
+                              className="group-hover:scale-110 transition-transform"
+                            />
+                            USJ 官方蔬食餐點指南
+                          </a>
+                        </div>
+                      )}
                   </CollapsibleSubsection>
                 ))}
               </SectionCard>
