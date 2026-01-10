@@ -30,14 +30,8 @@ _(已完成，進入維護階段)_
 
 ### UX / UI 優化
 
-- [x] 行程概覽區塊預設收合 + 今日醒目標示 + 點擊跳轉功能 ✅ (Completed: 2026-01-10)
-
 ### 功能與資料
 
-- [x] 新增臨空城 (Rinku Town) 美食清單 ✅ (Completed: 2026-01-10)
-- [x] 新增更多素食餐廳資料 (含 USJ 專區) ✅ (Completed: 2026-01-10)
-- [x] 建立全行程 (1/11-1/21) 天氣預報表格 ✅ (Completed: 2026-01-10)
-- [x] 將 USJ 混雜預想整合至 App.jsx ✅ (Completed: 2026-01-10)
 - [ ] 完善 AI 旅遊助手功能
 - [ ] 完成 2025-osaka 行程規劃
 - [ ] 完成 2026-hokkaido 行程規劃
@@ -55,4 +49,10 @@ _(已完成，進入維護階段)_
 - [x] **App.jsx 進階模組化**: 提取 Flight, Budget, Checklist, Links 為共用元件，移除 Firestore 依賴 ✅ (Completed: 2026-01-10)
 - [x] **PWA 核心建設 (Phase 1-3)**: 建立 Manifest, Service Worker, 支援離線與解決路徑問題 ✅ (Completed: 2026-01-10)
 - [x] **Goal (P0)**: 修復視覺斷層，讓現有功能完整化 ✅ (Completed: 2026-01-10)
+- [x] **Refactor (Ise-Shima)**: 行程元件重構 (DayCard, StickyPhaseHeader, ItineraryTab) ✅ (Completed: 2026-01-10)
 - [x] **Goal (P1)**: 技術清理 - 確保地基乾淨 (App.jsx Refactor) ✅ (Completed: 2026-01-10)
+- [x] 行程概覽區塊預設收合 + 今日醒目標示 + 點擊跳轉功能 ✅ (Completed: 2026-01-10)
+- [x] 新增臨空城 (Rinku Town) 美食清單 ✅ (Completed: 2026-01-10)
+- [x] 新增更多素食餐廳資料 (含 USJ 專區) ✅ (Completed: 2026-01-10)
+- [x] 建立全行程 (1/11-1/21) 天氣預報表格 ✅ (Completed: 2026-01-10)
+- [x] 將 USJ 混雜預想整合至 App.jsx ✅ (Completed: 2026-01-10)
