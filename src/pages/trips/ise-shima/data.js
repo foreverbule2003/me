@@ -1083,8 +1083,88 @@ export const foodData = {
       day: "Day 7-8",
       sections: [
         {
-          title: "🍕 園區美食",
-          items: [],
+          title: "🍕 園區內美食",
+          items: [
+            {
+              name: "[哈利波特] 三根掃帚",
+              type: "西洋料理",
+              desc: "愛爾蘭燉蔬菜 (含沙拉與麵包) / 奶油啤酒",
+              recommended: true,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Three+Broomsticks+USJ",
+            },
+            {
+              name: "[任天堂] 奇諾比奧咖啡店",
+              type: "主題餐廳",
+              desc: "大蘑菇披薩 / 耀西水果蔬菜沙拉 / 蘑菇濃湯",
+              note: "⚠️ 需抽取整理券",
+              recommended: true,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Kinopio's+Cafe+USJ",
+            },
+            {
+              name: "[紐約] 彩道 SAIDO",
+              type: "日式料理",
+              desc: "天婦羅御膳 (精緻日式定食，含素麵)",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Restaurant+Saido+USJ",
+            },
+            {
+              name: "[好萊塢] 比佛利咖啡店",
+              type: "輕食咖啡",
+              desc: "多彩蔬菜三明治 / 季節蛋糕 / 拿鐵",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Beverly+Hills+Boulangerie+USJ",
+            },
+            {
+              name: "[侏羅紀] 失落的世界",
+              type: "越式料理",
+              desc: "蔬菜河粉 (越式熱湯麵，口味清淡)",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Lost+World+Restaurant+USJ",
+            },
+          ],
+        },
+        {
+          title: "🌐 Citywalk 周邊 (園區外)",
+          items: [
+            {
+              name: "薩莉亞",
+              type: "義式平價",
+              desc: "瑪格麗特披薩 / 起司玉米披薩 / 飲料吧 (⚠️ 記得去培根)",
+              recommended: true,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Saizeriya+Universal+Citywalk",
+            },
+            {
+              name: "Shake Shack",
+              type: "漢堡",
+              desc: "'Shroom Burger (炸大波特菇) / 起司波浪薯條",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Shake+Shack+Universal+Citywalk",
+            },
+            {
+              name: "MOS BURGER",
+              type: "漢堡",
+              desc: "Green Burger (植物肉排，口感清爽)",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Mos+Burger+Universal+Citywalk",
+            },
+            {
+              name: "Hard Rock Cafe",
+              type: "美式餐廳",
+              desc: "Impossible™ Burger (植物肉) / 凱薩沙拉 (去培根)",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Hard+Rock+Cafe+Universal+Citywalk",
+            },
+            {
+              name: "Red Lobster",
+              type: "義式/海鮮",
+              desc: "起司披薩 / 蔬菜義大利麵 / 起司比司吉",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Red+Lobster+Universal+Citywalk",
+            },
+          ],
         },
       ],
     },
