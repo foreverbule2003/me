@@ -857,22 +857,32 @@ export default function App() {
             defaultOpen={false}
             forceOpen={isAnyExpanded}
           >
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl border border-gray-100">
               <table className="w-full text-left border-collapse whitespace-nowrap">
                 <thead>
-                  <tr className="bg-indigo-50 text-indigo-600">
-                    <th className="p-3 font-bold text-sm">日期</th>
-                    <th className="p-3 font-bold text-sm">區間</th>
-                    <th className="p-3 font-bold text-sm">普通/急行</th>
-                    <th className="p-3 font-bold text-sm">特急</th>
-                    <th className="p-3 font-bold text-sm">特急券</th>
+                  <tr className="bg-indigo-50 text-indigo-700">
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      日期
+                    </th>
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      區間
+                    </th>
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      普通/急行
+                    </th>
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      特急
+                    </th>
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      特急券
+                    </th>
                   </tr>
                 </thead>
-                <tbody className="text-gray-600">
+                <tbody className="text-gray-600 bg-white">
                   {kintetsuComparisonData.map((row, idx) => (
                     <tr
                       key={idx}
-                      className="border-b border-gray-100 hover:bg-gray-50"
+                      className="border-b border-gray-50 last:border-0 hover:bg-gray-50/80 transition-colors"
                     >
                       <td className="p-3 text-sm font-bold text-indigo-600">
                         {row.day}
@@ -906,21 +916,29 @@ export default function App() {
             defaultOpen={false}
             forceOpen={isAnyExpanded}
           >
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl border border-gray-100">
               <table className="w-full text-left border-collapse whitespace-nowrap">
                 <thead>
-                  <tr className="bg-indigo-50 text-indigo-600">
-                    <th className="p-3 font-bold text-sm">列車</th>
-                    <th className="p-3 font-bold text-sm">座位</th>
-                    <th className="p-3 font-bold text-sm">價格</th>
-                    <th className="p-3 font-bold text-sm">備註</th>
+                  <tr className="bg-indigo-50 text-indigo-700">
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      列車
+                    </th>
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      座位
+                    </th>
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      價格
+                    </th>
+                    <th className="p-3 font-bold text-sm border-b border-indigo-100">
+                      備註
+                    </th>
                   </tr>
                 </thead>
-                <tbody className="text-gray-600">
+                <tbody className="text-gray-600 bg-white">
                   {expressPricingData.map((row, idx) => (
                     <tr
                       key={idx}
-                      className="border-b border-gray-100 hover:bg-gray-50"
+                      className="border-b border-gray-50 last:border-0 hover:bg-gray-50/80 transition-colors"
                     >
                       <td className="p-3 text-sm font-bold text-gray-800">
                         {row.train}
@@ -971,22 +989,22 @@ export default function App() {
                     松阪駅前 → VISON
                   </h4>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm border-collapse">
+                <div className="overflow-x-auto rounded-xl border border-gray-100">
+                  <table className="w-full text-sm border-collapse whitespace-nowrap">
                     <thead>
-                      <tr className="bg-gray-50">
-                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                      <tr className="bg-indigo-50 text-indigo-700">
+                        <th className="p-2 text-left font-bold border-b border-indigo-100">
                           出發
                         </th>
-                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                        <th className="p-2 text-left font-bold border-b border-indigo-100">
                           抵達
                         </th>
-                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                        <th className="p-2 text-left font-bold border-b border-indigo-100">
                           車程
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-gray-600 bg-white">
                       {[
                         ["8:05", "8:55", "50分"],
                         ["9:30", "10:12", "42分"],
@@ -1000,19 +1018,29 @@ export default function App() {
                       ].map(([dep, arr, dur, rec], idx) => (
                         <tr
                           key={idx}
-                          className={`border-b border-gray-100 ${rec ? "bg-indigo-50" : "hover:bg-gray-50"}`}
+                          className={`border-b border-gray-50 last:border-0 transition-colors ${
+                            rec
+                              ? "bg-indigo-50/60 hover:bg-indigo-50"
+                              : "hover:bg-gray-50/80"
+                          }`}
                         >
-                          <td
-                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                          >
-                            {dep}
+                          <td className="p-2">
+                            <span
+                              className={`text-sm ${rec ? "font-bold text-indigo-700" : "font-medium text-gray-800"}`}
+                            >
+                              {dep}
+                            </span>
                           </td>
-                          <td
-                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                          >
-                            {arr}
+                          <td className="p-2">
+                            <span
+                              className={`text-sm ${rec ? "font-bold text-indigo-700" : "font-medium text-gray-800"}`}
+                            >
+                              {arr}
+                            </span>
                           </td>
-                          <td className="p-2 text-gray-500 text-xs">{dur}</td>
+                          <td className="p-2 text-gray-400 text-xs font-mono">
+                            {dur}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -1030,22 +1058,22 @@ export default function App() {
                     VISON → 松阪駅前
                   </h4>
                 </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-sm border-collapse">
+                <div className="overflow-x-auto rounded-xl border border-gray-100">
+                  <table className="w-full text-sm border-collapse whitespace-nowrap">
                     <thead>
-                      <tr className="bg-gray-50">
-                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                      <tr className="bg-indigo-50 text-indigo-700">
+                        <th className="p-2 text-left font-bold border-b border-indigo-100">
                           出發
                         </th>
-                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                        <th className="p-2 text-left font-bold border-b border-indigo-100">
                           抵達
                         </th>
-                        <th className="p-2 text-left font-medium text-gray-600 border-b">
+                        <th className="p-2 text-left font-bold border-b border-indigo-100">
                           車程
                         </th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody className="text-gray-600 bg-white">
                       {[
                         ["10:23", "11:06", "43分"],
                         ["11:00", "11:43", "43分", true],
@@ -1058,19 +1086,29 @@ export default function App() {
                       ].map(([dep, arr, dur, rec], idx) => (
                         <tr
                           key={idx}
-                          className={`border-b border-gray-100 ${rec ? "bg-indigo-50" : "hover:bg-gray-50"}`}
+                          className={`border-b border-gray-50 last:border-0 transition-colors ${
+                            rec
+                              ? "bg-indigo-50/60 hover:bg-indigo-50"
+                              : "hover:bg-gray-50/80"
+                          }`}
                         >
-                          <td
-                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                          >
-                            {dep}
+                          <td className="p-2">
+                            <span
+                              className={`text-sm ${rec ? "font-bold text-indigo-700" : "font-medium text-gray-800"}`}
+                            >
+                              {dep}
+                            </span>
                           </td>
-                          <td
-                            className={`p-2 ${rec ? "font-bold text-indigo-600" : "text-gray-700"}`}
-                          >
-                            {arr}
+                          <td className="p-2">
+                            <span
+                              className={`text-sm ${rec ? "font-bold text-indigo-700" : "font-medium text-gray-800"}`}
+                            >
+                              {arr}
+                            </span>
                           </td>
-                          <td className="p-2 text-gray-500 text-xs">{dur}</td>
+                          <td className="p-2 text-gray-400 text-xs font-mono">
+                            {dur}
+                          </td>
                         </tr>
                       ))}
                     </tbody>
@@ -1078,21 +1116,17 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="p-3 bg-amber-50 rounded-lg text-sm text-amber-700 flex items-start gap-2">
-                <AlertCircle size={16} className="mt-0.5 shrink-0" />
-                <div>
-                  <span className="font-bold text-indigo-600">藍色</span>
-                  為推薦班次。平日時刻表，假日班次可能不同。建議出發前至
-                  <a
-                    href="https://vison.jp/access/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline font-bold"
-                  >
-                    VISON 官網
-                  </a>
-                  確認。
-                </div>
+              <div className="mt-4 text-center">
+                <a
+                  href="https://vison.jp/access/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors text-sm font-medium"
+                >
+                  <Bus size={16} />
+                  查看 VISON 官方時刻表
+                  <ExternalLink size={14} />
+                </a>
               </div>
             </div>
           </SectionCard>
@@ -1133,92 +1167,130 @@ export default function App() {
             </a>
           </SectionCard>
 
-          {/* USJ 混雜預想 */}
+          {/* USJ 入園情報 */}
           <SectionCard
             icon={Calendar}
-            title="USJ 混雜預想 (1/17-1/20)"
+            title="USJ 入園情報"
             collapsible={true}
             defaultOpen={true}
             forceOpen={isAnyExpanded}
           >
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto rounded-xl border border-gray-100">
               <table className="w-full text-sm border-collapse whitespace-nowrap">
                 <thead>
-                  <tr className="bg-indigo-50 text-indigo-600">
-                    <th className="p-3 font-bold text-left">日期</th>
-                    <th className="p-3 font-bold text-left">預測</th>
-                    <th className="p-3 font-bold text-left">天氣 / 氣溫</th>
-                    <th className="p-3 font-bold text-left">營業時間</th>
+                  <tr className="bg-indigo-50 text-indigo-700">
+                    <th className="p-4 font-bold text-left border-b border-indigo-100">
+                      日期
+                    </th>
+                    <th className="p-4 font-bold text-left border-b border-indigo-100">
+                      預測等級
+                    </th>
+                    <th className="p-4 font-bold text-left border-b border-indigo-100">
+                      閉園時間
+                    </th>
+                    <th className="p-4 font-bold text-left border-b border-indigo-100">
+                      天氣 / 氣溫
+                    </th>
                   </tr>
                 </thead>
-                <tbody>
+                <tbody className="bg-white">
                   {[
                     {
                       date: "1/17 (六)",
+                      day: "DAY 7",
                       level: "🟡 C (56)",
-                      weather: "☀️ 晴 (4~14°C)",
+                      levelColor:
+                        "bg-yellow-100 text-yellow-800 border-yellow-200",
+                      weather: "☀️ 晴",
+                      temp: "4~14°C",
                       precip: "20%",
-                      hours: "09:00 - 20:00",
+                      hours: "20:00",
                       note: "週末人潮",
                     },
                     {
                       date: "1/18 (日)",
+                      day: "DAY 8",
                       level: "🟡 C (55)",
-                      weather: "☀️ 晴 (5~12°C)",
+                      levelColor:
+                        "bg-yellow-100 text-yellow-800 border-yellow-200",
+                      weather: "☀️ 晴",
+                      temp: "5~12°C",
                       precip: "10%",
-                      hours: "09:00 - 20:00",
+                      hours: "20:00",
                       note: "-",
                     },
                     {
                       date: "1/19 (一)",
+                      day: "DAY 9",
                       level: "🟢 C (48)",
-                      weather: "☀️ 晴 (3~13°C)",
+                      levelColor:
+                        "bg-green-100 text-green-800 border-green-200",
+                      weather: "☀️ 晴",
+                      temp: "3~13°C",
                       precip: "10%",
-                      hours: "09:00 - 21:00",
+                      hours: "21:00",
                       note: "Jurassic Park 維修",
                     },
                     {
                       date: "1/20 (二)",
+                      day: "DAY 10",
                       level: "🟢 B (46)",
-                      weather: "🌤️ 晴時多雲 (3~10°C)",
+                      levelColor:
+                        "bg-green-100 text-green-800 border-green-200",
+                      weather: "🌤️ 晴",
+                      temp: "3~10°C",
                       precip: "40%",
-                      hours: "09:00 - 20:00",
-                      note: "推薦日",
+                      hours: "20:00",
+                      note: "-",
                     },
                   ].map((row, idx) => (
                     <tr
                       key={idx}
-                      className="border-b border-gray-100 hover:bg-gray-50 align-top"
+                      className="border-b border-gray-50 last:border-0 hover:bg-gray-50/80 transition-colors"
                     >
-                      <td className="p-3 font-bold text-indigo-600">
-                        {row.date}
-                      </td>
-                      <td className="p-3">
-                        <div className="font-medium text-gray-800">
-                          {row.level}
+                      <td className="p-4">
+                        <div className="mb-1">
+                          <span className="inline-block px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-600 border border-indigo-100 tracking-wide">
+                            {row.day}
+                          </span>
                         </div>
+                        <div className="font-bold text-gray-800 text-sm">
+                          {row.date}
+                        </div>
+                      </td>
+                      <td className="p-4">
+                        <span
+                          className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold border ${row.levelColor}`}
+                        >
+                          {row.level}
+                        </span>
                         {row.note !== "-" && (
-                          <div className="text-xs text-orange-500 mt-0.5">
-                            {row.note}
+                          <div className="text-xs text-orange-500 mt-1.5 font-medium">
+                            ⚠️ {row.note}
                           </div>
                         )}
                       </td>
-                      <td className="p-3">
-                        <div className="text-gray-800">{row.weather}</div>
-                        <div className="text-xs text-blue-500 mt-0.5">
-                          降水 {row.precip}
-                        </div>
-                      </td>
-                      <td className="p-3 text-gray-600 font-mono">
+                      <td className="p-4 font-mono text-gray-600 text-sm font-bold">
                         {row.hours}
+                      </td>
+                      <td className="p-4">
+                        <div className="flex flex-col gap-1">
+                          <div className="text-gray-700 font-medium">
+                            {row.weather}
+                          </div>
+                          <div className="text-xs text-gray-400">
+                            {row.temp} · 降水 {row.precip}
+                          </div>
+                        </div>
                       </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <div className="mt-4 p-3 bg-indigo-50 rounded-lg text-sm text-indigo-600">
-              💡 天氣資料來源：tenki.jp (1/10 查詢)
+            <div className="mt-4 p-3 bg-indigo-50 rounded-lg text-sm text-indigo-700 leading-relaxed">
+              <strong>💡 攻略建議：</strong> 1/19 (一)
+              預測人潮較少且營業時間長達 12 小時（至 21:00），為最佳入園日。
             </div>
           </SectionCard>
 
