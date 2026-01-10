@@ -1104,7 +1104,7 @@ export const foodData = {
                 "https://www.google.com/maps/search/?api=1&query=Kinopio's+Cafe+USJ",
             },
             {
-              name: "[紐約] 彩道 SAIDO",
+              name: "[紐約] 彩道",
               type: "日式料理",
               desc: "天婦羅御膳 (精緻日式定食，含素麵)",
               mapUrl:
