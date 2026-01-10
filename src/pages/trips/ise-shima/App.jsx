@@ -30,9 +30,13 @@ import {
   ShoppingBag,
   Send,
   ClipboardList,
+  CloudSun,
 } from "lucide-react";
 
-// 導入資料
+// 導入共用元件
+import Timeline from "../shared/Timeline";
+
+// 導入本地資料 (如果需要)
 import {
   strategyData,
   itineraryData,
@@ -1201,7 +1205,60 @@ export default function App() {
         {/* 總覽 Tab */}
         <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
           <StrategySection isExpanded={isAnyExpanded} />
-          <OverviewSection
+          {/* 全行程天氣預報 */}
+          <SectionCard
+            icon={CloudSun}
+            title="全行程天氣預報 (1/11-1/21)"
+            collapsible={true}
+            defaultOpen={true}
+            forceOpen={isAnyExpanded}
+          >
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm border-collapse whitespace-nowrap">
+                <thead>
+                  <tr className="bg-orange-50 text-orange-600">
+                    <th className="p-3 font-bold text-left">日期</th>
+                    <th className="p-3 font-bold text-left">地點</th>
+                    <th className="p-3 font-bold text-left">天氣</th>
+                    <th className="p-3 font-bold text-left">氣溫</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[
+                    { date: "1/11 (日)", loc: "泉佐野", weather: "☁️/☀️", temp: "5~7°C", note: "轉晴但冷" },
+                    { date: "1/12 (一)", loc: "VISON", weather: "🌤️", temp: "-2~8°C", note: "清晨極冷", warn: true },
+                    { date: "1/13 (二)", loc: "VISON", weather: "🌤️", temp: "-2~15°C", note: "溫差大", warn: true },
+                    { date: "1/14 (三)", loc: "伊勢", weather: "☀️", temp: "2~9°C", note: "晴朗" },
+                    { date: "1/15 (四)", loc: "志摩", weather: "🌤️", temp: "2~13°C", note: "舒適" },
+                    { date: "1/16 (五)", loc: "大阪", weather: "🌤️", temp: "5~15°C", note: "溫暖" },
+                    { date: "1/17 (六)", loc: "USJ", weather: "☀️", temp: "4~14°C", note: "適合遊園" },
+                    { date: "1/18 (日)", loc: "USJ", weather: "☀️", temp: "5~12°C", note: "適合遊園" },
+                    { date: "1/19 (一)", loc: "大阪", weather: "☀️", temp: "3~13°C", note: "-" },
+                    { date: "1/20 (二)", loc: "泉佐野", weather: "🌤️", temp: "2~10°C", note: "-" },
+                    { date: "1/21 (三)", loc: "關西", weather: "🌤️", temp: "3~9°C", note: "返程" },
+                  ].map((row, idx) => (
+                    <tr key={idx} className={`border-b border-gray-100 hover:bg-gray-50 align-top ${row.warn ? "bg-red-50" : ""}`}>
+                      <td className="p-3 font-bold text-gray-700">{row.date}</td>
+                      <td className="p-3 text-gray-600">{row.loc}</td>
+                      <td className="p-3">
+                        <div>{row.weather}</div>
+                        {row.note !== "-" && <div className="text-xs text-orange-500 mt-0.5">{row.note}</div>}
+                      </td>
+                      <td className="p-3 font-mono text-gray-800">
+                        {row.temp}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-4 p-3 bg-orange-50 rounded-lg text-sm text-orange-600">
+              💡 資料來源：tenki.jp (1/10 查詢)
+            </div>
+          </SectionCard>
+
+          <Timeline
+            data={overviewData}
             forceOpen={isAnyExpanded}
             onDayClick={(dayNum) => {
               // 找到對應的 dayKey 並展開
