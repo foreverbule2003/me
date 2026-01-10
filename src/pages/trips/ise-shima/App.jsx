@@ -256,8 +256,8 @@ const OverviewSection = ({ forceOpen, onDayClick }) => {
       forceOpen={forceOpen}
     >
       <div className="relative">
-        {/* 時間軸線 - 置中於節點 (pl-1=4px + 節點寬度20px/2 = 14px，減去線寬1px = 13px) */}
-        <div className="absolute left-[13px] top-4 bottom-4 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full z-[1]" />
+        {/* 時間軸線 - 置中於節點，底部縮短避免超出最後一天 */}
+        <div className="absolute left-[13px] top-4 bottom-8 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full z-[1]" />
 
         <div className="space-y-1">
           {overviewData.map((item, idx) => {
@@ -1207,7 +1207,7 @@ export default function App() {
       <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
         {/* 總覽 Tab */}
         <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
-          <StrategySection forceOpen={isAnyExpanded} />
+          <StrategySection isExpanded={isAnyExpanded} />
           <OverviewSection
             forceOpen={isAnyExpanded}
             onDayClick={(dayNum) => {
