@@ -14,7 +14,7 @@ _(已完成)_
 
 **目標**：確保地基乾淨，為 PWA 做準備。
 
-_(已完成)_
+- [x] **App.jsx 進階模組化**: 提取 Flight, Budget, Checklist, Links 為共用元件，移除 Firestore 依賴 ✅ (Completed: 2026-01-10)
 
 ---
 

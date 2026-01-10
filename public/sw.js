@@ -1,13 +1,15 @@
-const CACHE_NAME = "timboy-cache-v1";
+const CACHE_NAME = "timboy-cache-v2";
+const BASE_PATH = "/me/";
+
 const ASSETS_TO_CACHE = [
-  "./",
-  "./index.html",
-  "./manifest.json",
-  "./assets/gb-theme.css",
-  "./assets/loading.css",
-  "./trips/2026-ise-shima/index.html",
-  "./icons/icon-192.png",
-  "./icons/icon-512.png",
+  BASE_PATH,
+  `${BASE_PATH}index.html`,
+  `${BASE_PATH}manifest.json`,
+  `${BASE_PATH}assets/gb-theme.css`,
+  `${BASE_PATH}assets/loading.css`,
+  `${BASE_PATH}trips/2026-ise-shima/index.html`,
+  `${BASE_PATH}icons/icon-192.png`,
+  `${BASE_PATH}icons/icon-512.png`,
 ];
 
 // Install Event: Precache App Shell
@@ -44,7 +46,8 @@ self.addEventListener("fetch", (event) => {
   if (event.request.mode === "navigate") {
     event.respondWith(
       fetch(event.request).catch(() => {
-        return caches.match("./index.html");
+        // Fallback to index.html for SPA routing
+        return caches.match(`${BASE_PATH}index.html`);
       }),
     );
     return;
@@ -57,11 +60,12 @@ self.addEventListener("fetch", (event) => {
         return response;
       }
       return fetch(event.request).then((networkResponse) => {
-        // Cache new images locally as we browse
+        // Cache new images/assets locally as we browse (Runtime Caching)
         if (
-          event.request.destination === "image" ||
-          event.request.url.endsWith(".css") ||
-          event.request.url.endsWith(".js")
+          networkResponse.status === 200 &&
+          (event.request.destination === "image" ||
+            event.request.url.endsWith(".css") ||
+            event.request.url.endsWith(".js"))
         ) {
           const responseToCache = networkResponse.clone();
           caches.open(CACHE_NAME).then((cache) => {
