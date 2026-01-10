@@ -240,13 +240,11 @@ const OverviewSection = ({ forceOpen, onDayClick }) => {
   // 取得今天的日期 (格式: "1/11")
   const now = new Date();
   const todayStr = `${now.getMonth() + 1}/${now.getDate()}`;
-  // Demo 用：強制設為 1/11
-  const demoTodayStr = "1/11";
 
   // 判斷是否為當日
   const isToday = (dateStr) => {
     const match = dateStr.match(/^(\d+\/\d+)/);
-    return match && match[1] === demoTodayStr; // 正式上線改用 todayStr
+    return match && match[1] === todayStr;
   };
 
   return (
@@ -278,7 +276,7 @@ const OverviewSection = ({ forceOpen, onDayClick }) => {
                 <div
                   className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${
                     today
-                      ? "bg-indigo-500 border-2 border-indigo-700"
+                      ? "bg-indigo-500 border-2 border-indigo-500"
                       : "bg-white border-2 border-indigo-400"
                   }`}
                 >
@@ -1209,8 +1207,9 @@ export default function App() {
       <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
         {/* 總覽 Tab */}
         <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
-          <StrategySection />
+          <StrategySection forceOpen={isAnyExpanded} />
           <OverviewSection
+            forceOpen={isAnyExpanded}
             onDayClick={(dayNum) => {
               // 找到對應的 dayKey 並展開
               let targetKey = null;
@@ -1240,10 +1239,11 @@ export default function App() {
             }}
           />
           <TodoSection
+            forceOpen={isAnyExpanded}
             completed={todoCompleted}
             onToggle={toggleTodoCompleted}
           />
-          <UsefulLinksSection />
+          <UsefulLinksSection forceOpen={isAnyExpanded} />
         </div>
 
         {/* 行程 Tab */}
