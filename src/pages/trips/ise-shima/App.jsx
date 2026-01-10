@@ -236,46 +236,94 @@ const overviewData = [
   { day: 11, date: "1/21 (三)", title: "返程", hotel: "✈️ 回家" },
 ];
 
-const OverviewSection = ({ forceOpen }) => (
-  <SectionCard
-    icon={Calendar}
-    title="行程概覽"
-    collapsible={true}
-    defaultOpen={true}
-    forceOpen={forceOpen}
-  >
-    <div className="relative">
-      {/* 時間軸線 */}
-      <div className="absolute left-3 top-2 bottom-2 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full" />
+const OverviewSection = ({ forceOpen, onDayClick }) => {
+  // 取得今天的日期 (格式: "1/11")
+  const now = new Date();
+  const todayStr = `${now.getMonth() + 1}/${now.getDate()}`;
+  // Demo 用：強制設為 1/11
+  const demoTodayStr = "1/11";
 
-      <div className="space-y-2">
-        {overviewData.map((item, idx) => (
-          <div key={idx} className="flex items-start gap-3 pl-1">
-            {/* 時間軸節點 */}
-            <div className="w-5 h-5 rounded-full bg-white border-2 border-indigo-400 flex items-center justify-center z-10 shrink-0 mt-0.5">
-              <span className="text-[10px] font-bold text-indigo-600">
-                {item.day}
-              </span>
-            </div>
-            {/* 內容 */}
-            <div className="flex-1 pb-2">
-              <div className="flex items-center gap-2 mb-0.5">
-                <span className="text-xs text-gray-500">{item.date}</span>
-                <span className="text-sm font-bold text-gray-800">
-                  {item.title}
-                </span>
+  // 判斷是否為當日
+  const isToday = (dateStr) => {
+    const match = dateStr.match(/^(\d+\/\d+)/);
+    return match && match[1] === demoTodayStr; // 正式上線改用 todayStr
+  };
+
+  return (
+    <SectionCard
+      icon={Calendar}
+      title="行程概覽"
+      collapsible={true}
+      defaultOpen={false}
+      forceOpen={forceOpen}
+    >
+      <div className="relative">
+        {/* 時間軸線 - 置中於節點 (pl-1=4px + 節點寬度20px/2 = 14px，減去線寬1px = 13px) */}
+        <div className="absolute left-[13px] top-4 bottom-4 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full z-[1]" />
+
+        <div className="space-y-1">
+          {overviewData.map((item, idx) => {
+            const today = isToday(item.date);
+            return (
+              <div
+                key={idx}
+                className="relative flex items-start gap-3 pl-1 py-1 cursor-pointer hover:bg-gray-50 rounded-lg transition-colors"
+                onClick={() => onDayClick?.(item.day)}
+              >
+                {/* 背景層 (z-0 讓線條顯示在上面) */}
+                {today && (
+                  <div className="absolute inset-0 bg-indigo-50 rounded-lg z-0" />
+                )}
+                {/* 時間軸節點 */}
+                <div
+                  className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${
+                    today
+                      ? "bg-indigo-500 border-2 border-indigo-700"
+                      : "bg-white border-2 border-indigo-400"
+                  }`}
+                >
+                  <span
+                    className={`text-[10px] font-bold ${
+                      today ? "text-white" : "text-indigo-600"
+                    }`}
+                  >
+                    {item.day}
+                  </span>
+                </div>
+                {/* 內容 */}
+                <div className="relative flex-1 pb-1">
+                  <div className="flex items-center gap-2 mb-0.5">
+                    {today && (
+                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-indigo-500 text-white rounded shrink-0">
+                        TODAY
+                      </span>
+                    )}
+                    <span
+                      className={`text-xs font-medium ${today ? "text-indigo-600" : "text-gray-500"}`}
+                    >
+                      {item.date}
+                    </span>
+                    <span
+                      className={`text-sm font-bold ${today ? "text-indigo-700" : "text-gray-800"}`}
+                    >
+                      {item.title}
+                    </span>
+                  </div>
+                  <div
+                    className={`flex items-center gap-1 text-xs ${today ? "text-indigo-500" : "text-gray-500"}`}
+                  >
+                    <Hotel size={12} />
+                    <span>{item.hotel}</span>
+                  </div>
+                </div>
               </div>
-              <div className="flex items-center gap-1 text-xs text-gray-500">
-                <Hotel size={12} />
-                <span>{item.hotel}</span>
-              </div>
-            </div>
-          </div>
-        ))}
+            );
+          })}
+        </div>
       </div>
-    </div>
-  </SectionCard>
-);
+    </SectionCard>
+  );
+};
 
 // TodoSection - 待訂清單
 const TodoSection = ({ forceOpen, completed = {}, onToggle }) => {
@@ -549,7 +597,10 @@ const DayCard = ({
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-lg overflow-hidden mb-6 border border-gray-100/50">
+    <div
+      id={`day-${dayData.day}`}
+      className="bg-white rounded-3xl shadow-lg overflow-hidden mb-6 border border-gray-100/50"
+    >
       {/* Header */}
       <div
         onClick={handleToggle}
@@ -1159,7 +1210,35 @@ export default function App() {
         {/* 總覽 Tab */}
         <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
           <StrategySection />
-          <OverviewSection />
+          <OverviewSection
+            onDayClick={(dayNum) => {
+              // 找到對應的 dayKey 並展開
+              let targetKey = null;
+              itineraryData.forEach((phase, pIdx) => {
+                phase.days.forEach((day, dIdx) => {
+                  if (day.day === dayNum) {
+                    targetKey = `${pIdx}-${dIdx}`;
+                  }
+                });
+              });
+              if (targetKey) {
+                setExpandedDays((prev) => ({ ...prev, [targetKey]: true }));
+              }
+              setActiveTab("itinerary");
+              setTimeout(() => {
+                const el = document.getElementById(`day-${dayNum}`);
+                if (el) {
+                  const headerOffset = 140; // 懸浮標題高度 + 圓角間距
+                  const elementPosition =
+                    el.getBoundingClientRect().top + window.scrollY;
+                  window.scrollTo({
+                    top: elementPosition - headerOffset,
+                    behavior: "smooth",
+                  });
+                }
+              }, 100);
+            }}
+          />
           <TodoSection
             completed={todoCompleted}
             onToggle={toggleTodoCompleted}
