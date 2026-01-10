@@ -705,7 +705,40 @@ export const foodData = {
       sections: [
         {
           title: "🍽️ Outlet 美食",
-          items: [],
+          items: [
+            {
+              name: "Kua Aina Sandwich Shop",
+              type: "漢堡",
+              desc: "夏威夷風漢堡店，¥1,000~2,000",
+              rating: "4.0★",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Kua+Aina+Rinku",
+            },
+            {
+              name: "CRAZY SPICE",
+              type: "印度菜",
+              desc: "印度咖哩，素食友善，¥1,000~2,000",
+              rating: "3.7★",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=CRAZY+SPICE+Rinku",
+            },
+            {
+              name: "薩莉亞 臨空SEACLE店",
+              type: "義式",
+              desc: "平價義式餐廳，闔家皆宜，¥1,000~2,000",
+              rating: "3.8★",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Saizeriya+Rinku+SEACLE",
+            },
+            {
+              name: "Mos Burger",
+              type: "漢堡",
+              desc: "日本連鎖漢堡，有素食堡選項，¥500~1,000",
+              rating: "3.6★",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Mos+Burger+Rinku",
+            },
+          ],
         },
       ],
     },
@@ -897,14 +930,32 @@ export const foodData = {
       day: "Day 5-6",
       sections: [
         {
-          title: "🍽️ 餐廳",
-          items: [],
+          title: "☕ 咖啡廳",
+          items: [
+            {
+              name: "カフェ エントラーダ",
+              type: "咖啡廳",
+              desc: "潛艇堡咖啡廳",
+              rating: "4.9★",
+              recommended: true,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=カフェ+エントラーダ+志摩",
+            },
+            {
+              name: "カフェ サミエール",
+              type: "咖啡廳",
+              desc: "賢島站 2F，簡餐蛋糕捲",
+              rating: "3.7★",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=カフェ+サミエール+賢島",
+            },
+          ],
         },
       ],
     },
     {
       location: "大阪 梅田",
-      day: "Day 7",
+      day: "Day 7-10",
       sections: [
         {
           title: "🍜 素食友善餐廳",
@@ -958,28 +1009,7 @@ export const foodData = {
         {
           title: "🍰 甜點/麵包",
           items: [
-            {
-              name: "HARBS 大丸梅田店",
-              type: "蛋糕",
-              desc: "招牌水果千層蛋糕 (大丸梅田 6F)",
-              recommended: true,
-              mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=HARBS+大丸梅田店",
-            },
-            {
-              name: "HARBS Diamor大阪店",
-              type: "蛋糕",
-              desc: "地下街分店，同款美味",
-              mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=HARBS+Diamor大阪店",
-            },
-            {
-              name: "Orange Fields Bread Factory",
-              type: "法式吐司",
-              desc: "天神橋筋商店街，超厚法式吐司",
-              mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=Orange+Fields+Bread+Factory",
-            },
+            // LUCUA
             {
               name: "TRUFFLE mini LUCUA",
               type: "麵包",
@@ -988,18 +1018,61 @@ export const foodData = {
                 "https://www.google.com/maps/search/?api=1&query=TRUFFLE+mini+LUCUA",
             },
             {
+              name: "Daniel",
+              type: "可麗露",
+              desc: "神戶人氣可麗露 (LUCUA 1F)",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Daniel+LUCUA",
+            },
+            {
               name: "PRESS BUTTER SAND",
               type: "伴手禮",
               desc: "焦糖奶油夾心餅 (LUCUA B1F)",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=PRESS+BUTTER+SAND+LUCUA",
             },
+            // 大丸梅田
             {
-              name: "Daniel",
-              type: "可麗露",
-              desc: "神戶人氣可麗露 (LUCUA 1F)",
+              name: "HARBS 大丸梅田店",
+              type: "蛋糕",
+              desc: "招牌水果千層蛋糕 (大丸梅田 6F)",
+              recommended: true,
               mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=Daniel+LUCUA",
+                "https://www.google.com/maps/search/?api=1&query=HARBS+大丸梅田店",
+            },
+            // 阪急百貨
+            {
+              name: "GRAND Calbee 阪急梅田店",
+              type: "薯片",
+              desc: "現炸厚切薯片 (阪急百貨 B1F)",
+              rating: "3.9★",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=GRAND+Calbee+阪急梅田",
+            },
+            // Diamor 地下街
+            {
+              name: "HARBS Diamor大阪店",
+              type: "蛋糕",
+              desc: "地下街分店，同款美味",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=HARBS+Diamor大阪店",
+            },
+            // 天神橋筋商店街
+            {
+              name: "Orange Fields Bread Factory",
+              type: "法式吐司",
+              desc: "天神橋筋商店街，超厚法式吐司",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Orange+Fields+Bread+Factory",
+            },
+            {
+              name: "Maruyama Crêpe",
+              type: "可麗餅",
+              desc: "天神橋筋商店街，人氣法式薄餅店",
+              rating: "4.6★",
+              recommended: true,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Maruyama+Crepe+梅田",
             },
           ],
         },
