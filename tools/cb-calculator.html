@@ -44,122 +44,146 @@
         animation: highlightPulse 0.6s ease-out;
       }
       @keyframes highlightPulse {
-        0% { transform: scale(1); }
-        50% { transform: scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
-        100% { transform: scale(1); }
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.01);
+          box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+        100% {
+          transform: scale(1);
+        }
       }
       /* 方案 A: 折疊式展開動畫 */
       .inputs-collapsed {
         max-height: 0;
         overflow: hidden;
         opacity: 0;
-        transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+        transition:
+          max-height 0.4s ease-out,
+          opacity 0.3s ease-out;
       }
       .inputs-expanded {
         max-height: 500px;
         opacity: 1;
-        transition: max-height 0.4s ease-in, opacity 0.3s ease-in 0.1s;
+        transition:
+          max-height 0.4s ease-in,
+          opacity 0.3s ease-in 0.1s;
       }
-      
+
       /* Chart Loading Overlay */
       .chart-overlay {
-          position: absolute;
-          inset: 0;
-          background: rgba(255, 255, 255, 0.85);
-          backdrop-filter: blur(2px);
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          z-index: 10;
-          border-radius: 0.75rem;
-          transition: opacity 0.3s ease;
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.85);
+        backdrop-filter: blur(2px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        border-radius: 0.75rem;
+        transition: opacity 0.3s ease;
       }
       .chart-overlay.hidden {
-          opacity: 0;
-          pointer-events: none;
+        opacity: 0;
+        pointer-events: none;
       }
-      
+
       /* Pulse Animation */
       .pulse-ring {
-          width: 40px;
-          height: 40px;
-          border-radius: 50%;
-          background: #10b981;
-          position: relative;
-          animation: pulse-ring 2s infinite;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #10b981;
+        position: relative;
+        animation: pulse-ring 2s infinite;
       }
       .pulse-dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-          background: white;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: white;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
-      
+
       @keyframes pulse-ring {
-          0% { transform: scale(0.8); opacity: 0.8; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-          70% { transform: scale(1); opacity: 0; box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
-          100% { transform: scale(0.8); opacity: 0; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        0% {
+          transform: scale(0.8);
+          opacity: 0.8;
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+        }
+        70% {
+          transform: scale(1);
+          opacity: 0;
+          box-shadow: 0 0 0 20px rgba(16, 185, 129, 0);
+        }
+        100% {
+          transform: scale(0.8);
+          opacity: 0;
+          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+        }
       }
-      
+
       /* Autocomplete Dropdown */
       .autocomplete-container {
-          position: relative;
+        position: relative;
       }
       .autocomplete-dropdown {
-          position: absolute;
-          top: 100%;
-          left: 0;
-          right: 0;
-          max-height: 200px;
-          overflow-y: auto;
-          background: white;
-          border: 1px solid #e5e7eb;
-          border-top: none;
-          border-radius: 0 0 0.75rem 0.75rem;
-          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-          z-index: 50;
-          display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        max-height: 200px;
+        overflow-y: auto;
+        background: white;
+        border: 1px solid #e5e7eb;
+        border-top: none;
+        border-radius: 0 0 0.75rem 0.75rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        z-index: 50;
+        display: none;
       }
       .autocomplete-dropdown.show {
-          display: block;
+        display: block;
       }
       .autocomplete-item {
-          padding: 0.75rem 1rem;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          border-bottom: 1px solid #f3f4f6;
-          transition: background-color 0.15s ease;
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-bottom: 1px solid #f3f4f6;
+        transition: background-color 0.15s ease;
       }
       .autocomplete-item:last-child {
-          border-bottom: none;
+        border-bottom: none;
       }
-      .autocomplete-item:hover, .autocomplete-item.active {
-          background-color: #ecfdf5;
+      .autocomplete-item:hover,
+      .autocomplete-item.active {
+        background-color: #ecfdf5;
       }
       .autocomplete-item .symbol {
-          font-weight: 700;
-          color: #10b981;
-          font-family: monospace;
+        font-weight: 700;
+        color: #10b981;
+        font-family: monospace;
       }
       .autocomplete-item .hint {
-          font-size: 0.75rem;
-          color: #9ca3af;
-          margin-left: auto;
+        font-size: 0.75rem;
+        color: #9ca3af;
+        margin-left: auto;
       }
       .autocomplete-empty {
-          padding: 1rem;
-          text-align: center;
-          color: #9ca3af;
-          font-size: 0.875rem;
+        padding: 1rem;
+        text-align: center;
+        color: #9ca3af;
+        font-size: 0.875rem;
       }
-      
+
       /* Hot CB Modal */
       .modal-overlay {
         position: fixed;
@@ -184,7 +208,9 @@
         max-width: 500px;
         max-height: 80vh;
         border-radius: 1rem;
-        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        box-shadow:
+          0 20px 25px -5px rgba(0, 0, 0, 0.1),
+          0 10px 10px -5px rgba(0, 0, 0, 0.04);
         transform: scale(0.95);
         transition: transform 0.3s ease;
         overflow: hidden;
@@ -272,25 +298,42 @@
               <i class="fas fa-edit text-[#10b981]"></i>
               輸入參數
             </h2>
-            
+
             <!-- Stock/CB Name Display -->
-            <div id="stockNameDisplay" class="hidden mb-4 p-3 bg-gradient-to-r from-[#10b981]/10 to-[#059669]/10 rounded-xl border border-[#10b981]/20">
+            <div
+              id="stockNameDisplay"
+              class="hidden mb-4 p-3 bg-gradient-to-r from-[#10b981]/10 to-[#059669]/10 rounded-xl border border-[#10b981]/20"
+            >
               <div class="flex items-center gap-2">
                 <i class="fas fa-tag text-[#10b981]"></i>
-                <span id="stockNameText" class="font-bold text-gray-800 text-lg"></span>
-                <span id="stockCodeBadge" class="ml-auto px-2 py-0.5 bg-[#10b981] text-white text-xs rounded-full font-mono"></span>
+                <span
+                  id="stockNameText"
+                  class="font-bold text-gray-800 text-lg"
+                ></span>
+                <span
+                  id="stockCodeBadge"
+                  class="ml-auto px-2 py-0.5 bg-[#10b981] text-white text-xs rounded-full font-mono"
+                ></span>
               </div>
               <!-- 時間戳記行 -->
               <div class="flex items-center gap-2 mt-2 text-xs text-gray-500">
                 <i class="fas fa-clock"></i>
                 <span id="dataTimestamp"></span>
-                <span id="dataSourceBadge" class="px-1.5 py-0.5 rounded text-[10px] font-bold"></span>
+                <span
+                  id="dataSourceBadge"
+                  class="px-1.5 py-0.5 rounded text-[10px] font-bold"
+                ></span>
               </div>
             </div>
 
             <!-- Hot List Button -->
-            <button id="hotListBtn" class="w-full mb-5 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 font-bold group">
-              <i class="fas fa-fire text-yellow-200 group-hover:animate-bounce"></i>
+            <button
+              id="hotListBtn"
+              class="w-full mb-5 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 font-bold group"
+            >
+              <i
+                class="fas fa-fire text-yellow-200 group-hover:animate-bounce"
+              ></i>
               <span>查看今日熱門可轉債</span>
             </button>
 
@@ -326,7 +369,10 @@
                     已帶入
                   </div>
                   <!-- Autocomplete Dropdown -->
-                  <div id="autocomplete-list" class="autocomplete-dropdown"></div>
+                  <div
+                    id="autocomplete-list"
+                    class="autocomplete-dropdown"
+                  ></div>
                 </div>
                 <p class="text-xs text-gray-400 mt-1">
                   輸入代號後點擊搜尋，自動填入數值
@@ -346,76 +392,74 @@
 
               <!-- 輸入欄位容器 (方案 A: 預設隱藏) -->
               <div id="inputFieldsContainer" class="inputs-collapsed space-y-5">
-              
-              
-              <!-- CB Price -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                  CB 市場價格
-                </label>
-                <div class="relative">
-                  <span
-                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
-                    >$</span
-                  >
-                  <input
-                    type="number"
-                    id="cbPrice"
-                    value="125.00"
-                    step="0.01"
-                    class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
-                    placeholder="例如: 125.00"
-                  />
+                <!-- CB Price -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    CB 市場價格
+                  </label>
+                  <div class="relative">
+                    <span
+                      class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
+                      >$</span
+                    >
+                    <input
+                      type="number"
+                      id="cbPrice"
+                      value="125.00"
+                      step="0.01"
+                      class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
+                      placeholder="例如: 125.00"
+                    />
+                  </div>
+                  <p class="text-xs text-gray-400 mt-1">目前可轉債的成交價</p>
                 </div>
-                <p class="text-xs text-gray-400 mt-1">目前可轉債的成交價</p>
-              </div>
 
-              <!-- Stock Price -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                  標的股價 (現股)
-                </label>
-                <div class="relative">
-                  <span
-                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
-                    >$</span
-                  >
-                  <input
-                    type="number"
-                    id="stockPrice"
-                    value="255.00"
-                    step="0.01"
-                    class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
-                    placeholder="例如: 255.00"
-                  />
+                <!-- Stock Price -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    標的股價 (現股)
+                  </label>
+                  <div class="relative">
+                    <span
+                      class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
+                      >$</span
+                    >
+                    <input
+                      type="number"
+                      id="stockPrice"
+                      value="255.00"
+                      step="0.01"
+                      class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
+                      placeholder="例如: 255.00"
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <!-- Conversion Price -->
-              <div>
-                <label class="block text-sm font-medium text-gray-700 mb-1">
-                  轉換價格
-                </label>
-                <div class="relative">
-                  <span
-                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
-                    >$</span
-                  >
-                  <input
-                    type="number"
-                    id="conversionPrice"
-                    value="246.60"
-                    step="0.01"
-                    class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
-                    placeholder="例如: 246.60"
-                  />
+                <!-- Conversion Price -->
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1">
+                    轉換價格
+                  </label>
+                  <div class="relative">
+                    <span
+                      class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
+                      >$</span
+                    >
+                    <input
+                      type="number"
+                      id="conversionPrice"
+                      value="246.60"
+                      step="0.01"
+                      class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
+                      placeholder="例如: 246.60"
+                    />
+                  </div>
+                  <p class="text-xs text-gray-400 mt-1">
+                    發行時或調整後的轉換價格
+                  </p>
                 </div>
-                <p class="text-xs text-gray-400 mt-1">
-                  發行時或調整後的轉換價格
-                </p>
               </div>
-              
-              </div><!-- 結束 inputFieldsContainer -->
+              <!-- 結束 inputFieldsContainer -->
             </div>
           </div>
 
@@ -444,10 +488,7 @@
                   >--%</span
                 >
               </div>
-              <p
-                class="text-sm text-gray-400 mt-2"
-                id="premiumDesc"
-              >
+              <p class="text-sm text-gray-400 mt-2" id="premiumDesc">
                 請輸入數值開始計算
               </p>
             </div>
@@ -518,76 +559,143 @@
             </div>
 
             <!-- Premium Rate Trend Chart -->
-            <div id="chartContainer" class="bg-white p-5 rounded-xl border border-gray-100 hidden relative min-h-[250px]">
-
-               <div class="flex items-center justify-between mb-4">
-                 <h4 class="font-bold text-gray-600 flex items-center gap-2">
-                   <i class="fas fa-chart-line text-emerald-500"></i>
-                   溢價率走勢
-                 </h4>
-                 <div class="flex items-center gap-3">
-                    <div class="flex bg-gray-100 p-0.5 rounded-lg mr-2" id="chartRangeButtons">
-                        <button class="range-btn text-[10px] px-2 py-0.5 rounded-md transition-all hover:bg-white" data-range="1m">1M</button>
-                        <button class="range-btn text-[10px] px-2 py-0.5 rounded-md transition-all ml-0.5 hover:bg-white" data-range="3m">3M</button>
-                        <button class="range-btn text-[10px] px-2 py-0.5 rounded-md transition-all ml-0.5 bg-white shadow-sm font-bold text-emerald-600" data-range="all">全部</button>
-                    </div>
-                    <button id="resetZoomBtn" class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-2 py-1 rounded transition-colors shadow-sm" title="重置縮放範圍">
-                         <i class="fas fa-expand-arrows-alt mr-1"></i>重置
-                     </button>
-                     <span class="text-xs text-gray-400" id="chartDataInfo">-- 筆資料</span>
-                 </div>
-               </div>
-               <div class="relative" style="height: 200px;">
-                 <!-- Loading Overlay (Targeted) -->
-                 <div id="chartLoader" class="chart-overlay hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-lg">
-                    <div class="pulse-ring mb-2">
-                        <div class="pulse-dot"></div>
-                    </div>
-                    <h5 id="chartLoaderTitle" class="font-bold text-gray-700 text-sm mb-0.5">正在搜尋歷史資料...</h5>
-                    <p id="chartLoaderDesc" class="text-[10px] text-gray-500">正在連接櫃買中心資料庫</p>
-                 </div>
-                 <canvas id="premiumChart"></canvas>
-               </div>
-               <p id="chartNoData" class="text-center text-gray-400 text-sm py-8 hidden">
-                 <i class="fas fa-database mr-2"></i>尚無歷史資料，每次搜尋將累積一筆紀錄
-               </p>
+            <div
+              id="chartContainer"
+              class="bg-white p-5 rounded-xl border border-gray-100 hidden relative min-h-[250px]"
+            >
+              <div class="flex items-center justify-between mb-4">
+                <h4 class="font-bold text-gray-600 flex items-center gap-2">
+                  <i class="fas fa-chart-line text-emerald-500"></i>
+                  溢價率走勢
+                </h4>
+                <div class="flex items-center gap-3">
+                  <div
+                    class="flex bg-gray-100 p-0.5 rounded-lg mr-2"
+                    id="chartRangeButtons"
+                  >
+                    <button
+                      class="range-btn text-[10px] px-2 py-0.5 rounded-md transition-all hover:bg-white"
+                      data-range="1m"
+                    >
+                      1M
+                    </button>
+                    <button
+                      class="range-btn text-[10px] px-2 py-0.5 rounded-md transition-all ml-0.5 hover:bg-white"
+                      data-range="3m"
+                    >
+                      3M
+                    </button>
+                    <button
+                      class="range-btn text-[10px] px-2 py-0.5 rounded-md transition-all ml-0.5 bg-white shadow-sm font-bold text-emerald-600"
+                      data-range="all"
+                    >
+                      全部
+                    </button>
+                  </div>
+                  <button
+                    id="resetZoomBtn"
+                    class="text-xs bg-gray-100 hover:bg-gray-200 text-gray-600 px-2 py-1 rounded transition-colors shadow-sm"
+                    title="重置縮放範圍"
+                  >
+                    <i class="fas fa-expand-arrows-alt mr-1"></i>重置
+                  </button>
+                  <span class="text-xs text-gray-400" id="chartDataInfo"
+                    >-- 筆資料</span
+                  >
+                </div>
+              </div>
+              <div class="relative" style="height: 200px">
+                <!-- Loading Overlay (Targeted) -->
+                <div
+                  id="chartLoader"
+                  class="chart-overlay hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-lg"
+                >
+                  <div class="pulse-ring mb-2">
+                    <div class="pulse-dot"></div>
+                  </div>
+                  <h5
+                    id="chartLoaderTitle"
+                    class="font-bold text-gray-700 text-sm mb-0.5"
+                  >
+                    正在搜尋歷史資料...
+                  </h5>
+                  <p id="chartLoaderDesc" class="text-[10px] text-gray-500">
+                    正在連接櫃買中心資料庫
+                  </p>
+                </div>
+                <canvas id="premiumChart"></canvas>
+              </div>
+              <p
+                id="chartNoData"
+                class="text-center text-gray-400 text-sm py-8 hidden"
+              >
+                <i class="fas fa-database mr-2"></i
+                >尚無歷史資料，每次搜尋將累積一筆紀錄
+              </p>
             </div>
 
             <!-- Formula Reference -->
-            <div class="bg-white p-5 rounded-xl text-xs text-gray-400 border border-gray-100">
-               <h4 class="font-bold text-gray-600 mb-2">計算公式</h4>
-               <ul class="space-y-1 list-disc pl-4">
-                   <li><span class="font-medium text-gray-500">可轉換股數</span> = 100,000 ÷ 轉換價格</li>
-                   <li><span class="font-medium text-gray-500">轉換價值</span> = 可轉換股數 × 股價 ÷ 1000</li>
-                   <li><span class="font-medium text-gray-500">轉換溢價率</span> = (CB價格 - 轉換價值) ÷ 轉換價值 × 100%</li>
-                   <li><span class="font-medium text-gray-500">轉換平價</span> = 轉換價格 × CB價格 ÷ 100</li>
-               </ul>
+            <div
+              class="bg-white p-5 rounded-xl text-xs text-gray-400 border border-gray-100"
+            >
+              <h4 class="font-bold text-gray-600 mb-2">計算公式</h4>
+              <ul class="space-y-1 list-disc pl-4">
+                <li>
+                  <span class="font-medium text-gray-500">可轉換股數</span> =
+                  100,000 ÷ 轉換價格
+                </li>
+                <li>
+                  <span class="font-medium text-gray-500">轉換價值</span> =
+                  可轉換股數 × 股價 ÷ 1000
+                </li>
+                <li>
+                  <span class="font-medium text-gray-500">轉換溢價率</span> =
+                  (CB價格 - 轉換價值) ÷ 轉換價值 × 100%
+                </li>
+                <li>
+                  <span class="font-medium text-gray-500">轉換平價</span> =
+                  轉換價格 × CB價格 ÷ 100
+                </li>
+              </ul>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
 
     <!-- Hot List Modal -->
     <div id="hotListModal" class="modal-overlay">
       <div class="modal-content">
-        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-orange-50 to-red-50">
+        <div
+          class="p-4 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-orange-50 to-red-50"
+        >
           <h3 class="font-bold text-gray-800 flex items-center gap-2">
             <i class="fas fa-fire text-red-500"></i> 今日熱門成交
           </h3>
-          <button id="closeHotModal" class="w-8 h-8 rounded-full bg-white text-gray-400 hover:text-gray-600 flex items-center justify-center transition-colors shadow-sm">
+          <button
+            id="closeHotModal"
+            class="w-8 h-8 rounded-full bg-white text-gray-400 hover:text-gray-600 flex items-center justify-center transition-colors shadow-sm"
+          >
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <div id="hotListContainer" class="overflow-y-auto p-0 flex-1 min-h-[300px] relative">
+        <div
+          id="hotListContainer"
+          class="overflow-y-auto p-0 flex-1 min-h-[300px] relative"
+        >
           <!-- Loading State (Default) -->
-          <div class="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
-            <i class="fas fa-circle-notch fa-spin fa-2x mb-3 text-orange-400"></i>
+          <div
+            class="absolute inset-0 flex flex-col items-center justify-center text-gray-400"
+          >
+            <i
+              class="fas fa-circle-notch fa-spin fa-2x mb-3 text-orange-400"
+            ></i>
             <p>正在載入熱門排行...</p>
           </div>
         </div>
-        <div class="p-3 bg-gray-50 text-xs text-center text-gray-400 border-t border-gray-100">
+        <div
+          class="p-3 bg-gray-50 text-xs text-center text-gray-400 border-t border-gray-100"
+        >
           資料來源: 統一證券 / 點擊項目自動帶入
         </div>
       </div>
@@ -601,49 +709,48 @@
         stockPrice: document.getElementById("stockPrice"),
         conversionPrice: document.getElementById("conversionPrice"),
       };
-      
-      // Hot CB Logic
-      const hotListBtn = document.getElementById('hotListBtn');
-      const hotListModal = document.getElementById('hotListModal');
-      const closeHotModal = document.getElementById('closeHotModal');
-      const hotListContainer = document.getElementById('hotListContainer');
 
-      hotListBtn.addEventListener('click', () => {
-        hotListModal.classList.add('show');
+      // Hot CB Logic
+      const hotListBtn = document.getElementById("hotListBtn");
+      const hotListModal = document.getElementById("hotListModal");
+      const closeHotModal = document.getElementById("closeHotModal");
+      const hotListContainer = document.getElementById("hotListContainer");
+
+      hotListBtn.addEventListener("click", () => {
+        hotListModal.classList.add("show");
         fetchHotCB();
       });
 
-      closeHotModal.addEventListener('click', () => {
-        hotListModal.classList.remove('show');
+      closeHotModal.addEventListener("click", () => {
+        hotListModal.classList.remove("show");
       });
 
       // Close modal when clicking outside
-      hotListModal.addEventListener('click', (e) => {
+      hotListModal.addEventListener("click", (e) => {
         if (e.target === hotListModal) {
-          hotListModal.classList.remove('show');
+          hotListModal.classList.remove("show");
         }
       });
 
       async function fetchHotCB() {
         try {
           // Reset content to loading if needed
-          if(!hotListContainer.querySelector('.fa-spin')) {
-             hotListContainer.innerHTML = `
+          if (!hotListContainer.querySelector(".fa-spin")) {
+            hotListContainer.innerHTML = `
               <div class="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
                 <i class="fas fa-circle-notch fa-spin fa-2x mb-3 text-orange-400"></i>
                 <p>正在載入熱門排行...</p>
               </div>`;
           }
 
-          const res = await fetch('/api/hot-cb');
+          const res = await fetch("/api/hot-cb");
           const data = await res.json();
-          
+
           if (!Array.isArray(data)) throw new Error("Invalid Format");
 
           renderHotList(data);
-
         } catch (e) {
-          console.error('[HotCB] Fetch failed:', e);
+          console.error("[HotCB] Fetch failed:", e);
           hotListContainer.innerHTML = `
             <div class="p-8 text-center text-red-400">
                <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
@@ -655,12 +762,14 @@
 
       function renderHotList(list) {
         if (list.length === 0) {
-            hotListContainer.innerHTML = '<div class="p-4 text-center text-gray-400">無資料</div>';
-            return;
+          hotListContainer.innerHTML =
+            '<div class="p-4 text-center text-gray-400">無資料</div>';
+          return;
         }
 
-        hotListContainer.innerHTML = list.map((item, index) => {
-            const rankClass = index < 3 ? 'top-3' : '';
+        hotListContainer.innerHTML = list
+          .map((item, index) => {
+            const rankClass = index < 3 ? "top-3" : "";
             return `
             <div class="hot-list-item group" onclick="selectHotItem('${item.code}')">
                 <div class="hot-rank ${rankClass}">${index + 1}</div>
@@ -679,28 +788,34 @@
                 </div>
             </div>
             `;
-        }).join('');
+          })
+          .join("");
       }
 
       window.selectHotItem = (code) => {
-         inputs.tickerSymbol.value = code;
-         hotListModal.classList.remove('show');
-         document.getElementById('searchBtn').click();
+        inputs.tickerSymbol.value = code;
+        hotListModal.classList.remove("show");
+        document.getElementById("searchBtn").click();
       };
-      
+
       const searchBtn = document.getElementById("searchBtn");
       const tickerStatus = document.getElementById("tickerStatus");
       const manualInputBtn = document.getElementById("manualInputBtn");
-      const inputFieldsContainer = document.getElementById("inputFieldsContainer");
+      const inputFieldsContainer = document.getElementById(
+        "inputFieldsContainer",
+      );
       const resultsContainer = document.getElementById("resultsContainer");
 
       // 展開輸入欄位與結果區塊
       function expandInputFields() {
-        inputFieldsContainer.classList.remove('inputs-collapsed', 'inputs-dimmed');
-        inputFieldsContainer.classList.add('inputs-expanded');
-        resultsContainer.classList.remove('inputs-collapsed');
-        resultsContainer.classList.add('inputs-expanded');
-        manualInputBtn.classList.add('hidden');
+        inputFieldsContainer.classList.remove(
+          "inputs-collapsed",
+          "inputs-dimmed",
+        );
+        inputFieldsContainer.classList.add("inputs-expanded");
+        resultsContainer.classList.remove("inputs-collapsed");
+        resultsContainer.classList.add("inputs-expanded");
+        manualInputBtn.classList.add("hidden");
       }
 
       // 手動輸入按鈕事件
@@ -715,12 +830,12 @@
 
       // Load Database from JSON
       let cbDatabase = {};
-      
+
       // 即時行情快取（5 秒 TTL）
       const priceCache = {};
-      
+
       // ============== 溢價率歷史紀錄 (LocalStorage) ==============
-      const HISTORY_KEY_PREFIX = 'cb_premium_history_';
+      const HISTORY_KEY_PREFIX = "cb_premium_history_";
       const MAX_HISTORY_DAYS = 30;
       let premiumChart = null; // Chart.js 實例
 
@@ -732,861 +847,1041 @@
         apiKey: "AIzaSyD98FkpVi_FzGvFsrot_JcCm4086rJrAEw",
         authDomain: "my-landing-page-2ca68.firebaseapp.com",
         messagingSenderId: "847051837050",
-        measurementId: "G-BZGQHXQED1"
+        measurementId: "G-BZGQHXQED1",
       };
-      
+
       // Global state
       window.attemptedCrawls = new Set();
 
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
-      
+
       // ============== Autocomplete 功能 ==============
       let availableSymbols = []; // 快取已建檔的標的 [{symbol, name}]
-      
+
       // 從 Firestore 取得所有已建檔的 CB 代號與名稱
       async function fetchAvailableSymbols() {
-          try {
-              const snapshot = await db.collection('cb_history').get();
-              availableSymbols = snapshot.docs.map(doc => ({
-                  symbol: doc.id,
-                  name: doc.data().name || ''
-              }));
-              console.log('[Autocomplete] Loaded', availableSymbols.length, 'symbols');
-          } catch (e) {
-              console.warn('[Autocomplete] Failed to load symbols:', e);
-              availableSymbols = [];
-          }
+        try {
+          const snapshot = await db.collection("cb_history").get();
+          availableSymbols = snapshot.docs.map((doc) => ({
+            symbol: doc.id,
+            name: doc.data().name || "",
+          }));
+          console.log(
+            "[Autocomplete] Loaded",
+            availableSymbols.length,
+            "symbols",
+          );
+        } catch (e) {
+          console.warn("[Autocomplete] Failed to load symbols:", e);
+          availableSymbols = [];
+        }
       }
-      
+
       // 渲染 Autocomplete 下拉選單
-      function renderAutocomplete(filter = '') {
-          const dropdown = document.getElementById('autocomplete-list');
-          const filterUpper = filter.toUpperCase().trim();
-          
-          // 過濾符合的標的 (比對代號或名稱)
-          const matches = filterUpper 
-              ? availableSymbols.filter(s => s.symbol.includes(filterUpper) || (s.name && s.name.toUpperCase().includes(filterUpper)))
-              : availableSymbols;
-          
-          if (matches.length === 0 && filterUpper) {
-              dropdown.innerHTML = '<div class="autocomplete-empty"><i class="fas fa-search mr-1"></i>無符合的已建檔標的</div>';
-          } else if (matches.length === 0) {
-              dropdown.innerHTML = '<div class="autocomplete-empty"><i class="fas fa-database mr-1"></i>載入中...</div>';
-          } else {
-              dropdown.innerHTML = matches.slice(0, 10).map(item => `
+      function renderAutocomplete(filter = "") {
+        const dropdown = document.getElementById("autocomplete-list");
+        const filterUpper = filter.toUpperCase().trim();
+
+        // 過濾符合的標的 (比對代號或名稱)
+        const matches = filterUpper
+          ? availableSymbols.filter(
+              (s) =>
+                s.symbol.includes(filterUpper) ||
+                (s.name && s.name.toUpperCase().includes(filterUpper)),
+            )
+          : availableSymbols;
+
+        if (matches.length === 0 && filterUpper) {
+          dropdown.innerHTML =
+            '<div class="autocomplete-empty"><i class="fas fa-search mr-1"></i>無符合的已建檔標的</div>';
+        } else if (matches.length === 0) {
+          dropdown.innerHTML =
+            '<div class="autocomplete-empty"><i class="fas fa-database mr-1"></i>載入中...</div>';
+        } else {
+          dropdown.innerHTML = matches
+            .slice(0, 10)
+            .map(
+              (item) => `
                   <div class="autocomplete-item" data-symbol="${item.symbol}">
                       <i class="fas fa-chart-line text-gray-400"></i>
                       <span class="symbol">${item.symbol}</span>
-                      ${item.name ? `<span class="text-gray-600 text-sm">${item.name}</span>` : ''}
+                      ${item.name ? `<span class="text-gray-600 text-sm">${item.name}</span>` : ""}
                       <span class="hint">已建檔</span>
                   </div>
-              `).join('');
-          }
+              `,
+            )
+            .join("");
+        }
       }
-      
+
       // 顯示/隱藏 Autocomplete
       function showAutocomplete() {
-          const dropdown = document.getElementById('autocomplete-list');
-          dropdown.classList.add('show');
-          renderAutocomplete(document.getElementById('tickerSymbol').value);
+        const dropdown = document.getElementById("autocomplete-list");
+        dropdown.classList.add("show");
+        renderAutocomplete(document.getElementById("tickerSymbol").value);
       }
-      
+
       function hideAutocomplete() {
-          const dropdown = document.getElementById('autocomplete-list');
-          dropdown.classList.remove('show');
+        const dropdown = document.getElementById("autocomplete-list");
+        dropdown.classList.remove("show");
       }
-      
+
       // 初始化 Autocomplete 事件
       function initAutocomplete() {
-          const input = document.getElementById('tickerSymbol');
-          const dropdown = document.getElementById('autocomplete-list');
-          
-          // Focus: 顯示下拉選單
-          input.addEventListener('focus', () => {
-              if (availableSymbols.length > 0) {
-                  showAutocomplete();
-              }
-          });
-          
-          // Input: 過濾選項
-          input.addEventListener('input', (e) => {
-              if (availableSymbols.length > 0) {
-                  showAutocomplete();
-                  renderAutocomplete(e.target.value);
-              }
-          });
-          
-          // Blur: 延遲隱藏 (讓 click 事件先觸發)
-          input.addEventListener('blur', () => {
-              setTimeout(hideAutocomplete, 150);
-          });
-          
-          // Click: 選擇項目
-          dropdown.addEventListener('click', (e) => {
-              const item = e.target.closest('.autocomplete-item');
-              if (item) {
-                  const symbol = item.dataset.symbol;
-                  input.value = symbol;
-                  hideAutocomplete();
-                  // 自動觸發搜尋
-                  document.getElementById('searchBtn').click();
-              }
-          });
+        const input = document.getElementById("tickerSymbol");
+        const dropdown = document.getElementById("autocomplete-list");
+
+        // Focus: 顯示下拉選單
+        input.addEventListener("focus", () => {
+          if (availableSymbols.length > 0) {
+            showAutocomplete();
+          }
+        });
+
+        // Input: 過濾選項
+        input.addEventListener("input", (e) => {
+          if (availableSymbols.length > 0) {
+            showAutocomplete();
+            renderAutocomplete(e.target.value);
+          }
+        });
+
+        // Blur: 延遲隱藏 (讓 click 事件先觸發)
+        input.addEventListener("blur", () => {
+          setTimeout(hideAutocomplete, 150);
+        });
+
+        // Click: 選擇項目
+        dropdown.addEventListener("click", (e) => {
+          const item = e.target.closest(".autocomplete-item");
+          if (item) {
+            const symbol = item.dataset.symbol;
+            input.value = symbol;
+            hideAutocomplete();
+            // 自動觸發搜尋
+            document.getElementById("searchBtn").click();
+          }
+        });
       }
-      
+
       // 頁面載入時執行
       fetchAvailableSymbols().then(() => {
-          initAutocomplete();
+        initAutocomplete();
       });
-      
+
       // 取得 Firestore 中的歷史紀錄 (增量更新)
       async function fetchIncrementalHistory(symbol, lastDate = null) {
-          try {
-              let query = db.collection('cb_history').doc(symbol).collection('records');
-              
-              if (lastDate) {
-                  query = query.where('date', '>', lastDate);
-              }
-              
-              const snapshot = await query.get();
-              if (!snapshot.empty) {
-                  return snapshot.docs.map(doc => doc.data());
-              }
-          } catch (e) {
-              console.warn('[Firebase] Firestore read failed.', e);
+        try {
+          let query = db
+            .collection("cb_history")
+            .doc(symbol)
+            .collection("records");
+
+          if (lastDate) {
+            query = query.where("date", ">", lastDate);
           }
-          return [];
+
+          const snapshot = await query.get();
+          if (!snapshot.empty) {
+            return snapshot.docs.map((doc) => doc.data());
+          }
+        } catch (e) {
+          console.warn("[Firebase] Firestore read failed.", e);
+        }
+        return [];
       }
 
       // 上傳單筆資料到 Firestore Subcollection
       async function uploadRecordToFirestore(symbol, record) {
-          try {
-              const batch = db.batch();
-              
-              // 1. 更新主文件 LastUpdated
-              const metaRef = db.collection('cb_history').doc(symbol);
-              batch.set(metaRef, { 
-                  symbol: symbol,
-                  lastUpdated: new Date().toISOString() 
-              }, { merge: true });
+        try {
+          const batch = db.batch();
 
-              // 2. 寫入單日紀錄
-              const recordRef = metaRef.collection('records').doc(record.date);
-              batch.set(recordRef, record);
+          // 1. 更新主文件 LastUpdated
+          const metaRef = db.collection("cb_history").doc(symbol);
+          batch.set(
+            metaRef,
+            {
+              symbol: symbol,
+              lastUpdated: new Date().toISOString(),
+            },
+            { merge: true },
+          );
 
-              await batch.commit();
-              console.log(`[Firebase] Auto-saved record ${record.date} for ${symbol}`);
-          } catch (e) {
-              console.error('[Firebase] Save failed:', e);
-          }
+          // 2. 寫入單日紀錄
+          const recordRef = metaRef.collection("records").doc(record.date);
+          batch.set(recordRef, record);
+
+          await batch.commit();
+          console.log(
+            `[Firebase] Auto-saved record ${record.date} for ${symbol}`,
+          );
+        } catch (e) {
+          console.error("[Firebase] Save failed:", e);
+        }
       }
-      
+
       // 取得指定代號的歷史紀錄
       function getHistoryData(symbol) {
         try {
           const data = localStorage.getItem(HISTORY_KEY_PREFIX + symbol);
           return data ? JSON.parse(data) : [];
         } catch (e) {
-          console.error('[History] Failed to read:', e);
+          console.error("[History] Failed to read:", e);
           return [];
         }
       }
-      
+
       // 儲存溢價率紀錄 (Local + Firestore Incremental)
       async function savePremiumRecord(symbol, todayData) {
         // 從 LocalStorage 取得目前快取 (僅用於增量存儲)
         const cached = getHistoryData(symbol);
         let history = [...cached];
-        
-        const existingIdx = history.findIndex(r => r.date === todayData.date);
+
+        const existingIdx = history.findIndex((r) => r.date === todayData.date);
         if (existingIdx >= 0) {
           history[existingIdx] = todayData;
         } else {
           history.push(todayData);
         }
-        
+
         // 保存到 LocalStorage (快取)
-        const trimmed = history.slice(-MAX_HISTORY_DAYS).sort((a,b) => new Date(a.date) - new Date(b.date));
+        const trimmed = history
+          .slice(-MAX_HISTORY_DAYS)
+          .sort((a, b) => new Date(a.date) - new Date(b.date));
         try {
-          localStorage.setItem(HISTORY_KEY_PREFIX + symbol, JSON.stringify(trimmed));
+          localStorage.setItem(
+            HISTORY_KEY_PREFIX + symbol,
+            JSON.stringify(trimmed),
+          );
         } catch (e) {}
 
         // 同步寫入 Firestore
         await uploadRecordToFirestore(symbol, todayData);
-        
+
         return history;
       }
-      
+
       // 顯示圖表載入遮罩
-       // 顯示圖表載入遮罩
-       function showChartLoading(show, title = "處理中...", desc = "") {
-          // console.log(`[UI] showChartLoading: ${show}, title=${title}`);
-          const loader = document.getElementById('chartLoader');
-          const container = document.getElementById('chartContainer');
-          const titleEl = document.getElementById('chartLoaderTitle');
-          const descEl = document.getElementById('chartLoaderDesc');
-          
-          // 選取控制按鈕 (區間切換與重置)
-          const rangeBtns = document.getElementById('chartRangeButtons');
-          const resetBtn = document.getElementById('resetZoomBtn');
-          
-          if (show) {
-              container.classList.remove('hidden'); // 確保容器可見
-              loader.classList.remove('hidden');
-              if(titleEl) titleEl.textContent = title;
-              if(descEl) descEl.textContent = desc;
-              
-              // 禁用圖表控制項
-              if (rangeBtns) rangeBtns.classList.add('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
-              if (resetBtn) resetBtn.classList.add('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
-          } else {
-              loader.classList.add('hidden');
-              
-              // 恢復圖表控制項
-              if (rangeBtns) rangeBtns.classList.remove('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
-              if (resetBtn) resetBtn.classList.remove('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
-          }
-       }
+      // 顯示圖表載入遮罩
+      function showChartLoading(show, title = "處理中...", desc = "") {
+        // console.log(`[UI] showChartLoading: ${show}, title=${title}`);
+        const loader = document.getElementById("chartLoader");
+        const container = document.getElementById("chartContainer");
+        const titleEl = document.getElementById("chartLoaderTitle");
+        const descEl = document.getElementById("chartLoaderDesc");
+
+        // 選取控制按鈕 (區間切換與重置)
+        const rangeBtns = document.getElementById("chartRangeButtons");
+        const resetBtn = document.getElementById("resetZoomBtn");
+
+        if (show) {
+          container.classList.remove("hidden"); // 確保容器可見
+          loader.classList.remove("hidden");
+          if (titleEl) titleEl.textContent = title;
+          if (descEl) descEl.textContent = desc;
+
+          // 禁用圖表控制項
+          if (rangeBtns)
+            rangeBtns.classList.add(
+              "pointer-events-none",
+              "opacity-40",
+              "cursor-not-allowed",
+            );
+          if (resetBtn)
+            resetBtn.classList.add(
+              "pointer-events-none",
+              "opacity-40",
+              "cursor-not-allowed",
+            );
+        } else {
+          loader.classList.add("hidden");
+
+          // 恢復圖表控制項
+          if (rangeBtns)
+            rangeBtns.classList.remove(
+              "pointer-events-none",
+              "opacity-40",
+              "cursor-not-allowed",
+            );
+          if (resetBtn)
+            resetBtn.classList.remove(
+              "pointer-events-none",
+              "opacity-40",
+              "cursor-not-allowed",
+            );
+        }
+      }
 
       // 繪製溢價率走勢圖
       // 取得合併後的歷史資料 (Hybrid Sync: Local -> JSON -> Firestore Incremental)
       async function fetchMergedHistory(symbol) {
-          showChartLoading(true, "正在檢查歷史資料...", "搜尋本地與雲端快取");
-          
-          // 1. Get Local Cache first
-          const localData = getHistoryData(symbol); 
-          let history = [...localData];
-          let lastDate = null;
+        showChartLoading(true, "正在檢查歷史資料...", "搜尋本地與雲端快取");
 
-          // 2. Cold Start Strategy: If LocalStorage is empty, try fetching static JSON
-          if (history.length === 0) {
-              console.log('[Sync] Cold start: checking static JSON...');
-              try {
-                  const res = await fetch(`/me/data/history/${symbol}.json?t=${Date.now()}`); 
-                  if (res.ok) {
-                      const jsonData = await res.json();
-                      if (Array.isArray(jsonData) && jsonData.length > 0) {
-                          console.log(`[Sync] Loaded ${jsonData.length} records from static JSON.`);
-                          history = jsonData;
-                      }
-                  }
-              } catch (e) { console.warn('[Sync] Static JSON fetch failed:', e); }
-          }
-          
-          if (history.length > 0) {
-              const sorted = history.sort((a,b) => new Date(a.date) - new Date(b.date));
-              lastDate = sorted[sorted.length - 1].date;
-          }
+        // 1. Get Local Cache first
+        const localData = getHistoryData(symbol);
+        let history = [...localData];
+        let lastDate = null;
 
-          // 3. Fetch NEW data from Firestore (Incremental)
-          console.log(`[Sync] Checking for updates since ${lastDate || 'BEGINNING'}...`);
-          // 只在有歷史資料時才顯示「同步中」，否則如果是全新的則保持「檢查中」
-          if (lastDate) showChartLoading(true, "同步最新數據...", "正在下載增量更新");
-          
-          const newRecords = await fetchIncrementalHistory(symbol, lastDate);
-          if (newRecords.length > 0) history = history.concat(newRecords);
-              
-          // 4. Auto-Crawl Strategy
-          // If we have very few records (e.g. only today's auto-save), we should still try to crawl full history
-          // [Fix] Prevent infinite loop: Only attempt crawl ONCE per session per symbol
-          if (history.length <= 5 && !window.attemptedCrawls.has(symbol)) {
-              console.log('[Sync] Data sparse. Attempting Auto-Crawl...');
-              window.attemptedCrawls.add(symbol); // Mark as attempted immediately
-              
-              if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-                  showStatus("資料庫建立中...", "warning");
-                  
-                  // [Smart Incremental] 若有部分資料，只補齊缺少的月份
-                  let crawlUrl = `/api/crawl?code=${symbol}`;
-                  let statusMsg = "連接櫃買中心與證交所 (約 15 秒)";
-                  
-                  if (history.length > 0) {
-                      // 找出最後一筆日期
-                      const sorted = history.sort((a,b) => new Date(a.date) - new Date(b.date));
-                      const lastRecordDate = sorted[sorted.length - 1].date;
-                      crawlUrl += `&since=${lastRecordDate}`;
-                      statusMsg = `補齊 ${lastRecordDate} 後的資料 (約 3 秒)`;
-                      console.log(`[Sync] Smart Incremental Crawl: since ${lastRecordDate}`);
-                  }
-                  
-                  showChartLoading(true, "正在自動爬取資料...", statusMsg);
-                  
-                  try {
-                       const crawlRes = await fetch(crawlUrl);
-                       if (crawlRes.ok) {
-                           console.log('[Sync] Crawl finished. Refetching JSON...');
-                           showChartLoading(true, "爬取完成，正在整理...", "解析數據並建立索引");
-                           
-                           // Retry fetching JSON
-                           const retryRes = await fetch(`/me/data/history/${symbol}.json?t=${Date.now()}`);
-                           if (retryRes.ok) {
-                               const retryJson = await retryRes.json();
-                               if (Array.isArray(retryJson)) {
-                                   history = retryJson;
-                                   window.runMigration(symbol).catch(e => console.error("Auto upload failed:", e));
-                               }
-                           }
-                       }
-                  } catch (e) {
-                      console.warn('[Sync] Auto-crawl failed:', e);
-                       // Loader will be hidden by the parent handleSearch's finally block
-                  }
+        // 2. Cold Start Strategy: If LocalStorage is empty, try fetching static JSON
+        if (history.length === 0) {
+          console.log("[Sync] Cold start: checking static JSON...");
+          try {
+            const res = await fetch(
+              `/me/data/history/${symbol}.json?t=${Date.now()}`,
+            );
+            if (res.ok) {
+              const jsonData = await res.json();
+              if (Array.isArray(jsonData) && jsonData.length > 0) {
+                console.log(
+                  `[Sync] Loaded ${jsonData.length} records from static JSON.`,
+                );
+                history = jsonData;
               }
+            }
+          } catch (e) {
+            console.warn("[Sync] Static JSON fetch failed:", e);
           }
+        }
 
-          // 5. Update Local Cache & Finish
-          const map = new Map();
-          history.forEach(h => map.set(h.date, h));
-          const fullSorted = Array.from(map.values()).sort((a,b) => new Date(a.date) - new Date(b.date));
-          const toSave = fullSorted.slice(-MAX_HISTORY_DAYS);
-          localStorage.setItem(HISTORY_KEY_PREFIX + symbol, JSON.stringify(toSave));
-          
-          return fullSorted;
+        if (history.length > 0) {
+          const sorted = history.sort(
+            (a, b) => new Date(a.date) - new Date(b.date),
+          );
+          lastDate = sorted[sorted.length - 1].date;
+        }
+
+        // 3. Fetch NEW data from Firestore (Incremental)
+        console.log(
+          `[Sync] Checking for updates since ${lastDate || "BEGINNING"}...`,
+        );
+        // 只在有歷史資料時才顯示「同步中」，否則如果是全新的則保持「檢查中」
+        if (lastDate)
+          showChartLoading(true, "同步最新數據...", "正在下載增量更新");
+
+        const newRecords = await fetchIncrementalHistory(symbol, lastDate);
+        if (newRecords.length > 0) history = history.concat(newRecords);
+
+        // 4. Auto-Crawl Strategy
+        // If we have very few records (e.g. only today's auto-save), we should still try to crawl full history
+        // [Fix] Prevent infinite loop: Only attempt crawl ONCE per session per symbol
+        if (history.length <= 5 && !window.attemptedCrawls.has(symbol)) {
+          console.log("[Sync] Data sparse. Attempting Auto-Crawl...");
+          window.attemptedCrawls.add(symbol); // Mark as attempted immediately
+
+          if (
+            window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1"
+          ) {
+            showStatus("資料庫建立中...", "warning");
+
+            // [Smart Incremental] 若有部分資料，只補齊缺少的月份
+            let crawlUrl = `/api/crawl?code=${symbol}`;
+            let statusMsg = "連接櫃買中心與證交所 (約 15 秒)";
+
+            if (history.length > 0) {
+              // 找出最後一筆日期
+              const sorted = history.sort(
+                (a, b) => new Date(a.date) - new Date(b.date),
+              );
+              const lastRecordDate = sorted[sorted.length - 1].date;
+              crawlUrl += `&since=${lastRecordDate}`;
+              statusMsg = `補齊 ${lastRecordDate} 後的資料 (約 3 秒)`;
+              console.log(
+                `[Sync] Smart Incremental Crawl: since ${lastRecordDate}`,
+              );
+            }
+
+            showChartLoading(true, "正在自動爬取資料...", statusMsg);
+
+            try {
+              const crawlRes = await fetch(crawlUrl);
+              if (crawlRes.ok) {
+                console.log("[Sync] Crawl finished. Refetching JSON...");
+                showChartLoading(
+                  true,
+                  "爬取完成，正在整理...",
+                  "解析數據並建立索引",
+                );
+
+                // Retry fetching JSON
+                const retryRes = await fetch(
+                  `/me/data/history/${symbol}.json?t=${Date.now()}`,
+                );
+                if (retryRes.ok) {
+                  const retryJson = await retryRes.json();
+                  if (Array.isArray(retryJson)) {
+                    history = retryJson;
+                    window
+                      .runMigration(symbol)
+                      .catch((e) => console.error("Auto upload failed:", e));
+                  }
+                }
+              }
+            } catch (e) {
+              console.warn("[Sync] Auto-crawl failed:", e);
+              // Loader will be hidden by the parent handleSearch's finally block
+            }
+          }
+        }
+
+        // 5. Update Local Cache & Finish
+        const map = new Map();
+        history.forEach((h) => map.set(h.date, h));
+        const fullSorted = Array.from(map.values()).sort(
+          (a, b) => new Date(a.date) - new Date(b.date),
+        );
+        const toSave = fullSorted.slice(-MAX_HISTORY_DAYS);
+        localStorage.setItem(
+          HISTORY_KEY_PREFIX + symbol,
+          JSON.stringify(toSave),
+        );
+
+        return fullSorted;
       }
 
       // ==========================================
       // [TOOL] Client-Side Migration Helper
       // Run `await window.runMigration('24673')` in console
       // ==========================================
-      window.runMigration = async function(symbol) {
-          if (!symbol) return console.error("請輸入代號，例如: runMigration('24673')");
-          
-          console.log(`[Migration] Starting migration for ${symbol}...`);
-          
-          try {
-              // 1. Fetch JSON
-              const res = await fetch(`/me/data/history/${symbol}.json?t=${Date.now()}`);
-              if (!res.ok) throw new Error(`JSON file not found: ${res.status}`);
-              const data = await res.json();
-              
-              console.log(`[Migration] Found ${data.length} records. Uploading...`);
-              
-              const BATCH_SIZE = 450;
-              let total = 0;
-              
-              // 2. Batch Upload
-              for (let i = 0; i < data.length; i += BATCH_SIZE) {
-                  const chunk = data.slice(i, i + BATCH_SIZE);
-                  const batch = db.batch();
-                  const recordsRef = db.collection('cb_history').doc(symbol).collection('records');
-                  
-                  chunk.forEach(record => {
-                      if (record.date) {
-                          batch.set(recordsRef.doc(record.date), record);
-                      }
-                  });
-                  
-                  await batch.commit();
-                  total += chunk.length;
-                  console.log(`[Migration] Progress: ${total}/${data.length}`);
-              }
+      window.runMigration = async function (symbol) {
+        if (!symbol)
+          return console.error("請輸入代號，例如: runMigration('24673')");
 
-              // 3. Update Meta (including CB name for autocomplete)
-              const currentName = document.getElementById('stockNameText')?.textContent || '';
-              await db.collection('cb_history').doc(symbol).set({
-                  symbol: symbol,
-                  name: currentName, // Save name for autocomplete
-                  lastUpdated: new Date().toISOString(),
-                  recordCount: total
-              }, { merge: true });
-              
-              console.log(`✅ [Migration] Success! Migrated ${total} records for ${symbol}`);
-              // Note: No longer calling handleSearch() here to avoid recursive UI resets.
-          } catch (e) {
-              console.error("[Migration] Failed:", e);
+        console.log(`[Migration] Starting migration for ${symbol}...`);
+
+        try {
+          // 1. Fetch JSON
+          const res = await fetch(
+            `/me/data/history/${symbol}.json?t=${Date.now()}`,
+          );
+          if (!res.ok) throw new Error(`JSON file not found: ${res.status}`);
+          const data = await res.json();
+
+          console.log(`[Migration] Found ${data.length} records. Uploading...`);
+
+          const BATCH_SIZE = 450;
+          let total = 0;
+
+          // 2. Batch Upload
+          for (let i = 0; i < data.length; i += BATCH_SIZE) {
+            const chunk = data.slice(i, i + BATCH_SIZE);
+            const batch = db.batch();
+            const recordsRef = db
+              .collection("cb_history")
+              .doc(symbol)
+              .collection("records");
+
+            chunk.forEach((record) => {
+              if (record.date) {
+                batch.set(recordsRef.doc(record.date), record);
+              }
+            });
+
+            await batch.commit();
+            total += chunk.length;
+            console.log(`[Migration] Progress: ${total}/${data.length}`);
           }
+
+          // 3. Update Meta (including CB name for autocomplete)
+          const currentName =
+            document.getElementById("stockNameText")?.textContent || "";
+          await db.collection("cb_history").doc(symbol).set(
+            {
+              symbol: symbol,
+              name: currentName, // Save name for autocomplete
+              lastUpdated: new Date().toISOString(),
+              recordCount: total,
+            },
+            { merge: true },
+          );
+
+          console.log(
+            `✅ [Migration] Success! Migrated ${total} records for ${symbol}`,
+          );
+          // Note: No longer calling handleSearch() here to avoid recursive UI resets.
+        } catch (e) {
+          console.error("[Migration] Failed:", e);
+        }
       };
 
       // [Tool] 批次修復缺少的 CB 名稱
-      window.fixMetadata = async function() {
-          console.log("🚀 [Fix] 開始掃描缺少名稱的標的...");
-          
-          if (availableSymbols.length === 0) await fetchAvailableSymbols();
-          
-          const missing = availableSymbols.filter(s => !s.name);
-          console.log(`🔍 發現 ${missing.length} 筆資料缺少名稱`);
-          
-          if (missing.length === 0) return console.log("✅ 所有標的皆已有名稱！");
+      window.fixMetadata = async function () {
+        console.log("🚀 [Fix] 開始掃描缺少名稱的標的...");
 
-          let successCount = 0;
-          
-          for (const [index, item] of missing.entries()) {
-              const symbol = item.symbol;
-              console.log(`[${index + 1}/${missing.length}] 正在查詢 ${symbol}...`);
-              
-              try {
-                  const queries = [`otc_${symbol}.tw`, `tse_${symbol}.tw`];
-                  const res = await fetch(`/api/stock/getStockInfo.jsp?ex_ch=${queries.join('|')}&json=1&delay=0`);
-                  
-                  if (res.ok) {
-                      const json = await res.json();
-                      const match = json.msgArray?.find(q => q.c === symbol);
-                      
-                      if (match && match.n) {
-                          console.log(`   -> 找到名稱: ${match.n}`);
-                          await db.collection('cb_history').doc(symbol).set({
-                              name: match.n
-                          }, { merge: true });
-                          successCount++;
-                      } else {
-                          console.warn(`   ⚠️ 找不到名稱`);
-                      }
-                  }
-              } catch (e) {
-                  console.error(`   ❌ 查詢失敗:`, e);
+        if (availableSymbols.length === 0) await fetchAvailableSymbols();
+
+        const missing = availableSymbols.filter((s) => !s.name);
+        console.log(`🔍 發現 ${missing.length} 筆資料缺少名稱`);
+
+        if (missing.length === 0) return console.log("✅ 所有標的皆已有名稱！");
+
+        let successCount = 0;
+
+        for (const [index, item] of missing.entries()) {
+          const symbol = item.symbol;
+          console.log(`[${index + 1}/${missing.length}] 正在查詢 ${symbol}...`);
+
+          try {
+            const queries = [`otc_${symbol}.tw`, `tse_${symbol}.tw`];
+            const res = await fetch(
+              `/api/stock/getStockInfo.jsp?ex_ch=${queries.join("|")}&json=1&delay=0`,
+            );
+
+            if (res.ok) {
+              const json = await res.json();
+              const match = json.msgArray?.find((q) => q.c === symbol);
+
+              if (match && match.n) {
+                console.log(`   -> 找到名稱: ${match.n}`);
+                await db.collection("cb_history").doc(symbol).set(
+                  {
+                    name: match.n,
+                  },
+                  { merge: true },
+                );
+                successCount++;
+              } else {
+                console.warn(`   ⚠️ 找不到名稱`);
               }
-              await new Promise(r => setTimeout(r, 1500));
+            }
+          } catch (e) {
+            console.error(`   ❌ 查詢失敗:`, e);
           }
-          console.log(`🎉 修復完成！成功更新 ${successCount} 筆資料。請重新整理頁面。`);
+          await new Promise((r) => setTimeout(r, 1500));
+        }
+        console.log(
+          `🎉 修復完成！成功更新 ${successCount} 筆資料。請重新整理頁面。`,
+        );
       };
 
       function renderPremiumChart(symbol, historyData) {
-        const chartContainer = document.getElementById('chartContainer');
-        const chartNoData = document.getElementById('chartNoData');
-        const chartDataInfo = document.getElementById('chartDataInfo');
-        const canvas = document.getElementById('premiumChart');
-        
+        const chartContainer = document.getElementById("chartContainer");
+        const chartNoData = document.getElementById("chartNoData");
+        const chartDataInfo = document.getElementById("chartDataInfo");
+        const canvas = document.getElementById("premiumChart");
+
         // 顯示圖表容器
-        chartContainer.classList.remove('hidden');
-        
+        chartContainer.classList.remove("hidden");
+
         // 無資料處理：嘗試顯示初始單點 (UX 改善：避免完全空白)
         if (!historyData || historyData.length === 0) {
           const cbPrice = parseFloat(inputs.cbPrice.value);
           const stockPrice = parseFloat(inputs.stockPrice.value);
           const conversionPrice = parseFloat(inputs.conversionPrice.value);
-          
+
           if (cbPrice && stockPrice && conversionPrice) {
-               // 建立一個臨時的「今日點」
-               const today = new Date().toISOString().split('T')[0].substring(5);
-               const sharesPerBond = 100000 / conversionPrice;
-               const conversionValue = (sharesPerBond * stockPrice) / 1000;
-               const premiumRate = ((cbPrice - conversionValue) / conversionValue) * 100;
-               
-               historyData = [{ date: today, premium: premiumRate, stockPrice, cbPrice }];
-               chartNoData.classList.add('hidden');
-               canvas.classList.remove('hidden');
+            // 建立一個臨時的「今日點」
+            const today = new Date().toISOString().split("T")[0].substring(5);
+            const sharesPerBond = 100000 / conversionPrice;
+            const conversionValue = (sharesPerBond * stockPrice) / 1000;
+            const premiumRate =
+              ((cbPrice - conversionValue) / conversionValue) * 100;
+
+            historyData = [
+              { date: today, premium: premiumRate, stockPrice, cbPrice },
+            ];
+            chartNoData.classList.add("hidden");
+            canvas.classList.remove("hidden");
           } else {
-               chartNoData.classList.remove('hidden');
-               canvas.classList.add('hidden');
-               chartDataInfo.textContent = '0 筆資料';
-               return;
+            chartNoData.classList.remove("hidden");
+            canvas.classList.add("hidden");
+            chartDataInfo.textContent = "0 筆資料";
+            return;
           }
         }
-        
-        chartNoData.classList.add('hidden');
-        canvas.classList.remove('hidden');
+
+        chartNoData.classList.add("hidden");
+        canvas.classList.remove("hidden");
         chartDataInfo.textContent = `${historyData.length} 筆資料 (含歷史)`;
-        
+
         // 使用完整歷史資料
         const data = historyData;
-        const labels = data.map(r => r.date.substring(5)); // MM-DD
-        const premiums = data.map(r => r.premium || r.premiumRate || 0);
-        const stockPrices = data.map(r => r.stockPrice || 0);
+        const labels = data.map((r) => r.date.substring(5)); // MM-DD
+        const premiums = data.map((r) => r.premium || r.premiumRate || 0);
+        const stockPrices = data.map((r) => r.stockPrice || 0);
         // CB Price may be missing or mocked
-        const cbPrices = data.map(r => r.cbPrice || null);
-        
+        const cbPrices = data.map((r) => r.cbPrice || null);
+
         // 銷毀舊圖表
         if (premiumChart) premiumChart.destroy();
-        
+
         premiumChart = new Chart(canvas, {
-          type: 'line',
+          type: "line",
           data: {
             labels,
             datasets: [
               {
-                label: '溢價率 (%)',
+                label: "溢價率 (%)",
                 data: premiums,
-                borderColor: 'rgb(75, 192, 192)',
-                backgroundColor: 'rgba(75, 192, 192, 0.1)',
-                yAxisID: 'y',
+                borderColor: "rgb(75, 192, 192)",
+                backgroundColor: "rgba(75, 192, 192, 0.1)",
+                yAxisID: "y",
                 tension: 0.3,
                 fill: true,
-                pointRadius: data.length > 50 ? 1 : 3
+                pointRadius: data.length > 50 ? 1 : 3,
               },
               {
-                label: '股價 (TWD)',
+                label: "股價 (TWD)",
                 data: stockPrices,
-                borderColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: "rgba(54, 162, 235, 0.6)",
                 borderDash: [5, 5],
-                yAxisID: 'y1',
+                yAxisID: "y1",
                 tension: 0.3,
                 pointRadius: 0,
                 borderWidth: 1.5,
-                fill: false
-              }
-            ]
+                fill: false,
+              },
+            ],
           },
           options: {
             responsive: true,
             maintainAspectRatio: false,
-            interaction: { mode: 'index', intersect: false },
+            interaction: { mode: "index", intersect: false },
             scales: {
               y: {
-                type: 'linear',
+                type: "linear",
                 display: true,
-                position: 'left',
-                title: { display: true, text: '溢價率 (%)' }
+                position: "left",
+                title: { display: true, text: "溢價率 (%)" },
               },
               y1: {
-                type: 'linear',
+                type: "linear",
                 display: true,
-                position: 'right',
+                position: "right",
                 grid: { drawOnChartArea: false },
-                title: { display: true, text: '股價 (TWD)' }
-              }
+                title: { display: true, text: "股價 (TWD)" },
+              },
             },
             plugins: {
               zoom: {
                 pan: {
                   enabled: true,
-                  mode: 'x',
-                  threshold: 5
+                  mode: "x",
+                  threshold: 5,
                 },
                 zoom: {
                   wheel: {
                     enabled: true,
                   },
                   pinch: {
-                    enabled: true
+                    enabled: true,
                   },
-                  mode: 'x',
-                }
+                  mode: "x",
+                },
               },
               tooltip: {
-                 callbacks: {
-                     afterLabel: function(context) {
-                         const item = data[context.dataIndex];
-                         if (context.dataset.yAxisID === 'y' && item.cbPrice) {
-                             return `CB價: ${item.cbPrice.toFixed(2)}`;
-                         }
-                         if (item.isMock) return '(模擬數據)';
-                     }
-                 }
-              }
-            }
-          }
+                callbacks: {
+                  afterLabel: function (context) {
+                    const item = data[context.dataIndex];
+                    if (context.dataset.yAxisID === "y" && item.cbPrice) {
+                      return `CB價: ${item.cbPrice.toFixed(2)}`;
+                    }
+                    if (item.isMock) return "(模擬數據)";
+                  },
+                },
+              },
+            },
+          },
         });
-        
+
         // 重要：將原始數據掛載至實例以便區間切換按鈕使用
         premiumChart.fullData = data;
-        
+
         // 初始顯時區間設為「全部」按鈕樣式
-        updateRangeButtonUI('all');
+        updateRangeButtonUI("all");
       }
 
       async function loadDatabase() {
         try {
-            // Add timestamp to prevent caching
-            // Use absolute path relative to site root
-            const res = await fetch('/me/data/cb-data.json?t=' + new Date().getTime());
-            if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const json = await res.json();
-            
-            // Convert array to object map for easy lookup
-            json.items.forEach(item => {
-                cbDatabase[item.code] = item; // Map CB Code (e.g. 24673)
-                
-                // Map Stock Code (e.g. 2467)
-                if (item.underlyingCode && !cbDatabase[item.underlyingCode]) {
-                    cbDatabase[item.underlyingCode] = item;
-                }
-            });
-            
-            console.log("Database loaded:", Object.keys(cbDatabase).length, "keys");
-            
-            // Temp debug indicator (optional)
-            // tickerStatus.textContent = "DB Loaded";
-            // tickerStatus.classList.remove("hidden");
-            
+          // Add timestamp to prevent caching
+          // Use absolute path relative to site root
+          const res = await fetch(
+            "/me/data/cb-data.json?t=" + new Date().getTime(),
+          );
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          const json = await res.json();
+
+          // Convert array to object map for easy lookup
+          json.items.forEach((item) => {
+            cbDatabase[item.code] = item; // Map CB Code (e.g. 24673)
+
+            // Map Stock Code (e.g. 2467)
+            if (item.underlyingCode && !cbDatabase[item.underlyingCode]) {
+              cbDatabase[item.underlyingCode] = item;
+            }
+          });
+
+          console.log(
+            "Database loaded:",
+            Object.keys(cbDatabase).length,
+            "keys",
+          );
+
+          // Temp debug indicator (optional)
+          // tickerStatus.textContent = "DB Loaded";
+          // tickerStatus.classList.remove("hidden");
         } catch (e) {
-            console.error("Error loading cb-data.json:", e);
-            alert("資料庫載入失敗: " + e.message + "\n請確認 cb-data.json 是否存在");
-            
-            // Fallback for demo
-            cbDatabase = {
-                "24673": {
-                    name: "志聖三 (Fallback)",
-                    cbPrice: 125.00,
-                    stockPrice: 255.00,
-                    conversionPrice: 246.60
-                }
-            };
+          console.error("Error loading cb-data.json:", e);
+          alert(
+            "資料庫載入失敗: " + e.message + "\n請確認 cb-data.json 是否存在",
+          );
+
+          // Fallback for demo
+          cbDatabase = {
+            24673: {
+              name: "志聖三 (Fallback)",
+              cbPrice: 125.0,
+              stockPrice: 255.0,
+              conversionPrice: 246.6,
+            },
+          };
         }
       }
 
       // Manual Search Logic
-      async function handleSearch(e) { 
+      async function handleSearch(e) {
         if (e && e.preventDefault) e.preventDefault();
-        
+
         const symbol = inputs.tickerSymbol.value.trim().toUpperCase();
         if (!symbol) return;
-        
+
         // [Fix] Disable input during search to prevent double-submit or navigation jumps
         inputs.tickerSymbol.disabled = true;
-        
+
         // 1. 即時響應 UI
         expandInputFields();
         showChartLoading(true, "查詢中...", "正在讀取資料庫與即時行情");
         tickerStatus.classList.add("hidden");
         showStatus("搜尋中...", "warning");
-        
+
         // 2. 引導 UI 渲染 (避免 JS 阻塞)
-        await new Promise(r => setTimeout(r, 60));
+        await new Promise((r) => setTimeout(r, 60));
 
         try {
-            // 3. 讀取與篩選資料庫
-            if (Object.keys(cbDatabase).length === 0) await loadDatabase();
-            let data = cbDatabase[symbol] || { name: "", conversionPrice: 0, stockPrice: 0, cbPrice: 0, underlyingCode: "" };
+          // 3. 讀取與篩選資料庫
+          if (Object.keys(cbDatabase).length === 0) await loadDatabase();
+          let data = cbDatabase[symbol] || {
+            name: "",
+            conversionPrice: 0,
+            stockPrice: 0,
+            cbPrice: 0,
+            underlyingCode: "",
+          };
 
-            // 4. 抓取即時行情 (MIS API) - 實作進階快取機制
-            const now = new Date();
-            const today = now.toDateString();
-            const hour = now.getHours();
-            const minute = now.getMinutes();
-            // 台灣市場 13:30 收盤
-            const isAfterHours = hour > 13 || (hour === 13 && minute >= 30);
-            
-            const CACHE_TTL = 5000; // 5秒節流
-            const cachedData = priceCache[symbol];
-            let usedCache = false;
+          // 4. 抓取即時行情 (MIS API) - 實作進階快取機制
+          const now = new Date();
+          const today = now.toDateString();
+          const hour = now.getHours();
+          const minute = now.getMinutes();
+          // 台灣市場 13:30 收盤
+          const isAfterHours = hour > 13 || (hour === 13 && minute >= 30);
 
-            // 判斷是否可以使用快取：
-            // 1. 5秒內的 Session 節流 (盤中適用)
-            // 2. 盤後 (13:30後) 且今日已抓過一次
-            if (cachedData) {
-                const isVeryRecent = (Date.now() - cachedData.timestamp) < CACHE_TTL;
-                const isSameDayAfterHours = isAfterHours && (cachedData.date === today);
-                
-                if (isVeryRecent || isSameDayAfterHours) {
-                    data.cbPrice = cachedData.cbPrice || data.cbPrice;
-                    data.stockPrice = cachedData.stockPrice || data.stockPrice;
-                    usedCache = true;
-                    console.log(`[MIS] ${isSameDayAfterHours ? '盤後使用快取' : '節流使用快取'}: ${symbol}`);
-                }
+          const CACHE_TTL = 5000; // 5秒節流
+          const cachedData = priceCache[symbol];
+          let usedCache = false;
+
+          // 判斷是否可以使用快取：
+          // 1. 5秒內的 Session 節流 (盤中適用)
+          // 2. 盤後 (13:30後) 且今日已抓過一次
+          if (cachedData) {
+            const isVeryRecent = Date.now() - cachedData.timestamp < CACHE_TTL;
+            const isSameDayAfterHours =
+              isAfterHours && cachedData.date === today;
+
+            if (isVeryRecent || isSameDayAfterHours) {
+              data.cbPrice = cachedData.cbPrice || data.cbPrice;
+              data.stockPrice = cachedData.stockPrice || data.stockPrice;
+              usedCache = true;
+              console.log(
+                `[MIS] ${isSameDayAfterHours ? "盤後使用快取" : "節流使用快取"}: ${symbol}`,
+              );
+            }
+          }
+
+          if (!usedCache) {
+            const queries = [];
+            if (symbol.length === 5) queries.push(`otc_${symbol}.tw`);
+            if (data.underlyingCode) {
+              queries.push(`tse_${data.underlyingCode}.tw`);
+              queries.push(`otc_${data.underlyingCode}.tw`);
+            }
+            if (symbol.length === 4) {
+              queries.push(`tse_${symbol}.tw`);
+              queries.push(`otc_${symbol}.tw`);
             }
 
-            if (!usedCache) {
-                const queries = [];
-                if (symbol.length === 5) queries.push(`otc_${symbol}.tw`);
-                if (data.underlyingCode) {
-                    queries.push(`tse_${data.underlyingCode}.tw`);
-                    queries.push(`otc_${data.underlyingCode}.tw`);
-                }
-                if (symbol.length === 4) {
-                    queries.push(`tse_${symbol}.tw`);
-                    queries.push(`otc_${symbol}.tw`);
-                }
-
-                if (queries.length > 0) {
-                    const res = await fetch(`/api/stock/getStockInfo.jsp?ex_ch=${queries.join('|')}&json=1&delay=0`);
-                    if (res.ok) {
-                        const json = await res.json();
-                        if (json.msgArray) {
-                            const cbM = json.msgArray.find(q => q.c === symbol);
-                            if (cbM) {
-                                const p = parseFloat(cbM.z) || parseFloat(cbM.y) || parseFloat((cbM.a||"0").split('_')[0]) || 0;
-                                if (p > 0) {
-                                    data.cbPrice = p;
-                                    if (!data.name) data.name = cbM.n;
-                                }
-                            }
-                            const underlying = data.underlyingCode || (symbol.length === 4 ? symbol : null);
-                            if (underlying) {
-                                const stMatches = json.msgArray.filter(q => q.c === underlying);
-                                let stM = stMatches.find(q => parseFloat(q.z) > 0) || stMatches.find(q => parseFloat(q.y) > 0);
-                                if (stM) {
-                                    const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
-                                    if (p > 0) {
-                                        data.stockPrice = p;
-                                        if (!data.name && symbol.length === 4) data.name = stM.n;
-                                    }
-                                }
-                            }
-                            // 更新快取，存入今日日期標籤
-                            priceCache[symbol] = { 
-                                cbPrice: data.cbPrice, 
-                                stockPrice: data.stockPrice, 
-                                timestamp: Date.now(),
-                                date: today
-                            };
-                        }
+            if (queries.length > 0) {
+              const res = await fetch(
+                `/api/stock/getStockInfo.jsp?ex_ch=${queries.join("|")}&json=1&delay=0`,
+              );
+              if (res.ok) {
+                const json = await res.json();
+                if (json.msgArray) {
+                  const cbM = json.msgArray.find((q) => q.c === symbol);
+                  if (cbM) {
+                    const p =
+                      parseFloat(cbM.z) ||
+                      parseFloat(cbM.y) ||
+                      parseFloat((cbM.a || "0").split("_")[0]) ||
+                      0;
+                    if (p > 0) {
+                      data.cbPrice = p;
+                      if (!data.name) data.name = cbM.n;
                     }
+                  }
+                  const underlying =
+                    data.underlyingCode ||
+                    (symbol.length === 4 ? symbol : null);
+                  if (underlying) {
+                    const stMatches = json.msgArray.filter(
+                      (q) => q.c === underlying,
+                    );
+                    let stM =
+                      stMatches.find((q) => parseFloat(q.z) > 0) ||
+                      stMatches.find((q) => parseFloat(q.y) > 0);
+                    if (stM) {
+                      const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
+                      if (p > 0) {
+                        data.stockPrice = p;
+                        if (!data.name && symbol.length === 4)
+                          data.name = stM.n;
+                      }
+                    }
+                  }
+                  // 更新快取，存入今日日期標籤
+                  priceCache[symbol] = {
+                    cbPrice: data.cbPrice,
+                    stockPrice: data.stockPrice,
+                    timestamp: Date.now(),
+                    date: today,
+                  };
                 }
+              }
+            }
+          }
+
+          // 5. 更新介面顯示
+          if (data.name || data.cbPrice > 0 || data.stockPrice > 0) {
+            inputs.cbPrice.value =
+              data.cbPrice > 0 ? data.cbPrice.toFixed(2) : "";
+            inputs.stockPrice.value =
+              data.stockPrice > 0 ? data.stockPrice.toFixed(2) : "";
+            inputs.conversionPrice.value =
+              data.conversionPrice > 0 ? data.conversionPrice.toFixed(2) : "";
+
+            const nameDisplay = document.getElementById("stockNameDisplay");
+            const nameText = document.getElementById("stockNameText");
+            const codeBadge = document.getElementById("stockCodeBadge");
+
+            // [Auto-Fix] 若有取得名稱，順便更新 Firestore Metadata 以供 Autocomplete 使用
+            if (data.name) {
+              db.collection("cb_history")
+                .doc(symbol)
+                .set(
+                  {
+                    name: data.name,
+                    lastUpdated: new Date().toISOString(), // Optional: track active usage
+                  },
+                  { merge: true },
+                )
+                .catch((err) => console.error("Meta update failed:", err));
             }
 
-            // 5. 更新介面顯示
-            if (data.name || data.cbPrice > 0 || data.stockPrice > 0) {
-                inputs.cbPrice.value = data.cbPrice > 0 ? data.cbPrice.toFixed(2) : "";
-                inputs.stockPrice.value = data.stockPrice > 0 ? data.stockPrice.toFixed(2) : "";
-                inputs.conversionPrice.value = data.conversionPrice > 0 ? data.conversionPrice.toFixed(2) : "";
-                
-                const nameDisplay = document.getElementById('stockNameDisplay');
-                const nameText = document.getElementById('stockNameText');
-                const codeBadge = document.getElementById('stockCodeBadge');
-                
-                // [Auto-Fix] 若有取得名稱，順便更新 Firestore Metadata 以供 Autocomplete 使用
-                if (data.name) {
-                    db.collection('cb_history').doc(symbol).set({
-                        name: data.name,
-                        lastUpdated: new Date().toISOString() // Optional: track active usage
-                    }, { merge: true }).catch(err => console.error("Meta update failed:", err));
-                }
-                
-                if (data.name) {
-                    nameText.textContent = data.name;
-                    codeBadge.textContent = symbol;
-                    nameDisplay.classList.remove('hidden');
-                    
-                    // [Fix] Ensure timestamp is updated whenever name is shown
-                    const dataTimestamp = document.getElementById('dataTimestamp');
-                    const dataSourceBadge = document.getElementById('dataSourceBadge');
-                    const now = new Date();
-                    const timeStr = now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                    dataTimestamp.textContent = `行情更新於 ${timeStr}`;
-                    
-                    // Show source badge logic
-                    if (usedCache) {
-                        dataSourceBadge.textContent = '快取';
-                        dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700';
-                    } else {
-                        dataSourceBadge.textContent = '即時';
-                        dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700';
-                    }
-                } else {
-                    nameDisplay.classList.add('hidden');
-                }
-                
-                showStatus(data.name ? `已帶入: ${data.name}` : "已更新行情", "success");
-                calculate(); // 同步計算當前數值
+            if (data.name) {
+              nameText.textContent = data.name;
+              codeBadge.textContent = symbol;
+              nameDisplay.classList.remove("hidden");
+
+              // [Fix] Ensure timestamp is updated whenever name is shown
+              const dataTimestamp = document.getElementById("dataTimestamp");
+              const dataSourceBadge =
+                document.getElementById("dataSourceBadge");
+              const now = new Date();
+              const timeStr = now.toLocaleTimeString("zh-TW", {
+                hour: "2-digit",
+                minute: "2-digit",
+                second: "2-digit",
+              });
+              dataTimestamp.textContent = `行情更新於 ${timeStr}`;
+
+              // Show source badge logic
+              if (usedCache) {
+                dataSourceBadge.textContent = "快取";
+                dataSourceBadge.className =
+                  "px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700";
+              } else {
+                dataSourceBadge.textContent = "即時";
+                dataSourceBadge.className =
+                  "px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700";
+              }
             } else {
-                showStatus("未找到即時報價，嘗試讀取歷史...", "warning");
+              nameDisplay.classList.add("hidden");
             }
 
-            // 6. 讀取歷史資料 (此處會觸發 Auto-Crawl)
-            // 保持 Loader 開啟，更新訊息
-            showChartLoading(true, "同步歷史資料...", "這可能需要一點時間");
-            
-            const fullHistory = await fetchMergedHistory(symbol);
-            
-            // 7. 若有即時價且計算成功，將其合併入今日紀錄
-            const cbPrice = parseFloat(inputs.cbPrice.value);
-            const stockPrice = parseFloat(inputs.stockPrice.value);
-            const conversionPrice = parseFloat(inputs.conversionPrice.value);
-            
-            if (cbPrice && stockPrice && conversionPrice) {
-                 const sharesPerBond = 100000 / conversionPrice;
-                 const conversionValue = (sharesPerBond * stockPrice) / 1000;
-                 const premiumRate = ((cbPrice - conversionValue) / conversionValue) * 100;
-                 const todayRecord = { 
-                     date: new Date().toISOString().split('T')[0], 
-                     premium: premiumRate, 
-                     cbPrice, 
-                     stockPrice 
-                 };
-                 
-                 // 儲存今日數據並取得合併後的歷史 (這裡僅操作記憶體與 Cache)
-                 await savePremiumRecord(symbol, todayRecord);
-                 
-                 // 再次確保圖表數據包含今日
-                 const existingIdx = fullHistory.findIndex(r => r.date === todayRecord.date);
-                 if (existingIdx >= 0) fullHistory[existingIdx] = todayRecord;
-                 else fullHistory.push(todayRecord);
-            }
+            showStatus(
+              data.name ? `已帶入: ${data.name}` : "已更新行情",
+              "success",
+            );
+            calculate(); // 同步計算當前數值
+          } else {
+            showStatus("未找到即時報價，嘗試讀取歷史...", "warning");
+          }
 
-            // 8. 繪圖
-            renderPremiumChart(symbol, fullHistory.sort((a,b) => new Date(a.date) - new Date(b.date)));
+          // 6. 讀取歷史資料 (此處會觸發 Auto-Crawl)
+          // 保持 Loader 開啟，更新訊息
+          showChartLoading(true, "同步歷史資料...", "這可能需要一點時間");
 
+          const fullHistory = await fetchMergedHistory(symbol);
+
+          // 7. 若有即時價且計算成功，將其合併入今日紀錄
+          const cbPrice = parseFloat(inputs.cbPrice.value);
+          const stockPrice = parseFloat(inputs.stockPrice.value);
+          const conversionPrice = parseFloat(inputs.conversionPrice.value);
+
+          if (cbPrice && stockPrice && conversionPrice) {
+            const sharesPerBond = 100000 / conversionPrice;
+            const conversionValue = (sharesPerBond * stockPrice) / 1000;
+            const premiumRate =
+              ((cbPrice - conversionValue) / conversionValue) * 100;
+            const todayRecord = {
+              date: new Date().toISOString().split("T")[0],
+              premium: premiumRate,
+              cbPrice,
+              stockPrice,
+            };
+
+            // 儲存今日數據並取得合併後的歷史 (這裡僅操作記憶體與 Cache)
+            await savePremiumRecord(symbol, todayRecord);
+
+            // 再次確保圖表數據包含今日
+            const existingIdx = fullHistory.findIndex(
+              (r) => r.date === todayRecord.date,
+            );
+            if (existingIdx >= 0) fullHistory[existingIdx] = todayRecord;
+            else fullHistory.push(todayRecord);
+          }
+
+          // 8. 繪圖
+          renderPremiumChart(
+            symbol,
+            fullHistory.sort((a, b) => new Date(a.date) - new Date(b.date)),
+          );
         } catch (err) {
-            console.error("Search Error:", err);
-            showStatus("讀取失敗: " + err.message, "error");
+          console.error("Search Error:", err);
+          showStatus("讀取失敗: " + err.message, "error");
         } finally {
-            // 9. 最終關閉 Loader
-            showChartLoading(false);
-            inputs.tickerSymbol.disabled = false; // [Fix] Re-enable input
+          // 9. 最終關閉 Loader
+          showChartLoading(false);
+          inputs.tickerSymbol.disabled = false; // [Fix] Re-enable input
         }
       }
-      
+
       // Removed loadDailyData() - now we rely on the static JSON generated by tools/fetch-psc-data.js
 
-      
       function showStatus(text, type) {
-          tickerStatus.textContent = text;
-          tickerStatus.classList.remove("hidden", "text-green-500", "text-red-400", "text-yellow-500", "animate-pulse");
-          
-          if (type === "success") {
-              tickerStatus.className = "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-green-500 animate-pulse";
-          } else if (type === "error") {
-              tickerStatus.className = "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-red-400";
-          } else if (type === "warning") {
-              tickerStatus.className = "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-yellow-500";
-          }
+        tickerStatus.textContent = text;
+        tickerStatus.classList.remove(
+          "hidden",
+          "text-green-500",
+          "text-red-400",
+          "text-yellow-500",
+          "animate-pulse",
+        );
+
+        if (type === "success") {
+          tickerStatus.className =
+            "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-green-500 animate-pulse";
+        } else if (type === "error") {
+          tickerStatus.className =
+            "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-red-400";
+        } else if (type === "warning") {
+          tickerStatus.className =
+            "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-yellow-500";
+        }
       }
 
       searchBtn.addEventListener("click", handleSearch);
-      
+
       // Allow Enter key to search
       inputs.tickerSymbol.addEventListener("keypress", (e) => {
-          if (e.key === "Enter") {
-              e.preventDefault();
-              handleSearch(e);
-          }
+        if (e.key === "Enter") {
+          e.preventDefault();
+          handleSearch(e);
+        }
       });
-      
+
       // Reset Zoom Logic
-      document.getElementById('resetZoomBtn').addEventListener('click', () => {
-          if (premiumChart) {
-              premiumChart.resetZoom();
-              updateRangeButtonUI('all');
-          }
+      document.getElementById("resetZoomBtn").addEventListener("click", () => {
+        if (premiumChart) {
+          premiumChart.resetZoom();
+          updateRangeButtonUI("all");
+        }
       });
-      
+
       // 時間區間按鈕邏輯
       function updateRangeButtonUI(range) {
-          document.querySelectorAll('.range-btn').forEach(btn => {
-              if (btn.dataset.range === range) {
-                  btn.classList.add('bg-white', 'shadow-sm', 'font-bold', 'text-emerald-600');
-                  btn.classList.remove('hover:bg-white');
-              } else {
-                  btn.classList.remove('bg-white', 'shadow-sm', 'font-bold', 'text-emerald-600');
-                  btn.classList.add('hover:bg-white');
-              }
-          });
+        document.querySelectorAll(".range-btn").forEach((btn) => {
+          if (btn.dataset.range === range) {
+            btn.classList.add(
+              "bg-white",
+              "shadow-sm",
+              "font-bold",
+              "text-emerald-600",
+            );
+            btn.classList.remove("hover:bg-white");
+          } else {
+            btn.classList.remove(
+              "bg-white",
+              "shadow-sm",
+              "font-bold",
+              "text-emerald-600",
+            );
+            btn.classList.add("hover:bg-white");
+          }
+        });
       }
 
-      document.querySelectorAll('.range-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-              const range = btn.dataset.range;
-              if (!premiumChart || !premiumChart.fullData || premiumChart.fullData.length === 0) return;
-              
-              updateRangeButtonUI(range);
+      document.querySelectorAll(".range-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const range = btn.dataset.range;
+          if (
+            !premiumChart ||
+            !premiumChart.fullData ||
+            premiumChart.fullData.length === 0
+          )
+            return;
 
-              if (range === 'all') {
-                  premiumChart.options.scales.x.min = premiumChart.data.labels[0];
-                  premiumChart.resetZoom();
-                  premiumChart.update();
-                  return;
-              }
+          updateRangeButtonUI(range);
 
-              const now = new Date();
-              let startDate = new Date();
-              if (range === '1m') {
-                  startDate.setMonth(now.getMonth() - 1);
-              } else if (range === '3m') {
-                  startDate.setMonth(now.getMonth() - 3);
-              }
-              
-              const cutoff = startDate.toISOString().split('T')[0];
-              const index = premiumChart.fullData.findIndex(r => r.date >= cutoff);
-              
-              if (index !== -1) {
-                  // 使用 Chart.js zoom plugin 的 zoomScale 方法或直接操作 scale
-                  premiumChart.options.scales.x.min = premiumChart.data.labels[index];
-                  premiumChart.update();
-              }
-          });
+          if (range === "all") {
+            premiumChart.options.scales.x.min = premiumChart.data.labels[0];
+            premiumChart.resetZoom();
+            premiumChart.update();
+            return;
+          }
+
+          const now = new Date();
+          let startDate = new Date();
+          if (range === "1m") {
+            startDate.setMonth(now.getMonth() - 1);
+          } else if (range === "3m") {
+            startDate.setMonth(now.getMonth() - 3);
+          }
+
+          const cutoff = startDate.toISOString().split("T")[0];
+          const index = premiumChart.fullData.findIndex(
+            (r) => r.date >= cutoff,
+          );
+
+          if (index !== -1) {
+            // 使用 Chart.js zoom plugin 的 zoomScale 方法或直接操作 scale
+            premiumChart.options.scales.x.min = premiumChart.data.labels[index];
+            premiumChart.update();
+          }
+        });
       });
-      
+
       // Initialize
       loadDatabase();
 
@@ -1688,34 +1983,39 @@
         outputs.sharesInfo.textContent = `${Math.floor(data.sharesPerBond)} 股/張`; // Display integer shares for reference
 
         outputs.parityPrice.textContent = data.parityPrice.toFixed(2);
-        const upside = ((data.parityPrice - data.stockPrice) / data.stockPrice) * 100;
-        
-        if (upside > 0) {
-             outputs.upsideNeeded.textContent = `需再漲 ${upside.toFixed(2)}%`;
-             outputs.upsideNeeded.className = "text-xs text-red-400 mt-1"; // Red means need to go up (harder)
-        } else {
-             outputs.upsideNeeded.textContent = `已超越損益平點 ${Math.abs(upside).toFixed(2)}%`;
-             outputs.upsideNeeded.className = "text-xs text-green-500 mt-1";
-        }
+        const upside =
+          ((data.parityPrice - data.stockPrice) / data.stockPrice) * 100;
 
+        if (upside > 0) {
+          outputs.upsideNeeded.textContent = `需再漲 ${upside.toFixed(2)}%`;
+          outputs.upsideNeeded.className = "text-xs text-red-400 mt-1"; // Red means need to go up (harder)
+        } else {
+          outputs.upsideNeeded.textContent = `已超越損益平點 ${Math.abs(upside).toFixed(2)}%`;
+          outputs.upsideNeeded.className = "text-xs text-green-500 mt-1";
+        }
 
         // --- In/Out of the Money Status ---
         const isITM = data.stockPrice > data.conversionPrice;
-        
+
         if (isITM) {
-            outputs.statusIconBg.className = "w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-xl shrink-0 transition-colors duration-300";
-            outputs.statusIcon.className = "fas fa-check text-green-600";
-            outputs.statusTitle.textContent = "價內 (In the Money)";
-            outputs.statusTitle.className = "font-bold text-green-700";
-            const depth = ((data.stockPrice - data.conversionPrice) / data.conversionPrice) * 100;
-            outputs.statusDesc.textContent = `股價已高於轉換價 ${depth.toFixed(2)}%，具有轉換價值`;
+          outputs.statusIconBg.className =
+            "w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-xl shrink-0 transition-colors duration-300";
+          outputs.statusIcon.className = "fas fa-check text-green-600";
+          outputs.statusTitle.textContent = "價內 (In the Money)";
+          outputs.statusTitle.className = "font-bold text-green-700";
+          const depth =
+            ((data.stockPrice - data.conversionPrice) / data.conversionPrice) *
+            100;
+          outputs.statusDesc.textContent = `股價已高於轉換價 ${depth.toFixed(2)}%，具有轉換價值`;
         } else {
-            outputs.statusIconBg.className = "w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-xl shrink-0 transition-colors duration-300";
-            outputs.statusIcon.className = "fas fa-times text-red-600";
-            outputs.statusTitle.textContent = "價外 (Out of the Money)";
-            outputs.statusTitle.className = "font-bold text-red-700";
-            const depth = ((data.conversionPrice - data.stockPrice) / data.stockPrice) * 100;
-            outputs.statusDesc.textContent = `股價需再漲 ${depth.toFixed(2)}% 才達到轉換價`;
+          outputs.statusIconBg.className =
+            "w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-xl shrink-0 transition-colors duration-300";
+          outputs.statusIcon.className = "fas fa-times text-red-600";
+          outputs.statusTitle.textContent = "價外 (Out of the Money)";
+          outputs.statusTitle.className = "font-bold text-red-700";
+          const depth =
+            ((data.conversionPrice - data.stockPrice) / data.stockPrice) * 100;
+          outputs.statusDesc.textContent = `股價需再漲 ${depth.toFixed(2)}% 才達到轉換價`;
         }
       }
 
