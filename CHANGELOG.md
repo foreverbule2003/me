@@ -13,6 +13,23 @@
 - Lighthouse 稽核工作流程。
 - 專家角色 (`web-pm`, `tech-lead`, `designer`) 於 `.agent/prompts`。
 
+## [1.1.0] - 2026-01-23 (CB Calculator Refactor)
+
+### 修正 (Fixed)
+
+- **Loading UI 優化**：
+    - 重構 `handleSearch` 流程，確保點擊搜尋後 Loader 立即出現 (0延遲)。
+    - 將 Loading 遮罩範圍縮小至圖表區域，保留標題與按鈕的可見性。
+    - 搜尋期間禁用 1M/3M/All 切換按鈕，防止重複點擊與邏輯錯誤。
+- **頁面跳轉 (Auto-Reset) 問題**：
+    - 修正搜尋新標的 (如 `15142`) 時頁面無故重整的 Bug。
+    - 原因為 Vite HMR 誤判，已排除 `public/data/` 的檔案監控。
+    - 修正 `runMigration` 中的無限遞迴呼叫，確保搜尋流程單一且穩定。
+- **資料顯示**：
+    - 修新標的 (New Ticker) 即使有資料卻不顯示時間戳記的問題。
+    - 當無歷史資料時，圖表改為顯示今日單點數據，避免留白。
+
+
 ## [1.0.0] - 2025-12-27
 
 ### 新增

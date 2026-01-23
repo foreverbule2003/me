@@ -1,0 +1,68 @@
+[
+  {
+    "date": "2026-01-09",
+    "cbPrice": 115.5,
+    "stockPrice": 259,
+    "premium": 11.75
+  },
+  {
+    "date": "2026-01-12",
+    "cbPrice": 119.5,
+    "stockPrice": 254,
+    "premium": 17.9
+  },
+  {
+    "date": "2026-01-13",
+    "cbPrice": 121.4,
+    "stockPrice": 256.5,
+    "premium": 18.61
+  },
+  {
+    "date": "2026-01-14",
+    "cbPrice": 121.2,
+    "stockPrice": 254,
+    "premium": 19.58
+  },
+  {
+    "date": "2026-01-15",
+    "cbPrice": 121.3,
+    "stockPrice": 256,
+    "premium": 18.74
+  },
+  {
+    "date": "2026-01-16",
+    "cbPrice": 125.5,
+    "stockPrice": 250,
+    "premium": 25.8
+  },
+  {
+    "date": "2026-01-19",
+    "cbPrice": 125,
+    "stockPrice": 245,
+    "premium": 27.86
+  },
+  {
+    "date": "2026-01-20",
+    "cbPrice": 125.25,
+    "stockPrice": 249.5,
+    "premium": 25.8
+  },
+  {
+    "date": "2026-01-21",
+    "cbPrice": 130,
+    "stockPrice": 255,
+    "premium": 27.76
+  },
+  {
+    "date": "2026-01-22",
+    "cbPrice": 125.6,
+    "stockPrice": 247.5,
+    "premium": 27.17
+  },
+  {
+    "date": "2026-01-23",
+    "cbPrice": 122,
+    "stockPrice": 237,
+    "premium": 29
+  }
+]

@@ -1,0 +1,122 @@
+[
+  {
+    "date": "2025-12-26",
+    "cbPrice": 109,
+    "stockPrice": 258,
+    "premium": 14.07
+  },
+  {
+    "date": "2025-12-29",
+    "cbPrice": 110.35,
+    "stockPrice": 255.5,
+    "premium": 16.61
+  },
+  {
+    "date": "2025-12-30",
+    "cbPrice": 110.45,
+    "stockPrice": 258,
+    "premium": 15.59
+  },
+  {
+    "date": "2025-12-31",
+    "cbPrice": 110.5,
+    "stockPrice": 255.5,
+    "premium": 16.77
+  },
+  {
+    "date": "2026-01-02",
+    "cbPrice": 110.55,
+    "stockPrice": 250,
+    "premium": 19.39
+  },
+  {
+    "date": "2026-01-05",
+    "cbPrice": 110.3,
+    "stockPrice": 251.5,
+    "premium": 18.41
+  },
+  {
+    "date": "2026-01-06",
+    "cbPrice": 110.1,
+    "stockPrice": 256,
+    "premium": 16.12
+  },
+  {
+    "date": "2026-01-07",
+    "cbPrice": 110.6,
+    "stockPrice": 259,
+    "premium": 15.3
+  },
+  {
+    "date": "2026-01-08",
+    "cbPrice": 112.3,
+    "stockPrice": 262.5,
+    "premium": 15.51
+  },
+  {
+    "date": "2026-01-09",
+    "cbPrice": 112.5,
+    "stockPrice": 263,
+    "premium": 15.49
+  },
+  {
+    "date": "2026-01-12",
+    "cbPrice": 114.3,
+    "stockPrice": 272,
+    "premium": 13.46
+  },
+  {
+    "date": "2026-01-13",
+    "cbPrice": 119,
+    "stockPrice": 279,
+    "premium": 15.16
+  },
+  {
+    "date": "2026-01-14",
+    "cbPrice": 120,
+    "stockPrice": 277.5,
+    "premium": 16.76
+  },
+  {
+    "date": "2026-01-15",
+    "cbPrice": 119,
+    "stockPrice": 280,
+    "premium": 14.75
+  },
+  {
+    "date": "2026-01-16",
+    "cbPrice": 119.5,
+    "stockPrice": 282.5,
+    "premium": 14.21
+  },
+  {
+    "date": "2026-01-19",
+    "cbPrice": 118.05,
+    "stockPrice": 277,
+    "premium": 15.07
+  },
+  {
+    "date": "2026-01-20",
+    "cbPrice": 118.5,
+    "stockPrice": 278,
+    "premium": 15.09
+  },
+  {
+    "date": "2026-01-21",
+    "cbPrice": 116.8,
+    "stockPrice": 278.5,
+    "premium": 13.24
+  },
+  {
+    "date": "2026-01-22",
+    "cbPrice": 116.3,
+    "stockPrice": 277,
+    "premium": 13.36
+  },
+  {
+    "date": "2026-01-23",
+    "cbPrice": 115.5,
+    "stockPrice": 277,
+    "premium": 12.58
+  }
+]

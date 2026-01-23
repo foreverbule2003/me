@@ -1,9 +1,44 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import { resolve } from "path";
+import { spawn } from "child_process";
+
+// Custom Plugin to handle local crawling API
+const cbCrawlerPlugin = () => ({
+  name: "cb-crawler-api",
+  configureServer(server) {
+    server.middlewares.use("/api/crawl", async (req, res, next) => {
+      const url = new URL(req.url, `http://${req.headers.host}`);
+      const symbol = url.searchParams.get("code");
+
+      if (!symbol) {
+        res.statusCode = 400;
+        res.end("Missing 'code' parameter");
+        return;
+      }
+
+      console.log(`[Server] Triggering crawler for ${symbol}...`);
+      
+      const child = spawn("node", ["tools/fetch-cb-history.js", symbol], {
+        stdio: "inherit", 
+        shell: true
+      });
+
+      child.on("close", (code) => {
+        if (code === 0) {
+          res.statusCode = 200;
+          res.end(JSON.stringify({ success: true, message: `Crawled ${symbol}` }));
+        } else {
+          res.statusCode = 500;
+          res.end(JSON.stringify({ success: false, message: `Crawler exited with code ${code}` }));
+        }
+      });
+    });
+  },
+});
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), cbCrawlerPlugin()],
 
   // 多頁面與單頁面混合設定
   build: {
@@ -55,6 +90,10 @@ export default defineConfig({
         }
       },
     },
+    // [Fix] Prevent HMR reload when auto-crawler writes new JSON files
+    watch: {
+        ignored: ['**/public/data/**']
+    }
   },
 
   // GitHub Pages 部署設定 (repo name: /me/)

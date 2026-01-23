@@ -1,0 +1,20 @@
+[
+  {
+    "date": "2026-01-21",
+    "cbPrice": 111.1,
+    "stockPrice": 134,
+    "premium": 16.07
+  },
+  {
+    "date": "2026-01-22",
+    "cbPrice": 122.2,
+    "stockPrice": 136.5,
+    "premium": 25.33
+  },
+  {
+    "date": "2026-01-23",
+    "cbPrice": 122.25,
+    "stockPrice": 141.5,
+    "premium": 20.95
+  }
+]

@@ -1,0 +1,74 @@
+[
+  {
+    "date": "2026-01-08",
+    "cbPrice": 110,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-09",
+    "cbPrice": 121,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-12",
+    "cbPrice": 131.7,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-13",
+    "cbPrice": 132,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-14",
+    "cbPrice": 133.1,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-15",
+    "cbPrice": 134,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-16",
+    "cbPrice": 136,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-19",
+    "cbPrice": 145,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-20",
+    "cbPrice": 140.1,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-21",
+    "cbPrice": 143,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-22",
+    "cbPrice": 151,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-23",
+    "cbPrice": 145,
+    "stockPrice": null,
+    "premium": null
+  }
+]

@@ -28,3 +28,6 @@ build/
 
 # AI-generated reports (regeneratable via /review workflow)
 ARCHITECTURAL_REVIEW.md
+
+# Firebase Admin Keys (NEVER commit these)
+*serviceAccountKey*.json

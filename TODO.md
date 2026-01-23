@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-10 (Advisor Prioritization)
+> 最後更新：2026-01-23 (Post-LoadingFix)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -29,6 +29,12 @@ _(已完成，進入維護階段)_
 - [ ] `trips/2025-cebu/` → Vite 版
 
 ### UX / UI 優化
+
+### 架構優化 (Architectural Improvement)
+
+- [ ] **Serverless Migration**: 將本地爬蟲 (`fetch-cb-history.js`) 遷移至 GCP Cloud Functions。
+    - 目標：實現全雲端自動化，無需依賴本地開發機。
+    - 技術：Google Cloud Functions (Node.js) + Cloud Scheduler。
 
 ### 功能與資料
 

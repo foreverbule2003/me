@@ -1,0 +1,302 @@
+[
+  {
+    "date": "2025-11-13",
+    "cbPrice": 118.8,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-14",
+    "cbPrice": 122.7,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-17",
+    "cbPrice": 129.6,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-18",
+    "cbPrice": 127,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-19",
+    "cbPrice": 127.1,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-20",
+    "cbPrice": 131,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-21",
+    "cbPrice": 130,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-24",
+    "cbPrice": 131.6,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-25",
+    "cbPrice": 131.8,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-26",
+    "cbPrice": 133.1,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-27",
+    "cbPrice": 132.9,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-11-28",
+    "cbPrice": 131.5,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-01",
+    "cbPrice": 128,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-02",
+    "cbPrice": 127.65,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-03",
+    "cbPrice": 126.9,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-04",
+    "cbPrice": 127,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-05",
+    "cbPrice": 126,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-08",
+    "cbPrice": 128,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-09",
+    "cbPrice": 129,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-10",
+    "cbPrice": 129.5,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-11",
+    "cbPrice": 130,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-12",
+    "cbPrice": 130,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-15",
+    "cbPrice": 128.8,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-16",
+    "cbPrice": 125.9,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-17",
+    "cbPrice": 128.75,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-18",
+    "cbPrice": 127.9,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-19",
+    "cbPrice": 128.55,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-22",
+    "cbPrice": 130.1,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-23",
+    "cbPrice": 133.4,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-24",
+    "cbPrice": 136,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-26",
+    "cbPrice": 140.8,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-29",
+    "cbPrice": 140,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-30",
+    "cbPrice": 138.5,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2025-12-31",
+    "cbPrice": 138,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-02",
+    "cbPrice": 137.15,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-05",
+    "cbPrice": 134,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-06",
+    "cbPrice": 137.8,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-07",
+    "cbPrice": 134.5,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-08",
+    "cbPrice": 134.9,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-09",
+    "cbPrice": 136,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-12",
+    "cbPrice": 137.1,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-13",
+    "cbPrice": 138.8,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-14",
+    "cbPrice": 138.8,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-15",
+    "cbPrice": 138.25,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-16",
+    "cbPrice": 137.9,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-19",
+    "cbPrice": 136.7,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-20",
+    "cbPrice": 136.5,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-21",
+    "cbPrice": 135,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-22",
+    "cbPrice": 135.15,
+    "stockPrice": null,
+    "premium": null
+  },
+  {
+    "date": "2026-01-23",
+    "cbPrice": 138.7,
+    "stockPrice": null,
+    "premium": null
+  }
+]

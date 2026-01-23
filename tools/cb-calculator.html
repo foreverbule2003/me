@@ -16,6 +16,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+
+    <!-- Firebase SDK (Compatibility Mode) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <style>
       .gradient-card {
         background: linear-gradient(135deg, #10b981 0%, #059669 100%);
@@ -55,6 +59,51 @@
         max-height: 500px;
         opacity: 1;
         transition: max-height 0.4s ease-in, opacity 0.3s ease-in 0.1s;
+      }
+      
+      /* Chart Loading Overlay */
+      .chart-overlay {
+          position: absolute;
+          inset: 0;
+          background: rgba(255, 255, 255, 0.85);
+          backdrop-filter: blur(2px);
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          z-index: 10;
+          border-radius: 0.75rem;
+          transition: opacity 0.3s ease;
+      }
+      .chart-overlay.hidden {
+          opacity: 0;
+          pointer-events: none;
+      }
+      
+      /* Pulse Animation */
+      .pulse-ring {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background: #10b981;
+          position: relative;
+          animation: pulse-ring 2s infinite;
+      }
+      .pulse-dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          background: white;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+      }
+      
+      @keyframes pulse-ring {
+          0% { transform: scale(0.8); opacity: 0.8; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+          70% { transform: scale(1); opacity: 0; box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+          100% { transform: scale(0.8); opacity: 0; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
       }
     </style>
   </head>
@@ -343,7 +392,8 @@
             </div>
 
             <!-- Premium Rate Trend Chart -->
-            <div id="chartContainer" class="bg-white p-5 rounded-xl border border-gray-100 hidden">
+            <div id="chartContainer" class="bg-white p-5 rounded-xl border border-gray-100 hidden relative min-h-[250px]">
+
                <div class="flex items-center justify-between mb-4">
                  <h4 class="font-bold text-gray-600 flex items-center gap-2">
                    <i class="fas fa-chart-line text-emerald-500"></i>
@@ -362,6 +412,14 @@
                  </div>
                </div>
                <div class="relative" style="height: 200px;">
+                 <!-- Loading Overlay (Targeted) -->
+                 <div id="chartLoader" class="chart-overlay hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-lg">
+                    <div class="pulse-ring mb-2">
+                        <div class="pulse-dot"></div>
+                    </div>
+                    <h5 id="chartLoaderTitle" class="font-bold text-gray-700 text-sm mb-0.5">正在搜尋歷史資料...</h5>
+                    <p id="chartLoaderDesc" class="text-[10px] text-gray-500">正在連接櫃買中心資料庫</p>
+                 </div>
                  <canvas id="premiumChart"></canvas>
                </div>
                <p id="chartNoData" class="text-center text-gray-400 text-sm py-8 hidden">
@@ -428,6 +486,65 @@
       const HISTORY_KEY_PREFIX = 'cb_premium_history_';
       const MAX_HISTORY_DAYS = 30;
       let premiumChart = null; // Chart.js 實例
+
+      // ============== Firebase 初始化 (NEW) ==============
+      const firebaseConfig = {
+        projectId: "my-landing-page-2ca68",
+        appId: "1:847051837050:web:c5e2bc56252e0d3ab835c3",
+        storageBucket: "my-landing-page-2ca68.firebasestorage.app",
+        apiKey: "AIzaSyD98FkpVi_FzGvFsrot_JcCm4086rJrAEw",
+        authDomain: "my-landing-page-2ca68.firebaseapp.com",
+        messagingSenderId: "847051837050",
+        measurementId: "G-BZGQHXQED1"
+      };
+      
+      // Global state
+      window.attemptedCrawls = new Set();
+
+      firebase.initializeApp(firebaseConfig);
+      const db = firebase.firestore();
+      
+      // 取得 Firestore 中的歷史紀錄 (增量更新)
+      async function fetchIncrementalHistory(symbol, lastDate = null) {
+          try {
+              let query = db.collection('cb_history').doc(symbol).collection('records');
+              
+              if (lastDate) {
+                  query = query.where('date', '>', lastDate);
+              }
+              
+              const snapshot = await query.get();
+              if (!snapshot.empty) {
+                  return snapshot.docs.map(doc => doc.data());
+              }
+          } catch (e) {
+              console.warn('[Firebase] Firestore read failed.', e);
+          }
+          return [];
+      }
+
+      // 上傳單筆資料到 Firestore Subcollection
+      async function uploadRecordToFirestore(symbol, record) {
+          try {
+              const batch = db.batch();
+              
+              // 1. 更新主文件 LastUpdated
+              const metaRef = db.collection('cb_history').doc(symbol);
+              batch.set(metaRef, { 
+                  symbol: symbol,
+                  lastUpdated: new Date().toISOString() 
+              }, { merge: true });
+
+              // 2. 寫入單日紀錄
+              const recordRef = metaRef.collection('records').doc(record.date);
+              batch.set(recordRef, record);
+
+              await batch.commit();
+              console.log(`[Firebase] Auto-saved record ${record.date} for ${symbol}`);
+          } catch (e) {
+              console.error('[Firebase] Save failed:', e);
+          }
+      }
       
       // 取得指定代號的歷史紀錄
       function getHistoryData(symbol) {
@@ -440,55 +557,194 @@
         }
       }
       
-      // 儲存溢價率紀錄
-      function savePremiumRecord(symbol, premiumRate, cbPrice, stockPrice) {
-        const today = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-        const history = getHistoryData(symbol);
+      // 儲存溢價率紀錄 (Local + Firestore Incremental)
+      async function savePremiumRecord(symbol, todayData) {
+        // 從 LocalStorage 取得目前快取 (僅用於增量存儲)
+        const cached = getHistoryData(symbol);
+        let history = [...cached];
         
-        // 檢查今天是否已有紀錄，若有則更新
-        const existingIdx = history.findIndex(r => r.date === today);
-        const record = { date: today, premium: premiumRate, cbPrice, stockPrice };
-        
+        const existingIdx = history.findIndex(r => r.date === todayData.date);
         if (existingIdx >= 0) {
-          history[existingIdx] = record;
+          history[existingIdx] = todayData;
         } else {
-          history.push(record);
+          history.push(todayData);
         }
         
-        // 只保留最近 N 天
-        const trimmed = history.slice(-MAX_HISTORY_DAYS);
-        
+        // 保存到 LocalStorage (快取)
+        const trimmed = history.slice(-MAX_HISTORY_DAYS).sort((a,b) => new Date(a.date) - new Date(b.date));
         try {
           localStorage.setItem(HISTORY_KEY_PREFIX + symbol, JSON.stringify(trimmed));
-          console.log(`[History] Saved ${symbol}: ${premiumRate.toFixed(2)}% (${trimmed.length} records)`);
-        } catch (e) {
-          console.error('[History] Failed to save:', e);
-        }
+        } catch (e) {}
+
+        // 同步寫入 Firestore
+        await uploadRecordToFirestore(symbol, todayData);
         
-        return trimmed;
+        return history;
       }
       
-      // 繪製溢價率走勢圖
-      // 取得合併後的歷史資料 (Server + Local)
-      async function fetchMergedHistory(symbol) {
-          let history = [];
-          // 1. Fetch Server Mock/Real Data
-          try {
-              const res = await fetch(`/me/data/history/${symbol}.json?t=${new Date().getTime()}`);
-              if (res.ok) {
-                  history = await res.json();
-              }
-          } catch(e) {}
+      // 顯示圖表載入遮罩
+       // 顯示圖表載入遮罩
+       function showChartLoading(show, title = "處理中...", desc = "") {
+          // console.log(`[UI] showChartLoading: ${show}, title=${title}`);
+          const loader = document.getElementById('chartLoader');
+          const container = document.getElementById('chartContainer');
+          const titleEl = document.getElementById('chartLoaderTitle');
+          const descEl = document.getElementById('chartLoaderDesc');
+          
+          // 選取控制按鈕 (區間切換與重置)
+          const rangeBtns = document.getElementById('chartRangeButtons');
+          const resetBtn = document.getElementById('resetZoomBtn');
+          
+          if (show) {
+              container.classList.remove('hidden'); // 確保容器可見
+              loader.classList.remove('hidden');
+              if(titleEl) titleEl.textContent = title;
+              if(descEl) descEl.textContent = desc;
+              
+              // 禁用圖表控制項
+              if (rangeBtns) rangeBtns.classList.add('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
+              if (resetBtn) resetBtn.classList.add('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
+          } else {
+              loader.classList.add('hidden');
+              
+              // 恢復圖表控制項
+              if (rangeBtns) rangeBtns.classList.remove('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
+              if (resetBtn) resetBtn.classList.remove('pointer-events-none', 'opacity-40', 'cursor-not-allowed');
+          }
+       }
 
-          // 2. LocalStorage (Overwrite server data for same dates, assuming local is fresher for 'today')
+      // 繪製溢價率走勢圖
+      // 取得合併後的歷史資料 (Hybrid Sync: Local -> JSON -> Firestore Incremental)
+      async function fetchMergedHistory(symbol) {
+          showChartLoading(true, "正在檢查歷史資料...", "搜尋本地與雲端快取");
+          
+          // 1. Get Local Cache first
           const localData = getHistoryData(symbol); 
+          let history = [...localData];
+          let lastDate = null;
+
+          // 2. Cold Start Strategy: If LocalStorage is empty, try fetching static JSON
+          if (history.length === 0) {
+              console.log('[Sync] Cold start: checking static JSON...');
+              try {
+                  const res = await fetch(`/me/data/history/${symbol}.json?t=${Date.now()}`); 
+                  if (res.ok) {
+                      const jsonData = await res.json();
+                      if (Array.isArray(jsonData) && jsonData.length > 0) {
+                          console.log(`[Sync] Loaded ${jsonData.length} records from static JSON.`);
+                          history = jsonData;
+                      }
+                  }
+              } catch (e) { console.warn('[Sync] Static JSON fetch failed:', e); }
+          }
+          
+          if (history.length > 0) {
+              const sorted = history.sort((a,b) => new Date(a.date) - new Date(b.date));
+              lastDate = sorted[sorted.length - 1].date;
+          }
+
+          // 3. Fetch NEW data from Firestore (Incremental)
+          console.log(`[Sync] Checking for updates since ${lastDate || 'BEGINNING'}...`);
+          // 只在有歷史資料時才顯示「同步中」，否則如果是全新的則保持「檢查中」
+          if (lastDate) showChartLoading(true, "同步最新數據...", "正在下載增量更新");
+          
+          const newRecords = await fetchIncrementalHistory(symbol, lastDate);
+          if (newRecords.length > 0) history = history.concat(newRecords);
+              
+          // 4. Auto-Crawl Strategy
+          // If we have very few records (e.g. only today's auto-save), we should still try to crawl full history
+          // [Fix] Prevent infinite loop: Only attempt crawl ONCE per session per symbol
+          if (history.length <= 5 && !window.attemptedCrawls.has(symbol)) {
+              console.log('[Sync] Data sparse. Attempting Auto-Crawl...');
+              window.attemptedCrawls.add(symbol); // Mark as attempted immediately
+              
+              if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+                  showStatus("資料庫建立中...", "warning");
+                  showChartLoading(true, "正在自動爬取資料...", "連接櫃買中心與證交所 (約 15 秒)");
+                  
+                  try {
+                       const crawlRes = await fetch(`/api/crawl?code=${symbol}`);
+                       if (crawlRes.ok) {
+                           console.log('[Sync] Crawl finished. Refetching JSON...');
+                           showChartLoading(true, "爬取完成，正在整理...", "解析數據並建立索引");
+                           
+                           // Retry fetching JSON
+                           const retryRes = await fetch(`/me/data/history/${symbol}.json?t=${Date.now()}`);
+                           if (retryRes.ok) {
+                               const retryJson = await retryRes.json();
+                               if (Array.isArray(retryJson)) {
+                                   history = retryJson;
+                                   window.runMigration(symbol).catch(e => console.error("Auto upload failed:", e));
+                               }
+                           }
+                       }
+                  } catch (e) {
+                      console.warn('[Sync] Auto-crawl failed:', e);
+                       // Loader will be hidden by the parent handleSearch's finally block
+                  }
+              }
+          }
+
+          // 5. Update Local Cache & Finish
           const map = new Map();
-          
           history.forEach(h => map.set(h.date, h));
-          localData.forEach(l => map.set(l.date, l)); 
+          const fullSorted = Array.from(map.values()).sort((a,b) => new Date(a.date) - new Date(b.date));
+          const toSave = fullSorted.slice(-MAX_HISTORY_DAYS);
+          localStorage.setItem(HISTORY_KEY_PREFIX + symbol, JSON.stringify(toSave));
           
-          return Array.from(map.values()).sort((a,b) => new Date(a.date) - new Date(b.date));
+          return fullSorted;
       }
+
+      // ==========================================
+      // [TOOL] Client-Side Migration Helper
+      // Run `await window.runMigration('24673')` in console
+      // ==========================================
+      window.runMigration = async function(symbol) {
+          if (!symbol) return console.error("請輸入代號，例如: runMigration('24673')");
+          
+          console.log(`[Migration] Starting migration for ${symbol}...`);
+          
+          try {
+              // 1. Fetch JSON
+              const res = await fetch(`/me/data/history/${symbol}.json?t=${Date.now()}`);
+              if (!res.ok) throw new Error(`JSON file not found: ${res.status}`);
+              const data = await res.json();
+              
+              console.log(`[Migration] Found ${data.length} records. Uploading...`);
+              
+              const BATCH_SIZE = 450;
+              let total = 0;
+              
+              // 2. Batch Upload
+              for (let i = 0; i < data.length; i += BATCH_SIZE) {
+                  const chunk = data.slice(i, i + BATCH_SIZE);
+                  const batch = db.batch();
+                  const recordsRef = db.collection('cb_history').doc(symbol).collection('records');
+                  
+                  chunk.forEach(record => {
+                      if (record.date) {
+                          batch.set(recordsRef.doc(record.date), record);
+                      }
+                  });
+                  
+                  await batch.commit();
+                  total += chunk.length;
+                  console.log(`[Migration] Progress: ${total}/${data.length}`);
+              }
+
+              // 3. Update Meta
+              await db.collection('cb_history').doc(symbol).set({
+                  symbol: symbol,
+                  lastUpdated: new Date().toISOString(),
+                  recordCount: total
+              }, { merge: true });
+              
+              console.log(`✅ [Migration] Success! Migrated ${total} records for ${symbol}`);
+              // Note: No longer calling handleSearch() here to avoid recursive UI resets.
+          } catch (e) {
+              console.error("[Migration] Failed:", e);
+          }
+      };
 
       function renderPremiumChart(symbol, historyData) {
         const chartContainer = document.getElementById('chartContainer');
@@ -499,12 +755,28 @@
         // 顯示圖表容器
         chartContainer.classList.remove('hidden');
         
-        // 無資料處理
+        // 無資料處理：嘗試顯示初始單點 (UX 改善：避免完全空白)
         if (!historyData || historyData.length === 0) {
-          chartNoData.classList.remove('hidden');
-          canvas.classList.add('hidden');
-          chartDataInfo.textContent = '0 筆資料';
-          return;
+          const cbPrice = parseFloat(inputs.cbPrice.value);
+          const stockPrice = parseFloat(inputs.stockPrice.value);
+          const conversionPrice = parseFloat(inputs.conversionPrice.value);
+          
+          if (cbPrice && stockPrice && conversionPrice) {
+               // 建立一個臨時的「今日點」
+               const today = new Date().toISOString().split('T')[0].substring(5);
+               const sharesPerBond = 100000 / conversionPrice;
+               const conversionValue = (sharesPerBond * stockPrice) / 1000;
+               const premiumRate = ((cbPrice - conversionValue) / conversionValue) * 100;
+               
+               historyData = [{ date: today, premium: premiumRate, stockPrice, cbPrice }];
+               chartNoData.classList.add('hidden');
+               canvas.classList.remove('hidden');
+          } else {
+               chartNoData.classList.remove('hidden');
+               canvas.classList.add('hidden');
+               chartDataInfo.textContent = '0 筆資料';
+               return;
+          }
         }
         
         chartNoData.classList.add('hidden');
@@ -649,201 +921,163 @@
       }
 
       // Manual Search Logic
-      async function handleSearch() {
+      async function handleSearch(e) { 
+        if (e && e.preventDefault) e.preventDefault();
+        
         const symbol = inputs.tickerSymbol.value.trim().toUpperCase();
         if (!symbol) return;
         
+        // [Fix] Disable input during search to prevent double-submit or navigation jumps
+        inputs.tickerSymbol.disabled = true;
+        
+        // 1. 即時響應 UI
+        expandInputFields();
+        showChartLoading(true, "查詢中...", "正在讀取資料庫與即時行情");
         tickerStatus.classList.add("hidden");
         showStatus("搜尋中...", "warning");
-
-        // 1. Try Local DB (Master Data from PSC Script)
-        // Ensure DB is loaded
-        if (Object.keys(cbDatabase).length === 0) await loadDatabase();
-        let data = cbDatabase[symbol];
-
-        // 2. Fallback: If not in Master Data, we can't really do much for Conversion Price
-        // But we can try to fetch Real-time price (MIS) if user knows the code exists
-        if (!data) {
-             // Create a dummy object to fill with real-time data
-             data = { name: "", conversionPrice: 0, stockPrice: 0, cbPrice: 0, underlyingCode: "" };
-        }
-
-        // 3. Fetch Real-time Prices (TWSE MIS) - 帶有 5 秒快取機制
-        // Even if we have Master Data (from yesterday), we want TODAY's price.
-        const CACHE_TTL = 5000; // 5 秒快取
-        const cacheKey = symbol;
-        const cachedData = priceCache[cacheKey];
-        const now = Date.now();
-        let usedCache = false; // 追蹤是否使用快取
         
-        // 檢查是否有有效快取
-        if (cachedData && (now - cachedData.timestamp) < CACHE_TTL) {
-            console.log(`[Cache Hit] ${symbol} (${Math.round((now - cachedData.timestamp)/1000)}s old)`);
-            data.cbPrice = cachedData.cbPrice || data.cbPrice;
-            data.stockPrice = cachedData.stockPrice || data.stockPrice;
-            usedCache = true;
-        } else {
-            // 快取過期或不存在，發送 API 請求
-            try {
+        // 2. 引導 UI 渲染 (避免 JS 阻塞)
+        await new Promise(r => setTimeout(r, 60));
+
+        try {
+            // 3. 讀取與篩選資料庫
+            if (Object.keys(cbDatabase).length === 0) await loadDatabase();
+            let data = cbDatabase[symbol] || { name: "", conversionPrice: 0, stockPrice: 0, cbPrice: 0, underlyingCode: "" };
+
+            // 4. 抓取即時行情 (MIS API)
+            const CACHE_TTL = 5000;
+            const cachedData = priceCache[symbol];
+            const now = Date.now();
+            let usedCache = false;
+
+            if (cachedData && (now - cachedData.timestamp) < CACHE_TTL) {
+                data.cbPrice = cachedData.cbPrice || data.cbPrice;
+                data.stockPrice = cachedData.stockPrice || data.stockPrice;
+                usedCache = true;
+            } else {
                 const queries = [];
-                // If it's a CB code (5 chars)
-                if (symbol.length === 5) {
-                    queries.push(`otc_${symbol}.tw`);
-                }
-                
-                // If we know underlying (from Master Data), fetch it
-                if (data && data.underlyingCode) {
+                if (symbol.length === 5) queries.push(`otc_${symbol}.tw`);
+                if (data.underlyingCode) {
                     queries.push(`tse_${data.underlyingCode}.tw`);
                     queries.push(`otc_${data.underlyingCode}.tw`);
                 }
-                
-                // If symbol is 4 chars (stock), fetch it
                 if (symbol.length === 4) {
-                     queries.push(`tse_${symbol}.tw`);
-                     queries.push(`otc_${symbol}.tw`);
+                    queries.push(`tse_${symbol}.tw`);
+                    queries.push(`otc_${symbol}.tw`);
                 }
 
                 if (queries.length > 0) {
-                    const qStr = queries.join('|');
-                    console.log(`[API Request] ${symbol}`);
-                    
-                    const res = await fetch(`/api/stock/getStockInfo.jsp?ex_ch=${qStr}&json=1&delay=0`);
-                   
+                    const res = await fetch(`/api/stock/getStockInfo.jsp?ex_ch=${queries.join('|')}&json=1&delay=0`);
                     if (res.ok) {
                         const json = await res.json();
                         if (json.msgArray) {
-                            // 3a. Update CB Price
-                            const cbM = json.msgArray.find(q => q.c === symbol && (parseFloat(q.z) > 0 || parseFloat(q.y) > 0 || parseFloat((q.a||"0").split('_')[0]) > 0));
+                            const cbM = json.msgArray.find(q => q.c === symbol);
                             if (cbM) {
-                                 const p = parseFloat(cbM.z) || parseFloat(cbM.y) || parseFloat((cbM.a||"0").split('_')[0]) || 0;
-                                 if (p > 0) {
-                                     data.cbPrice = p;
-                                     if (!data.name) data.name = cbM.n; // Use MIS name if missing
-                                 }
+                                const p = parseFloat(cbM.z) || parseFloat(cbM.y) || parseFloat((cbM.a||"0").split('_')[0]) || 0;
+                                if (p > 0) {
+                                    data.cbPrice = p;
+                                    if (!data.name) data.name = cbM.n;
+                                }
                             }
-                            
-                            // 3b. Update Stock Price
-                            // Use underlyingCode if available
-                            let underlying = data.underlyingCode;
-                            
-                            // If searching by Stock Code (4 chars), the symbol IS the underlying
-                            if (symbol.length === 4) underlying = symbol;
-                            
+                            const underlying = data.underlyingCode || (symbol.length === 4 ? symbol : null);
                             if (underlying) {
-                                 const stMatches = json.msgArray.filter(q => q.c === underlying);
-                                 let stM = stMatches.find(q => parseFloat(q.z) > 0);
-                                 if (!stM) stM = stMatches.find(q => parseFloat(q.y) > 0);
-                                 
-                                 if (stM) {
-                                      const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
-                                      if (p > 0) {
-                                          data.stockPrice = p;
-                                          if (!data.name && symbol.length === 4) data.name = stM.n;
-                                      }
-                                 }
+                                const stMatches = json.msgArray.filter(q => q.c === underlying);
+                                let stM = stMatches.find(q => parseFloat(q.z) > 0) || stMatches.find(q => parseFloat(q.y) > 0);
+                                if (stM) {
+                                    const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
+                                    if (p > 0) {
+                                        data.stockPrice = p;
+                                        if (!data.name && symbol.length === 4) data.name = stM.n;
+                                    }
+                                }
                             }
-                            
-                            // 更新快取
-                            priceCache[cacheKey] = {
-                                cbPrice: data.cbPrice,
-                                stockPrice: data.stockPrice,
-                                timestamp: now
-                            };
-                            console.log(`[Cache Updated] ${symbol}`);
+                            priceCache[symbol] = { cbPrice: data.cbPrice, stockPrice: data.stockPrice, timestamp: now };
                         }
                     }
                 }
-            } catch (e) {
-                console.error("Realtime Fetch Error:", e);
             }
-        }
 
-        // --- Final Display ---
-        // Only show if we found SOMETHING (Name, or Price, or Master Data)
-        if (data && (data.name || data.cbPrice > 0 || data.stockPrice > 0)) {
-            // Reset inputs
-            inputs.cbPrice.value = "";
-            inputs.stockPrice.value = "";
-            inputs.conversionPrice.value = "";
-            
-            // Fill
-            if (data.cbPrice > 0) inputs.cbPrice.value = data.cbPrice.toFixed(2);
-            if (data.stockPrice > 0) inputs.stockPrice.value = data.stockPrice.toFixed(2);
-            if (data.conversionPrice > 0) inputs.conversionPrice.value = data.conversionPrice.toFixed(2);
-            
-            // Update Stock/CB Name Display
-            const nameDisplay = document.getElementById('stockNameDisplay');
-            const nameText = document.getElementById('stockNameText');
-            const codeBadge = document.getElementById('stockCodeBadge');
-            
-            if (data.name) {
-                nameText.textContent = data.name;
-                codeBadge.textContent = symbol;
-                nameDisplay.classList.remove('hidden');
+            // 5. 更新介面顯示
+            if (data.name || data.cbPrice > 0 || data.stockPrice > 0) {
+                inputs.cbPrice.value = data.cbPrice > 0 ? data.cbPrice.toFixed(2) : "";
+                inputs.stockPrice.value = data.stockPrice > 0 ? data.stockPrice.toFixed(2) : "";
+                inputs.conversionPrice.value = data.conversionPrice > 0 ? data.conversionPrice.toFixed(2) : "";
                 
-                // 更新時間戳記
-                const dataTimestamp = document.getElementById('dataTimestamp');
-                const dataSourceBadge = document.getElementById('dataSourceBadge');
-                const now = new Date();
-                const timeStr = now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                dataTimestamp.textContent = `行情更新於 ${timeStr}`;
+                const nameDisplay = document.getElementById('stockNameDisplay');
+                const nameText = document.getElementById('stockNameText');
+                const codeBadge = document.getElementById('stockCodeBadge');
                 
-                // 顯示資料來源：快取 or 即時
-                if (usedCache) {
-                    dataSourceBadge.textContent = '快取';
-                    dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700';
+                if (data.name) {
+                    nameText.textContent = data.name;
+                    codeBadge.textContent = symbol;
+                    nameDisplay.classList.remove('hidden');
+                    
+                    // [Fix] Ensure timestamp is updated whenever name is shown
+                    const dataTimestamp = document.getElementById('dataTimestamp');
+                    const dataSourceBadge = document.getElementById('dataSourceBadge');
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                    dataTimestamp.textContent = `行情更新於 ${timeStr}`;
+                    
+                    // Show source badge logic
+                    if (usedCache) {
+                        dataSourceBadge.textContent = '快取';
+                        dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700';
+                    } else {
+                        dataSourceBadge.textContent = '即時';
+                        dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700';
+                    }
                 } else {
-                    dataSourceBadge.textContent = '即時';
-                    dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700';
+                    nameDisplay.classList.add('hidden');
                 }
+                
+                showStatus(data.name ? `已帶入: ${data.name}` : "已更新行情", "success");
+                calculate(); // 同步計算當前數值
             } else {
-                nameDisplay.classList.add('hidden');
+                showStatus("未找到即時報價，嘗試讀取歷史...", "warning");
             }
+
+            // 6. 讀取歷史資料 (此處會觸發 Auto-Crawl)
+            // 保持 Loader 開啟，更新訊息
+            showChartLoading(true, "同步歷史資料...", "這可能需要一點時間");
             
-            // 方案 A: 展開輸入欄位容器
-            expandInputFields();
+            const fullHistory = await fetchMergedHistory(symbol);
             
-            showStatus(`已帶入: ${data.name || symbol}`, "success");
-            
-            // Warnings
-            let warnings = [];
-            
-            // If Master Data (Conversion Price) is missing, warn user
-            if (!data.conversionPrice) {
-                // Try to see if it's in DB but passed over? No, we loaded DB.
-                warnings.push("缺轉換價格 (Master DB 未收錄)");
-            }
-            
-            if (symbol.length === 5 && (!data.stockPrice || data.stockPrice === 0)) {
-                warnings.push("缺標的股價");
-            }
-            
-            if (warnings.length > 0) {
-                 alert(`找到: ${data.name || symbol}\n但資料不完整: ${warnings.join(", ")}\n請手動輸入。`);
-            }
-            
-            calculate();
-            
-            // 計算溢價率並儲存紀錄 + 繪製圖表
+            // 7. 若有即時價且計算成功，將其合併入今日紀錄
             const cbPrice = parseFloat(inputs.cbPrice.value);
             const stockPrice = parseFloat(inputs.stockPrice.value);
             const conversionPrice = parseFloat(inputs.conversionPrice.value);
             
             if (cbPrice && stockPrice && conversionPrice) {
-              const sharesPerBond = 100000 / conversionPrice;
-              const conversionValue = (sharesPerBond * stockPrice) / 1000;
-              const premiumRate = ((cbPrice - conversionValue) / conversionValue) * 100;
-              
-              // 儲存到 LocalStorage (僅更新今日數據)
-              savePremiumRecord(symbol, premiumRate, cbPrice, stockPrice);
-              
-              // 異步讀取完整歷史資料 (Server + Local) 並繪圖
-              fetchMergedHistory(symbol).then(fullHistory => {
-                  renderPremiumChart(symbol, fullHistory);
-              });
+                 const sharesPerBond = 100000 / conversionPrice;
+                 const conversionValue = (sharesPerBond * stockPrice) / 1000;
+                 const premiumRate = ((cbPrice - conversionValue) / conversionValue) * 100;
+                 const todayRecord = { 
+                     date: new Date().toISOString().split('T')[0], 
+                     premium: premiumRate, 
+                     cbPrice, 
+                     stockPrice 
+                 };
+                 
+                 // 儲存今日數據並取得合併後的歷史 (這裡僅操作記憶體與 Cache)
+                 await savePremiumRecord(symbol, todayRecord);
+                 
+                 // 再次確保圖表數據包含今日
+                 const existingIdx = fullHistory.findIndex(r => r.date === todayRecord.date);
+                 if (existingIdx >= 0) fullHistory[existingIdx] = todayRecord;
+                 else fullHistory.push(todayRecord);
             }
-        } else {
-            showStatus("未找到資料", "error");
+
+            // 8. 繪圖
+            renderPremiumChart(symbol, fullHistory.sort((a,b) => new Date(a.date) - new Date(b.date)));
+
+        } catch (err) {
+            console.error("Search Error:", err);
+            showStatus("讀取失敗: " + err.message, "error");
+        } finally {
+            // 9. 最終關閉 Loader
+            showChartLoading(false);
+            inputs.tickerSymbol.disabled = false; // [Fix] Re-enable input
         }
       }
       
@@ -867,7 +1101,10 @@
       
       // Allow Enter key to search
       inputs.tickerSymbol.addEventListener("keypress", (e) => {
-          if (e.key === "Enter") handleSearch();
+          if (e.key === "Enter") {
+              e.preventDefault();
+              handleSearch(e);
+          }
       });
       
       // Reset Zoom Logic

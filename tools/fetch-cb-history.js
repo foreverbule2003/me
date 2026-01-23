@@ -65,7 +65,15 @@ if (!CB_CODE) {
         // 先去一次首頁確保 Session
         await page.goto('https://www.tpex.org.tw/zh-tw/bond/info/statistics-cb/day-quotes.html', { waitUntil: 'networkidle0' });
 
+        let consecutiveErrors = 0;
+
         for (const rocMonth of months) {
+            // Circuit Breaker: Stop if too many errors
+            if (consecutiveErrors >= 3) {
+                console.error(`[Stop] Aborting due to ${consecutiveErrors} consecutive API errors. (Likely blocked)`);
+                break;
+            }
+
             const [ry, rm] = rocMonth.split('/');
             const yearAD = parseInt(ry) + 1911;
             const monthInt = parseInt(rm);
@@ -79,40 +87,61 @@ if (!CB_CODE) {
                     formData.append('code', code);
                     formData.append('id', '');
                     formData.append('response', 'json');
+                    
                     const resp = await fetch('https://www.tpex.org.tw/www/zh-tw/bond/cbDayQry', {
                         method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        headers: { 
+                            'Content-Type': 'application/x-www-form-urlencoded'
+                        },
                         body: formData.toString()
                     });
-                    return await resp.json();
+                    const text = await resp.text();
+                    try {
+                        return JSON.parse(text);
+                    } catch(e) {
+                         return { error: true, msg: text.substring(0, 200) };
+                    }
                 }, dateParam, CB_CODE);
 
+                if (json.error) {
+                    console.error(`    API Error: ${json.msg.replace(/\n/g, ' ')}...`);
+                    consecutiveErrors++;
+                    continue;
+                }
+
+                // Log raw response for debugging
+                if (!json.aaData && !json.tables && !json.reportDate) {
+                     console.log(`    [Debug] Raw Response structure invalid:`, JSON.stringify(json).substring(0, 200));
+                }
+
                 let rows = [];
-                if (json && json.aaData) rows = json.aaData;
-                else if (json && json.tables && json.tables.length > 0) rows = json.tables[0].data;
+                if (json.aaData) rows = json.aaData;
+                else if (json.reportDate) rows = json.aaData; 
+                else if (json.tables && json.tables.length > 0) rows = json.tables[0].data; // Restore this! 
 
                 if (rows && rows.length > 0) {
                     console.log(`    Got ${rows.length} records.`);
+                    consecutiveErrors = 0; // Reset on success
+
                     rows.forEach(row => {
-                        const dStr = row[0]; // ROC Date
-                        let dateStr = "";
-                        if (dStr.includes('/')) {
-                            const [dy, dm, dd] = dStr.split('/');
-                            dateStr = `${parseInt(dy) + 1911}-${dm.padStart(2, '0')}-${dd.padStart(2, '0')}`;
-                        } else if (dStr.length === 7) {
-                            dateStr = `${parseInt(dStr.substring(0, 3)) + 1911}-${dStr.substring(3, 5)}-${dStr.substring(5, 7)}`;
-                        }
-
-                        let close = parseFloat(row[2].replace(/,/g, ''));
-                        if (isNaN(close)) close = parseFloat(row[6].replace(/,/g, ''));
-
-                        if (!isNaN(close) && dateStr) {
-                            if (!historyMap.has(dateStr)) historyMap.set(dateStr, { date: dateStr });
-                            historyMap.get(dateStr).cbPrice = close;
-                        }
+                         const dStr = row[0]; 
+                         let dateStr = "";
+                         if (dStr.includes('/')) {
+                             const [dy, dm, dd] = dStr.split('/');
+                             dateStr = `${parseInt(dy) + 1911}-${dm.padStart(2, '0')}-${dd.padStart(2, '0')}`;
+                         } else if (dStr.length === 7) {
+                             dateStr = `${parseInt(dStr.substring(0, 3)) + 1911}-${dStr.substring(3, 5)}-${dStr.substring(5, 7)}`;
+                         }
+                         
+                         let close = parseFloat(row[6]?.replace(/,/g, '')); // Standard Close
+                         
+                         if (!isNaN(close) && dateStr) {
+                             if (!historyMap.has(dateStr)) historyMap.set(dateStr, { date: dateStr });
+                             historyMap.get(dateStr).cbPrice = close;
+                         }
                     });
                 } else {
-                    console.log(`    No data for ${rocMonth}`);
+                    console.log(`    No data for ${rocMonth}. Raw: ${JSON.stringify(json).substring(0, 100)}...`);
                 }
             } catch (e) {
                 console.log(`    Error fetching ${rocMonth}:`, e.message);
@@ -128,15 +157,24 @@ if (!CB_CODE) {
             const yyyymmdd = `${year}${rm}01`;
 
             console.log(`  Querying Stock: ${yyyymmdd}...`);
-            // TWSE
+            console.log(`  Querying Stock: ${yyyymmdd}...`);
+            
+            let stockFound = false;
+
+            // --- Attempt 1: TWSE ---
             try {
                 const twseUrl = `https://www.twse.com.tw/exchangeReport/STOCK_DAY?response=json&date=${yyyymmdd}&stockNo=${stockCode}`;
                 await page.goto(twseUrl, { waitUntil: 'networkidle0' });
                 const text = await page.evaluate(() => document.body.innerText);
-                const json = JSON.parse(text);
+                let json;
+                try { json = JSON.parse(text); } catch(e) {
+                    console.log(`    [Debug] TWSE JSON Parse Error: ${e.message}`);
+                    // console.log(`    [Debug] Raw: ${text.substring(0, 100)}...`);
+                }
 
-                if (json.stat === 'OK' && json.data) {
+                if (json && json.stat === 'OK' && json.data) {
                     console.log(`    Got ${json.data.length} records (TWSE).`);
+                    stockFound = true;
                     json.data.forEach(row => {
                         const [dy, dm, dd] = row[0].split('/');
                         const dateStr = `${parseInt(dy) + 1911}-${dm.padStart(2, '0')}-${dd.padStart(2, '0')}`;
@@ -144,15 +182,34 @@ if (!CB_CODE) {
                         if (!historyMap.has(dateStr)) historyMap.set(dateStr, { date: dateStr });
                         historyMap.get(dateStr).stockPrice = close;
                     });
-                } else {
-                    // Try TPEx Stock (st43)
+                } else if (json) {
+                    console.log(`    [Debug] TWSE Valid JSON but no data: stat=${json.stat}`);
+                }
+            } catch (e) {
+                console.log(`    TWSE failed: ${e.message}`);
+            }
+
+            // --- Attempt 2: TPEx (Fallback) ---
+            if (!stockFound) {
+                try {
                     const tpexUrl = `https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php?d=${ry}/${rm}&stkno=${stockCode}&json=1`;
+                    
+                    // Fix: Use page.goto with headers to avoid CORS issues from TWSE domain
+                    await page.setExtraHTTPHeaders({
+                        'Referer': 'https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43.php?l=zh-tw'
+                    });
+                    
                     await page.goto(tpexUrl, { waitUntil: 'networkidle0' });
                     const text = await page.evaluate(() => document.body.innerText);
-                    const tpexJson = JSON.parse(text);
+                    
+                    let tpexJson;
+                    try { tpexJson = JSON.parse(text); } catch(e) {
+                         console.log(`    [Debug] TPEx Stock JSON Parse Error: ${e.message}`);
+                    }
 
-                    if (tpexJson.aaData && tpexJson.aaData.length > 0) {
+                    if (tpexJson && tpexJson.aaData && tpexJson.aaData.length > 0) {
                         console.log(`    Got ${tpexJson.aaData.length} records (TPEx Stock).`);
+                        stockFound = true; // Mark as found
                         tpexJson.aaData.forEach(row => {
                             const [dy, dm, dd] = row[0].split('/');
                             const dateStr = `${parseInt(dy) + 1911}-${dm.padStart(2, '0')}-${dd.padStart(2, '0')}`;
@@ -160,11 +217,14 @@ if (!CB_CODE) {
                             if (!historyMap.has(dateStr)) historyMap.set(dateStr, { date: dateStr });
                             historyMap.get(dateStr).stockPrice = close;
                         });
+                    } else if (tpexJson) {
+                         console.log(`    [Debug] TPEx Stock valid JSON but no data.`);
                     }
+                } catch (e) {
+                    console.log(`    TPEx Stock failed: ${e.message}`);
                 }
-            } catch (e) {
-                console.log(`    Error fetching stock ${rocMonth}:`, e.message);
             }
+            
             await new Promise(r => setTimeout(r, 1000));
         }
 
@@ -175,14 +235,21 @@ if (!CB_CODE) {
 
         sortedDates.forEach(date => {
             const item = historyMap.get(date);
-            if (item.cbPrice && item.stockPrice) {
-                const parity = (100 / convPrice) * item.stockPrice;
-                const premium = ((item.cbPrice - parity) / parity) * 100;
+            // Relaxed condition: Save even if only CB price exists
+            if (item.cbPrice) {
+                let premium = null;
+                let stockPrice = item.stockPrice || null;
+
+                if (stockPrice) {
+                    const parity = (100 / convPrice) * stockPrice;
+                    premium = ((item.cbPrice - parity) / parity) * 100;
+                }
+
                 resultList.push({
                     date: item.date,
                     cbPrice: parseFloat(item.cbPrice.toFixed(2)),
-                    stockPrice: item.stockPrice,
-                    premium: parseFloat(premium.toFixed(2))
+                    stockPrice: stockPrice,
+                    premium: premium ? parseFloat(premium.toFixed(2)) : null
                 });
             }
         });
