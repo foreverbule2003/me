@@ -105,6 +105,60 @@
           70% { transform: scale(1); opacity: 0; box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
           100% { transform: scale(0.8); opacity: 0; box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
       }
+      
+      /* Autocomplete Dropdown */
+      .autocomplete-container {
+          position: relative;
+      }
+      .autocomplete-dropdown {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          max-height: 200px;
+          overflow-y: auto;
+          background: white;
+          border: 1px solid #e5e7eb;
+          border-top: none;
+          border-radius: 0 0 0.75rem 0.75rem;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          z-index: 50;
+          display: none;
+      }
+      .autocomplete-dropdown.show {
+          display: block;
+      }
+      .autocomplete-item {
+          padding: 0.75rem 1rem;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          border-bottom: 1px solid #f3f4f6;
+          transition: background-color 0.15s ease;
+      }
+      .autocomplete-item:last-child {
+          border-bottom: none;
+      }
+      .autocomplete-item:hover, .autocomplete-item.active {
+          background-color: #ecfdf5;
+      }
+      .autocomplete-item .symbol {
+          font-weight: 700;
+          color: #10b981;
+          font-family: monospace;
+      }
+      .autocomplete-item .hint {
+          font-size: 0.75rem;
+          color: #9ca3af;
+          margin-left: auto;
+      }
+      .autocomplete-empty {
+          padding: 1rem;
+          text-align: center;
+          color: #9ca3af;
+          font-size: 0.875rem;
+      }
     </style>
   </head>
   <body class="bg-gray-50 min-h-screen">
@@ -177,7 +231,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-1">
                   股票/CB 代號 (自動帶入)
                 </label>
-                <div class="relative">
+                <div class="relative autocomplete-container">
                   <span
                     class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
                     >#</span
@@ -187,6 +241,7 @@
                     id="tickerSymbol"
                     class="w-full pl-8 pr-16 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800 uppercase tracking-wider"
                     placeholder="例如: 24673"
+                    autocomplete="off"
                   />
                   <button
                     id="searchBtn"
@@ -201,6 +256,8 @@
                   >
                     已帶入
                   </div>
+                  <!-- Autocomplete Dropdown -->
+                  <div id="autocomplete-list" class="autocomplete-dropdown"></div>
                 </div>
                 <p class="text-xs text-gray-400 mt-1">
                   輸入代號後點擊搜尋，自動填入數值
@@ -504,6 +561,105 @@
       firebase.initializeApp(firebaseConfig);
       const db = firebase.firestore();
       
+      // ============== Autocomplete 功能 ==============
+      let availableSymbols = []; // 快取已建檔的標的 [{symbol, name}]
+      
+      // 從 Firestore 取得所有已建檔的 CB 代號與名稱
+      async function fetchAvailableSymbols() {
+          try {
+              const snapshot = await db.collection('cb_history').get();
+              availableSymbols = snapshot.docs.map(doc => ({
+                  symbol: doc.id,
+                  name: doc.data().name || ''
+              }));
+              console.log('[Autocomplete] Loaded', availableSymbols.length, 'symbols');
+          } catch (e) {
+              console.warn('[Autocomplete] Failed to load symbols:', e);
+              availableSymbols = [];
+          }
+      }
+      
+      // 渲染 Autocomplete 下拉選單
+      function renderAutocomplete(filter = '') {
+          const dropdown = document.getElementById('autocomplete-list');
+          const filterUpper = filter.toUpperCase().trim();
+          
+          // 過濾符合的標的 (比對代號或名稱)
+          const matches = filterUpper 
+              ? availableSymbols.filter(s => s.symbol.includes(filterUpper) || (s.name && s.name.toUpperCase().includes(filterUpper)))
+              : availableSymbols;
+          
+          if (matches.length === 0 && filterUpper) {
+              dropdown.innerHTML = '<div class="autocomplete-empty"><i class="fas fa-search mr-1"></i>無符合的已建檔標的</div>';
+          } else if (matches.length === 0) {
+              dropdown.innerHTML = '<div class="autocomplete-empty"><i class="fas fa-database mr-1"></i>載入中...</div>';
+          } else {
+              dropdown.innerHTML = matches.slice(0, 10).map(item => `
+                  <div class="autocomplete-item" data-symbol="${item.symbol}">
+                      <i class="fas fa-chart-line text-gray-400"></i>
+                      <span class="symbol">${item.symbol}</span>
+                      ${item.name ? `<span class="text-gray-600 text-sm">${item.name}</span>` : ''}
+                      <span class="hint">已建檔</span>
+                  </div>
+              `).join('');
+          }
+      }
+      
+      // 顯示/隱藏 Autocomplete
+      function showAutocomplete() {
+          const dropdown = document.getElementById('autocomplete-list');
+          dropdown.classList.add('show');
+          renderAutocomplete(document.getElementById('tickerSymbol').value);
+      }
+      
+      function hideAutocomplete() {
+          const dropdown = document.getElementById('autocomplete-list');
+          dropdown.classList.remove('show');
+      }
+      
+      // 初始化 Autocomplete 事件
+      function initAutocomplete() {
+          const input = document.getElementById('tickerSymbol');
+          const dropdown = document.getElementById('autocomplete-list');
+          
+          // Focus: 顯示下拉選單
+          input.addEventListener('focus', () => {
+              if (availableSymbols.length > 0) {
+                  showAutocomplete();
+              }
+          });
+          
+          // Input: 過濾選項
+          input.addEventListener('input', (e) => {
+              if (availableSymbols.length > 0) {
+                  showAutocomplete();
+                  renderAutocomplete(e.target.value);
+              }
+          });
+          
+          // Blur: 延遲隱藏 (讓 click 事件先觸發)
+          input.addEventListener('blur', () => {
+              setTimeout(hideAutocomplete, 150);
+          });
+          
+          // Click: 選擇項目
+          dropdown.addEventListener('click', (e) => {
+              const item = e.target.closest('.autocomplete-item');
+              if (item) {
+                  const symbol = item.dataset.symbol;
+                  input.value = symbol;
+                  hideAutocomplete();
+                  // 自動觸發搜尋
+                  document.getElementById('searchBtn').click();
+              }
+          });
+      }
+      
+      // 頁面載入時執行
+      fetchAvailableSymbols().then(() => {
+          initAutocomplete();
+      });
+      
       // 取得 Firestore 中的歷史紀錄 (增量更新)
       async function fetchIncrementalHistory(symbol, lastDate = null) {
           try {
@@ -660,10 +816,24 @@
               
               if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
                   showStatus("資料庫建立中...", "warning");
-                  showChartLoading(true, "正在自動爬取資料...", "連接櫃買中心與證交所 (約 15 秒)");
+                  
+                  // [Smart Incremental] 若有部分資料，只補齊缺少的月份
+                  let crawlUrl = `/api/crawl?code=${symbol}`;
+                  let statusMsg = "連接櫃買中心與證交所 (約 15 秒)";
+                  
+                  if (history.length > 0) {
+                      // 找出最後一筆日期
+                      const sorted = history.sort((a,b) => new Date(a.date) - new Date(b.date));
+                      const lastRecordDate = sorted[sorted.length - 1].date;
+                      crawlUrl += `&since=${lastRecordDate}`;
+                      statusMsg = `補齊 ${lastRecordDate} 後的資料 (約 3 秒)`;
+                      console.log(`[Sync] Smart Incremental Crawl: since ${lastRecordDate}`);
+                  }
+                  
+                  showChartLoading(true, "正在自動爬取資料...", statusMsg);
                   
                   try {
-                       const crawlRes = await fetch(`/api/crawl?code=${symbol}`);
+                       const crawlRes = await fetch(crawlUrl);
                        if (crawlRes.ok) {
                            console.log('[Sync] Crawl finished. Refetching JSON...');
                            showChartLoading(true, "爬取完成，正在整理...", "解析數據並建立索引");
@@ -732,9 +902,11 @@
                   console.log(`[Migration] Progress: ${total}/${data.length}`);
               }
 
-              // 3. Update Meta
+              // 3. Update Meta (including CB name for autocomplete)
+              const currentName = document.getElementById('stockNameText')?.textContent || '';
               await db.collection('cb_history').doc(symbol).set({
                   symbol: symbol,
+                  name: currentName, // Save name for autocomplete
                   lastUpdated: new Date().toISOString(),
                   recordCount: total
               }, { merge: true });
@@ -744,6 +916,49 @@
           } catch (e) {
               console.error("[Migration] Failed:", e);
           }
+      };
+
+      // [Tool] 批次修復缺少的 CB 名稱
+      window.fixMetadata = async function() {
+          console.log("🚀 [Fix] 開始掃描缺少名稱的標的...");
+          
+          if (availableSymbols.length === 0) await fetchAvailableSymbols();
+          
+          const missing = availableSymbols.filter(s => !s.name);
+          console.log(`🔍 發現 ${missing.length} 筆資料缺少名稱`);
+          
+          if (missing.length === 0) return console.log("✅ 所有標的皆已有名稱！");
+
+          let successCount = 0;
+          
+          for (const [index, item] of missing.entries()) {
+              const symbol = item.symbol;
+              console.log(`[${index + 1}/${missing.length}] 正在查詢 ${symbol}...`);
+              
+              try {
+                  const queries = [`otc_${symbol}.tw`, `tse_${symbol}.tw`];
+                  const res = await fetch(`/api/stock/getStockInfo.jsp?ex_ch=${queries.join('|')}&json=1&delay=0`);
+                  
+                  if (res.ok) {
+                      const json = await res.json();
+                      const match = json.msgArray?.find(q => q.c === symbol);
+                      
+                      if (match && match.n) {
+                          console.log(`   -> 找到名稱: ${match.n}`);
+                          await db.collection('cb_history').doc(symbol).set({
+                              name: match.n
+                          }, { merge: true });
+                          successCount++;
+                      } else {
+                          console.warn(`   ⚠️ 找不到名稱`);
+                      }
+                  }
+              } catch (e) {
+                  console.error(`   ❌ 查詢失敗:`, e);
+              }
+              await new Promise(r => setTimeout(r, 1500));
+          }
+          console.log(`🎉 修復完成！成功更新 ${successCount} 筆資料。請重新整理頁面。`);
       };
 
       function renderPremiumChart(symbol, historyData) {
@@ -944,17 +1159,34 @@
             if (Object.keys(cbDatabase).length === 0) await loadDatabase();
             let data = cbDatabase[symbol] || { name: "", conversionPrice: 0, stockPrice: 0, cbPrice: 0, underlyingCode: "" };
 
-            // 4. 抓取即時行情 (MIS API)
-            const CACHE_TTL = 5000;
+            // 4. 抓取即時行情 (MIS API) - 實作進階快取機制
+            const now = new Date();
+            const today = now.toDateString();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            // 台灣市場 13:30 收盤
+            const isAfterHours = hour > 13 || (hour === 13 && minute >= 30);
+            
+            const CACHE_TTL = 5000; // 5秒節流
             const cachedData = priceCache[symbol];
-            const now = Date.now();
             let usedCache = false;
 
-            if (cachedData && (now - cachedData.timestamp) < CACHE_TTL) {
-                data.cbPrice = cachedData.cbPrice || data.cbPrice;
-                data.stockPrice = cachedData.stockPrice || data.stockPrice;
-                usedCache = true;
-            } else {
+            // 判斷是否可以使用快取：
+            // 1. 5秒內的 Session 節流 (盤中適用)
+            // 2. 盤後 (13:30後) 且今日已抓過一次
+            if (cachedData) {
+                const isVeryRecent = (Date.now() - cachedData.timestamp) < CACHE_TTL;
+                const isSameDayAfterHours = isAfterHours && (cachedData.date === today);
+                
+                if (isVeryRecent || isSameDayAfterHours) {
+                    data.cbPrice = cachedData.cbPrice || data.cbPrice;
+                    data.stockPrice = cachedData.stockPrice || data.stockPrice;
+                    usedCache = true;
+                    console.log(`[MIS] ${isSameDayAfterHours ? '盤後使用快取' : '節流使用快取'}: ${symbol}`);
+                }
+            }
+
+            if (!usedCache) {
                 const queries = [];
                 if (symbol.length === 5) queries.push(`otc_${symbol}.tw`);
                 if (data.underlyingCode) {
@@ -991,7 +1223,13 @@
                                     }
                                 }
                             }
-                            priceCache[symbol] = { cbPrice: data.cbPrice, stockPrice: data.stockPrice, timestamp: now };
+                            // 更新快取，存入今日日期標籤
+                            priceCache[symbol] = { 
+                                cbPrice: data.cbPrice, 
+                                stockPrice: data.stockPrice, 
+                                timestamp: Date.now(),
+                                date: today
+                            };
                         }
                     }
                 }
@@ -1006,6 +1244,14 @@
                 const nameDisplay = document.getElementById('stockNameDisplay');
                 const nameText = document.getElementById('stockNameText');
                 const codeBadge = document.getElementById('stockCodeBadge');
+                
+                // [Auto-Fix] 若有取得名稱，順便更新 Firestore Metadata 以供 Autocomplete 使用
+                if (data.name) {
+                    db.collection('cb_history').doc(symbol).set({
+                        name: data.name,
+                        lastUpdated: new Date().toISOString() // Optional: track active usage
+                    }, { merge: true }).catch(err => console.error("Meta update failed:", err));
+                }
                 
                 if (data.name) {
                     nameText.textContent = data.name;

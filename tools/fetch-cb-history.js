@@ -15,22 +15,39 @@ if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 }
 
-// 獲取最近 N 個月的 ROC 年月字串 (113/12)
-function getRecentMonths(count = 6) {
+// 獲取從指定日期(since)到現在的月份區間
+// since: YYYY-MM-DD (e.g., 2026-01-15)
+function getMonthsSince(sinceDateStr) {
     const months = [];
     const now = new Date();
-    for (let i = 0; i < count; i++) {
-        const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
-        const rocY = d.getFullYear() - 1911;
-        const mm = (d.getMonth() + 1).toString().padStart(2, '0');
-        months.push(`${rocY}/${mm}`);
+    
+    // Default: 6 months
+    let startDate = new Date(now.getFullYear(), now.getMonth() - 5, 1);
+    
+    if (sinceDateStr) {
+        const since = new Date(sinceDateStr);
+        if (!isNaN(since.getTime())) {
+            startDate = new Date(since.getFullYear(), since.getMonth(), 1);
+        }
     }
+    
+    // Ensure we don't go into the future
+    let current = new Date(startDate);
+    while (current <= now) {
+        const rocY = current.getFullYear() - 1911;
+        const mm = (current.getMonth() + 1).toString().padStart(2, '0');
+        months.push(`${rocY}/${mm}`);
+        current.setMonth(current.getMonth() + 1);
+    }
+    
     return months;
 }
 
 const CB_CODE = process.argv[2];
+const SINCE_DATE = process.argv[3]; // Optional: YYYY-MM-DD
+
 if (!CB_CODE) {
-    console.error('Usage: node fetch-cb-history.js <CB_CODE>');
+    console.error('Usage: node fetch-cb-history.js <CB_CODE> [SINCE_DATE]');
     process.exit(1);
 }
 
@@ -56,7 +73,8 @@ if (!CB_CODE) {
     await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36');
 
     const historyMap = new Map();
-    const months = getRecentMonths(6);
+    const months = getMonthsSince(SINCE_DATE);
+    console.log(`[Config] Target months: ${months.join(', ')}`);
 
     try {
         // --- Step 1: Fetch CB Data (TPEx) via Direct API ---
@@ -256,8 +274,41 @@ if (!CB_CODE) {
 
         console.log(`  Generated ${resultList.length} merged records.`);
         const outFile = path.join(OUTPUT_DIR, `${CB_CODE}.json`);
-        fs.writeFileSync(outFile, JSON.stringify(resultList, null, 2));
-        console.log(`  Successfully saved to ${outFile}`);
+        
+        // [Incremental] Read existing file if present
+        let existingData = [];
+        if (fs.existsSync(outFile)) {
+             try {
+                 existingData = JSON.parse(fs.readFileSync(outFile, 'utf8'));
+                 console.log(`[Merge] Loaded ${existingData.length} existing records.`);
+             } catch(e) { console.warn('[Merge] Failed to read existing JSON, starting fresh.'); }
+        }
+        
+        // Merge Map from existing data
+        existingData.forEach(item => {
+            // New data takes precedence (overwrite logic) or Old data (keep logic)?
+            // Here we prioritize NEW fetch results for the overlapping dates, keep old for others.
+            if (!historyMap.has(item.date)) {
+                // Reconstruct format to match map values for sorting
+                historyMap.set(item.date, item);
+            }
+        });
+
+        // Final Sort & Dedupe
+        const finalSorted = Array.from(historyMap.values())
+            .map(item => {
+                 // Format normalization if needed (existing JSON has clean data)
+                 return {
+                    date: item.date,
+                    cbPrice: item.cbPrice,
+                    stockPrice: item.stockPrice,
+                    premium: item.premium
+                 };
+            })
+            .sort((a,b) => new Date(a.date) - new Date(b.date));
+
+        fs.writeFileSync(outFile, JSON.stringify(finalSorted, null, 2));
+        console.log(`  Successfully saved ${finalSorted.length} records to ${outFile}`);
 
     } catch (e) {
         console.error('[Fatal Error] Runtime failed:', e);

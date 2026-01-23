@@ -10,6 +10,7 @@ const cbCrawlerPlugin = () => ({
     server.middlewares.use("/api/crawl", async (req, res, next) => {
       const url = new URL(req.url, `http://${req.headers.host}`);
       const symbol = url.searchParams.get("code");
+      const since = url.searchParams.get("since");
 
       if (!symbol) {
         res.statusCode = 400;
@@ -17,9 +18,12 @@ const cbCrawlerPlugin = () => ({
         return;
       }
 
-      console.log(`[Server] Triggering crawler for ${symbol}...`);
+      console.log(`[Server] Triggering crawler for ${symbol} (since: ${since || 'BEGINNING'})...`);
       
-      const child = spawn("node", ["tools/fetch-cb-history.js", symbol], {
+      const args = ["tools/fetch-cb-history.js", symbol];
+      if (since) args.push(since);
+
+      const child = spawn("node", args, {
         stdio: "inherit", 
         shell: true
       });
