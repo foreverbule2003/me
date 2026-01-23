@@ -1,0 +1,877 @@
+[
+  {
+    "date": "2024-07-01",
+    "cbPrice": 79.5,
+    "stockPrice": 170.5,
+    "premium": 14.98,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-02",
+    "cbPrice": 87.33,
+    "stockPrice": 187.5,
+    "premium": 14.86,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-03",
+    "cbPrice": 92.34,
+    "stockPrice": 206,
+    "premium": 10.54,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-04",
+    "cbPrice": 94.14,
+    "stockPrice": 207.5,
+    "premium": 11.88,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-05",
+    "cbPrice": 95.53,
+    "stockPrice": 212,
+    "premium": 11.12,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-08",
+    "cbPrice": 88.82,
+    "stockPrice": 196,
+    "premium": 11.75,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-09",
+    "cbPrice": 94.74,
+    "stockPrice": 206.5,
+    "premium": 13.14,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-10",
+    "cbPrice": 91.84,
+    "stockPrice": 204,
+    "premium": 11.02,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-11",
+    "cbPrice": 94.74,
+    "stockPrice": 204.5,
+    "premium": 14.25,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-12",
+    "cbPrice": 92.41,
+    "stockPrice": 202,
+    "premium": 12.81,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-15",
+    "cbPrice": 94.98,
+    "stockPrice": 209.5,
+    "premium": 11.8,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-16",
+    "cbPrice": 95.56,
+    "stockPrice": 207.5,
+    "premium": 13.57,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-17",
+    "cbPrice": 93.65,
+    "stockPrice": 208,
+    "premium": 11.03,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-18",
+    "cbPrice": 92.33,
+    "stockPrice": 206,
+    "premium": 10.52,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-19",
+    "cbPrice": 99.37,
+    "stockPrice": 215,
+    "premium": 13.97,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-22",
+    "cbPrice": 99.01,
+    "stockPrice": 215,
+    "premium": 13.56,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-23",
+    "cbPrice": 101.71,
+    "stockPrice": 227.5,
+    "premium": 10.25,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-26",
+    "cbPrice": 92.07,
+    "stockPrice": 205,
+    "premium": 10.76,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-29",
+    "cbPrice": 83,
+    "stockPrice": 184.5,
+    "premium": 10.94,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-30",
+    "cbPrice": 87.25,
+    "stockPrice": 193.5,
+    "premium": 11.19,
+    "isMock": true
+  },
+  {
+    "date": "2024-07-31",
+    "cbPrice": 87.04,
+    "stockPrice": 188.5,
+    "premium": 13.87,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-01",
+    "cbPrice": 87.59,
+    "stockPrice": 190.5,
+    "premium": 13.39,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-02",
+    "cbPrice": 80.54,
+    "stockPrice": 180.5,
+    "premium": 10.04,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-05",
+    "cbPrice": 72.89,
+    "stockPrice": 162.5,
+    "premium": 10.61,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-06",
+    "cbPrice": 71.19,
+    "stockPrice": 157,
+    "premium": 11.82,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-07",
+    "cbPrice": 78.78,
+    "stockPrice": 172.5,
+    "premium": 12.62,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-08",
+    "cbPrice": 76.13,
+    "stockPrice": 168,
+    "premium": 11.74,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-09",
+    "cbPrice": 79.32,
+    "stockPrice": 172.5,
+    "premium": 13.39,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-12",
+    "cbPrice": 78.77,
+    "stockPrice": 170,
+    "premium": 14.26,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-13",
+    "cbPrice": 83.9,
+    "stockPrice": 182,
+    "premium": 13.68,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-14",
+    "cbPrice": 85.51,
+    "stockPrice": 183.5,
+    "premium": 14.92,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-15",
+    "cbPrice": 85.54,
+    "stockPrice": 184,
+    "premium": 14.64,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-16",
+    "cbPrice": 90.9,
+    "stockPrice": 195.5,
+    "premium": 14.65,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-19",
+    "cbPrice": 99.04,
+    "stockPrice": 214,
+    "premium": 14.12,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-20",
+    "cbPrice": 97.03,
+    "stockPrice": 211,
+    "premium": 13.4,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-21",
+    "cbPrice": 95.06,
+    "stockPrice": 212.5,
+    "premium": 10.31,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-22",
+    "cbPrice": 91.27,
+    "stockPrice": 202.5,
+    "premium": 11.14,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-23",
+    "cbPrice": 102.29,
+    "stockPrice": 222.5,
+    "premium": 13.37,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-26",
+    "cbPrice": 103.54,
+    "stockPrice": 226.5,
+    "premium": 12.73,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-27",
+    "cbPrice": 112.91,
+    "stockPrice": 249,
+    "premium": 11.82,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-28",
+    "cbPrice": 116.33,
+    "stockPrice": 250,
+    "premium": 14.75,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-29",
+    "cbPrice": 108.44,
+    "stockPrice": 242,
+    "premium": 10.5,
+    "isMock": true
+  },
+  {
+    "date": "2024-08-30",
+    "cbPrice": 108.1,
+    "stockPrice": 240,
+    "premium": 11.07,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-02",
+    "cbPrice": 107.13,
+    "stockPrice": 230,
+    "premium": 14.86,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-03",
+    "cbPrice": 100.58,
+    "stockPrice": 224,
+    "premium": 10.73,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-04",
+    "cbPrice": 96.27,
+    "stockPrice": 210.5,
+    "premium": 12.78,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-05",
+    "cbPrice": 95.1,
+    "stockPrice": 207,
+    "premium": 13.3,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-06",
+    "cbPrice": 97.78,
+    "stockPrice": 212.5,
+    "premium": 13.47,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-09",
+    "cbPrice": 100.25,
+    "stockPrice": 215,
+    "premium": 14.99,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-10",
+    "cbPrice": 94,
+    "stockPrice": 206.5,
+    "premium": 12.25,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-11",
+    "cbPrice": 98.68,
+    "stockPrice": 220,
+    "premium": 10.61,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-12",
+    "cbPrice": 98.34,
+    "stockPrice": 220,
+    "premium": 10.23,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-13",
+    "cbPrice": 98.87,
+    "stockPrice": 220,
+    "premium": 10.82,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-16",
+    "cbPrice": 98.5,
+    "stockPrice": 218,
+    "premium": 11.43,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-18",
+    "cbPrice": 100.29,
+    "stockPrice": 222.5,
+    "premium": 11.16,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-19",
+    "cbPrice": 104.16,
+    "stockPrice": 227,
+    "premium": 13.15,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-20",
+    "cbPrice": 101.19,
+    "stockPrice": 225.5,
+    "premium": 10.66,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-23",
+    "cbPrice": 101.56,
+    "stockPrice": 223.5,
+    "premium": 12.06,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-24",
+    "cbPrice": 100.37,
+    "stockPrice": 219.5,
+    "premium": 12.76,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-25",
+    "cbPrice": 100.89,
+    "stockPrice": 222.5,
+    "premium": 11.82,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-26",
+    "cbPrice": 102.65,
+    "stockPrice": 222,
+    "premium": 14.02,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-27",
+    "cbPrice": 95.87,
+    "stockPrice": 213,
+    "premium": 10.99,
+    "isMock": true
+  },
+  {
+    "date": "2024-09-30",
+    "cbPrice": 97.88,
+    "stockPrice": 212,
+    "premium": 13.85,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-01",
+    "cbPrice": 97.97,
+    "stockPrice": 216,
+    "premium": 11.85,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-04",
+    "cbPrice": 95.86,
+    "stockPrice": 213,
+    "premium": 10.99,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-07",
+    "cbPrice": 107.45,
+    "stockPrice": 234,
+    "premium": 13.23,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-08",
+    "cbPrice": 111.01,
+    "stockPrice": 238.5,
+    "premium": 14.78,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-09",
+    "cbPrice": 105.93,
+    "stockPrice": 228.5,
+    "premium": 14.32,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-11",
+    "cbPrice": 112.89,
+    "stockPrice": 247,
+    "premium": 12.71,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-14",
+    "cbPrice": 109.45,
+    "stockPrice": 236.5,
+    "premium": 14.13,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-15",
+    "cbPrice": 103.56,
+    "stockPrice": 230,
+    "premium": 11.04,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-16",
+    "cbPrice": 105.93,
+    "stockPrice": 232,
+    "premium": 12.6,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-17",
+    "cbPrice": 104.45,
+    "stockPrice": 231.5,
+    "premium": 11.26,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-18",
+    "cbPrice": 99.49,
+    "stockPrice": 222.5,
+    "premium": 10.26,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-21",
+    "cbPrice": 104.87,
+    "stockPrice": 227,
+    "premium": 13.93,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-22",
+    "cbPrice": 99.09,
+    "stockPrice": 213.5,
+    "premium": 14.45,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-23",
+    "cbPrice": 96.47,
+    "stockPrice": 212.5,
+    "premium": 11.96,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-24",
+    "cbPrice": 92.87,
+    "stockPrice": 203.5,
+    "premium": 12.54,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-25",
+    "cbPrice": 93.68,
+    "stockPrice": 204,
+    "premium": 13.24,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-28",
+    "cbPrice": 95.83,
+    "stockPrice": 207.5,
+    "premium": 13.89,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-29",
+    "cbPrice": 93.57,
+    "stockPrice": 205.5,
+    "premium": 12.29,
+    "isMock": true
+  },
+  {
+    "date": "2024-10-30",
+    "cbPrice": 93.66,
+    "stockPrice": 208,
+    "premium": 11.04,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-01",
+    "cbPrice": 95.45,
+    "stockPrice": 212,
+    "premium": 11.02,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-04",
+    "cbPrice": 102.21,
+    "stockPrice": 228,
+    "premium": 10.55,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-05",
+    "cbPrice": 106.78,
+    "stockPrice": 231,
+    "premium": 13.99,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-06",
+    "cbPrice": 104.54,
+    "stockPrice": 233.5,
+    "premium": 10.41,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-07",
+    "cbPrice": 105.98,
+    "stockPrice": 227.5,
+    "premium": 14.88,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-08",
+    "cbPrice": 103.38,
+    "stockPrice": 224,
+    "premium": 13.81,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-11",
+    "cbPrice": 105.82,
+    "stockPrice": 228,
+    "premium": 14.45,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-12",
+    "cbPrice": 100.02,
+    "stockPrice": 218,
+    "premium": 13.14,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-13",
+    "cbPrice": 100.09,
+    "stockPrice": 216.5,
+    "premium": 14.01,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-14",
+    "cbPrice": 95.22,
+    "stockPrice": 207.5,
+    "premium": 13.16,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-15",
+    "cbPrice": 95.01,
+    "stockPrice": 209.5,
+    "premium": 11.84,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-18",
+    "cbPrice": 90.44,
+    "stockPrice": 202.5,
+    "premium": 10.13,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-19",
+    "cbPrice": 99.17,
+    "stockPrice": 217.5,
+    "premium": 12.44,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-20",
+    "cbPrice": 98.69,
+    "stockPrice": 218,
+    "premium": 11.64,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-21",
+    "cbPrice": 96.56,
+    "stockPrice": 211,
+    "premium": 12.85,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-22",
+    "cbPrice": 97.1,
+    "stockPrice": 209,
+    "premium": 14.57,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-25",
+    "cbPrice": 97.34,
+    "stockPrice": 209.5,
+    "premium": 14.58,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-26",
+    "cbPrice": 92.9,
+    "stockPrice": 208,
+    "premium": 10.14,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-27",
+    "cbPrice": 93.74,
+    "stockPrice": 204,
+    "premium": 13.31,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-28",
+    "cbPrice": 89.85,
+    "stockPrice": 199,
+    "premium": 11.35,
+    "isMock": true
+  },
+  {
+    "date": "2024-11-29",
+    "cbPrice": 90,
+    "stockPrice": 199,
+    "premium": 11.52,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-02",
+    "cbPrice": 96.86,
+    "stockPrice": 210,
+    "premium": 13.74,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-03",
+    "cbPrice": 93.93,
+    "stockPrice": 210,
+    "premium": 10.31,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-04",
+    "cbPrice": 96.26,
+    "stockPrice": 213.5,
+    "premium": 11.19,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-05",
+    "cbPrice": 96.11,
+    "stockPrice": 211,
+    "premium": 12.32,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-06",
+    "cbPrice": 96.4,
+    "stockPrice": 209,
+    "premium": 13.75,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-09",
+    "cbPrice": 94.27,
+    "stockPrice": 207,
+    "premium": 12.31,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-10",
+    "cbPrice": 97.87,
+    "stockPrice": 210.5,
+    "premium": 14.65,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-11",
+    "cbPrice": 97.69,
+    "stockPrice": 214.5,
+    "premium": 12.31,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-12",
+    "cbPrice": 93.71,
+    "stockPrice": 210,
+    "premium": 10.04,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-13",
+    "cbPrice": 93.53,
+    "stockPrice": 208,
+    "premium": 10.88,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-16",
+    "cbPrice": 92.35,
+    "stockPrice": 200,
+    "premium": 13.86,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-17",
+    "cbPrice": 97.16,
+    "stockPrice": 214,
+    "premium": 11.96,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-18",
+    "cbPrice": 99.86,
+    "stockPrice": 215,
+    "premium": 14.54,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-19",
+    "cbPrice": 98.64,
+    "stockPrice": 214.5,
+    "premium": 13.41,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-20",
+    "cbPrice": 93.63,
+    "stockPrice": 206,
+    "premium": 12.08,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-23",
+    "cbPrice": 95.41,
+    "stockPrice": 212.5,
+    "premium": 10.72,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-24",
+    "cbPrice": 93.97,
+    "stockPrice": 209.5,
+    "premium": 10.61,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-25",
+    "cbPrice": 96.2,
+    "stockPrice": 212,
+    "premium": 11.9,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-26",
+    "cbPrice": 96.25,
+    "stockPrice": 207.5,
+    "premium": 14.39,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-27",
+    "cbPrice": 96.36,
+    "stockPrice": 208,
+    "premium": 14.24,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-30",
+    "cbPrice": 93.5,
+    "stockPrice": 205,
+    "premium": 12.48,
+    "isMock": true
+  },
+  {
+    "date": "2024-12-31",
+    "cbPrice": 96.24,
+    "stockPrice": 206.5,
+    "premium": 14.93,
+    "isMock": true
+  }
+]

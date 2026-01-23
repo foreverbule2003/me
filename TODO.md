@@ -40,6 +40,10 @@ _(已完成，進入維護階段)_
 
 ## 🏁 已完成歸檔 (Archived)
 
+- [x] **CB 計算機功能升級**: 新增溢價率走勢圖、補齊 2026/01 斷層、引入 Zoom/Pan 互動與區間切換 (1M/3M/All) ✅ (Completed: 2026-01-23)
+- [x] **數據自動化工具**: 建立 `fetch-cb-history.js` (API 直接模式) 與 `import-xq-csv.js` ✅ (Completed: 2026-01-23)
+- [x] **圖表 Bug 修正**: 解決因日期格式 (MM-DD vs YYYY-MM-DD) 導致的縮放重置失效問題 ✅ (Completed: 2026-01-23)
+
 - [x] Tech Lead Audit: 檢查專案中殘留的廢棄代碼 (如 src/pages vs src/views 結構整理) ✅ (Completed: 2026-01-10)
 - [x] 優化天氣預報 UI: 修復切邊、調整間距、新增自動捲動至當日功能 ✅ (Completed: 2026-01-10)
 - [x] 調整總覽頁面佈局: 將行程概覽移至天氣預報上方 ✅ (Completed: 2026-01-10)
