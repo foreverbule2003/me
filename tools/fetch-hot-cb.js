@@ -81,50 +81,63 @@ const puppeteer = require("puppeteer");
         const code = cells[colMap.code]?.innerText.trim();
         const name = cells[colMap.name]?.innerText.trim();
 
-        const priceStr = cells[colMap.price]?.innerText
-          .trim()
-          .replace(/,/g, "");
-        const volStr = cells[colMap.volume]?.innerText.trim().replace(/,/g, "");
+        const priceStr = cells[2].innerText.trim().replace(/,/g, '');   // 2: Price
+        const changeStr = cells[3].innerText.trim();                    // 3: Change
+        const changePctStr = cells[4].innerText.trim();                 // 4: Change %
+        const volStr = cells[5].innerText.trim().replace(/,/g, '');     // 5: Volume
+        const highStr = cells[6].innerText.trim().replace(/,/g, '');    // 6: High
+        const lowStr = cells[7].innerText.trim().replace(/,/g, '');     // 7: Low
 
         const price = parseFloat(priceStr);
         const volume = parseInt(volStr, 10);
+        const high = parseFloat(highStr);
+        const low = parseFloat(lowStr);
 
-        if (code && name && !isNaN(volume)) {
-          results.push({ code, name, price, volume });
+        if (code && !isNaN(price) && !isNaN(volume)) {
+            data.push({ 
+                code, 
+                name, 
+                price, 
+                change: changeStr,
+                changePercent: changePctStr,
+                volume,
+                high: isNaN(high) ? '-' : high,
+                low: isNaN(low) ? '-' : low
+            });
         }
       }
 
-      // Sort by volume DESC
-      return results.sort((a, b) => b.volume - a.volume).slice(0, 20);
+      // Already sorted by volume on the page, but let's ensure
+      // return data.sort((a, b) => b.volume - a.volume).slice(0, 20);
+      return data.slice(0, 20);
     });
 
-    // If scraping returned a "soft error" (like Header not found), use fallback too
-    if (data.error) {
-      // console.error("Soft Error:", data.error);
-      throw new Error("Scraping Logic Failed: " + data.error);
+    if (!result || result.length === 0) {
+        throw new Error("No data found on PChome page");
     }
 
-    console.log(JSON.stringify(data, null, 2));
+    console.log(JSON.stringify({ source: 'pchome', data: result }, null, 2));
+
   } catch (error) {
     // console.error('Script Error:', error);
-    // Fallback: Return today's snapshot (User provided)
+    // Fallback: Mock Data
     const mockData = [
-      { code: "30371", name: "欣興一", price: 205, volume: 2405 },
-      { code: "66721", name: "騰輝電子-KY", price: 112, volume: 1933 },
-      { code: "37151", name: "定穎投控一", price: 128.95, volume: 1917 },
-      { code: "23683", name: "金像電三", price: 148.65, volume: 1260 },
-      { code: "49674", name: "十銓四", price: 149.9, volume: 841 },
-      { code: "16095", name: "大亞五", price: 108.7, volume: 807 },
-      { code: "62822", name: "康舒二", price: 133.4, volume: 706 },
-      { code: "68901", name: "來億-KY", price: 108.5, volume: 693 },
-      { code: "62745", name: "台燿五", price: 142, volume: 541 },
-      { code: "370201", name: "大聯大E1", price: 106.85, volume: 531 },
-      { code: "32608", name: "威剛八", price: 153, volume: 307 },
-      { code: "24672", name: "志聖二", price: 125.3, volume: 298 },
-      { code: "24673", name: "志聖三", price: 123.3, volume: 276 },
-      { code: "15142", name: "亞力二", price: 120, volume: 218 },
+      { code: "30371", name: "欣興一", price: 205, change: "▲2.0", changePercent: "0.98%", volume: 2405, high: 206, low: 203 },
+      { code: "66721", name: "騰輝電子-KY", price: 112, change: "▼1.5", changePercent: "-1.32%", volume: 1933, high: 114, low: 111.5 },
+      { code: "37151", name: "定穎投控一", price: 128.95, change: "0.00", changePercent: "0.00%", volume: 1917, high: 129.5, low: 128 },
+      { code: "23683", name: "金像電三", price: 148.65, change: "▲3.65", changePercent: "2.52%", volume: 1260, high: 149.5, low: 146 },
+      { code: "49674", name: "十銓四", price: 149.9, change: "▼0.1", changePercent: "-0.07%", volume: 841, high: 151, low: 149 },
+      { code: "16095", name: "大亞五", price: 108.7, change: "▲0.5", changePercent: "0.46%", volume: 807, high: 109, low: 108 },
+      { code: "62822", name: "康舒二", price: 133.4, change: "0.00", changePercent: "0.00%", volume: 706, high: 134, low: 133 },
+      { code: "68901", name: "來億-KY", price: 108.5, change: "▲1.5", changePercent: "1.40%", volume: 693, high: 109, low: 107.5 },
+      { code: "62745", name: "台燿五", price: 142, change: "▼2.0", changePercent: "-1.39%", volume: 541, high: 144, low: 141.5 },
+      { code: "370201", name: "大聯大E1", price: 106.85, change: "▲0.15", changePercent: "0.14%", volume: 531, high: 107, low: 106.5 },
+      { code: "32608", name: "威剛八", price: 153, change: "▼1.0", changePercent: "-0.65%", volume: 307, high: 154.5, low: 152.5 },
+      { code: "24672", name: "志聖二", price: 125.3, change: "▲0.8", changePercent: "0.64%", volume: 298, high: 126, low: 124.5 },
+      { code: "24673", name: "志聖三", price: 123.3, change: "▲0.3", changePercent: "0.24%", volume: 276, high: 124, low: 122.5 },
+      { code: "15142", name: "亞力二", price: 120, change: "0.00", changePercent: "0.00%", volume: 218, high: 121, low: 119.5 }
     ];
-    console.log(JSON.stringify(mockData, null, 2));
+    console.log(JSON.stringify({ source: 'mock', data: mockData }, null, 2));
   } finally {
     if (browser) await browser.close();
   }
