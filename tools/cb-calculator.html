@@ -693,10 +693,7 @@
             <p>正在載入熱門排行...</p>
           </div>
         </div>
-        <div
-          class="p-3 bg-gray-50 text-xs text-center text-gray-400 border-t border-gray-100"
-        >
-          資料來源: 統一證券 / 點擊項目自動帶入
+          資料來源: PChome 股市 / 點擊項目自動帶入
         </div>
       </div>
     </div>
@@ -744,11 +741,15 @@
           }
 
           const res = await fetch("/api/hot-cb");
-          const data = await res.json();
+          const json = await res.json();
+          
+          // Backward compatibility: check if array or object
+          const list = Array.isArray(json) ? json : json.data;
+          const source = json.source || 'unknown';
 
-          if (!Array.isArray(data)) throw new Error("Invalid Format");
+          if (!Array.isArray(list)) throw new Error("Invalid Format");
 
-          renderHotList(data);
+          renderHotList(list, source);
         } catch (e) {
           console.error("[HotCB] Fetch failed:", e);
           hotListContainer.innerHTML = `
@@ -760,14 +761,14 @@
         }
       }
 
-      function renderHotList(list) {
+      function renderHotList(list, source) {
         if (list.length === 0) {
           hotListContainer.innerHTML =
             '<div class="p-4 text-center text-gray-400">無資料</div>';
           return;
         }
 
-        hotListContainer.innerHTML = list
+        const listHtml = list
           .map((item, index) => {
             const rankClass = index < 3 ? "top-3" : "";
             return `
@@ -790,6 +791,14 @@
             `;
           })
           .join("");
+
+        const warningHTML = source === 'mock' ? `
+            <div class="sticky top-0 z-10 bg-red-50 p-2 text-center text-xs text-red-500 border-b border-red-100 flex items-center justify-center gap-2 shadow-sm">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>連線 PChome 失敗，目前顯示範例資料 (Mock)</span>
+            </div>` : '';
+
+        hotListContainer.innerHTML = warningHTML + listHtml;
       }
 
       window.selectHotItem = (code) => {
