@@ -159,6 +159,69 @@
           color: #9ca3af;
           font-size: 0.875rem;
       }
+      
+      /* Hot CB Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        backdrop-filter: blur(4px);
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+      }
+      .modal-overlay.show {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal-content {
+        background: white;
+        width: 90%;
+        max-width: 500px;
+        max-height: 80vh;
+        border-radius: 1rem;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        transform: scale(0.95);
+        transition: transform 0.3s ease;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+      }
+      .modal-overlay.show .modal-content {
+        transform: scale(1);
+      }
+      .hot-list-item {
+        display: flex;
+        align-items: center;
+        padding: 0.75rem 1rem;
+        border-bottom: 1px solid #f3f4f6;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .hot-list-item:hover {
+        background: #fff7ed;
+      }
+      .hot-rank {
+        width: 1.5rem;
+        height: 1.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        color: white;
+        background: #d1d5db;
+        border-radius: 50%;
+        font-size: 0.75rem;
+        margin-right: 0.75rem;
+      }
+      .hot-rank.top-3 {
+        background: linear-gradient(135deg, #f97316, #ef4444);
+        box-shadow: 0 2px 4px rgba(249, 115, 22, 0.3);
+      }
     </style>
   </head>
   <body class="bg-gray-50 min-h-screen">
@@ -224,6 +287,12 @@
                 <span id="dataSourceBadge" class="px-1.5 py-0.5 rounded text-[10px] font-bold"></span>
               </div>
             </div>
+
+            <!-- Hot List Button -->
+            <button id="hotListBtn" class="w-full mb-5 py-3 bg-gradient-to-r from-orange-400 to-red-500 text-white rounded-xl shadow-lg shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 font-bold group">
+              <i class="fas fa-fire text-yellow-200 group-hover:animate-bounce"></i>
+              <span>查看今日熱門可轉債</span>
+            </button>
 
             <div class="space-y-5">
               <!-- Ticker Symbol (New) -->
@@ -497,6 +566,31 @@
           </div>
         </div>
       </div>
+      </div>
+    </div>
+
+    <!-- Hot List Modal -->
+    <div id="hotListModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="p-4 border-b border-gray-100 flex justify-between items-center bg-gradient-to-r from-orange-50 to-red-50">
+          <h3 class="font-bold text-gray-800 flex items-center gap-2">
+            <i class="fas fa-fire text-red-500"></i> 今日熱門成交
+          </h3>
+          <button id="closeHotModal" class="w-8 h-8 rounded-full bg-white text-gray-400 hover:text-gray-600 flex items-center justify-center transition-colors shadow-sm">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div id="hotListContainer" class="overflow-y-auto p-0 flex-1 min-h-[300px] relative">
+          <!-- Loading State (Default) -->
+          <div class="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+            <i class="fas fa-circle-notch fa-spin fa-2x mb-3 text-orange-400"></i>
+            <p>正在載入熱門排行...</p>
+          </div>
+        </div>
+        <div class="p-3 bg-gray-50 text-xs text-center text-gray-400 border-t border-gray-100">
+          資料來源: 統一證券 / 點擊項目自動帶入
+        </div>
+      </div>
     </div>
 
     <script>
@@ -506,6 +600,92 @@
         cbPrice: document.getElementById("cbPrice"),
         stockPrice: document.getElementById("stockPrice"),
         conversionPrice: document.getElementById("conversionPrice"),
+      };
+      
+      // Hot CB Logic
+      const hotListBtn = document.getElementById('hotListBtn');
+      const hotListModal = document.getElementById('hotListModal');
+      const closeHotModal = document.getElementById('closeHotModal');
+      const hotListContainer = document.getElementById('hotListContainer');
+
+      hotListBtn.addEventListener('click', () => {
+        hotListModal.classList.add('show');
+        fetchHotCB();
+      });
+
+      closeHotModal.addEventListener('click', () => {
+        hotListModal.classList.remove('show');
+      });
+
+      // Close modal when clicking outside
+      hotListModal.addEventListener('click', (e) => {
+        if (e.target === hotListModal) {
+          hotListModal.classList.remove('show');
+        }
+      });
+
+      async function fetchHotCB() {
+        try {
+          // Reset content to loading if needed
+          if(!hotListContainer.querySelector('.fa-spin')) {
+             hotListContainer.innerHTML = `
+              <div class="absolute inset-0 flex flex-col items-center justify-center text-gray-400">
+                <i class="fas fa-circle-notch fa-spin fa-2x mb-3 text-orange-400"></i>
+                <p>正在載入熱門排行...</p>
+              </div>`;
+          }
+
+          const res = await fetch('/api/hot-cb');
+          const data = await res.json();
+          
+          if (!Array.isArray(data)) throw new Error("Invalid Format");
+
+          renderHotList(data);
+
+        } catch (e) {
+          console.error('[HotCB] Fetch failed:', e);
+          hotListContainer.innerHTML = `
+            <div class="p-8 text-center text-red-400">
+               <i class="fas fa-exclamation-triangle fa-2x mb-2"></i>
+               <p>載入失敗，請稍後再試</p>
+            </div>
+          `;
+        }
+      }
+
+      function renderHotList(list) {
+        if (list.length === 0) {
+            hotListContainer.innerHTML = '<div class="p-4 text-center text-gray-400">無資料</div>';
+            return;
+        }
+
+        hotListContainer.innerHTML = list.map((item, index) => {
+            const rankClass = index < 3 ? 'top-3' : '';
+            return `
+            <div class="hot-list-item group" onclick="selectHotItem('${item.code}')">
+                <div class="hot-rank ${rankClass}">${index + 1}</div>
+                <div class="flex-1">
+                    <div class="flex items-center gap-2">
+                        <span class="font-bold text-gray-800">${item.name}</span>
+                        <span class="text-xs text-gray-400 font-mono bg-gray-100 px-1 rounded">${item.code}</span>
+                    </div>
+                    <div class="flex items-center gap-3 text-xs text-gray-500 mt-1">
+                        <span><i class="fas fa-tag mr-1 text-gray-300"></i>$${item.price}</span>
+                        <span><i class="fas fa-chart-bar mr-1 text-gray-300"></i>${item.volume} 張</span>
+                    </div>
+                </div>
+                <div class="text-gray-300 group-hover:text-[#10b981]">
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            `;
+        }).join('');
+      }
+
+      window.selectHotItem = (code) => {
+         inputs.tickerSymbol.value = code;
+         hotListModal.classList.remove('show');
+         document.getElementById('searchBtn').click();
       };
       
       const searchBtn = document.getElementById("searchBtn");

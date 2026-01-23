@@ -8,37 +8,18 @@ _(暫無 P0 項目)_
 
 ---
 
-## 🟡 P1: 技術清理 (High Value / Low Risk)
+## 🟡 P1: 雲端架構升級 (Cloud Infrastructure)
 
-- [x] **Feature**: 實作「已建檔標的」自動完成/預先載入功能 (Autocomplete from Firebase)。✅ (Completed: 2026-01-23)
-    - 解決線上版無法爬取新資料的問題，改為引導使用者選擇已存在的資料。
-    - 技術：Firestore Get Collections / Documents List。
-
----
-
-## 🟢 P2: PWA 核心建設 (MUST-HAVE)
-
-_(已完成，進入維護階段)_
-
----
-
-## ⚪ P3: 未來規劃 / 待定
-
-### Trip 頁面遷移 (Vite + React)
-
-- [ ] `trips/2026-hokkaido/` → Vite 版
-- [ ] `trips/2025-osaka/` → Vite 版
-- [ ] `trips/2025-cebu/` → Vite 版
-
-### UX / UI 優化
-
-### 架構優化 (Architectural Improvement)
+> 目標：擺脫對本地開發機的依賴，實現全自動化數據更新。
 
 - [ ] **Serverless Migration**: 將本地爬蟲 (`fetch-cb-history.js`) 遷移至 GCP Cloud Functions。
-    - 目標：實現全雲端自動化，無需依賴本地開發機。
-    - 技術：Google Cloud Functions (Node.js) + Cloud Scheduler。
+  - 技術：Google Cloud Functions (Node.js) + Cloud Scheduler。
 
-### 功能與資料
+---
+
+## 🟢 P2: 功能擴充與新行程 (Features & Trips)
+
+> 目標：持續產出新內容與增強 AI 體驗。
 
 - [ ] 完善 AI 旅遊助手功能
 - [ ] 完成 2025-osaka 行程規劃
@@ -46,8 +27,20 @@ _(已完成，進入維護階段)_
 
 ---
 
+## ⚪ P3: 舊版維護與歷史保存 (Legacy & History)
+
+> 註：保留舊版頁面作為 Vibe Coding 進化的歷史見證，僅在必要時進行維護，不強制遷移。
+
+- [ ] `trips/2026-hokkaido/` (Legacy HTML)
+- [ ] `trips/2025-osaka/` (Legacy HTML)
+- [ ] `trips/2025-cebu/` (Legacy HTML)
+
+---
+
 ## 🏁 已完成歸檔 (Archived)
 
+- [x] **Feature**: 實作「已建檔標的」自動完成/預先載入功能 (Autocomplete from Firebase)。✅ (Completed: 2026-01-23)
+  - 解決線上版無法爬取新資料的問題，改為引導使用者選擇已存在的資料。
 - [x] **CB 計算機功能升級**: 新增溢價率走勢圖、補齊 2026/01 斷層、引入 Zoom/Pan 互動與區間切換 (1M/3M/All) ✅ (Completed: 2026-01-23)
 - [x] **數據自動化工具**: 建立 `fetch-cb-history.js` (API 直接模式) 與 `import-xq-csv.js` ✅ (Completed: 2026-01-23)
 - [x] **圖表 Bug 修正**: 解決因日期格式 (MM-DD vs YYYY-MM-DD) 導致的縮放重置失效問題 ✅ (Completed: 2026-01-23)

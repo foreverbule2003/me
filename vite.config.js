@@ -7,6 +7,28 @@ import { spawn } from "child_process";
 const cbCrawlerPlugin = () => ({
   name: "cb-crawler-api",
   configureServer(server) {
+    // API: 獲取今日熱門 CB 排行 (Run puppeteer script)
+    server.middlewares.use("/api/hot-cb", (req, res, next) => {
+      console.log("🔥 Fetching Hot CB List...");
+      const child = spawn("node", ["tools/fetch-hot-cb.js"], { shell: true });
+
+      let output = "";
+      child.stdout.on("data", (data) => {
+        output += data.toString();
+      });
+
+      child.stderr.on("data", (data) => {
+        console.error(`Scraper Log: ${data}`);
+      });
+
+      child.on("close", (code) => {
+        res.setHeader("Content-Type", "application/json");
+        // If output is empty or not JSON, it might crash the frontend,
+        // but our script handles JSON formatting even on error.
+        res.end(output);
+      });
+    });
+
     server.middlewares.use("/api/crawl", async (req, res, next) => {
       const url = new URL(req.url, `http://${req.headers.host}`);
       const symbol = url.searchParams.get("code");
@@ -18,23 +40,32 @@ const cbCrawlerPlugin = () => ({
         return;
       }
 
-      console.log(`[Server] Triggering crawler for ${symbol} (since: ${since || 'BEGINNING'})...`);
-      
+      console.log(
+        `[Server] Triggering crawler for ${symbol} (since: ${since || "BEGINNING"})...`,
+      );
+
       const args = ["tools/fetch-cb-history.js", symbol];
       if (since) args.push(since);
 
       const child = spawn("node", args, {
-        stdio: "inherit", 
-        shell: true
+        stdio: "inherit",
+        shell: true,
       });
 
       child.on("close", (code) => {
         if (code === 0) {
           res.statusCode = 200;
-          res.end(JSON.stringify({ success: true, message: `Crawled ${symbol}` }));
+          res.end(
+            JSON.stringify({ success: true, message: `Crawled ${symbol}` }),
+          );
         } else {
           res.statusCode = 500;
-          res.end(JSON.stringify({ success: false, message: `Crawler exited with code ${code}` }));
+          res.end(
+            JSON.stringify({
+              success: false,
+              message: `Crawler exited with code ${code}`,
+            }),
+          );
         }
       });
     });
@@ -73,31 +104,31 @@ export default defineConfig({
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/stock/, ""),
         headers: {
-            "Referer": "https://mis.twse.com.tw/stock/fibest.jsp?lang=zh_tw"
-        }
+          Referer: "https://mis.twse.com.tw/stock/fibest.jsp?lang=zh_tw",
+        },
       },
       "/api/tpex": {
         target: "https://www.tpex.org.tw",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/tpex/, ""),
         headers: {
-            "Referer": "https://www.tpex.org.tw/"
-        }
+          Referer: "https://www.tpex.org.tw/",
+        },
       },
       "/api/psc": {
         target: "https://cbas16889.pscnet.com.tw/api",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api\/psc/, ""),
         headers: {
-            "Referer": "https://cbas16889.pscnet.com.tw/",
-            "Origin": "https://cbas16889.pscnet.com.tw"
-        }
+          Referer: "https://cbas16889.pscnet.com.tw/",
+          Origin: "https://cbas16889.pscnet.com.tw",
+        },
       },
     },
     // [Fix] Prevent HMR reload when auto-crawler writes new JSON files
     watch: {
-        ignored: ['**/public/data/**']
-    }
+      ignored: ["**/public/data/**"],
+    },
   },
 
   // GitHub Pages 部署設定 (repo name: /me/)
