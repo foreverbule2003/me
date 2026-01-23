@@ -74,3 +74,26 @@
 **後果**：
 
 - 允許每趟「旅程」獨立開發，同時共享核心的 `GameBoyShell` 元件。
+
+---
+
+## ADR-005: 資料爬蟲的生產策略 (Hybrid Crawler)
+
+**狀態**：Accepted
+**日期**：2026-01
+
+**背景**：
+GitHub Pages 為純靜態主機，無法運行 Node.js 爬蟲。我们需要一種方法來為「CB 可轉債計算機」產生持續更新的歷史資料。
+
+**決策**：
+採用 **「Local-First Production」 (本地即生產)** 策略。
+1.  **開發者電腦 (Localhost)** 作為唯一的資料生產中心。
+2.  **前端 (Browser)** 負責讀取本地產生的 JSON 並同步至 Firebase。
+3.  **線上版** 僅作為資料檢視器，不執行爬蟲。
+
+**後果**：
+
+- ✅ **優點**：零伺服器成本 (Serverless)、架構簡單、規避了部署後端爬蟲的維護成本。
+- ⚠️ **踩雷紀錄 (The HMR Trap)**：
+    - **問題**：爬蟲在 `public/data/` 生成新 JSON 時，Vite (Dev Server) 會偵測到檔案變動並觸發 **Full Page Reload**，導致使用者的搜尋狀態瞬間重置。
+    - **解法**：修改 `vite.config.js` 的 `server.watch.ignored`，明確排除 `**/public/data/**`，切斷「資料面」與「介面面」的熱更新連結。
