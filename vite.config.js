@@ -22,6 +22,37 @@ export default defineConfig({
         "trips-osaka": resolve(__dirname, "trips/2025-osaka/index.html"),
         "tools-options": resolve(__dirname, "tools/bull-put-spread.html"),
         "tools-dashboard": resolve(__dirname, "tools/financial-dashboard.html"),
+        "tools-cb": resolve(__dirname, "tools/cb-calculator.html"),
+      },
+    },
+  },
+  // 開發伺服器設定 (CORS Proxy)
+  server: {
+    proxy: {
+      "/api/stock": {
+        target: "https://mis.twse.com.tw/stock/api",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/stock/, ""),
+        headers: {
+            "Referer": "https://mis.twse.com.tw/stock/fibest.jsp?lang=zh_tw"
+        }
+      },
+      "/api/tpex": {
+        target: "https://www.tpex.org.tw",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/tpex/, ""),
+        headers: {
+            "Referer": "https://www.tpex.org.tw/"
+        }
+      },
+      "/api/psc": {
+        target: "https://cbas16889.pscnet.com.tw/api",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api\/psc/, ""),
+        headers: {
+            "Referer": "https://cbas16889.pscnet.com.tw/",
+            "Origin": "https://cbas16889.pscnet.com.tw"
+        }
       },
     },
   },

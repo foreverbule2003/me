@@ -14,6 +14,11 @@ const ToolsView = ({ onSetActions }) => {
       isExternal: true,
     },
     {
+      label: "CB 可轉債計算機",
+      href: "/me/tools/cb-calculator.html",
+      isExternal: true,
+    },
+    {
       label: "期權策略模擬器",
       href: "/me/tools/bull-put-spread.html",
       isExternal: true,

@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CB 可轉債計算機 | Me Tools</title>
+    <meta
+      name="description"
+      content="可轉換公司債(Convertible Bond)計算機，即時計算轉換溢價率、轉換價值與損益平衡點"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      .gradient-card {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      }
+      .input-focus:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
+      }
+      .metric-card {
+        transition: all 0.3s ease;
+      }
+      .metric-card:hover {
+        transform: translateY(-2px);
+      }
+      /* 輸入欄位弱化/高亮狀態 */
+      .inputs-dimmed {
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
+      }
+      .inputs-highlighted {
+        opacity: 1;
+        animation: highlightPulse 0.6s ease-out;
+      }
+      @keyframes highlightPulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.01); box-shadow: 0 0 20px rgba(16, 185, 129, 0.3); }
+        100% { transform: scale(1); }
+      }
+      /* 方案 A: 折疊式展開動畫 */
+      .inputs-collapsed {
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.4s ease-out, opacity 0.3s ease-out;
+      }
+      .inputs-expanded {
+        max-height: 500px;
+        opacity: 1;
+        transition: max-height 0.4s ease-in, opacity 0.3s ease-in 0.1s;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <div class="p-4 md:p-6 relative">
+      <!-- Home Button -->
+      <a
+        href="/me/?booted=true"
+        class="absolute top-4 right-4 md:top-6 md:right-6 bg-white w-10 h-10 rounded-full flex items-center justify-center text-gray-500 active:scale-90 transition-transform shadow-md hover:shadow-lg hover:text-[#10b981] z-10"
+      >
+        <i class="fas fa-home"></i>
+      </a>
+
+      <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-6 md:mb-8">
+          <h1 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+            <i class="fas fa-calculator text-[#10b981] mr-2"></i>
+            CB 可轉債計算機
+          </h1>
+          <p class="text-gray-500 text-sm md:text-base">
+            計算轉換溢價率、轉換價值與損益平衡點
+          </p>
+        </div>
+
+        <!-- Educational Card -->
+        <div
+          class="gradient-card text-white p-4 md:p-6 rounded-2xl shadow-lg mb-6 md:mb-8"
+        >
+          <div class="flex items-start gap-3">
+            <i class="fas fa-lightbulb text-xl mt-1 text-yellow-300"></i>
+            <div>
+              <h3 class="font-bold mb-2">什麼是轉換溢價率？</h3>
+              <p class="text-sm opacity-90 leading-relaxed">
+                代表「買 CB 相對於直接買股票」的溢價程度。<br />
+                溢價率越低，代表 CB 價格越貼近轉換價值，股價上漲時 CB
+                跟漲的連動性越高。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
+          <!-- Input Panel -->
+          <div class="lg:col-span-5 bg-white p-5 md:p-6 rounded-2xl shadow-lg">
+            <h2
+              class="text-lg font-bold text-gray-800 mb-2 flex items-center gap-2"
+            >
+              <i class="fas fa-edit text-[#10b981]"></i>
+              輸入參數
+            </h2>
+            
+            <!-- Stock/CB Name Display -->
+            <div id="stockNameDisplay" class="hidden mb-4 p-3 bg-gradient-to-r from-[#10b981]/10 to-[#059669]/10 rounded-xl border border-[#10b981]/20">
+              <div class="flex items-center gap-2">
+                <i class="fas fa-tag text-[#10b981]"></i>
+                <span id="stockNameText" class="font-bold text-gray-800 text-lg"></span>
+                <span id="stockCodeBadge" class="ml-auto px-2 py-0.5 bg-[#10b981] text-white text-xs rounded-full font-mono"></span>
+              </div>
+              <!-- 時間戳記行 -->
+              <div class="flex items-center gap-2 mt-2 text-xs text-gray-500">
+                <i class="fas fa-clock"></i>
+                <span id="dataTimestamp"></span>
+                <span id="dataSourceBadge" class="px-1.5 py-0.5 rounded text-[10px] font-bold"></span>
+              </div>
+            </div>
+
+            <div class="space-y-5">
+              <!-- Ticker Symbol (New) -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  股票/CB 代號 (自動帶入)
+                </label>
+                <div class="relative">
+                  <span
+                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
+                    >#</span
+                  >
+                  <input
+                    type="text"
+                    id="tickerSymbol"
+                    class="w-full pl-8 pr-16 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800 uppercase tracking-wider"
+                    placeholder="例如: 24673"
+                  />
+                  <button
+                    id="searchBtn"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 bg-[#10b981] text-white p-2 rounded-lg hover:bg-[#059669] transition-colors shadow-sm"
+                    title="搜尋並帶入數值"
+                  >
+                    <i class="fas fa-search"></i>
+                  </button>
+                  <div
+                    id="tickerStatus"
+                    class="absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-gray-400 hidden"
+                  >
+                    已帶入
+                  </div>
+                </div>
+                <p class="text-xs text-gray-400 mt-1">
+                  輸入代號後點擊搜尋，自動填入數值
+                </p>
+              </div>
+
+              <hr class="border-gray-100" />
+
+              <!-- 手動輸入備案按鈕 -->
+              <button
+                id="manualInputBtn"
+                class="w-full py-2 text-sm text-gray-500 hover:text-[#10b981] transition-colors flex items-center justify-center gap-2"
+              >
+                <i class="fas fa-pen-to-square"></i>
+                <span>或點此手動輸入</span>
+              </button>
+
+              <!-- 輸入欄位容器 (方案 A: 預設隱藏) -->
+              <div id="inputFieldsContainer" class="inputs-collapsed space-y-5">
+              
+              
+              <!-- CB Price -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  CB 市場價格
+                </label>
+                <div class="relative">
+                  <span
+                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
+                    >$</span
+                  >
+                  <input
+                    type="number"
+                    id="cbPrice"
+                    value="125.00"
+                    step="0.01"
+                    class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
+                    placeholder="例如: 125.00"
+                  />
+                </div>
+                <p class="text-xs text-gray-400 mt-1">目前可轉債的成交價</p>
+              </div>
+
+              <!-- Stock Price -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  標的股價 (現股)
+                </label>
+                <div class="relative">
+                  <span
+                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
+                    >$</span
+                  >
+                  <input
+                    type="number"
+                    id="stockPrice"
+                    value="255.00"
+                    step="0.01"
+                    class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
+                    placeholder="例如: 255.00"
+                  />
+                </div>
+              </div>
+
+              <!-- Conversion Price -->
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">
+                  轉換價格
+                </label>
+                <div class="relative">
+                  <span
+                    class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 font-bold"
+                    >$</span
+                  >
+                  <input
+                    type="number"
+                    id="conversionPrice"
+                    value="246.60"
+                    step="0.01"
+                    class="w-full pl-8 pr-4 py-3 border border-gray-200 rounded-xl input-focus transition-all text-lg font-bold text-gray-800"
+                    placeholder="例如: 246.60"
+                  />
+                </div>
+                <p class="text-xs text-gray-400 mt-1">
+                  發行時或調整後的轉換價格
+                </p>
+              </div>
+              
+              </div><!-- 結束 inputFieldsContainer -->
+            </div>
+          </div>
+
+          <!-- Results Panel -->
+          <div
+            id="resultsContainer"
+            class="lg:col-span-7 flex flex-col justify-between space-y-6 lg:space-y-0 lg:gap-6 inputs-collapsed"
+          >
+            <!-- Main Result: Premium Rate -->
+            <div
+              class="bg-white p-6 rounded-2xl shadow-lg border-l-8 border-gray-200 transition-colors duration-300"
+              id="premiumCard"
+            >
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="text-gray-500 font-medium">轉換溢價率</h3>
+                <span
+                  class="px-2 py-1 rounded text-xs font-bold bg-gray-100 text-gray-500"
+                  id="premiumStatus"
+                  >計算中...</span
+                >
+              </div>
+              <div class="flex items-baseline gap-2">
+                <span
+                  class="text-4xl md:text-5xl font-black text-gray-800"
+                  id="premiumRate"
+                  >--%</span
+                >
+              </div>
+              <p
+                class="text-sm text-gray-400 mt-2"
+                id="premiumDesc"
+              >
+                請輸入數值開始計算
+              </p>
+            </div>
+
+            <!-- Secondary Metrics Grid -->
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Conversion Value -->
+              <div
+                class="bg-white p-4 rounded-xl shadow-md border border-gray-100 metric-card"
+              >
+                <div class="text-xs text-gray-400 mb-1 flex items-center gap-1">
+                  轉換價值
+                  <i
+                    class="fas fa-question-circle text-gray-300 cursor-help"
+                    title="目前股價換算成 CB 的理論價值"
+                  ></i>
+                </div>
+                <div
+                  class="text-xl md:text-2xl font-bold text-gray-800"
+                  id="conversionValue"
+                >
+                  --
+                </div>
+                <div class="text-xs text-gray-400 mt-1" id="sharesInfo">
+                  -- 股/張
+                </div>
+              </div>
+
+              <!-- Parity Price -->
+              <div
+                class="bg-white p-4 rounded-xl shadow-md border border-gray-100 metric-card"
+              >
+                <div class="text-xs text-gray-400 mb-1 flex items-center gap-1">
+                  轉換平價 (損益兩平)
+                  <i
+                    class="fas fa-question-circle text-gray-300 cursor-help"
+                    title="股價需漲到此價格，轉換才不會虧損"
+                  ></i>
+                </div>
+                <div
+                  class="text-xl md:text-2xl font-bold text-gray-800"
+                  id="parityPrice"
+                >
+                  --
+                </div>
+                <div class="text-xs text-gray-400 mt-1" id="upsideNeeded">
+                  需上漲 --%
+                </div>
+              </div>
+            </div>
+
+            <!-- Status Indicator -->
+            <div class="bg-gray-100 p-4 rounded-xl flex items-center gap-4">
+              <div
+                class="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-xl shrink-0 transition-colors duration-300"
+                id="statusIconBg"
+              >
+                <i class="fas fa-minus text-gray-400" id="statusIcon"></i>
+              </div>
+              <div>
+                <h4 class="font-bold text-gray-700" id="statusTitle">
+                  等待輸入
+                </h4>
+                <p class="text-xs text-gray-500" id="statusDesc">
+                  輸入參數以查看價內/價外狀態
+                </p>
+              </div>
+            </div>
+
+            <!-- Formula Reference -->
+            <div class="bg-white p-5 rounded-xl text-xs text-gray-400 border border-gray-100">
+               <h4 class="font-bold text-gray-600 mb-2">計算公式</h4>
+               <ul class="space-y-1 list-disc pl-4">
+                   <li><span class="font-medium text-gray-500">可轉換股數</span> = 100,000 ÷ 轉換價格</li>
+                   <li><span class="font-medium text-gray-500">轉換價值</span> = 可轉換股數 × 股價 ÷ 1000</li>
+                   <li><span class="font-medium text-gray-500">轉換溢價率</span> = (CB價格 - 轉換價值) ÷ 轉換價值 × 100%</li>
+                   <li><span class="font-medium text-gray-500">轉換平價</span> = 轉換價格 × CB價格 ÷ 100</li>
+               </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Inputs
+      const inputs = {
+        tickerSymbol: document.getElementById("tickerSymbol"),
+        cbPrice: document.getElementById("cbPrice"),
+        stockPrice: document.getElementById("stockPrice"),
+        conversionPrice: document.getElementById("conversionPrice"),
+      };
+      
+      const searchBtn = document.getElementById("searchBtn");
+      const tickerStatus = document.getElementById("tickerStatus");
+      const manualInputBtn = document.getElementById("manualInputBtn");
+      const inputFieldsContainer = document.getElementById("inputFieldsContainer");
+      const resultsContainer = document.getElementById("resultsContainer");
+
+      // 展開輸入欄位與結果區塊
+      function expandInputFields() {
+        inputFieldsContainer.classList.remove('inputs-collapsed', 'inputs-dimmed');
+        inputFieldsContainer.classList.add('inputs-expanded');
+        resultsContainer.classList.remove('inputs-collapsed');
+        resultsContainer.classList.add('inputs-expanded');
+        manualInputBtn.classList.add('hidden');
+      }
+
+      // 手動輸入按鈕事件
+      manualInputBtn.addEventListener("click", () => {
+        expandInputFields();
+        // 清除預設值讓用戶可以輸入
+        inputs.cbPrice.value = "";
+        inputs.stockPrice.value = "";
+        inputs.conversionPrice.value = "";
+        inputs.cbPrice.focus();
+      });
+
+      // Load Database from JSON
+      let cbDatabase = {};
+      
+      // 即時行情快取（5 秒 TTL）
+      const priceCache = {};
+
+      async function loadDatabase() {
+        try {
+            // Add timestamp to prevent caching
+            // Use absolute path relative to site root
+            const res = await fetch('/me/data/cb-data.json?t=' + new Date().getTime());
+            if (!res.ok) throw new Error(`HTTP ${res.status}`);
+            const json = await res.json();
+            
+            // Convert array to object map for easy lookup
+            json.items.forEach(item => {
+                cbDatabase[item.code] = item; // Map CB Code (e.g. 24673)
+                
+                // Map Stock Code (e.g. 2467)
+                if (item.underlyingCode && !cbDatabase[item.underlyingCode]) {
+                    cbDatabase[item.underlyingCode] = item;
+                }
+            });
+            
+            console.log("Database loaded:", Object.keys(cbDatabase).length, "keys");
+            
+            // Temp debug indicator (optional)
+            // tickerStatus.textContent = "DB Loaded";
+            // tickerStatus.classList.remove("hidden");
+            
+        } catch (e) {
+            console.error("Error loading cb-data.json:", e);
+            alert("資料庫載入失敗: " + e.message + "\n請確認 cb-data.json 是否存在");
+            
+            // Fallback for demo
+            cbDatabase = {
+                "24673": {
+                    name: "志聖三 (Fallback)",
+                    cbPrice: 125.00,
+                    stockPrice: 255.00,
+                    conversionPrice: 246.60
+                }
+            };
+        }
+      }
+
+      // Manual Search Logic
+      async function handleSearch() {
+        const symbol = inputs.tickerSymbol.value.trim().toUpperCase();
+        if (!symbol) return;
+        
+        tickerStatus.classList.add("hidden");
+        showStatus("搜尋中...", "warning");
+
+        // 1. Try Local DB (Master Data from PSC Script)
+        // Ensure DB is loaded
+        if (Object.keys(cbDatabase).length === 0) await loadDatabase();
+        let data = cbDatabase[symbol];
+
+        // 2. Fallback: If not in Master Data, we can't really do much for Conversion Price
+        // But we can try to fetch Real-time price (MIS) if user knows the code exists
+        if (!data) {
+             // Create a dummy object to fill with real-time data
+             data = { name: "", conversionPrice: 0, stockPrice: 0, cbPrice: 0, underlyingCode: "" };
+        }
+
+        // 3. Fetch Real-time Prices (TWSE MIS) - 帶有 5 秒快取機制
+        // Even if we have Master Data (from yesterday), we want TODAY's price.
+        const CACHE_TTL = 5000; // 5 秒快取
+        const cacheKey = symbol;
+        const cachedData = priceCache[cacheKey];
+        const now = Date.now();
+        let usedCache = false; // 追蹤是否使用快取
+        
+        // 檢查是否有有效快取
+        if (cachedData && (now - cachedData.timestamp) < CACHE_TTL) {
+            console.log(`[Cache Hit] ${symbol} (${Math.round((now - cachedData.timestamp)/1000)}s old)`);
+            data.cbPrice = cachedData.cbPrice || data.cbPrice;
+            data.stockPrice = cachedData.stockPrice || data.stockPrice;
+            usedCache = true;
+        } else {
+            // 快取過期或不存在，發送 API 請求
+            try {
+                const queries = [];
+                // If it's a CB code (5 chars)
+                if (symbol.length === 5) {
+                    queries.push(`otc_${symbol}.tw`);
+                }
+                
+                // If we know underlying (from Master Data), fetch it
+                if (data && data.underlyingCode) {
+                    queries.push(`tse_${data.underlyingCode}.tw`);
+                    queries.push(`otc_${data.underlyingCode}.tw`);
+                }
+                
+                // If symbol is 4 chars (stock), fetch it
+                if (symbol.length === 4) {
+                     queries.push(`tse_${symbol}.tw`);
+                     queries.push(`otc_${symbol}.tw`);
+                }
+
+                if (queries.length > 0) {
+                    const qStr = queries.join('|');
+                    console.log(`[API Request] ${symbol}`);
+                    
+                    const res = await fetch(`/api/stock/getStockInfo.jsp?ex_ch=${qStr}&json=1&delay=0`);
+                   
+                    if (res.ok) {
+                        const json = await res.json();
+                        if (json.msgArray) {
+                            // 3a. Update CB Price
+                            const cbM = json.msgArray.find(q => q.c === symbol && (parseFloat(q.z) > 0 || parseFloat(q.y) > 0 || parseFloat((q.a||"0").split('_')[0]) > 0));
+                            if (cbM) {
+                                 const p = parseFloat(cbM.z) || parseFloat(cbM.y) || parseFloat((cbM.a||"0").split('_')[0]) || 0;
+                                 if (p > 0) {
+                                     data.cbPrice = p;
+                                     if (!data.name) data.name = cbM.n; // Use MIS name if missing
+                                 }
+                            }
+                            
+                            // 3b. Update Stock Price
+                            // Use underlyingCode if available
+                            let underlying = data.underlyingCode;
+                            
+                            // If searching by Stock Code (4 chars), the symbol IS the underlying
+                            if (symbol.length === 4) underlying = symbol;
+                            
+                            if (underlying) {
+                                 const stMatches = json.msgArray.filter(q => q.c === underlying);
+                                 let stM = stMatches.find(q => parseFloat(q.z) > 0);
+                                 if (!stM) stM = stMatches.find(q => parseFloat(q.y) > 0);
+                                 
+                                 if (stM) {
+                                      const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
+                                      if (p > 0) {
+                                          data.stockPrice = p;
+                                          if (!data.name && symbol.length === 4) data.name = stM.n;
+                                      }
+                                 }
+                            }
+                            
+                            // 更新快取
+                            priceCache[cacheKey] = {
+                                cbPrice: data.cbPrice,
+                                stockPrice: data.stockPrice,
+                                timestamp: now
+                            };
+                            console.log(`[Cache Updated] ${symbol}`);
+                        }
+                    }
+                }
+            } catch (e) {
+                console.error("Realtime Fetch Error:", e);
+            }
+        }
+
+        // --- Final Display ---
+        // Only show if we found SOMETHING (Name, or Price, or Master Data)
+        if (data && (data.name || data.cbPrice > 0 || data.stockPrice > 0)) {
+            // Reset inputs
+            inputs.cbPrice.value = "";
+            inputs.stockPrice.value = "";
+            inputs.conversionPrice.value = "";
+            
+            // Fill
+            if (data.cbPrice > 0) inputs.cbPrice.value = data.cbPrice.toFixed(2);
+            if (data.stockPrice > 0) inputs.stockPrice.value = data.stockPrice.toFixed(2);
+            if (data.conversionPrice > 0) inputs.conversionPrice.value = data.conversionPrice.toFixed(2);
+            
+            // Update Stock/CB Name Display
+            const nameDisplay = document.getElementById('stockNameDisplay');
+            const nameText = document.getElementById('stockNameText');
+            const codeBadge = document.getElementById('stockCodeBadge');
+            
+            if (data.name) {
+                nameText.textContent = data.name;
+                codeBadge.textContent = symbol;
+                nameDisplay.classList.remove('hidden');
+                
+                // 更新時間戳記
+                const dataTimestamp = document.getElementById('dataTimestamp');
+                const dataSourceBadge = document.getElementById('dataSourceBadge');
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                dataTimestamp.textContent = `行情更新於 ${timeStr}`;
+                
+                // 顯示資料來源：快取 or 即時
+                if (usedCache) {
+                    dataSourceBadge.textContent = '快取';
+                    dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-700';
+                } else {
+                    dataSourceBadge.textContent = '即時';
+                    dataSourceBadge.className = 'px-1.5 py-0.5 rounded text-[10px] font-bold bg-green-100 text-green-700';
+                }
+            } else {
+                nameDisplay.classList.add('hidden');
+            }
+            
+            // 方案 A: 展開輸入欄位容器
+            expandInputFields();
+            
+            showStatus(`已帶入: ${data.name || symbol}`, "success");
+            
+            // Warnings
+            let warnings = [];
+            
+            // If Master Data (Conversion Price) is missing, warn user
+            if (!data.conversionPrice) {
+                // Try to see if it's in DB but passed over? No, we loaded DB.
+                warnings.push("缺轉換價格 (Master DB 未收錄)");
+            }
+            
+            if (symbol.length === 5 && (!data.stockPrice || data.stockPrice === 0)) {
+                warnings.push("缺標的股價");
+            }
+            
+            if (warnings.length > 0) {
+                 alert(`找到: ${data.name || symbol}\n但資料不完整: ${warnings.join(", ")}\n請手動輸入。`);
+            }
+            
+            calculate();
+        } else {
+            showStatus("未找到資料", "error");
+        }
+      }
+      
+      // Removed loadDailyData() - now we rely on the static JSON generated by tools/fetch-psc-data.js
+
+      
+      function showStatus(text, type) {
+          tickerStatus.textContent = text;
+          tickerStatus.classList.remove("hidden", "text-green-500", "text-red-400", "text-yellow-500", "animate-pulse");
+          
+          if (type === "success") {
+              tickerStatus.className = "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-green-500 animate-pulse";
+          } else if (type === "error") {
+              tickerStatus.className = "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-red-400";
+          } else if (type === "warning") {
+              tickerStatus.className = "absolute right-14 top-1/2 -translate-y-1/2 text-xs font-bold text-yellow-500";
+          }
+      }
+
+      searchBtn.addEventListener("click", handleSearch);
+      
+      // Allow Enter key to search
+      inputs.tickerSymbol.addEventListener("keypress", (e) => {
+          if (e.key === "Enter") handleSearch();
+      });
+      
+      // Initialize
+      loadDatabase();
+
+      // Outputs
+      const outputs = {
+        premiumRate: document.getElementById("premiumRate"),
+        premiumStatus: document.getElementById("premiumStatus"),
+        premiumDesc: document.getElementById("premiumDesc"),
+        premiumCard: document.getElementById("premiumCard"),
+        conversionValue: document.getElementById("conversionValue"),
+        sharesInfo: document.getElementById("sharesInfo"),
+        parityPrice: document.getElementById("parityPrice"),
+        upsideNeeded: document.getElementById("upsideNeeded"),
+        statusTitle: document.getElementById("statusTitle"),
+        statusDesc: document.getElementById("statusDesc"),
+        statusIcon: document.getElementById("statusIcon"),
+        statusIconBg: document.getElementById("statusIconBg"),
+      };
+
+      function calculate() {
+        const cbPrice = parseFloat(inputs.cbPrice.value);
+        const stockPrice = parseFloat(inputs.stockPrice.value);
+        const conversionPrice = parseFloat(inputs.conversionPrice.value);
+
+        if (!cbPrice || !stockPrice || !conversionPrice) return;
+
+        // 1. Calculate Convertible Shares (per $100k bond)
+        // Usually calculated as integer or kept precise?
+        // Taiwan market convention: kept precise for value calc, but shares issued are integer.
+        // Let's use precise for valuation to match market app precision.
+        const sharesPerBond = 100000 / conversionPrice;
+
+        // 2. Calculate Conversion Value (Theoretical Price of Bond based on Stock)
+        // Formula: (Shares * Stock Price) / 1000  (to get % format like 125.00)
+        const conversionValue = (sharesPerBond * stockPrice) / 1000;
+
+        // 3. Calculate Premium Rate
+        const premiumRate =
+          ((cbPrice - conversionValue) / conversionValue) * 100;
+
+        // 4. Calculate Parity Price (Break-even Stock Price)
+        // Price where Conversion Value == CB Price
+        // (100000/CP * X) / 1000 = CB Price
+        // 100/CP * X = CB Price
+        // X = CB Price * CP / 100
+        const parityPrice = (cbPrice * conversionPrice) / 100;
+
+        // 5. Update UI
+        updateUI({
+          premiumRate,
+          conversionValue,
+          sharesPerBond,
+          parityPrice,
+          stockPrice,
+          conversionPrice,
+          cbPrice,
+        });
+      }
+
+      function updateUI(data) {
+        // --- Premium Rate ---
+        outputs.premiumRate.textContent = data.premiumRate.toFixed(2) + "%";
+
+        // Style based on premium
+        let colorClass = "border-gray-200";
+        let statusText = "一般";
+        let statusColor = "bg-gray-100 text-gray-500";
+        let descText = "";
+
+        if (data.premiumRate < 0) {
+          colorClass = "border-purple-500";
+          statusText = "折價 (Discount)";
+          statusColor = "bg-purple-100 text-purple-600";
+          descText = "CB 價格低於轉換價值，理論上有套利空間";
+        } else if (data.premiumRate <= 10) {
+          colorClass = "border-green-500";
+          statusText = "低溢價 (Low)";
+          statusColor = "bg-green-100 text-green-600";
+          descText = "價格合理，股價連動性高，適合攻擊型操作";
+        } else if (data.premiumRate <= 20) {
+          colorClass = "border-yellow-400";
+          statusText = "中溢價 (Medium)";
+          statusColor = "bg-yellow-100 text-yellow-700";
+          descText = "價格稍高，需留意追高風險";
+        } else {
+          colorClass = "border-red-400";
+          statusText = "高溢價 (High)";
+          statusColor = "bg-red-100 text-red-600";
+          descText = "溢價過高，股價上漲時 CB 可能跟漲無力";
+        }
+
+        outputs.premiumCard.className = `bg-white p-6 rounded-2xl shadow-lg border-l-8 transition-colors duration-300 ${colorClass}`;
+        outputs.premiumStatus.className = `px-2 py-1 rounded text-xs font-bold ${statusColor}`;
+        outputs.premiumStatus.textContent = statusText;
+        outputs.premiumDesc.textContent = descText;
+
+        // --- Secondary Metrics ---
+        outputs.conversionValue.textContent = data.conversionValue.toFixed(2);
+        outputs.sharesInfo.textContent = `${Math.floor(data.sharesPerBond)} 股/張`; // Display integer shares for reference
+
+        outputs.parityPrice.textContent = data.parityPrice.toFixed(2);
+        const upside = ((data.parityPrice - data.stockPrice) / data.stockPrice) * 100;
+        
+        if (upside > 0) {
+             outputs.upsideNeeded.textContent = `需再漲 ${upside.toFixed(2)}%`;
+             outputs.upsideNeeded.className = "text-xs text-red-400 mt-1"; // Red means need to go up (harder)
+        } else {
+             outputs.upsideNeeded.textContent = `已超越損益平點 ${Math.abs(upside).toFixed(2)}%`;
+             outputs.upsideNeeded.className = "text-xs text-green-500 mt-1";
+        }
+
+
+        // --- In/Out of the Money Status ---
+        const isITM = data.stockPrice > data.conversionPrice;
+        
+        if (isITM) {
+            outputs.statusIconBg.className = "w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-xl shrink-0 transition-colors duration-300";
+            outputs.statusIcon.className = "fas fa-check text-green-600";
+            outputs.statusTitle.textContent = "價內 (In the Money)";
+            outputs.statusTitle.className = "font-bold text-green-700";
+            const depth = ((data.stockPrice - data.conversionPrice) / data.conversionPrice) * 100;
+            outputs.statusDesc.textContent = `股價已高於轉換價 ${depth.toFixed(2)}%，具有轉換價值`;
+        } else {
+            outputs.statusIconBg.className = "w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-xl shrink-0 transition-colors duration-300";
+            outputs.statusIcon.className = "fas fa-times text-red-600";
+            outputs.statusTitle.textContent = "價外 (Out of the Money)";
+            outputs.statusTitle.className = "font-bold text-red-700";
+            const depth = ((data.conversionPrice - data.stockPrice) / data.stockPrice) * 100;
+            outputs.statusDesc.textContent = `股價需再漲 ${depth.toFixed(2)}% 才達到轉換價`;
+        }
+      }
+
+      // Event Listeners
+      Object.values(inputs).forEach((input) => {
+        input.addEventListener("input", calculate);
+      });
+
+      // Initial Run
+      calculate();
+    </script>
+  </body>
+</html>

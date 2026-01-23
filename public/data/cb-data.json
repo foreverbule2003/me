@@ -1,0 +1,2129 @@
+{
+  "updatedAt": "2026-01-23T00:46:04.321Z",
+  "items": [
+    {
+      "code": "11011",
+      "name": "台泥一永",
+      "conversionPrice": 35.2,
+      "underlyingCode": "1101"
+    },
+    {
+      "code": "12561",
+      "name": "鮮活果汁一KY",
+      "conversionPrice": 189.1,
+      "underlyingCode": "1256"
+    },
+    {
+      "code": "13164",
+      "name": "上曜四",
+      "conversionPrice": 14.7,
+      "underlyingCode": "1316"
+    },
+    {
+      "code": "13166",
+      "name": "上曜六",
+      "conversionPrice": 17.4,
+      "underlyingCode": "1316"
+    },
+    {
+      "code": "13382",
+      "name": "廣華二KY",
+      "conversionPrice": 37.6,
+      "underlyingCode": "1338"
+    },
+    {
+      "code": "14363",
+      "name": "華友聯三",
+      "conversionPrice": 128.7,
+      "underlyingCode": "1436"
+    },
+    {
+      "code": "14364",
+      "name": "華友聯四",
+      "conversionPrice": 99,
+      "underlyingCode": "1436"
+    },
+    {
+      "code": "14381",
+      "name": "三地開發一",
+      "conversionPrice": 55.88,
+      "underlyingCode": "1438"
+    },
+    {
+      "code": "14664",
+      "name": "聚隆四",
+      "conversionPrice": 18.8,
+      "underlyingCode": "1466"
+    },
+    {
+      "code": "14722",
+      "name": "三洋實業二",
+      "conversionPrice": 98.6,
+      "underlyingCode": "1472"
+    },
+    {
+      "code": "14723",
+      "name": "三洋實業三",
+      "conversionPrice": 101.5,
+      "underlyingCode": "1472"
+    },
+    {
+      "code": "14743",
+      "name": "弘裕三",
+      "conversionPrice": 14,
+      "underlyingCode": "1474"
+    },
+    {
+      "code": "15142",
+      "name": "亞力二",
+      "conversionPrice": 109.2,
+      "underlyingCode": "1514"
+    },
+    {
+      "code": "15261",
+      "name": "日馳一",
+      "conversionPrice": 37.29,
+      "underlyingCode": "1526"
+    },
+    {
+      "code": "15364",
+      "name": "和大四",
+      "conversionPrice": 71.47,
+      "underlyingCode": "1536"
+    },
+    {
+      "code": "15601",
+      "name": "中砂一",
+      "conversionPrice": 284.6,
+      "underlyingCode": "1560"
+    },
+    {
+      "code": "15864",
+      "name": "和勤四",
+      "conversionPrice": 30.74,
+      "underlyingCode": "1586"
+    },
+    {
+      "code": "15865",
+      "name": "和勤五",
+      "conversionPrice": 30.14,
+      "underlyingCode": "1586"
+    },
+    {
+      "code": "15894",
+      "name": "永冠四KY",
+      "conversionPrice": 60.7,
+      "underlyingCode": "1589"
+    },
+    {
+      "code": "15952",
+      "name": "川寶二",
+      "conversionPrice": 37.7,
+      "underlyingCode": "1595"
+    },
+    {
+      "code": "15984",
+      "name": "岱宇四",
+      "conversionPrice": 32.7,
+      "underlyingCode": "1598"
+    },
+    {
+      "code": "16095",
+      "name": "大亞五",
+      "conversionPrice": 51.3,
+      "underlyingCode": "1609"
+    },
+    {
+      "code": "17813",
+      "name": "合世三",
+      "conversionPrice": 18,
+      "underlyingCode": "1781"
+    },
+    {
+      "code": "17863",
+      "name": "科妍三",
+      "conversionPrice": 116.5,
+      "underlyingCode": "1786"
+    },
+    {
+      "code": "18156",
+      "name": "富喬六",
+      "conversionPrice": 13.53,
+      "underlyingCode": "1815"
+    },
+    {
+      "code": "19094",
+      "name": "榮成四",
+      "conversionPrice": 23.9,
+      "underlyingCode": "1909"
+    },
+    {
+      "code": "20344",
+      "name": "允強四",
+      "conversionPrice": 24,
+      "underlyingCode": "2034"
+    },
+    {
+      "code": "20662",
+      "name": "世德二",
+      "conversionPrice": 88.1,
+      "underlyingCode": "2066"
+    },
+    {
+      "code": "21043",
+      "name": "國際中橡三",
+      "conversionPrice": 21.2,
+      "underlyingCode": "2104"
+    },
+    {
+      "code": "22013",
+      "name": "裕隆三",
+      "conversionPrice": 75,
+      "underlyingCode": "2201"
+    },
+    {
+      "code": "22283",
+      "name": "劍麟三",
+      "conversionPrice": 85.36,
+      "underlyingCode": "2228"
+    },
+    {
+      "code": "22331",
+      "name": "宇隆一",
+      "conversionPrice": 250,
+      "underlyingCode": "2233"
+    },
+    {
+      "code": "22362",
+      "name": "百達二KY",
+      "conversionPrice": 61,
+      "underlyingCode": "2236"
+    },
+    {
+      "code": "22471",
+      "name": "汎德永業一",
+      "conversionPrice": 282.8,
+      "underlyingCode": "2247"
+    },
+    {
+      "code": "22472",
+      "name": "汎德永業二",
+      "conversionPrice": 273.8,
+      "underlyingCode": "2247"
+    },
+    {
+      "code": "23372",
+      "name": "旺宏二",
+      "conversionPrice": 23,
+      "underlyingCode": "2337"
+    },
+    {
+      "code": "23383",
+      "name": "光罩三",
+      "conversionPrice": 74.5,
+      "underlyingCode": "2338"
+    },
+    {
+      "code": "23511",
+      "name": "順德一",
+      "conversionPrice": 72.4,
+      "underlyingCode": "2351"
+    },
+    {
+      "code": "23683",
+      "name": "金像電三",
+      "conversionPrice": 450,
+      "underlyingCode": "2368"
+    },
+    {
+      "code": "24023",
+      "name": "毅嘉三",
+      "conversionPrice": 55,
+      "underlyingCode": "2402"
+    },
+    {
+      "code": "24271",
+      "name": "三商電一",
+      "conversionPrice": 26.3,
+      "underlyingCode": "2427"
+    },
+    {
+      "code": "24361",
+      "name": "偉詮電一",
+      "conversionPrice": 53.3,
+      "underlyingCode": "2436"
+    },
+    {
+      "code": "24394",
+      "name": "美律四",
+      "conversionPrice": 128.9,
+      "underlyingCode": "2439"
+    },
+    {
+      "code": "24395",
+      "name": "美律五",
+      "conversionPrice": 125.2,
+      "underlyingCode": "2439"
+    },
+    {
+      "code": "24423",
+      "name": "新美齊三",
+      "conversionPrice": 25.6,
+      "underlyingCode": "2442"
+    },
+    {
+      "code": "24424",
+      "name": "新美齊四",
+      "conversionPrice": 25.9,
+      "underlyingCode": "2442"
+    },
+    {
+      "code": "24552",
+      "name": "全新二",
+      "conversionPrice": 162.9,
+      "underlyingCode": "2455"
+    },
+    {
+      "code": "24553",
+      "name": "全新三",
+      "conversionPrice": 153.5,
+      "underlyingCode": "2455"
+    },
+    {
+      "code": "24616",
+      "name": "光群雷六",
+      "conversionPrice": 14.5,
+      "underlyingCode": "2461"
+    },
+    {
+      "code": "24624",
+      "name": "良得電四",
+      "conversionPrice": 30.09,
+      "underlyingCode": "2462"
+    },
+    {
+      "code": "24642",
+      "name": "盟立二",
+      "conversionPrice": 78.5,
+      "underlyingCode": "2464"
+    },
+    {
+      "code": "24672",
+      "name": "志聖二",
+      "conversionPrice": 250.6,
+      "underlyingCode": "2467"
+    },
+    {
+      "code": "24673",
+      "name": "志聖三",
+      "conversionPrice": 246.6,
+      "underlyingCode": "2467"
+    },
+    {
+      "code": "24762",
+      "name": "鉅祥二",
+      "conversionPrice": 66.5,
+      "underlyingCode": "2476"
+    },
+    {
+      "code": "24866",
+      "name": "一詮六",
+      "conversionPrice": 125.2,
+      "underlyingCode": "2486"
+    },
+    {
+      "code": "25283",
+      "name": "皇普三",
+      "conversionPrice": 42.4,
+      "underlyingCode": "2528"
+    },
+    {
+      "code": "25284",
+      "name": "皇普四",
+      "conversionPrice": 41,
+      "underlyingCode": "2528"
+    },
+    {
+      "code": "25303",
+      "name": "華建三",
+      "conversionPrice": 32.2,
+      "underlyingCode": "2530"
+    },
+    {
+      "code": "25304",
+      "name": "華建四",
+      "conversionPrice": 30.2,
+      "underlyingCode": "2530"
+    },
+    {
+      "code": "25483",
+      "name": "華固三",
+      "conversionPrice": 125,
+      "underlyingCode": "2548"
+    },
+    {
+      "code": "25484",
+      "name": "華固四",
+      "conversionPrice": 123.5,
+      "underlyingCode": "2548"
+    },
+    {
+      "code": "26107",
+      "name": "華航七",
+      "conversionPrice": 16.9,
+      "underlyingCode": "2610"
+    },
+    {
+      "code": "26417",
+      "name": "正德七",
+      "conversionPrice": 22.15,
+      "underlyingCode": "2641"
+    },
+    {
+      "code": "26418",
+      "name": "正德八",
+      "conversionPrice": 19.3,
+      "underlyingCode": "2641"
+    },
+    {
+      "code": "27271",
+      "name": "王品一",
+      "conversionPrice": 233.4,
+      "underlyingCode": "2727"
+    },
+    {
+      "code": "27323",
+      "name": "六角三",
+      "conversionPrice": 124.8,
+      "underlyingCode": "2732"
+    },
+    {
+      "code": "27324",
+      "name": "六角四",
+      "conversionPrice": 74.3,
+      "underlyingCode": "2732"
+    },
+    {
+      "code": "27431",
+      "name": "山富一",
+      "conversionPrice": 101.9,
+      "underlyingCode": "2743"
+    },
+    {
+      "code": "27451",
+      "name": "五福一",
+      "conversionPrice": 111.3,
+      "underlyingCode": "2745"
+    },
+    {
+      "code": "27531",
+      "name": "八方雲集一",
+      "conversionPrice": 207.6,
+      "underlyingCode": "2753"
+    },
+    {
+      "code": "27532",
+      "name": "八方雲集二",
+      "conversionPrice": 205.6,
+      "underlyingCode": "2753"
+    },
+    {
+      "code": "27551",
+      "name": "揚秦一",
+      "conversionPrice": 86.7,
+      "underlyingCode": "2755"
+    },
+    {
+      "code": "27561",
+      "name": "聯發國際一",
+      "conversionPrice": 90.1,
+      "underlyingCode": "2756"
+    },
+    {
+      "code": "29051",
+      "name": "三商一",
+      "conversionPrice": 19.23,
+      "underlyingCode": "2905"
+    },
+    {
+      "code": "29061",
+      "name": "高林一",
+      "conversionPrice": 16.8,
+      "underlyingCode": "2906"
+    },
+    {
+      "code": "30061",
+      "name": "晶豪科一",
+      "conversionPrice": 83.6,
+      "underlyingCode": "3006"
+    },
+    {
+      "code": "30134",
+      "name": "晟銘電四",
+      "conversionPrice": 143.8,
+      "underlyingCode": "3013"
+    },
+    {
+      "code": "30165",
+      "name": "嘉晶五",
+      "conversionPrice": 71.4,
+      "underlyingCode": "3016"
+    },
+    {
+      "code": "30321",
+      "name": "偉訓一",
+      "conversionPrice": 105.9,
+      "underlyingCode": "3032"
+    },
+    {
+      "code": "30322",
+      "name": "偉訓二",
+      "conversionPrice": 101.9,
+      "underlyingCode": "3032"
+    },
+    {
+      "code": "30336",
+      "name": "威健六",
+      "conversionPrice": 24.84,
+      "underlyingCode": "3033"
+    },
+    {
+      "code": "30337",
+      "name": "威健七",
+      "conversionPrice": 34.44,
+      "underlyingCode": "3033"
+    },
+    {
+      "code": "30371",
+      "name": "欣興一",
+      "conversionPrice": 164.1,
+      "underlyingCode": "3037"
+    },
+    {
+      "code": "30401",
+      "name": "遠見一",
+      "conversionPrice": 47.2,
+      "underlyingCode": "3040"
+    },
+    {
+      "code": "30454",
+      "name": "台灣大四",
+      "conversionPrice": 118.2,
+      "underlyingCode": "3045"
+    },
+    {
+      "code": "30455",
+      "name": "台灣大五",
+      "conversionPrice": 111.3,
+      "underlyingCode": "3045"
+    },
+    {
+      "code": "30882",
+      "name": "艾訊二",
+      "conversionPrice": 88.5,
+      "underlyingCode": "3088"
+    },
+    {
+      "code": "30922",
+      "name": "鴻碩二",
+      "conversionPrice": 36,
+      "underlyingCode": "3092"
+    },
+    {
+      "code": "30954",
+      "name": "及成四",
+      "conversionPrice": 41.1,
+      "underlyingCode": "3095"
+    },
+    {
+      "code": "31222",
+      "name": "笙泉二",
+      "conversionPrice": 42.3,
+      "underlyingCode": "3122"
+    },
+    {
+      "code": "31282",
+      "name": "昇銳二",
+      "conversionPrice": 37.8,
+      "underlyingCode": "3128"
+    },
+    {
+      "code": "31311",
+      "name": "弘塑一",
+      "conversionPrice": 1736.5,
+      "underlyingCode": "3131"
+    },
+    {
+      "code": "31312",
+      "name": "弘塑二",
+      "conversionPrice": 1626.6,
+      "underlyingCode": "3131"
+    },
+    {
+      "code": "31351",
+      "name": "凌航一",
+      "conversionPrice": 50.85,
+      "underlyingCode": "3135"
+    },
+    {
+      "code": "31382",
+      "name": "耀登二",
+      "conversionPrice": 114.7,
+      "underlyingCode": "3138"
+    },
+    {
+      "code": "31413",
+      "name": "晶宏三",
+      "conversionPrice": 93.6,
+      "underlyingCode": "3141"
+    },
+    {
+      "code": "31672",
+      "name": "大量二",
+      "conversionPrice": 169.1,
+      "underlyingCode": "3167"
+    },
+    {
+      "code": "31882",
+      "name": "鑫龍騰二",
+      "conversionPrice": 31.4,
+      "underlyingCode": "3188"
+    },
+    {
+      "code": "32071",
+      "name": "耀勝一",
+      "conversionPrice": 100.99,
+      "underlyingCode": "3207"
+    },
+    {
+      "code": "32571",
+      "name": "虹冠電一",
+      "conversionPrice": 72.2,
+      "underlyingCode": "3257"
+    },
+    {
+      "code": "32608",
+      "name": "威剛八",
+      "conversionPrice": 244,
+      "underlyingCode": "3260"
+    },
+    {
+      "code": "32723",
+      "name": "東碩三",
+      "conversionPrice": 34.2,
+      "underlyingCode": "3272"
+    },
+    {
+      "code": "32843",
+      "name": "太普高三",
+      "conversionPrice": 23.91,
+      "underlyingCode": "3284"
+    },
+    {
+      "code": "33035",
+      "name": "岱稜五",
+      "conversionPrice": 58.6,
+      "underlyingCode": "3303"
+    },
+    {
+      "code": "33055",
+      "name": "昇貿五",
+      "conversionPrice": 73.3,
+      "underlyingCode": "3305"
+    },
+    {
+      "code": "33121",
+      "name": "弘憶股一",
+      "conversionPrice": 73.2,
+      "underlyingCode": "3312"
+    },
+    {
+      "code": "33133",
+      "name": "斐成三",
+      "conversionPrice": 15.7,
+      "underlyingCode": "3313"
+    },
+    {
+      "code": "33225",
+      "name": "建舜電五",
+      "conversionPrice": 23.54,
+      "underlyingCode": "3322"
+    },
+    {
+      "code": "33233",
+      "name": "加百裕三",
+      "conversionPrice": 32.6,
+      "underlyingCode": "3323"
+    },
+    {
+      "code": "33245",
+      "name": "雙鴻五",
+      "conversionPrice": 734.4,
+      "underlyingCode": "3324"
+    },
+    {
+      "code": "33466",
+      "name": "麗清六",
+      "conversionPrice": 36.5,
+      "underlyingCode": "3346"
+    },
+    {
+      "code": "33571",
+      "name": "臺慶科一",
+      "conversionPrice": 107.4,
+      "underlyingCode": "3357"
+    },
+    {
+      "code": "33621",
+      "name": "先進光一",
+      "conversionPrice": 251,
+      "underlyingCode": "3362"
+    },
+    {
+      "code": "33763",
+      "name": "新日興三",
+      "conversionPrice": 195.2,
+      "underlyingCode": "3376"
+    },
+    {
+      "code": "33881",
+      "name": "崇越電一",
+      "conversionPrice": 62.8,
+      "underlyingCode": "3388"
+    },
+    {
+      "code": "33902",
+      "name": "旭軟二",
+      "conversionPrice": 24.2,
+      "underlyingCode": "3390"
+    },
+    {
+      "code": "34163",
+      "name": "融程電三",
+      "conversionPrice": 127.1,
+      "underlyingCode": "3416"
+    },
+    {
+      "code": "34793",
+      "name": "安勤三",
+      "conversionPrice": 109.3,
+      "underlyingCode": "3479"
+    },
+    {
+      "code": "34834",
+      "name": "力致四",
+      "conversionPrice": 136.1,
+      "underlyingCode": "3483"
+    },
+    {
+      "code": "34843",
+      "name": "崧騰三",
+      "conversionPrice": 42.2,
+      "underlyingCode": "3484"
+    },
+    {
+      "code": "35161",
+      "name": "亞帝歐一",
+      "conversionPrice": 25.81,
+      "underlyingCode": "3516"
+    },
+    {
+      "code": "35181",
+      "name": "柏騰一",
+      "conversionPrice": 34.9,
+      "underlyingCode": "3518"
+    },
+    {
+      "code": "35221",
+      "name": "御嵿一",
+      "conversionPrice": 18.6,
+      "underlyingCode": "3522"
+    },
+    {
+      "code": "35265",
+      "name": "凡甲五",
+      "conversionPrice": 161.2,
+      "underlyingCode": "3526"
+    },
+    {
+      "code": "35266",
+      "name": "凡甲六",
+      "conversionPrice": 200.3,
+      "underlyingCode": "3526"
+    },
+    {
+      "code": "35267",
+      "name": "凡甲七",
+      "conversionPrice": 269.6,
+      "underlyingCode": "3526"
+    },
+    {
+      "code": "35431",
+      "name": "州巧一",
+      "conversionPrice": 45,
+      "underlyingCode": "3543"
+    },
+    {
+      "code": "35482",
+      "name": "兆利二",
+      "conversionPrice": 186,
+      "underlyingCode": "3548"
+    },
+    {
+      "code": "35483",
+      "name": "兆利三",
+      "conversionPrice": 162.8,
+      "underlyingCode": "3548"
+    },
+    {
+      "code": "35513",
+      "name": "世禾三",
+      "conversionPrice": 173,
+      "underlyingCode": "3551"
+    },
+    {
+      "code": "35642",
+      "name": "其陽二",
+      "conversionPrice": 83.9,
+      "underlyingCode": "3564"
+    },
+    {
+      "code": "35831",
+      "name": "辛耘一",
+      "conversionPrice": 349.3,
+      "underlyingCode": "3583"
+    },
+    {
+      "code": "35832",
+      "name": "辛耘二",
+      "conversionPrice": 337.4,
+      "underlyingCode": "3583"
+    },
+    {
+      "code": "35871",
+      "name": "閎康一",
+      "conversionPrice": 192,
+      "underlyingCode": "3587"
+    },
+    {
+      "code": "35914",
+      "name": "艾笛森四",
+      "conversionPrice": 24.5,
+      "underlyingCode": "3591"
+    },
+    {
+      "code": "36053",
+      "name": "宏致三",
+      "conversionPrice": 50.5,
+      "underlyingCode": "3605"
+    },
+    {
+      "code": "36173",
+      "name": "碩天三",
+      "conversionPrice": 287.3,
+      "underlyingCode": "3617"
+    },
+    {
+      "code": "36804",
+      "name": "家登四",
+      "conversionPrice": 354,
+      "underlyingCode": "3680"
+    },
+    {
+      "code": "36841",
+      "name": "榮昌一",
+      "conversionPrice": 50.7,
+      "underlyingCode": "3684"
+    },
+    {
+      "code": "36872",
+      "name": "歐買尬二",
+      "conversionPrice": 75.9,
+      "underlyingCode": "3687"
+    },
+    {
+      "code": "36873",
+      "name": "歐買尬三",
+      "conversionPrice": 80.1,
+      "underlyingCode": "3687"
+    },
+    {
+      "code": "36894",
+      "name": "湧德四",
+      "conversionPrice": 61.7,
+      "underlyingCode": "3689"
+    },
+    {
+      "code": "36913",
+      "name": "碩禾三",
+      "conversionPrice": 118,
+      "underlyingCode": "3691"
+    },
+    {
+      "code": "37012",
+      "name": "大眾控二",
+      "conversionPrice": 63.96,
+      "underlyingCode": "3701"
+    },
+    {
+      "code": "37022",
+      "name": "大聯大二",
+      "conversionPrice": 76.9,
+      "underlyingCode": "3702"
+    },
+    {
+      "code": "37023",
+      "name": "大聯大三",
+      "conversionPrice": 74.6,
+      "underlyingCode": "3702"
+    },
+    {
+      "code": "37075",
+      "name": "漢磊五",
+      "conversionPrice": 40.1,
+      "underlyingCode": "3707"
+    },
+    {
+      "code": "37083",
+      "name": "上緯投控三",
+      "conversionPrice": 86.4,
+      "underlyingCode": "3708"
+    },
+    {
+      "code": "37084",
+      "name": "上緯投控四",
+      "conversionPrice": 83,
+      "underlyingCode": "3708"
+    },
+    {
+      "code": "37131",
+      "name": "新晶投控一",
+      "conversionPrice": 53.3,
+      "underlyingCode": "3713"
+    },
+    {
+      "code": "37151",
+      "name": "定穎投控一",
+      "conversionPrice": 140,
+      "underlyingCode": "3715"
+    },
+    {
+      "code": "37171",
+      "name": "聯嘉投控一",
+      "conversionPrice": 17.5,
+      "underlyingCode": "3717"
+    },
+    {
+      "code": "41135",
+      "name": "聯上五",
+      "conversionPrice": 26.3,
+      "underlyingCode": "4113"
+    },
+    {
+      "code": "41236",
+      "name": "晟德六",
+      "conversionPrice": 38.6,
+      "underlyingCode": "4123"
+    },
+    {
+      "code": "41237",
+      "name": "晟德七",
+      "conversionPrice": 39.3,
+      "underlyingCode": "4123"
+    },
+    {
+      "code": "41295",
+      "name": "聯合五",
+      "conversionPrice": 105.6,
+      "underlyingCode": "4129"
+    },
+    {
+      "code": "41372",
+      "name": "麗豐二KY",
+      "conversionPrice": 141.3,
+      "underlyingCode": "4137"
+    },
+    {
+      "code": "41645",
+      "name": "承業醫五",
+      "conversionPrice": 47,
+      "underlyingCode": "4164"
+    },
+    {
+      "code": "41684",
+      "name": "醣聯四",
+      "conversionPrice": 23.91,
+      "underlyingCode": "4168"
+    },
+    {
+      "code": "41903",
+      "name": "佐登三KY",
+      "conversionPrice": 54.2,
+      "underlyingCode": "4190"
+    },
+    {
+      "code": "44163",
+      "name": "三圓三",
+      "conversionPrice": 65.7,
+      "underlyingCode": "4416"
+    },
+    {
+      "code": "44383",
+      "name": "廣越三",
+      "conversionPrice": 75,
+      "underlyingCode": "4438"
+    },
+    {
+      "code": "44391",
+      "name": "冠星一KY",
+      "conversionPrice": 100.8,
+      "underlyingCode": "4439"
+    },
+    {
+      "code": "44421",
+      "name": "竣邦一KY",
+      "conversionPrice": 48.5,
+      "underlyingCode": "4442"
+    },
+    {
+      "code": "45102",
+      "name": "高鋒二",
+      "conversionPrice": 48.41,
+      "underlyingCode": "4510"
+    },
+    {
+      "code": "45421",
+      "name": "科嶠一",
+      "conversionPrice": 85.9,
+      "underlyingCode": "4542"
+    },
+    {
+      "code": "45491",
+      "name": "桓達一",
+      "conversionPrice": 154.4,
+      "underlyingCode": "4549"
+    },
+    {
+      "code": "45554",
+      "name": "氣立四",
+      "conversionPrice": 43.4,
+      "underlyingCode": "4555"
+    },
+    {
+      "code": "45581",
+      "name": "寶緯一",
+      "conversionPrice": 29.8,
+      "underlyingCode": "4558"
+    },
+    {
+      "code": "45641",
+      "name": "元翎一",
+      "conversionPrice": 26.4,
+      "underlyingCode": "4564"
+    },
+    {
+      "code": "45663",
+      "name": "時碩工業三",
+      "conversionPrice": 49.6,
+      "underlyingCode": "4566"
+    },
+    {
+      "code": "45691",
+      "name": "六方科一KY",
+      "conversionPrice": 203.9,
+      "underlyingCode": "4569"
+    },
+    {
+      "code": "45721",
+      "name": "駐龍一",
+      "conversionPrice": 160.6,
+      "underlyingCode": "4572"
+    },
+    {
+      "code": "45811",
+      "name": "光隆精密一KY",
+      "conversionPrice": 53.4,
+      "underlyingCode": "4581"
+    },
+    {
+      "code": "47223",
+      "name": "國精化三",
+      "conversionPrice": 141.3,
+      "underlyingCode": "4722"
+    },
+    {
+      "code": "47393",
+      "name": "康普三",
+      "conversionPrice": 97.8,
+      "underlyingCode": "4739"
+    },
+    {
+      "code": "47394",
+      "name": "康普四",
+      "conversionPrice": 70.5,
+      "underlyingCode": "4739"
+    },
+    {
+      "code": "47471",
+      "name": "強生一",
+      "conversionPrice": 59.58,
+      "underlyingCode": "4747"
+    },
+    {
+      "code": "47721",
+      "name": "台特化一",
+      "conversionPrice": 323.8,
+      "underlyingCode": "4772"
+    },
+    {
+      "code": "49066",
+      "name": "正文六",
+      "conversionPrice": 26.6,
+      "underlyingCode": "4906"
+    },
+    {
+      "code": "49165",
+      "name": "事欣科五",
+      "conversionPrice": 42.88,
+      "underlyingCode": "4916"
+    },
+    {
+      "code": "49231",
+      "name": "力士一",
+      "conversionPrice": 34.66,
+      "underlyingCode": "4923"
+    },
+    {
+      "code": "49674",
+      "name": "十銓四",
+      "conversionPrice": 147,
+      "underlyingCode": "4967"
+    },
+    {
+      "code": "49793",
+      "name": "華星光三",
+      "conversionPrice": 176.5,
+      "underlyingCode": "4979"
+    },
+    {
+      "code": "49794",
+      "name": "華星光四",
+      "conversionPrice": 204.3,
+      "underlyingCode": "4979"
+    },
+    {
+      "code": "50097",
+      "name": "榮剛七",
+      "conversionPrice": 50.3,
+      "underlyingCode": "5009"
+    },
+    {
+      "code": "52011",
+      "name": "凱衛一",
+      "conversionPrice": 38.5,
+      "underlyingCode": "5201"
+    },
+    {
+      "code": "52091",
+      "name": "新鼎一",
+      "conversionPrice": 151.1,
+      "underlyingCode": "5209"
+    },
+    {
+      "code": "52121",
+      "name": "凌網一",
+      "conversionPrice": 62.64,
+      "underlyingCode": "5212"
+    },
+    {
+      "code": "52303",
+      "name": "雷笛克光學三",
+      "conversionPrice": 22,
+      "underlyingCode": "5230"
+    },
+    {
+      "code": "52441",
+      "name": "弘凱一",
+      "conversionPrice": 44.5,
+      "underlyingCode": "5244"
+    },
+    {
+      "code": "52452",
+      "name": "智晶二",
+      "conversionPrice": 35,
+      "underlyingCode": "5245"
+    },
+    {
+      "code": "52635",
+      "name": "智崴五",
+      "conversionPrice": 110.4,
+      "underlyingCode": "5263"
+    },
+    {
+      "code": "53064",
+      "name": "桂盟四",
+      "conversionPrice": 121.3,
+      "underlyingCode": "5306"
+    },
+    {
+      "code": "53095",
+      "name": "系統電五",
+      "conversionPrice": 38.2,
+      "underlyingCode": "5309"
+    },
+    {
+      "code": "53096",
+      "name": "系統電六",
+      "conversionPrice": 63.5,
+      "underlyingCode": "5309"
+    },
+    {
+      "code": "53097",
+      "name": "系統電七",
+      "conversionPrice": 55,
+      "underlyingCode": "5309"
+    },
+    {
+      "code": "53211",
+      "name": "美而快一",
+      "conversionPrice": 85.3,
+      "underlyingCode": "5321"
+    },
+    {
+      "code": "53887",
+      "name": "中磊七",
+      "conversionPrice": 134.6,
+      "underlyingCode": "5388"
+    },
+    {
+      "code": "54342",
+      "name": "崇越二",
+      "conversionPrice": 184.1,
+      "underlyingCode": "5434"
+    },
+    {
+      "code": "54391",
+      "name": "高技一",
+      "conversionPrice": 300,
+      "underlyingCode": "5439"
+    },
+    {
+      "code": "54501",
+      "name": "南良一",
+      "conversionPrice": 17.4,
+      "underlyingCode": "5450"
+    },
+    {
+      "code": "54573",
+      "name": "宣德三",
+      "conversionPrice": 66.9,
+      "underlyingCode": "5457"
+    },
+    {
+      "code": "55434",
+      "name": "桓鼎四KY",
+      "conversionPrice": 52.3,
+      "underlyingCode": "5543"
+    },
+    {
+      "code": "56086",
+      "name": "四維航六",
+      "conversionPrice": 22.1,
+      "underlyingCode": "5608"
+    },
+    {
+      "code": "56087",
+      "name": "四維航七",
+      "conversionPrice": 19.3,
+      "underlyingCode": "5608"
+    },
+    {
+      "code": "59055",
+      "name": "南仁湖四",
+      "conversionPrice": 12.62,
+      "underlyingCode": "5905"
+    },
+    {
+      "code": "60151",
+      "name": "宏遠證一",
+      "conversionPrice": 14.54,
+      "underlyingCode": "6015"
+    },
+    {
+      "code": "60152",
+      "name": "宏遠證二",
+      "conversionPrice": 10.22,
+      "underlyingCode": "6015"
+    },
+    {
+      "code": "61011",
+      "name": "寬魚國際一",
+      "conversionPrice": 36.9,
+      "underlyingCode": "6101"
+    },
+    {
+      "code": "61012",
+      "name": "寬魚國際二",
+      "conversionPrice": 38.9,
+      "underlyingCode": "6101"
+    },
+    {
+      "code": "61041",
+      "name": "創惟一",
+      "conversionPrice": 124.8,
+      "underlyingCode": "6104"
+    },
+    {
+      "code": "61112",
+      "name": "大宇資二",
+      "conversionPrice": 67,
+      "underlyingCode": "6111"
+    },
+    {
+      "code": "61171",
+      "name": "迎廣一",
+      "conversionPrice": 82,
+      "underlyingCode": "6117"
+    },
+    {
+      "code": "61172",
+      "name": "迎廣二",
+      "conversionPrice": 77.4,
+      "underlyingCode": "6117"
+    },
+    {
+      "code": "61255",
+      "name": "廣運五",
+      "conversionPrice": 112,
+      "underlyingCode": "6125"
+    },
+    {
+      "code": "61263",
+      "name": "信音三",
+      "conversionPrice": 26.8,
+      "underlyingCode": "6126"
+    },
+    {
+      "code": "61394",
+      "name": "亞翔四",
+      "conversionPrice": 157.6,
+      "underlyingCode": "6139"
+    },
+    {
+      "code": "61506",
+      "name": "撼訊六",
+      "conversionPrice": 90.2,
+      "underlyingCode": "6150"
+    },
+    {
+      "code": "61565",
+      "name": "松上五",
+      "conversionPrice": 29,
+      "underlyingCode": "6156"
+    },
+    {
+      "code": "61635",
+      "name": "華電網五",
+      "conversionPrice": 25.02,
+      "underlyingCode": "6163"
+    },
+    {
+      "code": "61777",
+      "name": "達麗七",
+      "conversionPrice": 46.1,
+      "underlyingCode": "6177"
+    },
+    {
+      "code": "61793",
+      "name": "亞通三",
+      "conversionPrice": 34.4,
+      "underlyingCode": "6179"
+    },
+    {
+      "code": "61794",
+      "name": "亞通四",
+      "conversionPrice": 29.1,
+      "underlyingCode": "6179"
+    },
+    {
+      "code": "61827",
+      "name": "合晶七",
+      "conversionPrice": 61.2,
+      "underlyingCode": "6182"
+    },
+    {
+      "code": "61828",
+      "name": "合晶八",
+      "conversionPrice": 33.5,
+      "underlyingCode": "6182"
+    },
+    {
+      "code": "61843",
+      "name": "大豐電三",
+      "conversionPrice": 49.4,
+      "underlyingCode": "6184"
+    },
+    {
+      "code": "61875",
+      "name": "萬潤五",
+      "conversionPrice": 276.8,
+      "underlyingCode": "6187"
+    },
+    {
+      "code": "61894",
+      "name": "豐藝四",
+      "conversionPrice": 43.14,
+      "underlyingCode": "6189"
+    },
+    {
+      "code": "61907",
+      "name": "萬泰科七",
+      "conversionPrice": 41.7,
+      "underlyingCode": "6190"
+    },
+    {
+      "code": "61965",
+      "name": "帆宣五",
+      "conversionPrice": 130.7,
+      "underlyingCode": "6196"
+    },
+    {
+      "code": "61973",
+      "name": "佳必琪三",
+      "conversionPrice": 152,
+      "underlyingCode": "6197"
+    },
+    {
+      "code": "61993",
+      "name": "天品三",
+      "conversionPrice": 104.6,
+      "underlyingCode": "6199"
+    },
+    {
+      "code": "61994",
+      "name": "天品四",
+      "conversionPrice": 114.8,
+      "underlyingCode": "6199"
+    },
+    {
+      "code": "62075",
+      "name": "雷科五",
+      "conversionPrice": 50.7,
+      "underlyingCode": "6207"
+    },
+    {
+      "code": "62076",
+      "name": "雷科六",
+      "conversionPrice": 49.2,
+      "underlyingCode": "6207"
+    },
+    {
+      "code": "62093",
+      "name": "今國光三",
+      "conversionPrice": 38.6,
+      "underlyingCode": "6209"
+    },
+    {
+      "code": "62194",
+      "name": "富旺四",
+      "conversionPrice": 21.17,
+      "underlyingCode": "6219"
+    },
+    {
+      "code": "62433",
+      "name": "迅杰三",
+      "conversionPrice": 63.3,
+      "underlyingCode": "6243"
+    },
+    {
+      "code": "62695",
+      "name": "台郡五",
+      "conversionPrice": 93,
+      "underlyingCode": "6269"
+    },
+    {
+      "code": "62696",
+      "name": "台郡六",
+      "conversionPrice": 101,
+      "underlyingCode": "6269"
+    },
+    {
+      "code": "62745",
+      "name": "台燿五",
+      "conversionPrice": 386,
+      "underlyingCode": "6274"
+    },
+    {
+      "code": "62756",
+      "name": "元山六",
+      "conversionPrice": 24,
+      "underlyingCode": "6275"
+    },
+    {
+      "code": "62822",
+      "name": "康舒二",
+      "conversionPrice": 46.1,
+      "underlyingCode": "6282"
+    },
+    {
+      "code": "62843",
+      "name": "佳邦三",
+      "conversionPrice": 86.6,
+      "underlyingCode": "6284"
+    },
+    {
+      "code": "64145",
+      "name": "樺漢五",
+      "conversionPrice": 273.6,
+      "underlyingCode": "6414"
+    },
+    {
+      "code": "64251",
+      "name": "易發一",
+      "conversionPrice": 58.7,
+      "underlyingCode": "6425"
+    },
+    {
+      "code": "64324",
+      "name": "今展科四",
+      "conversionPrice": 30.88,
+      "underlyingCode": "6432"
+    },
+    {
+      "code": "64422",
+      "name": "光聖二",
+      "conversionPrice": 1103.5,
+      "underlyingCode": "6442"
+    },
+    {
+      "code": "64423",
+      "name": "光聖三",
+      "conversionPrice": 1065.9,
+      "underlyingCode": "6442"
+    },
+    {
+      "code": "64512",
+      "name": "訊芯二KY",
+      "conversionPrice": 240.6,
+      "underlyingCode": "6451"
+    },
+    {
+      "code": "64693",
+      "name": "大樹三",
+      "conversionPrice": 132.53,
+      "underlyingCode": "6469"
+    },
+    {
+      "code": "64773",
+      "name": "安集三",
+      "conversionPrice": 41.9,
+      "underlyingCode": "6477"
+    },
+    {
+      "code": "64774",
+      "name": "安集四",
+      "conversionPrice": 50.4,
+      "underlyingCode": "6477"
+    },
+    {
+      "code": "64775",
+      "name": "安集五",
+      "conversionPrice": 44.3,
+      "underlyingCode": "6477"
+    },
+    {
+      "code": "65096",
+      "name": "聚和六",
+      "conversionPrice": 37.6,
+      "underlyingCode": "6509"
+    },
+    {
+      "code": "65101",
+      "name": "精測一",
+      "conversionPrice": 2016.8,
+      "underlyingCode": "6510"
+    },
+    {
+      "code": "65331",
+      "name": "晶心科一",
+      "conversionPrice": 308,
+      "underlyingCode": "6533"
+    },
+    {
+      "code": "65381",
+      "name": "倉和一",
+      "conversionPrice": 104.4,
+      "underlyingCode": "6538"
+    },
+    {
+      "code": "65461",
+      "name": "正基一",
+      "conversionPrice": 149,
+      "underlyingCode": "6546"
+    },
+    {
+      "code": "65521",
+      "name": "易華電一",
+      "conversionPrice": 58.8,
+      "underlyingCode": "6552"
+    },
+    {
+      "code": "65841",
+      "name": "南俊國際一",
+      "conversionPrice": 177.5,
+      "underlyingCode": "6584"
+    },
+    {
+      "code": "65842",
+      "name": "南俊國際二",
+      "conversionPrice": 191.6,
+      "underlyingCode": "6584"
+    },
+    {
+      "code": "65851",
+      "name": "鼎基一",
+      "conversionPrice": 110.9,
+      "underlyingCode": "6585"
+    },
+    {
+      "code": "65852",
+      "name": "鼎基二",
+      "conversionPrice": 110.7,
+      "underlyingCode": "6585"
+    },
+    {
+      "code": "65914",
+      "name": "動力四KY",
+      "conversionPrice": 78.61,
+      "underlyingCode": "6591"
+    },
+    {
+      "code": "66163",
+      "name": "特昇三KY",
+      "conversionPrice": 14.5,
+      "underlyingCode": "6616"
+    },
+    {
+      "code": "66241",
+      "name": "萬年清一",
+      "conversionPrice": 40.6,
+      "underlyingCode": "6624"
+    },
+    {
+      "code": "66292",
+      "name": "泰金二KY",
+      "conversionPrice": 119.8,
+      "underlyingCode": "6629"
+    },
+    {
+      "code": "66411",
+      "name": "基士德一KY",
+      "conversionPrice": 56.5,
+      "underlyingCode": "6641"
+    },
+    {
+      "code": "66451",
+      "name": "金萬林一創",
+      "conversionPrice": 27.87,
+      "underlyingCode": "6645"
+    },
+    {
+      "code": "66642",
+      "name": "群翊二",
+      "conversionPrice": 292.1,
+      "underlyingCode": "6664"
+    },
+    {
+      "code": "66702",
+      "name": "復盛應用二",
+      "conversionPrice": 270,
+      "underlyingCode": "6670"
+    },
+    {
+      "code": "66721",
+      "name": "騰輝電子一KY",
+      "conversionPrice": 96,
+      "underlyingCode": "6672"
+    },
+    {
+      "code": "66801",
+      "name": "鑫創電子一",
+      "conversionPrice": 73.5,
+      "underlyingCode": "6680"
+    },
+    {
+      "code": "67062",
+      "name": "惠特二",
+      "conversionPrice": 176,
+      "underlyingCode": "6706"
+    },
+    {
+      "code": "67152",
+      "name": "嘉基二",
+      "conversionPrice": 157.1,
+      "underlyingCode": "6715"
+    },
+    {
+      "code": "67531",
+      "name": "龍德造船一",
+      "conversionPrice": 116.6,
+      "underlyingCode": "6753"
+    },
+    {
+      "code": "67681",
+      "name": "志強一KY",
+      "conversionPrice": 95.2,
+      "underlyingCode": "6768"
+    },
+    {
+      "code": "67711",
+      "name": "平和環保一創",
+      "conversionPrice": 51.66,
+      "underlyingCode": "6771"
+    },
+    {
+      "code": "67961",
+      "name": "晉弘一",
+      "conversionPrice": 107.9,
+      "underlyingCode": "6796"
+    },
+    {
+      "code": "67962",
+      "name": "晉弘二",
+      "conversionPrice": 101.6,
+      "underlyingCode": "6796"
+    },
+    {
+      "code": "68041",
+      "name": "明係一",
+      "conversionPrice": 62.2,
+      "underlyingCode": "6804"
+    },
+    {
+      "code": "68061",
+      "name": "森崴能源一",
+      "conversionPrice": 105,
+      "underlyingCode": "6806"
+    },
+    {
+      "code": "68211",
+      "name": "聯寶一",
+      "conversionPrice": 43.06,
+      "underlyingCode": "6821"
+    },
+    {
+      "code": "68231",
+      "name": "濾能一",
+      "conversionPrice": 78.6,
+      "underlyingCode": "6823"
+    },
+    {
+      "code": "68301",
+      "name": "汎銓一",
+      "conversionPrice": 147.8,
+      "underlyingCode": "6830"
+    },
+    {
+      "code": "68351",
+      "name": "圓裕一",
+      "conversionPrice": 48.8,
+      "underlyingCode": "6835"
+    },
+    {
+      "code": "68401",
+      "name": "東研信超一",
+      "conversionPrice": 65.7,
+      "underlyingCode": "6840"
+    },
+    {
+      "code": "68431",
+      "name": "進典一",
+      "conversionPrice": 61.4,
+      "underlyingCode": "6843"
+    },
+    {
+      "code": "68461",
+      "name": "綠茵一",
+      "conversionPrice": 80.4,
+      "underlyingCode": "6846"
+    },
+    {
+      "code": "68462",
+      "name": "綠茵二",
+      "conversionPrice": 78,
+      "underlyingCode": "6846"
+    },
+    {
+      "code": "68541",
+      "name": "錼創科技一KY創",
+      "conversionPrice": 248.3,
+      "underlyingCode": "6854"
+    },
+    {
+      "code": "68631",
+      "name": "永道一KY",
+      "conversionPrice": 294.9,
+      "underlyingCode": "6863"
+    },
+    {
+      "code": "68701",
+      "name": "騰雲一",
+      "conversionPrice": 238.2,
+      "underlyingCode": "6870"
+    },
+    {
+      "code": "68702",
+      "name": "騰雲二",
+      "conversionPrice": 226.9,
+      "underlyingCode": "6870"
+    },
+    {
+      "code": "68731",
+      "name": "泓德能源一",
+      "conversionPrice": 95.4,
+      "underlyingCode": "6873"
+    },
+    {
+      "code": "68732",
+      "name": "泓德能源二",
+      "conversionPrice": 215.4,
+      "underlyingCode": "6873"
+    },
+    {
+      "code": "68741",
+      "name": "倍力一",
+      "conversionPrice": 103,
+      "underlyingCode": "6874"
+    },
+    {
+      "code": "68901",
+      "name": "來億一KY",
+      "conversionPrice": 246.4,
+      "underlyingCode": "6890"
+    },
+    {
+      "code": "68902",
+      "name": "來億二KY",
+      "conversionPrice": 245.2,
+      "underlyingCode": "6890"
+    },
+    {
+      "code": "69041",
+      "name": "伯鑫一",
+      "conversionPrice": 130,
+      "underlyingCode": "6904"
+    },
+    {
+      "code": "69571",
+      "name": "裕慶一KY",
+      "conversionPrice": 190,
+      "underlyingCode": "6957"
+    },
+    {
+      "code": "69821",
+      "name": "大井泵浦一",
+      "conversionPrice": 63.6,
+      "underlyingCode": "6982"
+    },
+    {
+      "code": "69822",
+      "name": "大井泵浦二",
+      "conversionPrice": 61.8,
+      "underlyingCode": "6982"
+    },
+    {
+      "code": "74022",
+      "name": "邑錡二",
+      "conversionPrice": 97.6,
+      "underlyingCode": "7402"
+    },
+    {
+      "code": "75561",
+      "name": "意德士一永",
+      "conversionPrice": 180.9,
+      "underlyingCode": "7556"
+    },
+    {
+      "code": "75562",
+      "name": "意德士二",
+      "conversionPrice": 177.4,
+      "underlyingCode": "7556"
+    },
+    {
+      "code": "77131",
+      "name": "威力德生醫一",
+      "conversionPrice": 73.9,
+      "underlyingCode": "7713"
+    },
+    {
+      "code": "80212",
+      "name": "尖點二",
+      "conversionPrice": 203.5,
+      "underlyingCode": "8021"
+    },
+    {
+      "code": "80273",
+      "name": "鈦昇三",
+      "conversionPrice": 64.74,
+      "underlyingCode": "8027"
+    },
+    {
+      "code": "80282",
+      "name": "昇陽半導體二",
+      "conversionPrice": 138,
+      "underlyingCode": "8028"
+    },
+    {
+      "code": "80426",
+      "name": "金山電六",
+      "conversionPrice": 60,
+      "underlyingCode": "8042"
+    },
+    {
+      "code": "80506",
+      "name": "廣積六",
+      "conversionPrice": 63.3,
+      "underlyingCode": "8050"
+    },
+    {
+      "code": "80872",
+      "name": "麗升能源二",
+      "conversionPrice": 39.4,
+      "underlyingCode": "8087"
+    },
+    {
+      "code": "80914",
+      "name": "翔名四",
+      "conversionPrice": 127,
+      "underlyingCode": "8091"
+    },
+    {
+      "code": "80924",
+      "name": "建暐四",
+      "conversionPrice": 14.5,
+      "underlyingCode": "8092"
+    },
+    {
+      "code": "81042",
+      "name": "錸寶二",
+      "conversionPrice": 69.98,
+      "underlyingCode": "8104"
+    },
+    {
+      "code": "81473",
+      "name": "正淩三",
+      "conversionPrice": 132.1,
+      "underlyingCode": "8147"
+    },
+    {
+      "code": "81551",
+      "name": "博智一",
+      "conversionPrice": 121.6,
+      "underlyingCode": "8155"
+    },
+    {
+      "code": "81714",
+      "name": "天宇四",
+      "conversionPrice": 30.5,
+      "underlyingCode": "8171"
+    },
+    {
+      "code": "81715",
+      "name": "天宇五",
+      "conversionPrice": 32.4,
+      "underlyingCode": "8171"
+    },
+    {
+      "code": "82102",
+      "name": "勤誠二",
+      "conversionPrice": 1007.2,
+      "underlyingCode": "8210"
+    },
+    {
+      "code": "82551",
+      "name": "朋程一",
+      "conversionPrice": 196.2,
+      "underlyingCode": "8255"
+    },
+    {
+      "code": "82992",
+      "name": "群聯二",
+      "conversionPrice": 547.3,
+      "underlyingCode": "8299"
+    },
+    {
+      "code": "83742",
+      "name": "羅昇二",
+      "conversionPrice": 132.5,
+      "underlyingCode": "8374"
+    },
+    {
+      "code": "84041",
+      "name": "百和興業一KY",
+      "conversionPrice": 26.8,
+      "underlyingCode": "8404"
+    },
+    {
+      "code": "84113",
+      "name": "福貞三KY",
+      "conversionPrice": 13.3,
+      "underlyingCode": "8411"
+    },
+    {
+      "code": "84221",
+      "name": "可寧衛一",
+      "conversionPrice": 14.6,
+      "underlyingCode": "8422"
+    },
+    {
+      "code": "84222",
+      "name": "可寧衛二",
+      "conversionPrice": 19,
+      "underlyingCode": "8422"
+    },
+    {
+      "code": "84312",
+      "name": "匯鑽科二",
+      "conversionPrice": 68,
+      "underlyingCode": "8431"
+    },
+    {
+      "code": "84331",
+      "name": "弘帆一",
+      "conversionPrice": 63.2,
+      "underlyingCode": "8433"
+    },
+    {
+      "code": "84332",
+      "name": "弘帆二",
+      "conversionPrice": 94,
+      "underlyingCode": "8433"
+    },
+    {
+      "code": "84333",
+      "name": "弘帆三",
+      "conversionPrice": 97.8,
+      "underlyingCode": "8433"
+    },
+    {
+      "code": "84422",
+      "name": "威宏二KY",
+      "conversionPrice": 73.9,
+      "underlyingCode": "8442"
+    },
+    {
+      "code": "84623",
+      "name": "柏文三",
+      "conversionPrice": 141.2,
+      "underlyingCode": "8462"
+    },
+    {
+      "code": "84662",
+      "name": "美吉吉二KY",
+      "conversionPrice": 48.2,
+      "underlyingCode": "8466"
+    },
+    {
+      "code": "84672",
+      "name": "波力二KY",
+      "conversionPrice": 188.9,
+      "underlyingCode": "8467"
+    },
+    {
+      "code": "84673",
+      "name": "波力三KY",
+      "conversionPrice": 230.4,
+      "underlyingCode": "8467"
+    },
+    {
+      "code": "84732",
+      "name": "山林水二",
+      "conversionPrice": 34.1,
+      "underlyingCode": "8473"
+    },
+    {
+      "code": "84781",
+      "name": "東哥遊艇一",
+      "conversionPrice": 369.5,
+      "underlyingCode": "8478"
+    },
+    {
+      "code": "84881",
+      "name": "吉源一KY",
+      "conversionPrice": 18.4,
+      "underlyingCode": "8488"
+    },
+    {
+      "code": "84891",
+      "name": "三貝德一",
+      "conversionPrice": 27.9,
+      "underlyingCode": "8489"
+    },
+    {
+      "code": "89277",
+      "name": "北基七",
+      "conversionPrice": 50.79,
+      "underlyingCode": "8927"
+    },
+    {
+      "code": "89278",
+      "name": "北基八",
+      "conversionPrice": 47.4,
+      "underlyingCode": "8927"
+    },
+    {
+      "code": "89964",
+      "name": "高力四",
+      "conversionPrice": 233.5,
+      "underlyingCode": "8996"
+    },
+    {
+      "code": "98026",
+      "name": "鈺齊六KY",
+      "conversionPrice": 106.4,
+      "underlyingCode": "9802"
+    },
+    {
+      "code": "99063",
+      "name": "欣巴巴三",
+      "conversionPrice": 101.5,
+      "underlyingCode": "9906"
+    },
+    {
+      "code": "99332",
+      "name": "中鼎二",
+      "conversionPrice": 45.5,
+      "underlyingCode": "9933"
+    },
+    {
+      "code": "99353",
+      "name": "慶豐富三",
+      "conversionPrice": 32.2,
+      "underlyingCode": "9935"
+    },
+    {
+      "code": "99392",
+      "name": "宏全二",
+      "conversionPrice": 161.2,
+      "underlyingCode": "9939"
+    },
+    {
+      "code": "99412",
+      "name": "裕融二",
+      "conversionPrice": 179.3,
+      "underlyingCode": "9941"
+    },
+    {
+      "code": "99587",
+      "name": "世紀鋼七",
+      "conversionPrice": 241.7,
+      "underlyingCode": "9958"
+    },
+    {
+      "code": "99588",
+      "name": "世紀鋼八永",
+      "conversionPrice": 232.7,
+      "underlyingCode": "9958"
+    }
+  ]
+}

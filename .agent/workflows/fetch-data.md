@@ -1,21 +1,15 @@
 ---
-description: 執行耗時資料查詢或爬蟲任務的標準作業程序 (SOP)
+description: 抓取 CB 即時行情
 ---
 
-針對天氣查詢、商品比價、餐廳列表等可能耗時的資料抓取任務，請嚴格遵守以下「試抓 -> 驗證 -> 執行」流程：
+# 抓取 CB 即時行情
 
-1.  **取樣階段 (Sample Phase)**
-    - 先僅抓取 **前 3 筆** 或 **前 3 天** 的資料。
-    - 不要一次跑完所有迴圈。
+從 PSC 抓取 Master Data（轉換價格等），並從證交所 MIS API 更新即時價格。
 
-2.  **格式化與呈現 (Presentation)**
-    - 將這 3 筆資料整理成最終預計呈現的格式（例如：Markdown 表格、JSON、或其他指定格式）。
-    - 確保欄位、單位、翻譯等細節都已處理完畢。
+// turbo
+1. 抓取 Master Data（需 Puppeteer，約 30 秒）
+   node tools/fetch-psc-data.js
 
-3.  **用戶驗證 (Verification)**
-    - 暫停任務，使用 `notify_user` 向用戶展示樣本。
-    - 詢問：「這是前 3 筆資料的格式與內容，請問是否符合您的預期？(LGTM to proceed)」
-
-4.  **全面執行 (Full Execution)**
-    - **只有在** 獲得用戶明確批准 (LGTM) 後，才繼續執行剩餘的資料抓取工作。
-    - 若用戶有修改意見，請調整後重新取樣驗證。
+// turbo
+2. 更新即時行情（純 API 呼叫）
+   node tools/fetch-cb-data.js
