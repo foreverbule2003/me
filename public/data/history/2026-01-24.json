@@ -1,13 +1,14 @@
 {
   "date": "2026-01-24",
-  "timestamp": 1769217808,
-  "version": "1.0",
-  "source": "PChome",
+  "timestamp": 1769233336,
+  "version": "2.0",
+  "source": "pchome",
   "count": 25,
   "data": [
     {
       "code": "30371",
       "name": "欣興一",
+      "time": "13:30:00",
       "price": 205,
       "change": "+9.00",
       "changePercent": "+4.59%",
@@ -18,6 +19,7 @@
     {
       "code": "66721",
       "name": "騰輝電子一KY",
+      "time": "13:30:00",
       "price": 112,
       "change": "+2.00",
       "changePercent": "+1.82%",
@@ -28,6 +30,7 @@
     {
       "code": "37151",
       "name": "定穎投控一",
+      "time": "13:30:00",
       "price": 128.95,
       "change": "+6.75",
       "changePercent": "+5.52%",
@@ -38,6 +41,7 @@
     {
       "code": "23683",
       "name": "金像電三",
+      "time": "13:30:00",
       "price": 148.65,
       "change": "+3.30",
       "changePercent": "+2.27%",
@@ -48,6 +52,7 @@
     {
       "code": "49674",
       "name": "十銓四",
+      "time": "13:30:00",
       "price": 149.9,
       "change": "+1.90",
       "changePercent": "+1.28%",
@@ -58,6 +63,7 @@
     {
       "code": "16095",
       "name": "大亞五",
+      "time": "13:30:00",
       "price": 108.7,
       "change": "-8.30",
       "changePercent": "-7.09%",
@@ -68,6 +74,7 @@
     {
       "code": "62822",
       "name": "康舒二",
+      "time": "13:30:00",
       "price": 133.4,
       "change": "-0.05",
       "changePercent": "-0.04%",
@@ -78,6 +85,7 @@
     {
       "code": "68901",
       "name": "來億一KY",
+      "time": "13:13:50",
       "price": 108.5,
       "change": "-0.10",
       "changePercent": "-0.09%",
@@ -88,6 +96,7 @@
     {
       "code": "62745",
       "name": "台燿五",
+      "time": "13:30:00",
       "price": 142,
       "change": "+3.50",
       "changePercent": "+2.53%",
@@ -98,6 +107,7 @@
     {
       "code": "32608",
       "name": "威剛八",
+      "time": "13:30:00",
       "price": 153,
       "change": "－－",
       "changePercent": "－－",
@@ -108,6 +118,7 @@
     {
       "code": "24672",
       "name": "志聖二",
+      "time": "13:30:00",
       "price": 125.3,
       "change": "-1.90",
       "changePercent": "-1.49%",
@@ -118,6 +129,7 @@
     {
       "code": "24673",
       "name": "志聖三",
+      "time": "13:30:00",
       "price": 123.3,
       "change": "-2.20",
       "changePercent": "-1.75%",
@@ -128,6 +140,7 @@
     {
       "code": "30061",
       "name": "晶豪科一",
+      "time": "13:23:44",
       "price": 167,
       "change": "-6.00",
       "changePercent": "-3.47%",
@@ -138,6 +151,7 @@
     {
       "code": "81551",
       "name": "博智一",
+      "time": "13:18:46",
       "price": 151,
       "change": "+4.50",
       "changePercent": "+3.07%",
@@ -148,6 +162,7 @@
     {
       "code": "30454",
       "name": "台灣大四",
+      "time": "13:30:00",
       "price": 98.55,
       "change": "-0.25",
       "changePercent": "-0.25%",
@@ -158,6 +173,7 @@
     {
       "code": "66702",
       "name": "復盛應用二",
+      "time": "13:22:49",
       "price": 115.6,
       "change": "-0.70",
       "changePercent": "-0.60%",
@@ -168,6 +184,7 @@
     {
       "code": "80212",
       "name": "尖點二",
+      "time": "13:30:00",
       "price": 135,
       "change": "-2.95",
       "changePercent": "-2.14%",
@@ -178,6 +195,7 @@
     {
       "code": "22331",
       "name": "宇隆一",
+      "time": "09:00:11",
       "price": 111.1,
       "change": "+10.10",
       "changePercent": "+10.00%",
@@ -188,6 +206,7 @@
     {
       "code": "65101",
       "name": "精測一",
+      "time": "13:19:03",
       "price": 155,
       "change": "+2.00",
       "changePercent": "+1.31%",
@@ -198,6 +217,7 @@
     {
       "code": "37171",
       "name": "聯嘉投控一",
+      "time": "13:21:09",
       "price": 109.85,
       "change": "-0.05",
       "changePercent": "-0.05%",
@@ -208,6 +228,7 @@
     {
       "code": "61994",
       "name": "天品四",
+      "time": "13:30:00",
       "price": 98.75,
       "change": "-1.25",
       "changePercent": "-1.25%",
@@ -218,6 +239,7 @@
     {
       "code": "45102",
       "name": "高鋒二",
+      "time": "12:03:13",
       "price": 107,
       "change": "+2.00",
       "changePercent": "+1.90%",
@@ -228,6 +250,7 @@
     {
       "code": "53887",
       "name": "中磊七",
+      "time": "13:30:00",
       "price": 104.5,
       "change": "+1.10",
       "changePercent": "+1.06%",
@@ -238,6 +261,7 @@
     {
       "code": "35267",
       "name": "凡甲七",
+      "time": "13:22:03",
       "price": 118,
       "change": "－－",
       "changePercent": "－－",
@@ -248,6 +272,7 @@
     {
       "code": "64423",
       "name": "光聖三",
+      "time": "13:01:16",
       "price": 142,
       "change": "+1.10",
       "changePercent": "+0.78%",

@@ -4,6 +4,25 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.3.0] - 2026-01-24 (Ultimate Integration & Vibe Flow)
+
+### 重大變更 (Breaking Changes)
+
+- **終極整合 (The Merger)**：廢除獨立的 `cb-calculator.html` 與 `hot-cb.html`，所有功能整合至 [CB 戰情室 (cb-war-room.html)](file:///c:/Users/forev/myDev/me/tools/cb-war-room.html)。
+- **工具鏈現代化**：重構 `tools/` 目錄，將核心爬蟲邏輯抽離至 `cb-history-fetcher.js`，並合併 redundant CLI 工具。
+
+### 新增 (Added)
+
+- **數據自動補全 (Live Enrichment)**：移植 MIS Proxy 邏輯，當列表缺失股價時自動於背景補全，確保溢價率計算永不中斷。
+- **交錯式進場動畫 (Staggered Intro)**：為分析面板注入 Premium 質感的有序浮現動畫。
+- **快取架構 (SSOT)**：實作 `globalCbDatabase` 確保所有數據請求均來自單一來源。
+- **Vibe Coding 指令**：建立 `/capture` 工作流，支援瞬間捕捉靈感並自動歸檔至 [TODO.md](file:///c:/Users/forev/myDev/me/TODO.md)。
+
+### 安全 (Security & Quality)
+
+- **404 斷鏈修復**：清理主選單與專案連結，確保所有入口指向有效檔案。
+- **爬蟲穩定性**：統一 TPEx/TWSE 抓取核心，降低維護成本。
+
 ## [1.2.1] - 2026-01-24 (Hot CB UI Refactor & Reliability)
 
 ### 新增 (Added)
@@ -11,6 +30,12 @@
 - **雙頁籤導航系統**：在 Hot CB 頁面實作 `市場熱門 (Pulse)` 與 `我的追蹤 (Watchlist)` 分離介面。
 - **行動端 RWD 增強**：為手機版設計「高低價內容摺疊」佈局，確保所有解析度下資訊對等。
 - **智慧雲端備援**：重構數據獲取邏輯，當 API 離線時自動、無感地切換至 Firestore 雲端快照。
+- **Vibe Coding 驗證系統**：實作 `/capture` 指令與靈感自動歸檔流程，驗證開發效率。
+
+### 安全 (Security & Quality)
+
+- **自動化測試**：建立 `/test-cb-tool` 冒煙測試與 `/check-change` ID 損毀偵測。
+- **重構規範**：制定 `safeguard_plan.md` 以引導高品質的代碼遷移。
 
 ### 修正 (Fixed)
 
@@ -56,6 +81,22 @@
 - **資料顯示**：
   - 修新標的 (New Ticker) 即使有資料卻不顯示時間戳記的問題。
   - 當無歷史資料時，圖表改為顯示今日單點數據，避免留白。
+
+## [1.0.1] - 2026-01-10 (Ise-Shima Refactor & PWA)
+
+### 新增 (Added)
+
+- **PWA 核心建設**：實作 Manifest, Service Worker 並支援離線訪問。
+- **內容擴充**：新增伊勢志摩行程的天氣預報表格、臨空城美食清單與素食餐廳導覽。
+
+### 修正 (Fixed)
+
+- **UX 優化**：解決伊勢志摩頁面導航切換閃爍問題。
+
+### 變更 (Changed)
+
+- **組件重構**：將伊勢志摩行程拆分為 `DayCard`, `StickyPhaseHeader` 等模組化組件。
+- **架構清理**：提取 Flight, Budget, Checklist 為共用元件，移除殘留的 Firestore 依賴。
 
 ## [1.0.0] - 2025-12-27
 

@@ -93,7 +93,7 @@ async function fetchHotCB() {
     return {
       source: "pchome",
       updatedAt: new Date().toISOString(), // Fallback server time
-      data: results
+      data: results,
     };
   } catch (error) {
     console.error("[cb-fetcher] Error fetching Hot CB:", error.message);

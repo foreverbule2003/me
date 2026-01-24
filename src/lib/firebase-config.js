@@ -1,6 +1,6 @@
 /**
  * Firebase Project Configuration
- * 
+ *
  * 中央化管理專案 ID 與連線設定，避免散佈在各個元件中。
  */
 

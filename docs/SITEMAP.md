@@ -1,6 +1,6 @@
 # 網站地圖 (Sitemap)
 
-> 最後更新：2026-01-07
+> 最後更新：2026-01-24
 
 ## 視覺化結構
 
@@ -44,37 +44,37 @@
 └── 🔧 TOOLS & CONTACT (tools/)
     ├── 📊 財務儀表板 (tools/financial-dashboard.html)
     ├── 📈 期權策略模擬器 (tools/bull-put-spread.html)
-    ├── 🧮 CB 計算機 (tools/cb-calculator.html)
-    ├── 🔥 熱門 CB 榜 (tools/hot-cb.html)
+    ├── 🏛️ CB 戰情室 (tools/cb-war-room.html) [整合中心]
+    ├── 🧮 舊版計算機 (tools/archive/cb-calculator-standalone.html) [封存]
     ├── 🤖 台股分析自動化 (tools/stock-analyzer/) [Vite+React]
     └── 📧 聯絡方式
 ```
 
 ## 頁面清單
 
-| 頁面           | 路徑                               | 狀態     | 架構          |
-| -------------- | ---------------------------------- | -------- | ------------- | --- |
-| 首頁           | `/index.html`                      | ✅ 完成   | Vite+React    |
-| 關於           | `/about/`                          | ✅ 完成   | Vite+React    |
-| 旅程列表       | `/trips/`                          | ✅ 完成   | Vite+React    |
-| 工具箱         | `/tools/`                          | ✅ 完成   | Vite+React    |
-| 2025 宿霧      | `/trips/2025-cebu/index.html`      | ✅ 完成   | CDN+Babel     |
-| 2025 大阪      | `/trips/2025-osaka/index.html`     | 🚧 建置中 | CDN+Babel     |
-| 2026 北海道    | `/trips/2026-hokkaido/index.html`  | 🚧 建置中 | CDN+Babel     |
-| 2026 伊勢志摩  | `/trips/2026-ise-shima/index.html` | ✅ 完成   | Vite+React    |
-| 日記           | `/journal/`                        | ✅ 完成   | Vite+React    |
-| 財務儀表板     | `/tools/financial-dashboard.html`  | ✅ 完成   | CDN+Vanilla   | \r  |
-| 期權模擬器     | `/tools/bull-put-spread.html`      | ✅ 完成   | CDN+Vanilla   | \r  |
-| CB 計算機      | `/tools/cb-calculator.html`        | ✅ 完成   | CDN+Vanilla   | \r  |
-| 熱門 CB 榜     | `/tools/hot-cb.html`               | ✅ 完成   | 雲端同步+管理 | \r  |
-| 台股分析自動化 | `/tools/stock-analyzer/`           | ✅ 完成   | Vite+React    | \r  |
+| 頁面           | 路徑                                           | 狀態      | 架構         |
+| -------------- | ---------------------------------------------- | --------- | ------------ | --- |
+| 首頁           | `/index.html`                                  | ✅ 完成   | Vite+React   |
+| 關於           | `/about/`                                      | ✅ 完成   | Vite+React   |
+| 旅程列表       | `/trips/`                                      | ✅ 完成   | Vite+React   |
+| 工具箱         | `/tools/`                                      | ✅ 完成   | Vite+React   |
+| 2025 宿霧      | `/trips/2025-cebu/index.html`                  | ✅ 完成   | CDN+Babel    |
+| 2025 大阪      | `/trips/2025-osaka/index.html`                 | 🚧 建置中 | CDN+Babel    |
+| 2026 北海道    | `/trips/2026-hokkaido/index.html`              | 🚧 建置中 | CDN+Babel    |
+| 2026 伊勢志摩  | `/trips/2026-ise-shima/index.html`             | ✅ 完成   | Vite+React   |
+| 日記           | `/journal/`                                    | ✅ 完成   | Vite+React   |
+| 財務儀表板     | `/tools/financial-dashboard.html`              | ✅ 完成   | CDN+Vanilla  | \r  |
+| 期權模擬器     | `/tools/bull-put-spread.html`                  | ✅ 完成   | CDN+Vanilla  | \r  |
+| CB 戰情室      | `/tools/cb-war-room.html`                      | ✅ 完成   | 終極整合終端 | \r  |
+| 舊版計算機     | `/tools/archive/cb-calculator-standalone.html` | 📦 封存   | CDN+Vanilla  | \r  |
+| 台股分析自動化 | `/tools/stock-analyzer/`                       | ✅ 完成   | Vite+React   | \r  |
 
 ## 旅程詳情頁分頁結構
 
 以 **2026 伊勢志摩** 為例，每個旅程詳情頁包含以下分頁：
 
-| 分頁 ID     | 圖示         | 名稱     | 功能                       |
-| ----------- | ------------ | -------- | -------------------------- |
+| 分頁 ID     | 圖示          | 名稱     | 功能                       |
+| ----------- | ------------- | -------- | -------------------------- |
 | `overview`  | 🗺️ MapIcon    | 行程總覽 | 亮點、階段摘要、實用連結   |
 | `itinerary` | 📅 Calendar   | 每日詳情 | 可折疊的每日行程卡片       |
 | `map`       | 🧭 Navigation | 行程地圖 | 交通資訊、時刻表、路線總覽 |

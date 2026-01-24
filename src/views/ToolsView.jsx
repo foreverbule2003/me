@@ -14,13 +14,8 @@ const ToolsView = ({ onSetActions }) => {
       isExternal: true,
     },
     {
-      label: "CB 可轉債計算機",
-      href: "/me/tools/cb-calculator.html",
-      isExternal: true,
-    },
-    {
-      label: "HOT CB 榜",
-      href: "/me/tools/hot-cb.html",
+      label: "CB 戰情室",
+      href: "/me/tools/cb-war-room.html",
       isExternal: true,
     },
     {
