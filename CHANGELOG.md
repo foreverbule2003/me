@@ -4,14 +4,23 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
-## [Unreleased]
+## [1.2.0] - 2026-01-24 (Hot CB Enhancements & DX)
 
-### 新增
+### 新增 (Added)
 
-- `CONTRIBUTING.md` 貢獻指南。
-- 自動化測試工作流程 (`npm test`)。
-- Lighthouse 稽核工作流程。
-- 專家角色 (`web-pm`, `tech-lead`, `designer`) 於 `.agent/prompts`。
+- **Hot CB 歷史瀏覽功能**：支援透過 `?date=YYYY-MM-DD` 參數或 UI 箭頭導航切換歷史快照。
+- **網站圖示 (Favicon)**：新增 `favicon.ico` 並解決 404 報錯問題。
+- **Workflow 指令別名**：新增 `/clean` 與 `/tidy` 別名（後續根據顧問建議已進行精簡）。
+
+### 修正 (Fixed)
+
+- **假日顯示邏輯**：修正 Hot CB 列表在週末誤顯示 "LIVE DATA" 的問題，改為正確顯示數據具體時間與 `LAST CLOSE` 狀態。
+- **爬蟲時間擷取**：更新 `cb-fetcher.js` 以擷取 PChome 原始表格中的具體成交時間。
+
+### 變更 (Changed)
+
+- **Workflow 治理**：將「Workflow 清理」邏輯整合進 `/cleanup`，避免指令過度膨脹。
+- **文件規範更新**：將 `CHANGELOG.md` 正式納入 `commit` 與 `doc-check` 工作流的必填清單。
 
 ## [1.1.0] - 2026-01-23 (CB Calculator Refactor)
 
