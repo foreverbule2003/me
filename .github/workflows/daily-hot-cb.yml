@@ -1,0 +1,32 @@
+name: Daily Hot CB Scraper
+
+on:
+  schedule:
+    # 台灣時間 09:30 (開盤穩定後) -> UTC 01:30
+    - cron: '30 1 * * 1-5'
+    # 台灣時間 13:40 (收盤後) -> UTC 05:40
+    - cron: '40 5 * * 1-5'
+  workflow_dispatch: # 支援手動觸發
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Execute Scraper & Sync to Cloud
+        run: node tools/fetch-hot-cb.js --cloud
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          # Puppeteer usually needs some extra flags in CI, which are handled in cb-fetcher.js

@@ -1,23 +1,35 @@
 const { fetchHotCB, getMockHotCB } = require("../src/utils/cb-fetcher");
+const { saveSnapshotToCloud } = require("../src/utils/hot-cb-cloud");
 
 /**
- * Fetch Hot CB (Legacy/CLI Tool wrapper)
- * Now delegates logic to src/utils/cb-fetcher.js
+ * Fetch Hot CB (CLI Tool)
+ * 支援 --cloud 參數將結果同步至 Firestore
  */
 (async () => {
+  const isCloud = process.argv.includes("--cloud");
+
   try {
     const result = await fetchHotCB();
-    // fetchHotCB now returns { source, updatedAt, data } or just array (legacy)
-    // We want to print standard format
-    if (result.data) {
-        console.log(JSON.stringify(result, null, 2));
-    } else {
-        // Should not happen with new fetcher but fallback
-        console.log(JSON.stringify({ source: "pchome", data: result }, null, 2));
+    const output = result.data
+        ? result
+        : { source: "pchome", data: result };
+
+    // Print to console (legacy behavior)
+    console.log(JSON.stringify(output, null, 2));
+
+    // Optional: Save to cloud
+    if (isCloud) {
+        await saveSnapshotToCloud(output);
     }
+
   } catch (error) {
     // Fallback: Mock Data
     const mockData = getMockHotCB();
-    console.log(JSON.stringify({ source: "mock", data: mockData }, null, 2));
+    const output = { source: "mock", data: mockData };
+    console.log(JSON.stringify(output, null, 2));
+    
+    if (isCloud) {
+        await saveSnapshotToCloud(output);
+    }
   }
 })();

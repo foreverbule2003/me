@@ -1,12 +1,16 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-23 (Post-LoadingFix)
+> 最後更新：2026-01-24 (Post-HistoryBrowser)
 
 ## 🔴 P0: 立即執行 (Pending)
 
 _(暫無 P0 項目)_
 
 ---
+
+## 🟡 P1: 雲端架構升級 (Cloud Infrastructure)
+
+> 目標：擺脫對本地開發機的依賴，實現全自動化數據更新。
 
 - [ ] **Serverless Migration**: 將本地爬蟲 (`fetch-cb-history.js`) 遷移至 GCP Cloud Functions。
   - 技術：Google Cloud Functions (Node.js) + Cloud Scheduler。

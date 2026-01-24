@@ -2,13 +2,13 @@
 description: 呼叫網站產品經理 (Web PM)
 ---
 
-# Invoke Web PM
+# 呼叫網站產品經理 (Web PM)
 
-This workflow activates the Web PM persona.
+此工作流會啟動 Web PM 角色，負責進度審查與 Backlog 管理。
 
-    ```bash
-    cat .agent/prompts/web-pm-prompt.md
-    ```
+```bash
+cat .agent/prompts/web-pm-prompt.md
+```
 
 ---
 
