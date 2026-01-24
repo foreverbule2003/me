@@ -219,6 +219,7 @@ my-landing-page/
 | **智慧爬蟲**   | 僅針對缺漏資料進行 **增量爬取 (Incremental)**          |
 | **資料庫修復** | 支援 **批次補齊 (Batch Fix)** 缺漏的 CB 名稱           |
 | **歷史數據**   | 每日自動快照 (`snapshot-hot-cb.js`) 建立本地歷史資料庫 |
+| **歷史瀏覽器** | 支援日期導航 (`< >`) 與 `?date=` 參數，可回顧過往榜單  |
 | **互動式 UI**  | 智慧 Loading 遮罩、Zoom/Pan 縮放功能、狀態鎖定         |
 | **混合式架構** | 本地爬蟲 + Firebase 雲端同步 (Client-Side)             |
 

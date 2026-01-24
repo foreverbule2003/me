@@ -161,12 +161,21 @@
       <!-- Professional Header -->
       <div class="mb-10">
         <h1
-          class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 flex items-baseline gap-3"
+          class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 flex items-center md:items-baseline gap-3 flex-wrap"
         >
           今日熱門可轉債
-          <span class="text-slate-400 text-lg font-medium" id="dateDisplay"
-            >--/--/--</span
-          >
+          <div class="flex items-center gap-2">
+             <button onclick="goToDate(-1)" class="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-colors">
+                <i class="fas fa-chevron-left text-xs"></i>
+             </button>
+             <span class="text-slate-400 text-lg font-medium" id="dateDisplay">--/--/--</span>
+             <button onclick="goToDate(1)" class="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 hover:text-slate-600 flex items-center justify-center transition-colors">
+                <i class="fas fa-chevron-right text-xs"></i>
+             </button>
+          </div>
+          <div class="w-full md:w-auto text-[10px] text-slate-400 font-normal md:ml-2 mt-1 md:mt-0">
+            * 歷史存檔功能於 2026/01/24 上線，在此之前的數據無法查詢。
+          </div>
         </h1>
         <div
           class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2 text-xs text-slate-500 font-medium"
@@ -216,73 +225,151 @@
       const marketStatusPill = document.getElementById("marketStatus");
 
       // Init
-      fetchHotCB();
+      const urlParams = new URLSearchParams(window.location.search);
+      const queryDate = urlParams.get("date"); // YYYY-MM-DD
+      
+      initPage();
+
+      async function initPage() {
+          if (queryDate) {
+              await fetchHistoryCB(queryDate);
+          } else {
+              await fetchHotCB();
+          }
+      }
+
+      function goToDate(offset) {
+          // If in live mode (no queryDate), base on today
+          let baseDate = queryDate ? new Date(queryDate) : new Date();
+          
+          // Adjust date
+          baseDate.setDate(baseDate.getDate() + offset);
+          
+          // Format to YYYY-MM-DD
+          const yy = baseDate.getFullYear();
+          const mm = (baseDate.getMonth() + 1).toString().padStart(2, "0");
+          const dd = baseDate.getDate().toString().padStart(2, "0");
+          const targetStr = `${yy}-${mm}-${dd}`;
+          
+          // Check if target is today (or future), if so, go to live mode
+          const today = new Date();
+          const todayStr = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, "0")}-${today.getDate().toString().padStart(2, "0")}`;
+
+          if (targetStr >= todayStr) {
+              window.location.href = "hot-cb.html";
+          } else {
+              window.location.href = `hot-cb.html?date=${targetStr}`;
+          }
+      }
+
+      async function fetchHistoryCB(dateStr) {
+        try {
+           updateHeaderLoading(true);
+           // History path: /data/history/YYYY-MM-DD.json
+           // Note: In local dev, public/data... maps to /data...
+           // But dependent on Vite config. Usually /data/history/...
+           const res = await fetch(`../public/data/history/${dateStr}.json`); 
+           // Workaround for Vite serving public dir at root
+           // Try relative path first, if fails try root
+           
+           if (!res.ok) { 
+                // Try alternate path for production/different base
+                const res2 = await fetch(`/data/history/${dateStr}.json`);
+                if (!res2.ok) throw new Error("History Not Found");
+                const json = await res2.json();
+                processData(json, "history");
+                return;
+           }
+
+           const json = await res.json();
+           processData(json, "history");
+
+        } catch (e) {
+            console.error(e);
+            renderError("查無存檔", `無法找到 ${dateStr} 的歷史資料`);
+            // Update header to show the requested date anyway
+            updateHeaderTime(new Date(dateStr), true);
+        } finally {
+            updateHeaderLoading(false);
+        }
+      }
 
       async function fetchHotCB() {
         try {
-          // UI Loading
-          const refreshBtn = document.getElementById("refreshBtn");
-          if (refreshBtn)
-            refreshBtn.querySelector("i").classList.add("fa-spin");
-
+          updateHeaderLoading(true);
           const res = await fetch("/api/hot-cb");
           const json = await res.json();
+          processData(json, "live");
+        } catch (e) {
+          console.error("Fetch Failed", e);
+          renderError("連線中斷", "無法同步即時市場數據");
+        } finally {
+          updateHeaderLoading(false);
+        }
+      }
 
+      function processData(json, mode) {
           // Parse Data
           // Support both new wrapper format and legacy array
           const list = Array.isArray(json) ? json : (json.data || []);
           const source = json.source || "unknown";
           
           // Determine Data Time
-          // If json has updatedAt, use it. Otherwise use current time
           let dataTime = new Date();
+          // If history mode, trust the filename date or json date? 
+          // Better to trust json.updatedAt if available
           if (json.updatedAt) dataTime = new Date(json.updatedAt);
-          
-          // If fetching from PChome, list items might have 'time' field. 
-          // We can assume the data date based on today or 'time' field logic if needed.
-          // For now, trust server updatedAt or fallback to now.
 
           if (!Array.isArray(list)) throw new Error("Invalid Format");
 
           renderDashboard(list, source);
-
-          // Update Timestamp & Date Display based on DATA time, not USER time
           updateHeaderTime(dataTime);
+          
+          if (mode === "history") {
+              updateArchiveStatus(dataTime);
+          } else {
+              updateMarketStatus(dataTime);
+          }
+      }
 
-          // Update Market Pill
-          updateMarketStatus(dataTime);
-        } catch (e) {
-          console.error("Fetch Failed", e);
+      function updateHeaderLoading(isLoading) {
+          const refreshBtn = document.getElementById("refreshBtn");
+          if (refreshBtn) {
+             if (isLoading) refreshBtn.querySelector("i").classList.add("fa-spin");
+             else refreshBtn.querySelector("i").classList.remove("fa-spin");
+          }
+      }
+      
+      function renderError(title, msg) {
           container.innerHTML = `
                 <div class="flex flex-col items-center justify-center h-[300px] text-slate-400">
                     <i class="fas fa-exclamation-circle fa-2x mb-4 text-slate-200"></i>
-                    <h3 class="font-bold text-slate-600">連線中斷</h3>
-                    <p class="text-xs mt-1">無法同步即時市場數據</p>
-                    <button onclick="fetchHotCB()" class="mt-6 px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">
-                        重試連線
+                    <h3 class="font-bold text-slate-600">${title}</h3>
+                    <p class="text-xs mt-1">${msg}</p>
+                    <button onclick="window.location.href='hot-cb.html'" class="mt-6 px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">
+                        返回今日
                     </button>
                 </div>
                 `;
-        } finally {
-          const refreshBtn = document.getElementById("refreshBtn");
-          if (refreshBtn)
-            refreshBtn.querySelector("i").classList.remove("fa-spin");
-        }
       }
 
-      function updateHeaderTime(date) {
-        // Time
-        updateTimeEl.textContent = date.toLocaleTimeString("en-GB", {
-            hour12: false,
-        });
+      function updateArchiveStatus(date) {
+          marketStatusPill.className = "status-pill bg-slate-100 text-slate-500";
+          marketStatusPill.innerHTML = '<i class="fas fa-archive text-[10px]"></i> HISTORY ARCHIVE';
+          sourceFooter.textContent = "HISTORICAL SNAPSHOT";
+      }
+
+      function updateHeaderTime(date, isFallback) {
+        // Time 
+        if (!isFallback) {
+             updateTimeEl.textContent = date.toLocaleTimeString("en-GB", {
+                hour12: false,
+            });
+        } else {
+             updateTimeEl.textContent = "--:--:--";
+        }
 
         // Date logic:
-        // If it's Saturday/Sunday, the data fetch (live) usually returns Friday's data?
-        // Actually, if we just fetched 'live' from PChome on Saturday, PChome shows Friday's data.
-        // We should try to align the date displayed.
-        // Simple heuristic: If today is Sat/Sun, force display to last Friday?
-        // Or better: Display the fetch time, but Status Pill says "CLOSED".
-        
         const yy = date.getFullYear().toString().slice(-2);
         const mm = (date.getMonth() + 1).toString().padStart(2, "0");
         const dd = date.getDate().toString().padStart(2, "0");

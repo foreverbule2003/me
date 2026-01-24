@@ -60,6 +60,8 @@ _(暫無 P0 項目)_
 - [x] **數據自動化工具**: 建立 `fetch-cb-history.js` (API 直接模式) 與 `import-xq-csv.js` ✅ (Completed: 2026-01-23)
 - [x] **圖表 Bug 修正**: 解決因日期格式 (MM-DD vs YYYY-MM-DD) 導致的縮放重置失效問題 ✅ (Completed: 2026-01-23)
 - [x] **假日顯示邏輯修復**: 修正 `hot-cb.html` 在週末顯示 "LIVE DATA" 的問題，正確解析 PChome 數據時間並顯示 "LAST CLOSE" ✅ (Completed: 2026-01-24)
+- [x] **Hot CB 歷史瀏覽器**: 實作 `hot-cb.html` 的日期導航與歷史數據載入功能 (`?date=YYYY-MM-DD`) ✅ (Completed: 2026-01-24)
+- [x] **網站圖示修復**: 補上 `favicon.ico` 並修復 404 錯誤 ✅ (Completed: 2026-01-24)
 
 - [x] Tech Lead Audit: 檢查專案中殘留的廢棄代碼 (如 src/pages vs src/views 結構整理) ✅ (Completed: 2026-01-10)
 - [x] 優化天氣預報 UI: 修復切邊、調整間距、新增自動捲動至當日功能 ✅ (Completed: 2026-01-10)
