@@ -415,6 +415,12 @@
                 偵測中...
               </p>
             </div>
+            <button
+              onclick="addNewGroup()"
+              class="px-3 py-1.5 rounded-lg border border-indigo-200 text-indigo-500 text-[10px] font-black hover:bg-indigo-50 transition-all flex items-center gap-2"
+            >
+              <i class="fas fa-plus-circle"></i> ADD GROUP
+            </button>
           </div>
           <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div
@@ -605,7 +611,8 @@
             onclick="
               window.location.href =
                 'archive/cb-calculator-standalone.html?code=' +
-                window.currentAnalysisCode
+                window.currentAnalysisCode +
+                '&autoSearch=true'
             "
             class="w-full py-4 text-xs font-black bg-white border border-slate-200 text-slate-400 rounded-xl hover:bg-slate-50 transition-all flex items-center justify-center gap-2"
           >
@@ -627,6 +634,10 @@
         deleteDoc,
         serverTimestamp,
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
       const firebaseConfig = {
         apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
@@ -639,6 +650,11 @@
 
       const app = initializeApp(firebaseConfig);
       const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      // Auth State
+      let currentUser = null;
+      let watchlistUnsubscribe = null;
 
       // DOM Elements
       const statusBanner = document.getElementById("statusBanner");
@@ -653,6 +669,9 @@
 
       // Tabs
       window.switchTab = (tabId) => {
+        // [Auth Rollback] Temporarily disabled guard
+        // if (tabId === "watchlist" && !currentUser) { ... }
+
         document
           .querySelectorAll(".tab-btn")
           .forEach((b) => b.classList.remove("active"));
@@ -667,6 +686,7 @@
       let lastDataPool = null;
       let countdownTimer = null;
       const UPDATE_INTERVAL = 60; // seconds
+      let isHeroCollapsed = localStorage.getItem("cb_hero_collapsed") === "true";
 
       // Timer Logic
       function startUpdateTimer() {
@@ -687,12 +707,77 @@
       }
 
       // Watchlist
-      onSnapshot(collection(db, "cb_history"), (snapshot) => {
-        const items = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
-        renderTrackedList(items);
-        updateWatchlistStats(items);
-        if (lastDataPool) renderWatchlistHero(lastDataPool, items);
+      let virtualCategories = []; // Local empty groups
+      let lastKnownItems = [];
+
+      onAuthStateChanged(auth, (user) => {
+        currentUser = user;
+        console.log("Auth State Changed:", user ? "LoggedIn" : "LoggedOut");
+        
+        if (user) {
+          // Subscribe to data
+          if (watchlistUnsubscribe) watchlistUnsubscribe();
+          watchlistUnsubscribe = onSnapshot(collection(db, "cb_history"), (snapshot) => {
+            lastKnownItems = snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
+            renderTrackedList(lastKnownItems);
+            updateWatchlistStats(lastKnownItems);
+            if (lastDataPool) renderWatchlistHero(lastDataPool, lastKnownItems);
+          });
+          // Hide mask if open
+          const mask = document.getElementById("authDeniedMask");
+          if (mask) mask.remove();
+        } else {
+          // Unsubscribe and clear
+          if (watchlistUnsubscribe) {
+            watchlistUnsubscribe();
+            watchlistUnsubscribe = null;
+          }
+          lastKnownItems = [];
+          renderTrackedList([]);
+          updateWatchlistStats([]);
+          if (lastDataPool) renderWatchlistHero(lastDataPool, []);
+        }
       });
+
+      function showAuthDeniedMask() {
+        if (document.getElementById("authDeniedMask")) return;
+        
+        const mask = document.createElement("div");
+        mask.id = "authDeniedMask";
+        mask.className = "fixed inset-0 z-[110] flex items-center justify-center p-6";
+        mask.innerHTML = `
+          <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-md"></div>
+          <div class="relative premium-card max-w-sm w-full p-8 rounded-3xl text-center shadow-2xl border-indigo-500/30 animate-fadeIn">
+            <div class="w-16 h-16 bg-indigo-50 rounded-full flex items-center justify-center mx-auto mb-6 text-indigo-600">
+              <i class="fas fa-lock text-xl"></i>
+            </div>
+            <h2 class="text-xl font-black text-slate-800 mb-2 uppercase tracking-tight">Access Denied</h2>
+            <p class="text-xs font-bold text-slate-400 mb-8 leading-relaxed">
+              「我的追蹤」頁籤包含私有資產數據現，請先開啟 TimBoy 主系統進行身分驗證。
+            </p>
+            <div class="space-y-3">
+              <a href="/me/?booted=true" class="block w-full py-4 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-black shadow-lg shadow-indigo-200 transition-all">
+                前往登入系統
+              </a>
+              <button onclick="document.getElementById('authDeniedMask').remove(); switchTab('pulse')" class="block w-full py-4 text-slate-400 hover:text-slate-600 text-[10px] font-black uppercase tracking-widest">
+                返回市場熱門
+              </button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(mask);
+      }
+
+      window.addNewGroup = () => {
+        const name = prompt("請輸入新分組名稱 (例如: 散熱, 電源供應器):");
+        if (name && name.trim()) {
+           const groupName = name.trim();
+           if (!virtualCategories.includes(groupName)) {
+               virtualCategories.push(groupName);
+               renderTrackedList(lastKnownItems);
+           }
+        }
+      };
 
       function updateWatchlistStats(items) {
         const stats = document.getElementById("watchlistStats");
@@ -703,13 +788,20 @@
         stats.innerHTML = `<i class="fas fa-microchip"></i> ACTIVE: ${total} | SYNCING: ${syncing} | CLOUD ENGINE V2`;
       }
 
+      window.toggleHero = () => {
+        isHeroCollapsed = !isHeroCollapsed;
+        localStorage.setItem("cb_hero_collapsed", isHeroCollapsed);
+        const watchlist = Array.from(document.querySelectorAll("#trackedListContainer .mono")).map(el => ({id: el.textContent}));
+        if (lastDataPool) renderWatchlistHero(lastDataPool, watchlist);
+      };
+
       function renderWatchlistHero(list, watchlist) {
         const hero = document.getElementById("watchlistHero");
         const top3 = list.slice(0, 3);
 
-        hero.innerHTML = top3
+        const cardsHtml = top3
           .map((item) => {
-            const isTracked = watchlist.some((w) => w.id === item.code);
+            const isTracked = watchlist.some((w) => w.id === item.code || w.code === item.code);
             const changeVal =
               parseFloat(
                 (item.change || "0").replace(/[▲▼+]/g, "").replace(/[－]/, "-"),
@@ -722,32 +814,47 @@
                   : "text-slate-400";
 
             return `
-                <div class="premium-card p-4 rounded-2xl border-slate-100 flex flex-col gap-2 hover:border-indigo-200 transition-all cursor-pointer group" onclick="window.location.href='cb-calculator.html?code=${item.code}&autoSearch=true'">
-                    <div class="flex justify-between items-start">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">市場熱點</span>
-                        <div class="w-6 h-6 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group-hover:bg-indigo-50 group-hover:text-indigo-500 transition-colors">
-                            <i class="fas ${isTracked ? "fa-star text-amber-400" : "fa-plus"} text-[10px]"></i>
+                <div class="premium-card p-3 rounded-2xl border-slate-100 flex flex-col gap-1.5 hover:border-indigo-200 transition-all cursor-grab active:cursor-grabbing group" 
+                     draggable="true" 
+                     ondragstart="handleDragStart(event, '${item.code}')"
+                     onclick="openAnalysis('${item.code}')">
+                    <div class="flex justify-between items-center">
+                         <span class="mono text-[8px] font-black text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100/50">${item.code}</span>
+                        <div class="w-5 h-5 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group-hover:bg-indigo-50 group-hover:text-indigo-500 transition-colors">
+                            <i class="fas ${isTracked ? "fa-star text-amber-400" : "fa-plus"} text-[8px]"></i>
                         </div>
                     </div>
-                    <div class="flex items-baseline gap-2">
-                        <h3 class="text-lg font-black text-slate-800">${item.name}</h3>
-                        <span class="mono text-[11px] font-bold text-slate-300">${item.code}</span>
-                    </div>
-                    <div class="flex items-center justify-between mt-1">
-                        <span class="mono font-black text-xl ${pColor}">${parseFloat(item.price).toFixed(1)}</span>
+                    <h3 class="text-sm font-black text-slate-800 truncate">${item.name}</h3>
+                    <div class="flex items-center justify-between mt-0.5">
+                        <span class="mono font-black text-lg ${pColor}">${parseFloat(item.price).toFixed(2)}</span>
                         <div class="text-right">
-                            <div class="${pColor} text-[11px] font-black leading-none">${changeVal > 0 ? "▲" : changeVal < 0 ? "▼" : ""} ${Math.abs(changeVal).toFixed(2)}</div>
-                            <div class="text-[9px] text-slate-300 font-bold mt-0.5">${item.changePercent}</div>
+                            <div class="${pColor} text-[10px] font-black leading-none">${changeVal > 0 ? "▲" : changeVal < 0 ? "▼" : ""} ${Math.abs(changeVal).toFixed(2)}</div>
+                            <div class="text-[8px] text-slate-400 font-bold mt-1">${item.changePercent}</div>
                         </div>
                     </div>
                 </div>
               `;
           })
           .join("");
+
+        hero.innerHTML = `
+          <div class="w-full">
+            <div class="flex items-center gap-2 mb-3 cursor-pointer group/title" onclick="toggleHero()">
+              <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest bg-indigo-50 px-2 py-0.5 rounded">Market Pulse / 市場熱點</span>
+              <div class="h-[1px] flex-grow bg-slate-100/80"></div>
+              <button class="w-6 h-6 rounded-full flex items-center justify-center text-slate-300 group-hover/title:text-indigo-500 transition-all ${isHeroCollapsed ? "-rotate-90" : ""}">
+                <i class="fas fa-chevron-down text-[10px]"></i>
+              </button>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 overflow-hidden transition-all duration-300" style="max-height: ${isHeroCollapsed ? "0px" : "400px"}; opacity: ${isHeroCollapsed ? "0" : "1"}; margin-top: ${isHeroCollapsed ? "-8px" : "0px"}">
+              ${cardsHtml}
+            </div>
+          </div>
+        `;
       }
 
       function renderTrackedList(items) {
-        if (items.length === 0) {
+        if (items.length === 0 && virtualCategories.length === 0) {
           trackedListContainer.innerHTML =
             '<div class="text-xs text-slate-300 italic px-2">尚未追蹤任何標的</div>';
           return;
@@ -761,6 +868,11 @@
           return acc;
         }, {});
 
+        // Merge Virtual Groups
+        virtualCategories.forEach((v) => {
+          if (!groups[v]) groups[v] = [];
+        });
+
         // Sort categories (Uncategorized at bottom)
         const sortedCats = Object.keys(groups).sort((a, b) => {
           if (a.includes("未分類")) return 1;
@@ -769,19 +881,31 @@
         });
 
         trackedListContainer.innerHTML = sortedCats
-          .map(
-            (cat) => `
-          <div class="w-full mb-6 last:mb-0">
+          .map((cat) => {
+            const groupItems = groups[cat];
+            const isEmpty = groupItems.length === 0;
+
+            return `
+          <div class="w-full mb-6 last:mb-0 category-drop-zone transition-all duration-200 rounded-xl p-1" 
+               ondragover="handleDragOver(event)" 
+               ondragleave="handleDragLeave(event)"
+               ondrop="handleDrop(event, '${cat}')">
             <div class="flex items-center gap-2 mb-3 px-1">
                 <span class="text-[10px] font-black text-indigo-400 uppercase tracking-widest bg-indigo-50 px-2 py-0.5 rounded">${cat}</span>
                 <div class="h-[1px] flex-grow bg-slate-100"></div>
-                <span class="text-[9px] font-bold text-slate-300 mono">${groups[cat].length}</span>
+                <span class="text-[9px] font-bold text-slate-300 mono">${groupItems.length}</span>
             </div>
             <div class="flex flex-wrap gap-4">
-              ${groups[cat]
-                .map(
-                  (item) => `
-                <div class="group flex items-center gap-2.5 bg-white border border-slate-200 hover:border-indigo-200 rounded-xl pl-3 pr-2 py-2.5 transition-all shadow-sm cursor-pointer" onclick="openAnalysis('${item.id}')">
+              ${
+                isEmpty
+                  ? `<div class="w-full py-4 border-2 border-dashed border-slate-100 rounded-xl flex items-center justify-center text-[10px] font-bold text-slate-300 uppercase tracking-widest">拖拉標的至此處加入</div>`
+                  : groupItems
+                      .map(
+                        (item) => `
+                <div class="group flex items-center gap-2.5 bg-white border border-slate-200 hover:border-indigo-200 rounded-xl pl-3 pr-2 py-2.5 transition-all shadow-sm cursor-grab active:cursor-grabbing" 
+                     draggable="true" 
+                     ondragstart="handleDragStart(event, '${item.id}')"
+                     onclick="openAnalysis('${item.id}')">
                   <div class="flex flex-col">
                     <div class="flex items-center gap-1.5">
                         <span class="mono text-[11px] font-black text-slate-700">${item.id}</span>
@@ -796,16 +920,71 @@
                   <button onclick="event.stopPropagation(); deleteTrackedCB('${item.id}')" class="w-6 h-6 rounded-lg flex items-center justify-center text-slate-200 hover:text-red-500 hover:bg-red-50 transition-all opacity-0 group-hover:opacity-100"><i class="fas fa-times text-[10px]"></i></button>
                 </div>
               `,
-                )
-                .join("")}
+                      )
+                      .join("")
+              }
             </div>
           </div>
-        `,
-          )
+        `;
+          })
           .join("");
       }
 
+      // Drag & Drop Handlers
+      window.handleDragStart = (e, id) => {
+        e.dataTransfer.setData("text/plain", id);
+        e.dataTransfer.effectAllowed = "move";
+        // Ghost effect helper
+        setTimeout(() => e.target.style.opacity = '0.4', 0);
+      };
+
+      document.addEventListener("dragend", (e) => {
+        if (e.target.draggable) e.target.style.opacity = '1';
+      });
+
+      window.handleDragOver = (e) => {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        const zone = e.currentTarget;
+        zone.classList.add("bg-indigo-50/50", "ring-2", "ring-indigo-100", "ring-inset");
+      };
+
+      window.handleDragLeave = (e) => {
+        const zone = e.currentTarget;
+        zone.classList.remove("bg-indigo-50/50", "ring-2", "ring-indigo-100", "ring-inset");
+      };
+
+      window.handleDrop = async (e, category) => {
+        e.preventDefault();
+        window.handleDragLeave(e);
+        // [Auth Rollback]
+        // if (!currentUser) { showAuthDeniedMask(); return; }
+        const id = e.dataTransfer.getData("text/plain");
+        if (!id) return;
+
+        try {
+          // Prepare basic metadata if it's a new addition from Pulse
+          let metadata = { category };
+          if (globalCbDatabase) {
+             const staticMeta = globalCbDatabase.find(i => i.code === id);
+             if (staticMeta) {
+                 metadata.name = staticMeta.name;
+                 metadata.underlyingCode = staticMeta.underlyingCode;
+                 metadata.conversionPrice = staticMeta.conversionPrice;
+             }
+          }
+
+          await setDoc(doc(db, "cb_history", id), metadata, { merge: true });
+          virtualCategories = virtualCategories.filter(v => v !== category);
+          console.log(`[D&D] Moved ${id} to ${category}`);
+        } catch (e) {
+          console.error("Failed to update category via D&D", e);
+        }
+      };
+
       window.editCategory = async (id, current) => {
+        // [Auth Rollback]
+        // if (!currentUser) { showAuthDeniedMask(); return; }
         const newCat = prompt(
           `為 ${id} 輸入類別內容 (例如: 半導體, AI, 防禦型):`,
           current,
@@ -822,7 +1001,61 @@
         }
       };
 
-      // ... existing addTrackedCB / deleteTrackedCB ...
+      window.addTrackedCB = async () => {
+        // [Auth Rollback]
+        // if (!currentUser) { showAuthDeniedMask(); return; }
+
+        const input = document.getElementById("newCbInput");
+        const code = input.value.trim().toUpperCase();
+        if (!code || code.length < 5) {
+          alert("請輸入正確的可轉債代號 (例如: 15142)");
+          return;
+        }
+
+        // Check if already in watchlist
+        if (lastKnownItems.some((i) => i.id === code)) {
+          alert("此標的已在追蹤名單中");
+          return;
+        }
+
+        try {
+          const dbItems = await ensureCbDatabase();
+          const info = dbItems.find((i) => i.code === code);
+          
+          const metadata = {
+            addedAt: serverTimestamp(),
+            category: "未分類 (UNCATEGORIZED)",
+          };
+
+          if (info) {
+            metadata.name = info.name;
+            metadata.underlyingCode = info.underlyingCode;
+            metadata.conversionPrice = info.conversionPrice;
+          }
+
+          await setDoc(doc(db, "cb_history", code), metadata, { merge: true });
+          input.value = "";
+          console.log(`[Watchlist] Added ${code}`);
+        } catch (e) {
+          console.error("Failed to add tracked CB", e);
+          alert("新增失敗，請檢查權限或網路連線");
+        }
+      };
+
+      window.deleteTrackedCB = async (id) => {
+        // [Auth Rollback]
+        // if (!currentUser) { showAuthDeniedMask(); return; }
+
+        if (!confirm(`確定要取消追蹤 ${id} 嗎?`)) return;
+
+        try {
+          await deleteDoc(doc(db, "cb_history", id));
+          console.log(`[Watchlist] Deleted ${id}`);
+        } catch (e) {
+          console.error("Failed to delete tracked CB", e);
+          alert("刪除失敗");
+        }
+      };
 
       // Fetching Logic with Cloud Fallback
       async function loadFromCloud(snapshotId) {
@@ -875,7 +1108,7 @@
       async function fetchHistoryCB(dateStr) {
         updateLoadingState(true);
         try {
-          const res = await fetch(`/data/history/${dateStr}.json`);
+          const res = await fetch(getDataPath(`history/${dateStr}.json`));
           if (res.ok) return processData(await res.json(), "history");
         } catch (e) {
           console.warn("[API] Local history error:", e);
@@ -1060,7 +1293,13 @@
         const target = d.toISOString().split("T")[0];
         const today = new Date().toISOString().split("T")[0];
         window.location.href =
-          target >= today ? "hot-cb.html" : `hot-cb.html?date=${target}`;
+          target >= today ? "cb-war-room.html" : `cb-war-room.html?date=${target}`;
+      };
+
+      // Utils for Paths
+      const getDataPath = (path) => {
+        const base = window.location.pathname.startsWith("/me/") ? "/me" : "";
+        return `${base}/data/${path}`;
       };
 
       // Phase 4: Ultimate Integration (Calculator Merge)
@@ -1071,7 +1310,7 @@
       async function ensureCbDatabase() {
         if (globalCbDatabase) return globalCbDatabase;
         try {
-          const res = await fetch("/me/public/data/cb-data.json");
+          const res = await fetch(getDataPath("cb-data.json"));
           const json = await res.json();
           globalCbDatabase = json.items;
           return json.items;
@@ -1173,10 +1412,71 @@
 
             // Try to fetch BOTH prices from MIS since we have nothing
             const deepFetch = async () => {
-              // ... implementation omitted for brevity, user focused on SSOT structure ...
+              // Auto-derive underlying if missing (e.g. 37151 -> 3715)
+              let underlying = staticInfo?.underlyingCode;
+              if (!underlying && code.length === 5) {
+                underlying = code.substring(0, 4);
+              }
+
+              // Build query
+              const queries = [];
+              if (code.length === 5) queries.push(`otc_${code}.tw`);
+              if (underlying) {
+                queries.push(`tse_${underlying}.tw`);
+                queries.push(`otc_${underlying}.tw`);
+              }
+
+              try {
+                const res = await fetch(
+                  `/api/stock/getStockInfo.jsp?ex_ch=${queries.join("|")}&json=1&delay=0`,
+                );
+                if (res.ok) {
+                  const json = await res.json();
+                  if (json.msgArray) {
+                    // 1. Find CB Price
+                    const cbM = json.msgArray.find((q) => q.c === code);
+                    if (cbM) {
+                      const p =
+                        parseFloat(cbM.z) ||
+                        parseFloat(cbM.y) ||
+                        parseFloat((cbM.a || "0").split("_")[0]) ||
+                        0;
+                      if (p > 0) mockItem.price = p;
+                      if (cbM.n) mockItem.name = cbM.n;
+                    }
+
+                    // 2. Find Stock Price
+                    if (underlying) {
+                      const stMatches = json.msgArray.filter(
+                        (q) => q.c === underlying,
+                      );
+                      const stM =
+                        stMatches.find((q) => parseFloat(q.z) > 0) ||
+                        stMatches.find((q) => parseFloat(q.y) > 0);
+
+                      if (stM) {
+                        const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
+                        if (p > 0) mockItem.underlyingPrice = p;
+                      }
+                    }
+                  }
+                }
+              } catch (e) {
+                console.warn("Deep fetch failed", e);
+              }
+
+              // Update UI with new data
+              detailTitle.textContent = mockItem.name;
+              detailCbPrice.textContent = mockItem.price.toFixed(2);
+              detailStockPrice.textContent =
+                mockItem.underlyingPrice > 0
+                  ? mockItem.underlyingPrice.toFixed(2)
+                  : "N/A";
+
               performAnalysis(mockItem);
             };
-            performAnalysis(mockItem);
+
+            deepFetch(); // Trigger background fetch
           } else {
             detailTitle.textContent = "Unknown Asset";
           }
@@ -1249,7 +1549,7 @@
         const loader = document.getElementById("dChartLoader");
         loader.classList.remove("hidden");
         try {
-          const res = await fetch(`/me/public/data/history/${code}.json`);
+          const res = await fetch(getDataPath(`history/${code}.json`));
           if (!res.ok) throw "No history";
           const json = await res.json();
           renderAnalysisChart(json);

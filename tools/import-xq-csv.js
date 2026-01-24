@@ -9,6 +9,14 @@ const CSV_FILE = process.argv[3] || `${TARGET_CODE}.csv`;
 const DB_PATH = path.join(__dirname, "../public/data/cb-data.json");
 const OUT_DIR = path.join(__dirname, "../public/data/history");
 
+/**
+ * @name import-xq-csv
+ * @description 從 XQ 匯出的 CSV 檔案中匯入 CB 收盤價數據，用於補齊歷史斷層
+ * @source XQ 全球贏家匯出檔 (.csv)
+ * @scope 單一標的之歷史 CB 收盤價
+ * @target public/data/history/<CODE>.json (與現有 Stock Price 合併)
+ */
+
 if (!TARGET_CODE) {
   console.error("Usage: node tools/import-xq-csv.js <CB_CODE> [CSV_PATH]");
   process.exit(1);

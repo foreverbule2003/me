@@ -1,6 +1,13 @@
 const fs = require("fs");
 const path = require("path");
 
+/**
+ * @name fetch-cb-data
+ * @description 抓取 CB 與標的股票的即時市場行情 (Real-time Quotes)
+ * @source TWSE MIS API (mis.twse.com.tw)
+ * @scope 僅限已存在於 cb-data.json 中的標的代號
+ * @target public/data/cb-data.json
+ */
 const DATA_FILE = path.join(__dirname, "../public/data/cb-data.json");
 
 async function updateAllData() {

@@ -4,7 +4,26 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
-## [1.3.0] - 2026-01-24 (Ultimate Integration & Vibe Flow)
+## [1.3.1] - 2026-01-24 (Security & Data Governance)
+
+### 安全 (Security)
+
+- **權限控管 (Auth Guard)**：在 CB 戰情室實作 Firebase Auth 狀態監控，對「我的追蹤」分頁增加登入遮罩，防止非授權存取。
+- **後端鎖定**：收緊 Firestore 規則，將 `cb_history` 寫入權限限制為僅限管理員。
+
+### 資料規範 (Governance)
+
+- **資料來源文件化**：建立 `docs/DATASOURCES.md` 詳列爬蟲來源 (TWSE MIS, PChome, XQ CSV) 與資料範圍。
+- **代碼註解強化**：為核心爬蟲腳本導入標準化 JSDoc 規範。
+
+### 新增功能 (Features)
+
+- **自動化防禦 (Refactor Guard)** 🛡️：實作靜態掃描與 DOM 完整性檢查 (`npm run guard`)，防止重構引發的回歸錯誤。
+
+### 錯誤修復 (Bug Fixes)
+
+- **CB 計算機 (Calculator)**：修正 404 資料讀取錯誤、走勢圖不可見問題、以及變數 `canvas` 遺失導致的 crash。
+- **戰情室 (War Room)**：修正溢價率計算公式 (移除錯誤的係數)，解決顯示 -60% 的異常；修復分析抽屜資料載入異常。
 
 ### 重大變更 (Breaking Changes)
 

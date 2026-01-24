@@ -3,7 +3,11 @@ const path = require("path");
 const { fetchHistoryData } = require("../src/utils/cb-history-fetcher");
 
 /**
- * CB 歷史資料與同步整合工具
+ * @name fetch-cb-history
+ * @description 抓取並同步 CB 的歷史日 K 線數據 (Historical OHLCV)
+ * @source TWSE/TPEx Open Data
+ * @scope 定義於 cb-data.json 中的標的代號
+ * @target public/data/history/<CODE>.json & Firestore (cb_history/records)
  *
  * 用法:
  * node tools/fetch-cb-history.js <CODE> [SINCE_DATE]  # 抓取單一標的歷史至本地
