@@ -4,7 +4,8 @@
 
 ## 🔴 P0: 立即執行 (Pending)
 
-_(暫無 P0 項目)_
+- [ ] **Bug**: 戰情室歷史溢價走勢圖 (Chart) 的 MAX 按鈕功能失效 <!-- captured: 2026-01-24 -->
+- [ ] **Bug**: 點擊商品後的個股溢價圖表顯示異常 (無法載入或數據錯誤) <!-- captured: 2026-01-24 -->
 
 ---
 
@@ -12,9 +13,13 @@ _(暫無 P0 項目)_
 
 > 目標：持續優化雲端架構與開發者體驗。
 
-- [ ] **性能監控**: 實作雲端執行耗時追蹤。
+- [x] **性能監控 (Phase 1)**: 實作 Web Vitals 與 GA4 整合 (Core Infrastructure)。
+- [x] **性能監控 (Phase 2)**: 實作戰情室 API Latency 追蹤與自定義異常 Alert。
+- [x] **性能監控 (Phase 3)**: 實作前端「網路健康度」訊號燈 (Signal Widget)。
+- [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 (待觀察)
 - [ ] **CB 戰情室**: 實作「我的追蹤」頁籤登入權限限制 <!-- captured: 2026-01-24 -->
 - [x] **Refactor Guard**: 於下一次 UI 重構時試行並驗證防禦性開發機制 <!-- captured: 2026-01-24 -->
+- [ ] **UI Refactor**: 合併分析抽屜中的資訊卡片 (Premium, Conv Val, Parity) 為單一視覺區塊 <!-- captured: 2026-01-24 -->
 
 ---
 
@@ -25,7 +30,6 @@ _(暫無 P0 項目)_
 - [ ] 完善 AI 旅遊助手功能
 - [ ] 完成 2025-osaka 行程規劃
 - [ ] 完成 2026-hokkaido 行程規劃
-- [ ] **UI Refactor**: 合併分析抽屜中的資訊卡片 (Premium, Conv Val, Parity) 為單一視覺區塊 <!-- captured: 2026-01-24 -->
 
 ---
 

@@ -4,6 +4,24 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.3.2] - 2026-01-24 (Localization & UI Polish)
+
+### 在地化 (Localization) 🌏
+
+- **全面中文化**：將「CB 戰情室」與「舊版計算機」的所有英文介面翻譯為繁體中文（個股快篩、轉換溢價率、進階參數等）。
+- **用語標準化**：統一使用台股市場慣用語（如：Break-even -> 需上漲、Spot Price -> 標的股價）。
+
+### UI/UX 優化 (Polish) ✨
+
+- **字體整形 (Typography)**：針對中文字形優化 CSS，移除不適合的 `tracking-widest`，並調整字重與大小 (10px -> 12px) 提升易讀性。
+- **用戶狀態 (Auth UI)**：於戰情室頂部新增「用戶登入/登出」狀態按鈕，提供更直覺的身份管理入口。
+- **引導優化**：將舊版計算機入口按鈕重新命名為「開啟進階計算機」，提升功能定位。
+
+### 錯誤修復 (Fixes) 🐛
+
+- **Scope Issue**：修正戰情室「重新整理」按鈕因 Module Scope 導致的 `fetchHotCB` 引用錯誤。
+- **HTML Syntax**：修復分頁標籤元件中遺失的閉合符號。
+
 ## [1.3.1] - 2026-01-24 (Security & Data Governance)
 
 ### 安全 (Security)

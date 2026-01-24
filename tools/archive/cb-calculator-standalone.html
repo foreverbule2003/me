@@ -333,7 +333,7 @@
           <div class="flex items-center gap-2">
             <span class="status-pill market-open">
               <i class="fas fa-microchip text-[10px]"></i>
-              Analytics Engine v2.0
+              數據引擎 v2.0
             </span>
           </div>
         </div>
@@ -399,7 +399,7 @@
           class="lg:col-span-5 bg-white p-5 md:p-6 rounded-2xl premium-card"
         >
           <h2
-            class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-6 flex items-center gap-2"
+            class="text-sm font-bold text-slate-400 mb-6 flex items-center gap-2"
           >
             <i class="fas fa-sliders-h text-indigo-500"></i>
             Parameters / 輸入參數
@@ -408,8 +408,8 @@
           <!-- Search Area Integrated -->
           <div class="mb-8">
             <label
-              class="block text-[11px] font-bold text-slate-400 uppercase mb-2 ml-1"
-              >標的搜尋 / Search Security</label
+              class="block text-[11px] font-bold text-slate-400 mb-2 ml-1"
+              >標的搜尋</label
             >
             <div class="autocomplete-container" id="searchContainer">
               <div class="relative">
@@ -487,9 +487,9 @@
                 </div>
                 <div>
                   <div
-                    class="text-[11px] font-black text-slate-400 uppercase tracking-tighter"
+                    class="text-[11px] font-bold text-slate-400 tracking-tighter"
                   >
-                    Market Pulse
+                    市場熱門 (戰情室)
                   </div>
                   <div class="text-sm font-bold text-slate-700">
                     查看今日熱門榜單
@@ -517,16 +517,16 @@
             <div class="flex items-center justify-between px-1">
               <span
                 id="manualInputBtn"
-                class="text-[11px] font-black text-slate-400 uppercase tracking-widest cursor-pointer hover:text-indigo-500 transition-colors"
-                >Manual Override / 手動調整</span
+                class="text-[11px] font-bold text-slate-400 tracking-widest cursor-pointer hover:text-indigo-500 transition-colors"
+                >手動調整參數</span
               >
               <i class="fas fa-keyboard text-slate-200"></i>
             </div>
             <!-- CB Price -->
             <div>
               <label
-                class="block text-[11px] font-black text-slate-400 uppercase mb-2 ml-1"
-                >CB Price / 可轉債價格</label
+                class="block text-[11px] font-bold text-slate-400 mb-2 ml-1"
+                >可轉債價格 (CB Price)</label
               >
               <div class="relative">
                 <div
@@ -553,8 +553,8 @@
             <!-- Stock Price -->
             <div>
               <label
-                class="block text-[11px] font-black text-slate-400 uppercase mb-2 ml-1"
-                >Spot Price / 標的股價</label
+                class="block text-[11px] font-bold text-slate-400 mb-2 ml-1"
+                >標的股價 (Spot Price)</label
               >
               <div class="relative">
                 <div
@@ -576,8 +576,8 @@
             <!-- Conversion Price -->
             <div>
               <label
-                class="block text-[11px] font-black text-slate-400 uppercase mb-2 ml-1"
-                >Conversion Price / 轉換價</label
+                class="block text-[11px] font-bold text-slate-400 mb-2 ml-1"
+                >轉換價 (Conversion Price)</label
               >
               <div class="relative">
                 <div
@@ -617,18 +617,16 @@
           <div class="flex justify-between items-start mb-6">
             <div>
               <h3
-                class="text-[11px] font-black text-slate-400 uppercase tracking-widest leading-none"
+                class="text-[11px] font-bold text-slate-400 leading-none"
               >
-                Conversion Premium
-              </h3>
-              <div class="text-[10px] text-slate-400 font-bold mt-1">
                 轉換溢價率
-              </div>
+              </h3>
+              <!-- removed redundant lines -->
             </div>
             <span
               class="px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400"
               id="premiumStatus"
-              >Calculating...</span
+              >計算中...</span
             >
           </div>
           <div class="flex items-baseline gap-2 mb-4">
@@ -651,9 +649,9 @@
           <!-- Conversion Value -->
           <div class="premium-card p-5 rounded-xl border-slate-100">
             <div
-              class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center justify-between"
+              class="text-[11px] font-bold text-slate-400 mb-3 flex items-center justify-between"
             >
-              <span>Conversion Val.</span>
+              <span>轉換價值</span>
               <i class="fas fa-info-circle text-slate-200"></i>
             </div>
             <div
@@ -675,7 +673,7 @@
             <div
               class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center justify-between"
             >
-              <span>Break-even</span>
+              <span>需上漲 (Break-even)</span>
               <i class="fas fa-bullseye text-slate-200"></i>
             </div>
             <div
@@ -715,7 +713,7 @@
               class="text-[10px] font-bold text-slate-400 mt-1"
               id="statusDesc"
             >
-              STATIONARY: WAITING FOR INPUT DATA
+              待機中：等待輸入數據
             </p>
           </div>
         </div>
@@ -730,7 +728,7 @@
               class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"
             >
               <i class="fas fa-history text-indigo-400"></i>
-              Analytics History / 溢價走勢
+              歷史溢價走勢
             </h4>
             <div class="flex items-center gap-3">
               <div
