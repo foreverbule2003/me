@@ -31,8 +31,15 @@ git status --short
 | **docs/FEATURES.md**   | 新增/修改功能說明            | ☐    |
 | **docs/COMPONENTS.md** | 新增/修改 UI 組件說明        | ☐    |
 | **docs/SITEMAP.md**    | 頁面路由變動                 | ☐    |
+| **CHANGELOG.md**       | 更新版本變更內容紀錄         | ☐    |
 
-## 步驟 2：🔄 知識庫同步提醒
+## 步驟 1.1：🧹 TODO 自動歸檔 (Mandatory)
+
+在 Commit 之前，必須完成 Backlog 掃描：
+
+1. **掃描完成項**：檢查 `TODO.md` 中是否有 `[x]`。
+2. **立即歸檔**：將 `[x]` 項目移動至底部的 `## 🏁 已完成歸檔 (Archived)`，並附上今日日期。
+3. **更新標題基準**：確認 `TODO.md` 頂部的最後更新日期已修正。
 
 檢查此次變更是否包含可複用的好點子，應同步回 **Second-Brain**：
 
@@ -51,7 +58,7 @@ git status --short
 
 1. **PM 審核**：
    - 確認目標達成率、Backlog 優先順序。
-   - **執行 TODO 歸檔**：檢查並移動 `[x]` 項目至歸檔區 (參見 `/pm` 流程)。
+   - **檢查剩餘項**：確認是否有新的 Technical Debt 或 Follow-up items 需要加入待辦清單。
 2. **CTO 審核**：確認代碼質量、架構一致性與技術債。
 
 **指令範例**：

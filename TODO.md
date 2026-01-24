@@ -8,15 +8,8 @@ _(暫無 P0 項目)_
 
 ---
 
-## 🟡 P1: 雲端架構升級 (Cloud Infrastructure)
-
-> 目標：擺脫對本地開發機的依賴，實現全自動化數據更新。
-
 - [ ] **Serverless Migration**: 將本地爬蟲 (`fetch-cb-history.js`) 遷移至 GCP Cloud Functions。
   - 技術：Google Cloud Functions (Node.js) + Cloud Scheduler。
-- [x] **Hot CB History**: 建立每日熱門 CB 榜單的歷史存檔機制。
-  - 目標：每天自動快照 `hot-cb` 數據，累積長期趨勢資料供回測使用。
-  - ✅ Phase 1: Local Snapshot (Completed: 2026-01-24)
 
 ---
 
@@ -41,6 +34,8 @@ _(暫無 P0 項目)_
 ---
 
 ## 🏁 已完成歸檔 (Archived)
+
+- [x] **Hot CB History**: 建立每日熱門 CB 榜單的歷史存檔機制。 (Completed: 2026-01-24)
 
 - [x] **CB 工具 UI/UX 升級**:
   - 重構 `hot-cb.html` 與 `cb-calculator.html` 列表排版 (High/Low 對齊、字體層次)。
