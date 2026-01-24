@@ -48,3 +48,14 @@ Get-ChildItem -Path . -Recurse -Directory | Where-Object { $_.GetFileSystemInfos
 ### 5. 更新文件
 
 - 如果移動了重要參考文件，請在 `CHANGELOG.md` 或相關 README 中註記新位置。
+
+### 6. Workflow 健檢 (Workflow Health)
+
+順便檢查 `.agent/workflows/` 中是否有冗餘項目：
+- **重複別名**: 如 `clean.md` vs `cleanup.md`。
+- **過期實驗**: `test-*.md` 或不再使用的 POC。
+
+// turbo
+```bash
+ls .agent/workflows | Sort-Object
+```

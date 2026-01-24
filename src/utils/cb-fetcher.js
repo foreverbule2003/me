@@ -39,7 +39,7 @@ async function fetchHotCB() {
 
         // Column mapping for PChome:
         // 0: Name (Code) - e.g. "欣興一 (30371)"
-        // 1: Time
+        // 1: Time (e.g. "13:30")
         // 2: Price
         // 3: Change
         // 4: Change %
@@ -48,6 +48,7 @@ async function fetchHotCB() {
         // 7: Low
 
         const nameCodeText = cells[0].innerText.trim();
+        const timeStr = cells[1].innerText.trim();
         const priceStr = cells[2].innerText.trim().replace(/,/g, "");
         const changeStr = cells[3].innerText.trim();
         const changePctStr = cells[4].innerText.trim();
@@ -69,6 +70,7 @@ async function fetchHotCB() {
           scrapedData.push({
             code,
             name,
+            time: timeStr,
             price,
             change: changeStr,
             changePercent: changePctStr,
@@ -87,7 +89,12 @@ async function fetchHotCB() {
       throw new Error("No data found on PChome page");
     }
 
-    return results;
+    // Wrap in object with metadata
+    return {
+      source: "pchome",
+      updatedAt: new Date().toISOString(), // Fallback server time
+      data: results
+    };
   } catch (error) {
     console.error("[cb-fetcher] Error fetching Hot CB:", error.message);
     throw error;

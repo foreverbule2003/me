@@ -229,28 +229,28 @@
           const json = await res.json();
 
           // Parse Data
-          const list = Array.isArray(json) ? json : json.data;
+          // Support both new wrapper format and legacy array
+          const list = Array.isArray(json) ? json : (json.data || []);
           const source = json.source || "unknown";
+          
+          // Determine Data Time
+          // If json has updatedAt, use it. Otherwise use current time
+          let dataTime = new Date();
+          if (json.updatedAt) dataTime = new Date(json.updatedAt);
+          
+          // If fetching from PChome, list items might have 'time' field. 
+          // We can assume the data date based on today or 'time' field logic if needed.
+          // For now, trust server updatedAt or fallback to now.
 
           if (!Array.isArray(list)) throw new Error("Invalid Format");
 
           renderDashboard(list, source);
 
-          // Update Timestamp
-          const now = new Date();
-          updateTimeEl.textContent = now.toLocaleTimeString("en-GB", {
-            hour12: false,
-          });
-
-          // Update Date
-          const yy = now.getFullYear().toString().slice(-2);
-          const mm = (now.getMonth() + 1).toString().padStart(2, "0");
-          const dd = now.getDate().toString().padStart(2, "0");
-          const day = ["日", "一", "二", "三", "四", "五", "六"][now.getDay()];
-          dateDisplay.textContent = `${yy}/${mm}/${dd}(${day})`;
+          // Update Timestamp & Date Display based on DATA time, not USER time
+          updateHeaderTime(dataTime);
 
           // Update Market Pill
-          updateMarketStatus(now);
+          updateMarketStatus(dataTime);
         } catch (e) {
           console.error("Fetch Failed", e);
           container.innerHTML = `
@@ -270,6 +270,26 @@
         }
       }
 
+      function updateHeaderTime(date) {
+        // Time
+        updateTimeEl.textContent = date.toLocaleTimeString("en-GB", {
+            hour12: false,
+        });
+
+        // Date logic:
+        // If it's Saturday/Sunday, the data fetch (live) usually returns Friday's data?
+        // Actually, if we just fetched 'live' from PChome on Saturday, PChome shows Friday's data.
+        // We should try to align the date displayed.
+        // Simple heuristic: If today is Sat/Sun, force display to last Friday?
+        // Or better: Display the fetch time, but Status Pill says "CLOSED".
+        
+        const yy = date.getFullYear().toString().slice(-2);
+        const mm = (date.getMonth() + 1).toString().padStart(2, "0");
+        const dd = date.getDate().toString().padStart(2, "0");
+        const day = ["日", "一", "二", "三", "四", "五", "六"][date.getDay()];
+        dateDisplay.textContent = `${yy}/${mm}/${dd}(${day})`;
+      }
+
       function updateMarketStatus(date) {
         const hour = date.getHours();
         const min = date.getMinutes();
@@ -282,11 +302,13 @@
         if (!isWeekend && isOpenTime) {
           marketStatusPill.className = "status-pill market-open";
           marketStatusPill.innerHTML =
-            '<i class="fas fa-circle text-[6px] animate-pulse"></i> 市場交易中';
+            '<i class="fas fa-circle text-[6px] animate-pulse"></i> LIVE DATA';
+          sourceFooter.textContent = "LIVE DATA: PCHOME FINANCIAL";
         } else {
           marketStatusPill.className = "status-pill market-closed";
           marketStatusPill.innerHTML =
-            '<i class="fas fa-moon text-[10px]"></i> 市場已收盤';
+            '<i class="fas fa-moon text-[10px]"></i> LAST CLOSE';
+          sourceFooter.textContent = "DATA SOURCE: PCHOME (CLOSE)";
         }
       }
 
