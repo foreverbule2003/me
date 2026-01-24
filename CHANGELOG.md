@@ -4,6 +4,23 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.2.1] - 2026-01-24 (Hot CB UI Refactor & Reliability)
+
+### 新增 (Added)
+
+- **雙頁籤導航系統**：在 Hot CB 頁面實作 `市場熱門 (Pulse)` 與 `我的追蹤 (Watchlist)` 分離介面。
+- **行動端 RWD 增強**：為手機版設計「高低價內容摺疊」佈局，確保所有解析度下資訊對等。
+- **智慧雲端備援**：重構數據獲取邏輯，當 API 離線時自動、無感地切換至 Firestore 雲端快照。
+
+### 修正 (Fixed)
+
+- **數據解析韌性**：支援金融數據中的「全形符號」（＋/－/▲/▼），修正計算昨收參考價時的 Crash 問題。
+- **JavaScript 穩定性**：清理了重構後的冗餘代碼與 Null 引用，解決「連線故障」誤報。
+
+### 變更 (Changed)
+
+- **UI 精簡 (Private Labeling)**：隱藏了所有介面上的第三方資料來源（PChome）標籤，提升產品專業感。
+
 ## [1.2.0] - 2026-01-24 (Hot CB Enhancements & DX)
 
 ### 新增 (Added)
