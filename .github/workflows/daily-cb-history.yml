@@ -1,0 +1,29 @@
+name: Daily CB History Sync
+
+on:
+  schedule:
+    # 台灣時間 14:15 (收盤行情更新後) -> UTC 06:15
+    - cron: '15 6 * * 1-5'
+  workflow_dispatch: # 支援手動觸發執行補漏
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Execute CB History Cloud Sync
+        run: node tools/sync-cb-history.js
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
