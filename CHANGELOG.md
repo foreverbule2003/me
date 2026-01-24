@@ -10,6 +10,7 @@
 
 - **Hot CB 歷史瀏覽功能**：支援透過 `?date=YYYY-MM-DD` 參數或 UI 箭頭導航切換歷史快照。
 - **Serverless 爬蟲基建**：實作 GitHub Actions 自動化抓取流程與 Firestore 雲端同步。
+- **架構優化**：中央化 Firebase 配置管理，消除硬編碼 Project ID。
 - **網站圖示 (Favicon)**：新增 `favicon.ico` 並解決 404 報錯問題。
 - **Workflow 指令別名**：新增 `/clean` 與 `/tidy` 別名（後續根據顧問建議已進行精簡）。
 

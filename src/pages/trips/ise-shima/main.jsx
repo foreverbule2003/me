@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import "../../../index.css"; // Tailwind CSS
 import "./ise-shima.css"; // 頁面專用樣式
 
-// 使用共用 Firebase 設定 (統一使用 my-landing-page-2ca68 專案)
+// 使用共用 Firebase 設定
 import { db } from "../../../lib/firebase.js";
 
 // 導出 db 供未來功能使用 (如收藏同步)

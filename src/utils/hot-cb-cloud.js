@@ -23,7 +23,7 @@ async function saveSnapshotToCloud(data) {
 
       admin.initializeApp({
         credential,
-        projectId: "my-landing-page-2ca68" // Match config from src/lib/firebase.js
+        // projectId handled by credential or env
       });
     }
 

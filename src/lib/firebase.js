@@ -27,15 +27,7 @@ import {
   GoogleAuthProvider,
 } from "firebase/auth";
 
-// Firebase 設定
-const firebaseConfig = {
-  apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
-  authDomain: "my-landing-page-2ca68.firebaseapp.com",
-  projectId: "my-landing-page-2ca68",
-  storageBucket: "my-landing-page-2ca68.firebasestorage.app",
-  messagingSenderId: "847051837050",
-  appId: "1:847051837050:web:c5e2bc56252e0d3ab835c3",
-};
+import { firebaseConfig } from "./firebase-config";
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
