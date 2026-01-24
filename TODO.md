@@ -39,6 +39,18 @@ _(暫無 P0 項目)_
 
 ## 🏁 已完成歸檔 (Archived)
 
+- [x] **CB 工具 UI/UX 升級**:
+  - 重構 `hot-cb.html` 與 `cb-calculator.html` 列表排版 (High/Low 對齊、字體層次)。
+  - 優化搜尋框體驗 (禁用瀏覽器自動完成)。
+  - 修正深色模式下資訊卡片的視覺斷層。
+  - ✅ (Completed: 2026-01-24)
+- [x] **安全性機制實作**:
+  - 建立 `/test-cb-tool` 自動化冒煙測試。
+  - 於 `/check-change` 加入 ID 刪除偵測。
+  - 制定 `safeguard_plan.md` 重構規範。
+  - ✅ (Completed: 2026-01-24)
+- [x] **功能修復**: 解決 UI 重構導致的搜尋與 Autocomplete 邏輯中斷問題。✅ (Completed: 2026-01-24)
+
 - [x] **Feature**: 實作「已建檔標的」自動完成/預先載入功能 (Autocomplete from Firebase)。✅ (Completed: 2026-01-23)
   - 解決線上版無法爬取新資料的問題，改為引導使用者選擇已存在的資料。
 - [x] **CB 計算機功能升級**: 新增溢價率走勢圖、補齊 2026/01 斷層、引入 Zoom/Pan 互動與區間切換 (1M/3M/All) ✅ (Completed: 2026-01-23)

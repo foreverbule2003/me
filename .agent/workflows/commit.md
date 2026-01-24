@@ -13,6 +13,7 @@ description: 快速提交變更到目前分支 (不推送)
 3. **忽略設定**：若檔案需要保留但不提交，請確保已加入 `.gitignore`。
 
 執行快速掃描：
+
 ```bash
 git clean -ndX  # 顯示會被忽略但未追蹤的檔案 (Dry Run)
 git status --short
@@ -36,10 +37,10 @@ git status --short
 
 | 變更類型                     | 應同步到 Second-Brain |
 | ---------------------------- | --------------------- |
-| 新增 `.agent/workflows/*.md` | ⭐ 是 (通用工作流程)   |
-| 新增 `.agent/prompts/*.md`   | ⭐ 是 (通用 AI 角色)   |
-| 新增 `knowledge/*.md`        | ⭐ 是 (思維模型)       |
-| Commit 含 `[reusable]` 標記  | ⭐ 是                  |
+| 新增 `.agent/workflows/*.md` | ⭐ 是 (通用工作流程)  |
+| 新增 `.agent/prompts/*.md`   | ⭐ 是 (通用 AI 角色)  |
+| 新增 `knowledge/*.md`        | ⭐ 是 (思維模型)      |
+| Commit 含 `[reusable]` 標記  | ⭐ 是                 |
 
 > 💡 若有可複用項目，提交後執行 `/sync-to-brain`
 

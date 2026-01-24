@@ -154,7 +154,11 @@ export const GameBoyShell = ({
           break;
         case "Backspace": // B Button
           // Prevent Backspace from triggering navigation when focus is on input fields
-          if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA" || e.target.isContentEditable) {
+          if (
+            e.target.tagName === "INPUT" ||
+            e.target.tagName === "TEXTAREA" ||
+            e.target.isContentEditable
+          ) {
             break;
           }
           onBack && onBack();
@@ -325,10 +329,11 @@ export const GameBoyShell = ({
         <button
           onClick={toggleSound}
           className={`text-xs px-3 py-1 rounded shadow-md border-2 font-bold transition-all 
-                            ${isMuted
-              ? "bg-gray-300 text-gray-800 border-gray-500 animate-pulse hover:bg-white"
-              : "bg-red-600 text-white border-red-800 hover:bg-red-500"
-            }`}
+                            ${
+                              isMuted
+                                ? "bg-gray-300 text-gray-800 border-gray-500 animate-pulse hover:bg-white"
+                                : "bg-red-600 text-white border-red-800 hover:bg-red-500"
+                            }`}
         >
           {isMuted ? "SOUND OFF" : "SOUND ON"}
         </button>

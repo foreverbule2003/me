@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Market Hot List | 今日熱門可轉債</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --brand-slate: #0f172a;
+        --brand-indigo: #4f46e5;
+        --market-up: #ef4444;
+        --market-down: #22c55e;
+        --bg-main: #f8fafc;
+      }
+
+      body {
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
+        background-color: var(--bg-main);
+      }
+
+      .mono {
+        font-family: "JetBrains Mono", monospace;
+      }
+
+      .premium-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.05),
+          0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      }
+
+      .table-row-hover {
+        transition: all 0.15s ease;
+      }
+      .table-row-hover:hover {
+        background-color: #f1f5f9;
+        cursor: pointer;
+      }
+
+      .rank-dot {
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 800;
+        border-radius: 6px;
+        background: #f1f5f9;
+        color: #64748b;
+      }
+      .rank-dot.top-1 {
+        background: #fee2e2;
+        color: #ef4444;
+        border: 1px solid #fecaca;
+      }
+      .rank-dot.top-2 {
+        background: #ffedd5;
+        color: #f97316;
+        border: 1px solid #fed7aa;
+      }
+      .rank-dot.top-3 {
+        background: #fef9c3;
+        color: #ca8a04;
+        border: 1px solid #fef08a;
+      }
+
+      .status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 9999px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+      }
+
+      .market-open {
+        background: #dcfce7;
+        color: #15803d;
+      }
+      .market-closed {
+        background: #f1f5f9;
+        color: #475569;
+      }
+
+      @keyframes pulse-soft {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.1);
+          opacity: 0.7;
+        }
+      }
+      .animate-pulse-soft {
+        animation: pulse-soft 2s infinite ease-in-out;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-900">
+    <div class="max-w-[1200px] mx-auto p-4 md:p-8">
+      <!-- Top Action Bar -->
+      <div class="flex items-center justify-between mb-8">
+        <div class="flex items-center gap-4">
+          <a
+            href="cb-calculator.html"
+            class="flex items-center gap-2 text-slate-600 hover:text-slate-900 font-semibold text-sm transition-colors group"
+          >
+            <i
+              class="fas fa-arrow-left transition-transform group-hover:-translate-x-1"
+            ></i>
+            <span>計算機</span>
+          </a>
+          <div class="h-4 w-[1px] bg-slate-200"></div>
+          <div class="flex items-center gap-2">
+            <span id="marketStatus" class="status-pill market-closed">
+              <i class="fas fa-circle text-[6px] animate-pulse-soft"></i>
+              尚未載入
+            </span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button
+            onclick="fetchHotCB()"
+            id="refreshBtn"
+            class="p-2 text-slate-400 hover:text-indigo-600 transition-colors"
+            title="手動刷新"
+          >
+            <i class="fas fa-sync-alt"></i>
+          </button>
+          <a
+            href="/me/?booted=true"
+            class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:bg-slate-100 transition-all border border-transparent hover:border-slate-200"
+          >
+            <i class="fas fa-house-chimney text-sm"></i>
+          </a>
+        </div>
+      </div>
+
+      <!-- Professional Header -->
+      <div class="mb-10">
+        <h1
+          class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 flex items-baseline gap-3"
+        >
+          今日熱門可轉債
+          <span class="text-slate-400 text-lg font-medium" id="dateDisplay"
+            >--/--/--</span
+          >
+        </h1>
+        <div
+          class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2 text-xs text-slate-500 font-medium"
+        >
+          <div class="flex items-center gap-1.5">
+            <i class="far fa-clock"></i>
+            最後更新:
+            <span id="updateTime" class="mono text-slate-700">--:--:--</span>
+          </div>
+          <div class="flex items-center gap-1.5">
+            <i class="fas fa-database text-slate-300"></i>
+            <span id="sourceFooter">系統初始化中...</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status/Warning Banner -->
+      <div id="statusBanner" class="mb-6 hidden"></div>
+
+      <!-- Market Dashboard Table -->
+      <div class="premium-card rounded-2xl overflow-hidden border-slate-200">
+        <div id="htListContainer" class="min-h-[400px] relative">
+          <!-- Initial Skeleton -->
+          <div class="p-8 space-y-4">
+            <div class="h-8 bg-slate-50 rounded animate-pulse w-full"></div>
+            <div class="h-12 bg-slate-50 rounded animate-pulse w-full"></div>
+            <div class="h-12 bg-slate-50 rounded animate-pulse w-full"></div>
+            <div class="h-12 bg-slate-50 rounded animate-pulse w-full"></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        class="mt-6 text-[11px] text-slate-400 flex justify-between items-center px-2"
+      >
+        <span>* 資料每 15 分鐘自動從 PChome 股市擷取。不構成投資建議。</span>
+        <span class="mono">Me.Financial Tools v2.0</span>
+      </div>
+    </div>
+
+    <script>
+      const statusBanner = document.getElementById("statusBanner");
+      const container = document.getElementById("htListContainer");
+      const updateTimeEl = document.getElementById("updateTime");
+      const sourceFooter = document.getElementById("sourceFooter");
+      const dateDisplay = document.getElementById("dateDisplay");
+      const marketStatusPill = document.getElementById("marketStatus");
+
+      // Init
+      fetchHotCB();
+
+      async function fetchHotCB() {
+        try {
+          // UI Loading
+          const refreshBtn = document.getElementById("refreshBtn");
+          if (refreshBtn)
+            refreshBtn.querySelector("i").classList.add("fa-spin");
+
+          const res = await fetch("/api/hot-cb");
+          const json = await res.json();
+
+          // Parse Data
+          const list = Array.isArray(json) ? json : json.data;
+          const source = json.source || "unknown";
+
+          if (!Array.isArray(list)) throw new Error("Invalid Format");
+
+          renderDashboard(list, source);
+
+          // Update Timestamp
+          const now = new Date();
+          updateTimeEl.textContent = now.toLocaleTimeString("en-GB", {
+            hour12: false,
+          });
+
+          // Update Date
+          const yy = now.getFullYear().toString().slice(-2);
+          const mm = (now.getMonth() + 1).toString().padStart(2, "0");
+          const dd = now.getDate().toString().padStart(2, "0");
+          const day = ["日", "一", "二", "三", "四", "五", "六"][now.getDay()];
+          dateDisplay.textContent = `${yy}/${mm}/${dd}(${day})`;
+
+          // Update Market Pill
+          updateMarketStatus(now);
+        } catch (e) {
+          console.error("Fetch Failed", e);
+          container.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-[300px] text-slate-400">
+                    <i class="fas fa-exclamation-circle fa-2x mb-4 text-slate-200"></i>
+                    <h3 class="font-bold text-slate-600">連線中斷</h3>
+                    <p class="text-xs mt-1">無法同步即時市場數據</p>
+                    <button onclick="fetchHotCB()" class="mt-6 px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs font-bold hover:bg-slate-200 transition-colors">
+                        重試連線
+                    </button>
+                </div>
+                `;
+        } finally {
+          const refreshBtn = document.getElementById("refreshBtn");
+          if (refreshBtn)
+            refreshBtn.querySelector("i").classList.remove("fa-spin");
+        }
+      }
+
+      function updateMarketStatus(date) {
+        const hour = date.getHours();
+        const min = date.getMinutes();
+        const day = date.getDay();
+        const totalMin = hour * 60 + min;
+
+        const isWeekend = day === 0 || day === 6;
+        const isOpenTime = totalMin >= 540 && totalMin <= 815; // 09:00 - 13:35
+
+        if (!isWeekend && isOpenTime) {
+          marketStatusPill.className = "status-pill market-open";
+          marketStatusPill.innerHTML =
+            '<i class="fas fa-circle text-[6px] animate-pulse"></i> 市場交易中';
+        } else {
+          marketStatusPill.className = "status-pill market-closed";
+          marketStatusPill.innerHTML =
+            '<i class="fas fa-moon text-[10px]"></i> 市場已收盤';
+        }
+      }
+
+      function renderDashboard(list, source) {
+        // Banner Handling
+        if (source === "mock") {
+          statusBanner.innerHTML = `
+                <div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2">
+                    <i class="fas fa-info-circle"></i>
+                    <span><b>串接異常</b>：目前顯示離線快取或模擬數據，實際行情請以交易所為準。</span>
+                </div>`;
+          statusBanner.classList.remove("hidden");
+          sourceFooter.textContent = "系統離線模擬 (OFFLINE)";
+        } else {
+          statusBanner.classList.add("hidden");
+          sourceFooter.textContent = "LIVE DATA: PCHOME FINANCIAL";
+        }
+
+        if (list.length === 0) {
+          container.innerHTML =
+            '<div class="p-12 text-center text-slate-300">NO DATA FOUND</div>';
+          return;
+        }
+
+        let html = `
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead class="bg-slate-50 border-b border-slate-200 text-xs uppercase text-slate-500 font-extrabold tracking-wider">
+                        <tr>
+                            <th class="px-6 py-4 w-16 text-center">Rank</th>
+                            <th class="px-6 py-4">Security</th>
+                            <th class="px-6 py-4 text-right">Price</th>
+                            <th class="px-6 py-4 text-right">Change</th>
+                            <th class="px-6 py-4 text-right">Volume</th>
+                            <th class="px-6 py-4 text-right hidden md:table-cell">High / Low</th>
+                            <th class="px-6 py-4 text-center w-16"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-50">
+            `;
+
+        html += list
+          .map((item, index) => {
+            const rank = index + 1;
+            let rankClass = "";
+            if (rank === 1) rankClass = "top-1";
+            else if (rank === 2) rankClass = "top-2";
+            else if (rank === 3) rankClass = "top-3";
+
+            // Trend Logic
+            let priceColor = "text-slate-900";
+            let changeIcon = "";
+            let changeVal = item.change || "---";
+            let changeBg = "bg-slate-100 text-slate-500";
+
+            if (
+              changeVal.includes("▲") ||
+              changeVal.includes("+") ||
+              parseFloat(changeVal) > 0
+            ) {
+              priceColor = "text-red-500";
+              changeIcon = '<i class="fas fa-caret-up"></i>';
+              changeBg = "bg-red-50 text-red-600";
+            } else if (
+              changeVal.includes("▼") ||
+              changeVal.includes("-") ||
+              parseFloat(changeVal) < 0
+            ) {
+              priceColor = "text-green-600";
+              changeIcon = '<i class="fas fa-caret-down"></i>';
+              changeBg = "bg-green-50 text-green-600";
+            }
+
+            return `
+                <tr class="table-row-hover group" onclick="goToCalculator('${item.code}')">
+                    <td class="px-6 py-4">
+                        <div class="rank-dot ${rankClass} mx-auto">${rank}</div>
+                    </td>
+                    <td class="px-6 py-4">
+                        <div class="flex flex-col">
+                            <span class="font-black text-slate-700 text-sm whitespace-nowrap tracking-tight">${item.name}</span>
+                            <span class="mono text-xs font-bold text-slate-400 mt-0.5">${item.code}</span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <span class="mono font-bold text-base ${priceColor}">${item.price}</span>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                        <div class="flex flex-col items-end gap-1">
+                            <span class="${priceColor} text-xs font-bold leading-none">${changeIcon} ${item.change}</span>
+                            <span class="px-1.5 py-0.5 rounded text-[10px] mono font-bold ${changeBg}">
+                                ${item.changePercent || "--"}
+                            </span>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-right">
+                         <div class="flex flex-col items-end">
+                            <span class="mono text-sm font-semibold text-slate-600">${item.volume.toLocaleString()}</span>
+                            <span class="text-[9px] text-slate-300 font-bold uppercase">Shares</span>
+                         </div>
+                    </td>
+                    <td class="px-6 py-4 text-right hidden md:table-cell">
+                        <div class="flex flex-col items-end gap-1 font-mono text-xs">
+                            <div class="flex items-center justify-end gap-2">
+                                <span class="text-[10px] font-bold text-slate-300 sans tracking-wider w-4 text-right">HI</span>
+                                <span class="text-slate-600 font-bold w-14 text-right tabular-nums">${item.high}</span>
+                            </div>
+                            <div class="flex items-center justify-end gap-2">
+                                <span class="text-[10px] font-bold text-slate-300 sans tracking-wider w-4 text-right">LO</span>
+                                <span class="text-slate-500 font-bold w-14 text-right tabular-nums">${item.low}</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="px-6 py-4 text-center">
+                        <i class="fas fa-chevron-right text-[10px] text-slate-200 group-hover:text-indigo-400 transition-colors"></i>
+                    </td>
+                </tr>
+                `;
+          })
+          .join("");
+
+        html += `</tbody></table></div>`;
+        container.innerHTML = html;
+      }
+
+      window.goToCalculator = (code) => {
+        window.location.href = `cb-calculator.html?code=${code}&autoSearch=true`;
+      };
+    </script>
+  </body>
+</html>

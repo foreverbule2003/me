@@ -165,10 +165,11 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex-1 min-w-[80px] py-4 flex flex-col items-center gap-1 transition-colors ${activeTab === id
+              className={`flex-1 min-w-[80px] py-4 flex flex-col items-center gap-1 transition-colors ${
+                activeTab === id
                   ? "text-indigo-600 font-bold border-b-2 border-indigo-600"
                   : "text-gray-400 hover:text-indigo-600"
-                }`}
+              }`}
             >
               <Icon size={20} />
               <span className="text-xs">{label}</span>
@@ -233,14 +234,16 @@ const OverviewSection = ({ forceOpen, onDayClick }) => {
                 )}
                 {/* 時間軸節點 */}
                 <div
-                  className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${today
+                  className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${
+                    today
                       ? "bg-indigo-500 border-2 border-indigo-500"
                       : "bg-white border-2 border-indigo-400"
-                    }`}
+                  }`}
                 >
                   <span
-                    className={`text-[10px] font-bold ${today ? "text-white" : "text-indigo-600"
-                      }`}
+                    className={`text-[10px] font-bold ${
+                      today ? "text-white" : "text-indigo-600"
+                    }`}
                   >
                     {item.day}
                   </span>
@@ -457,10 +460,11 @@ const CollapsibleSubsection = ({
         </div>
       </button>
       <div
-        className={`grid transition-all duration-300 ease-in-out ${isOpen
+        className={`grid transition-all duration-300 ease-in-out ${
+          isOpen
             ? "grid-rows-[1fr] opacity-100 mt-2"
             : "grid-rows-[0fr] opacity-0 mt-0"
-          }`}
+        }`}
       >
         <div className="overflow-hidden">{children}</div>
       </div>
@@ -509,10 +513,11 @@ const StickyPhaseHeader = ({
     <div className="mb-6" ref={containerRef}>
       <div
         className={`transition-all duration-500 ease-in-out overflow-hidden
-                ${isOpen
-            ? "sticky top-[72px] z-30 -mx-4 md:mx-0 md:rounded-xl shadow-sm"
-            : "relative z-0 mx-0 rounded-3xl shadow-md my-4 hover:shadow-lg hover:scale-[1.01] cursor-pointer"
-          }`}
+                ${
+                  isOpen
+                    ? "sticky top-[72px] z-30 -mx-4 md:mx-0 md:rounded-xl shadow-sm"
+                    : "relative z-0 mx-0 rounded-3xl shadow-md my-4 hover:shadow-lg hover:scale-[1.01] cursor-pointer"
+                }`}
       >
         <button
           onClick={handleToggle}
@@ -1014,10 +1019,11 @@ export default function App() {
                       ].map(([dep, arr, dur, rec], idx) => (
                         <tr
                           key={idx}
-                          className={`border-b border-gray-50 last:border-0 transition-colors ${rec
+                          className={`border-b border-gray-50 last:border-0 transition-colors ${
+                            rec
                               ? "bg-indigo-50/60 hover:bg-indigo-50"
                               : "hover:bg-gray-50/80"
-                            }`}
+                          }`}
                         >
                           <td className="p-2">
                             <span
@@ -1081,10 +1087,11 @@ export default function App() {
                       ].map(([dep, arr, dur, rec], idx) => (
                         <tr
                           key={idx}
-                          className={`border-b border-gray-50 last:border-0 transition-colors ${rec
+                          className={`border-b border-gray-50 last:border-0 transition-colors ${
+                            rec
                               ? "bg-indigo-50/60 hover:bg-indigo-50"
                               : "hover:bg-gray-50/80"
-                            }`}
+                          }`}
                         >
                           <td className="p-2">
                             <span
@@ -1367,19 +1374,21 @@ export default function App() {
                         return (
                           <div
                             key={itemKey}
-                            className={`p-3 rounded-xl transition-colors ${isFavorite
+                            className={`p-3 rounded-xl transition-colors ${
+                              isFavorite
                                 ? "bg-pink-50 border border-pink-200"
                                 : "bg-gray-50 hover:bg-gray-100"
-                              }`}
+                            }`}
                           >
                             <div className="flex items-start gap-3">
                               {/* 收藏按鈕 (移至左側) */}
                               <button
                                 onClick={() => toggleFavorite(itemKey)}
-                                className={`p-2 rounded-full transition-all shrink-0 ${isFavorite
+                                className={`p-2 rounded-full transition-all shrink-0 ${
+                                  isFavorite
                                     ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
                                     : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
-                                  }`}
+                                }`}
                                 title={isFavorite ? "取消收藏" : "加入收藏"}
                               >
                                 <Star
@@ -1481,22 +1490,24 @@ export default function App() {
                     return (
                       <div
                         key={originalIdx}
-                        className={`p-4 rounded-xl border transition-all ${isPurchased
+                        className={`p-4 rounded-xl border transition-all ${
+                          isPurchased
                             ? "bg-gray-100 border-gray-200 opacity-60"
                             : item.isBackup
                               ? "bg-gray-50 border-gray-200 border-dashed"
                               : "bg-white border-gray-100 hover:border-pink-200"
-                          }`}
+                        }`}
                       >
                         <div className="flex items-start gap-3">
                           {/* Checkbox */}
                           {/* Checkbox */}
                           <button
                             onClick={() => togglePurchased(itemKey)}
-                            className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${isPurchased
+                            className={`mt-0.5 w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${
+                              isPurchased
                                 ? "bg-green-500 border-green-500 text-white shadow-sm"
                                 : "border-gray-300 bg-white hover:border-pink-400"
-                              }`}
+                            }`}
                           >
                             {isPurchased && <Check size={12} strokeWidth={4} />}
                           </button>
@@ -1515,14 +1526,15 @@ export default function App() {
                                   item.type,
                                 ) && (
                                   <span
-                                    className={`px-2 py-0.5 text-xs font-medium rounded ${isPurchased
+                                    className={`px-2 py-0.5 text-xs font-medium rounded ${
+                                      isPurchased
                                         ? "bg-gray-200 text-gray-500"
                                         : item.type === "首選"
                                           ? "bg-green-100 text-green-600"
                                           : item.type === "試用"
                                             ? "bg-yellow-100 text-yellow-700"
                                             : "bg-gray-100 text-gray-500"
-                                      }`}
+                                    }`}
                                   >
                                     {item.type}
                                   </span>
@@ -1585,8 +1597,8 @@ export default function App() {
           "budget",
           "map",
         ].includes(activeTab) && (
-            <ToggleFAB isExpanded={isAnyExpanded} onToggle={handleSmartToggle} />
-          )}
+          <ToggleFAB isExpanded={isAnyExpanded} onToggle={handleSmartToggle} />
+        )}
       </div>
 
       <ScrollToTop />

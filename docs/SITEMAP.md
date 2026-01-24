@@ -44,6 +44,8 @@
 └── 🔧 TOOLS & CONTACT (tools/)
     ├── 📊 財務儀表板 (tools/financial-dashboard.html)
     ├── 📈 期權策略模擬器 (tools/bull-put-spread.html)
+    ├── 🧮 CB 計算機 (tools/cb-calculator.html)
+    ├── 🔥 熱門 CB 榜 (tools/hot-cb.html)
     ├── 🤖 台股分析自動化 (tools/stock-analyzer/) [Vite+React]
     └── 📧 聯絡方式
 ```
@@ -63,6 +65,8 @@
 | 日記           | `/journal/`                        | ✅ 完成   | Vite+React  |
 | 財務儀表板     | `/tools/financial-dashboard.html`  | ✅ 完成   | CDN+Vanilla | \r  |
 | 期權模擬器     | `/tools/bull-put-spread.html`      | ✅ 完成   | CDN+Vanilla | \r  |
+| CB 計算機      | `/tools/cb-calculator.html`        | ✅ 完成   | CDN+Vanilla | \r  |
+| 熱門 CB 榜     | `/tools/hot-cb.html`               | ✅ 完成   | CDN+Vanilla | \r  |
 | 台股分析自動化 | `/tools/stock-analyzer/`           | ✅ 完成   | Vite+React  | \r  |
 
 ## 旅程詳情頁分頁結構
