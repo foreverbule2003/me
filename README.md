@@ -33,7 +33,7 @@ npm run preview
 ## 📁 專案結構
 
 ```
-my-landing-page/
+timboy/
 ├── index.html              # 首頁 (TimBoy 模擬器)
 ├── about/index.html        # 關於頁面
 ├── trips/index.html        # 旅程列表

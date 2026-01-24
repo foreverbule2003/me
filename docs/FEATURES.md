@@ -15,7 +15,7 @@
 ## 頁面結構
 
 ```
-my-landing-page/
+timboy/
 ├── index.html              # 首頁（TimBoy 模擬器）
 ├── about/index.html        # 關於我
 ├── trips/index.html        # 旅程列表
