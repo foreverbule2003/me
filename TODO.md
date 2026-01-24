@@ -14,6 +14,9 @@ _(暫無 P0 項目)_
 
 - [ ] **Serverless Migration**: 將本地爬蟲 (`fetch-cb-history.js`) 遷移至 GCP Cloud Functions。
   - 技術：Google Cloud Functions (Node.js) + Cloud Scheduler。
+- [x] **Hot CB History**: 建立每日熱門 CB 榜單的歷史存檔機制。
+  - 目標：每天自動快照 `hot-cb` 數據，累積長期趨勢資料供回測使用。
+  - ✅ Phase 1: Local Snapshot (Completed: 2026-01-24)
 
 ---
 
