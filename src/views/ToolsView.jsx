@@ -9,8 +9,8 @@ const ToolsView = ({ onSetActions }) => {
 
   const menuItems = [
     {
-      label: "財務儀表板",
-      href: "/me/tools/financial-dashboard.html",
+      label: "財務儀表板 (封存)",
+      href: "/me/tools/archive/prototypes/financial-dashboard.html",
       isExternal: true,
     },
     {
@@ -19,8 +19,13 @@ const ToolsView = ({ onSetActions }) => {
       isExternal: true,
     },
     {
-      label: "期權策略模擬器",
-      href: "/me/tools/bull-put-spread.html",
+      label: "HOT CB 榜",
+      href: "/me/tools/hot-cb.html",
+      isExternal: true,
+    },
+    {
+      label: "期權策略 (封存)",
+      href: "/me/tools/archive/prototypes/bull-put-spread.html",
       isExternal: true,
     },
     { label: "台股分析自動化", href: "/tools", isExternal: false }, // Keeping this as SPA route if it exists or pointing to correct place
