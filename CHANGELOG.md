@@ -13,6 +13,10 @@
 - **權限容錯 (Permission Guard)**：修復舊版計算機在非管理員模式下的 Crash 問題 (Try-Catch `savePremiumRecord`)。
 - **載入提示 (Loading UI)**：修正自動爬蟲觸發條件，確保 15 秒回補期間顯示正確的遮罩與進度提示。
 
+### 文件更新 (Docs) 📝
+
+- **TODO Sort**: 調整 `TODO.md` 歸檔邏輯為倒序 (Reverse Chronological)，並更新 `docs/TODO_SPEC.md` 與 `/commit` 工作流程規範。
+
 ## [1.3.2] - 2026-01-24 (Localization & UI Polish)
 
 ### 在地化 (Localization) 🌏

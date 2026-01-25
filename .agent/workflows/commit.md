@@ -38,17 +38,17 @@ git status --short
 在 Commit 之前，必須完成 Backlog 掃描：
 
 1. **掃描完成項**：檢查 `TODO.md` 中是否有 `[x]`。
-2. **立即歸檔**：將 `[x]` 項目移動至底部的 `## 🏁 已完成歸檔 (Archived)`，並附上今日日期。
+2. **立即歸檔**：將 `[x]` 項目移動至 `## 🏁 已完成歸檔 (Archived)` 區塊的**最上方 (Prepend)**，並附上今日日期。最新的完成項目應置頂。
 3. **更新標題基準**：確認 `TODO.md` 頂部的最後更新日期已修正。
 
 檢查此次變更是否包含可複用的好點子，應同步回 **Second-Brain**：
 
 | 變更類型                     | 應同步到 Second-Brain |
 | ---------------------------- | --------------------- |
-| 新增 `.agent/workflows/*.md` | ⭐ 是 (通用工作流程)  |
-| 新增 `.agent/prompts/*.md`   | ⭐ 是 (通用 AI 角色)  |
-| 新增 `knowledge/*.md`        | ⭐ 是 (思維模型)      |
-| Commit 含 `[reusable]` 標記  | ⭐ 是                 |
+| 新增 `.agent/workflows/*.md` | ⭐ 是 (通用工作流程)   |
+| 新增 `.agent/prompts/*.md`   | ⭐ 是 (通用 AI 角色)   |
+| 新增 `knowledge/*.md`        | ⭐ 是 (思維模型)       |
+| Commit 含 `[reusable]` 標記  | ⭐ 是                  |
 
 > 💡 若有可複用項目，提交後執行 `/sync-to-brain`
 
