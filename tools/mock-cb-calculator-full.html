@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-TW">
   <head>
     <meta charset="UTF-8" />
@@ -23,7 +23,11 @@
         --bg-main: #f8fafc;
       }
       body {
-        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        font-family:
+          "Inter",
+          system-ui,
+          -apple-system,
+          sans-serif;
         background-color: var(--bg-main);
       }
       .mono {
@@ -32,32 +36,37 @@
       .premium-card {
         background: white;
         border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.05),
+          0 2px 4px -1px rgba(0, 0, 0, 0.03);
       }
       .inline-input {
-         background: transparent;
-         border-bottom: 2px solid transparent;
-         transition: border-color 0.2s;
-         text-align: right;
-         width: 100px;
-         outline: none;
+        background: transparent;
+        border-bottom: 2px solid transparent;
+        transition: border-color 0.2s;
+        text-align: right;
+        width: 100px;
+        outline: none;
       }
       .inline-input:focus {
-         border-bottom-color: var(--brand-indigo);
+        border-bottom-color: var(--brand-indigo);
       }
     </style>
   </head>
   <body class="min-h-screen text-slate-900 pb-10">
-    <div class="bg-slate-800 text-white text-center py-1 text-[10px] font-black tracking-widest uppercase">
-       Concept V7: Math Consistency & Calibrated Scale
+    <div
+      class="bg-slate-800 text-white text-center py-1 text-[10px] font-black tracking-widest uppercase"
+    >
+      Concept V7: Math Consistency & Calibrated Scale
     </div>
 
     <div class="max-w-[1200px] mx-auto p-4 md:p-8">
-      
       <!-- Professional Header -->
       <div class="mb-8 flex items-center justify-between">
         <div>
-          <h1 class="text-xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2">
+          <h1
+            class="text-xl font-extrabold tracking-tight text-slate-800 flex items-center gap-2"
+          >
             <i class="fas fa-calculator text-indigo-500"></i>
             CB 計算機
           </h1>
@@ -65,100 +74,154 @@
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
         <!-- LEFT: Inputs (Standardized Proximity) -->
         <div class="lg:col-span-4 space-y-4">
           <div class="bg-white p-5 rounded-2xl premium-card">
-              <h2 class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4">輸入參數</h2>
-              
-              <div class="space-y-6">
-                <!-- CB Price Row -->
-                <div class="group">
-                  <!-- Logic: Label on Left, Status Badge on Right -->
-                  <div class="flex items-center justify-between mb-2">
-                     <label class="text-[11px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors uppercase tracking-tight">可轉債價格</label>
-                     <span class="px-1.5 py-0.5 rounded text-[9px] font-black bg-emerald-50 text-emerald-600 border border-emerald-100">
-                        價內 103.4%
-                     </span>
-                  </div>
-                  <input type="text" value="125.00" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-lg mono outline-none focus:ring-4 focus:ring-indigo-500/10" />
-                </div>
+            <h2
+              class="text-[11px] font-black text-slate-400 uppercase tracking-widest mb-4"
+            >
+              輸入參數
+            </h2>
 
-                <!-- Spot Price Row -->
-                <div class="group">
-                  <label class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-tight">標的股價</label>
-                  <input type="text" value="255.00" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-lg mono outline-none" />
+            <div class="space-y-6">
+              <!-- CB Price Row -->
+              <div class="group">
+                <!-- Logic: Label on Left, Status Badge on Right -->
+                <div class="flex items-center justify-between mb-2">
+                  <label
+                    class="text-[11px] font-bold text-slate-400 group-hover:text-slate-600 transition-colors uppercase tracking-tight"
+                    >可轉債價格</label
+                  >
+                  <span
+                    class="px-1.5 py-0.5 rounded text-[9px] font-black bg-emerald-50 text-emerald-600 border border-emerald-100"
+                  >
+                    價內 103.4%
+                  </span>
                 </div>
-
-                <!-- Conversion Price Row -->
-                <div class="group">
-                  <label class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-tight">轉換價</label>
-                  <input type="text" value="246.60" class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-lg mono outline-none" />
-                </div>
+                <input
+                  type="text"
+                  value="125.00"
+                  class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-lg mono outline-none focus:ring-4 focus:ring-indigo-500/10"
+                />
               </div>
+
+              <!-- Spot Price Row -->
+              <div class="group">
+                <label
+                  class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-tight"
+                  >標的股價</label
+                >
+                <input
+                  type="text"
+                  value="255.00"
+                  class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-lg mono outline-none"
+                />
+              </div>
+
+              <!-- Conversion Price Row -->
+              <div class="group">
+                <label
+                  class="block text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-tight"
+                  >轉換價</label
+                >
+                <input
+                  type="text"
+                  value="246.60"
+                  class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-slate-800 text-lg mono outline-none"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- RIGHT: Dashboard (Calibrated Values) -->
         <div class="lg:col-span-8 flex flex-col gap-6">
-            
-            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-                
-                <!-- Main Header: Focused on CORRECTED Premium Rate -->
-                <div class="p-6">
-                    <div class="flex items-center gap-2 mb-2">
-                        <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">轉換溢價率 (Premium)</span>
-                    </div>
-                    
-                    <!-- Logic: Main Value on Left, Status Badge on Right -->
-                    <div class="flex items-baseline justify-between mb-2">
-                        <!-- VALUE FIX: 20.88% -->
-                        <span class="text-3xl font-black text-slate-800 tracking-tighter mono">
-                           +20.88%
-                        </span>
-                        <span class="px-1.5 py-0.5 rounded text-[10px] font-black bg-slate-100 text-slate-500 border border-slate-200">
-                           溢價
-                        </span>
-                    </div>
-                    
-                    <p class="text-[10px] font-bold text-slate-400 mt-2 flex items-center gap-1">
-                       <i class="fas fa-info-circle text-indigo-400 opacity-70"></i>
-                       目前債券交易價格高於其轉換後之股票價值。
-                    </p>
-                </div>
+          <div
+            class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden"
+          >
+            <!-- Main Header: Focused on CORRECTED Premium Rate -->
+            <div class="p-6">
+              <div class="flex items-center gap-2 mb-2">
+                <span
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
+                  >轉換溢價率 (Premium)</span
+                >
+              </div>
 
-                <!-- Secondary Grid -->
-                <!-- Consistency: Labels and values clear, no extra English -->
-                <div class="grid grid-cols-2 divide-x divide-slate-100 border-t border-slate-100 bg-slate-50/20">
-                    <div class="p-5">
-                       <span class="text-[10px] font-black text-slate-400 uppercase block mb-1">轉換價值 (CV)</span>
-                       <span class="text-xl font-black text-slate-700 mono">103.41</span>
-                       <!-- Shares Info -->
-                       <div class="mt-1 flex items-center gap-1 text-[10px] font-bold text-slate-400">
-                          <i class="fas fa-layer-group opacity-50"></i>
-                          <span>405 股/張</span>
-                       </div>
-                    </div>
-                    <div class="p-5">
-                       <span class="text-[10px] font-black text-slate-400 uppercase block mb-1">需上漲至</span>
-                       <span class="text-xl font-black text-slate-700 mono">298.38</span>
-                       <!-- Break-even status -->
-                       <div class="mt-1 flex items-center gap-1 text-[10px] font-bold text-amber-500">
-                          <i class="fas fa-arrow-up opacity-70"></i>
-                          <span>需上漲 17.01% 才達標</span>
-                       </div>
-                    </div>
-                </div>
+              <!-- Logic: Main Value on Left, Status Badge on Right -->
+              <div class="flex items-baseline justify-between mb-2">
+                <!-- VALUE FIX: 20.88% -->
+                <span
+                  class="text-3xl font-black text-slate-800 tracking-tighter mono"
+                >
+                  +20.88%
+                </span>
+                <span
+                  class="px-1.5 py-0.5 rounded text-[10px] font-black bg-slate-100 text-slate-500 border border-slate-200"
+                >
+                  溢價
+                </span>
+              </div>
+
+              <p
+                class="text-[10px] font-bold text-slate-400 mt-2 flex items-center gap-1"
+              >
+                <i class="fas fa-info-circle text-indigo-400 opacity-70"></i>
+                目前債券交易價格高於其轉換後之股票價值。
+              </p>
             </div>
 
-            <!-- Chart (Visual reference) -->
-            <div class="bg-white p-6 rounded-2xl border border-slate-100 min-h-[220px] flex items-center justify-center">
-                 <div class="text-center text-slate-300">
-                     <i class="fas fa-chart-line text-3xl mb-2 opacity-30"></i>
-                     <p class="text-[10px] font-black tracking-widest uppercase">歷史溢價走勢 (v7)</p>
-                 </div>
+            <!-- Secondary Grid -->
+            <!-- Consistency: Labels and values clear, no extra English -->
+            <div
+              class="grid grid-cols-2 divide-x divide-slate-100 border-t border-slate-100 bg-slate-50/20"
+            >
+              <div class="p-5">
+                <span
+                  class="text-[10px] font-black text-slate-400 uppercase block mb-1"
+                  >轉換價值 (CV)</span
+                >
+                <span class="text-xl font-black text-slate-700 mono"
+                  >103.41</span
+                >
+                <!-- Shares Info -->
+                <div
+                  class="mt-1 flex items-center gap-1 text-[10px] font-bold text-slate-400"
+                >
+                  <i class="fas fa-layer-group opacity-50"></i>
+                  <span>405 股/張</span>
+                </div>
+              </div>
+              <div class="p-5">
+                <span
+                  class="text-[10px] font-black text-slate-400 uppercase block mb-1"
+                  >需上漲至</span
+                >
+                <span class="text-xl font-black text-slate-700 mono"
+                  >298.38</span
+                >
+                <!-- Break-even status -->
+                <div
+                  class="mt-1 flex items-center gap-1 text-[10px] font-bold text-amber-500"
+                >
+                  <i class="fas fa-arrow-up opacity-70"></i>
+                  <span>需上漲 17.01% 才達標</span>
+                </div>
+              </div>
             </div>
+          </div>
 
+          <!-- Chart (Visual reference) -->
+          <div
+            class="bg-white p-6 rounded-2xl border border-slate-100 min-h-[220px] flex items-center justify-center"
+          >
+            <div class="text-center text-slate-300">
+              <i class="fas fa-chart-line text-3xl mb-2 opacity-30"></i>
+              <p class="text-[10px] font-black tracking-widest uppercase">
+                歷史溢價走勢 (v7)
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

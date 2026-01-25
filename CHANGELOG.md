@@ -4,6 +4,21 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.4.0] - 2026-01-25 (Widget Pattern & Component Refactor)
+
+### 重大變更 (Breaking Changes) 🛠️
+
+- **元件封裝化 (Widget Pattern)**：將圖表邏輯與 UI 控制項完全封裝至 `CbPremiumHistoryChart.mjs`。現在外部調用僅需提供容器並執行 `mount()`，不再需要手動維護按鈕 HTML 與事件監聽。
+
+### 新增功能 (Features) ✨
+
+- **共享圖表 Widget**：新增集成了 1M/3M/MAX 切換功能的共享圖表元件，自動處理佈局、縮放、資料筆數顯示與 RWD 適配。
+
+### 錯誤修復 (Fixes) 🐛
+
+- **穩定性提升**：清理了 `cb-calculator.html` 與 `cb-war-room.html` 中因舊結構殘留導致的 `TypeError` 與 `ReferenceError`。
+- **佈局校正**：修正了圖表在不同寬度容器中無法填滿或居中偏移的 CSS 問題。
+
 ## [1.3.4] - 2026-01-25 (Engine Integration & UI V10)
 
 ### 新增功能 (Features) ✨

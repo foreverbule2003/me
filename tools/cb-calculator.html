@@ -22,6 +22,7 @@
     <!-- Firebase SDK (Compatibility Mode) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <style>
       :root {
         --brand-slate: #0f172a;
@@ -476,35 +477,6 @@
             </div>
           </div>
 
-          <!-- Analytics Navigation -->
-          <div class="mb-8">
-            <a
-              href="../cb-war-room.html"
-              class="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-indigo-200 hover:bg-indigo-50/30 transition-all group no-underline"
-            >
-              <div class="flex items-center gap-3">
-                <div
-                  class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-500"
-                >
-                  <i class="fas fa-fire text-sm group-hover:animate-pulse"></i>
-                </div>
-                <div>
-                  <div
-                    class="text-[11px] font-bold text-slate-400 tracking-tighter"
-                  >
-                    市場熱門 (戰情室)
-                  </div>
-                  <div class="text-sm font-bold text-slate-700">
-                    查看今日熱門榜單
-                  </div>
-                </div>
-              </div>
-              <i
-                class="fas fa-chevron-right text-slate-300 group-hover:translate-x-1 transition-transform"
-              ></i>
-            </a>
-          </div>
-
           <!-- Ticker Status (Added back for compatibility) -->
           <div class="relative">
             <span
@@ -732,75 +704,42 @@
           </div>
         </div>
 
-        <!-- Premium Rate Trend Chart -->
         <div
           id="chartContainer"
           class="premium-card p-6 rounded-2xl relative min-h-[300px]"
         >
-          <div class="flex items-center justify-between mb-6">
-            <h4
-              class="text-xs font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"
-            >
-              <i class="fas fa-history text-indigo-400"></i>
-              歷史溢價走勢
-            </h4>
-            <div class="flex items-center gap-3">
-              <div
-                class="flex bg-slate-100 p-1 rounded-lg"
-                id="chartRangeButtons"
-              >
-                <button
-                  class="range-btn text-[10px] font-black px-2.5 py-1 rounded-md transition-all hover:bg-white text-slate-400"
-                  data-range="1m"
-                >
-                  1M
-                </button>
-                <button
-                  class="range-btn text-[10px] font-black px-2.5 py-1 rounded-md transition-all ml-1 hover:bg-white text-slate-400"
-                  data-range="3m"
-                >
-                  3M
-                </button>
-                <button
-                  class="range-btn text-[10px] font-black px-2.5 py-1 rounded-md transition-all ml-1 bg-white shadow-sm text-indigo-600"
-                  data-range="all"
-                >
-                  MAX
-                </button>
-              </div>
-              <button
-                id="resetZoomBtn"
-                class="w-8 h-8 flex items-center justify-center text-slate-400 hover:text-slate-600 bg-slate-50 rounded-lg border border-slate-100 transition-colors"
-                title="重置"
-              >
-                <i class="fas fa-compress-arrows-alt"></i>
-              </button>
-              <span class="text-xs text-gray-400" id="chartDataInfo"
-                >-- 筆資料</span
-              >
-            </div>
-          </div>
-          <div class="relative" style="height: 200px">
-            <!-- Loading Overlay (Targeted) -->
+          <!-- Mount Point for Shared Widget -->
+          <div id="chartMountPoint" class="w-full mt-4">
             <div
-              id="chartLoader"
-              class="chart-overlay hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-lg"
+              class="flex flex-col items-center justify-center py-12 text-slate-300"
             >
-              <div class="pulse-ring mb-2">
-                <div class="pulse-dot"></div>
-              </div>
-              <h5
-                id="chartLoaderTitle"
-                class="font-bold text-gray-700 text-sm mb-0.5"
+              <div class="pulse-ring mb-4"><div class="pulse-dot"></div></div>
+              <div
+                class="text-[10px] font-bold tracking-widest uppercase opacity-50"
               >
-                正在搜尋歷史資料...
-              </h5>
-              <p id="chartLoaderDesc" class="text-[10px] text-gray-500">
-                正在連接櫃買中心資料庫
-              </p>
+                載入圖表引擎...
+              </div>
             </div>
-            <canvas id="premiumChart"></canvas>
           </div>
+
+          <!-- Loading Overlay (Legacy support if still triggered) -->
+          <div
+            id="chartLoader"
+            class="chart-overlay hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-lg"
+          >
+            <div class="pulse-ring mb-2"><div class="pulse-dot"></div></div>
+            <h5
+              id="chartLoaderTitle"
+              class="font-bold text-gray-700 text-sm mb-0.5"
+            >
+              正在搜尋歷史資料...
+            </h5>
+            <p id="chartLoaderDesc" class="text-[10px] text-gray-500">
+              正在連接櫃買中心資料庫
+            </p>
+          </div>
+
+          <!-- No Data State -->
           <p
             id="chartNoData"
             class="text-center text-gray-400 text-sm py-8 hidden"
@@ -808,6 +747,35 @@
             <i class="fas fa-database mr-2"></i
             >尚無歷史資料，每次搜尋將累積一筆紀錄
           </p>
+        </div>
+
+        <!-- Analytics Navigation (Moved) -->
+        <div class="mb-6 mt-6">
+          <a
+            href="../cb-war-room.html"
+            class="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-indigo-200 hover:bg-indigo-50/30 transition-all group no-underline"
+          >
+            <div class="flex items-center gap-3">
+              <div
+                class="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center text-red-500"
+              >
+                <i class="fas fa-fire text-sm group-hover:animate-pulse"></i>
+              </div>
+              <div>
+                <div
+                  class="text-[11px] font-bold text-slate-400 tracking-tighter"
+                >
+                  市場熱門 (戰情室)
+                </div>
+                <div class="text-sm font-bold text-slate-700">
+                  查看今日熱門榜單
+                </div>
+              </div>
+            </div>
+            <i
+              class="fas fa-chevron-right text-slate-300 group-hover:translate-x-1 transition-transform"
+            ></i>
+          </a>
         </div>
 
         <!-- Formula Reference -->
@@ -840,15 +808,34 @@
     <!-- Modal Removed -->
 
     <script type="module">
-      import { CbCalculatorCore } from "../components/CbCalculatorCore.mjs";
-      // Expose for debugging
+      import { CbCalculatorCore } from "./components/CbCalculatorCore.mjs";
+      import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
+
+      // Expose to global scope for legacy scripts
       window.CbCalculatorCore = CbCalculatorCore;
+      window.CbPremiumHistoryChart = CbPremiumHistoryChart;
 
       const inputs = {
         tickerSymbol: document.getElementById("tickerSymbol"),
         cbPrice: document.getElementById("cbPrice"),
         stockPrice: document.getElementById("stockPrice"),
         conversionPrice: document.getElementById("conversionPrice"),
+      };
+
+      const outputs = {
+        premiumRate: document.getElementById("premiumRate"),
+        premiumStatus: document.getElementById("premiumStatus"),
+        premiumDesc: document.getElementById("premiumDesc"),
+        premiumCard: document.getElementById("premiumCard"),
+        conversionValue: document.getElementById("conversionValue"),
+        sharesInfo: document.getElementById("sharesInfo"),
+        parityPrice: document.getElementById("parityPrice"),
+        upsideNeeded: document.getElementById("upsideNeeded"),
+        itmBadge: document.getElementById("itmBadge"),
+        statusTitle: document.getElementById("statusTitle"),
+        statusDesc: document.getElementById("statusDesc"),
+        statusIcon: document.getElementById("statusIcon"),
+        statusIconBg: document.getElementById("statusIconBg"),
       };
 
       // Helper for data paths
@@ -928,7 +915,7 @@
         projectId: "my-landing-page-2ca68",
         storageBucket: "my-landing-page-2ca68.firebasestorage.app",
         messagingSenderId: "847051837050",
-        appId: "1:847051837050:web:c5e2bc56252e0d3ab835c3",
+        appId: "1:847051837050:web:c5e2bc562520d3ab835c3",
       };
 
       firebase.initializeApp(firebaseConfig);
@@ -1162,6 +1149,7 @@
             metaRef,
             {
               symbol: symbol,
+              name: document.getElementById("stockNameText")?.textContent || "", // Save name for autocomplete
               lastUpdated: new Date().toISOString(),
             },
             { merge: true },
@@ -1522,141 +1510,69 @@
       };
 
       function renderPremiumChart(symbol, historyData) {
-        // 選取控制按鈕 (區間切換與重置)
-        // 確保顯示圖表容器
-        const chartContainer = document.getElementById("chartContainer");
+        // Show container (Mount Point)
         const chartNoData = document.getElementById("chartNoData");
         const chartDataInfo = document.getElementById("chartDataInfo");
-        const canvas = document.getElementById("premiumChart");
 
-        chartContainer.classList.remove("hidden");
+        // Prepare historyData for CbChart, including today's point if available
+        // Prepare historyData for CbChart, including today's point if available
+        // inputs is accessible from module scope
+        const cbPrice = parseFloat(inputs.cbPrice.value);
+        const stockPrice = parseFloat(inputs.stockPrice.value);
+        const conversionPrice = parseFloat(inputs.conversionPrice.value);
 
-        // 無資料處理：嘗試顯示初始單點 (UX 改善：避免完全空白)
-        if (!historyData || historyData.length === 0) {
-          const cbPrice = parseFloat(inputs.cbPrice.value);
-          const stockPrice = parseFloat(inputs.stockPrice.value);
-          const conversionPrice = parseFloat(inputs.conversionPrice.value);
+        if (cbPrice && stockPrice && conversionPrice) {
+          const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
+          const sharesPerBond = 100000 / conversionPrice;
+          const conversionValue = (sharesPerBond * stockPrice) / 1000;
+          const premiumRate =
+            ((cbPrice - conversionValue) / conversionValue) * 100;
 
-          if (cbPrice && stockPrice && conversionPrice) {
-            // 建立一個臨時的「今日點」
-            const today = new Date().toISOString().split("T")[0].substring(5);
-            const sharesPerBond = 100000 / conversionPrice;
-            const conversionValue = (sharesPerBond * stockPrice) / 1000;
-            const premiumRate =
-              ((cbPrice - conversionValue) / conversionValue) * 100;
+          const todayRecord = {
+            date: today,
+            premium: premiumRate,
+            stockPrice,
+            cbPrice,
+          };
 
-            historyData = [
-              { date: today, premium: premiumRate, stockPrice, cbPrice },
-            ];
-            chartNoData.classList.add("hidden");
-            canvas.classList.remove("hidden");
+          // Ensure today's record is in historyData, replacing if already exists
+          const existingIdx = historyData.findIndex(
+            (r) => r.date === todayRecord.date,
+          );
+          if (existingIdx >= 0) {
+            historyData[existingIdx] = todayRecord;
           } else {
-            chartNoData.classList.remove("hidden");
-            canvas.classList.add("hidden");
-            chartDataInfo.textContent = "0 筆資料";
-            return;
+            historyData.push(todayRecord);
           }
+          // Sort again after adding/updating today's record
+          historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
         }
 
-        chartNoData.classList.add("hidden");
-        canvas.classList.remove("hidden");
-        chartDataInfo.textContent = `${historyData.length} 筆資料 (含歷史)`;
+        if (!historyData || historyData.length === 0) {
+          chartNoData.classList.remove("hidden");
+          // Chart widget handles its own no-data UI
+          if (window.premiumChart) window.premiumChart.destroy(); // Destroy if no data
+          return;
+        } else {
+          chartNoData.classList.add("hidden");
+        }
 
-        // 使用完整歷史資料
-        const data = historyData;
-        const labels = data.map((r) => r.date.substring(5)); // MM-DD
-        const premiums = data.map((r) => r.premium || r.premiumRate || 0);
-        const stockPrices = data.map((r) => r.stockPrice || 0);
-        // CB Price may be missing or mocked
-        const cbPrices = data.map((r) => r.cbPrice || null);
+        // Check if chart instance exists AND has destroy method
+        // But since we use mount() which handles cleanup internally (by clearing HTML),
+        // we mainly destroy to stop internal chart timers/loops.
+        if (
+          window.premiumChart &&
+          typeof window.premiumChart.destroy === "function"
+        ) {
+          window.premiumChart.destroy();
+        }
 
-        // 銷毀舊圖表
-        if (premiumChart) premiumChart.destroy();
-
-        premiumChart = new Chart(canvas, {
-          type: "line",
-          data: {
-            labels,
-            datasets: [
-              {
-                label: "溢價率 (%)",
-                data: premiums,
-                borderColor: "rgb(75, 192, 192)",
-                backgroundColor: "rgba(75, 192, 192, 0.1)",
-                yAxisID: "y",
-                tension: 0.3,
-                fill: true,
-                pointRadius: data.length > 50 ? 1 : 3,
-              },
-              {
-                label: "股價 (TWD)",
-                data: stockPrices,
-                borderColor: "rgba(54, 162, 235, 0.6)",
-                borderDash: [5, 5],
-                yAxisID: "y1",
-                tension: 0.3,
-                pointRadius: 0,
-                borderWidth: 1.5,
-                fill: false,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            interaction: { mode: "index", intersect: false },
-            scales: {
-              y: {
-                type: "linear",
-                display: true,
-                position: "left",
-                title: { display: true, text: "溢價率 (%)" },
-              },
-              y1: {
-                type: "linear",
-                display: true,
-                position: "right",
-                grid: { drawOnChartArea: false },
-                title: { display: true, text: "股價 (TWD)" },
-              },
-            },
-            plugins: {
-              zoom: {
-                pan: {
-                  enabled: true,
-                  mode: "x",
-                  threshold: 5,
-                },
-                zoom: {
-                  wheel: {
-                    enabled: true,
-                  },
-                  pinch: {
-                    enabled: true,
-                  },
-                  mode: "x",
-                },
-              },
-              tooltip: {
-                callbacks: {
-                  afterLabel: function (context) {
-                    const item = data[context.dataIndex];
-                    if (context.dataset.yAxisID === "y" && item.cbPrice) {
-                      return `CB價: ${item.cbPrice.toFixed(2)}`;
-                    }
-                    if (item.isMock) return "(模擬數據)";
-                  },
-                },
-              },
-            },
-          },
-        });
-
-        // 重要：將原始數據掛載至實例以便區間切換按鈕使用
-        premiumChart.fullData = data;
-
-        // 初始顯時區間設為「全部」按鈕樣式
-        updateRangeButtonUI("all");
+        const mountPoint = document.getElementById("chartMountPoint");
+        // Mount returns the chart instance
+        window.premiumChart = CbPremiumHistoryChart.mount(
+          mountPoint,
+          historyData,
+        );
       }
 
       async function loadDatabase() {
@@ -1926,12 +1842,8 @@
               // Continue rendering chart even if save fails
             }
 
-            // 再次確保圖表數據包含今日
-            const existingIdx = fullHistory.findIndex(
-              (r) => r.date === todayRecord.date,
-            );
-            if (existingIdx >= 0) fullHistory[existingIdx] = todayRecord;
-            else fullHistory.push(todayRecord);
+            // The renderPremiumChart function now handles adding today's record to the historyData
+            // so we don't need to manually push it here.
           }
 
           // 8. 繪圖
@@ -1983,97 +1895,15 @@
         }
       });
 
-      // Reset Zoom Logic
-      document.getElementById("resetZoomBtn").addEventListener("click", () => {
-        if (premiumChart) {
-          premiumChart.resetZoom();
-          updateRangeButtonUI("all");
-        }
-      });
-
       // 時間區間按鈕邏輯
-      function updateRangeButtonUI(range) {
-        document.querySelectorAll(".range-btn").forEach((btn) => {
-          if (btn.dataset.range === range) {
-            btn.classList.add(
-              "bg-white",
-              "shadow-sm",
-              "font-bold",
-              "text-emerald-600",
-            );
-            btn.classList.remove("hover:bg-white");
-          } else {
-            btn.classList.remove(
-              "bg-white",
-              "shadow-sm",
-              "font-bold",
-              "text-emerald-600",
-            );
-            btn.classList.add("hover:bg-white");
-          }
-        });
+      function getPremiumStatus(rate) {
+        return CbCalculatorCore.getPremiumStatus(rate); // Delegated
       }
-
-      document.querySelectorAll(".range-btn").forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const range = btn.dataset.range;
-          if (
-            !premiumChart ||
-            !premiumChart.fullData ||
-            premiumChart.fullData.length === 0
-          )
-            return;
-
-          updateRangeButtonUI(range);
-
-          if (range === "all") {
-            premiumChart.resetZoom();
-            delete premiumChart.options.scales.x.min;
-            delete premiumChart.options.scales.x.max;
-            premiumChart.update();
-            return;
-          }
-
-          const now = new Date();
-          let startDate = new Date();
-          if (range === "1m") {
-            startDate.setMonth(now.getMonth() - 1);
-          } else if (range === "3m") {
-            startDate.setMonth(now.getMonth() - 3);
-          }
-
-          const cutoff = startDate.toISOString().split("T")[0];
-          const index = premiumChart.fullData.findIndex(
-            (r) => r.date >= cutoff,
-          );
-
-          if (index !== -1) {
-            // 使用 Chart.js zoom plugin 的 zoomScale 方法或直接操作 scale
-            premiumChart.options.scales.x.min = premiumChart.data.labels[index];
-            premiumChart.update();
-          }
-        });
-      });
 
       // Initialize
       loadDatabase();
 
       // Outputs
-      const outputs = {
-        premiumRate: document.getElementById("premiumRate"),
-        premiumStatus: document.getElementById("premiumStatus"),
-        premiumDesc: document.getElementById("premiumDesc"),
-        premiumCard: document.getElementById("premiumCard"),
-        conversionValue: document.getElementById("conversionValue"),
-        sharesInfo: document.getElementById("sharesInfo"),
-        parityPrice: document.getElementById("parityPrice"),
-        upsideNeeded: document.getElementById("upsideNeeded"),
-        itmBadge: document.getElementById("itmBadge"),
-        statusTitle: document.getElementById("statusTitle"),
-        statusDesc: document.getElementById("statusDesc"),
-        statusIcon: document.getElementById("statusIcon"),
-        statusIconBg: document.getElementById("statusIconBg"),
-      };
 
       function calculate() {
         const cbPrice = parseFloat(inputs.cbPrice.value);

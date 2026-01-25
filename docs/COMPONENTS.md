@@ -386,6 +386,25 @@ import { db, auth, googleProvider, ... } from '../lib/firebase.js';
 
 ---
 
+### 11. CbPremiumHistoryChart (共享圖表 Widget)
+
+**位置**: `tools/components/CbPremiumHistoryChart.mjs`
+
+全功能的可轉債溢價率圖表組件，採用 Widget 模式設計。
+
+| 方法                     | 說明                                    |
+| ------------------------ | --------------------------------------- |
+| `mount(container, data)` | 將圖表與控制項(1M/3M/MAX)掛載至指定容器 |
+
+**功能特性**:
+
+- **自我管理**: 內部封裝按鈕生成與事件處理。
+- **雙軸顯示**: 同時呈現溢價率 (Teal) 與股價 (Blue Dash)。
+- **智慧視角**: 內建 1M, 3M 與 全量 (MAX) 縮放切換邏輯。
+- **自動對齊**: 提供固定 280px 高度並優化 X/Y 軸字型大小。
+
+---
+
 ## 工具頁元件
 
 ### 期權模擬器 (bull-put-spread.html)

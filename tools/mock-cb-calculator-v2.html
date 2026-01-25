@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-Hant">
   <head>
     <meta charset="UTF-8" />
@@ -16,30 +16,40 @@
     />
     <style>
       body {
-        font-family: 'Outfit', 'Noto Sans TC', sans-serif;
+        font-family: "Outfit", "Noto Sans TC", sans-serif;
       }
       .mono {
-        font-family: 'Outfit', monospace;
+        font-family: "Outfit", monospace;
       }
       /* Custom shadow for TimBoy aesthetic */
       .card-shadow {
-         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.05),
+          0 2px 4px -1px rgba(0, 0, 0, 0.03);
       }
     </style>
   </head>
   <body class="bg-slate-50 min-h-screen p-4 flex justify-center items-start">
     <div class="max-w-md w-full space-y-6">
-      
       <!-- Header -->
       <div class="flex items-center justify-between">
-         <h1 class="text-xl font-black text-slate-800 tracking-tight">MOCK <span class="text-indigo-500">PREVIEW</span></h1>
-         <span class="text-xs font-bold bg-slate-200 text-slate-500 px-2 py-1 rounded">V2.0 Layout</span>
+        <h1 class="text-xl font-black text-slate-800 tracking-tight">
+          MOCK <span class="text-indigo-500">PREVIEW</span>
+        </h1>
+        <span
+          class="text-xs font-bold bg-slate-200 text-slate-500 px-2 py-1 rounded"
+          >V2.0 Layout</span
+        >
       </div>
 
       <!-- Input Simulation (Collapsed) -->
-      <div class="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between opacity-60">
-         <span class="text-xs font-bold text-slate-400">輸入參數區域 (模擬)</span>
-         <i class="fas fa-chevron-down text-slate-300"></i>
+      <div
+        class="bg-white p-4 rounded-xl border border-slate-100 flex items-center justify-between opacity-60"
+      >
+        <span class="text-xs font-bold text-slate-400"
+          >輸入參數區域 (模擬)</span
+        >
+        <i class="fas fa-chevron-down text-slate-300"></i>
       </div>
 
       <!-- MAIN REDESIGN: Unified Dashboard -->
@@ -51,27 +61,35 @@
         <!-- Top Section -->
         <div class="p-5 pb-4">
           <div class="flex justify-between items-center mb-1">
-            <h3 class="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
+            <h3
+              class="text-[11px] font-bold text-slate-400 uppercase tracking-widest"
+            >
               轉換溢價率 Premium
             </h3>
             <!-- Change 3: Status Pill more compact -->
-            <span class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-indigo-50 text-indigo-600 border border-indigo-100">
-               Discount / 折價
+            <span
+              class="px-2 py-0.5 rounded text-[10px] font-black uppercase bg-indigo-50 text-indigo-600 border border-indigo-100"
+            >
+              Discount / 折價
             </span>
           </div>
-          
+
           <div class="flex items-baseline gap-2 mb-2">
             <!-- ADJUSTED: text-5xl (was 6xl) -->
-            <span class="text-5xl font-black text-slate-800 tracking-tighter mono">
+            <span
+              class="text-5xl font-black text-slate-800 tracking-tighter mono"
+            >
               -0.77%
             </span>
             <!-- Added small trend indicator -->
             <span class="text-xs font-bold text-indigo-500 mb-1">
-               <i class="fas fa-arrow-down"></i> Low
+              <i class="fas fa-arrow-down"></i> Low
             </span>
           </div>
-          
-          <p class="text-[11px] font-bold text-slate-400 opacity-80 leading-snug">
+
+          <p
+            class="text-[11px] font-bold text-slate-400 opacity-80 leading-snug"
+          >
             CB 價格低於轉換價值。目前處於折價狀態，具有套利空間。
           </p>
         </div>
@@ -81,54 +99,73 @@
 
         <!-- Grid Section -->
         <div class="grid grid-cols-2 divide-x divide-slate-100 bg-slate-50/50">
-          
           <!-- Cell 1: Conversion Value -->
           <div class="p-4 group hover:bg-white transition-colors relative">
-             <div class="flex items-center justify-between mb-1">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">轉換價值</span>
-                <!-- Icon visual hint -->
-                <i class="fas fa-coins text-slate-200 text-xs group-hover:text-indigo-300 transition-colors"></i>
-             </div>
-             <div class="text-xl font-black text-slate-800 mono">206.58</div>
-             <div class="text-[9px] font-bold text-slate-400 mt-1">
-                609 股/張
-             </div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase"
+                >轉換價值</span
+              >
+              <!-- Icon visual hint -->
+              <i
+                class="fas fa-coins text-slate-200 text-xs group-hover:text-indigo-300 transition-colors"
+              ></i>
+            </div>
+            <div class="text-xl font-black text-slate-800 mono">206.58</div>
+            <div class="text-[9px] font-bold text-slate-400 mt-1">
+              609 股/張
+            </div>
           </div>
 
           <!-- Cell 2: Break-even -->
           <div class="p-4 group hover:bg-white transition-colors">
-             <div class="flex items-center justify-between mb-1">
-                <span class="text-[10px] font-bold text-slate-400 uppercase">需上漲 (BE)</span>
-                <i class="fas fa-bullseye text-slate-200 text-xs group-hover:text-green-400 transition-colors"></i>
-             </div>
-             <div class="text-xl font-black text-slate-800 mono">336.40</div>
-             <!-- Better visual for status -->
-             <div class="text-[9px] font-bold text-green-600 mt-1 flex items-center gap-1">
-                <i class="fas fa-check-circle text-[8px]"></i>
-                已超越 0.77%
-             </div>
+            <div class="flex items-center justify-between mb-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase"
+                >需上漲 (BE)</span
+              >
+              <i
+                class="fas fa-bullseye text-slate-200 text-xs group-hover:text-green-400 transition-colors"
+              ></i>
+            </div>
+            <div class="text-xl font-black text-slate-800 mono">336.40</div>
+            <!-- Better visual for status -->
+            <div
+              class="text-[9px] font-bold text-green-600 mt-1 flex items-center gap-1"
+            >
+              <i class="fas fa-check-circle text-[8px]"></i>
+              已超越 0.77%
+            </div>
           </div>
         </div>
       </div>
 
       <!-- Moneyness Card (Integrated Style) -->
       <!-- Visual consistency: rounded-xl, matching border style -->
-      <div class="bg-emerald-50/80 border border-emerald-100 p-3 rounded-xl flex items-center gap-3">
-         <div class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-xs text-emerald-600 shrink-0">
-            <i class="fas fa-check"></i>
-         </div>
-         <div class="flex-grow">
-            <!-- Layout Change: Row layout for title/desc to save vertical space? OR just smaller text -->
-            <div class="flex justify-between items-center">
-               <h4 class="text-[11px] font-black text-emerald-800 uppercase tracking-wider">
-                  價內 (ITM)
-               </h4>
-               <span class="text-[10px] font-bold text-emerald-600 mono">106.58%</span>
-            </div>
-            <p class="text-[10px] text-emerald-600/80 font-bold leading-none mt-0.5">
-               In The Money: 股價已高於轉換價
-            </p>
-         </div>
+      <div
+        class="bg-emerald-50/80 border border-emerald-100 p-3 rounded-xl flex items-center gap-3"
+      >
+        <div
+          class="w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center text-xs text-emerald-600 shrink-0"
+        >
+          <i class="fas fa-check"></i>
+        </div>
+        <div class="flex-grow">
+          <!-- Layout Change: Row layout for title/desc to save vertical space? OR just smaller text -->
+          <div class="flex justify-between items-center">
+            <h4
+              class="text-[11px] font-black text-emerald-800 uppercase tracking-wider"
+            >
+              價內 (ITM)
+            </h4>
+            <span class="text-[10px] font-bold text-emerald-600 mono"
+              >106.58%</span
+            >
+          </div>
+          <p
+            class="text-[10px] text-emerald-600/80 font-bold leading-none mt-0.5"
+          >
+            In The Money: 股價已高於轉換價
+          </p>
+        </div>
       </div>
 
       <!-- Comparison: Old Size Reference (Hidden, strictly for designer mental check) -->
@@ -140,7 +177,6 @@
          </div>
       </div>
       -->
-
     </div>
   </body>
 </html>

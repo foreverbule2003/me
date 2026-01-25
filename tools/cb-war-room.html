@@ -568,94 +568,173 @@
           </div>
         </div>
 
-        <!-- (Refactored) Unified Analysis Card -->
+        <!-- (Refactored) Unified Analysis Card V10 -->
         <div
           id="dResultCard"
-          class="p-6 rounded-2xl border-l-4 border-slate-200 bg-slate-50 stagger-entry delay-2 space-y-6"
+          class="premium-card p-0 rounded-2xl border-l-4 border-slate-200 transition-colors duration-300 shadow-sm overflow-hidden stagger-entry delay-2"
         >
-          <!-- Hero Section: Premium -->
-          <div class="flex justify-between items-start">
-            <div>
-              <div class="text-[11px] font-bold text-slate-400 mb-1">
-                轉換溢價率
-              </div>
-              <div
-                id="dPremiumRate"
-                class="text-5xl font-black text-slate-800 mono tracking-tighter"
+          <!-- Top Section: Premium Rate -->
+          <div class="p-6 pb-4">
+            <div class="flex justify-between items-center mb-1">
+              <h3
+                class="text-[10px] font-black text-slate-400 uppercase tracking-widest opacity-80"
               >
-                --%
-              </div>
+                轉換溢價率
+              </h3>
+              <span
+                class="px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400 border border-slate-100/50"
+                id="dPremiumStatus"
+                >計算中</span
+              >
             </div>
-            <div
-              id="dPremiumStatus"
-              class="px-2 py-1 text-[10px] font-black bg-white rounded-lg border border-slate-100 shadow-sm"
+            <div class="flex items-baseline gap-2 mb-2">
+              <span
+                class="text-5xl font-black text-slate-800 tracking-tighter mono"
+                id="dPremiumRate"
+                >--%</span
+              >
+            </div>
+            <p
+              class="text-[10px] font-bold text-slate-400 opacity-60 leading-none"
+              id="dPremiumDesc"
             >
-              ---
-            </div>
+              正在取得即時報價...
+            </p>
           </div>
 
-          <!-- Metrics Grid -->
-          <div class="grid grid-cols-2 gap-4 pt-4 border-t border-slate-200/50">
+          <!-- Divider -->
+          <div class="h-px bg-slate-100 mx-6"></div>
+
+          <!-- Bottom Section: Metrics Grid -->
+          <div
+            class="grid grid-cols-2 gap-px bg-slate-100 border-t border-slate-100"
+          >
             <!-- Conversion Value -->
             <div
-              class="metric-small bg-white/60 backdrop-blur-sm border-white/40"
+              class="bg-white/60 p-5 group hover:bg-white transition-colors"
+              title="每張可轉債換成股票後的價值"
             >
-              <div class="metric-label">轉換價值</div>
-              <div id="dConvVal" class="metric-value">--</div>
-            </div>
-
-            <!-- Break-even -->
-            <div
-              class="metric-small bg-white/60 backdrop-blur-sm border-white/40"
-            >
-              <div class="metric-label">需上漲 (Break-even)</div>
-              <div id="dUpside" class="metric-value">--</div>
-            </div>
-
-            <!-- Conversion Price Input (Integrated) -->
-            <div
-              class="col-span-2 metric-small bg-white/60 backdrop-blur-sm border-white/40 flex items-center justify-between"
-            >
-              <span class="text-[10px] font-bold text-slate-500">轉換價格</span>
-              <div class="flex items-center gap-2">
-                <span class="text-[9px] text-slate-400 font-bold"
-                  >(可調整)</span
+              <div
+                class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between"
+              >
+                <span>轉換價值</span>
+                <div
+                  class="w-5 h-5 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group-hover:text-indigo-400 transition-colors"
                 >
+                  <i class="fas fa-coins text-[10px]"></i>
+                </div>
+              </div>
+              <div
+                class="text-2xl font-black text-slate-800 mono tracking-tight mb-1"
+                id="dConvVal"
+              >
+                --
+              </div>
+              <div
+                class="text-[10px] font-bold text-slate-400 flex items-center gap-1.5"
+              >
+                <i class="fas fa-layer-group text-[9px] opacity-70"></i>
+                <span id="dSharesInfo" class="mono">-- 股/張</span>
+              </div>
+            </div>
+
+            <!-- Parity (Upside) -->
+            <div
+              class="bg-white/60 p-5 group hover:bg-white transition-colors relative"
+              title="與 CB 價格相等(平價)時的理論股價"
+            >
+              <div
+                class="absolute left-0 top-4 bottom-4 w-px bg-slate-100/50"
+              ></div>
+              <div
+                class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center justify-between"
+              >
+                <span>需上漲 (BE)</span>
+                <div
+                  class="w-5 h-5 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group-hover:text-amber-500 transition-colors"
+                >
+                  <i class="fas fa-bullseye text-[10px]"></i>
+                </div>
+              </div>
+              <div
+                class="text-2xl font-black text-slate-800 mono tracking-tight mb-1"
+                id="dParityPrice"
+              >
+                --
+              </div>
+              <div
+                class="text-[10px] font-bold text-slate-400 flex items-center gap-1.5"
+              >
+                <i class="fas fa-chart-line text-[9px] opacity-70"></i>
+                <span id="dUpsideNeeded" class="mono">需上漲 --%</span>
+              </div>
+            </div>
+
+            <!-- Conversion Price Input (Full Width) -->
+            <div
+              class="col-span-2 bg-white/60 p-5 group hover:bg-white transition-colors border-t border-slate-100 relative"
+            >
+              <div class="flex items-center justify-between">
+                <label
+                  for="dConvPriceInput"
+                  class="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2"
+                >
+                  轉換價格
+                  <span
+                    class="text-[9px] text-indigo-400 bg-indigo-50 px-1.5 rounded ml-1"
+                    >(可調整)</span
+                  >
+                </label>
                 <input
                   type="number"
                   id="dConvPriceInput"
-                  class="bg-white border invalid:border-red-300 border-slate-200 text-right px-3 py-1.5 rounded-lg mono text-sm font-bold w-28 focus:outline-none focus:ring-2 focus:ring-indigo-500/20"
+                  class="bg-white border invalid:border-red-300 border-slate-200 text-right px-3 py-1.5 rounded-lg mono text-lg font-black w-32 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-slate-700"
                 />
               </div>
             </div>
           </div>
-
-          <!-- Hidden Desc for Accessibility/Debug -->
-          <div id="dPremiumDesc" class="hidden"></div>
         </div>
 
-        <!-- Chart Section -->
-        <div class="pt-4 stagger-entry delay-4">
-          <div class="flex items-center justify-between mb-4 px-1">
-            <span
-              class="text-[10px] font-black text-slate-400 uppercase tracking-widest"
-              >溢價率走勢</span
-            >
-            <button
-              id="dResetZoom"
-              class="text-[10px] text-slate-300 hover:text-slate-500"
-            >
-              <i class="fas fa-compress-arrows-alt"></i>
-            </button>
-          </div>
-          <div class="relative h-[180px] bg-slate-50/50 rounded-xl p-2">
-            <canvas id="dPremiumChart"></canvas>
-            <div
-              id="dChartLoader"
-              class="absolute inset-0 flex items-center justify-center bg-white/60 pointer-events-none hidden"
-            >
-              <i class="fas fa-circle-notch fa-spin text-indigo-400"></i>
+        <!-- Chart Section (V10) -->
+        <div class="pt-4 stagger-entry delay-4" id="dChartSection">
+          <div
+            class="premium-card p-6 rounded-2xl relative min-h-[250px] border-slate-200"
+          >
+            <!-- Mount Point for Shared Widget -->
+            <div id="dPremiumChartMount" class="w-full">
+              <div
+                class="flex flex-col items-center justify-center h-[200px] text-slate-300"
+              >
+                <div class="pulse-ring mb-2"><div class="pulse-dot"></div></div>
+                <div
+                  class="text-[10px] font-bold tracking-widest uppercase opacity-50"
+                >
+                  載入圖表引擎...
+                </div>
+              </div>
             </div>
+            <div class="relative h-[200px]">
+              <!-- Loading Overlay -->
+              <div
+                id="dChartLoader"
+                class="hidden absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/80 backdrop-blur-[2px] rounded-lg"
+              >
+                <div class="pulse-ring mb-2"><div class="pulse-dot"></div></div>
+                <h5
+                  id="dChartLoaderTitle"
+                  class="font-bold text-gray-700 text-sm mb-0.5"
+                >
+                  載入歷史資料...
+                </h5>
+              </div>
+              <canvas id="dPremiumChart"></canvas>
+            </div>
+            <p
+              id="dChartNoData"
+              class="text-center text-gray-400 text-sm py-8 hidden"
+            >
+              <i class="fas fa-database mr-2"></i>尚無歷史資料
+            </p>
           </div>
         </div>
 
@@ -1479,11 +1558,16 @@
       // [Fix] Use Dynamic Import to load Module without breaking Legacy Scope
       (async () => {
         try {
-          const mod = await import("../components/CbCalculatorCore.mjs");
+          const mod = await import("./components/CbCalculatorCore.mjs");
           window.CbCalculatorCore = mod.CbCalculatorCore;
           console.log("✅ CbCalculatorCore Engine Loaded");
+
+          const modChart =
+            await import("./components/CbPremiumHistoryChart.mjs");
+          window.CbPremiumHistoryChart = modChart.CbPremiumHistoryChart;
+          console.log("✅ CbPremiumHistoryChart Engine Loaded");
         } catch (e) {
-          console.error("❌ Failed to load Calculator Engine", e);
+          console.error("❌ Failed to load Modules", e);
         }
       })();
 
@@ -1694,6 +1778,7 @@
       };
 
       // --- Core Logic Integration ---
+      // --- Core Logic Integration ---
       window.performAnalysis = (item) => {
         const cbPrice = parseFloat(item.price);
         const stockPrice = parseFloat(item.underlyingPrice || 0);
@@ -1706,6 +1791,7 @@
         }
 
         // Use Module for Calculation
+        const shares = CbCalculatorCore.calculateSharesPerBond(convPrice);
         const convVal = CbCalculatorCore.calculateConversionValue(
           stockPrice,
           convPrice,
@@ -1718,35 +1804,44 @@
         const parityPrice = CbCalculatorCore.calculateParityPrice(
           cbPrice,
           convPrice,
-        ); // Using CB Price based parity
-        // Wait, 'Break-even' in Unified Card is Upside Needed?
-        // Let's check HTML. It says "需上漲 (Break-even)".
-        // Upside Needed = (Parity - Stock) / Stock
+        );
         const upside = CbCalculatorCore.calculateUpsideNeeded(
           stockPrice,
           parityPrice,
         );
 
+        // Helper to safely set text content
+        const safeSetText = (id, text) => {
+          const el = document.getElementById(id);
+          if (el) el.textContent = text;
+        };
+
         // Update UI
-        document.getElementById("dPremiumRate").textContent =
-          (Number.isFinite(premium) ? premium.toFixed(2) : "--") + "%";
-
-        document.getElementById("dConvVal").textContent = convVal.toFixed(2);
-
-        document.getElementById("dUpside").textContent =
-          (Number.isFinite(upside) ? upside.toFixed(2) : "--") + "%";
-
-        document.getElementById("dCbPrice").textContent = cbPrice.toFixed(2);
-
-        document.getElementById("dStockPrice").textContent =
-          stockPrice > 0 ? stockPrice.toFixed(2) : "待載入";
+        safeSetText(
+          "dPremiumRate",
+          (Number.isFinite(premium) ? premium.toFixed(2) : "--") + "%",
+        );
+        safeSetText("dConvVal", convVal.toFixed(2));
+        safeSetText("dSharesInfo", `${Math.floor(shares)} 股/張`);
+        safeSetText("dParityPrice", parityPrice.toFixed(2));
+        safeSetText(
+          "dUpsideNeeded",
+          (Number.isFinite(upside) ? "需上漲 " + upside.toFixed(2) : "--") +
+            "%",
+        );
+        safeSetText("dCbPrice", cbPrice.toFixed(2));
+        safeSetText(
+          "dStockPrice",
+          stockPrice > 0 ? stockPrice.toFixed(2) : "待載入",
+        );
 
         // Status Styling (Using Module Logic)
         const statusInfo = CbCalculatorCore.getPremiumStatus(premium);
         const card = document.getElementById("dResultCard");
         const statusEl = document.getElementById("dPremiumStatus");
+        const descEl = document.getElementById("dPremiumDesc");
 
-        // Map Module Colors to Tailwind Classes
+        // Map Module Colors to Tailwind Classes (V10 Palette)
         const colorMap = {
           indigo: {
             card: "border-indigo-500 bg-indigo-50/50",
@@ -1761,10 +1856,6 @@
             pill: "bg-amber-50 text-amber-700 border-amber-100",
           },
           red: {
-            card: "border-slate-200 bg-slate-50", // Keep Slate for High Premium to match previous 'Gray' aesthetic, or use Red?
-            // Let's use Red for consistency with Calculator as requested by 'Reverse Integration'
-            // Actually, user might find Red too alarming for 'High Premium'.
-            // Calculator uses Red. I will use Red-ish (Rose).
             card: "border-rose-400 bg-rose-50/50",
             pill: "bg-rose-50 text-rose-600 border-rose-100",
           },
@@ -1772,79 +1863,98 @@
 
         const theme = colorMap[statusInfo.colorClass] || colorMap["red"];
 
-        card.className = `p-6 rounded-2xl border-l-4 space-y-6 transition-colors duration-300 ${theme.card}`;
-        statusEl.textContent =
-          statusInfo.status.split(" / ")[1] || statusInfo.status; // Use Chinese part
-        statusEl.className = `px-2 py-1 text-[10px] font-black bg-white rounded-lg border shadow-sm ${theme.pill}`;
+        // Apply Card Theme (Reset base classes first to be safe, but maintaining layout classes)
+        if (card)
+          card.className = `premium-card p-0 rounded-2xl border-l-4 transition-colors duration-300 shadow-sm overflow-hidden stagger-entry delay-2 ${theme.card}`;
+
+        if (statusEl) {
+          statusEl.textContent =
+            statusInfo.status.split(" / ")[1] || statusInfo.status;
+          statusEl.className = `px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter shadow-sm border ${theme.pill}`;
+        }
+
+        if (descEl) descEl.textContent = statusInfo.desc;
+      };
+
+      // --- Chart Controls (Ported from V10) ---
+      window.updateAnalysisChartRange = (range) => {
+        // Update Buttons
+        document
+          .querySelectorAll("#dChartRangeButtons .range-btn")
+          .forEach((btn) => {
+            if (btn.dataset.range === range) {
+              btn.classList.add(
+                "active",
+                "bg-white",
+                "text-indigo-600",
+                "shadow-sm",
+              );
+              btn.classList.remove("text-slate-400", "hover:bg-white");
+            } else {
+              btn.classList.remove(
+                "active",
+                "bg-white",
+                "text-indigo-600",
+                "shadow-sm",
+              );
+              btn.classList.add("text-slate-400", "hover:bg-white");
+            }
+          });
+
+        // Zoom Chart via Module
+        if (window.analysisChart && window.currentChartRawData) {
+          CbPremiumHistoryChart.updateRange(
+            window.analysisChart,
+            range,
+            window.currentChartRawData,
+          );
+        }
       };
 
       async function fetchAnalysisHistory(code) {
         const loader = document.getElementById("dChartLoader");
         loader.classList.remove("hidden");
+        // Reset buttons to MAX default
+        document
+          .querySelectorAll("#dChartRangeButtons .range-btn")
+          .forEach((b) => b.classList.remove("active"));
+        document.querySelector('[data-range="all"]').classList.add("active");
+
         try {
           const res = await window.measureFetch(
             getDataPath(`history/${code}.json`),
           );
           if (!res.ok) throw "No history";
           const json = await res.json();
+          window.currentChartRawData = json; // Store for filtering
           renderAnalysisChart(json);
+
+          document.getElementById("dChartNoData").classList.add("hidden");
+          document.getElementById("dPremiumChart").classList.remove("hidden");
+          document.getElementById("dChartDataInfo").textContent =
+            `${json.length} 筆資料`;
         } catch (e) {
           console.warn("History load failed:", e);
+          document.getElementById("dChartNoData").classList.remove("hidden");
+          document.getElementById("dPremiumChart").classList.add("hidden");
+          document.getElementById("dChartDataInfo").textContent = "-- 筆資料";
         } finally {
           loader.classList.add("hidden");
         }
       }
 
       function renderAnalysisChart(data) {
-        const ctx = document.getElementById("dPremiumChart").getContext("2d");
-        const labels = data.map((d) => d.date.slice(5)); // MM-DD
-        const values = data.map((d) => parseFloat(d.premium));
+        // Check for destroy method on existing instance (Robust Check)
+        if (analysisChart && typeof analysisChart.destroy === "function")
+          analysisChart.destroy();
 
-        if (analysisChart) analysisChart.destroy();
+        // Use Module - Mount Widget
+        const mountPoint = document.getElementById("dPremiumChartMount");
+        // Mount returns new chart instance
+        analysisChart = CbPremiumHistoryChart.mount(mountPoint, data);
 
-        analysisChart = new Chart(ctx, {
-          type: "line",
-          data: {
-            labels,
-            datasets: [
-              {
-                label: "Premium %",
-                data: values,
-                borderColor: "#4f46e5",
-                borderWidth: 2,
-                pointRadius: 0,
-                fill: true,
-                backgroundColor: "rgba(79, 70, 229, 0.05)",
-                tension: 0.4,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: { display: false },
-              zoom: {
-                zoom: {
-                  wheel: { enabled: true },
-                  pinch: { enabled: true },
-                  mode: "x",
-                },
-                pan: { enabled: true, mode: "x" },
-              },
-            },
-            scales: {
-              x: {
-                grid: { display: false },
-                ticks: { font: { size: 9 }, maxRotation: 0 },
-              },
-              y: { grid: { color: "#f1f5f9" }, ticks: { font: { size: 9 } } },
-            },
-          },
-        });
-
-        document.getElementById("dResetZoom").onclick = () =>
-          analysisChart.resetZoom();
+        // Expose raw data for potential other uses (though widget handles range internally now)
+        window.currentChartRawData = data;
       }
 
       window.toggleDrawerParams = () => {

@@ -1,10 +1,11 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-25 (Post-Smart-Backfill-Hotfix)
+> 最後更新：2026-01-25 (Widget-Refactor-Stable)
 
 ## 🔴 P0: 立即執行 (Pending)
 
-- [x] **Crawler Review**: 重新審查爬蟲資料來源規則與邏輯 (基於 DATASOURCES.md) <!-- captured: 2026-01-25 -->
+- [ ] **Bug**: CB戰情室的限價CB價格有誤 <!-- captured: 2026-01-25 -->
+- [ ] **Bug**: 戰情室的個股需要修正 <!-- captured: 2026-01-25 -->
 
 ---
 
@@ -15,7 +16,6 @@
 - [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 (待觀察)
 - [ ] **CB 戰情室**: 實作「我的追蹤」頁籤登入權限限制 <!-- captured: 2026-01-24 -->
 - [ ] **UI Refactor**: 合併分析抽屜中的資訊卡片 (Premium, Conv Val, Parity) 為單一視覺區塊 <!-- captured: 2026-01-24 -->
-- [ ] **Component Refactor**: 將「歷史溢價走勢圖」重構為獨立可複用元件 (Shared Component)，以解決戰情室與計算機的重複代碼問題 <!-- captured: 2026-01-25 -->
 
 ---
 
@@ -43,10 +43,14 @@
 
 > 註：已完成項目會定期搬移至 `CHANGELOG.md` 並在此清理。
 
+- [x] **Component Refactor**: 將「歷史溢價走勢圖」重構為獨立可複用 Widget (`CbPremiumHistoryChart.mjs`)，完全封裝 UI 控制與繪圖邏輯。 (Fixed: 2026-01-25)
+- [x] **Crawler Review**: 重新審查爬蟲資料來源規則與邏輯 (基於 DATASOURCES.md) (Fixed: 2026-01-25)
 - [x] **Bug**: 歷史溢價走勢圖顯示空白，且資料筆數顯示為 -- (Fixed: 2026-01-25)
 - [x] **Data Execution**: [Backfilling...] 完成針對 Watchlist (15 items) 的精準回補程序 (Fixed: 2026-01-25)
 - [x] **Smart Backfill**: 實作 `fetch-cb-history.js` 的智慧回補邏輯 (CLI Layer) (Fixed: 2026-01-25)
 - [x] **Doc Refactor**: 調整 TODO.md 歸檔區塊排序邏輯 (Fixed: 2026-01-25)
+- [x] **Hotfix**: 解決 `firebase.auth` 未定義導致的腳本崩潰 (Script Crash) (Fixed: 2026-01-25)
+- [x] **Hotfix**: 解決 `outputs` 初始化順序錯誤 (TDZ Error) (Fixed: 2026-01-25)
 - [x] **UI Refactor**: 重構 CB 計算機顯示介面 (V10: 整合標籤、去除圖示、垂直壓縮) (Fixed: 2026-01-25)
 - [x] **Bug**: 點擊商品後的個股溢價圖表顯示異常 (Fixed: 2026-01-25)
 - [x] **Bug**: 戰情室歷史溢價走勢圖 (Chart) 的 MAX 按鈕功能失效 (Fixed: 2026-01-25)
