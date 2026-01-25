@@ -23,9 +23,9 @@ cat .agent/prompts/web-pm-prompt.md
     - 確認相關程式碼與功能是否確實完成。
 
 2.  **Archive (歸檔)**
-    - 將確認完成的項目移動到 `TODO.md` 底部的 `## 🏁 已完成歸檔 (Archived)` 區塊。
+    -將確認完成的項目移動到 `TODO.md` 的 `## 🏁 已完成歸檔 (Archived)` 區塊的**最上方 (Prepend)**。
     - 若底部無此區塊，請自動建立。
-    - 加上歸檔日期 (Option)，例如：`- [x] 項目名稱 (Completed: 2026-01-10)`。
+    - 加上歸檔日期 (Option)，例如：`- [x] 項目名稱 (Completed: 2026-01-10)`。最新項目應置頂。
 
 3.  **Update (更新)**
     - 確認是否有新的 Technical Debt 或 Follow-up items 需要加入待辦清單。
