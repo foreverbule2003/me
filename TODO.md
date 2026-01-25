@@ -4,8 +4,7 @@
 
 ## 🔴 P0: 立即執行 (Pending)
 
-- [ ] **Bug**: 戰情室歷史溢價走勢圖 (Chart) 的 MAX 按鈕功能失效 <!-- captured: 2026-01-24 -->
-- [ ] **Bug**: 點擊商品後的個股溢價圖表顯示異常 (無法載入或數據錯誤) <!-- captured: 2026-01-24 -->
+- [ ] **Crawler Review**: 重新審查爬蟲資料來源規則與邏輯 (基於 DATASOURCES.md) <!-- captured: 2026-01-25 -->
 
 ---
 
@@ -20,6 +19,7 @@
 - [ ] **CB 戰情室**: 實作「我的追蹤」頁籤登入權限限制 <!-- captured: 2026-01-24 -->
 - [x] **Refactor Guard**: 於下一次 UI 重構時試行並驗證防禦性開發機制 <!-- captured: 2026-01-24 -->
 - [ ] **UI Refactor**: 合併分析抽屜中的資訊卡片 (Premium, Conv Val, Parity) 為單一視覺區塊 <!-- captured: 2026-01-24 -->
+- [ ] **Component Refactor**: 將「歷史溢價走勢圖」重構為獨立可複用元件 (Shared Component)，以解決戰情室與計算機的重複代碼問題 <!-- captured: 2026-01-25 -->
 
 ---
 
@@ -51,3 +51,5 @@
 
 - [x] **Ultimate Integration (Phase 3)**: 將 CB 計算機完全併入戰情室，實現單頁分析體驗、即時數據自動補全 (Live Enrichment)、與爬蟲腳本標準化。 ✅ (Completed: 2026-01-24)
 - [x] **Vibe Coding 驗證**: 完成「側邊欄動畫」的快速實作與自動歸檔測試，確認 /capture 指令與歸檔流程運作正常。 ✅ (Capture: 2026-01-24)
+- [x] **Bug**: 戰情室歷史溢價走勢圖 (Chart) 的 MAX 按鈕功能失效 (Fixed: 2026-01-25)
+- [x] **Bug**: 點擊商品後的個股溢價圖表顯示異常 (Fixed: 2026-01-25)

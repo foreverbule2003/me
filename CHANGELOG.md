@@ -4,6 +4,15 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.3.3] - 2026-01-25 (Critical Fixes)
+
+### 錯誤修復 (Fixes) 🐛
+
+- **資料回補 (Smart Backfill)**：修正增量同步邏輯，當歷史資料少於 100 筆時強制觸發全量爬蟲，解決新標的 (如 15142) 資料斷層問題。
+- **圖表互動 (Chart UX)**：重寫 `MAX` 按鈕縮放邏輯 (Delete Zoom Constraints)，解決切換區間後視圖卡死的問題。
+- **權限容錯 (Permission Guard)**：修復舊版計算機在非管理員模式下的 Crash 問題 (Try-Catch `savePremiumRecord`)。
+- **載入提示 (Loading UI)**：修正自動爬蟲觸發條件，確保 15 秒回補期間顯示正確的遮罩與進度提示。
+
 ## [1.3.2] - 2026-01-24 (Localization & UI Polish)
 
 ### 在地化 (Localization) 🌏

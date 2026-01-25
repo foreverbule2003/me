@@ -1280,7 +1280,7 @@
         // 4. Auto-Crawl Strategy
         // If we have very few records (e.g. only today's auto-save), we should still try to crawl full history
         // [Fix] Prevent infinite loop: Only attempt crawl ONCE per session per symbol
-        if (history.length <= 5 && !window.attemptedCrawls.has(symbol)) {
+        if (history.length < 100 && !window.attemptedCrawls.has(symbol)) {
           console.log("[Sync] Data sparse. Attempting Auto-Crawl...");
           window.attemptedCrawls.add(symbol); // Mark as attempted immediately
 
@@ -1294,7 +1294,7 @@
             let crawlUrl = `/api/crawl?code=${symbol}`;
             let statusMsg = "連接櫃買中心與證交所 (約 15 秒)";
 
-            if (history.length > 0) {
+            if (history.length > 100) {
               // 找出最後一筆日期
               const sorted = history.sort(
                 (a, b) => new Date(a.date) - new Date(b.date),
@@ -1304,6 +1304,12 @@
               statusMsg = `補齊 ${lastRecordDate} 後的資料 (約 3 秒)`;
               console.log(
                 `[Sync] Smart Incremental Crawl: since ${lastRecordDate}`,
+              );
+            } else {
+              // [Smart Backfill] 資料不足 100 筆 (約 5 個月)，強制回補完整歷史
+              statusMsg = `補齊完整半年資料 (約 15 秒)`;
+              console.log(
+                `[Sync] History sparse (${history.length} < 100). Forcing full backfill.`,
               );
             }
 
@@ -1866,7 +1872,12 @@
             };
 
             // 儲存今日數據並取得合併後的歷史 (這裡僅操作記憶體與 Cache)
-            await savePremiumRecord(symbol, todayRecord);
+            try {
+              await savePremiumRecord(symbol, todayRecord);
+            } catch (err) {
+              console.warn("Auto-save skipped (Permission/Network):", err);
+              // Continue rendering chart even if save fails
+            }
 
             // 再次確保圖表數據包含今日
             const existingIdx = fullHistory.findIndex(
@@ -1969,8 +1980,9 @@
           updateRangeButtonUI(range);
 
           if (range === "all") {
-            premiumChart.options.scales.x.min = premiumChart.data.labels[0];
             premiumChart.resetZoom();
+            delete premiumChart.options.scales.x.min;
+            delete premiumChart.options.scales.x.max;
             premiumChart.update();
             return;
           }
