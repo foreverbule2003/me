@@ -1,5 +1,57 @@
 [
   {
+    "date": "2026-01-02",
+    "stockPrice": 127
+  },
+  {
+    "date": "2026-01-05",
+    "stockPrice": 119
+  },
+  {
+    "date": "2026-01-06",
+    "stockPrice": 118
+  },
+  {
+    "date": "2026-01-07",
+    "stockPrice": 117
+  },
+  {
+    "date": "2026-01-08",
+    "stockPrice": 127
+  },
+  {
+    "date": "2026-01-09",
+    "stockPrice": 139.5
+  },
+  {
+    "date": "2026-01-12",
+    "stockPrice": 144.5
+  },
+  {
+    "date": "2026-01-13",
+    "stockPrice": 137.5
+  },
+  {
+    "date": "2026-01-14",
+    "stockPrice": 133
+  },
+  {
+    "date": "2026-01-15",
+    "stockPrice": 131.5
+  },
+  {
+    "date": "2026-01-16",
+    "stockPrice": 134.5
+  },
+  {
+    "date": "2026-01-19",
+    "stockPrice": 132
+  },
+  {
+    "date": "2026-01-20",
+    "stockPrice": 131.5
+  },
+  {
     "date": "2026-01-21",
     "cbPrice": 111.1,
     "stockPrice": 134,

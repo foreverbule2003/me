@@ -511,98 +511,66 @@
   },
   {
     "date": "2026-01-02",
-    "cbPrice": 122.65,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 122.65
   },
   {
     "date": "2026-01-05",
-    "cbPrice": 128,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 128
   },
   {
     "date": "2026-01-06",
-    "cbPrice": 131.9,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 131.9
   },
   {
     "date": "2026-01-07",
-    "cbPrice": 134.95,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 134.95
   },
   {
     "date": "2026-01-08",
-    "cbPrice": 135,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 135
   },
   {
     "date": "2026-01-09",
-    "cbPrice": 131,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 131
   },
   {
     "date": "2026-01-12",
-    "cbPrice": 134.5,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 134.5
   },
   {
     "date": "2026-01-13",
-    "cbPrice": 132.5,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 132.5
   },
   {
     "date": "2026-01-14",
-    "cbPrice": 134,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 134
   },
   {
     "date": "2026-01-15",
-    "cbPrice": 133.05,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 133.05
   },
   {
     "date": "2026-01-16",
-    "cbPrice": 135.05,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 135.05
   },
   {
     "date": "2026-01-19",
-    "cbPrice": 133,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 133
   },
   {
     "date": "2026-01-20",
-    "cbPrice": 134.7,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 134.7
   },
   {
     "date": "2026-01-21",
-    "cbPrice": 134.15,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 134.15
   },
   {
     "date": "2026-01-22",
-    "cbPrice": 134,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 134
   },
   {
     "date": "2026-01-23",
-    "cbPrice": 134,
-    "stockPrice": null,
-    "premium": null
+    "cbPrice": 134
   }
 ]

@@ -1,10 +1,10 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-24 (Post-Ultimate-Integration)
+> 最後更新：2026-01-25 (Post-Smart-Backfill-Hotfix)
 
 ## 🔴 P0: 立即執行 (Pending)
 
-- [ ] **Crawler Review**: 重新審查爬蟲資料來源規則與邏輯 (基於 DATASOURCES.md) <!-- captured: 2026-01-25 -->
+- [x] **Crawler Review**: 重新審查爬蟲資料來源規則與邏輯 (基於 DATASOURCES.md) <!-- captured: 2026-01-25 -->
 
 ---
 
@@ -12,12 +12,8 @@
 
 > 目標：持續優化雲端架構與開發者體驗。
 
-- [x] **性能監控 (Phase 1)**: 實作 Web Vitals 與 GA4 整合 (Core Infrastructure)。
-- [x] **性能監控 (Phase 2)**: 實作戰情室 API Latency 追蹤與自定義異常 Alert。
-- [x] **性能監控 (Phase 3)**: 實作前端「網路健康度」訊號燈 (Signal Widget)。
 - [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 (待觀察)
 - [ ] **CB 戰情室**: 實作「我的追蹤」頁籤登入權限限制 <!-- captured: 2026-01-24 -->
-- [x] **Refactor Guard**: 於下一次 UI 重構時試行並驗證防禦性開發機制 <!-- captured: 2026-01-24 -->
 - [ ] **UI Refactor**: 合併分析抽屜中的資訊卡片 (Premium, Conv Val, Parity) 為單一視覺區塊 <!-- captured: 2026-01-24 -->
 - [ ] **Component Refactor**: 將「歷史溢價走勢圖」重構為獨立可複用元件 (Shared Component)，以解決戰情室與計算機的重複代碼問題 <!-- captured: 2026-01-25 -->
 
@@ -45,12 +41,16 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
-- [x] **Refactor Guard**: 於下一次 UI 重構時試行並驗證防禦性開發機制 <!-- archived: 2026-01-24 -->
-
 > 註：已完成項目會定期搬移至 `CHANGELOG.md` 並在此清理。
 
+- [x] **Bug**: 歷史溢價走勢圖顯示空白，且資料筆數顯示為 -- (Fixed: 2026-01-25)
+- [x] **Data Execution**: [Backfilling...] 完成針對 Watchlist (15 items) 的精準回補程序 (Fixed: 2026-01-25)
+- [x] **Smart Backfill**: 實作 `fetch-cb-history.js` 的智慧回補邏輯 (CLI Layer) (Fixed: 2026-01-25)
 - [x] **Doc Refactor**: 調整 TODO.md 歸檔區塊排序邏輯 (Fixed: 2026-01-25)
+- [x] **UI Refactor**: 重構 CB 計算機顯示介面 (V10: 整合標籤、去除圖示、垂直壓縮) (Fixed: 2026-01-25)
 - [x] **Bug**: 點擊商品後的個股溢價圖表顯示異常 (Fixed: 2026-01-25)
 - [x] **Bug**: 戰情室歷史溢價走勢圖 (Chart) 的 MAX 按鈕功能失效 (Fixed: 2026-01-25)
+- [x] **性能監控 (Phase 1-3)**: 實作前端效能追蹤 (Web Vitals/GA4/Latency/Signal) (Completed: 2026-01-24)
+- [x] **Refactor Guard**: 於下一次 UI 重構時試行並驗證防禦性開發機制 (Completed: 2026-01-24)
 - [x] **Vibe Coding 驗證**: 完成「側邊欄動畫」的快速實作與自動歸檔測試，確認 /capture 指令與歸檔流程運作正常。 ✅ (Capture: 2026-01-24)
 - [x] **Ultimate Integration (Phase 3)**: 將 CB 計算機完全併入戰情室，實現單頁分析體驗、即時數據自動補全 (Live Enrichment)、與爬蟲腳本標準化。 ✅ (Completed: 2026-01-24)

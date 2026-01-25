@@ -1,0 +1,602 @@
+[
+  {
+    "date": "2025-08-01",
+    "cbPrice": 104.5,
+    "stockPrice": 15.1,
+    "premium": 30.11
+  },
+  {
+    "date": "2025-08-04",
+    "cbPrice": 104.5,
+    "stockPrice": 14.9,
+    "premium": 31.85
+  },
+  {
+    "date": "2025-08-05",
+    "stockPrice": 15
+  },
+  {
+    "date": "2025-08-06",
+    "cbPrice": 104.5,
+    "stockPrice": 15,
+    "premium": 30.97
+  },
+  {
+    "date": "2025-08-07",
+    "cbPrice": 104.5,
+    "stockPrice": 15,
+    "premium": 30.97
+  },
+  {
+    "date": "2025-08-08",
+    "cbPrice": 104.5,
+    "stockPrice": 14.95,
+    "premium": 31.41
+  },
+  {
+    "date": "2025-08-11",
+    "cbPrice": 104,
+    "stockPrice": 14.55,
+    "premium": 34.38
+  },
+  {
+    "date": "2025-08-12",
+    "cbPrice": 104.5,
+    "stockPrice": 14.6,
+    "premium": 34.56
+  },
+  {
+    "date": "2025-08-13",
+    "stockPrice": 14.8
+  },
+  {
+    "date": "2025-08-14",
+    "cbPrice": 104.5,
+    "stockPrice": 15,
+    "premium": 30.97
+  },
+  {
+    "date": "2025-08-15",
+    "cbPrice": 105,
+    "stockPrice": 15.8,
+    "premium": 24.94
+  },
+  {
+    "date": "2025-08-18",
+    "cbPrice": 106.25,
+    "stockPrice": 15.4,
+    "premium": 29.71
+  },
+  {
+    "date": "2025-08-19",
+    "cbPrice": 106,
+    "stockPrice": 15.65,
+    "premium": 27.34
+  },
+  {
+    "date": "2025-08-20",
+    "cbPrice": 106.05,
+    "stockPrice": 15.3,
+    "premium": 30.31
+  },
+  {
+    "date": "2025-08-21",
+    "cbPrice": 106.05,
+    "stockPrice": 15.3,
+    "premium": 30.31
+  },
+  {
+    "date": "2025-08-22",
+    "cbPrice": 106.05,
+    "stockPrice": 15.25,
+    "premium": 30.74
+  },
+  {
+    "date": "2025-08-25",
+    "stockPrice": 15.2
+  },
+  {
+    "date": "2025-08-26",
+    "stockPrice": 15.2
+  },
+  {
+    "date": "2025-08-27",
+    "stockPrice": 15.25
+  },
+  {
+    "date": "2025-08-28",
+    "cbPrice": 107,
+    "stockPrice": 15.3,
+    "premium": 31.48
+  },
+  {
+    "date": "2025-08-29",
+    "stockPrice": 15.25
+  },
+  {
+    "date": "2025-09-01",
+    "stockPrice": 15.05
+  },
+  {
+    "date": "2025-09-02",
+    "stockPrice": 15
+  },
+  {
+    "date": "2025-09-03",
+    "stockPrice": 15.1
+  },
+  {
+    "date": "2025-09-04",
+    "stockPrice": 15.15
+  },
+  {
+    "date": "2025-09-05",
+    "cbPrice": 107.7,
+    "stockPrice": 16.15,
+    "premium": 25.37
+  },
+  {
+    "date": "2025-09-08",
+    "cbPrice": 109,
+    "stockPrice": 16.05,
+    "premium": 27.68
+  },
+  {
+    "date": "2025-09-09",
+    "cbPrice": 109.5,
+    "stockPrice": 16.7,
+    "premium": 23.27
+  },
+  {
+    "date": "2025-09-10",
+    "cbPrice": 112,
+    "stockPrice": 16.65,
+    "premium": 26.46
+  },
+  {
+    "date": "2025-09-11",
+    "cbPrice": 109,
+    "stockPrice": 16.3,
+    "premium": 25.72
+  },
+  {
+    "date": "2025-09-12",
+    "cbPrice": 112,
+    "stockPrice": 16.8,
+    "premium": 25.33
+  },
+  {
+    "date": "2025-09-15",
+    "cbPrice": 112,
+    "stockPrice": 16.85,
+    "premium": 24.96
+  },
+  {
+    "date": "2025-09-16",
+    "stockPrice": 16.65
+  },
+  {
+    "date": "2025-09-17",
+    "cbPrice": 112,
+    "stockPrice": 16.6,
+    "premium": 26.84
+  },
+  {
+    "date": "2025-09-18",
+    "cbPrice": 112,
+    "stockPrice": 16.3,
+    "premium": 29.18
+  },
+  {
+    "date": "2025-09-19",
+    "cbPrice": 112.9,
+    "stockPrice": 17,
+    "premium": 24.85
+  },
+  {
+    "date": "2025-09-22",
+    "cbPrice": 115,
+    "stockPrice": 17.7,
+    "premium": 22.15
+  },
+  {
+    "date": "2025-09-23",
+    "stockPrice": 17.2
+  },
+  {
+    "date": "2025-09-24",
+    "stockPrice": 17.4
+  },
+  {
+    "date": "2025-09-25",
+    "stockPrice": 17.15
+  },
+  {
+    "date": "2025-09-26",
+    "cbPrice": 116,
+    "stockPrice": 17.55,
+    "premium": 24.26
+  },
+  {
+    "date": "2025-09-30",
+    "stockPrice": 17.25
+  },
+  {
+    "date": "2025-10-01",
+    "stockPrice": 17.5
+  },
+  {
+    "date": "2025-10-02",
+    "stockPrice": 17.45
+  },
+  {
+    "date": "2025-10-03",
+    "stockPrice": 16.95
+  },
+  {
+    "date": "2025-10-07",
+    "stockPrice": 17.4
+  },
+  {
+    "date": "2025-10-08",
+    "cbPrice": 115.95,
+    "stockPrice": 17.9,
+    "premium": 21.78
+  },
+  {
+    "date": "2025-10-09",
+    "stockPrice": 17.85
+  },
+  {
+    "date": "2025-10-13",
+    "stockPrice": 18.25
+  },
+  {
+    "date": "2025-10-14",
+    "cbPrice": 113,
+    "stockPrice": 17.45,
+    "premium": 21.74
+  },
+  {
+    "date": "2025-10-15",
+    "cbPrice": 111,
+    "stockPrice": 17.8,
+    "premium": 17.24
+  },
+  {
+    "date": "2025-10-16",
+    "cbPrice": 111,
+    "stockPrice": 18,
+    "premium": 15.93
+  },
+  {
+    "date": "2025-10-17",
+    "stockPrice": 18.6
+  },
+  {
+    "date": "2025-10-20",
+    "stockPrice": 18.65
+  },
+  {
+    "date": "2025-10-21",
+    "cbPrice": 113,
+    "stockPrice": 18.8,
+    "premium": 13
+  },
+  {
+    "date": "2025-10-22",
+    "stockPrice": 16.95
+  },
+  {
+    "date": "2025-10-23",
+    "cbPrice": 113,
+    "stockPrice": 16.45,
+    "premium": 29.14
+  },
+  {
+    "date": "2025-10-27",
+    "cbPrice": 113,
+    "stockPrice": 16.5,
+    "premium": 28.75
+  },
+  {
+    "date": "2025-10-28",
+    "cbPrice": 107,
+    "stockPrice": 16.25,
+    "premium": 23.79
+  },
+  {
+    "date": "2025-10-29",
+    "cbPrice": 109,
+    "stockPrice": 16.4,
+    "premium": 24.95
+  },
+  {
+    "date": "2025-10-30",
+    "cbPrice": 107.2,
+    "stockPrice": 15.7,
+    "premium": 28.37
+  },
+  {
+    "date": "2025-10-31",
+    "cbPrice": 105.55,
+    "stockPrice": 15.4,
+    "premium": 28.85
+  },
+  {
+    "date": "2025-11-03",
+    "cbPrice": 106.25,
+    "stockPrice": 15.5,
+    "premium": 28.87
+  },
+  {
+    "date": "2025-11-04",
+    "cbPrice": 107.7,
+    "stockPrice": 15.4,
+    "premium": 31.48
+  },
+  {
+    "date": "2025-11-05",
+    "cbPrice": 107.8,
+    "stockPrice": 15.3,
+    "premium": 32.46
+  },
+  {
+    "date": "2025-11-06",
+    "stockPrice": 15.6
+  },
+  {
+    "date": "2025-11-07",
+    "stockPrice": 15.45
+  },
+  {
+    "date": "2025-11-10",
+    "stockPrice": 15.25
+  },
+  {
+    "date": "2025-11-11",
+    "cbPrice": 106.55,
+    "stockPrice": 14.85,
+    "premium": 34.89
+  },
+  {
+    "date": "2025-11-12",
+    "cbPrice": 107,
+    "stockPrice": 14.9,
+    "premium": 35.01
+  },
+  {
+    "date": "2025-11-13",
+    "stockPrice": 15.05
+  },
+  {
+    "date": "2025-11-14",
+    "stockPrice": 15.1
+  },
+  {
+    "date": "2025-11-17",
+    "stockPrice": 14.6
+  },
+  {
+    "date": "2025-11-18",
+    "cbPrice": 106.3,
+    "stockPrice": 14.1,
+    "premium": 41.73
+  },
+  {
+    "date": "2025-11-19",
+    "stockPrice": 14.45
+  },
+  {
+    "date": "2025-11-20",
+    "cbPrice": 106,
+    "stockPrice": 14.45,
+    "premium": 37.91
+  },
+  {
+    "date": "2025-11-21",
+    "cbPrice": 106.4,
+    "stockPrice": 14.35,
+    "premium": 39.4
+  },
+  {
+    "date": "2025-11-24",
+    "stockPrice": 14.5
+  },
+  {
+    "date": "2025-11-25",
+    "stockPrice": 14.6
+  },
+  {
+    "date": "2025-11-26",
+    "stockPrice": 15
+  },
+  {
+    "date": "2025-11-27",
+    "stockPrice": 14.4
+  },
+  {
+    "date": "2025-11-28",
+    "stockPrice": 14.6
+  },
+  {
+    "date": "2025-12-01",
+    "stockPrice": 14.25
+  },
+  {
+    "date": "2025-12-02",
+    "stockPrice": 14.2
+  },
+  {
+    "date": "2025-12-03",
+    "stockPrice": 14.25
+  },
+  {
+    "date": "2025-12-04",
+    "stockPrice": 14.35
+  },
+  {
+    "date": "2025-12-05",
+    "stockPrice": 14.1
+  },
+  {
+    "date": "2025-12-08",
+    "stockPrice": 14.15
+  },
+  {
+    "date": "2025-12-09",
+    "stockPrice": 14
+  },
+  {
+    "date": "2025-12-10",
+    "stockPrice": 14.15
+  },
+  {
+    "date": "2025-12-11",
+    "stockPrice": 14.1
+  },
+  {
+    "date": "2025-12-12",
+    "stockPrice": 14.4
+  },
+  {
+    "date": "2025-12-15",
+    "stockPrice": 14.6
+  },
+  {
+    "date": "2025-12-16",
+    "stockPrice": 14.6
+  },
+  {
+    "date": "2025-12-17",
+    "stockPrice": 14.3
+  },
+  {
+    "date": "2025-12-18",
+    "cbPrice": 105.5,
+    "stockPrice": 14.35,
+    "premium": 38.22
+  },
+  {
+    "date": "2025-12-19",
+    "stockPrice": 14.15
+  },
+  {
+    "date": "2025-12-22",
+    "cbPrice": 105.05,
+    "stockPrice": 14.35,
+    "premium": 37.63
+  },
+  {
+    "date": "2025-12-23",
+    "cbPrice": 105.05,
+    "stockPrice": 14.4,
+    "premium": 37.15
+  },
+  {
+    "date": "2025-12-24",
+    "stockPrice": 14.3
+  },
+  {
+    "date": "2025-12-26",
+    "cbPrice": 105.05,
+    "stockPrice": 14.3,
+    "premium": 38.11
+  },
+  {
+    "date": "2025-12-29",
+    "cbPrice": 105.05,
+    "stockPrice": 14.05,
+    "premium": 40.57
+  },
+  {
+    "date": "2025-12-30",
+    "cbPrice": 105.05,
+    "stockPrice": 13.85,
+    "premium": 42.59
+  },
+  {
+    "date": "2025-12-31",
+    "cbPrice": 105.05,
+    "stockPrice": 14.2,
+    "premium": 39.08
+  },
+  {
+    "date": "2026-01-02",
+    "cbPrice": 105.05,
+    "stockPrice": 14.1,
+    "premium": 40.07
+  },
+  {
+    "date": "2026-01-05",
+    "cbPrice": 105.05,
+    "stockPrice": 13.7,
+    "premium": 44.16
+  },
+  {
+    "date": "2026-01-06",
+    "cbPrice": 105.05,
+    "stockPrice": 13.75,
+    "premium": 43.63
+  },
+  {
+    "date": "2026-01-07",
+    "cbPrice": 105.05,
+    "stockPrice": 14.1,
+    "premium": 40.07
+  },
+  {
+    "date": "2026-01-08",
+    "stockPrice": 13.95
+  },
+  {
+    "date": "2026-01-09",
+    "stockPrice": 14
+  },
+  {
+    "date": "2026-01-12",
+    "stockPrice": 14.05
+  },
+  {
+    "date": "2026-01-13",
+    "stockPrice": 14.3
+  },
+  {
+    "date": "2026-01-14",
+    "cbPrice": 105.05,
+    "stockPrice": 14.4,
+    "premium": 37.15
+  },
+  {
+    "date": "2026-01-15",
+    "stockPrice": 14.3
+  },
+  {
+    "date": "2026-01-16",
+    "cbPrice": 104.05,
+    "stockPrice": 14.3,
+    "premium": 36.79
+  },
+  {
+    "date": "2026-01-19",
+    "cbPrice": 104.2,
+    "stockPrice": 14.45,
+    "premium": 35.57
+  },
+  {
+    "date": "2026-01-20",
+    "stockPrice": 14.45
+  },
+  {
+    "date": "2026-01-21",
+    "stockPrice": 14.3
+  },
+  {
+    "date": "2026-01-22",
+    "stockPrice": 14.35
+  },
+  {
+    "date": "2026-01-23",
+    "stockPrice": 14.15
+  }
+]

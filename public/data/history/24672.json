@@ -1,5 +1,25 @@
 [
   {
+    "date": "2026-01-02",
+    "stockPrice": 270
+  },
+  {
+    "date": "2026-01-05",
+    "stockPrice": 279.5
+  },
+  {
+    "date": "2026-01-06",
+    "stockPrice": 267
+  },
+  {
+    "date": "2026-01-07",
+    "stockPrice": 263
+  },
+  {
+    "date": "2026-01-08",
+    "stockPrice": 261
+  },
+  {
     "date": "2026-01-09",
     "cbPrice": 115.5,
     "stockPrice": 259,

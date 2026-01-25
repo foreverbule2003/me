@@ -4,6 +4,22 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.3.4] - 2026-01-25 (Engine Integration & UI V10)
+
+### 新增功能 (Features) ✨
+
+- **智慧回補 v2.0 (Smart Backfill)**：於 `fetch-cb-history.js` 實作自動偵測邏輯。新標的自動啟動 6 個月深度回補 (Deep Backfill)，既有標的則執行高效增量更新 (Incremental)。
+- **UI V10 深度重構**：戰情室與計算機介面全面升級，整合標籤顯示、去除冗餘圖示，並達成垂直空間壓縮。
+
+### 錯誤修復 (Fixes) 🐛
+
+- **進階計算機 Hotfix**：解決 `cb-calculator.html` 因路徑硬編碼 (Path Redirection) 導致的 K 線圖空白問題。
+- **Firebase Auth 同步**：同步計算機端的 Firebase 配置與 Auth 監聽，解鎖 Firestore 安全規則下的資料寫入限制。
+
+### 文件更新 (Docs) 📝
+
+- **TODO Sync**: 自動歸檔已完成之偵測與修復任務。
+
 ## [1.3.3] - 2026-01-25 (Critical Fixes)
 
 ### 錯誤修復 (Fixes) 🐛
