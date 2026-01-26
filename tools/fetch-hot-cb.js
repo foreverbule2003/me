@@ -9,7 +9,7 @@ const { saveSnapshotToCloud } = require("../src/utils/hot-cb-cloud");
  * @source PChome Money (Tabular data)
  * @scope 市場成交量前 50-100 名標的
  * @target terminal console & (optional) Firestore Snapshot
- * 
+ *
  * 支援:
  *   --cloud     同步至 Firestore
  *   --snapshot  存為本地歷史 JSON (public/data/history/YYYY-MM-DD.json)

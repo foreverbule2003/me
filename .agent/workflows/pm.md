@@ -22,8 +22,7 @@ cat .agent/prompts/web-pm-prompt.md
     - 檢視 `TODO.md` 中標記為 `[x]` 的項目。
     - 確認相關程式碼與功能是否確實完成。
 
-2.  **Archive (歸檔)**
-    -將確認完成的項目移動到 `TODO.md` 的 `## 🏁 已完成歸檔 (Archived)` 區塊的**最上方 (Prepend)**。
+2.  **Archive (歸檔)** -將確認完成的項目移動到 `TODO.md` 的 `## 🏁 已完成歸檔 (Archived)` 區塊的**最上方 (Prepend)**。
     - 若底部無此區塊，請自動建立。
     - 加上歸檔日期 (Option)，例如：`- [x] 項目名稱 (Completed: 2026-01-10)`。最新項目應置頂。
 

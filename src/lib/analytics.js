@@ -16,7 +16,7 @@ export const initAnalytics = () => {
       app = initializeApp(firebaseConfig);
       analytics = getAnalytics(app);
       console.log("[Analytics] Firebase Analytics initialized");
-      
+
       // Start Web Vitals monitoring
       initWebVitals();
     } catch (e) {
@@ -41,7 +41,7 @@ const sendToAnalytics = ({ name, delta, id }) => {
     // Also log specific metrics as separate events for easier dashboarding
     logEvent(analytics, name, {
       value: Math.round(name === "CLS" ? delta * 1000 : delta),
-      metric_id: id
+      metric_id: id,
     });
   }
 };

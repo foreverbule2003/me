@@ -6,6 +6,7 @@
 
 - [ ] **Bug**: CB戰情室的限價CB價格有誤 <!-- captured: 2026-01-25 -->
 - [ ] **Bug**: 戰情室的個股需要修正 <!-- captured: 2026-01-25 -->
+- [ ] **Data Architecture**: 徹底檢視現有的CB獲取資料的方式 (Ref: [dde-py-paradigm.md](knowledge/dde-py-paradigm.md)) <!-- captured: 2026-01-26 -->
 
 ---
 
@@ -13,9 +14,7 @@
 
 > 目標：持續優化雲端架構與開發者體驗。
 
-- [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 (待觀察)
-- [ ] **CB 戰情室**: 實作「我的追蹤」頁籤登入權限限制 <!-- captured: 2026-01-24 -->
-- [ ] **UI Refactor**: 合併分析抽屜中的資訊卡片 (Premium, Conv Val, Parity) 為單一視覺區塊 <!-- captured: 2026-01-24 -->
+- [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 (待觀察) <!-- implemented: logPerfEvent -->
 
 ---
 
@@ -42,6 +41,9 @@
 ## 🏁 已完成歸檔 (Archived)
 
 > 註：已完成項目會定期搬移至 `CHANGELOG.md` 並在此清理。
+
+- [x] **CB 戰情室**: 實作「我的追蹤」頁籤登入權限限制 (Fixed: 2026-01-26)
+- [x] **UI Refactor**: 合併分析抽屜中的資訊卡片 (Unified Card V10) (Fixed: 2026-01-26)
 
 - [x] **Component Refactor**: 將「歷史溢價走勢圖」重構為獨立可複用 Widget (`CbPremiumHistoryChart.mjs`)，完全封裝 UI 控制與繪圖邏輯。 (Fixed: 2026-01-25)
 - [x] **Crawler Review**: 重新審查爬蟲資料來源規則與邏輯 (基於 DATASOURCES.md) (Fixed: 2026-01-25)
