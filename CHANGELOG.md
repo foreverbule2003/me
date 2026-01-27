@@ -19,6 +19,24 @@
 - **穩定性提升**：清理了 `cb-calculator.html` 與 `cb-war-room.html` 中因舊結構殘留導致的 `TypeError` 與 `ReferenceError`。
 - **佈局校正**：修正了圖表在不同寬度容器中無法填滿或居中偏移的 CSS 問題。
 
+## [1.3.5] - 2026-01-27
+
+### ✨ Features (功能與架構)
+
+- **Smart Data Sync**: 實作 `CbHistoryService.mjs`，優先讀取 LocalStorage 快取，並支援與 Firestore 進行增量同步，大幅降低雲端讀取成本。
+- **Dual Track Data**: 將爬蟲輸出拆分為 `hot-cb.json` (戰情室 Top 20) 與 `cb-data.json` (計算機總目錄)，解決資料不對稱問題。
+- **Auto-Directory**: `fetch-hot-cb.js` 現可在爬蟲執行時自動生成並更新本地目錄檔，前端不再需要全域掃描。
+
+### ♻️ Refactor (重構與優化)
+
+- **Legacy Cleanup**: 刪除 `public/data/history/` 下 20+ 個舊版 JSON 檔案 (-13k lines)，全面轉向 Firebase-First 架構。
+- **Modular SDK**: 戰情室 (`cb-war-room.html`) 與計算機 (`cb-calculator.html`) 全面改用 Modular SDK (`doc`, `setDoc`) 取代舊版 compat 語法。
+
+### 📖 Documentation (文件)
+
+- **Architecture**: 新增 `docs/CB_DATA_FLOW.md` 完整說明雙軌資料流，並更新 `ARCHITECTURE.md` (ADR-006)。
+- **Walkthrough**: 更新 `walkthrough.md` 加入 mermaid 架構圖與中文化說明。
+
 ## [1.3.4] - 2026-01-25 (Engine Integration & UI V10)
 
 ### 新增功能 (Features) ✨

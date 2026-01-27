@@ -30,6 +30,56 @@ const { saveSnapshotToCloud } = require("../src/utils/hot-cb-cloud");
       await saveSnapshotToCloud(output);
     }
 
+    // Update Local JSONs (Hot List & Master Directory)
+    if (isCloud || process.argv.includes("--save")) {
+      // 1. Save Hot List (Top 20) for War Room display
+      const hotPath = path.join(__dirname, "../public/data/hot-cb.json");
+      fs.writeFileSync(hotPath, JSON.stringify(output, null, 2), "utf8");
+      console.log(`\n✅ Hot List (hot-cb.json) saved.`);
+
+      // 2. Update Master Index (cb-data.json) for Search/Calculator lookup
+      const masterPath = path.join(__dirname, "../public/data/cb-data.json");
+      const masterData = {
+        updatedAt: new Date().toISOString(),
+        count: output.data.length,
+        items: output.data.map((item) => ({
+          code: item.code,
+          name: item.name,
+          price: item.price,
+          underlyingCode: item.underlyingCode, // Assuming fetchHotCB provides this
+        })),
+      };
+
+      // Smart Merge to preserve static fields if key matches
+      if (fs.existsSync(masterPath)) {
+        try {
+          const existing = JSON.parse(fs.readFileSync(masterPath, "utf8"));
+          const map = new Map(existing.items.map((i) => [i.code, i]));
+
+          output.data.forEach((newItem) => {
+            if (map.has(newItem.code)) {
+              // Update dynamic fields
+              const old = map.get(newItem.code);
+              map.set(newItem.code, { ...old, price: newItem.price });
+            } else {
+              // Add new item
+              map.set(newItem.code, {
+                code: newItem.code,
+                name: newItem.name,
+                price: newItem.price,
+                underlyingCode: newItem.underlyingCode || "", // Fallback
+                conversionPrice: 100, // Default or needs separate enrich
+              });
+            }
+          });
+          masterData.items = Array.from(map.values());
+        } catch (e) {}
+      }
+
+      fs.writeFileSync(masterPath, JSON.stringify(masterData, null, 2), "utf8");
+      console.log(`\n✅ Master Index (cb-data.json) updated.`);
+    }
+
     // Optional: Local Snapshot
     if (isSnapshot) {
       const today = new Date().toISOString().split("T")[0];

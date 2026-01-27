@@ -114,44 +114,78 @@ function getSmartMonths(targetCode, options) {
 }
 
 async function syncToFirestore(cbCode, data) {
-  // 延遲式導入 firebase-admin 以免本地執行時無憑證報錯
-  const admin = require("firebase-admin");
-  if (!admin.apps.length) {
-    admin.initializeApp({ projectId: "my-landing-page-2ca68" });
-  }
-  const db = admin.firestore();
-  console.log(`[Cloud] Syncing ${data.length} records for ${cbCode}...`);
+  try {
+    const admin = require("firebase-admin");
 
-  const batchSize = 500;
-  let batch = db.batch();
-  let count = 0;
+    // Initialize if needed
+    if (!admin.apps.length) {
+      let credential = null;
 
-  for (const record of data) {
-    const docRef = db
+      // 1. Env Var
+      if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+        try {
+          credential = admin.credential.cert(
+            JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
+          );
+        } catch (e) {}
+      }
+      // 2. Local File
+      if (!credential) {
+        const keyPath = path.join(__dirname, "..", "serviceAccountKey.json");
+        if (fs.existsSync(keyPath))
+          credential = admin.credential.cert(require(keyPath));
+      }
+
+      // 3. Skip if no credential (Local Mode)
+      if (!credential) {
+        console.log(
+          "⚠️ [Cloud] No credentials found. Skipping sync (Local Mode Active).",
+        );
+        return;
+      }
+
+      admin.initializeApp({
+        credential,
+        projectId: "my-landing-page-2ca68",
+      });
+    }
+
+    const db = admin.firestore();
+    console.log(`[Cloud] Syncing ${data.length} records for ${cbCode}...`);
+
+    const batchSize = 500;
+    let batch = db.batch();
+    let count = 0;
+
+    for (const record of data) {
+      const docRef = db
+        .collection("cb_history")
+        .doc(cbCode)
+        .collection("records")
+        .doc(record.date);
+
+      batch.set(
+        docRef,
+        { ...record, updatedAt: admin.firestore.FieldValue.serverTimestamp() },
+        { merge: true },
+      );
+      count++;
+
+      if (count >= batchSize) {
+        await batch.commit();
+        batch = db.batch();
+        count = 0;
+      }
+    }
+    if (count > 0) await batch.commit();
+
+    await db
       .collection("cb_history")
       .doc(cbCode)
-      .collection("records")
-      .doc(record.date);
-    batch.set(
-      docRef,
-      { ...record, updatedAt: admin.firestore.FieldValue.serverTimestamp() },
-      { merge: true },
-    );
-    count++;
-
-    if (count >= batchSize) {
-      await batch.commit();
-      batch = db.batch();
-      count = 0;
-    }
+      .set({ lastUpdated: new Date().toISOString() }, { merge: true });
+  } catch (e) {
+    console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);
   }
-  if (count > 0) await batch.commit();
-
-  // 更新主文件 metadata
-  await db
-    .collection("cb_history")
-    .doc(cbCode)
-    .set({ lastUpdated: new Date().toISOString() }, { merge: true });
 }
 
 (async () => {

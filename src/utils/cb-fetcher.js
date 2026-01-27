@@ -49,12 +49,12 @@ async function fetchHotCB() {
 
         const nameCodeText = cells[0].innerText.trim();
         const timeStr = cells[1].innerText.trim();
-        const priceStr = cells[2].innerText.trim().replace(/,/g, "");
+        const priceStr = cells[2].innerText.trim().replace(/[^0-9.-]/g, "");
         const changeStr = cells[3].innerText.trim();
         const changePctStr = cells[4].innerText.trim();
         const volStr = cells[5].innerText.trim().replace(/,/g, "");
-        const highStr = cells[6].innerText.trim().replace(/,/g, "");
-        const lowStr = cells[7].innerText.trim().replace(/,/g, "");
+        const highStr = cells[6].innerText.trim().replace(/[^0-9.-]/g, "");
+        const lowStr = cells[7].innerText.trim().replace(/[^0-9.-]/g, "");
 
         // Extract Code from name (Code)
         const codeMatch = nameCodeText.match(/\((\d+)\)/);
@@ -81,8 +81,11 @@ async function fetchHotCB() {
         }
       }
 
-      // Already implies volume ranking
-      return scrapedData.slice(0, 25);
+      // Explicitly sort by Volume (Desc) to ensure "Hot" definition
+      scrapedData.sort((a, b) => b.volume - a.volume);
+
+      // Return Top 20 strictly
+      return scrapedData.slice(0, 20);
     });
 
     if (!results || results.length === 0) {

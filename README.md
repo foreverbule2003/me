@@ -93,6 +93,7 @@ timboy/
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - 貢獻指南
 - [CHANGELOG.md](./CHANGELOG.md) - 更新日誌
 - [ARCHITECTURE.md](./docs/ARCHITECTURE.md) - 架構決策記錄 (ADR)
+- [CB_DATA_FLOW.md](./docs/CB_DATA_FLOW.md) - CB 爬蟲資料流架構
 
 ## 🔗 連結
 

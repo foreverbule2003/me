@@ -98,3 +98,26 @@ GitHub Pages 為純靜態主機，無法運行 Node.js 爬蟲。我们需要一�
 - ⚠️ **踩雷紀錄 (The HMR Trap)**：
   - **問題**：爬蟲在 `public/data/` 生成新 JSON 時，Vite (Dev Server) 會偵測到檔案變動並觸發 **Full Page Reload**，導致使用者的搜尋狀態瞬間重置。
   - **解法**：修改 `vite.config.js` 的 `server.watch.ignored`，明確排除 `**/public/data/**`，切斷「資料面」與「介面面」的熱更新連結。
+
+---
+
+## ADR-006: 雙軌並行資料架構 (Dual Track Data Architecture)
+
+**狀態**：Accepted
+**日期**：2026-01
+
+**背景**：
+單一的 `cb-data.json` 無法同時滿足「戰情室 (需要精準 Top 20)」與「計算機 (需要全市場搜尋)」的需求。前者需要乾淨無雜質的數據，後者需要完整的代號列表。
+
+**決策**：
+採用 **雙軌分流 (Dual Track)** 策略，由爬蟲同時產生兩份獨立用途的檔案：
+
+1.  `hot-cb.json`: 嚴格的 Top 20 熱門股。
+2.  `cb-data.json`: 包含舊資料的全市場總目錄。
+
+詳見完整文件：[CB 資料流架構說明](./CB_DATA_FLOW.md)
+
+**後果**：
+
+- ✅ **優點**：徹底解決前端 `NaN` 顯示問題、確保搜尋功能的完整性、職責分離 (Separation of Concerns)。
+- ❌ **缺點**：GitHub Action 需維護兩個輸出檔案 (已自動化解決)。

@@ -19,10 +19,64 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
 
-    <!-- Firebase SDK (Compatibility Mode) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <!-- Firebase SDK (Modular) -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import {
+        getFirestore,
+        collection,
+        getDocs,
+        doc,
+        getDoc,
+        query,
+        where,
+        orderBy,
+        limit,
+        serverTimestamp,
+        setDoc,
+        writeBatch,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+      import {
+        getAuth,
+        onAuthStateChanged,
+      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
+      import { CbHistoryService } from "./components/CbHistoryService.mjs";
+
+      // Global Expose for legacy compatibility with other script tags if needed
+      window.CbPremiumHistoryChart = CbPremiumHistoryChart;
+      window.CbHistoryService = CbHistoryService;
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
+        authDomain: "my-landing-page-2ca68.firebaseapp.com",
+        projectId: "my-landing-page-2ca68",
+        storageBucket: "my-landing-page-2ca68.firebasestorage.app",
+        messagingSenderId: "847051837050",
+        appId: "1:847051837050:web:c5e2bc562520d3ab835c3",
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore(app);
+      const auth = getAuth(app);
+
+      // Share with window for non-module scripts
+      window.db = db;
+      window.auth = auth;
+      window.collection = collection;
+      window.getDocs = getDocs;
+      window.doc = doc;
+      window.setDoc = setDoc;
+      window.serverTimestamp = serverTimestamp;
+      window.writeBatch = writeBatch;
+
+      onAuthStateChanged(auth, (user) => {
+        window.currentUser = user;
+        console.log(
+          `[Auth] Mode: ${user ? "Authenticated (" + user.email + ")" : "Anonymous (Read-Only)"}`,
+        );
+      });
+    </script>
     <style>
       :root {
         --brand-slate: #0f172a;
@@ -325,7 +379,7 @@
       <div class="flex items-center justify-between mb-8">
         <div class="flex items-center gap-4">
           <a
-            href="../cb-war-room.html"
+            href="cb-war-room.html"
             class="flex items-center gap-2 text-slate-600 hover:text-slate-900 font-bold text-sm"
           >
             <i class="fas fa-arrow-left"></i><span>戰情室</span>
@@ -752,7 +806,7 @@
         <!-- Analytics Navigation (Moved) -->
         <div class="mb-6 mt-6">
           <a
-            href="../cb-war-room.html"
+            href="cb-war-room.html"
             class="flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl hover:border-indigo-200 hover:bg-indigo-50/30 transition-all group no-underline"
           >
             <div class="flex items-center gap-3">
@@ -908,30 +962,9 @@
       const MAX_HISTORY_DAYS = 30;
       let premiumChart = null; // Chart.js 實例
 
-      // ============== Firebase 初始化 (v9 Compat) ==============
-      const firebaseConfig = {
-        apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
-        authDomain: "my-landing-page-2ca68.firebaseapp.com",
-        projectId: "my-landing-page-2ca68",
-        storageBucket: "my-landing-page-2ca68.firebasestorage.app",
-        messagingSenderId: "847051837050",
-        appId: "1:847051837050:web:c5e2bc562520d3ab835c3",
-      };
-
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.firestore();
-      const auth = firebase.auth();
-
       // Global state
       window.attemptedCrawls = new Set();
-      let currentUser = null;
-
-      auth.onAuthStateChanged((user) => {
-        currentUser = user;
-        console.log(
-          `[Auth] Mode: ${user ? "Authenticated (" + user.email + ")" : "Anonymous (Read-Only)"}`,
-        );
-      });
+      window.currentUser = null;
 
       // Helper for measureFetch (Shared with War Room)
       window.measureFetch = async (url, options = {}) => {
@@ -953,7 +986,9 @@
 
       async function fetchAvailableSymbols() {
         try {
-          const snapshot = await db.collection("cb_history").get();
+          const snapshot = await window.getDocs(
+            window.collection(window.db, "cb_history"),
+          );
           availableSymbols = snapshot.docs.map((doc) => ({
             symbol: doc.id,
             name: doc.data().name || "",
@@ -1115,16 +1150,28 @@
       // 取得 Firestore 中的歷史紀錄 (增量更新)
       async function fetchIncrementalHistory(symbol, lastDate = null) {
         try {
-          let query = db
-            .collection("cb_history")
-            .doc(symbol)
-            .collection("records");
-
+          const recordsRef = window.collection(
+            window.db,
+            "cb_history",
+            symbol,
+            "records",
+          );
+          let q;
           if (lastDate) {
-            query = query.where("date", ">", lastDate);
+            q = window.query(
+              recordsRef,
+              window.where("date", ">", lastDate),
+              window.orderBy("date", "asc"),
+            );
+          } else {
+            q = window.query(
+              recordsRef,
+              window.orderBy("date", "asc"),
+              window.limit(200),
+            );
           }
 
-          const snapshot = await query.get();
+          const snapshot = await window.getDocs(q);
           if (!snapshot.empty) {
             return snapshot.docs.map((doc) => doc.data());
           }
@@ -1136,27 +1183,33 @@
 
       // 上傳單筆資料到 Firestore Subcollection
       async function uploadRecordToFirestore(symbol, record) {
-        if (!currentUser) {
+        if (!window.currentUser) {
           console.warn("[Firebase] Write skipped: Not logged in.");
           return;
         }
         try {
-          const batch = db.batch();
+          const batch = window.writeBatch(window.db);
 
           // 1. 更新主文件 LastUpdated
-          const metaRef = db.collection("cb_history").doc(symbol);
+          const metaRef = window.doc(window.db, "cb_history", symbol);
           batch.set(
             metaRef,
             {
               symbol: symbol,
               name: document.getElementById("stockNameText")?.textContent || "", // Save name for autocomplete
-              lastUpdated: new Date().toISOString(),
+              lastUpdated: window.serverTimestamp(),
             },
             { merge: true },
           );
 
           // 2. 寫入單日紀錄
-          const recordRef = metaRef.collection("records").doc(record.date);
+          const recordRef = window.doc(
+            window.db,
+            "cb_history",
+            symbol,
+            "records",
+            record.date,
+          );
           batch.set(recordRef, record);
 
           await batch.commit();
@@ -1223,9 +1276,8 @@
         const resetBtn = document.getElementById("resetZoomBtn");
 
         if (show) {
-          // 強制移除隱藏類別，防止 CSS 優先級問題
-          container.classList.remove("hidden");
-          loader.classList.remove("hidden");
+          if (container) container.classList.remove("hidden");
+          if (loader) loader.classList.remove("hidden");
           if (titleEl) titleEl.textContent = title;
           if (descEl) descEl.textContent = desc;
 
@@ -1243,7 +1295,7 @@
               "cursor-not-allowed",
             );
         } else {
-          loader.classList.add("hidden");
+          if (loader) loader.classList.add("hidden");
 
           // 恢復圖表控制項
           if (rangeBtns)
@@ -1261,137 +1313,62 @@
         }
       }
 
-      // 繪製溢價率走勢圖
-      // 取得合併後的歷史資料 (Hybrid Sync: Local -> JSON -> Firestore Incremental)
-      async function fetchMergedHistory(symbol) {
-        showChartLoading(true, "正在檢查歷史資料...", "搜尋本地與雲端快取");
+      async function renderChart(symbol) {
+        const container = document.getElementById("chartContainer");
+        if (!container) return;
 
-        // 1. Get Local Cache first
-        const localData = getHistoryData(symbol);
-        let history = [...localData];
-        let lastDate = null;
-
-        // 2. Cold Start Strategy: If LocalStorage is empty, try fetching static JSON
-        if (history.length === 0) {
-          console.log("[Sync] Cold start: checking static JSON...");
-          try {
-            const res = await window.measureFetch(
-              getDataPath(`history/${symbol}.json?t=${Date.now()}`),
-            );
-            if (res.ok) {
-              const jsonData = await res.json();
-              if (Array.isArray(jsonData) && jsonData.length > 0) {
-                console.log(
-                  `[Sync] Loaded ${jsonData.length} records from static JSON.`,
-                );
-                history = jsonData;
-              }
-            }
-          } catch (e) {
-            console.warn("[Sync] Static JSON fetch failed:", e);
-          }
-        }
-
-        if (history.length > 0) {
-          const sorted = history.sort(
-            (a, b) => new Date(a.date) - new Date(b.date),
+        try {
+          // Unified 3-Tier Sync via Service
+          let history = await window.CbHistoryService.fetchHistory(
+            window.db,
+            symbol,
+            {
+              onStatusUpdate: (msg, submsg) =>
+                showChartLoading(true, msg, submsg),
+            },
           );
-          lastDate = sorted[sorted.length - 1].date;
-        }
 
-        // 3. Fetch NEW data from Firestore (Incremental)
-        console.log(
-          `[Sync] Checking for updates since ${lastDate || "BEGINNING"}...`,
-        );
-        // 只在有歷史資料時才顯示「同步中」，否則如果是全新的則保持「檢查中」
-        if (lastDate)
-          showChartLoading(true, "同步最新數據...", "正在下載增量更新");
+          if (history.length > 0) {
+            // Enrich with Today's Real-time Price
+            const cbPrice = parseFloat(inputs.cbPrice.value);
+            const stockPrice = parseFloat(inputs.stockPrice.value);
+            const conversionPrice = parseFloat(inputs.conversionPrice.value);
 
-        const newRecords = await fetchIncrementalHistory(symbol, lastDate);
-        if (newRecords.length > 0) history = history.concat(newRecords);
+            if (cbPrice && stockPrice && conversionPrice) {
+              const today = new Date().toISOString().split("T")[0];
+              const sharesPerBond = 100000 / conversionPrice;
+              const conversionValue = (sharesPerBond * stockPrice) / 1000;
+              const premiumRate =
+                ((cbPrice - conversionValue) / conversionValue) * 100;
 
-        // 4. Auto-Crawl Strategy
-        // If we have very few records (e.g. only today's auto-save), we should still try to crawl full history
-        // [Fix] Prevent infinite loop: Only attempt crawl ONCE per session per symbol
-        if (history.length < 100 && !window.attemptedCrawls.has(symbol)) {
-          console.log("[Sync] Data sparse. Attempting Auto-Crawl...");
-          window.attemptedCrawls.add(symbol); // Mark as attempted immediately
-
-          if (
-            window.location.hostname === "localhost" ||
-            window.location.hostname === "127.0.0.1"
-          ) {
-            showStatus("資料庫建立中...", "warning");
-
-            // [Smart Incremental] 若有部分資料，只補齊缺少的月份
-            let crawlUrl = `/api/crawl?code=${symbol}`;
-            let statusMsg = "連接櫃買中心與證交所 (約 15 秒)";
-
-            if (history.length > 100) {
-              // 找出最後一筆日期
-              const sorted = history.sort(
-                (a, b) => new Date(a.date) - new Date(b.date),
-              );
-              const lastRecordDate = sorted[sorted.length - 1].date;
-              crawlUrl += `&since=${lastRecordDate}`;
-              statusMsg = `補齊 ${lastRecordDate} 後的資料 (約 3 秒)`;
-              console.log(
-                `[Sync] Smart Incremental Crawl: since ${lastRecordDate}`,
-              );
-            } else {
-              // [Smart Backfill] 資料不足 100 筆 (約 5 個月)，強制回補完整歷史
-              statusMsg = `補齊完整半年資料 (約 15 秒)`;
-              console.log(
-                `[Sync] History sparse (${history.length} < 100). Forcing full backfill.`,
-              );
+              // Replace duplicate if today already exists
+              history = history.filter((r) => r.date !== today);
+              history.push({
+                date: today,
+                premium: premiumRate,
+                stockPrice,
+                cbPrice,
+              });
             }
 
-            showChartLoading(true, "正在自動爬取資料...", statusMsg);
-
-            try {
-              const crawlRes = await window.measureFetch(crawlUrl);
-              if (crawlRes.ok) {
-                console.log("[Sync] Crawl finished. Refetching JSON...");
-                showChartLoading(
-                  true,
-                  "爬取完成，正在整理...",
-                  "解析數據並建立索引",
-                );
-
-                // Retry fetching JSON
-                const retryRes = await window.measureFetch(
-                  getDataPath(`history/${symbol}.json?t=${Date.now()}`),
-                );
-                if (retryRes.ok) {
-                  const retryJson = await retryRes.json();
-                  if (Array.isArray(retryJson)) {
-                    history = retryJson;
-                    window
-                      .runMigration(symbol)
-                      .catch((e) => console.error("Auto upload failed:", e));
-                  }
-                }
-              }
-            } catch (e) {
-              console.warn("[Sync] Auto-crawl failed:", e);
-              // Loader will be hidden by the parent handleSearch's finally block
-            }
+            window.currentChartRawData = history;
+            const mountPoint = document.getElementById("chartMountPoint");
+            window.premiumChart = window.CbPremiumHistoryChart.mount(
+              mountPoint || container,
+              history,
+            );
+            showChartLoading(false);
+          } else {
+            showChartLoading(
+              true,
+              "尚與歷史資料",
+              "目前找不到該標的的成交紀錄",
+            );
           }
+        } catch (e) {
+          console.error("Chart load failed", e);
+          showChartLoading(true, "載入失敗", "請檢查網路連線或稍後再試");
         }
-
-        // 5. Update Local Cache & Finish
-        const map = new Map();
-        history.forEach((h) => map.set(h.date, h));
-        const fullSorted = Array.from(map.values()).sort(
-          (a, b) => new Date(a.date) - new Date(b.date),
-        );
-        const toSave = fullSorted.slice(-MAX_HISTORY_DAYS);
-        localStorage.setItem(
-          HISTORY_KEY_PREFIX + symbol,
-          JSON.stringify(toSave),
-        );
-
-        return fullSorted;
       }
 
       // ==========================================
@@ -1420,15 +1397,18 @@
           // 2. Batch Upload
           for (let i = 0; i < data.length; i += BATCH_SIZE) {
             const chunk = data.slice(i, i + BATCH_SIZE);
-            const batch = db.batch();
-            const recordsRef = db
-              .collection("cb_history")
-              .doc(symbol)
-              .collection("records");
+            const batch = window.writeBatch(window.db);
 
             chunk.forEach((record) => {
               if (record.date) {
-                batch.set(recordsRef.doc(record.date), record);
+                const recordRef = window.doc(
+                  window.db,
+                  "cb_history",
+                  symbol,
+                  "records",
+                  record.date,
+                );
+                batch.set(recordRef, record);
               }
             });
 
@@ -1440,11 +1420,14 @@
           // 3. Update Meta (including CB name for autocomplete)
           const currentName =
             document.getElementById("stockNameText")?.textContent || "";
-          await db.collection("cb_history").doc(symbol).set(
+
+          const metaRef = window.doc(window.db, "cb_history", symbol);
+          await window.setDoc(
+            metaRef,
             {
               symbol: symbol,
-              name: currentName, // Save name for autocomplete
-              lastUpdated: new Date().toISOString(),
+              name: currentName,
+              lastUpdated: window.serverTimestamp(),
               recordCount: total,
             },
             { merge: true },
@@ -1488,12 +1471,8 @@
 
               if (match && match.n) {
                 console.log(`   -> 找到名稱: ${match.n}`);
-                await db.collection("cb_history").doc(symbol).set(
-                  {
-                    name: match.n,
-                  },
-                  { merge: true },
-                );
+                const docRef = window.doc(window.db, "cb_history", symbol);
+                await window.setDoc(docRef, { name: match.n }, { merge: true });
                 successCount++;
               } else {
                 console.warn(`   ⚠️ 找不到名稱`);
@@ -1508,72 +1487,6 @@
           `🎉 修復完成！成功更新 ${successCount} 筆資料。請重新整理頁面。`,
         );
       };
-
-      function renderPremiumChart(symbol, historyData) {
-        // Show container (Mount Point)
-        const chartNoData = document.getElementById("chartNoData");
-        const chartDataInfo = document.getElementById("chartDataInfo");
-
-        // Prepare historyData for CbChart, including today's point if available
-        // Prepare historyData for CbChart, including today's point if available
-        // inputs is accessible from module scope
-        const cbPrice = parseFloat(inputs.cbPrice.value);
-        const stockPrice = parseFloat(inputs.stockPrice.value);
-        const conversionPrice = parseFloat(inputs.conversionPrice.value);
-
-        if (cbPrice && stockPrice && conversionPrice) {
-          const today = new Date().toISOString().split("T")[0]; // YYYY-MM-DD
-          const sharesPerBond = 100000 / conversionPrice;
-          const conversionValue = (sharesPerBond * stockPrice) / 1000;
-          const premiumRate =
-            ((cbPrice - conversionValue) / conversionValue) * 100;
-
-          const todayRecord = {
-            date: today,
-            premium: premiumRate,
-            stockPrice,
-            cbPrice,
-          };
-
-          // Ensure today's record is in historyData, replacing if already exists
-          const existingIdx = historyData.findIndex(
-            (r) => r.date === todayRecord.date,
-          );
-          if (existingIdx >= 0) {
-            historyData[existingIdx] = todayRecord;
-          } else {
-            historyData.push(todayRecord);
-          }
-          // Sort again after adding/updating today's record
-          historyData.sort((a, b) => new Date(a.date) - new Date(b.date));
-        }
-
-        if (!historyData || historyData.length === 0) {
-          chartNoData.classList.remove("hidden");
-          // Chart widget handles its own no-data UI
-          if (window.premiumChart) window.premiumChart.destroy(); // Destroy if no data
-          return;
-        } else {
-          chartNoData.classList.add("hidden");
-        }
-
-        // Check if chart instance exists AND has destroy method
-        // But since we use mount() which handles cleanup internally (by clearing HTML),
-        // we mainly destroy to stop internal chart timers/loops.
-        if (
-          window.premiumChart &&
-          typeof window.premiumChart.destroy === "function"
-        ) {
-          window.premiumChart.destroy();
-        }
-
-        const mountPoint = document.getElementById("chartMountPoint");
-        // Mount returns the chart instance
-        window.premiumChart = CbPremiumHistoryChart.mount(
-          mountPoint,
-          historyData,
-        );
-      }
 
       async function loadDatabase() {
         try {
@@ -1759,12 +1672,13 @@
 
             // [Auto-Fix] 若有取得名稱，順便更新 Firestore Metadata 以供 Autocomplete 使用
             if (data.name) {
-              db.collection("cb_history")
-                .doc(symbol)
-                .set(
+              const metaRef = window.doc(window.db, "cb_history", symbol);
+              window
+                .setDoc(
+                  metaRef,
                   {
                     name: data.name,
-                    lastUpdated: new Date().toISOString(), // Optional: track active usage
+                    lastUpdated: window.serverTimestamp(),
                   },
                   { merge: true },
                 )
@@ -1811,17 +1725,13 @@
             showStatus("未找到即時報價，嘗試讀取歷史...", "warning");
           }
 
-          // 6. 讀取歷史資料 (此處會觸發 Auto-Crawl)
-          // 保持 Loader 開啟，更新訊息
-          showChartLoading(true, "同步歷史資料...", "這可能需要一點時間");
+          // 6. 讀取與繪製歷史走勢 (此處會觸發 Auto-Crawl 與 Unified Sync)
+          await renderChart(symbol);
 
-          const fullHistory = await fetchMergedHistory(symbol);
-
-          // 7. 若有即時價且計算成功，將其合併入今日紀錄
+          // 7. 同步儲存至雲端與本地快取 (若有行情)
           const cbPrice = parseFloat(inputs.cbPrice.value);
           const stockPrice = parseFloat(inputs.stockPrice.value);
           const conversionPrice = parseFloat(inputs.conversionPrice.value);
-
           if (cbPrice && stockPrice && conversionPrice) {
             const sharesPerBond = 100000 / conversionPrice;
             const conversionValue = (sharesPerBond * stockPrice) / 1000;
@@ -1833,24 +1743,10 @@
               cbPrice,
               stockPrice,
             };
-
-            // 儲存今日數據並取得合併後的歷史 (這裡僅操作記憶體與 Cache)
             try {
               await savePremiumRecord(symbol, todayRecord);
-            } catch (err) {
-              console.warn("Auto-save skipped (Permission/Network):", err);
-              // Continue rendering chart even if save fails
-            }
-
-            // The renderPremiumChart function now handles adding today's record to the historyData
-            // so we don't need to manually push it here.
+            } catch (e) {}
           }
-
-          // 8. 繪圖
-          renderPremiumChart(
-            symbol,
-            fullHistory.sort((a, b) => new Date(a.date) - new Date(b.date)),
-          );
         } catch (err) {
           console.error("Search Error:", err);
           showStatus("讀取失敗: " + err.message, "error");

@@ -135,7 +135,8 @@ const cbCrawlerPlugin = () => ({
         `[Server] Triggering crawler for ${symbol} (since: ${since || "BEGINNING"})...`,
       );
 
-      const args = ["tools/fetch-cb-history.js", symbol];
+      // [CTO Audit] Enforce Sync-to-Cloud (SSOT) & Smart Backfill
+      const args = ["tools/fetch-cb-history.js", symbol, "--smart", "--sync"];
       if (since) args.push(since);
 
       const child = spawn("node", args, {
