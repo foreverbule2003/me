@@ -5,11 +5,15 @@ const admin = require("firebase-admin");
  * 負責將爬取到的數據推送到 Firestore
  */
 async function saveSnapshotToCloud(data) {
-  if (
-    !process.env.FIREBASE_SERVICE_ACCOUNT &&
-    !process.env.GOOGLE_APPLICATION_CREDENTIALS
-  ) {
-    console.warn("[Cloud] No Firebase credentials found. Skipping cloud save.");
+  const fs = require('fs');
+  const path = require('path');
+  const keyPath = path.join(__dirname, '../../service-account.json');
+
+  const hasEnv = process.env.FIREBASE_SERVICE_ACCOUNT || process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  const hasLocal = fs.existsSync(keyPath);
+
+  if (!hasEnv && !hasLocal) {
+    console.warn("[Cloud] No Firebase credentials found (Env/Local). Skipping cloud save.");
     return null;
   }
 
@@ -17,10 +21,15 @@ async function saveSnapshotToCloud(data) {
     // Initialize Admin SDK if not already initialized
     if (admin.apps.length === 0) {
       let credential;
+      // keyPath is already defined above
+
       if (process.env.FIREBASE_SERVICE_ACCOUNT) {
         credential = admin.credential.cert(
           JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
         );
+      } else if (fs.existsSync(keyPath)) {
+        console.log("[Cloud] Using local service-account.json");
+        credential = admin.credential.cert(require(keyPath));
       } else {
         // Fallback to default if available
         credential = admin.credential.applicationDefault();

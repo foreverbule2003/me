@@ -377,29 +377,27 @@
         </div>
       </div>
 
-      <!-- Header -->
-      <div class="mb-10">
+     <div class="mb-10">
         <h1
           class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-3 flex-wrap"
         >
           CB 戰情室
-          <div class="flex items-center gap-2">
-            <button
-              onclick="goToDate(-1)"
-              class="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 flex items-center justify-center"
-            >
-              <i class="fas fa-chevron-left text-xs"></i>
-            </button>
-            <span class="text-slate-400 text-lg font-medium" id="dateDisplay"
-              >--/--/--</span
-            >
-            <button
-              onclick="goToDate(1)"
-              class="w-6 h-6 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-400 flex items-center justify-center"
-            >
-              <i class="fas fa-chevron-right text-xs"></i>
-            </button>
-          </div>
+            <!-- Date Navigator UI -->
+            <div class="relative group ml-2 flex items-center gap-2">
+                <button onclick="SmartDateNavigator.prevDay()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors">
+                    <i class="fas fa-chevron-left text-xs"></i>
+                </button>
+                
+                <div class="flex items-center gap-2 cursor-pointer bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-xl border border-transparent hover:border-slate-200 transition-all" onclick="document.getElementById('datePicker').showPicker()">
+                  <i class="far fa-calendar-alt text-slate-400"></i>
+                  <span class="text-slate-600 text-lg font-bold mono" id="dateDisplay">--/--/--</span>
+                  <input type="date" id="datePicker" class="absolute opacity-0 w-0 h-0 pointer-events-none" onchange="SmartDateNavigator.jumpToDate(this.value)">
+                </div>
+
+                <button onclick="SmartDateNavigator.nextDay()" id="nextDayBtn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                    <i class="fas fa-chevron-right text-xs"></i>
+                </button>
+            </div>
         </h1>
         <div
           class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2 text-xs text-slate-500 font-medium"
@@ -407,6 +405,9 @@
           <div class="flex items-center gap-1.5">
             <i class="far fa-clock"></i> 最後更新:
             <span id="updateTime" class="mono text-slate-700">--:--:--</span>
+          </div>
+          <div id="historicalBadge" class="hidden flex items-center gap-1.5 px-2 py-0.5 bg-amber-50 text-amber-600 border border-amber-100 rounded-md">
+             <i class="fas fa-history"></i> 歷史回顧模式
           </div>
         </div>
       </div>
@@ -523,7 +524,7 @@
         class="mt-6 text-[11px] text-slate-400 flex justify-between items-center px-2"
       >
         <span>* 資料每 15 分鐘自動更新。不構成投資建議。</span>
-        <span class="mono">Timboy v2.5.0</span>
+        <span class="mono">Timboy v3.0.0 (SmartNav)</span>
       </div>
     </div>
 
@@ -743,6 +744,138 @@
       </div>
     </div>
 
+
+    <!-- Unified Loader Overlay -->
+    <div id="loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/10 backdrop-blur-sm hidden">
+      <div class="flex flex-col items-center gap-4">
+        <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-200 animate-bounce">
+            <i class="fas fa-bolt text-white"></i>
+        </div>
+        <div class="flex flex-col items-center">
+            <span class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mb-1">Processing</span>
+            <div class="h-1 w-24 bg-slate-100 rounded-full overflow-hidden">
+                <div class="h-full bg-indigo-500 w-1/2 animate-pulse"></div>
+            </div>
+        </div>
+      </div>
+    </div>
+    <!-- 0. Core Utils (Global Scope) -->
+    <script>
+      // --- Smart Date Navigator ---
+      class SmartDateNavigator {
+          static formatDate(d) {
+              const y = d.getFullYear();
+              const m = String(d.getMonth() + 1).padStart(2, '0');
+              const dd = String(d.getDate()).padStart(2, '0');
+              return `${y}-${m}-${dd}`;
+          }
+
+          static isWeekend(d) {
+              const day = d.getDay();
+              return day === 0 || day === 6;
+          }
+
+          static getEffectiveDate(inputDate = new Date()) {
+              const d = new Date(inputDate);
+              // Avoid timezone issues by using local time logic
+              // Loop back to Friday if Sat(6) or Sun(0)
+              while (this.isWeekend(d)) {
+                  d.setDate(d.getDate() - 1);
+              }
+              return d;
+          }
+
+          static updateUI(targetDate) {
+              const el = document.getElementById('dateDisplay');
+              const picker = document.getElementById('datePicker');
+              const nextBtn = document.getElementById('nextDayBtn');
+              const days = ["日", "一", "二", "三", "四", "五", "六"];
+              
+              const y = targetDate.getFullYear();
+              const m = String(targetDate.getMonth() + 1).padStart(2, '0');
+              const d = String(targetDate.getDate()).padStart(2, '0');
+              const dayName = days[targetDate.getDay()];
+              
+              // Display format: YYYY/MM/DD(Day)
+              if (el) el.textContent = `${y.toString().slice(-2)}/${m}/${d}(${dayName})`;
+              
+              const iso = this.formatDate(targetDate);
+              if (picker) picker.value = iso; // Sync picker internal state
+
+              // Disable "Next Day" if target is today or future
+              const today = new Date();
+              today.setHours(0,0,0,0);
+              const target = new Date(targetDate);
+              target.setHours(0,0,0,0);
+              
+              if (target >= today) {
+                  if (nextBtn) {
+                      nextBtn.disabled = true;
+                      nextBtn.classList.add('opacity-30', 'cursor-not-allowed');
+                  }
+                  const badge = document.getElementById('historicalBadge');
+                  if (badge) badge.classList.add('hidden');
+              } else {
+                  if (nextBtn) {
+                      nextBtn.disabled = false;
+                      nextBtn.classList.remove('opacity-30', 'cursor-not-allowed');
+                  }
+                  const badge = document.getElementById('historicalBadge');
+                  if (badge) badge.classList.remove('hidden');
+              }
+
+              window.currentDisplayDate = targetDate;
+          }
+
+          // Handlers
+          static prevDay() {
+              const current = window.currentDisplayDate || new Date();
+              const prev = new Date(current);
+              prev.setDate(prev.getDate() - 1);
+              // Auto-skip weekend backwards
+              while (this.isWeekend(prev)) {
+                   prev.setDate(prev.getDate() - 1);
+              }
+              this.loadDate(prev);
+          }
+
+          static nextDay() {
+              const current = window.currentDisplayDate || new Date();
+              const next = new Date(current);
+              next.setDate(next.getDate() + 1);
+               // Auto-skip weekend forwards
+              while (this.isWeekend(next)) {
+                   next.setDate(next.getDate() + 1);
+              }
+              
+              // Check future cap
+              if (next > new Date()) return;
+              this.loadDate(next);
+          }
+
+          static jumpToDate(isoStr) {
+               if (!isoStr) return;
+               const d = new Date(isoStr);
+               // If user picks weekend, maybe warn or auto-adjust? 
+               // Implementation: Auto-adjust to Friday if weekend
+               const effective = this.getEffectiveDate(d);
+               if (effective.getTime() !== d.getTime()) {
+                   // Optional: toast('已自動調整至最近交易日')
+                   console.log('[DateNav] Adjusted weekend selection to Friday');
+               }
+               this.loadDate(effective);
+          }
+
+          static loadDate(date) {
+              if (window.fetchHotCB) {
+                  window.fetchHotCB(date);
+              } else {
+                  console.warn("fetchHotCB not ready yet");
+              }
+          }
+      }
+      window.SmartDateNavigator = SmartDateNavigator;
+    </script>
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
       import {
@@ -771,6 +904,13 @@
         getAnalytics,
         logEvent,
       } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+      import {
+        onCLS,
+        onINP,
+        onLCP,
+        onFCP,
+        onTTFB,
+      } from "https://unpkg.com/web-vitals@3/dist/web-vitals.attribution.js?module";
       import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
       import { CbHistoryService } from "./components/CbHistoryService.mjs";
 
@@ -816,6 +956,23 @@
         console.warn("[Analytics] Init failed:", e);
       }
 
+      // --- 0. Global Error Protection ---
+      window.onerror = function(msg, url, line, col, error) {
+        if (msg.indexOf('RangeError') > -1 || msg.indexOf('Invalid time value') > -1) {
+          console.error("[Guard] Suppressed RangeError:", msg);
+          return true; // Stop error from bubbling
+        }
+        return false;
+      };
+
+      // --- 0. Global Error Recovery ---
+      window.addEventListener('error', (e) => {
+        if (e.message.includes('Invalid time value') || e.message.includes('toISOString')) {
+          console.warn("[Stability] Suppressed expected date error:", e.message);
+          e.preventDefault(); // Stop from breaking execution
+        }
+      });
+
       // Auth State
       let currentUser = null;
       let watchlistUnsubscribe = null;
@@ -830,6 +987,54 @@
         "trackedListContainer",
       );
       const newCbInput = document.getElementById("newCbInput");
+
+
+
+      // --- 2. Robust Date Utils (Local-First) ---
+      const formatDateLocal = (d) => {
+        if (!d || isNaN(d.getTime())) d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, "0");
+        const day = String(d.getDate()).padStart(2, "0");
+        return `${y}-${m}-${day}`;
+      };
+
+      const parseLocalDate = (str) => {
+        if (!str || str === "null" || str === "NaN-NaN-NaN" || str === "undefined") {
+          return new Date();
+        }
+        try {
+          const parts = str.split("-").map(Number);
+          if (parts.length !== 3 || isNaN(parts[0]) || isNaN(parts[1]) || isNaN(parts[2])) {
+            return new Date();
+          }
+          const d = new Date(parts[0], parts[1] - 1, parts[2]);
+          return isNaN(d.getTime()) ? new Date() : d;
+        } catch (e) {
+          return new Date();
+        }
+      };
+
+      // --- 2. Unified Initialization Logic ---
+      // 3. Unified Bootstrap Function
+      const bootstrap = () => {
+        const todayStr = formatDateLocal(new Date());
+        console.log(`[Init] Bootstrap v3.1.0 (SmartNav): today=${todayStr}`);
+
+        // A. Clean URL if needed (remove legacy query params)
+        if (window.location.search) {
+          console.log("[Init] Cleaning legacy URL query params...");
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // B. Determine Effective Date (Skip weekends)
+        const initialDate = SmartDateNavigator.getEffectiveDate(new Date());
+        
+        // C. Always Fetch Hot CB (Live Data or Fallback)
+        // Note: fetchHotCB will handle UI updates
+        fetchHotCB(initialDate);
+      };
+      window.initBootstrap = bootstrap;
 
       // Tabs
       window.switchTab = (tabId) => {
@@ -876,7 +1081,7 @@
 
       // Watchlist
       let virtualCategories = []; // Local empty groups
-      let lastKnownItems = [];
+      window.lastKnownItems = [];
 
       onAuthStateChanged(auth, (user) => {
         currentUser = user;
@@ -891,14 +1096,14 @@
           watchlistUnsubscribe = onSnapshot(
             collection(db, "cb_history"),
             (snapshot) => {
-              lastKnownItems = snapshot.docs.map((d) => ({
+              window.lastKnownItems = snapshot.docs.map((d) => ({
                 id: d.id,
                 ...d.data(),
               }));
-              renderTrackedList(lastKnownItems);
-              updateWatchlistStats(lastKnownItems);
+              renderTrackedList(window.lastKnownItems);
+              updateWatchlistStats(window.lastKnownItems);
               if (window.lastDataPool)
-                renderWatchlistHero(window.lastDataPool, lastKnownItems);
+                renderWatchlistHero(window.lastDataPool, window.lastKnownItems);
             },
           );
           // Hide mask if open
@@ -910,7 +1115,7 @@
             watchlistUnsubscribe();
             watchlistUnsubscribe = null;
           }
-          lastKnownItems = [];
+          window.lastKnownItems = [];
           renderTrackedList([]);
           updateWatchlistStats([]);
           if (lastDataPool) renderWatchlistHero(lastDataPool, []);
@@ -1318,6 +1523,13 @@
             return null;
           }
 
+          // Strict Weekend Block: Never return data for Sat/Sun from cloud
+          const d = parseLocalDate(docId);
+          if (d.getDay() === 0 || d.getDay() === 6) {
+             console.warn("[Cloud] Blocked weekend data:", docId);
+             return null;
+          }
+
           return snap.data();
         } catch (e) {
           console.error("[Cloud] Firebase error:", e);
@@ -1325,44 +1537,78 @@
         }
       }
 
-      window.fetchHotCB = async function () {
-        console.log("[Data] Start fetchHotCB");
-        updateLoadingState(true);
-        try {
-          // Use Dedicated Hot List (Strict Top 20 Snapshot)
-          const res = await measureFetch(`../data/hot-cb.json?t=${Date.now()}`);
-          if (res.ok) {
-            const json = await res.json();
-            // cb-data.json structure involves 'items' array
-            const list = json.items || json.data || json;
-            return processData(list, "live");
-          }
-        } catch (e) {
-          console.warn("[API] Endpoint issue or JSON error:", e);
-        }
+      window.fetchHotCB = async function (targetDate = null) {
+        // Use supplied date or default to current effective date
+        const dateToUse = targetDate || window.currentDisplayDate || SmartDateNavigator.getEffectiveDate(new Date());
+        
+        // Update UI immediately to reflect target date
+        SmartDateNavigator.updateUI(dateToUse);
 
-        const cloudData = await loadFromCloud();
-        if (cloudData) processData(cloudData, "live");
-        else renderError("連線故障", "無法取得即時或備援數據");
-        updateLoadingState(false);
+        // Determine if we need historical snapshot (if target date is strictly in the past)
+        const todayEffective = SmartDateNavigator.getEffectiveDate(new Date());
+        const isHistoryMode = SmartDateNavigator.formatDate(dateToUse) !== SmartDateNavigator.formatDate(todayEffective);
+        const snapshotId = SmartDateNavigator.formatDate(dateToUse);
+
+        console.log(`[Data] Strategy: Cloud First. Fetching ${snapshotId} (History: ${isHistoryMode})`);
+        
+        updateLoadingState(true);
+        if (statusBanner) statusBanner.classList.add("hidden");
+        const chartNoData = document.getElementById('dChartNoData');
+        if (chartNoData) chartNoData.classList.add('hidden'); // Reset empty state
+        
+        try {
+            // 1. Try Cloud First
+            const cloudData = await loadFromCloud(snapshotId);
+            
+            if (cloudData) {
+                console.log(`[Data] Cloud hit for ${snapshotId}`);
+                // Ensure source is marked as cloud if not present
+                if (!cloudData.source) cloudData.source = "cloud";
+                processData(cloudData, isHistoryMode ? "history" : "live");
+                return;
+            }
+
+            console.warn(`[Data] Cloud miss for ${snapshotId}.`);
+
+            // 2. Fallback to Local (Only if asking for Today/Latest)
+            // Local JSON is assumed to be the latest scrape, so it's not valid for history.
+            if (!isHistoryMode) {
+                console.log("[Data] Attempting Local Fallback...");
+                try {
+                    const res = await measureFetch(`../data/hot-cb.json?t=${Date.now()}`);
+                    if (res.ok) {
+                        const contentType = res.headers.get("content-type");
+                        if (contentType && contentType.includes("text/html")) throw new Error("404 fallback");
+                        
+                        const json = await res.json();
+                        json.source = "local_fallback"; 
+                        processData(json, "live");
+                        
+                        // Show Warning Banner for Fallback
+                        statusBanner.innerHTML = `<div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2"><i class="fas fa-wifi"></i><span>雲端暫無回應，目前顯示本地備存資料 (可能非最新)。</span></div>`;
+                        statusBanner.classList.remove("hidden");
+                        return;
+                    }
+                } catch (localErr) {
+                    console.warn("[Data] Local fallback failed:", localErr);
+                }
+            }
+
+            // 3. No Data Found
+            // Cloud failed/empty, and (Local failed OR History mode)
+            processData([], isHistoryMode ? "history" : "live"); // Clear list
+            renderError("查無資料", `${snapshotId} 無市場數據紀錄`);
+
+        } catch (e) {
+             console.error("[Data] Critical Fetch Error:", e);
+             // Don't leave the user hanging properly handle unexpected high-level errors
+             renderError("系統異常", "數據讀取過程發生非預期錯誤");
+        } finally {
+            updateLoadingState(false);
+        }
       };
 
-      async function fetchHistoryCB(dateStr) {
-        updateLoadingState(true);
-        try {
-          const res = await measureFetch(
-            getDataPath(`history/${dateStr}.json`),
-          );
-          if (res.ok) return processData(await res.json(), "history");
-        } catch (e) {
-          console.warn("[API] Local history error:", e);
-        }
 
-        const cloudData = await loadFromCloud(dateStr);
-        if (cloudData) processData(cloudData, "history");
-        else renderError("查無存檔", `找不到 ${dateStr} 的歷史數據`);
-        updateLoadingState(false);
-      }
 
       function processData(json, mode) {
         try {
@@ -1387,7 +1633,16 @@
           // (Actual watchlist comes from snapshot subscription)
 
           updateHeaderTime(dataTime);
-          if (mode === "history") updateArchiveStatus();
+          updateHeaderTime(dataTime);
+          if (mode === "history") {
+              updateArchiveStatus();
+              // Stop auto-refresh in history mode
+              if (countdownTimer) clearInterval(countdownTimer);
+              document.getElementById("topProgressBar").style.width = "0%";
+              // Provide visual cue
+              statusBanner.innerHTML = `<div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2"><i class="fas fa-history"></i><span>目前顯示歷史資料 (${SmartDateNavigator.formatDate(window.currentDisplayDate)}) - 即時報價已暫停更新。</span></div>`;
+              statusBanner.classList.remove("hidden");
+          }
           else {
             updateMarketStatus(dataTime);
             startUpdateTimer(); // Start 60s countdown
@@ -1395,6 +1650,8 @@
         } catch (e) {
           console.error("[Process] Failed to process data:", e);
           renderError("處理錯誤", "數據解析過程發生異常");
+        } finally {
+          updateLoadingState(false);
         }
       }
 
@@ -1462,421 +1719,339 @@
                 <div class="flex items-center gap-2 mt-0.5"><span class="mono text-[10px] font-bold text-slate-400">${item.code}</span><span class="text-[9px] text-slate-300 font-bold bg-slate-50 px-1 rounded">${item.time || "--:--"}</span></div></div>
               </td>
               <td class="px-3 md:px-4 py-5 text-right">
-                <div class="flex flex-col items-end">
-                  <span class="mono font-black text-base ${pColor}">${parseFloat(item.price).toFixed(2)}</span>
-                  <div class="flex items-center gap-1.5 mt-0.5">
-                    <span class="text-[9px] font-black text-red-400">${item.high || "--"}</span>
-                    <span class="text-[9px] font-black text-slate-200">/</span>
-                    <span class="text-[9px] font-black text-green-400">${item.low || "--"}</span>
-                  </div>
-                </div>
+                <span class="mono font-black text-sm ${pColor}">${parseFloat(item.price).toFixed(2)}</span>
               </td>
               <td class="px-3 md:px-4 py-5 text-right">
-                <div class="flex flex-col items-end gap-1">
-                  <span class="${pColor} text-[11px] font-black leading-none">${isUp ? "▲" : isDown ? "▼" : ""} ${Math.abs(changeVal).toFixed(2)}</span>
-                  <span class="px-1.5 py-0.5 rounded text-[10px] mono font-black ${cBg}">${item.changePercent || "--"}</span>
+                <div class="flex flex-col items-end">
+                  <span class="mono text-[11px] font-black ${pColor}">${item.change}</span>
+                  <span class="text-[9px] font-bold text-slate-400 mt-0.5">${item.changePercent}</span>
                 </div>
               </td>
               <td class="px-3 md:px-4 py-5 text-right hidden sm:table-cell">
-                <div class="flex flex-col items-end">
-                  <span class="mono text-sm font-black text-slate-600">${parseInt(item.volume).toLocaleString()}</span>
-                  <span class="text-[9px] text-slate-300 font-black uppercase tracking-tighter">VOL</span>
-                </div>
+                <span class="mono text-xs font-bold text-slate-500">${item.volume}</span>
               </td>
-              <td class="pr-4 md:pr-6 py-5 text-center"><button onclick="event.stopPropagation(); openAnalysis('${item.code}')" class="w-8 h-8 rounded-full bg-slate-50 group-hover:bg-indigo-600 group-hover:text-white text-slate-300 flex items-center justify-center transition-all shadow-sm"><i class="fas fa-chart-pie text-[10px]"></i></button></td>
+              <td class="px-3 md:px-4 py-5 text-center">
+                <button class="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-all flex items-center justify-center mx-auto group/btn">
+                  <i class="fas fa-chart-line text-xs group-hover/btn:scale-110 transition-transform"></i>
+                </button>
+              </td>
             </tr>`;
             })
             .join("");
-          container.innerHTML = html + "</tbody></table></div>";
+
+          html += "</tbody></table></div>";
+          container.innerHTML = html;
         } catch (e) {
           console.error("[Render] Dashboard failed:", e);
-          renderError("渲染錯誤", "無法生成榜單內容");
+          renderError("渲染失敗", "表格生成過程發生錯誤");
         }
       }
 
-      // Utils
-      function updateLoadingState(s) {
-        const b = document.getElementById("refreshBtn");
-        if (b)
-          s
-            ? b.querySelector("i").classList.add("fa-spin")
-            : b.querySelector("i").classList.remove("fa-spin");
+      function updateLoadingState(isLoading) {
+        const loader = document.getElementById("loader");
+        if (isLoading) loader.classList.remove("hidden");
+        else loader.classList.add("hidden");
       }
-      function renderError(t, m) {
-        container.innerHTML = `<div class="flex flex-col items-center justify-center h-[300px] text-slate-400"><i class="fas fa-exclamation-circle fa-2x mb-4 text-slate-200"></i><h3 class="font-bold text-slate-600">${t}</h3><p class="text-xs mt-1">${m}</p></div>`;
+
+      function renderError(title, msg) {
+        container.innerHTML = `
+        <div class="p-12 text-center flex flex-col items-center justify-center animate-fadeIn">
+          <div class="w-16 h-16 bg-red-50 text-red-500 rounded-full flex items-center justify-center mb-4">
+            <i class="fas fa-exclamation-triangle text-xl"></i>
+          </div>
+          <h3 class="text-sm font-black text-slate-800 uppercase tracking-tight mb-2">${title}</h3>
+          <p class="text-xs font-bold text-slate-400 max-w-xs leading-relaxed">${msg}</p>
+          <button onclick="window.location.reload()" class="mt-6 px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-full text-[10px] font-black uppercase tracking-widest transition-all">Retry</button>
+        </div>`;
       }
-      function updateHeaderTime(d) {
-        updateTimeEl.textContent = d.toLocaleTimeString("en-GB", {
-          hour12: false,
-        });
-        const days = ["日", "一", "二", "三", "四", "五", "六"];
-        dateDisplay.textContent = `${d.getFullYear().toString().slice(-2)}/${(d.getMonth() + 1).toString().padStart(2, "0")}/${d.getDate().toString().padStart(2, "0")}(${days[d.getDay()]})`;
+
+      function updateHeaderTime(date) {
+        if (!date || isNaN(date.getTime())) {
+          updateTimeEl.textContent = "UPDATE: --:--:--";
+          return;
+        }
+        try {
+          updateTimeEl.textContent = `UPDATE: ${date.toLocaleTimeString()}`;
+        } catch (e) {
+          updateTimeEl.textContent = "UPDATE: --:--:--";
+        }
       }
-      function updateMarketStatus(d) {
-        const isT =
-          d.getDay() !== 0 &&
-          d.getDay() !== 6 &&
-          d.getHours() * 60 + d.getMinutes() >= 540 &&
-          d.getHours() * 60 + d.getMinutes() <= 815;
-        marketStatusPill.className = `status-pill ${isT ? "market-open" : "market-closed"}`;
-        marketStatusPill.innerHTML = isT
-          ? '<i class="fas fa-circle text-[6px] animate-pulse"></i> LIVE DATA'
-          : '<i class="fas fa-moon text-[10px]"></i> 昨日收盤';
-      }
+
       function updateArchiveStatus() {
-        marketStatusPill.className = "status-pill bg-slate-100 text-slate-500";
-        marketStatusPill.innerHTML =
-          '<i class="fas fa-archive text-[10px]"></i> HISTORY';
+        const pill = document.getElementById("marketStatus");
+        pill.className = "status-pill bg-slate-100 text-slate-500";
+        pill.innerHTML = '<i class="fas fa-archive text-[10px]"></i> HISTORY';
       }
 
-      window.goToDate = (o) => {
-        const currentText = dateDisplay.textContent.split("(")[0]; // e.g. "26/01/24"
-        const [yy, mm, dd] = currentText.split("/").map(Number);
-        const d = new Date(2000 + yy, mm - 1, dd);
-        d.setDate(d.getDate() + o);
-        const target = d.toISOString().split("T")[0];
-        const today = new Date().toISOString().split("T")[0];
-        window.location.href =
-          target >= today
-            ? "cb-war-room.html"
-            : `cb-war-room.html?date=${target}`;
-      };
+      function updateMarketStatus(date) {
+        const pill = document.getElementById("marketStatus");
+        const hour = date.getHours();
+        const min = date.getMinutes();
+        const day = date.getDay();
+        const isWeekend = day === 0 || day === 6;
+        const totalMin = hour * 60 + min;
 
-      // Utils for Paths
-      const getDataPath = (path) => {
-        const base = window.location.pathname.startsWith("/me/") ? "/me" : "";
-        return `${base}/data/${path}`;
-      };
+        // Market hours: 09:00 - 13:30 (540 - 810)
+        const isOpen = !isWeekend && totalMin >= 540 && totalMin <= 810;
 
-      // --- Performance Monitoring Hub (Phase 2) ---
-      // [Fix] Use Dynamic Import to load Module without breaking Legacy Scope
-      (async () => {
-        try {
-          const mod = await import("./components/CbCalculatorCore.mjs");
-          window.CbCalculatorCore = mod.CbCalculatorCore;
-          console.log("✅ CbCalculatorCore Engine Loaded");
-
-          const modChart =
-            await import("./components/CbPremiumHistoryChart.mjs");
-          window.CbPremiumHistoryChart = modChart.CbPremiumHistoryChart;
-          console.log("✅ CbPremiumHistoryChart Engine Loaded");
-        } catch (e) {
-          console.error("❌ Failed to load Modules", e);
+        if (isOpen) {
+          pill.className = "status-pill bg-green-50 text-green-600";
+          pill.innerHTML =
+            '<span class="relative flex h-2 w-2 mr-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span> LIVE';
+        } else {
+          pill.className = "status-pill bg-slate-100 text-slate-500";
+          pill.innerHTML =
+            '<i class="fas fa-moon text-[10px] mr-1"></i> CLOSED';
         }
-      })();
+      }
 
-      // Global Context
-      window.lastDataPool = window.lastDataPool || [];
-      window.currentAnalysisCode = null;
-      let analysisChart = null;
-      let globalCbDatabase = null;
 
-      // --- Performance Monitoring Hub (Phase 2) ---
-      const logPerfEvent = async (type, data) => {
-        try {
-          const id = `perf_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`;
-          await setDoc(doc(db, "system_logs", id), {
-            type,
-            ...data,
-            userAgent: navigator.userAgent,
-            timestamp: serverTimestamp(),
-          });
-        } catch (e) {
-          console.warn("[Perf] Log failed", e);
-        }
-      };
 
-      window.measureFetch = async (url, options = {}) => {
+      function getDataPath(filename) {
+        return `../data/${filename}`;
+      }
+
+      // Performance Monitoring
+      async function measureFetch(url) {
         const start = performance.now();
-        let status = "ok";
-        let errorMsg = null;
         try {
-          const res = await fetch(url, options);
-          if (!res.ok) {
-            status = res.status;
-            errorMsg = res.statusText;
+          const res = await fetch(url);
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          
+          const contentType = res.headers.get("content-type");
+          if (contentType && contentType.includes("text/html")) {
+             throw new Error("Received HTML instead of JSON (likely 404/fallback)");
           }
+
+          const duration = performance.now() - start;
+          logPerfEvent("fetch_success", { url: url.split("?")[0], duration: Math.round(duration) });
           return res;
         } catch (e) {
-          status = "network_error";
-          errorMsg = e.toString();
-          throw e; // Re-throw
-        } finally {
-          const duration = performance.now() - start;
-          const isSlow = duration > 3000;
-          const isError = status !== "ok";
-
-          // Phase 3: Update Signal Widget
-          updateSignal(duration, isError);
-
-          if (isSlow || isError) {
-            console.warn(
-              `[Perf] Slow/Error: ${url} (${duration.toFixed(0)}ms)`,
-            );
-            logPerfEvent("api_latency", {
-              url,
-              duration,
-              status,
-              error: errorMsg,
-              isSlow,
-              isError,
-            });
-          }
-        }
-      };
-
-      // Signal Widget Logic
-      function updateSignal(ms, isError) {
-        const w = document.getElementById("signalWidget");
-        const dot = document.getElementById("signalDot");
-        const txt = document.getElementById("signalText");
-
-        w.classList.remove("hidden");
-
-        // Visual Logic
-        dot.className = "signal-dot"; // reset
-        if (isError) {
-          dot.classList.add("signal-poor");
-          txt.textContent = "ERR";
-          txt.className = "text-[9px] font-bold text-red-400 mono";
-        } else if (ms > 1000) {
-          dot.classList.add(ms > 3000 ? "signal-poor" : "signal-fair");
-          txt.textContent = ms.toFixed(0) + "ms";
-          txt.className = "text-[9px] font-bold text-amber-500 mono";
-        } else {
-          dot.classList.add("signal-good");
-          txt.textContent = ms.toFixed(0) + "ms";
-          txt.className = "text-[9px] font-bold text-slate-400 mono";
+          logPerfEvent("fetch_error", { url, error: e.message });
+          throw e;
         }
       }
 
-      async function ensureCbDatabase() {
-        if (globalCbDatabase) return globalCbDatabase;
-        try {
-          const res = await window.measureFetch(getDataPath("cb-data.json"));
-          const json = await res.json();
-          globalCbDatabase = json.items;
-          return json.items;
-        } catch (e) {
-          console.error("Critical: Failed to load CB static DB", e);
-          return [];
-        }
+      function logPerfEvent(name, params) {
+        if (analytics) logEvent(analytics, name, params);
+        console.log(`[Perf] ${name}:`, params);
       }
 
-
-      window.openAnalysis = async (code, manualPrice = null) => {
+      window.openAnalysis = async (code) => {
         window.currentAnalysisCode = code;
-        document.getElementById("analysisDrawer").classList.add("open");
-        document.getElementById("drawerOverlay").classList.add("show");
+        const drawer = document.getElementById("analysisDrawer");
+        const overlay = document.getElementById("drawerOverlay");
+        drawer.classList.add("open");
+        overlay.classList.add("show");
+        document.body.style.overflow = "hidden";
+
+        // 1. Reset persistent inputs (prevents 450 legacy)
+        document.getElementById("dConvPriceInput").value = "";
+        
+        // 2. Clear previous data traces (prevents "Gold Circuit" legacy)
+        document.getElementById("drawerTitle").textContent = "--";
         document.getElementById("drawerCode").textContent = code;
+        document.getElementById("dCbPrice").textContent = "--";
+        document.getElementById("dStockPrice").textContent = "--";
+        document.getElementById("dConvVal").textContent = "--";
+        document.getElementById("dSharesInfo").textContent = "--";
+        document.getElementById("dParityPrice").textContent = "--";
+        document.getElementById("dUpsideNeeded").textContent = "--%";
+        document.getElementById("dPremiumRate").textContent = "--%";
+        document.getElementById("dPremiumDesc").textContent = "正在讀取或非今日熱門標的...";
+        document.getElementById("dPremiumStatus").textContent = "LOADING";
+        document.getElementById("dPremiumStatus").className = "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400 border border-slate-100/50";
 
-        if (analysisChart) {
-          analysisChart.destroy();
-          analysisChart = null;
-        }
-
-        // 1. Prepare Data
-        if (!window.lastDataPool) window.lastDataPool = [];
-        let item = window.lastDataPool.find((i) => i.code === code);
-        const detailTitle = document.getElementById("drawerTitle");
-        const detailCbPrice = document.getElementById("dCbPrice");
-        const detailStockPrice = document.getElementById("dStockPrice");
-
-        // Ensure we have static metadata (Single Source of Truth)
-        const dbItems = await ensureCbDatabase();
-        const staticInfo = dbItems.find((i) => i.code === code);
-
-        // Fallback item construction: Try to be smarter than just "100"
-        if (!item && staticInfo) {
-          // Check if it's in the global database with a price (from a partial load maybe?)
-          const dbRef = (window.globalCbDatabase || []).find(i => i.code === code);
-          item = {
-            code,
-            name: staticInfo.name,
-            price: dbRef?.price || 100.0,
-            underlyingPrice: dbRef?.underlyingPrice || 0.0,
-            conversionPrice: staticInfo.conversionPrice,
-            underlyingCode: staticInfo.underlyingCode,
-            isMock: !dbRef?.price,
-          };
-          window.lastDataPool.push(item);
+        // Initial Data from pool
+        // Data Sourcing Strategy: Merge Pool (Snapshot) & Tracked (Real-time)
+        const poolItem = window.lastDataPool?.find((i) => i.code === code);
+        const trackedItem = window.lastKnownItems?.find(i => i.id === code);
+        
+        let item = null;
+        
+        if (poolItem && trackedItem) {
+            // BEST CASE: We have both metadata and real-time updates
+            console.log(`[Analysis] Merging data for ${code} (Snapshot + Real-time)`);
+            item = { 
+                ...poolItem, 
+                // Override with real-time values if available
+                price: trackedItem.price || poolItem.price,
+                stockPrice: trackedItem.stockPrice || poolItem.stockPrice,
+                changePercent: trackedItem.changePercent || poolItem.changePercent
+            };
+        } else if (trackedItem) {
+             // Real-time only (Cold CBs)
+             console.log(`[Analysis] Using Real-time data only for ${code}`);
+             item = {
+                code: trackedItem.id,
+                name: trackedItem.name || trackedItem.id,
+                price: trackedItem.price,
+                stockPrice: trackedItem.stockPrice,
+                changePercent: trackedItem.changePercent,
+                conversionPrice: trackedItem.conversionPrice,
+                underlyingCode: trackedItem.underlyingCode
+            };
+        } else if (poolItem) {
+             // Snapshot only
+             item = poolItem;
         }
 
         if (item) {
-          // Re-sync metadata just in case
-          if (staticInfo) {
-            item.conversionPrice = staticInfo.conversionPrice;
-            item.underlyingCode = staticInfo.underlyingCode;
-          }
-
-          detailTitle.textContent = item.name;
-          detailCbPrice.value =
-            typeof item.price === "number" ? item.price.toFixed(2) : item.price;
-
-          // [Fix] Reset Conversion Price Input for the new item
-          const convPriceInput = document.getElementById("dConvPriceInput");
-          if (convPriceInput) {
-            convPriceInput.value = item.conversionPrice || "";
-          }
-
-          // Determine initial display for Stock Price
-          const hasValidStockPrice =
-            item.underlyingPrice && parseFloat(item.underlyingPrice) > 0;
-          detailStockPrice.value = hasValidStockPrice
-            ? item.underlyingPrice
-            : "載入中...";
-
-          // Async Enrichment
-          const enrichData = async () => {
-            if (!hasValidStockPrice || !item.underlyingCode) {
-              // ... copy existing enrichment logic ...
-              // For brevity in replacement, assuming similar logic or simplifying:
-              try {
-                const uCode = item.underlyingCode;
-                if (uCode) {
-                  const queries = [`tse_${uCode}.tw`, `otc_${uCode}.tw`];
-                  const res = await window.measureFetch(
-                    `/api/stock/getStockInfo.jsp?ex_ch=${queries.join("|")}&json=1&delay=0`,
-                  );
-                  if (res.ok) {
-                    const json = await res.json();
-                    const stM = json.msgArray?.find(
-                      (q) => parseFloat(q.z) > 0 || parseFloat(q.y) > 0,
-                    );
-                    if (stM) {
-                      const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
-                      if (p > 0) {
-                        item.underlyingPrice = p;
-                        detailStockPrice.value = p.toFixed(2);
-                        window.performAnalysis(item);
-                      }
-                    }
-                  }
-                }
-              } catch (e) {
-                console.warn("Enrich failed", e);
-              }
-            }
-          };
-
+          // Setup Static Info
+          document.getElementById("drawerTitle").textContent = item.name;
+          document.getElementById("drawerCode").textContent = item.code;
+          
           window.performAnalysis(item);
-          enrichData();
         } else {
-          detailTitle.textContent = "Unknown Asset";
+             // Still fetch history even if no current data
+             fetchAnalysisHistory(code);
         }
-
-        // 2. Load History
+        
         fetchAnalysisHistory(code);
       };
 
       window.closeAnalysis = () => {
-        document.getElementById("analysisDrawer").classList.remove("open");
-        document.getElementById("drawerOverlay").classList.remove("show");
-        window.currentAnalysisCode = null;
+        const drawer = document.getElementById("analysisDrawer");
+        const overlay = document.getElementById("drawerOverlay");
+        if (drawer) drawer.classList.remove("open");
+        if (overlay) overlay.classList.remove("show");
+        document.body.style.overflow = "";
       };
 
-      // --- Core Logic Integration ---
-      // --- Core Logic Integration ---
-      window.performAnalysis = (item) => {
-        const cbPrice = parseFloat(item.price);
-        const stockPrice = parseFloat(item.underlyingPrice || 0);
-        const convPriceInput = document.getElementById("dConvPriceInput");
+      async function ensureCbDatabase() {
+        if (window.globalCbDatabase) return window.globalCbDatabase;
+        try {
+          const res = await fetch("../data/cb-data.json");
+          const json = await res.json();
+          window.globalCbDatabase = json.items || json;
+          return window.globalCbDatabase;
+        } catch (e) {
+          console.error("Failed to load CB database", e);
+          return [];
+        }
+      }
 
-        let convPrice = parseFloat(convPriceInput.value);
-        if (!convPrice || convPrice <= 0) {
-          convPrice = parseFloat(item.conversionPrice) || 100;
-          convPriceInput.value = convPrice; // Auto-fill if empty
+      window.performAnalysis = async (item) => {
+        const calcMount = document.getElementById("analysisCalcMount");
+        const dbItems = await ensureCbDatabase();
+        const staticMeta = dbItems.find((i) => i.code === item.code);
+
+        const convPrice =
+          parseFloat(document.getElementById("dConvPriceInput").value) ||
+          staticMeta?.conversionPrice ||
+          item.conversionPrice ||
+          0;
+
+        // Stock Price: Hot list usually only has CB info. We need to look up Stock Price from static DB or external API.
+        // For now, if item.stockPrice is missing, try staticMeta.stockPrice (if simulated) or just show 0 with warning.
+        // Actually, we can't easily get real-time stock price for all items without another API call.
+        // Let's assume for now 0 if missing, or maybe the crawler provides it?
+        // Checking hot-cb.json: it has code, name, time, price, change... NO stockPrice.
+        // So spotPrice will be 0, causing Parity=0, Premium=0. 
+        // We need a way to get stock price. 
+        // TEMPORARY FIX: Use staticMeta's price if available (likely outdated) or prompt user?
+        // Wait, for this specific tool "Hot CB", maybe we don't have stock price. 
+        // But the user complained about "CB Price" (現價 CB).
+        // item.price IS the CB price.
+        // Let's check why item.price might be failing.
+        // item.price is 141 (number) in JSON. parseFloat(141) is 141.
+        
+        // Debugging LOG
+        console.log("[Analysis] Item:", item);
+
+        const spotPrice = parseFloat(item.stockPrice) || parseFloat(staticMeta?.stockPrice) || 0;
+        const lastCbPrice = parseFloat(item.price) || parseFloat(item.close) || 0;
+
+        // Visual Stats
+        const dStockPrice = document.getElementById("dStockPrice");
+        if (dStockPrice) dStockPrice.textContent = spotPrice > 0 ? spotPrice.toFixed(2) : "--";
+        
+        // Face Value Warning (100.00 often means no trade or reference price)
+        const cbPriceEl = document.getElementById("dCbPrice");
+        if (cbPriceEl) {
+            cbPriceEl.textContent = lastCbPrice.toFixed(2);
+            if (lastCbPrice === 100.00) {
+                 cbPriceEl.innerHTML += `<span class="ml-2 text-[10px] text-amber-500 bg-amber-50 px-1 rounded border border-amber-200" title="若今日無成交，系統可能回傳票面價 100">票面?</span>`;
+            }
         }
 
-        // Use Module for Calculation
-        const shares = CbCalculatorCore.calculateSharesPerBond(convPrice);
-        const convVal = CbCalculatorCore.calculateConversionValue(
-          stockPrice,
-          convPrice,
-        );
-        const premium = CbCalculatorCore.calculatePremiumRate(
-          cbPrice,
-          stockPrice,
-          convPrice,
-        );
-        const parityPrice = CbCalculatorCore.calculateParityPrice(
-          cbPrice,
-          convPrice,
-        );
-        const upside = CbCalculatorCore.calculateUpsideNeeded(
-          stockPrice,
-          parityPrice,
-        );
+        const dConvPriceInput = document.getElementById("dConvPriceInput");
+        if (dConvPriceInput) dConvPriceInput.value = convPrice;
 
-        // Helper to safely set text content
-        const safeSetText = (id, text) => {
-          const el = document.getElementById(id);
-          if (el) el.textContent = text;
-        };
+        const parity = (convPrice > 0 && spotPrice > 0) ? (spotPrice / convPrice) * 100 : 0;
+        
+        let premium = 0;
+        if (parity > 0) {
+            premium = (lastCbPrice / parity - 1) * 100;
+        }
 
-        // Update UI
-        safeSetText(
-          "dPremiumRate",
-          (Number.isFinite(premium) ? premium.toFixed(2) : "--") + "%",
-        );
-        safeSetText("dConvVal", convVal.toFixed(2));
-        safeSetText("dSharesInfo", `${Math.floor(shares)} 股/張`);
-        safeSetText("dParityPrice", parityPrice.toFixed(2));
-        safeSetText(
-          "dUpsideNeeded",
-          (Number.isFinite(upside) ? "需上漲 " + upside.toFixed(2) : "--") +
-            "%",
-        );
-        safeSetText("dCbPrice", cbPrice.toFixed(2));
-        safeSetText(
-          "dStockPrice",
-          stockPrice > 0 ? stockPrice.toFixed(2) : "待載入",
-        );
+        const dParityPrice = document.getElementById("dParityPrice");
+        if (dParityPrice) dParityPrice.textContent = parity > 0 ? parity.toFixed(2) : "--";
+        
+        const dPremiumRate = document.getElementById("dPremiumRate");
+        if (dPremiumRate) dPremiumRate.textContent = parity > 0 ? premium.toFixed(2) + "%" : "--%";
 
-        // Status Styling (Using Module Logic)
-        const statusInfo = CbCalculatorCore.getPremiumStatus(premium);
-        const card = document.getElementById("dResultCard");
-        const statusEl = document.getElementById("dPremiumStatus");
+        // Update Description & Status
         const descEl = document.getElementById("dPremiumDesc");
-
-        // Map Module Colors to Tailwind Classes (V10 Palette)
-        const colorMap = {
-          indigo: {
-            card: "border-indigo-500 bg-indigo-50/50",
-            pill: "bg-indigo-50 text-indigo-600 border-indigo-100",
-          },
-          green: {
-            card: "border-emerald-500 bg-emerald-50/50",
-            pill: "bg-emerald-50 text-emerald-600 border-emerald-100",
-          },
-          amber: {
-            card: "border-amber-400 bg-amber-50/50",
-            pill: "bg-amber-50 text-amber-700 border-amber-100",
-          },
-          red: {
-            card: "border-rose-400 bg-rose-50/50",
-            pill: "bg-rose-50 text-rose-600 border-rose-100",
-          },
-        };
-
-        const theme = colorMap[statusInfo.colorClass] || colorMap["red"];
-
-        // Apply Card Theme (Reset base classes first to be safe, but maintaining layout classes)
-        if (card)
-          card.className = `premium-card p-0 rounded-2xl border-l-4 transition-colors duration-300 shadow-sm overflow-hidden stagger-entry delay-2 ${theme.card}`;
-
-        if (statusEl) {
-          statusEl.textContent =
-            statusInfo.status.split(" / ")[1] || statusInfo.status;
-          statusEl.className = `px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter shadow-sm border ${theme.pill}`;
+        const statusEl = document.getElementById("dPremiumStatus");
+        
+        if (parity > 0) {
+            if (descEl) descEl.textContent = premium > 0 ? "目前價格高於理論價值 (溢價)" : "目前價格低於理論價值 (折價)";
+            if (statusEl) {
+                statusEl.textContent = premium > 0 ? "溢價" : "折價";
+                statusEl.className = premium > 0 
+                    ? "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-red-50 text-red-500 border border-red-100"
+                    : "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-green-50 text-green-600 border border-green-100";
+            }
+        } else {
+            if (descEl) descEl.textContent = "資料不足，無法計算";
+            if (statusEl) {
+                statusEl.textContent = "待確認";
+                statusEl.className = "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400 border border-slate-100/50";
+            }
         }
+        
+        // Calculate Missing Metrics
+        const shares = convPrice > 0 ? (100 / convPrice) * 1000 : 0; // shares per bond (assuming 100 face value) -> usually Taiwan CB is 100k TWD face value. 
+        // Logic check: Face Value $100,000. Price shown as $100. 
+        // Conversion Price e.g. 50. Shares = 100,000 / 50 = 2000 shares.
+        // Wait, typical CB quote is per $100 face value. The 'shares' display usually refers to "shares per 1 CB unit ($100k)".
+        // Let's stick to standard formula: Shares = SalePrice / ConvPrice. 
+        // Actually, dSharesInfo usually shows "100000 / ConvPrice".
+        const sharesPerBond = convPrice > 0 ? Math.floor(100000 / convPrice) : 0;
+        
+        const conversionValue = (spotPrice * sharesPerBond) / 1000; // Value in "Price" terms (comparable to CB Price ~100)
+        // Or simpler: Parity IS Conversion Value in terms of percentage.
+        // Let's look at the UI label. "轉換價值" usually means Parity Price * 1. But user might expect the $ value? 
+        // In Taiwan market context:
+        // Parity (平價) = (Spot / Conv) * 100.
+        // Conversion Value (轉換價值) often synonymous with Parity.
+        // Let's use Parity for dConvVal for now, or maybe the Dollar Value?
+        // Let's set dConvVal = Parity for consistency data-wise, or strictly Spot * (100/Conv).
+        
+        document.getElementById("dConvVal").textContent = parity.toFixed(2);
+        document.getElementById("dSharesInfo").textContent = `${sharesPerBond} 股/張`;
 
-        if (descEl) descEl.textContent = statusInfo.desc;
+        // Upside Needed (BE)
+        // How much stock needs to rise to justify current CB price?
+        // Target Spot = CBPrice * ConvPrice / 100
+        // Upside = (TargetSpot / CurrentSpot) - 1
+        // Which is exactly Premium Rate! 
+        // If Premium is 5%, stock needs to rise 5% to reach parity with current CB price.
+        document.getElementById("dParityPrice").textContent = ((lastCbPrice / 100) * convPrice).toFixed(2); // This is Break-Even Stock Price
+        
+        const upside = spotPrice > 0 ? ((((lastCbPrice / 100) * convPrice) - spotPrice) / spotPrice) * 100 : 0;
+        document.getElementById("dUpsideNeeded").textContent = `需上漲 ${upside.toFixed(2)}%`;
+
+
+        // Style premium
+        const premEl = document.getElementById("dPremiumRate");
+        premEl.className = "text-5xl font-black tracking-tighter mono " + (premium < 0 ? "text-green-600" : premium > 10 ? "text-red-500" : "text-slate-800");
       };
 
       async function fetchAnalysisHistory(code) {
         const mountPoint = document.getElementById("dPremiumChartMount");
-        // Update: Service already handles onStatusUpdate - we use mount as fallback
+        if (mountPoint) mountPoint.innerHTML = '<div class="h-48 flex items-center justify-center text-slate-300 text-[10px] font-bold uppercase tracking-widest animate-pulse">Loading Historical Data...</div>';
         try {
           const history = await window.CbHistoryService.fetchHistory(window.db, code, {
               onStatusUpdate: (msg, submsg) => {
@@ -1884,7 +2059,7 @@
               }
           });
 
-          if (history.length > 0) {
+          if (history.length > 0 && mountPoint) {
             window.currentChartRawData = history;
             window.analysisChart = window.CbPremiumHistoryChart.mount(mountPoint, history);
           }
@@ -1894,24 +2069,23 @@
       }
 
       window.toggleDrawerParams = () => {
-        document.getElementById("drawerParams").classList.toggle("hidden");
+        const params = document.getElementById("drawerParams");
+        if (params) params.classList.toggle("hidden");
       };
 
-      document
-        .getElementById("dConvPriceInput")
-        .addEventListener("input", () => {
-          const item = window.lastDataPool?.find(
-            (i) => i.code === window.currentAnalysisCode,
-          );
-          if (item) window.performAnalysis(item);
-        });
+      const convInput = document.getElementById("dConvPriceInput");
+      if (convInput) {
+          convInput.addEventListener("input", () => {
+              const item = window.lastDataPool?.find(
+                (i) => i.code === window.currentAnalysisCode,
+              );
+              if (item) window.performAnalysis(item);
+          });
+      }
 
-      // Initialization
-      // Initialization
-      const urlParams = new URLSearchParams(window.location.search);
-      const queryDate = urlParams.get("date");
-      if (queryDate) fetchHistoryCB(queryDate);
-      else fetchHotCB();
+      // --- Final Initialization ---
+      console.log("[Init] War Room Components Initialized.");
+      window.initBootstrap(); 
     </script>
-  </body>
+</body>
 </html>

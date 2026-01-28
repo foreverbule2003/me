@@ -8,7 +8,7 @@ import fs from "fs";
 const cbCrawlerPlugin = () => ({
   name: "cb-crawler-api",
   configureServer(server) {
-    const CACHE_FILE = resolve(__dirname, ".hot-cb-cache.json");
+    const CACHE_FILE = resolve(__dirname, "public/data/.hot-cb-cache.json");
 
     // Helper: Check if market is currently closed
     // TW Market: 09:00 - 13:30. Let's buffer to 13:35.

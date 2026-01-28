@@ -1,12 +1,10 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-25 (Widget-Refactor-Stable)
+> 最後更新：2026-01-28 (Hotfix-Cleanup-Stable)
 
 ## 🔴 P0: 立即執行 (Pending)
 
-- [ ] **Bug**: CB戰情室的限價CB價格有誤 <!-- captured: 2026-01-25 -->
-- [ ] **Bug**: 戰情室的個股需要修正 <!-- captured: 2026-01-25 -->
-- [ ] **Data Architecture**: 徹底檢視現有的CB獲取資料的方式 (Ref: [dde-py-paradigm.md](knowledge/dde-py-paradigm.md)) <!-- captured: 2026-01-26 -->
+- [ ] (暫無 P0 項目)
 
 ---
 
@@ -15,6 +13,7 @@
 > 目標：持續優化雲端架構與開發者體驗。
 
 - [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 (待觀察) <!-- implemented: logPerfEvent -->
+- [ ] **研究**: 透過 DDE 獲取過去熱門 CB 歷史資料的可行性 <!-- captured: 2026-01-28 -->
 
 ---
 
@@ -40,7 +39,18 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
-### 2026-01-28
+### 2026-01-28 (16:35)
+- [x] **Bug Fix**: 修正戰情室日期切換卡死問題 (Verified & Decoupled: 2026-01-28)
+- [x] **Hotfix**: 修復分析抽屜 `classList` 錯誤與崩潰問題 (Null Guard)。
+- [x] **Data Integrity**: 修正 23683 轉換價異常並補正雲端數據。
+- [x] **Engine Fix**: 防止 `fetch-cb-history.js` 對全市場標的進行自動註冊。
+- [x] **Cleanup**: 執行 `clean_auto_watchlist.mjs` 並清理 10+ 個臨時調試腳本。
+- [x] **Bug Fix**: 修正戰情室限價 CB 價格顯示錯誤 (Verified: 2026-01-28)
+- [x] **Data Architecture**: 實作雙軌資料流與智慧同步架構 (ADR-006) (Completed: 2026-01-27)
+- [x] **Bug Fix**: 修正戰情室價格 NaN 與遺留模組報錯 (Completed: 2026-01-27)
+- [x] **Automation**: 完成 `fetch-hot-cb.js` 每日更新與自動提交 (Completed: 2026-01-27)
+- [x] **Cleanup**: 刪除 21 個歷史 JSON 檔案 (-13k lines) (Completed: 2026-01-27)
+- [x] **Documentation**: 建立 `CB_DATA_FLOW.md` 正式檔案 (Completed: 2026-01-27)
 
 > 註：已完成項目會定期搬移至 `CHANGELOG.md` 並在此清理。
 

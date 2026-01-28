@@ -179,10 +179,27 @@ async function syncToFirestore(cbCode, data) {
     }
     if (count > 0) await batch.commit();
 
-    await db
-      .collection("cb_history")
-      .doc(cbCode)
-      .set({ lastUpdated: new Date().toISOString() }, { merge: true });
+    // Only update the top-level document's lastUpdated if it EXISTS in the watchlist
+    // This prevents the script from auto-registering hundreds of "Uncategorized" items.
+    const docRef = db.collection("cb_history").doc(cbCode);
+    const docSnap = await docRef.get();
+    
+    if (docSnap.exists()) {
+        await docRef.set({ lastUpdated: new Date().toISOString() }, { merge: true });
+        console.log(`[Cloud] Updated heartbeat for tracked item: ${cbCode}`);
+    } else {
+        // If it's a manual direct sync (not --all), we SHOULD create it
+        if (process.argv.includes(cbCode)) {
+            await docRef.set({ 
+              lastUpdated: new Date().toISOString(),
+              category: "未分類 (UNCATEGORIZED)",
+              addedAt: admin.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+            console.log(`[Cloud] Registered new item via manual sync: ${cbCode}`);
+        } else {
+            // console.log(`[Cloud] Skipped heartbeat for non-tracked item: ${cbCode}`);
+        }
+    }
   } catch (e) {
     console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);
   }

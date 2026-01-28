@@ -37,6 +37,20 @@ service cloud.firestore {
       }
     }
 
+    // [New] Allow access to Hot CB Snapshots
+    match /hot_cb_meta/{docId} {
+      allow read: if true;
+    }
+    match /hot_cb_snapshots/{docId} {
+      allow read: if true;
+    }
+
+    // [New] Allow performance logs
+    match /system_logs/{logId} {
+      allow write: if true;
+      allow read: if request.auth != null; 
+    }
+
     match /{document=**} {
       allow read, write: if false;
     }

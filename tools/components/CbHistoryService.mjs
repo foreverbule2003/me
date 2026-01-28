@@ -2,10 +2,9 @@
  * CbHistoryService.mjs
  * 
  * Unified Data Service for Convertible Bond History.
- * Implements the Smart Sync strategy (Plan B):
+ * Implements the Cloud-First Sync strategy:
  * 1. Persistent Cache (localStorage)
- * 2. Local JSON Baseline (Optional/Fallback)
- * 3. Firestore Incremental (Cloud sync)
+ * 2. Firestore Incremental (Cloud sync)
  */
 
 import { 
@@ -19,7 +18,7 @@ import {
 
 export const CbHistoryService = {
   /**
-   * Fetch complete history for a symbol using Smart Sync
+   * Fetch complete history for a symbol using Cloud-First Sync
    * @param {Object} db - Firestore Modular instance
    * @param {string} symbol - The stock/CB code
    * @param {Object} options - { onStatusUpdate: (msg, submsg) => void }
@@ -28,7 +27,7 @@ export const CbHistoryService = {
     const { onStatusUpdate = () => {} } = options;
     const cacheKey = `cb_history_${symbol}`;
     
-    onStatusUpdate("正在檢查快取...", "搜尋瀏覽器本地存儲");
+    onStatusUpdate("檢查本地暫存...", "快取搜尋中");
     
     let history = [];
     let lastDate = null;
@@ -44,28 +43,9 @@ export const CbHistoryService = {
       console.warn("[HistoryService] localStorage read failed.", e);
     }
 
-    // --- Tier 2: Local JSON (Baseline Fallback if cache is empty) ---
-    if (history.length === 0) {
-      onStatusUpdate("讀取初始資料...", "載入預留 JSON 快照");
-      try {
-        const jsonPath = `/data/history/${symbol}.json?t=${Date.now()}`;
-        const res = await fetch(jsonPath);
-        if (res.ok) {
-          history = await res.json();
-          console.log(`[HistoryService] Loaded ${history.length} records from Local JSON.`);
-        }
-      } catch (e) {
-        // Not a critical error, just continue to Firestore full sync
-      }
-    }
-
-    if (history.length > 0) {
-      history.sort((a, b) => a.date.localeCompare(b.date));
-      lastDate = history[history.length - 1].date;
-    }
-
-    // --- Tier 3: Cloud Firestore (Incremental Sync) ---
-    onStatusUpdate("同步雲端數據...", lastDate ? `${lastDate} 之後的增量更新` : "正在下載雲端歷史紀錄");
+    // --- Tier 2: Cloud Firestore (Incremental Sync) ---
+    // If cache is empty or outdated, jump straight to Firestore
+    onStatusUpdate("同步雲端數據...", lastDate ? `${lastDate} 之後的增量更新` : "正在偵測雲端紀錄");
     
     try {
       const incrementalRecords = await this._fetchIncremental(db, symbol, lastDate);

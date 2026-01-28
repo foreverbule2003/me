@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-01-27T11:59:27.197Z",
+  "updatedAt": "2026-01-28T06:40:57.062Z",
   "count": 20,
   "items": [
     {
@@ -193,7 +193,7 @@
       "name": "宇隆一",
       "conversionPrice": 250,
       "underlyingCode": "2233",
-      "price": 119.6
+      "price": 120.1
     },
     {
       "code": "22362",
@@ -234,9 +234,9 @@
     {
       "code": "23683",
       "name": "金像電三",
-      "conversionPrice": 450,
+      "conversionPrice": 154.2,
       "underlyingCode": "2368",
-      "price": 158
+      "price": 164
     },
     {
       "code": "24023",
@@ -285,7 +285,7 @@
       "name": "全新二",
       "conversionPrice": 162.9,
       "underlyingCode": "2455",
-      "price": 133.3
+      "price": 135.95
     },
     {
       "code": "24553",
@@ -461,7 +461,7 @@
       "name": "晶豪科一",
       "conversionPrice": 83.6,
       "underlyingCode": "3006",
-      "price": 180
+      "price": 198
     },
     {
       "code": "30134",
@@ -504,7 +504,7 @@
       "name": "欣興一",
       "conversionPrice": 164.1,
       "underlyingCode": "3037",
-      "price": 213
+      "price": 221
     },
     {
       "code": "30401",
@@ -811,7 +811,8 @@
       "code": "35871",
       "name": "閎康一",
       "conversionPrice": 192,
-      "underlyingCode": "3587"
+      "underlyingCode": "3587",
+      "price": 119.95
     },
     {
       "code": "35914",
@@ -914,14 +915,15 @@
       "code": "37151",
       "name": "定穎投控一",
       "conversionPrice": 140,
-      "underlyingCode": "3715"
+      "underlyingCode": "3715",
+      "price": 139
     },
     {
       "code": "37171",
       "name": "聯嘉投控一",
       "conversionPrice": 17.5,
       "underlyingCode": "3717",
-      "price": 110
+      "price": 110.9
     },
     {
       "code": "41135",
@@ -1108,7 +1110,7 @@
       "name": "十銓四",
       "conversionPrice": 147,
       "underlyingCode": "4967",
-      "price": 178
+      "price": 180
     },
     {
       "code": "49793",
@@ -1415,7 +1417,8 @@
       "code": "61994",
       "name": "天品四",
       "conversionPrice": 114.8,
-      "underlyingCode": "6199"
+      "underlyingCode": "6199",
+      "price": 100
     },
     {
       "code": "62075",
@@ -1465,7 +1468,7 @@
       "name": "台燿五",
       "conversionPrice": 386,
       "underlyingCode": "6274",
-      "price": 147
+      "price": 147.6
     },
     {
       "code": "62756",
@@ -1478,7 +1481,7 @@
       "name": "康舒二",
       "conversionPrice": 46.1,
       "underlyingCode": "6282",
-      "price": 123.7
+      "price": 127
     },
     {
       "code": "62843",
@@ -1557,7 +1560,7 @@
       "name": "精測一",
       "conversionPrice": 2016.8,
       "underlyingCode": "6510",
-      "price": 170
+      "price": 166
     },
     {
       "code": "65331",
@@ -1659,7 +1662,8 @@
       "code": "66721",
       "name": "騰輝電子一KY",
       "conversionPrice": 96,
-      "underlyingCode": "6672"
+      "underlyingCode": "6672",
+      "price": 112.3
     },
     {
       "code": "66801",
@@ -1816,7 +1820,7 @@
       "name": "來億一KY",
       "conversionPrice": 246.4,
       "underlyingCode": "6890",
-      "price": 108.6
+      "price": 107.5
     },
     {
       "code": "68902",
@@ -1877,7 +1881,7 @@
       "name": "尖點二",
       "conversionPrice": 203.5,
       "underlyingCode": "8021",
-      "price": 141
+      "price": 142.35
     },
     {
       "code": "80273",
@@ -1938,7 +1942,7 @@
       "name": "博智一",
       "conversionPrice": 121.6,
       "underlyingCode": "8155",
-      "price": 175
+      "price": 180
     },
     {
       "code": "81714",
@@ -1957,7 +1961,7 @@
       "name": "勤誠二",
       "conversionPrice": 1007.2,
       "underlyingCode": "8210",
-      "price": 121.6
+      "price": 122.8
     },
     {
       "code": "82551",
@@ -2148,7 +2152,7 @@
     {
       "code": "811210",
       "name": "至上十",
-      "price": 121.6,
+      "price": 126.5,
       "underlyingCode": "",
       "conversionPrice": 100
     }

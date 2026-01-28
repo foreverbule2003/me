@@ -31,3 +31,10 @@ ARCHITECTURAL_REVIEW.md
 
 # Firebase Admin Keys (NEVER commit these)
 *serviceAccountKey*.json
+service-account.json
+
+# Dynamic Data (Synced to Firestore, not for Git)
+public/data/history/
+public/data/hot-cb.json
+public/data/cb-data.json.bak
+.hot-cb-cache.json
