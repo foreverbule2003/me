@@ -151,6 +151,16 @@ async function syncToFirestore(cbCode, data) {
     }
 
     const db = admin.firestore();
+    const docRef = db.collection("cb_history").doc(cbCode);
+    const docSnap = await docRef.get();
+    const isManual = process.argv.includes(cbCode);
+
+    // Safety Gate: Only sync if tracked OR manual override
+    if (!docSnap.exists() && !isManual) {
+        // console.log(`[Cloud] Skipped sync for non-tracked item: ${cbCode}`);
+        return;
+    }
+
     console.log(`[Cloud] Syncing ${data.length} records for ${cbCode}...`);
 
     const batchSize = 500;
@@ -158,14 +168,10 @@ async function syncToFirestore(cbCode, data) {
     let count = 0;
 
     for (const record of data) {
-      const docRef = db
-        .collection("cb_history")
-        .doc(cbCode)
-        .collection("records")
-        .doc(record.date);
+      const subDocRef = docRef.collection("records").doc(record.date);
 
       batch.set(
-        docRef,
+        subDocRef,
         { ...record, updatedAt: admin.firestore.FieldValue.serverTimestamp() },
         { merge: true },
       );
@@ -179,26 +185,17 @@ async function syncToFirestore(cbCode, data) {
     }
     if (count > 0) await batch.commit();
 
-    // Only update the top-level document's lastUpdated if it EXISTS in the watchlist
-    // This prevents the script from auto-registering hundreds of "Uncategorized" items.
-    const docRef = db.collection("cb_history").doc(cbCode);
-    const docSnap = await docRef.get();
-    
+    // Update heartbeat
     if (docSnap.exists()) {
         await docRef.set({ lastUpdated: new Date().toISOString() }, { merge: true });
         console.log(`[Cloud] Updated heartbeat for tracked item: ${cbCode}`);
-    } else {
-        // If it's a manual direct sync (not --all), we SHOULD create it
-        if (process.argv.includes(cbCode)) {
-            await docRef.set({ 
-              lastUpdated: new Date().toISOString(),
-              category: "未分類 (UNCATEGORIZED)",
-              addedAt: admin.firestore.FieldValue.serverTimestamp()
-            }, { merge: true });
-            console.log(`[Cloud] Registered new item via manual sync: ${cbCode}`);
-        } else {
-            // console.log(`[Cloud] Skipped heartbeat for non-tracked item: ${cbCode}`);
-        }
+    } else if (isManual) {
+        await docRef.set({ 
+          lastUpdated: new Date().toISOString(),
+          category: "未分類 (UNCATEGORIZED)",
+          addedAt: admin.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
+        console.log(`[Cloud] Registered new item via manual sync: ${cbCode}`);
     }
   } catch (e) {
     console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);
