@@ -38,3 +38,7 @@ public/data/history/
 public/data/hot-cb.json
 public/data/cb-data.json.bak
 .hot-cb-cache.json
+
+# Tool Data & Logs
+tools/*.json
+!tools/package.json

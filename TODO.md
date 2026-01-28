@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-28 (Hotfix-Cleanup-Stable)
+> 最後更新：2026-01-28 (Backfill-Completed-Stable)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -13,7 +13,6 @@
 > 目標：持續優化雲端架構與開發者體驗。
 
 - [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 (待觀察) <!-- implemented: logPerfEvent -->
-- [ ] **研究**: 透過 DDE 獲取過去熱門 CB 歷史資料的可行性 <!-- captured: 2026-01-28 -->
 
 ---
 
@@ -39,7 +38,10 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
-### 2026-01-28 (16:45)
+### 2026-01-28 (18:15)
+
+- [x] **Data Backfill**: 完成 TPEX 歷史資料 (11天) 補回至 Firestore，修正成交量計算邏輯與 UI 響應式顯示。
+- [x] **Feasibility Study**: 完成 DDE 歷史數據回補研究（結論：放棄 DDE 路徑，改採 Web API）。
 - [x] **Bug Fix**: 徹底封鎖 Firestore 子集合寫入觸發的「幽靈註冊」漏洞 (Deep Fix)。
 - [x] **Cleanup**: 再次執行 `clean_auto_watchlist.mjs` 並清理 17 個殘留空殼標的。
 - [x] **Bug Fix**: 修正戰情室日期切換卡死問題 (Verified & Decoupled: 2026-01-28)
