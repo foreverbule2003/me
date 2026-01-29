@@ -686,11 +686,21 @@
                     >(可調整)</span
                   >
                 </label>
-                <input
-                  type="number"
-                  id="dConvPriceInput"
-                  class="bg-white border invalid:border-red-300 border-slate-200 text-right px-3 py-1.5 rounded-lg mono text-lg font-black w-32 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-slate-700"
-                />
+                <div class="flex items-center gap-2">
+                  <input
+                    type="number"
+                    id="dConvPriceInput"
+                    step="0.01"
+                    class="bg-white border invalid:border-red-300 border-slate-200 text-right px-3 py-1.5 rounded-lg mono text-lg font-black w-32 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-slate-700"
+                  />
+                  <button 
+                    onclick="saveAnalysisMeta()" 
+                    title="儲存至雲端中繼資料"
+                    class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center border border-indigo-100"
+                  >
+                    <i class="fas fa-save"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -738,6 +748,7 @@
           >
             <i class="fas fa-external-link-alt"></i> 開啟進階計算機
           </button>
+        </div>
         </div>
       </div>
     </div>
@@ -1538,69 +1549,56 @@
       window.fetchHotCB = async function (targetDate = null) {
         // Use supplied date or default to current effective date
         const dateToUse = targetDate || window.currentDisplayDate || SmartDateNavigator.getEffectiveDate(new Date());
+        const dateId = SmartDateNavigator.formatDate(dateToUse);
+        const todayId = SmartDateNavigator.formatDate(new Date());
         
         // Update UI immediately to reflect target date
         SmartDateNavigator.updateUI(dateToUse);
-
-        // Determine if we need historical snapshot (if target date is strictly in the past)
-        const todayEffective = SmartDateNavigator.getEffectiveDate(new Date());
-        const isHistoryMode = SmartDateNavigator.formatDate(dateToUse) !== SmartDateNavigator.formatDate(todayEffective);
-        const snapshotId = SmartDateNavigator.formatDate(dateToUse);
-
-        console.log(`[Data] Strategy: Cloud First. Fetching ${snapshotId} (History: ${isHistoryMode})`);
-        
         updateLoadingState(true);
         if (statusBanner) statusBanner.classList.add("hidden");
-        const chartNoData = document.getElementById('dChartNoData');
-        if (chartNoData) chartNoData.classList.add('hidden'); // Reset empty state
-        
+
+        const cacheKey = `hot_cb_list_${dateId}`;
+        console.log(`[Data] Strategy: Cloud First + Local Cache. Fetching ${dateId}`);
+
         try {
-            // 1. Try Cloud First
-            const cloudData = await loadFromCloud(snapshotId);
-            
-            if (cloudData) {
-                console.log(`[Data] Cloud hit for ${snapshotId}`);
-                // Ensure source is marked as cloud if not present
-                if (!cloudData.source) cloudData.source = "cloud";
-                processData(cloudData, isHistoryMode ? "history" : "live");
+            // 1. Try Local Cache (IndexedDB)
+            const cached = await CbHistoryService._readLocal(cacheKey);
+            // If cache exists and it's either an old date (static) or today's cache from today
+            if (cached && (dateId !== todayId || cached.lastSync === todayId)) {
+                console.log(`[Data] Cache hit for ${dateId}`);
+                processData(cached.records, dateId === todayId ? "live" : "history");
+                updateHeaderTime(new Date(cached.timestamp || Date.now()));
+                updateLoadingState(false);
+                if (dateId === todayId) startUpdateTimer();
                 return;
             }
 
-            console.warn(`[Data] Cloud miss for ${snapshotId}.`);
+            // 2. Clear Cache Miss -> Cloud Fetch
+            console.log(`[Data] Cache miss/stale. Requesting Firestore for ${dateId}...`);
+            const docRef = doc(db, "hot_cb_snapshots", dateId);
+            const docSnap = await getDoc(docRef);
 
-            // 2. Fallback to Local (Only if asking for Today/Latest)
-            // Local JSON is assumed to be the latest scrape, so it's not valid for history.
-            if (!isHistoryMode) {
-                console.log("[Data] Attempting Local Fallback...");
-                try {
-                    const res = await measureFetch(`../data/hot-cb.json?t=${Date.now()}`);
-                    if (res.ok) {
-                        const contentType = res.headers.get("content-type");
-                        if (contentType && contentType.includes("text/html")) throw new Error("404 fallback");
-                        
-                        const json = await res.json();
-                        json.source = "local_fallback"; 
-                        processData(json, "live");
-                        
-                        // Show Warning Banner for Fallback
-                        statusBanner.innerHTML = `<div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2"><i class="fas fa-wifi"></i><span>雲端暫無回應，目前顯示本地備存資料 (可能非最新)。</span></div>`;
-                        statusBanner.classList.remove("hidden");
-                        return;
-                    }
-                } catch (localErr) {
-                    console.warn("[Data] Local fallback failed:", localErr);
-                }
+            if (docSnap.exists()) {
+                const cloudData = docSnap.data();
+                const items = cloudData.items || cloudData.data || [];
+                
+                const cloudDate = cloudData.updatedAt?.toDate ? cloudData.updatedAt.toDate() : new Date(cloudData.updatedAt || Date.now());
+                
+                // Save to local cache with today's tag and timestamp
+                await CbHistoryService._writeLocal(cacheKey, items, todayId, cloudDate.toISOString());
+                
+                processData(items, dateId === todayId ? "live" : "history");
+                updateHeaderTime(cloudDate);
+                
+                if (dateId === todayId) startUpdateTimer();
+            } else {
+                console.warn(`[Data] No Firestore snapshot for ${dateId}`);
+                processData([], "history");
+                renderError("尚無資料", `資料庫中暫無 ${dateId} 的紀錄`);
             }
-
-            // 3. No Data Found
-            // Cloud failed/empty, and (Local failed OR History mode)
-            processData([], isHistoryMode ? "history" : "live"); // Clear list
-            renderError("查無資料", `${snapshotId} 無市場數據紀錄`);
-
         } catch (e) {
-             console.error("[Data] Critical Fetch Error:", e);
-             // Don't leave the user hanging properly handle unexpected high-level errors
-             renderError("系統異常", "數據讀取過程發生非預期錯誤");
+            console.error("[Data] Fetch failure:", e);
+            renderError("載入失敗", "目前無法與雲端同步，請稍後再試。");
         } finally {
             updateLoadingState(false);
         }
@@ -1843,10 +1841,8 @@
         overlay.classList.add("show");
         document.body.style.overflow = "hidden";
 
-        // 1. Reset persistent inputs (prevents 450 legacy)
+        // 0. Reset UI
         document.getElementById("dConvPriceInput").value = "";
-        
-        // 2. Clear previous data traces (prevents "Gold Circuit" legacy)
         document.getElementById("drawerTitle").textContent = "--";
         document.getElementById("drawerCode").textContent = code;
         document.getElementById("dCbPrice").textContent = "--";
@@ -1856,54 +1852,38 @@
         document.getElementById("dParityPrice").textContent = "--";
         document.getElementById("dUpsideNeeded").textContent = "--%";
         document.getElementById("dPremiumRate").textContent = "--%";
-        document.getElementById("dPremiumDesc").textContent = "正在讀取或非今日熱門標的...";
+        document.getElementById("dPremiumDesc").textContent = "正在讀取中繼資料...";
         document.getElementById("dPremiumStatus").textContent = "LOADING";
-        document.getElementById("dPremiumStatus").className = "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400 border border-slate-100/50";
 
-        // Initial Data from pool
-        // Data Sourcing Strategy: Merge Pool (Snapshot) & Tracked (Real-time)
+        // 1. Initial Data Search (Pool vs Tracked)
         const poolItem = window.lastDataPool?.find((i) => i.code === code);
         const trackedItem = window.lastKnownItems?.find(i => i.id === code);
         
-        let item = null;
-        
-        if (poolItem && trackedItem) {
-            // BEST CASE: We have both metadata and real-time updates
-            console.log(`[Analysis] Merging data for ${code} (Snapshot + Real-time)`);
-            item = { 
-                ...poolItem, 
-                // Override with real-time values if available
-                price: trackedItem.price || poolItem.price,
-                stockPrice: trackedItem.stockPrice || poolItem.stockPrice,
-                changePercent: trackedItem.changePercent || poolItem.changePercent
-            };
-        } else if (trackedItem) {
-             // Real-time only (Cold CBs)
-             console.log(`[Analysis] Using Real-time data only for ${code}`);
-             item = {
-                code: trackedItem.id,
-                name: trackedItem.name || trackedItem.id,
-                price: trackedItem.price,
-                stockPrice: trackedItem.stockPrice,
-                changePercent: trackedItem.changePercent,
-                conversionPrice: trackedItem.conversionPrice,
-                underlyingCode: trackedItem.underlyingCode
-            };
-        } else if (poolItem) {
-             // Snapshot only
-             item = poolItem;
+        // 2. Fetch/Resolve Metadata from Firestore (Master Info)
+        let meta = null;
+        try {
+            const metaSnap = await getDoc(doc(db, "cb_history", code));
+            if (metaSnap.exists()) {
+                meta = metaSnap.data();
+            }
+        } catch (e) {
+            console.warn(`[Analysis] Master metadata fetch failed for ${code}`, e);
         }
 
-        if (item) {
-          // Setup Static Info
-          document.getElementById("drawerTitle").textContent = item.name;
-          document.getElementById("drawerCode").textContent = item.code;
-          
-          window.performAnalysis(item);
-        } else {
-             // Still fetch history even if no current data
-             fetchAnalysisHistory(code);
-        }
+        // 3. Merge order: Firestore Meta > Pool Item > Tracked Item
+        const item = {
+            code: code,
+            name: meta?.name || poolItem?.name || trackedItem?.name || code,
+            price: trackedItem?.price || poolItem?.price || 0,
+            stockPrice: trackedItem?.stockPrice || poolItem?.stockPrice || 0,
+            changePercent: trackedItem?.changePercent || poolItem?.changePercent || "0.00%",
+            conversionPrice: meta?.conversionPrice || trackedItem?.conversionPrice || 0,
+            underlyingCode: meta?.underlyingCode || poolItem?.underlyingCode || trackedItem?.underlyingCode || ""
+        };
+
+        document.getElementById("drawerTitle").textContent = item.name;
+        document.getElementById("drawerCode").textContent = item.code;
+        window.performAnalysis(item);
         
         fetchAnalysisHistory(code);
       };
@@ -1916,135 +1896,92 @@
         document.body.style.overflow = "";
       };
 
-      async function ensureCbDatabase() {
-        if (window.globalCbDatabase) return window.globalCbDatabase;
-        try {
-          const res = await fetch("../data/cb-data.json");
-          const json = await res.json();
-          window.globalCbDatabase = json.items || json;
-          return window.globalCbDatabase;
-        } catch (e) {
-          console.error("Failed to load CB database", e);
-          return [];
-        }
-      }
-
       window.performAnalysis = async (item) => {
-        const calcMount = document.getElementById("analysisCalcMount");
-        const dbItems = await ensureCbDatabase();
-        const staticMeta = dbItems.find((i) => i.code === item.code);
-
-        const convPrice =
-          parseFloat(document.getElementById("dConvPriceInput").value) ||
-          staticMeta?.conversionPrice ||
-          item.conversionPrice ||
-          0;
-
-        // Stock Price: Hot list usually only has CB info. We need to look up Stock Price from static DB or external API.
-        // For now, if item.stockPrice is missing, try staticMeta.stockPrice (if simulated) or just show 0 with warning.
-        // Actually, we can't easily get real-time stock price for all items without another API call.
-        // Let's assume for now 0 if missing, or maybe the crawler provides it?
-        // Checking hot-cb.json: it has code, name, time, price, change... NO stockPrice.
-        // So spotPrice will be 0, causing Parity=0, Premium=0. 
-        // We need a way to get stock price. 
-        // TEMPORARY FIX: Use staticMeta's price if available (likely outdated) or prompt user?
-        // Wait, for this specific tool "Hot CB", maybe we don't have stock price. 
-        // But the user complained about "CB Price" (現價 CB).
-        // item.price IS the CB price.
-        // Let's check why item.price might be failing.
-        // item.price is 141 (number) in JSON. parseFloat(141) is 141.
-        
-        // Debugging LOG
-        console.log("[Analysis] Item:", item);
-
-        const spotPrice = parseFloat(item.stockPrice) || parseFloat(staticMeta?.stockPrice) || 0;
+        const inputVal = document.getElementById("dConvPriceInput")?.value;
+        const convPrice = parseFloat(inputVal) || item.conversionPrice || 0;
+        const spotPrice = parseFloat(item.stockPrice) || 0;
         const lastCbPrice = parseFloat(item.price) || parseFloat(item.close) || 0;
 
-        // Visual Stats
+        // 3. UI Updates - Basics
         const dStockPrice = document.getElementById("dStockPrice");
-        if (dStockPrice) dStockPrice.textContent = spotPrice > 0 ? spotPrice.toFixed(2) : "--";
+        if (dStockPrice) {
+            dStockPrice.textContent = spotPrice > 0 ? spotPrice.toFixed(2) : "--";
+            dStockPrice.classList.toggle("text-slate-300", spotPrice === 0);
+        }
         
-        // Face Value Warning (100.00 often means no trade or reference price)
         const cbPriceEl = document.getElementById("dCbPrice");
         if (cbPriceEl) {
-            cbPriceEl.textContent = lastCbPrice.toFixed(2);
+            cbPriceEl.innerHTML = lastCbPrice > 0 ? lastCbPrice.toFixed(2) : "--";
             if (lastCbPrice === 100.00) {
                  cbPriceEl.innerHTML += `<span class="ml-2 text-[10px] text-amber-500 bg-amber-50 px-1 rounded border border-amber-200" title="若今日無成交，系統可能回傳票面價 100">票面?</span>`;
             }
         }
 
         const dConvPriceInput = document.getElementById("dConvPriceInput");
-        if (dConvPriceInput) dConvPriceInput.value = convPrice;
+        if (dConvPriceInput && !inputVal) {
+            dConvPriceInput.value = convPrice > 0 ? convPrice : "";
+        }
 
+        // 4. Detailed Calculations
+        // Parity (平價) = (Spot / Conv) * 100
         const parity = (convPrice > 0 && spotPrice > 0) ? (spotPrice / convPrice) * 100 : 0;
         
+        // Premium (溢價率) = (CBPrice / Parity - 1) * 100
         let premium = 0;
-        if (parity > 0) {
+        if (parity > 0 && lastCbPrice > 0) {
             premium = (lastCbPrice / parity - 1) * 100;
         }
 
+        // Break-Even Stock Price (保本價) = (CBPrice / 100) * ConvPrice
+        const beStockPrice = (lastCbPrice > 0 && convPrice > 0) ? (lastCbPrice / 100) * convPrice : 0;
+
+        // 5. Update Metrics UI
+        const dConvVal = document.getElementById("dConvVal");
+        if (dConvVal) dConvVal.textContent = parity > 0 ? parity.toFixed(2) : "--";
+
         const dParityPrice = document.getElementById("dParityPrice");
-        if (dParityPrice) dParityPrice.textContent = parity > 0 ? parity.toFixed(2) : "--";
+        if (dParityPrice) dParityPrice.textContent = beStockPrice > 0 ? beStockPrice.toFixed(2) : "--";
         
         const dPremiumRate = document.getElementById("dPremiumRate");
-        if (dPremiumRate) dPremiumRate.textContent = parity > 0 ? premium.toFixed(2) + "%" : "--%";
+        if (dPremiumRate) {
+            dPremiumRate.textContent = (parity > 0 && lastCbPrice > 0) ? premium.toFixed(2) + "%" : "--%";
+            dPremiumRate.className = "text-5xl font-black tracking-tighter mono " + 
+                (premium < 0 ? "text-green-600" : (premium > 10 ? "text-red-500" : "text-slate-800"));
+        }
 
-        // Update Description & Status
+        // 6. Shares per Bond
+        const sharesPerBond = convPrice > 0 ? Math.floor(100000 / convPrice) : 0;
+        const dSharesInfo = document.getElementById("dSharesInfo");
+        if (dSharesInfo) dSharesInfo.textContent = sharesPerBond > 0 ? `${sharesPerBond} 股/張` : "-- 股/張";
+
+        // 7. Upside Needed (BE)
+        const dUpsideNeeded = document.getElementById("dUpsideNeeded");
+        if (dUpsideNeeded) {
+            const upside = (spotPrice > 0 && beStockPrice > 0) ? ((beStockPrice / spotPrice) - 1) * 100 : 0;
+            dUpsideNeeded.textContent = upside !== 0 ? `需上漲 ${upside.toFixed(2)}%` : "需上漲 --%";
+        }
+
+        // 8. Description & Status
         const descEl = document.getElementById("dPremiumDesc");
         const statusEl = document.getElementById("dPremiumStatus");
-        
-        if (parity > 0) {
-            if (descEl) descEl.textContent = premium > 0 ? "目前價格高於理論價值 (溢價)" : "目前價格低於理論價值 (折價)";
-            if (statusEl) {
+        if (descEl) {
+            if (parity > 0 && lastCbPrice > 0) {
+                descEl.textContent = premium > 0 ? "目前價格高於理論價值 (溢價)" : "目前價格低於理論價值 (折價)";
+            } else {
+                descEl.textContent = "資料不足，無法計算";
+            }
+        }
+        if (statusEl) {
+            if (parity > 0 && lastCbPrice > 0) {
                 statusEl.textContent = premium > 0 ? "溢價" : "折價";
                 statusEl.className = premium > 0 
                     ? "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-red-50 text-red-500 border border-red-100"
                     : "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-green-50 text-green-600 border border-green-100";
-            }
-        } else {
-            if (descEl) descEl.textContent = "資料不足，無法計算";
-            if (statusEl) {
+            } else {
                 statusEl.textContent = "待確認";
                 statusEl.className = "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400 border border-slate-100/50";
             }
         }
-        
-        // Calculate Missing Metrics
-        const shares = convPrice > 0 ? (100 / convPrice) * 1000 : 0; // shares per bond (assuming 100 face value) -> usually Taiwan CB is 100k TWD face value. 
-        // Logic check: Face Value $100,000. Price shown as $100. 
-        // Conversion Price e.g. 50. Shares = 100,000 / 50 = 2000 shares.
-        // Wait, typical CB quote is per $100 face value. The 'shares' display usually refers to "shares per 1 CB unit ($100k)".
-        // Let's stick to standard formula: Shares = SalePrice / ConvPrice. 
-        // Actually, dSharesInfo usually shows "100000 / ConvPrice".
-        const sharesPerBond = convPrice > 0 ? Math.floor(100000 / convPrice) : 0;
-        
-        const conversionValue = (spotPrice * sharesPerBond) / 1000; // Value in "Price" terms (comparable to CB Price ~100)
-        // Or simpler: Parity IS Conversion Value in terms of percentage.
-        // Let's look at the UI label. "轉換價值" usually means Parity Price * 1. But user might expect the $ value? 
-        // In Taiwan market context:
-        // Parity (平價) = (Spot / Conv) * 100.
-        // Conversion Value (轉換價值) often synonymous with Parity.
-        // Let's use Parity for dConvVal for now, or maybe the Dollar Value?
-        // Let's set dConvVal = Parity for consistency data-wise, or strictly Spot * (100/Conv).
-        
-        document.getElementById("dConvVal").textContent = parity.toFixed(2);
-        document.getElementById("dSharesInfo").textContent = `${sharesPerBond} 股/張`;
-
-        // Upside Needed (BE)
-        // How much stock needs to rise to justify current CB price?
-        // Target Spot = CBPrice * ConvPrice / 100
-        // Upside = (TargetSpot / CurrentSpot) - 1
-        // Which is exactly Premium Rate! 
-        // If Premium is 5%, stock needs to rise 5% to reach parity with current CB price.
-        document.getElementById("dParityPrice").textContent = ((lastCbPrice / 100) * convPrice).toFixed(2); // This is Break-Even Stock Price
-        
-        const upside = spotPrice > 0 ? ((((lastCbPrice / 100) * convPrice) - spotPrice) / spotPrice) * 100 : 0;
-        document.getElementById("dUpsideNeeded").textContent = `需上漲 ${upside.toFixed(2)}%`;
-
-
-        // Style premium
-        const premEl = document.getElementById("dPremiumRate");
-        premEl.className = "text-5xl font-black tracking-tighter mono " + (premium < 0 ? "text-green-600" : premium > 10 ? "text-red-500" : "text-slate-800");
       };
 
       async function fetchAnalysisHistory(code) {
@@ -2069,6 +2006,42 @@
       window.toggleDrawerParams = () => {
         const params = document.getElementById("drawerParams");
         if (params) params.classList.toggle("hidden");
+      };
+
+      window.saveAnalysisMeta = async () => {
+        const code = window.currentAnalysisCode;
+        const convPrice = parseFloat(document.getElementById("dConvPriceInput").value);
+        if (!code || isNaN(convPrice)) {
+            alert("請輸入有效的轉換價格");
+            return;
+        }
+
+        const btn = document.querySelector('[onclick="saveAnalysisMeta()"]');
+        const originalIcon = btn.innerHTML;
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
+        try {
+            await setDoc(doc(db, "cb_history", code), {
+                conversionPrice: convPrice,
+                updatedAt: serverTimestamp()
+            }, { merge: true });
+            
+            btn.className = btn.className.replace("bg-indigo-50 text-indigo-600", "bg-green-500 text-white");
+            btn.innerHTML = '<i class="fas fa-check"></i>';
+            console.log(`[Analysis] Metadata saved for ${code}`);
+            
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.innerHTML = originalIcon;
+                btn.className = btn.className.replace("bg-green-500 text-white", "bg-indigo-50 text-indigo-600");
+            }, 2000);
+        } catch (e) {
+            console.error("[Analysis] Save failed", e);
+            alert("儲存失敗，請檢查權限");
+            btn.disabled = false;
+            btn.innerHTML = originalIcon;
+        }
       };
 
       const convInput = document.getElementById("dConvPriceInput");

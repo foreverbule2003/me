@@ -5,15 +5,19 @@ const admin = require("firebase-admin");
  * 負責將爬取到的數據推送到 Firestore
  */
 async function saveSnapshotToCloud(data) {
-  const fs = require('fs');
-  const path = require('path');
-  const keyPath = path.join(__dirname, '../../service-account.json');
+  const fs = require("fs");
+  const path = require("path");
+  const keyPath = path.join(__dirname, "../../service-account.json");
 
-  const hasEnv = process.env.FIREBASE_SERVICE_ACCOUNT || process.env.GOOGLE_APPLICATION_CREDENTIALS;
+  const hasEnv =
+    process.env.FIREBASE_SERVICE_ACCOUNT ||
+    process.env.GOOGLE_APPLICATION_CREDENTIALS;
   const hasLocal = fs.existsSync(keyPath);
 
   if (!hasEnv && !hasLocal) {
-    console.warn("[Cloud] No Firebase credentials found (Env/Local). Skipping cloud save.");
+    console.warn(
+      "[Cloud] No Firebase credentials found (Env/Local). Skipping cloud save.",
+    );
     return null;
   }
 
@@ -74,6 +78,36 @@ async function saveSnapshotToCloud(data) {
   }
 }
 
+async function updateMasterMetadata(items) {
+  if (!admin.apps.length) return; // Wait for init
+  const db = admin.firestore();
+  const batch = db.batch();
+  let count = 0;
+
+  items.forEach((item) => {
+    if (!item.code) return;
+    const ref = db.collection("cb_history").doc(item.code);
+    // Only update static fields to avoid overwriting user stockPrice if stale
+    batch.set(
+      {
+        name: item.name,
+        underlyingCode: item.underlyingCode || "",
+        lastUpdated: new Date().toISOString(),
+      },
+      { merge: true },
+    );
+    count++;
+  });
+
+  if (count > 0) {
+    await batch.commit();
+    console.log(
+      `[Cloud] Updated ${count} items in Master Metadata (cb_history)`,
+    );
+  }
+}
+
 module.exports = {
   saveSnapshotToCloud,
+  updateMasterMetadata,
 };

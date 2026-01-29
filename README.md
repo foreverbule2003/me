@@ -58,7 +58,12 @@ timboy/
 │   ├── 2026-ise-shima/
 │   └── TRIP_STYLE_GUIDE.md
 │
-├── tools/                  # 工具頁面
+├── tools/                  # 工具頁面與後端橋接器
+│   ├── components/         # 前端共用 Service (JS/MJS)
+│   ├── lib/                # Python DDE 模組化層
+│   │   ├── xq_dde.py       # 通訊協定封裝
+│   │   └── cb_service.py   # 業務邏輯封裝
+│   └── xq_bridge.py        # 核心 DDE 行情同步入口
 ├── public/                 # 靜態資源 (Vite 直接複製)
 ├── assets/                 # CSS 與圖片
 └── vite.config.js          # Vite 設定檔

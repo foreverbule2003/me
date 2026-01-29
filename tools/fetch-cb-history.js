@@ -157,8 +157,8 @@ async function syncToFirestore(cbCode, data) {
 
     // Safety Gate: Only sync if tracked OR manual override
     if (!docSnap.exists() && !isManual) {
-        // console.log(`[Cloud] Skipped sync for non-tracked item: ${cbCode}`);
-        return;
+      // console.log(`[Cloud] Skipped sync for non-tracked item: ${cbCode}`);
+      return;
     }
 
     console.log(`[Cloud] Syncing ${data.length} records for ${cbCode}...`);
@@ -187,15 +187,21 @@ async function syncToFirestore(cbCode, data) {
 
     // Update heartbeat
     if (docSnap.exists()) {
-        await docRef.set({ lastUpdated: new Date().toISOString() }, { merge: true });
-        console.log(`[Cloud] Updated heartbeat for tracked item: ${cbCode}`);
+      await docRef.set(
+        { lastUpdated: new Date().toISOString() },
+        { merge: true },
+      );
+      console.log(`[Cloud] Updated heartbeat for tracked item: ${cbCode}`);
     } else if (isManual) {
-        await docRef.set({ 
+      await docRef.set(
+        {
           lastUpdated: new Date().toISOString(),
           category: "未分類 (UNCATEGORIZED)",
-          addedAt: admin.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
-        console.log(`[Cloud] Registered new item via manual sync: ${cbCode}`);
+          addedAt: admin.firestore.FieldValue.serverTimestamp(),
+        },
+        { merge: true },
+      );
+      console.log(`[Cloud] Registered new item via manual sync: ${cbCode}`);
     }
   } catch (e) {
     console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);

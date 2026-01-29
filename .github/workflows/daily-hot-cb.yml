@@ -27,9 +27,3 @@ jobs:
         run: node tools/fetch-hot-cb.js --cloud
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Git Auto-Commit Scraped Data
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "🤖 [CI] Daily Hot CB Data Update"
-          file_pattern: "public/data/cb-data.json public/data/hot-cb.json"

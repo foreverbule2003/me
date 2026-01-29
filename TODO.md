@@ -38,6 +38,14 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-01-29 (11:10)
+
+- [x] **Architecture Refactor**: 完成 DDE 橋接器 (`xq_bridge.py`) 的模組化分層重構 (DDE-Mod-V1)。
+- [x] **Cloud Migration**: 徹底移除本地 `cb-data.json`，改為純 Firestore 雲端中繼資料驅動。
+- [x] **Data Integrity**: 實作 Analysis Drawer 的雲端中繼資料手動修正與立即儲存功能。
+- [x] **Maintenance**: 批次同步 355 筆標的中繼資料至 Firestore，實現資料自動維護。
+- [x] **Git Clean**: 更新 `.gitignore` 排除 Python 快取檔，並清理大量冗餘 JSON 資料。
+
 ### 2026-01-28 (18:15)
 
 - [x] **Data Backfill**: 完成 TPEX 歷史資料 (11天) 補回至 Firestore，修正成交量計算邏輯與 UI 響應式顯示。

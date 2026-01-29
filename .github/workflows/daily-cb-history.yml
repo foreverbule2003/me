@@ -27,9 +27,3 @@ jobs:
         run: node tools/fetch-cb-history.js --all --smart --sync
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-
-      - name: Git Auto-Commit JSON Data
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "🤖 [CI] Daily History Data Sync Update"
-          file_pattern: "public/data/history/*.json"

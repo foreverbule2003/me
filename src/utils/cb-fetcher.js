@@ -81,7 +81,7 @@ async function fetchHotCB() {
         }
       }
 
-    // Explicitly sort by Volume (Desc) to ensure "Hot" definition
+      // Explicitly sort by Volume (Desc) to ensure "Hot" definition
       scrapedData.sort((a, b) => b.volume - a.volume);
 
       // Return Top 20 strictly
@@ -93,36 +93,41 @@ async function fetchHotCB() {
     }
 
     // --- Enrichment Phase: Fetch Underlying Stock Prices ---
-    console.log(`[Fetcher] Enriching ${results.length} items with real-time stock prices (TWSE/OTC)...`);
+    console.log(
+      `[Fetcher] Enriching ${results.length} items with real-time stock prices (TWSE/OTC)...`,
+    );
     const enrichPromises = results.map(async (item) => {
       try {
         // Heuristic: CB Code is 5 digits, Stock Code is first 4.
         const stockCode = item.code.substring(0, 4);
         item.underlyingCode = stockCode;
-        
+
         // TWSE MIS API (Official Real-time - Delayed/Cached)
         // Query both TSE and OTC to be safe
         const qUrl = `https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_${stockCode}.tw|otc_${stockCode}.tw&json=1&delay=0`;
         const res = await fetch(qUrl);
         const json = await res.json();
-        
+
         if (json.msgArray && json.msgArray.length > 0) {
           // Take the first valid match
-          const stockData = json.msgArray.find(d => d.c === stockCode);
+          const stockData = json.msgArray.find((d) => d.c === stockCode);
           if (stockData && stockData.z !== "-") {
             item.stockPrice = parseFloat(stockData.z);
             // console.log(`[Stock] ${item.name} (${stockCode}) = ${item.stockPrice}`);
           } else if (stockData && stockData.y !== "-") {
-             // Fallback to yesterday closing if current price is unavailable (e.g. pre-market)
-             item.stockPrice = parseFloat(stockData.y);
+            // Fallback to yesterday closing if current price is unavailable (e.g. pre-market)
+            item.stockPrice = parseFloat(stockData.y);
           } else {
-             item.stockPrice = 0;
+            item.stockPrice = 0;
           }
         } else {
-           item.stockPrice = 0;
+          item.stockPrice = 0;
         }
       } catch (e) {
-        console.warn(`[Fetcher] Failed to fetch stock price for ${item.code}:`, e.message);
+        console.warn(
+          `[Fetcher] Failed to fetch stock price for ${item.code}:`,
+          e.message,
+        );
         item.stockPrice = 0;
       }
     });

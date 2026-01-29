@@ -6,9 +6,18 @@ node_modules/
 Thumbs.db
 
 # Editor
-.idea/
 *.swp
 *.swo
+.idea/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.venv/
 
 # Logs
 *.log
