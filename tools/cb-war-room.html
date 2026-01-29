@@ -377,27 +377,46 @@
         </div>
       </div>
 
-     <div class="mb-10">
+      <div class="mb-10">
         <h1
           class="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-800 flex items-center gap-3 flex-wrap"
         >
           CB 戰情室
-            <!-- Date Navigator UI -->
-            <div class="relative group ml-2 flex items-center gap-2">
-                <button onclick="SmartDateNavigator.prevDay()" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors">
-                    <i class="fas fa-chevron-left text-xs"></i>
-                </button>
-                
-                <div class="flex items-center gap-2 cursor-pointer bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-xl border border-transparent hover:border-slate-200 transition-all" onclick="document.getElementById('datePicker').showPicker()">
-                  <i class="far fa-calendar-alt text-slate-400"></i>
-                  <span class="text-slate-600 text-lg font-bold mono" id="dateDisplay">--/--/--</span>
-                  <input type="date" id="datePicker" class="absolute opacity-0 w-0 h-0 pointer-events-none" onchange="SmartDateNavigator.jumpToDate(this.value)">
-                </div>
+          <!-- Date Navigator UI -->
+          <div class="relative group ml-2 flex items-center gap-2">
+            <button
+              onclick="SmartDateNavigator.prevDay()"
+              class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors"
+            >
+              <i class="fas fa-chevron-left text-xs"></i>
+            </button>
 
-                <button onclick="SmartDateNavigator.nextDay()" id="nextDayBtn" class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
-                    <i class="fas fa-chevron-right text-xs"></i>
-                </button>
+            <div
+              class="flex items-center gap-2 cursor-pointer bg-slate-50 hover:bg-slate-100 px-3 py-1.5 rounded-xl border border-transparent hover:border-slate-200 transition-all"
+              onclick="document.getElementById('datePicker').showPicker()"
+            >
+              <i class="far fa-calendar-alt text-slate-400"></i>
+              <span
+                class="text-slate-600 text-lg font-bold mono"
+                id="dateDisplay"
+                >--/--/--</span
+              >
+              <input
+                type="date"
+                id="datePicker"
+                class="absolute opacity-0 w-0 h-0 pointer-events-none"
+                onchange="SmartDateNavigator.jumpToDate(this.value)"
+              />
             </div>
+
+            <button
+              onclick="SmartDateNavigator.nextDay()"
+              id="nextDayBtn"
+              class="w-8 h-8 flex items-center justify-center rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+            >
+              <i class="fas fa-chevron-right text-xs"></i>
+            </button>
+          </div>
         </h1>
         <div
           class="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2 text-xs text-slate-500 font-medium"
@@ -406,8 +425,11 @@
             <i class="far fa-clock"></i> 最後更新:
             <span id="updateTime" class="mono text-slate-700">--:--:--</span>
           </div>
-          <div id="historicalBadge" class="hidden flex items-center gap-1.5 px-2 py-0.5 bg-amber-50 text-amber-600 border border-amber-100 rounded-md">
-             <i class="fas fa-history"></i> 歷史回顧模式
+          <div
+            id="historicalBadge"
+            class="hidden flex items-center gap-1.5 px-2 py-0.5 bg-amber-50 text-amber-600 border border-amber-100 rounded-md"
+          >
+            <i class="fas fa-history"></i> 歷史回顧模式
           </div>
         </div>
       </div>
@@ -693,8 +715,8 @@
                     step="0.01"
                     class="bg-white border invalid:border-red-300 border-slate-200 text-right px-3 py-1.5 rounded-lg mono text-lg font-black w-32 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 text-slate-700"
                   />
-                  <button 
-                    onclick="saveAnalysisMeta()" 
+                  <button
+                    onclick="saveAnalysisMeta()"
                     title="儲存至雲端中繼資料"
                     class="w-10 h-10 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white transition-all flex items-center justify-center border border-indigo-100"
                   >
@@ -726,12 +748,12 @@
             </div>
           </div>
         </div>
-            <p
-              id="dChartNoData"
-              class="text-center text-gray-400 text-sm py-8 hidden"
-            >
-              <i class="fas fa-database mr-2"></i>尚無歷史資料
-            </p>
+        <p
+          id="dChartNoData"
+          class="text-center text-gray-400 text-sm py-8 hidden"
+        >
+          <i class="fas fa-database mr-2"></i>尚無歷史資料
+        </p>
 
         <!-- Action Buttons -->
         <div class="pt-2 stagger-entry delay-4">
@@ -749,22 +771,28 @@
             <i class="fas fa-external-link-alt"></i> 開啟進階計算機
           </button>
         </div>
-        </div>
       </div>
     </div>
 
-
     <!-- Unified Loader Overlay -->
-    <div id="loader" class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/10 backdrop-blur-sm hidden">
+    <div
+      id="loader"
+      class="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/10 backdrop-blur-sm hidden"
+    >
       <div class="flex flex-col items-center gap-4">
-        <div class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-200 animate-bounce">
-            <i class="fas fa-bolt text-white"></i>
+        <div
+          class="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center shadow-xl shadow-indigo-200 animate-bounce"
+        >
+          <i class="fas fa-bolt text-white"></i>
         </div>
         <div class="flex flex-col items-center">
-            <span class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mb-1">Processing</span>
-            <div class="h-1 w-24 bg-slate-100 rounded-full overflow-hidden">
-                <div class="h-full bg-indigo-500 w-1/2 animate-pulse"></div>
-            </div>
+          <span
+            class="text-[10px] font-black text-indigo-500 uppercase tracking-[0.2em] mb-1"
+            >Processing</span
+          >
+          <div class="h-1 w-24 bg-slate-100 rounded-full overflow-hidden">
+            <div class="h-full bg-indigo-500 w-1/2 animate-pulse"></div>
+          </div>
         </div>
       </div>
     </div>
@@ -772,116 +800,117 @@
     <script>
       // --- Smart Date Navigator ---
       class SmartDateNavigator {
-          static formatDate(d) {
-              const y = d.getFullYear();
-              const m = String(d.getMonth() + 1).padStart(2, '0');
-              const dd = String(d.getDate()).padStart(2, '0');
-              return `${y}-${m}-${dd}`;
+        static formatDate(d) {
+          const y = d.getFullYear();
+          const m = String(d.getMonth() + 1).padStart(2, "0");
+          const dd = String(d.getDate()).padStart(2, "0");
+          return `${y}-${m}-${dd}`;
+        }
+
+        static isWeekend(d) {
+          const day = d.getDay();
+          return day === 0 || day === 6;
+        }
+
+        static getEffectiveDate(inputDate = new Date()) {
+          const d = new Date(inputDate);
+          // Avoid timezone issues by using local time logic
+          // Loop back to Friday if Sat(6) or Sun(0)
+          while (this.isWeekend(d)) {
+            d.setDate(d.getDate() - 1);
+          }
+          return d;
+        }
+
+        static updateUI(targetDate) {
+          const el = document.getElementById("dateDisplay");
+          const picker = document.getElementById("datePicker");
+          const nextBtn = document.getElementById("nextDayBtn");
+          const days = ["日", "一", "二", "三", "四", "五", "六"];
+
+          const y = targetDate.getFullYear();
+          const m = String(targetDate.getMonth() + 1).padStart(2, "0");
+          const d = String(targetDate.getDate()).padStart(2, "0");
+          const dayName = days[targetDate.getDay()];
+
+          // Display format: YYYY/MM/DD(Day)
+          if (el)
+            el.textContent = `${y.toString().slice(-2)}/${m}/${d}(${dayName})`;
+
+          const iso = this.formatDate(targetDate);
+          if (picker) picker.value = iso; // Sync picker internal state
+
+          // Disable "Next Day" if target is today or future
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const target = new Date(targetDate);
+          target.setHours(0, 0, 0, 0);
+
+          if (target >= today) {
+            if (nextBtn) {
+              nextBtn.disabled = true;
+              nextBtn.classList.add("opacity-30", "cursor-not-allowed");
+            }
+            const badge = document.getElementById("historicalBadge");
+            if (badge) badge.classList.add("hidden");
+          } else {
+            if (nextBtn) {
+              nextBtn.disabled = false;
+              nextBtn.classList.remove("opacity-30", "cursor-not-allowed");
+            }
+            const badge = document.getElementById("historicalBadge");
+            if (badge) badge.classList.remove("hidden");
           }
 
-          static isWeekend(d) {
-              const day = d.getDay();
-              return day === 0 || day === 6;
+          window.currentDisplayDate = targetDate;
+        }
+
+        // Handlers
+        static prevDay() {
+          const current = window.currentDisplayDate || new Date();
+          const prev = new Date(current);
+          prev.setDate(prev.getDate() - 1);
+          // Auto-skip weekend backwards
+          while (this.isWeekend(prev)) {
+            prev.setDate(prev.getDate() - 1);
+          }
+          this.loadDate(prev);
+        }
+
+        static nextDay() {
+          const current = window.currentDisplayDate || new Date();
+          const next = new Date(current);
+          next.setDate(next.getDate() + 1);
+          // Auto-skip weekend forwards
+          while (this.isWeekend(next)) {
+            next.setDate(next.getDate() + 1);
           }
 
-          static getEffectiveDate(inputDate = new Date()) {
-              const d = new Date(inputDate);
-              // Avoid timezone issues by using local time logic
-              // Loop back to Friday if Sat(6) or Sun(0)
-              while (this.isWeekend(d)) {
-                  d.setDate(d.getDate() - 1);
-              }
-              return d;
+          // Check future cap
+          if (next > new Date()) return;
+          this.loadDate(next);
+        }
+
+        static jumpToDate(isoStr) {
+          if (!isoStr) return;
+          const d = new Date(isoStr);
+          // If user picks weekend, maybe warn or auto-adjust?
+          // Implementation: Auto-adjust to Friday if weekend
+          const effective = this.getEffectiveDate(d);
+          if (effective.getTime() !== d.getTime()) {
+            // Optional: toast('已自動調整至最近交易日')
+            console.log("[DateNav] Adjusted weekend selection to Friday");
           }
+          this.loadDate(effective);
+        }
 
-          static updateUI(targetDate) {
-              const el = document.getElementById('dateDisplay');
-              const picker = document.getElementById('datePicker');
-              const nextBtn = document.getElementById('nextDayBtn');
-              const days = ["日", "一", "二", "三", "四", "五", "六"];
-              
-              const y = targetDate.getFullYear();
-              const m = String(targetDate.getMonth() + 1).padStart(2, '0');
-              const d = String(targetDate.getDate()).padStart(2, '0');
-              const dayName = days[targetDate.getDay()];
-              
-              // Display format: YYYY/MM/DD(Day)
-              if (el) el.textContent = `${y.toString().slice(-2)}/${m}/${d}(${dayName})`;
-              
-              const iso = this.formatDate(targetDate);
-              if (picker) picker.value = iso; // Sync picker internal state
-
-              // Disable "Next Day" if target is today or future
-              const today = new Date();
-              today.setHours(0,0,0,0);
-              const target = new Date(targetDate);
-              target.setHours(0,0,0,0);
-              
-              if (target >= today) {
-                  if (nextBtn) {
-                      nextBtn.disabled = true;
-                      nextBtn.classList.add('opacity-30', 'cursor-not-allowed');
-                  }
-                  const badge = document.getElementById('historicalBadge');
-                  if (badge) badge.classList.add('hidden');
-              } else {
-                  if (nextBtn) {
-                      nextBtn.disabled = false;
-                      nextBtn.classList.remove('opacity-30', 'cursor-not-allowed');
-                  }
-                  const badge = document.getElementById('historicalBadge');
-                  if (badge) badge.classList.remove('hidden');
-              }
-
-              window.currentDisplayDate = targetDate;
+        static loadDate(date) {
+          if (window.fetchHotCB) {
+            window.fetchHotCB(date);
+          } else {
+            console.warn("fetchHotCB not ready yet");
           }
-
-          // Handlers
-          static prevDay() {
-              const current = window.currentDisplayDate || new Date();
-              const prev = new Date(current);
-              prev.setDate(prev.getDate() - 1);
-              // Auto-skip weekend backwards
-              while (this.isWeekend(prev)) {
-                   prev.setDate(prev.getDate() - 1);
-              }
-              this.loadDate(prev);
-          }
-
-          static nextDay() {
-              const current = window.currentDisplayDate || new Date();
-              const next = new Date(current);
-              next.setDate(next.getDate() + 1);
-               // Auto-skip weekend forwards
-              while (this.isWeekend(next)) {
-                   next.setDate(next.getDate() + 1);
-              }
-              
-              // Check future cap
-              if (next > new Date()) return;
-              this.loadDate(next);
-          }
-
-          static jumpToDate(isoStr) {
-               if (!isoStr) return;
-               const d = new Date(isoStr);
-               // If user picks weekend, maybe warn or auto-adjust? 
-               // Implementation: Auto-adjust to Friday if weekend
-               const effective = this.getEffectiveDate(d);
-               if (effective.getTime() !== d.getTime()) {
-                   // Optional: toast('已自動調整至最近交易日')
-                   console.log('[DateNav] Adjusted weekend selection to Friday');
-               }
-               this.loadDate(effective);
-          }
-
-          static loadDate(date) {
-              if (window.fetchHotCB) {
-                  window.fetchHotCB(date);
-              } else {
-                  console.warn("fetchHotCB not ready yet");
-              }
-          }
+        }
       }
       window.SmartDateNavigator = SmartDateNavigator;
     </script>
@@ -966,8 +995,11 @@
       }
 
       // --- 0. Global Error Protection ---
-      window.onerror = function(msg, url, line, col, error) {
-        if (msg.indexOf('RangeError') > -1 || msg.indexOf('Invalid time value') > -1) {
+      window.onerror = function (msg, url, line, col, error) {
+        if (
+          msg.indexOf("RangeError") > -1 ||
+          msg.indexOf("Invalid time value") > -1
+        ) {
           console.error("[Guard] Suppressed RangeError:", msg);
           return true; // Stop error from bubbling
         }
@@ -975,9 +1007,15 @@
       };
 
       // --- 0. Global Error Recovery ---
-      window.addEventListener('error', (e) => {
-        if (e.message.includes('Invalid time value') || e.message.includes('toISOString')) {
-          console.warn("[Stability] Suppressed expected date error:", e.message);
+      window.addEventListener("error", (e) => {
+        if (
+          e.message.includes("Invalid time value") ||
+          e.message.includes("toISOString")
+        ) {
+          console.warn(
+            "[Stability] Suppressed expected date error:",
+            e.message,
+          );
           e.preventDefault(); // Stop from breaking execution
         }
       });
@@ -997,8 +1035,6 @@
       );
       const newCbInput = document.getElementById("newCbInput");
 
-
-
       // --- 2. Robust Date Utils (Local-First) ---
       const formatDateLocal = (d) => {
         if (!d || isNaN(d.getTime())) d = new Date();
@@ -1009,12 +1045,22 @@
       };
 
       const parseLocalDate = (str) => {
-        if (!str || str === "null" || str === "NaN-NaN-NaN" || str === "undefined") {
+        if (
+          !str ||
+          str === "null" ||
+          str === "NaN-NaN-NaN" ||
+          str === "undefined"
+        ) {
           return new Date();
         }
         try {
           const parts = str.split("-").map(Number);
-          if (parts.length !== 3 || isNaN(parts[0]) || isNaN(parts[1]) || isNaN(parts[2])) {
+          if (
+            parts.length !== 3 ||
+            isNaN(parts[0]) ||
+            isNaN(parts[1]) ||
+            isNaN(parts[2])
+          ) {
             return new Date();
           }
           const d = new Date(parts[0], parts[1] - 1, parts[2]);
@@ -1033,12 +1079,16 @@
         // A. Clean URL if needed (remove legacy query params)
         if (window.location.search) {
           console.log("[Init] Cleaning legacy URL query params...");
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState(
+            {},
+            document.title,
+            window.location.pathname,
+          );
         }
 
         // B. Determine Effective Date (Skip weekends)
         const initialDate = SmartDateNavigator.getEffectiveDate(new Date());
-        
+
         // C. Always Fetch Hot CB (Live Data or Fallback)
         // Note: fetchHotCB will handle UI updates
         fetchHotCB(initialDate);
@@ -1535,8 +1585,8 @@
           // Strict Weekend Block: Never return data for Sat/Sun from cloud
           const d = parseLocalDate(docId);
           if (d.getDay() === 0 || d.getDay() === 6) {
-             console.warn("[Cloud] Blocked weekend data:", docId);
-             return null;
+            console.warn("[Cloud] Blocked weekend data:", docId);
+            return null;
           }
 
           return snap.data();
@@ -1548,66 +1598,89 @@
 
       window.fetchHotCB = async function (targetDate = null) {
         // Use supplied date or default to current effective date
-        const dateToUse = targetDate || window.currentDisplayDate || SmartDateNavigator.getEffectiveDate(new Date());
+        const dateToUse =
+          targetDate ||
+          window.currentDisplayDate ||
+          SmartDateNavigator.getEffectiveDate(new Date());
         const dateId = SmartDateNavigator.formatDate(dateToUse);
         const todayId = SmartDateNavigator.formatDate(new Date());
-        
+
         // Update UI immediately to reflect target date
         SmartDateNavigator.updateUI(dateToUse);
         updateLoadingState(true);
         if (statusBanner) statusBanner.classList.add("hidden");
 
         const cacheKey = `hot_cb_list_${dateId}`;
-        console.log(`[Data] Strategy: Cloud First + Local Cache. Fetching ${dateId}`);
+        console.log(
+          `[Data] Strategy: Cloud First + Local Cache. Fetching ${dateId}`,
+        );
 
         try {
-            // 1. Try Local Cache (IndexedDB)
-            const cached = await CbHistoryService._readLocal(cacheKey);
-            // If cache exists and it's either an old date (static) or today's cache from today
-            // Adding length check to bypass suspicious "mock" caches (usually only 4 items)
-            if (cached && (dateId !== todayId || cached.lastSync === todayId) && (cached.records?.length > 5)) {
-                console.log(`[Data] Cache hit for ${dateId} (${cached.records.length} items)`);
-                processData(cached.records, dateId === todayId ? "live" : "history");
-                updateHeaderTime(new Date(cached.timestamp || Date.now()));
-                updateLoadingState(false);
-                if (dateId === todayId) startUpdateTimer();
-                return;
-            } else if (cached) {
-                console.warn(`[Data] Cache hit but data suspicious (${cached.records?.length} items). Forcing refresh.`);
-            }
-
-            // 2. Clear Cache Miss -> Cloud Fetch
-            console.log(`[Data] Cache miss/stale. Requesting Firestore for ${dateId}...`);
-            const docRef = doc(db, "hot_cb_snapshots", dateId);
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                const cloudData = docSnap.data();
-                const items = cloudData.items || cloudData.data || [];
-                
-                const cloudDate = cloudData.updatedAt?.toDate ? cloudData.updatedAt.toDate() : new Date(cloudData.updatedAt || Date.now());
-                
-                // Save to local cache with today's tag and timestamp
-                await CbHistoryService._writeLocal(cacheKey, items, todayId, cloudDate.toISOString());
-                
-                processData(items, dateId === todayId ? "live" : "history");
-                updateHeaderTime(cloudDate);
-                
-                if (dateId === todayId) startUpdateTimer();
-            } else {
-                console.warn(`[Data] No Firestore snapshot for ${dateId}`);
-                processData([], "history");
-                renderError("尚無資料", `資料庫中暫無 ${dateId} 的紀錄`);
-            }
-        } catch (e) {
-            console.error("[Data] Fetch failure:", e);
-            renderError("載入失敗", "目前無法與雲端同步，請稍後再試。");
-        } finally {
+          // 1. Try Local Cache (IndexedDB)
+          const cached = await CbHistoryService._readLocal(cacheKey);
+          // If cache exists and it's either an old date (static) or today's cache from today
+          // Adding length check to bypass suspicious "mock" caches (usually only 4 items)
+          if (
+            cached &&
+            (dateId !== todayId || cached.lastSync === todayId) &&
+            cached.records?.length > 5
+          ) {
+            console.log(
+              `[Data] Cache hit for ${dateId} (${cached.records.length} items)`,
+            );
+            processData(
+              cached.records,
+              dateId === todayId ? "live" : "history",
+            );
+            updateHeaderTime(new Date(cached.timestamp || Date.now()));
             updateLoadingState(false);
+            if (dateId === todayId) startUpdateTimer();
+            return;
+          } else if (cached) {
+            console.warn(
+              `[Data] Cache hit but data suspicious (${cached.records?.length} items). Forcing refresh.`,
+            );
+          }
+
+          // 2. Clear Cache Miss -> Cloud Fetch
+          console.log(
+            `[Data] Cache miss/stale. Requesting Firestore for ${dateId}...`,
+          );
+          const docRef = doc(db, "hot_cb_snapshots", dateId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const cloudData = docSnap.data();
+            const items = cloudData.items || cloudData.data || [];
+
+            const cloudDate = cloudData.updatedAt?.toDate
+              ? cloudData.updatedAt.toDate()
+              : new Date(cloudData.updatedAt || Date.now());
+
+            // Save to local cache with today's tag and timestamp
+            await CbHistoryService._writeLocal(
+              cacheKey,
+              items,
+              todayId,
+              cloudDate.toISOString(),
+            );
+
+            processData(items, dateId === todayId ? "live" : "history");
+            updateHeaderTime(cloudDate);
+
+            if (dateId === todayId) startUpdateTimer();
+          } else {
+            console.warn(`[Data] No Firestore snapshot for ${dateId}`);
+            processData([], "history");
+            renderError("尚無資料", `資料庫中暫無 ${dateId} 的紀錄`);
+          }
+        } catch (e) {
+          console.error("[Data] Fetch failure:", e);
+          renderError("載入失敗", "目前無法與雲端同步，請稍後再試。");
+        } finally {
+          updateLoadingState(false);
         }
       };
-
-
 
       function processData(json, mode) {
         try {
@@ -1634,15 +1707,14 @@
           updateHeaderTime(dataTime);
           updateHeaderTime(dataTime);
           if (mode === "history") {
-              updateArchiveStatus();
-              // Stop auto-refresh in history mode
-              if (countdownTimer) clearInterval(countdownTimer);
-              document.getElementById("topProgressBar").style.width = "0%";
-              // Provide visual cue
-              statusBanner.innerHTML = `<div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2"><i class="fas fa-history"></i><span>目前顯示歷史資料 (${SmartDateNavigator.formatDate(window.currentDisplayDate)}) - 即時報價已暫停更新。</span></div>`;
-              statusBanner.classList.remove("hidden");
-          }
-          else {
+            updateArchiveStatus();
+            // Stop auto-refresh in history mode
+            if (countdownTimer) clearInterval(countdownTimer);
+            document.getElementById("topProgressBar").style.width = "0%";
+            // Provide visual cue
+            statusBanner.innerHTML = `<div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2"><i class="fas fa-history"></i><span>目前顯示歷史資料 (${SmartDateNavigator.formatDate(window.currentDisplayDate)}) - 即時報價已暫停更新。</span></div>`;
+            statusBanner.classList.remove("hidden");
+          } else {
             updateMarketStatus(dataTime);
             startUpdateTimer(); // Start 60s countdown
           }
@@ -1804,8 +1876,6 @@
         }
       }
 
-
-
       function getDataPath(filename) {
         return `../data/${filename}`;
       }
@@ -1816,21 +1886,25 @@
         try {
           const res = await fetch(url);
           if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          
+
           const contentType = res.headers.get("content-type");
           if (contentType && contentType.includes("text/html")) {
-             throw new Error("Received HTML instead of JSON (likely 404/fallback)");
+            throw new Error(
+              "Received HTML instead of JSON (likely 404/fallback)",
+            );
           }
 
           const duration = performance.now() - start;
-          
-          logPerfEvent("fetch_success", { 
-            url: url.split("?")[0], 
-            duration: Math.round(duration) 
+
+          logPerfEvent("fetch_success", {
+            url: url.split("?")[0],
+            duration: Math.round(duration),
           });
 
           if (duration > 3000) {
-            console.warn(`[Perf] Slow fetch: ${url} (${duration.toFixed(0)}ms)`);
+            console.warn(
+              `[Perf] Slow fetch: ${url} (${duration.toFixed(0)}ms)`,
+            );
           }
           return res;
         } catch (e) {
@@ -1842,13 +1916,16 @@
       function logPerfEvent(name, params) {
         try {
           // Explicitly use analytics instance (V10)
-          if (typeof analytics !== 'undefined' && analytics) {
+          if (typeof analytics !== "undefined" && analytics) {
             logEvent(analytics, name, params);
           }
           console.log(`[Perf] ${name}:`, params);
         } catch (e) {
           // Safety: Don't call db.collection or anything else here
-          console.warn(`[Perf] Analytics dispatch failed for ${name}:`, e.message);
+          console.warn(
+            `[Perf] Analytics dispatch failed for ${name}:`,
+            e.message,
+          );
         }
       }
 
@@ -1871,39 +1948,49 @@
         document.getElementById("dParityPrice").textContent = "--";
         document.getElementById("dUpsideNeeded").textContent = "--%";
         document.getElementById("dPremiumRate").textContent = "--%";
-        document.getElementById("dPremiumDesc").textContent = "正在讀取中繼資料...";
+        document.getElementById("dPremiumDesc").textContent =
+          "正在讀取中繼資料...";
         document.getElementById("dPremiumStatus").textContent = "LOADING";
 
         // 1. Initial Data Search (Pool vs Tracked)
         const poolItem = window.lastDataPool?.find((i) => i.code === code);
-        const trackedItem = window.lastKnownItems?.find(i => i.id === code);
-        
+        const trackedItem = window.lastKnownItems?.find((i) => i.id === code);
+
         // 2. Fetch/Resolve Metadata from Firestore (Master Info)
         let meta = null;
         try {
-            const metaSnap = await getDoc(doc(db, "cb_history", code));
-            if (metaSnap.exists()) {
-                meta = metaSnap.data();
-            }
+          const metaSnap = await getDoc(doc(db, "cb_history", code));
+          if (metaSnap.exists()) {
+            meta = metaSnap.data();
+          }
         } catch (e) {
-            console.warn(`[Analysis] Master metadata fetch failed for ${code}`, e);
+          console.warn(
+            `[Analysis] Master metadata fetch failed for ${code}`,
+            e,
+          );
         }
 
         // 3. Merge order: Firestore Meta > Pool Item > Tracked Item
         const item = {
-            code: code,
-            name: meta?.name || poolItem?.name || trackedItem?.name || code,
-            price: trackedItem?.price || poolItem?.price || 0,
-            stockPrice: trackedItem?.stockPrice || poolItem?.stockPrice || 0,
-            changePercent: trackedItem?.changePercent || poolItem?.changePercent || "0.00%",
-            conversionPrice: meta?.conversionPrice || trackedItem?.conversionPrice || 0,
-            underlyingCode: meta?.underlyingCode || poolItem?.underlyingCode || trackedItem?.underlyingCode || ""
+          code: code,
+          name: meta?.name || poolItem?.name || trackedItem?.name || code,
+          price: trackedItem?.price || poolItem?.price || 0,
+          stockPrice: trackedItem?.stockPrice || poolItem?.stockPrice || 0,
+          changePercent:
+            trackedItem?.changePercent || poolItem?.changePercent || "0.00%",
+          conversionPrice:
+            meta?.conversionPrice || trackedItem?.conversionPrice || 0,
+          underlyingCode:
+            meta?.underlyingCode ||
+            poolItem?.underlyingCode ||
+            trackedItem?.underlyingCode ||
+            "",
         };
 
         document.getElementById("drawerTitle").textContent = item.name;
         document.getElementById("drawerCode").textContent = item.code;
         window.performAnalysis(item);
-        
+
         fetchAnalysisHistory(code);
       };
 
@@ -1919,103 +2006,138 @@
         const inputVal = document.getElementById("dConvPriceInput")?.value;
         const convPrice = parseFloat(inputVal) || item.conversionPrice || 0;
         const spotPrice = parseFloat(item.stockPrice) || 0;
-        const lastCbPrice = parseFloat(item.price) || parseFloat(item.close) || 0;
+        const lastCbPrice =
+          parseFloat(item.price) || parseFloat(item.close) || 0;
 
         // 3. UI Updates - Basics
         const dStockPrice = document.getElementById("dStockPrice");
         if (dStockPrice) {
-            dStockPrice.textContent = spotPrice > 0 ? spotPrice.toFixed(2) : "--";
-            dStockPrice.classList.toggle("text-slate-300", spotPrice === 0);
+          dStockPrice.textContent = spotPrice > 0 ? spotPrice.toFixed(2) : "--";
+          dStockPrice.classList.toggle("text-slate-300", spotPrice === 0);
         }
-        
+
         const cbPriceEl = document.getElementById("dCbPrice");
         if (cbPriceEl) {
-            cbPriceEl.innerHTML = lastCbPrice > 0 ? lastCbPrice.toFixed(2) : "--";
-            if (lastCbPrice === 100.00) {
-                 cbPriceEl.innerHTML += `<span class="ml-2 text-[10px] text-amber-500 bg-amber-50 px-1 rounded border border-amber-200" title="若今日無成交，系統可能回傳票面價 100">票面?</span>`;
-            }
+          cbPriceEl.innerHTML = lastCbPrice > 0 ? lastCbPrice.toFixed(2) : "--";
+          if (lastCbPrice === 100.0) {
+            cbPriceEl.innerHTML += `<span class="ml-2 text-[10px] text-amber-500 bg-amber-50 px-1 rounded border border-amber-200" title="若今日無成交，系統可能回傳票面價 100">票面?</span>`;
+          }
         }
 
         const dConvPriceInput = document.getElementById("dConvPriceInput");
         if (dConvPriceInput && !inputVal) {
-            dConvPriceInput.value = convPrice > 0 ? convPrice : "";
+          dConvPriceInput.value = convPrice > 0 ? convPrice : "";
         }
 
         // 4. Detailed Calculations
         // Parity (平價) = (Spot / Conv) * 100
-        const parity = (convPrice > 0 && spotPrice > 0) ? (spotPrice / convPrice) * 100 : 0;
-        
+        const parity =
+          convPrice > 0 && spotPrice > 0 ? (spotPrice / convPrice) * 100 : 0;
+
         // Premium (溢價率) = (CBPrice / Parity - 1) * 100
         let premium = 0;
         if (parity > 0 && lastCbPrice > 0) {
-            premium = (lastCbPrice / parity - 1) * 100;
+          premium = (lastCbPrice / parity - 1) * 100;
         }
 
         // Break-Even Stock Price (保本價) = (CBPrice / 100) * ConvPrice
-        const beStockPrice = (lastCbPrice > 0 && convPrice > 0) ? (lastCbPrice / 100) * convPrice : 0;
+        const beStockPrice =
+          lastCbPrice > 0 && convPrice > 0
+            ? (lastCbPrice / 100) * convPrice
+            : 0;
 
         // 5. Update Metrics UI
         const dConvVal = document.getElementById("dConvVal");
-        if (dConvVal) dConvVal.textContent = parity > 0 ? parity.toFixed(2) : "--";
+        if (dConvVal)
+          dConvVal.textContent = parity > 0 ? parity.toFixed(2) : "--";
 
         const dParityPrice = document.getElementById("dParityPrice");
-        if (dParityPrice) dParityPrice.textContent = beStockPrice > 0 ? beStockPrice.toFixed(2) : "--";
-        
+        if (dParityPrice)
+          dParityPrice.textContent =
+            beStockPrice > 0 ? beStockPrice.toFixed(2) : "--";
+
         const dPremiumRate = document.getElementById("dPremiumRate");
         if (dPremiumRate) {
-            dPremiumRate.textContent = (parity > 0 && lastCbPrice > 0) ? premium.toFixed(2) + "%" : "--%";
-            dPremiumRate.className = "text-5xl font-black tracking-tighter mono " + 
-                (premium < 0 ? "text-green-600" : (premium > 10 ? "text-red-500" : "text-slate-800"));
+          dPremiumRate.textContent =
+            parity > 0 && lastCbPrice > 0 ? premium.toFixed(2) + "%" : "--%";
+          dPremiumRate.className =
+            "text-5xl font-black tracking-tighter mono " +
+            (premium < 0
+              ? "text-green-600"
+              : premium > 10
+                ? "text-red-500"
+                : "text-slate-800");
         }
 
         // 6. Shares per Bond
-        const sharesPerBond = convPrice > 0 ? Math.floor(100000 / convPrice) : 0;
+        const sharesPerBond =
+          convPrice > 0 ? Math.floor(100000 / convPrice) : 0;
         const dSharesInfo = document.getElementById("dSharesInfo");
-        if (dSharesInfo) dSharesInfo.textContent = sharesPerBond > 0 ? `${sharesPerBond} 股/張` : "-- 股/張";
+        if (dSharesInfo)
+          dSharesInfo.textContent =
+            sharesPerBond > 0 ? `${sharesPerBond} 股/張` : "-- 股/張";
 
         // 7. Upside Needed (BE)
         const dUpsideNeeded = document.getElementById("dUpsideNeeded");
         if (dUpsideNeeded) {
-            const upside = (spotPrice > 0 && beStockPrice > 0) ? ((beStockPrice / spotPrice) - 1) * 100 : 0;
-            dUpsideNeeded.textContent = upside !== 0 ? `需上漲 ${upside.toFixed(2)}%` : "需上漲 --%";
+          const upside =
+            spotPrice > 0 && beStockPrice > 0
+              ? (beStockPrice / spotPrice - 1) * 100
+              : 0;
+          dUpsideNeeded.textContent =
+            upside !== 0 ? `需上漲 ${upside.toFixed(2)}%` : "需上漲 --%";
         }
 
         // 8. Description & Status
         const descEl = document.getElementById("dPremiumDesc");
         const statusEl = document.getElementById("dPremiumStatus");
         if (descEl) {
-            if (parity > 0 && lastCbPrice > 0) {
-                descEl.textContent = premium > 0 ? "目前價格高於理論價值 (溢價)" : "目前價格低於理論價值 (折價)";
-            } else {
-                descEl.textContent = "資料不足，無法計算";
-            }
+          if (parity > 0 && lastCbPrice > 0) {
+            descEl.textContent =
+              premium > 0
+                ? "目前價格高於理論價值 (溢價)"
+                : "目前價格低於理論價值 (折價)";
+          } else {
+            descEl.textContent = "資料不足，無法計算";
+          }
         }
         if (statusEl) {
-            if (parity > 0 && lastCbPrice > 0) {
-                statusEl.textContent = premium > 0 ? "溢價" : "折價";
-                statusEl.className = premium > 0 
-                    ? "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-red-50 text-red-500 border border-red-100"
-                    : "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-green-50 text-green-600 border border-green-100";
-            } else {
-                statusEl.textContent = "待確認";
-                statusEl.className = "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400 border border-slate-100/50";
-            }
+          if (parity > 0 && lastCbPrice > 0) {
+            statusEl.textContent = premium > 0 ? "溢價" : "折價";
+            statusEl.className =
+              premium > 0
+                ? "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-red-50 text-red-500 border border-red-100"
+                : "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-green-50 text-green-600 border border-green-100";
+          } else {
+            statusEl.textContent = "待確認";
+            statusEl.className =
+              "px-1.5 py-0.5 rounded text-[10px] font-black uppercase tracking-tighter bg-slate-100 text-slate-400 border border-slate-100/50";
+          }
         }
       };
 
       async function fetchAnalysisHistory(code) {
         const mountPoint = document.getElementById("dPremiumChartMount");
-        if (mountPoint) mountPoint.innerHTML = '<div class="h-48 flex items-center justify-center text-slate-300 text-[10px] font-bold uppercase tracking-widest animate-pulse">Loading Historical Data...</div>';
+        if (mountPoint)
+          mountPoint.innerHTML =
+            '<div class="h-48 flex items-center justify-center text-slate-300 text-[10px] font-bold uppercase tracking-widest animate-pulse">Loading Historical Data...</div>';
         try {
-          const history = await window.CbHistoryService.fetchHistory(window.db, code, {
+          const history = await window.CbHistoryService.fetchHistory(
+            window.db,
+            code,
+            {
               onStatusUpdate: (msg, submsg) => {
-                  // If we wanted to update a title elsewhere, we could here
-              }
-          });
+                // If we wanted to update a title elsewhere, we could here
+              },
+            },
+          );
 
           if (history.length > 0 && mountPoint) {
             window.currentChartRawData = history;
-            window.analysisChart = window.CbPremiumHistoryChart.mount(mountPoint, history);
+            window.analysisChart = window.CbPremiumHistoryChart.mount(
+              mountPoint,
+              history,
+            );
           }
         } catch (e) {
           console.warn("History load failed:", e);
@@ -2029,10 +2151,12 @@
 
       window.saveAnalysisMeta = async () => {
         const code = window.currentAnalysisCode;
-        const convPrice = parseFloat(document.getElementById("dConvPriceInput").value);
+        const convPrice = parseFloat(
+          document.getElementById("dConvPriceInput").value,
+        );
         if (!code || isNaN(convPrice)) {
-            alert("請輸入有效的轉換價格");
-            return;
+          alert("請輸入有效的轉換價格");
+          return;
         }
 
         const btn = document.querySelector('[onclick="saveAnalysisMeta()"]');
@@ -2041,41 +2165,51 @@
         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
 
         try {
-            await setDoc(doc(db, "cb_history", code), {
-                conversionPrice: convPrice,
-                updatedAt: serverTimestamp()
-            }, { merge: true });
-            
-            btn.className = btn.className.replace("bg-indigo-50 text-indigo-600", "bg-green-500 text-white");
-            btn.innerHTML = '<i class="fas fa-check"></i>';
-            console.log(`[Analysis] Metadata saved for ${code}`);
-            
-            setTimeout(() => {
-                btn.disabled = false;
-                btn.innerHTML = originalIcon;
-                btn.className = btn.className.replace("bg-green-500 text-white", "bg-indigo-50 text-indigo-600");
-            }, 2000);
-        } catch (e) {
-            console.error("[Analysis] Save failed", e);
-            alert("儲存失敗，請檢查權限");
+          await setDoc(
+            doc(db, "cb_history", code),
+            {
+              conversionPrice: convPrice,
+              updatedAt: serverTimestamp(),
+            },
+            { merge: true },
+          );
+
+          btn.className = btn.className.replace(
+            "bg-indigo-50 text-indigo-600",
+            "bg-green-500 text-white",
+          );
+          btn.innerHTML = '<i class="fas fa-check"></i>';
+          console.log(`[Analysis] Metadata saved for ${code}`);
+
+          setTimeout(() => {
             btn.disabled = false;
             btn.innerHTML = originalIcon;
+            btn.className = btn.className.replace(
+              "bg-green-500 text-white",
+              "bg-indigo-50 text-indigo-600",
+            );
+          }, 2000);
+        } catch (e) {
+          console.error("[Analysis] Save failed", e);
+          alert("儲存失敗，請檢查權限");
+          btn.disabled = false;
+          btn.innerHTML = originalIcon;
         }
       };
 
       const convInput = document.getElementById("dConvPriceInput");
       if (convInput) {
-          convInput.addEventListener("input", () => {
-              const item = window.lastDataPool?.find(
-                (i) => i.code === window.currentAnalysisCode,
-              );
-              if (item) window.performAnalysis(item);
-          });
+        convInput.addEventListener("input", () => {
+          const item = window.lastDataPool?.find(
+            (i) => i.code === window.currentAnalysisCode,
+          );
+          if (item) window.performAnalysis(item);
+        });
       }
 
       // --- Final Initialization ---
       console.log("[Init] War Room Components Initialized.");
-      window.initBootstrap(); 
+      window.initBootstrap();
     </script>
-</body>
+  </body>
 </html>
