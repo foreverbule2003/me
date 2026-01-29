@@ -1565,7 +1565,9 @@
         if (!confirm(`確定要取消追蹤 ${id} 嗎?`)) return;
 
         try {
-          await deleteDoc(doc(db, "cb_history", id));
+          await measureFirestore("deleteDoc:cb_history", () =>
+            deleteDoc(doc(db, "cb_history", id)),
+          );
           console.log(`[Watchlist] Deleted ${id}`);
         } catch (e) {
           console.error("Failed to delete tracked CB", e);
@@ -1580,7 +1582,9 @@
         );
         try {
           const metaRef = doc(db, "hot_cb_meta", "latest");
-          const metaSnap = await getDoc(metaRef);
+          const metaSnap = await measureFirestore("getDoc:meta", () =>
+            getDoc(metaRef),
+          );
           const docId = snapshotId || metaSnap.data()?.lastDateId;
 
           if (!docId) {
@@ -1589,7 +1593,9 @@
           }
 
           console.log(`[Cloud] Fetching snapshot: ${docId}`);
-          const snap = await getDoc(doc(db, "hot_cb_snapshots", docId));
+          const snap = await measureFirestore("getDoc:snapshot", () =>
+            getDoc(doc(db, "hot_cb_snapshots", docId)),
+          );
           if (!snap.exists()) {
             console.error("[Cloud] Snapshot not found:", docId);
             return null;
@@ -1660,7 +1666,9 @@
             `[Data] Cache miss/stale. Requesting Firestore for ${dateId}...`,
           );
           const docRef = doc(db, "hot_cb_snapshots", dateId);
-          const docSnap = await getDoc(docRef);
+          const docSnap = await measureFirestore("getDoc:snapshot", () =>
+            getDoc(docRef),
+          );
 
           if (docSnap.exists()) {
             const cloudData = docSnap.data();
@@ -1949,6 +1957,44 @@
         }
       }
 
+      /**
+       * Firestore Operation Performance Wrapper (Phase 4)
+       * @param {string} opName - 操作名稱 (e.g., 'getDoc:cb_history')
+       * @param {Function} asyncFn - 要執行的 Firestore 操作
+       * @returns {Promise<any>} - 操作結果
+       */
+      async function measureFirestore(opName, asyncFn) {
+        const start = performance.now();
+        try {
+          const result = await asyncFn();
+          const duration = performance.now() - start;
+
+          logPerfEvent("firestore_op", {
+            operation: opName,
+            duration_ms: Math.round(duration),
+          });
+
+          // Threshold Alert (P1 trigger condition: > 2s)
+          if (duration > 2000) {
+            console.warn(
+              `[Perf:Alert] Slow Firestore: ${opName} took ${duration.toFixed(0)}ms (> 2s threshold)`,
+            );
+            logPerfEvent("firestore_slow", {
+              operation: opName,
+              duration_ms: Math.round(duration),
+            });
+          }
+
+          return result;
+        } catch (e) {
+          logPerfEvent("firestore_error", {
+            operation: opName,
+            error: e.message,
+          });
+          throw e;
+        }
+      }
+
       window.openAnalysis = async (code) => {
         window.currentAnalysisCode = code;
         const drawer = document.getElementById("analysisDrawer");
@@ -1985,7 +2031,9 @@
         // 2. Fetch/Resolve Metadata from Firestore (Master Info)
         let meta = null;
         try {
-          const metaSnap = await getDoc(doc(db, "cb_history", code));
+          const metaSnap = await measureFirestore("getDoc:cb_history", () =>
+            getDoc(doc(db, "cb_history", code)),
+          );
           if (metaSnap.exists()) {
             meta = metaSnap.data();
           }

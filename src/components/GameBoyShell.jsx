@@ -289,6 +289,8 @@ export const GameBoyShell = ({
           width: "100%",
           position: "relative",
           overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {isLoading && (

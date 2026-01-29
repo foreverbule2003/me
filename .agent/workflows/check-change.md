@@ -35,7 +35,13 @@ git grep -nE "FIXME|TODO" -- $(git diff --name-only)
 
 git diff | grep -E "^\-.\*id="
 
-## 5. 顯示最近的 Commit
+## 5. 檢查 Mock UI 殘留
+
+確保所有 `public/mock/` 下的暫時性模擬檔案已清理，不被提交至版本庫。
+
+ls public/mock/
+
+## 6. 顯示最近的 Commit
 
 回顧一下最近的進度，避免重複或遺漏。
 

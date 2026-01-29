@@ -27,15 +27,18 @@ const TripsView = ({ onSetActions }) => {
       href: "/me/trips/2025-cebu/index.html",
       isExternal: true,
     },
-    { label: "BACK", path: "/", isBack: true },
   ];
 
   const handleUp = () =>
     setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
   const handleDown = () =>
-    setSelectedIndex((prev) => (prev < menuItems.length - 1 ? prev + 1 : prev));
+    setSelectedIndex((prev) => (prev < menuItems.length ? prev + 1 : prev));
 
   const handleSelect = () => {
+    if (selectedIndex === menuItems.length) {
+      handleBack();
+      return;
+    }
     const item = menuItems[selectedIndex];
     if (item.isExternal) {
       window.location.href = item.href;
@@ -60,41 +63,56 @@ const TripsView = ({ onSetActions }) => {
 
   return (
     <>
-      {/* Header */}
-      <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">TimZ</h1>
-          <p className="text-sm">STATUS: ONLINE</p>
-        </div>
-        <div className="w-12 h-12 grayscale contrast-200 border-2 border-[#0f380f] bg-gray-300 overflow-hidden relative">
-          <img
-            src={avatarImg}
-            alt="Profile"
-            className="w-full h-full object-cover"
-          />
-        </div>
-      </div>
-
-      {/* Page Title */}
-      <div className="border-b-4 border-[#0f380f] pb-1 mb-4">
-        <h2 className="text-xl font-bold">SELECT TRIP</h2>
-      </div>
-
-      {/* Menu */}
-      <div className="flex-grow overflow-y-auto pr-1" id="menu-container">
-        {menuItems.map((item, index) => (
-          <div
-            key={index}
-            className={`gb-btn menu-item ${index === selectedIndex ? "active-focus" : ""} ${item.isBack ? "mt-6" : ""}`}
-            onMouseEnter={() => setSelectedIndex(index)}
-            onClick={() => {
-              if (item.isExternal) window.location.href = item.href;
-              else if (item.path) navigate(item.path);
-            }}
-          >
-            {item.label}
+      <div className="flex-1 flex flex-col">
+        {/* Main Content Area */}
+        <div className="flex-grow px-6 pt-4 overflow-y-auto">
+          {/* Page Title */}
+          <div className="border-b-4 border-[#0f380f] pb-1 mb-4">
+            <h2 className="text-xl font-bold">SELECT TRIP</h2>
           </div>
-        ))}
+
+          {/* Menu */}
+          <div id="menu-container">
+            {menuItems.map((item, index) => (
+              <div
+                key={index}
+                className={`
+                  menu-item cursor-pointer text-base py-1.5 px-3 border-2 transition-colors duration-100 mb-1.5
+                  ${
+                    index === selectedIndex
+                      ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
+                      : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
+                  }
+                `}
+                onMouseEnter={() => setSelectedIndex(index)}
+                onClick={() => {
+                  if (item.isExternal) window.location.href = item.href;
+                  else if (item.path) navigate(item.path);
+                }}
+              >
+                {item.label}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Grounded Footer - Simplified */}
+        <div className="px-6 py-2 bg-transparent mt-auto">
+          <div
+            className={`
+              menu-item cursor-pointer text-base py-1.5 px-3 border-2 transition-colors duration-100 text-center
+              ${
+                selectedIndex === menuItems.length
+                  ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
+                  : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
+              }
+            `}
+            onMouseEnter={() => setSelectedIndex(menuItems.length)}
+            onClick={handleBack}
+          >
+            BACK
+          </div>
+        </div>
       </div>
     </>
   );

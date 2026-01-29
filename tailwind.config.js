@@ -10,6 +10,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"DotGothic16"', "ui-sans-serif", "system-ui", "sans-serif"],
+      },
       colors: {
         primary: "#4f46e5", // indigo-600
         accent: "#ec4899", // pink-500

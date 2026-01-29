@@ -12,3 +12,12 @@ This directory contains React components that serve as **screens** within the ma
 ## Architecture
 
 GameBoy Shell (Root SPA) -> Views (Menu) --(Link/Href)--> Pages (External Apps)
+
+## UI & Typography Standards
+
+To maintain the retro aesthetic and visual comfort:
+
+- **Spacing**: All Views use a content wrapper with `px-6 py-4` to prevent text from touching screen edges.
+- **Menus**: Use the "Clean List" style (borderless list items with dynamic background-color on hover/focus).
+- **Font**: `DotGothic16` is the primary font for all screen content.
+- **Hierarchy**: H1 (`2xl`), H2 (`xl`), H3 (`lg`), Body (`base`), Label (`sm`).

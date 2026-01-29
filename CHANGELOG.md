@@ -4,6 +4,22 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.6.0] - 2026-01-29 (Sitewide Typography & Layout Unification)
+
+### 新增 (Added) 🚀
+
+- **排版規範小紅書 (Typography Plan)**：建立全站 H1-H3、Body、Label 的 Tailwind 字體標準，解決頁面切換時的 Header 跳動問題。
+- **全方位呼吸感 (Sitewide Spacing)**：所有 View 元件導入 `px-6 py-4` 緩衝區，根本解決文字貼邊導致的視覺壓迫感。
+- **Workflow**: 在 check-change 中加入 Mock UI 殘留檢查規則。
+
+### 變更 (Changed) ⚙️
+
+- **UI**: 移除內部視圖 (About, Trips, Tools, Journal) 的頂部 Header，釋放垂直空間。
+- **UX**: 實作「簡約置底」導航佈局，移除導航區冗餘粗線邊框，視覺更輕量化。
+- **Font**: 移除所有選單項的 `font-bold` 權重，修復繁體中文字體渲染回退 (Fallback) 問題。
+- **選單邊框還原 (Border Restoration)**：在保留 `px-6 py-4` 緩衝區的基礎上，還原選單項目的顯性邊框。
+- **UI 結構與排版規範化**：同步全站 Header、標題與選單字體級別，達成 100% 視覺語言一致性。
+
 ## [1.5.2] - 2026-01-29 (Calculator Metadata Hotfix)
 
 ### 錯誤修復 (Fixes) 🐛

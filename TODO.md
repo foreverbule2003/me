@@ -12,12 +12,13 @@
 
 > 目標：持續優化雲端架構與開發者體驗。
 
-- [ ] **性能監控 (Phase 4)**: (Optional) 實作雲端執行耗時追蹤。 <!-- implemented: logPerfEvent -->
+- [x] **性能監控 (Phase 4)**: 實作雲端執行耗時追蹤 (`measureFirestore`)。 <!-- implemented: logPerfEvent + measureFirestore -->
   - ⚡ **觸發條件** (任一滿足即升級為 P0)：
     - Firestore 單次查詢延遲 > 2 秒
     - LCP (Largest Contentful Paint) > 2.5 秒
     - 用戶主動回報載入卡頓
     - Firebase 費用出現異常增長 (> 150% MoM)
+- [ ] **自動化測試**: 為 CB 戰情室與 CB 計算機導入自動化測試框架。 <!-- captured: 2026-01-29 -->
 
 ---
 
@@ -43,6 +44,12 @@
 ---
 
 ## 🏁 已完成歸檔 (Archived)
+
+### 2026-01-29 (22:00)
+
+- [x] **UI Optimization (TimBoy V1.6)**: 移除內部視圖 Header (About, Trips, Journal, Tools)，釋放垂直空間。
+- [x] **UX Refactor**: 實作「簡約置底」導航佈局，移除導航區冗餘粗線邊框。
+- [x] **Typography Sync**: 統一全站字體舒適度標準 (16px + 6px padding)，修復中文 `font-bold` 導致的字體回退 Bug。
 
 ### 2026-01-29 (17:30)
 

@@ -17,10 +17,16 @@
     <style>
       html,
       body {
+        /* Match gb-theme.css body styles exactly to prevent layout shift */
         margin: 0;
-        padding: 0;
         background: #f0f0f0;
         overflow-x: hidden;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
       }
 
       .loading-container {
@@ -28,18 +34,21 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        width: 100%;
         min-height: 100vh;
         min-height: 100dvh;
         background: #f0f0f0;
         font-family: "DotGothic16", monospace;
         color: #0f380f;
         box-sizing: border-box;
-        padding: 20px;
+        /* No padding here - body handles it */
       }
 
       #root {
         width: 100%;
         height: 100%;
+        display: grid;
+        place-items: center;
       }
 
       /* GameBoy Shell - Exact Match to gb-theme.css */
@@ -118,19 +127,16 @@
       .loading-gb-screen {
         background-color: #9bbc0f;
         color: #0f380f;
-        /* Add default text color */
         background-image:
           linear-gradient(#8bac0f 1px, transparent 1px),
           linear-gradient(90deg, #8bac0f 1px, transparent 1px);
         background-size: 3px 3px;
         box-shadow: inset 3px 3px 5px rgba(0, 0, 0, 0.2);
-        padding: 10px;
-        min-height: 480px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        height: 420px; /* Use fixed height for absolute precision */
+        display: grid;
+        place-items: center;
         box-sizing: border-box;
+        overflow: hidden;
       }
 
       .logo-text {
@@ -401,6 +407,7 @@
             <div id="root">
               <div
                 style="
+                  width: 100%;
                   height: 100%;
                   display: flex;
                   flex-direction: column;

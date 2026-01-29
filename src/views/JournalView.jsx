@@ -333,89 +333,98 @@ const JournalView = ({ onSetActions, onLoadState }) => {
 
   return (
     <>
-      {/* Header */}
-      <div className="flex justify-between items-end border-b-4 border-[#0f380f] pb-2 mb-4">
-        <div>
-          <h1 className="text-2xl font-bold">TimZ</h1>
-          <p className="text-sm">STATUS: ONLINE</p>
-        </div>
-        <div className="flex items-center gap-2">
-          {authLoading ? null : user ? (
-            <>
-              <button className="gb-btn text-sm px-3" onClick={openCreate}>
-                + NEW
-              </button>
-              <button className="login-btn" onClick={handleLogout}>
-                登出
-              </button>
-            </>
-          ) : (
-            <button className="login-btn" onClick={handleLogin}>
-              登入
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Page Title */}
-      <div className="border-b-4 border-[#0f380f] pb-1 mb-4 flex justify-between items-end">
-        <div>
-          <h2 className="text-xl font-bold">JOURNAL</h2>
-          <p className="text-xs">
-            {user
-              ? `Hi, ${user.displayName?.split(" ")[0] || "User"}`
-              : "Vibe Coding Diary"}
-          </p>
-        </div>
-      </div>
-
-      <div
-        className="flex-grow overflow-y-auto pr-1"
-        style={{ maxHeight: "200px" }}
-      >
-        {entries.length === 0 ? (
-          <div className="text-center py-4 text-sm opacity-70">
-            還沒有任何日記
-            <br />
-            {user ? "點擊 +NEW 開始記錄！" : "登入後即可新增"}
+      <div className="flex-1 flex flex-col">
+        {/* Main Content Area */}
+        <div className="flex-grow px-6 pt-4 overflow-y-auto">
+          {/* Page Title */}
+          <div className="border-b-4 border-[#0f380f] pb-1 mb-2 flex justify-between items-end">
+            <div>
+              <h2 className="text-xl font-bold">JOURNAL</h2>
+              <p className="text-xs font-bold opacity-70">
+                {user
+                  ? `Hi, ${user.displayName?.split(" ")[0] || "User"}`
+                  : "Vibe Coding Diary"}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 mb-1">
+              {authLoading ? null : user ? (
+                <>
+                  <button
+                    className="bg-[#0f380f] text-[#9bbc0f] text-[10px] font-bold px-2 py-0.5 border-2 border-[#0f380f] active:scale-95 transition-transform"
+                    onClick={openCreate}
+                  >
+                    + NEW
+                  </button>
+                  <button
+                    className="text-[#0f380f] text-[10px] font-bold px-2 py-0.5 border-2 border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f] transition-colors"
+                    onClick={handleLogout}
+                  >
+                    OUT
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="bg-[#0f380f] text-[#9bbc0f] text-[10px] font-bold px-3 py-0.5 border-2 border-[#0f380f] active:scale-95 transition-transform"
+                  onClick={handleLogin}
+                >
+                  LOGIN
+                </button>
+              )}
+            </div>
           </div>
-        ) : (
-          entries.map((entry) => (
-            <JournalCard
-              key={entry.id}
-              entry={entry}
-              onView={(e) => {
-                setEditingEntry(e);
-                setModalMode("view");
-                setIsModalOpen(true);
-              }}
-              onEdit={(e) => {
-                setEditingEntry(e);
-                setModalMode("edit");
-                setIsModalOpen(true);
-              }}
-              onDelete={handleDelete}
-              canEdit={!!user}
-            />
-          ))
+
+          <div style={{ maxHeight: "250px" }}>
+            {entries.length === 0 ? (
+              <div className="text-center py-6 text-sm opacity-60 italic">
+                還沒有任何日記
+                <br />
+                {user ? "點擊 +NEW 開始記錄！" : "登入後即可新增"}
+              </div>
+            ) : (
+              entries.map((entry) => (
+                <JournalCard
+                  key={entry.id}
+                  entry={entry}
+                  onView={(e) => {
+                    setEditingEntry(e);
+                    setModalMode("view");
+                    setIsModalOpen(true);
+                  }}
+                  onEdit={(e) => {
+                    setEditingEntry(e);
+                    setModalMode("edit");
+                    setIsModalOpen(true);
+                  }}
+                  onDelete={handleDelete}
+                  canEdit={!!user}
+                />
+              ))
+            )}
+          </div>
+        </div>
+
+        {/* Grounded Footer - Simplified */}
+        <div className="px-6 py-2 bg-transparent mt-auto">
+          <div
+            onClick={handleBack}
+            className="menu-item cursor-pointer text-base py-1.5 px-3 border-2 border-[#0f380f] bg-transparent text-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f] transition-colors text-center"
+          >
+            BACK
+          </div>
+        </div>
+
+        {isModalOpen && (
+          <JournalModal
+            entry={editingEntry}
+            onSave={handleSave}
+            onClose={() => {
+              setIsModalOpen(false);
+              setEditingEntry(null);
+            }}
+            mode={modalMode}
+          />
         )}
       </div>
-
-      <div onClick={handleBack} className="gb-btn menu-item mt-4">
-        BACK
-      </div>
-
-      {isModalOpen && (
-        <JournalModal
-          entry={editingEntry}
-          onSave={handleSave}
-          onClose={() => {
-            setIsModalOpen(false);
-            setEditingEntry(null);
-          }}
-          mode={modalMode}
-        />
-      )}
     </>
   );
 };
