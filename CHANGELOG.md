@@ -4,6 +4,13 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.5.2] - 2026-01-29 (Calculator Metadata Hotfix)
+
+### 錯誤修復 (Fixes) 🐛
+
+- **計算機崩潰 (JSON Error)**：修復 `cb-calculator.html` 嘗試載入已移除的 `cb-data.json` 導致的 "Unexpected token" 錯誤。改為 On-Demand 查詢 Firestore `cb_history` 集合。
+- **初始化競爭 (Race Condition)**：解決 `handleSearch` 在 `db` 初始化前執行導致的 "Cannot access 'db' before initialization" 與 "System Idle" 卡死問題，統一使用 `window.db` 全域引用。
+
 ## [1.5.1] - 2026-01-29 (UI Stability & Hotfix)
 
 ### 錯誤修復 (Fixes) 🐛

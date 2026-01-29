@@ -1460,24 +1460,29 @@
       window.handleDrop = async (e, category) => {
         e.preventDefault();
         window.handleDragLeave(e);
-        // [Auth Rollback]
-        // if (!currentUser) { showAuthDeniedMask(); return; }
         const id = e.dataTransfer.getData("text/plain");
         if (!id) return;
 
         try {
-          // Prepare basic metadata if it's a new addition from Pulse
-          let metadata = { category };
-          if (globalCbDatabase) {
-            const staticMeta = globalCbDatabase.find((i) => i.code === id);
-            if (staticMeta) {
-              metadata.name = staticMeta.name;
-              metadata.underlyingCode = staticMeta.underlyingCode;
-              metadata.conversionPrice = staticMeta.conversionPrice;
+          // Fetch existing metadata to preserve name/prices if possible
+          let metadata = { category, updatedAt: serverTimestamp() };
+          const docRef = doc(db, "cb_history", id);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            // Keep existing fields, just update category
+            // No operation needed as merge:true will handle it
+          } else {
+            // Try to find in pool for name
+            const poolItem = window.lastDataPool?.find((i) => i.code === id);
+            if (poolItem) {
+              metadata.name = poolItem.name;
+              metadata.underlyingCode = poolItem.underlyingCode || "";
+              metadata.conversionPrice = poolItem.conversionPrice || 0;
             }
           }
 
-          await setDoc(doc(db, "cb_history", id), metadata, { merge: true });
+          await setDoc(docRef, metadata, { merge: true });
           virtualCategories = virtualCategories.filter((v) => v !== category);
           console.log(`[D&D] Moved ${id} to ${category}`);
         } catch (e) {
@@ -1486,8 +1491,6 @@
       };
 
       window.editCategory = async (id, current) => {
-        // [Auth Rollback]
-        // if (!currentUser) { showAuthDeniedMask(); return; }
         const newCat = prompt(
           `為 ${id} 輸入類別內容 (例如: 半導體, AI, 防禦型):`,
           current,
@@ -1496,7 +1499,7 @@
         try {
           await setDoc(
             doc(db, "cb_history", id),
-            { category: newCat.trim() },
+            { category: newCat.trim(), updatedAt: serverTimestamp() },
             { merge: true },
           );
         } catch (e) {
@@ -1505,9 +1508,6 @@
       };
 
       window.addTrackedCB = async () => {
-        // [Auth Rollback]
-        // if (!currentUser) { showAuthDeniedMask(); return; }
-
         const input = document.getElementById("newCbInput");
         const code = input.value.trim().toUpperCase();
         if (!code || code.length < 5) {
@@ -1522,21 +1522,34 @@
         }
 
         try {
-          const dbItems = await ensureCbDatabase();
-          const info = dbItems.find((i) => i.code === code);
+          const docRef = doc(db, "cb_history", code);
+          const docSnap = await getDoc(docRef);
 
-          const metadata = {
+          let metadata = {
             addedAt: serverTimestamp(),
             category: "未分類 (UNCATEGORIZED)",
           };
 
-          if (info) {
-            metadata.name = info.name;
-            metadata.underlyingCode = info.underlyingCode;
-            metadata.conversionPrice = info.conversionPrice;
+          if (docSnap.exists()) {
+            // Already has metadata, just ensure addedAt/category?
+            // Actually if it exists in cb_history but not in watchlist (which is just live listener on cb_history),
+            // that means... wait, watchlist IS the listener on cb_history for ALL items.
+            // If it's in cb_history, it should be in watchlist.
+            // Unless we filter? Currently renderTrackedList shows all.
+            // So if docSnap exists, it SHOULD be in lastKnownItems.
+            // Maybe it's a "soft delete" or just missing category?
+            // We'll update it anyway.
+          } else {
+            // New to DB. Try to fetch from pool or generic.
+            const poolItem = window.lastDataPool?.find((i) => i.code === code);
+            if (poolItem) {
+              metadata.name = poolItem.name;
+              metadata.underlyingCode = poolItem.underlyingCode;
+              metadata.conversionPrice = poolItem.conversionPrice;
+            }
           }
 
-          await setDoc(doc(db, "cb_history", code), metadata, { merge: true });
+          await setDoc(docRef, metadata, { merge: true });
           input.value = "";
           console.log(`[Watchlist] Added ${code}`);
         } catch (e) {
@@ -1933,6 +1946,12 @@
         window.currentAnalysisCode = code;
         const drawer = document.getElementById("analysisDrawer");
         const overlay = document.getElementById("drawerOverlay");
+
+        if (!drawer || !overlay) {
+          console.error("[Analysis] Drawer UI elements missing");
+          return;
+        }
+
         drawer.classList.add("open");
         overlay.classList.add("show");
         document.body.style.overflow = "hidden";

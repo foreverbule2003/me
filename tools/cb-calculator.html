@@ -65,6 +65,7 @@
       window.auth = auth;
       window.collection = collection;
       window.getDocs = getDocs;
+      window.getDoc = getDoc; // [Fix] Missing export caused TypeError
       window.doc = doc;
       window.setDoc = setDoc;
       window.serverTimestamp = serverTimestamp;
@@ -1555,8 +1556,8 @@
         await new Promise((r) => setTimeout(r, 60));
 
         try {
-          // 3. 讀取與篩選資料庫
-          if (Object.keys(cbDatabase).length === 0) await loadDatabase();
+          // 3. 讀取與篩選資料庫 (Replaced loadDatabase with Firestore)
+          // if (Object.keys(cbDatabase).length === 0) await loadDatabase();
           let data = cbDatabase[symbol] || {
             name: "",
             conversionPrice: 0,
@@ -1564,6 +1565,27 @@
             cbPrice: 0,
             underlyingCode: "",
           };
+
+          // [Firestore Fallback] Try to fetch metadata if missing locally
+          if (!data.conversionPrice) {
+            try {
+              const docRef = window.doc(window.db, "cb_history", symbol);
+              const docSnap = await window.getDoc(docRef);
+              if (docSnap.exists()) {
+                const meta = docSnap.data();
+                data.name = meta.name || data.name;
+                data.underlyingCode =
+                  meta.underlyingCode || data.underlyingCode;
+                data.conversionPrice =
+                  meta.conversionPrice || data.conversionPrice;
+                // Cache it back to local map
+                cbDatabase[symbol] = data;
+                console.log(`[Firestore] Metadata loaded for ${symbol}`, meta);
+              }
+            } catch (err) {
+              console.warn("[Firestore] Metadata fetch failed", err);
+            }
+          }
 
           // 4. 抓取即時行情 (MIS API) - 實作進階快取機制
           const now = new Date();
@@ -1659,6 +1681,9 @@
 
           // 5. 更新介面顯示
           if (data.name || data.cbPrice > 0 || data.stockPrice > 0) {
+            // [UI Fix] Hide System Idle Status
+            document.getElementById("statusBar")?.classList.add("hidden");
+
             inputs.cbPrice.value =
               data.cbPrice > 0 ? data.cbPrice.toFixed(2) : "";
             inputs.stockPrice.value =
@@ -1797,7 +1822,7 @@
       }
 
       // Initialize
-      loadDatabase();
+      // loadDatabase(); // [Removed] Static DB is deprecated. Using Firestore on-demand.
 
       // Outputs
 
