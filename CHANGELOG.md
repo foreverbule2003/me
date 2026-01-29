@@ -4,6 +4,19 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.5.1] - 2026-01-29 (UI Stability & Hotfix)
+
+### 錯誤修復 (Fixes) 🐛
+
+- **戰情室 UI 崩潰 (SyntaxError)**：將 `cb-fetcher.js` 的偵錯日誌重新導向至 `stderr`，防止其污染 API 的 JSON 輸出流，徹底解決 `Unexpected token 'F'` 報錯。
+- **Firebase V10 兼容性**：強化 `logPerfEvent` 與 `measureFetch` 的防禦性邏輯，排除所有殘留的 V8 `db.collection` 鏈式調用風險。
+- **雲端同步引擎**：修正 `hot-cb-cloud.js` 中 `updateMasterMetadata` 的 `batch.set` 參數錯誤，解決因同步失敗觸發的「模擬數據覆蓋真實數據」Bug。
+- **快取一致性**：實作智慧快取判定機制，當本地 IndexedDB 中存有異常少量的資料（如之前錯誤快取的 4 筆模擬數據）時，會自動穿透快取並強制從雲端拉取 20 筆真實數據。
+
+### 優化 (Improvements) 🚀
+
+- **建構環境清理**：腳本化強制刪除 `dist/` 目錄，確保瀏覽器載入完全編譯後的最新版 Modular SDK 腳本。
+
 ## [1.5.0] - 2026-01-29 (Cloud-Native Data Refactor)
 
 ### 新增 (Added) 🚀

@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-28 (Backfill-Completed-Stable)
+> 最後更新：2026-01-29 (Stabilization-V1.5.1-Applied)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -38,8 +38,12 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
-### 2026-01-29 (11:10)
+### 2026-01-29 (15:30)
 
+- [x] **Bug Fix**: 解決 `SyntaxError: Unexpected token 'F'`，修正 `cb-fetcher.js` 偵錯日誌汙染 stdout 的問題。
+- [x] **Bug Fix**: 解決 `TypeError: db.collection`，強化 `cb-war-room.html` 效能監控邏輯並強制清除 `dist/` 快取。
+- [x] **Bug Fix**: 修正 `hot-cb-cloud.js` 參數錯誤導致的同步失效與模擬數據複寫 Bug。
+- [x] **UX Optimization**: 實作智慧快取判定，自動穿透異常的小尺寸 (<= 5) 本地快取資料。
 - [x] **Architecture Refactor**: 完成 DDE 橋接器 (`xq_bridge.py`) 的模組化分層重構 (DDE-Mod-V1)。
 - [x] **Cloud Migration**: 徹底移除本地 `cb-data.json`，改為純 Firestore 雲端中繼資料驅動。
 - [x] **Data Integrity**: 實作 Analysis Drawer 的雲端中繼資料手動修正與立即儲存功能。

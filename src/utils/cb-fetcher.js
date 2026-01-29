@@ -93,7 +93,7 @@ async function fetchHotCB() {
     }
 
     // --- Enrichment Phase: Fetch Underlying Stock Prices ---
-    console.log(
+    console.error(
       `[Fetcher] Enriching ${results.length} items with real-time stock prices (TWSE/OTC)...`,
     );
     const enrichPromises = results.map(async (item) => {
@@ -124,7 +124,7 @@ async function fetchHotCB() {
           item.stockPrice = 0;
         }
       } catch (e) {
-        console.warn(
+        console.error(
           `[Fetcher] Failed to fetch stock price for ${item.code}:`,
           e.message,
         );
@@ -134,7 +134,7 @@ async function fetchHotCB() {
 
     // Wait for all enrichments (fairly fast)
     await Promise.all(enrichPromises);
-    console.log("[Fetcher] Enrichment complete.");
+    console.error("[Fetcher] Enrichment complete.");
 
     // Wrap in object with metadata
     return {

@@ -89,6 +89,7 @@ async function updateMasterMetadata(items) {
     const ref = db.collection("cb_history").doc(item.code);
     // Only update static fields to avoid overwriting user stockPrice if stale
     batch.set(
+      ref,
       {
         name: item.name,
         underlyingCode: item.underlyingCode || "",

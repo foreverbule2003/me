@@ -1564,13 +1564,16 @@
             // 1. Try Local Cache (IndexedDB)
             const cached = await CbHistoryService._readLocal(cacheKey);
             // If cache exists and it's either an old date (static) or today's cache from today
-            if (cached && (dateId !== todayId || cached.lastSync === todayId)) {
-                console.log(`[Data] Cache hit for ${dateId}`);
+            // Adding length check to bypass suspicious "mock" caches (usually only 4 items)
+            if (cached && (dateId !== todayId || cached.lastSync === todayId) && (cached.records?.length > 5)) {
+                console.log(`[Data] Cache hit for ${dateId} (${cached.records.length} items)`);
                 processData(cached.records, dateId === todayId ? "live" : "history");
                 updateHeaderTime(new Date(cached.timestamp || Date.now()));
                 updateLoadingState(false);
                 if (dateId === todayId) startUpdateTimer();
                 return;
+            } else if (cached) {
+                console.warn(`[Data] Cache hit but data suspicious (${cached.records?.length} items). Forcing refresh.`);
             }
 
             // 2. Clear Cache Miss -> Cloud Fetch
@@ -1808,7 +1811,7 @@
       }
 
       // Performance Monitoring
-      async function measureFetch(url) {
+      window.measureFetch = async (url) => {
         const start = performance.now();
         try {
           const res = await fetch(url);
@@ -1820,17 +1823,33 @@
           }
 
           const duration = performance.now() - start;
-          logPerfEvent("fetch_success", { url: url.split("?")[0], duration: Math.round(duration) });
+          
+          logPerfEvent("fetch_success", { 
+            url: url.split("?")[0], 
+            duration: Math.round(duration) 
+          });
+
+          if (duration > 3000) {
+            console.warn(`[Perf] Slow fetch: ${url} (${duration.toFixed(0)}ms)`);
+          }
           return res;
         } catch (e) {
           logPerfEvent("fetch_error", { url, error: e.message });
           throw e;
         }
-      }
+      };
 
       function logPerfEvent(name, params) {
-        if (analytics) logEvent(analytics, name, params);
-        console.log(`[Perf] ${name}:`, params);
+        try {
+          // Explicitly use analytics instance (V10)
+          if (typeof analytics !== 'undefined' && analytics) {
+            logEvent(analytics, name, params);
+          }
+          console.log(`[Perf] ${name}:`, params);
+        } catch (e) {
+          // Safety: Don't call db.collection or anything else here
+          console.warn(`[Perf] Analytics dispatch failed for ${name}:`, e.message);
+        }
       }
 
       window.openAnalysis = async (code) => {
