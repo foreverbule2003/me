@@ -156,15 +156,19 @@ async function run() {
 
   // 2. Local File
   if (!credential) {
-    const keyPath = path.join(__dirname, "..", "service-account.json");
-    if (fs.existsSync(keyPath)) {
-      credential = admin.credential.cert(require(keyPath));
+    const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
+    for (const keyFile of possibleKeys) {
+      const keyPath = path.join(__dirname, "..", keyFile);
+      if (fs.existsSync(keyPath)) {
+        credential = admin.credential.cert(require(keyPath));
+        break;
+      }
     }
   }
 
   if (!credential) {
     console.error(
-      "❌ 找不到 Firebase 憑證 (serviceAccountKey.json 或 FIREBASE_SERVICE_ACCOUNT 環境變數)",
+      "❌ 找不到 Firebase 憑證 (service-account.json 或 serviceAccountKey.json 或 FIREBASE_SERVICE_ACCOUNT 環境變數)",
     );
     process.exit(1);
   }

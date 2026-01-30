@@ -4,6 +4,14 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.9.0] - 2026-01-30
+
+### 新增 (Added) 🚀
+
+- **自動化測試基礎建設**：導入 Vitest (單元測試) 與 Playwright (E2E 測試) 框架。
+- **邏輯模組化架構**：建立 `src/lib/cb_logic.mjs` 作為統一計算權威，實現邏輯與 UI 徹底解耦。
+- **測試覆蓋**：完成 9 筆核心算力測試與 3 筆 UI 冒煙測試，確保財務工具的長期穩定性。
+
 ## [1.8.0] - 2026-01-30 (Data-Code Decoupling & Cloud Authority)
 
 ### 新增 (Added) 🚀
@@ -103,5 +111,10 @@
 - **自動註冊漏洞封堵**：修正 `fetch-cb-history.js` 同步邏輯。現在定時補漏任務僅對「已在追蹤清單」的標的進行心跳更新，防止全市場 250+ 檔標的自動擠爆追蹤清單。
 - **同步引擎升級**：`xq_bridge.py` 現在會自動從 Master DB (`cb-data.json`) 撈取轉換價進行雲端補正，防止 DDE 資料污染。
 - **工作區清理**：移除了 10+ 個開發期間產生的臨時調試腳本與備份檔，保持專案架構整潔。
+
+### 修正 (Fixed) 🐛
+
+- **GitHub Action 修復**：修正 `Daily CB History Sync` 流程因 `cb-data.json` 移除導致的腳本崩潰問題，改採 Firestore 回退機制。
+- **金鑰路徑標準化**：統一所有工具 (`fetch-cb-history`, `migrate`, `backfill`) 的 Firebase 金鑰檢查邏輯。現在同時支援 `service-account.json` (專案預設) 與 `serviceAccountKey.json` (舊慣例)。
 
 ## [1.4.0] - 2026-01-25 (Widget Pattern & Component Refactor)

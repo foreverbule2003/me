@@ -131,9 +131,14 @@ async function syncToFirestore(cbCode, data) {
       }
       // 2. Local File
       if (!credential) {
-        const keyPath = path.join(__dirname, "..", "serviceAccountKey.json");
-        if (fs.existsSync(keyPath))
-          credential = admin.credential.cert(require(keyPath));
+        const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
+        for (const keyFile of possibleKeys) {
+          const keyPath = path.join(__dirname, "..", keyFile);
+          if (fs.existsSync(keyPath)) {
+            credential = admin.credential.cert(require(keyPath));
+            break;
+          }
+        }
       }
 
       // 3. Skip if no credential (Local Mode)
@@ -215,12 +220,92 @@ async function syncToFirestore(cbCode, data) {
   const isSmart = args.includes("--smart");
   const isForceDeep = args.includes("--force-deep");
 
-  // 讀取靜態資料庫
-  const dbData = JSON.parse(fs.readFileSync(DB_PATH, "utf8"));
+  // 讀取標的清單 (優先讀取本地 JSON，若無則從 Firestore 讀取)
   let targets = [];
 
+  // Init Admin SDK for Firestore if needed
+  const admin = require("firebase-admin");
+
+  async function initFirebase() {
+    if (!admin.apps.length) {
+      let credential = null;
+      if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+        try {
+          credential = admin.credential.cert(
+            JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
+          );
+        } catch (e) {
+          console.warn("[Init] Failed to parse env var:", e.message);
+        }
+      }
+      if (!credential) {
+        // Check for both common filenames
+        const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
+        for (const keyFile of possibleKeys) {
+          const keyPath = path.join(__dirname, "..", keyFile);
+          if (fs.existsSync(keyPath)) {
+            credential = admin.credential.cert(require(keyPath));
+            break;
+          }
+        }
+      }
+
+      if (credential) {
+        admin.initializeApp({
+          credential,
+          projectId: "my-landing-page-2ca68",
+        });
+      } else {
+        console.warn(
+          "[Init] No credentials found. Firestore features may be limited.",
+        );
+      }
+    }
+  }
+
+  async function getTargets() {
+    if (fs.existsSync(DB_PATH)) {
+      console.log(`[Source] Reading from local file: ${DB_PATH}`);
+      const dbData = JSON.parse(fs.readFileSync(DB_PATH, "utf8"));
+      return dbData.items;
+    }
+
+    console.log(
+      "[Source] Local cb-data.json not found. Fetching from Firestore...",
+    );
+    await initFirebase();
+
+    if (!admin.apps.length) {
+      throw new Error("Cannot fetch targets from Firestore: No credentials.");
+    }
+
+    const db = admin.firestore();
+    const snapshot = await db.collection("cb_history").get();
+
+    if (snapshot.empty) {
+      throw new Error("Firestore cb_history is empty.");
+    }
+
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        code: doc.id,
+        name: data.name || doc.id,
+        underlyingCode: data.underlyingCode,
+        conversionPrice: data.conversionPrice,
+      };
+    });
+  }
+
+  try {
+    targets = await getTargets();
+  } catch (e) {
+    console.error(`❌ Fatal: Failed to load targets. ${e.message}`);
+    process.exit(1);
+  }
+
   if (isAll) {
-    targets = dbData.items;
+    // targets is already the full list
   } else {
     const code = args[0];
     if (!code || code.startsWith("--")) {
@@ -229,9 +314,9 @@ async function syncToFirestore(cbCode, data) {
       );
       process.exit(1);
     }
-    const item = dbData.items.find((i) => i.code === code);
+    const item = targets.find((i) => i.code === code);
     if (!item) {
-      console.error(`Error: CB ${code} not found in database.`);
+      console.error(`Error: CB ${code} not found in database/Firestore.`);
       process.exit(1);
     }
     targets = [item];

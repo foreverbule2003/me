@@ -52,3 +52,8 @@ public/data/cb-data.json.bak
 # Tool Data & Logs
 tools/*.json
 !tools/package.json
+# Test artifacts
+test-results/
+playwright-report/
+blob-report/
+.vitest-result/

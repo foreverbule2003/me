@@ -863,7 +863,7 @@
     <!-- Modal Removed -->
 
     <script type="module">
-      import { CbCalculatorCore } from "./components/CbCalculatorCore.mjs";
+      import { CbCalculatorCore } from "../src/lib/cb_logic.mjs";
       import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
 
       // Expose to global scope for legacy scripts
@@ -1845,7 +1845,7 @@
       }
 
       // Initialize
-      // loadDatabase(); // [Removed] Static DB is deprecated. Using Firestore on-demand.
+      loadDatabase(); // Using Firestore with Caching
 
       // Outputs
 
@@ -1856,28 +1856,24 @@
 
         if (!cbPrice || !stockPrice || !conversionPrice) return;
 
-        // 1. Calculate Convertible Shares (per $100k bond)
-        // Usually calculated as integer or kept precise?
-        // Taiwan market convention: kept precise for value calc, but shares issued are integer.
-        // Let's use precise for valuation to match market app precision.
-        const sharesPerBond = 100000 / conversionPrice;
+        // Use core engine for calculations
+        const sharesPerBond =
+          CbCalculatorCore.calculateSharesPerBond(conversionPrice);
+        const conversionValue = CbCalculatorCore.calculateConversionValue(
+          stockPrice,
+          conversionPrice,
+        );
+        const premiumRate = CbCalculatorCore.calculatePremiumRate(
+          cbPrice,
+          stockPrice,
+          conversionPrice,
+        );
+        const parityPrice = CbCalculatorCore.calculateParityPrice(
+          cbPrice,
+          conversionPrice,
+        );
 
-        // 2. Calculate Conversion Value (Theoretical Price of Bond based on Stock)
-        // Formula: (Shares * Stock Price) / 1000  (to get % format like 125.00)
-        const conversionValue = (sharesPerBond * stockPrice) / 1000;
-
-        // 3. Calculate Premium Rate
-        const premiumRate =
-          ((cbPrice - conversionValue) / conversionValue) * 100;
-
-        // 4. Calculate Parity Price (Break-even Stock Price)
-        // Price where Conversion Value == CB Price
-        // (100000/CP * X) / 1000 = CB Price
-        // 100/CP * X = CB Price
-        // X = CB Price * CP / 100
-        const parityPrice = (cbPrice * conversionPrice) / 100;
-
-        // 5. Update UI
+        // Update UI
         updateUI({
           premiumRate,
           conversionValue,

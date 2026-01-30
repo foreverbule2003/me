@@ -11,11 +11,22 @@ const path = require("path");
  * 3. 執行 `node tools/migrate-to-firestore.js`。
  */
 
-const KEY_PATH = path.join(__dirname, "serviceAccountKey.json");
+// Check for both key names
+const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
+let KEY_PATH = null;
 
-if (!fs.existsSync(KEY_PATH)) {
-  console.error("❌ 錯誤：找不到 tools/serviceAccountKey.json");
-  console.log("請至 Firebase Console 下載服務帳戶金鑰並放在 tools 目錄下。");
+for (const key of possibleKeys) {
+  const p = path.join(__dirname, "..", "..", key); // Adjusted path to root
+  if (fs.existsSync(p)) {
+    KEY_PATH = p;
+    break;
+  }
+}
+
+if (!KEY_PATH) {
+  console.error(
+    "❌ 錯誤：找不到 service-account.json 或 serviceAccountKey.json (於根目錄)",
+  );
   process.exit(1);
 }
 
