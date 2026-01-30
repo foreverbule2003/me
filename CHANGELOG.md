@@ -16,6 +16,10 @@
 
 - **Firebase Utils**: 提取 `tools/firebase-utils.js` 統一管理金鑰讀取邏輯，消除多個工具腳本中的重複代碼。
 
+### 優化 (Improvements) 🚀
+
+- **Performance (Quick Win)**: 實作字體非阻塞載入 (Preload + Swap)，LCP 從 11.5s 降至 2.3s (Lighthouse 90分)。
+
 ## [1.9.0] - 2026-01-30
 
 ### 新增 (Added) 🚀

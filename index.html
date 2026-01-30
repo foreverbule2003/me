@@ -9,10 +9,29 @@
     <title>TimZ - POCKET DEVICE</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Preload font to prioritize download -->
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+    />
+
+    <!-- Load font asynchronously -->
     <link
       href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media = 'all'"
     />
+
+    <!-- Fallback for no-js -->
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=DotGothic16&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <link rel="manifest" href="./manifest.json" />
     <link rel="icon" href="./favicon.ico" sizes="any" />
     <link rel="apple-touch-icon" href="./icons/icon-192.png" />

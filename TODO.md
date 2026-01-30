@@ -39,6 +39,10 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-01-30 (16:40)
+
+- [x] **Performance Quick Win**: 實作 `DotGothic16` 字體優化 (Preload + Swap)，Lighthouse Performance 評分提升至 90 分 (LCP 2.3s)。
+
 ### 2026-01-30 (16:30)
 
 - [x] **Mobile-First Upgrade (v1.9.5)**: 完成 Viewport 全螢幕優化、手勢導航 (Swipe-Back) 與觸控回饋系統。
