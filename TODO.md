@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-30 (Meta-Automation-V1.7-Complete)
+> 最後更新：2026-01-30 (Meta-Automation-V1.8-Final)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -12,12 +12,6 @@
 
 > 目標：持續優化雲端架構與開發者體驗。
 
-- [x] **性能監控 (Phase 4)**: 實作雲端執行耗時追蹤 (`measureFirestore`)。 <!-- implemented: logPerfEvent + measureFirestore -->
-  - ⚡ **觸發條件** (任一滿足即升級為 P0)：
-    - Firestore 單次查詢延遲 > 2 秒
-    - LCP (Largest Contentful Paint) > 2.5 秒
-    - 用戶主動回報載入卡頓
-    - Firebase 費用出現異常增長 (> 150% MoM)
 - [ ] **數據品質哨兵**: 實作自動化偵測標的「除權息」導致的轉換價跳變警報。 <!-- captured: 2026-01-30 -->
 - [ ] **自動化測試**: 為 CB 戰情室與 CB 計算機導入自動化測試框架。 <!-- captured: 2026-01-29 -->
 
@@ -45,6 +39,13 @@
 ---
 
 ## 🏁 已完成歸檔 (Archived)
+
+### 2026-01-30 (14:30)
+
+- [x] **Data-Code Decoupling (ADR-007)**: 從 Git 移除頻繁變動的 `cb-data.json` 並重構前端改向 Firestore 讀取。
+- [x] **Performance Optimization**: 實作前端 `LocalStorage` 緩存機制（效期 1 小時），平衡雲端同步與加載速度。
+- [x] **Metrics Tracking**: 實作雲端執行耗時追蹤 (`measureFirestore` & `logPerfEvent`)。
+- [x] **Documentation Sync**: 歸檔顧問策略文件，完成 `ARCHITECTURE.md` (ADR-007) 與 `CB_DATA_FLOW.md` 重大更新。
 
 ### 2026-01-30 (12:45)
 

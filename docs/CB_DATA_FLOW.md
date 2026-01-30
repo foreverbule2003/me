@@ -20,79 +20,65 @@
 
 ### 2. 路徑 B：全市場搜尋目錄 (Master Directory) 📖
 
-- **目標檔案**: `public/data/cb-data.json`
+- **主要來源**: **Firestore (`cb_history` collection)**
 - **內容**: 市場上 **300+ 檔** 所有可轉債的總集。
 - **資料特性**:
-  - **完整**: 包含所有已知的可轉債代號與名稱。
-  - **混合更新**: 若當日有抓到新價格則更新，若無則保留舊資料。
-- **用途**: 供 `cb-calculator.html` (計算機) 的搜尋框 (Autocomplete) 使用，確保使用者能查到任何一檔標的。
+  - **解耦**: `cb-data.json` 不再進入 Git 倉庫，解決了 **"Data in Code" 反模式**，避免 Git 歷史冗餘。
+  - **即時**: 每次同步後，Firestore 即為權威版本，前端無需等待部署即可讀取。
+  - **風險管理**：
+    - **離線支援**：實作前端 `LocalStorage` 緩存，確保在斷網時仍能使用搜尋功能。
+    - **費用控制**：僅在緩存過期（1 小時）或手動強制重新載入時才 Fetch Firestore，極小化雲端讀取成本。
+- **用途**: 供 `cb-calculator.html` (計算機) 使用。
 
 ## 自動化循環 (The Automation Loop)
 
-系統依賴 GitHub Actions 進行每日的全自動維護，完全無需人工介入。
+系統依賴本地 Task Scheduler 或手動執行進行維護。
 
 ### 📅 排程 (Schedule)
 
-- **每日 09:00 (UTC+8)**: 開盤前檢查。
-- **每日 13:30 (UTC+8)**: 收盤後更新 (主要資料產出點)。
+- **每週一 10:00 (UTC+8)**: 週初同步。
+- **每週五 14:00 (UTC+8)**: 週末同步 (主要資料更新點)。
 
 ### 🔄 執行流程
 
-1.  **觸發 (Trigger)**: GitHub Action 啟動 `daily-hot-cb.yml` 工作流程。
-2.  **執行 (Execute)**: 運行 `tools/fetch-hot-cb.js` 腳本。
-3.  **分流 (Split)**: 腳本內部分別產出 `hot-cb.json` 與 `cb-data.json`。
-4.  **提交 (Commit)**: Action 自動偵測檔案變更，並 Commit 回 Repository。
-5.  **部署 (Deploy)**: GitHub Pages 自動重新部署，前端使用者即可讀取到最新 JSON。
-
-## 🛡️ 數據品質與維護 (Data Maintenance)
-
-為了克服 DDE 抓取轉換價格精度不足（截斷至整數）的問題，系統導入了 **Precision Protection** 機制：
-
-1. **精確匯入**：使用者透過 `import_cb_xlsx.py` 將來自 Excel 的高精度轉換價（如 `51.3`）同步至 Firestore。
-2. **智慧保護**：`xq_bridge.py` 在例行同步時，若發現雲端已有精確數據，則不會被 DDE 的粗略數據（如 `51`）覆蓋。
-3. **變動偵測**：若 DDE 數值與雲端數值發生顯著差異（整數部分不符），腳本會發出 `[⚠️ CP CHANGE!]` 警告，提示可能發生除權息調整。
+1.  **觸發 (Trigger)**: Task Scheduler 啟動 `CB_Sync_Master.bat` 或 AI 執行 `/sync-cb`。
+2.  **同步 (Sync)**: 執行 `xq_bridge.py` 串接 DDE 數據與 Excel 高精度數據。
+3.  **寫入 (Write)**: 直接更新 Firestore `cb_history` 集合。
+4.  **本地快取**: 產出本地 `cb-data.json`（已在 `.gitignore` 中忽略，不進 Git）。
+5.  **前端載入**: 使用者開啟頁面時，前端 JS 直接由 Firestore Fetch 最新數據。
 
 ## 架構視覺化 (Architecture Diagram)
 
 ```mermaid
 graph TD
     %% 來源與觸發
-    Cron[GitHub Action 每日排程] -->|09:00, 13:30| Script[tools/fetch-hot-cb.js]
-    Market[外部市場數據] -->|爬取| Script
+    Sched[Task Scheduler / /sync-cb] -->|10:00, 14:00| Bat[CB_Sync_Master.bat]
+    DDE[XQ DDE 報價] -->|即時| Bat
+    Excel[高精度轉換價.xlsx] -->|優先權| Bat
 
-    %% 核心分流處理
-    subgraph Data_Processing [核心處理引擎]
-        Script -->|分離邏輯| PathA[路徑 A: 戰情室專用]
-        Script -->|分離邏輯| PathB[路徑 B: 計算機搜尋]
-        Script -->|備份| PathC[路徑 C: 雲端歷史]
+    %% 核心處理
+    subgraph Data_Pipe [數據處理流水線]
+        Bat -->|xq_bridge.py| Protect[高精度保護機制]
+        Protect -->|更新| Firestore[(Firebase Cloud)]
+        Protect -->|Export| LocalJSON[cb-data.json]
     end
 
-    %% 儲存層
-    PathA -->|寫入| HotFile[public/data/hot-cb.json]
-    PathB -->|寫入 更新| MasterFile[public/data/cb-data.json]
-    PathC -->|存檔| Firestore[(Firebase Cloud)]
-
-    %% 部署
-    HotFile -->|Commit and Push| GitHubPages[GitHub Pages CDN]
-    MasterFile -->|Commit and Push| GitHubPages
+    %% Git 隔離
+    LocalJSON -.-|Git Ignored| GitRepo((Git Repository))
 
     %% 使用者端 (瀏覽器)
     subgraph Client_Side [使用者瀏覽器]
-        WarRoom[CB 戰情室] -->|fetch| HotFile
-        Calculator[CB 計算機] -->|fetch| MasterFile
-        HistoryService[歷史走勢圖] -->|Smart Sync| Firestore
+        WarRoom[CB 戰情室] -->|fetch| Firestore
+        Calculator[CB 計算機] -->|Firestore Fetch + Cache| Firestore
+        HistoryService[歷史走勢圖] -->|Direct Fetch| Firestore
     end
-
-    %% 關聯與用途
-    note1[內容: 嚴格前 20 名<br>用途: 顯示本日熱門排行] -.- HotFile
-    note2[內容: 所有 300+ 檔可轉債<br>用途: 搜尋自動完成] -.- MasterFile
 ```
 
 ## 檔案結構說明
 
 ```text
 /public/data/
-├── hot-cb.json       # [New] 每日 Top 20 熱門股 (無雜質)
-├── cb-data.json      # [Master] 全市場通訊錄
-└── history/          # [Deprecated] 舊版歷史資料夾 (已清空)
+├── hot-cb.json       # [Ignored] 熱門清單
+├── cb-data.json      # [Ignored] 市場全集 (僅供本地快取)
+└── history/          # [Deprecated] 舊版歷史資料夾
 ```

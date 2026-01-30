@@ -121,3 +121,25 @@ GitHub Pages 為純靜態主機，無法運行 Node.js 爬蟲。我们需要一�
 
 - ✅ **優點**：徹底解決前端 `NaN` 顯示問題、確保搜尋功能的完整性、職責分離 (Separation of Concerns)。
 - ❌ **缺點**：GitHub Action 需維護兩個輸出檔案 (已自動化解決)。
+
+---
+
+## ADR-007: 數據與代碼解耦 (Data-Code Decoupling)
+
+**狀態**：Accepted
+**日期**：2026-01-30
+
+**背景**：
+`public/data/cb-data.json` 包含市場上 300+ 筆可轉債數據，每週至少更新兩次。將其放在 Git 倉庫中會導致歷史紀錄充斥著二進制或大量的 JSON 差異，產生 **"Data in Code" 反模式**，且每次數據更新都需要重新 Commit+Deploy，流程過於冗長。
+
+**決策**：
+
+1.  **Git 離倉**：將 `cb-data.json` 加入 `.gitignore` 並從 Git Index 移除。
+2.  **雲端權威**：前端改為優先從 **Firestore** `cb_history` 集合獲取數據。
+3.  **效能保障**：實作前端 `LocalStorage` 緩存（效期 1 小時），避免頻繁 Fetch 造成延遲與費用。
+
+**後果**：
+
+- ✅ **優點**：Git 歷史變乾淨、數據更新與代碼發佈流程解耦、資料即時性提升。
+- ❌ **缺點**：離線時若無緩存則無法載入數據（已透過 LocalStorage 緩解）。
+- ⚠️ **風險**：Firestore 讀取次數增加可能產生微量費用（已透過緩存控制）。

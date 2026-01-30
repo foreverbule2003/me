@@ -4,6 +4,23 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.8.0] - 2026-01-30 (Data-Code Decoupling & Cloud Authority)
+
+### 新增 (Added) 🚀
+
+- **數據與代碼解耦 (ADR-007)**：將頻繁變動的 `cb-data.json` 移出 Git 版本控制，解決倉庫冗餘問題。
+- **Firestore 權威驅動**：重構 `CB 計算機` 轉向直接由雲端 Firestore 同步全市場標的中繼資料。
+- **前端 LocalStorage 緩存**：實作 1 小時效期的數據緩存機制，平衡即時性與加載效能。
+
+### 變更 (Changed) ⚙️
+
+- **架構升級**：更新 `CB_DATA_FLOW.md` 與 `ARCHITECTURE.md` (新增 ADR-007)，全面切換至數據解耦新架構。
+- **文檔整合**：移除臨時性的顧問策略文件，將核心決策歸檔至正統 ADR 體系。
+
+### 優化 (Improvements) 🚀
+
+- **效能監控實作**：全站導入 `logPerfEvent` 與 `measureFirestore` 監控雲端執行耗時，提升開發者診斷效率。
+
 ## [1.7.0] - 2026-01-30 (CB Metadata Automation Pipeline)
 
 ### 新增 (Added) 🚀

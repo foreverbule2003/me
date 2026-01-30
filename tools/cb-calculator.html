@@ -1491,40 +1491,53 @@
 
       async function loadDatabase() {
         try {
-          // Add timestamp to prevent caching
-          // Use absolute path relative to site root
-          const res = await fetch(
-            getDataPath("cb-data.json") + "?t=" + new Date().getTime(),
-          );
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-          const json = await res.json();
+          // 1. Try Cache First
+          const cached = localStorage.getItem("cb_database_cache");
+          const cacheTime = localStorage.getItem("cb_database_ts");
+          const now = new Date().getTime();
 
-          // Convert array to object map for easy lookup
-          json.items.forEach((item) => {
-            cbDatabase[item.code] = item; // Map CB Code (e.g. 24673)
+          // 1 hour cache (3600000ms)
+          if (cached && cacheTime && now - parseInt(cacheTime) < 3600000) {
+            const result = JSON.parse(cached);
+            processItems(result.items);
+            console.log(
+              "⚡ [Cache] Database loaded (Updated:",
+              result.updatedAt,
+              ")",
+            );
+            return;
+          }
 
-            // Map Stock Code (e.g. 2467)
-            if (item.underlyingCode && !cbDatabase[item.underlyingCode]) {
-              cbDatabase[item.underlyingCode] = item;
-            }
+          // 2. Fetch from Firestore (Direct Cloud Access)
+          console.log("☁️ [Cloud] Loading Database from Firestore...");
+          const querySnapshot = await getDocs(collection(db, "cb_history"));
+          const items = [];
+          querySnapshot.forEach((doc) => {
+            const data = doc.data();
+            items.push({
+              code: doc.id,
+              name: data.name || "",
+              underlyingCode: data.underlyingCode || "",
+              conversionPrice: data.conversionPrice || 0,
+              cbPrice: data.price || 0,
+              stockPrice: data.stockPrice || 0,
+              category: data.category || "",
+              changePercent: data.changePercent || "0.00%",
+            });
           });
 
-          console.log(
-            "Database loaded:",
-            Object.keys(cbDatabase).length,
-            "keys",
-          );
+          const result = { items, updatedAt: new Date().toISOString() };
 
-          // Temp debug indicator (optional)
-          // tickerStatus.textContent = "DB Loaded";
-          // tickerStatus.classList.remove("hidden");
+          // 3. Save to Local Cache
+          localStorage.setItem("cb_database_cache", JSON.stringify(result));
+          localStorage.setItem("cb_database_ts", now.toString());
+
+          processItems(items);
+          console.log("✅ [Cloud] Sync Complete:", items.length, "items");
         } catch (e) {
-          console.error("Error loading cb-data.json:", e);
-          alert(
-            "資料庫載入失敗: " + e.message + "\n請確認 cb-data.json 是否存在",
-          );
+          console.error("❌ Database load fell back:", e);
 
-          // Fallback for demo
+          // Fallback for local demo
           cbDatabase = {
             24673: {
               name: "志聖三 (Fallback)",
@@ -1534,6 +1547,16 @@
             },
           };
         }
+      }
+
+      function processItems(items) {
+        if (!items) return;
+        items.forEach((item) => {
+          cbDatabase[item.code] = item;
+          if (item.underlyingCode && !cbDatabase[item.underlyingCode]) {
+            cbDatabase[item.underlyingCode] = item;
+          }
+        });
       }
 
       // Manual Search Logic
