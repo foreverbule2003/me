@@ -9,6 +9,7 @@
     "preview": "vite preview --host",
     "dev:legacy": "npx live-server --host=0.0.0.0",
     "new-trip": "node tools/new-trip.js",
+    "sync-cb": "python tools/xq_bridge.py --meta --dry-run",
     "format": "npx prettier --write \"**/*.{html,css,js,md}\"",
     "test": "node scripts/test-placeholder.js",
     "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js"

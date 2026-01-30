@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-29 (Stabilization-V1.5.1-Applied)
+> 最後更新：2026-01-30 (Meta-Automation-V1.7-Complete)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -18,6 +18,7 @@
     - LCP (Largest Contentful Paint) > 2.5 秒
     - 用戶主動回報載入卡頓
     - Firebase 費用出現異常增長 (> 150% MoM)
+- [ ] **數據品質哨兵**: 實作自動化偵測標的「除權息」導致的轉換價跳變警報。 <!-- captured: 2026-01-30 -->
 - [ ] **自動化測試**: 為 CB 戰情室與 CB 計算機導入自動化測試框架。 <!-- captured: 2026-01-29 -->
 
 ---
@@ -44,6 +45,14 @@
 ---
 
 ## 🏁 已完成歸檔 (Archived)
+
+### 2026-01-30 (12:45)
+
+- [x] **Meta Automation (V1.7)**: 建立 CB 數據維護流水線 (ADR-007)，整合 Excel 匯入、DDE 同步與 JSON 導出。
+- [x] **Smart Naming**: 實作智慧名稱補正邏輯，自動移除 DDE 亂碼並補齊中文序號與 KY 標記。
+- [x] **Precision Protection**: 於 `xq_bridge.py` 實作精確數據保護機制，防止 DDE 整數數值覆蓋 Excel 高精度轉換價。
+- [x] **One-Click Sync**: 建立 `CB_Sync_Master.bat` 與 `/sync-cb` 工作流，實現 Windows 一鍵自動同步流程。
+- [x] **Data Integrity**: 完成 124 筆精確轉換價匯入，與全市場 358 筆標的名稱補正。
 
 ### 2026-01-29 (22:00)
 

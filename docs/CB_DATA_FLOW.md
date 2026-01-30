@@ -1,7 +1,7 @@
 # CB 爬蟲資料流架構 (CB Crawler Data Flow Architecture)
 
-> **最後更新日期**: 2026-01-27
-> **狀態**: Production Ready (已上線)
+> **最後更新日期**: 2026-01-30
+> **狀態**: Production Ready (Meta-Automation V1.7)
 
 本文件詳細記錄了「可轉債 (CB) 戰情室」與「計算機」背後的自動化資料流架構。此系統採用 **雙軌並行 (Dual Track)** 策略，確保熱門數據的即時性，同時維持全市場搜索的完整性。
 
@@ -43,6 +43,14 @@
 3.  **分流 (Split)**: 腳本內部分別產出 `hot-cb.json` 與 `cb-data.json`。
 4.  **提交 (Commit)**: Action 自動偵測檔案變更，並 Commit 回 Repository。
 5.  **部署 (Deploy)**: GitHub Pages 自動重新部署，前端使用者即可讀取到最新 JSON。
+
+## 🛡️ 數據品質與維護 (Data Maintenance)
+
+為了克服 DDE 抓取轉換價格精度不足（截斷至整數）的問題，系統導入了 **Precision Protection** 機制：
+
+1. **精確匯入**：使用者透過 `import_cb_xlsx.py` 將來自 Excel 的高精度轉換價（如 `51.3`）同步至 Firestore。
+2. **智慧保護**：`xq_bridge.py` 在例行同步時，若發現雲端已有精確數據，則不會被 DDE 的粗略數據（如 `51`）覆蓋。
+3. **變動偵測**：若 DDE 數值與雲端數值發生顯著差異（整數部分不符），腳本會發出 `[⚠️ CP CHANGE!]` 警告，提示可能發生除權息調整。
 
 ## 架構視覺化 (Architecture Diagram)
 

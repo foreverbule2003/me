@@ -1,0 +1,3585 @@
+{
+  "updatedAt": "2026-01-30T12:35:36.198630",
+  "items": [
+    {
+      "code": "11011",
+      "name": "台泥一永",
+      "underlyingCode": "1101",
+      "conversionPrice": 35.2,
+      "cbPrice": 99.55,
+      "stockPrice": 26.3,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "12561",
+      "name": "鮮活果汁一K",
+      "underlyingCode": "1256",
+      "conversionPrice": 189.1,
+      "cbPrice": 0,
+      "stockPrice": 156.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "13164",
+      "name": "上曜四",
+      "underlyingCode": "1316",
+      "conversionPrice": 14.7,
+      "cbPrice": 0,
+      "stockPrice": 13.9,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "13166",
+      "name": "上曜六",
+      "underlyingCode": "1316",
+      "conversionPrice": 17.4,
+      "cbPrice": 107.3,
+      "stockPrice": 13.9,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "13382",
+      "name": "廣華二KY",
+      "underlyingCode": "1338",
+      "conversionPrice": 37.6,
+      "cbPrice": 101.5,
+      "stockPrice": 19.9,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "140201",
+      "name": "遠東新E1永",
+      "underlyingCode": "1402",
+      "conversionPrice": 43.1,
+      "cbPrice": 0,
+      "stockPrice": 0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "140202",
+      "name": "遠東新E2永",
+      "underlyingCode": "1402",
+      "conversionPrice": 31.7,
+      "cbPrice": 97.4,
+      "stockPrice": 27.6,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "14363",
+      "name": "華友聯三",
+      "underlyingCode": "1436",
+      "conversionPrice": 128.7,
+      "cbPrice": 99.9,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "14364",
+      "name": "華友聯四",
+      "underlyingCode": "1436",
+      "conversionPrice": 99.0,
+      "cbPrice": 95.3,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "14381",
+      "name": "三地開發一",
+      "underlyingCode": "1438",
+      "conversionPrice": 55.88,
+      "cbPrice": 0,
+      "stockPrice": 32.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "14664",
+      "name": "聚隆四",
+      "underlyingCode": "1466",
+      "conversionPrice": 18.8,
+      "cbPrice": 105.0,
+      "stockPrice": 14.6,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "14722",
+      "name": "三洋實業二",
+      "underlyingCode": "1472",
+      "conversionPrice": 98.6,
+      "cbPrice": 103.35,
+      "stockPrice": 86.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "14723",
+      "name": "三洋實業三",
+      "underlyingCode": "1472",
+      "conversionPrice": 101.5,
+      "cbPrice": 96.4,
+      "stockPrice": 86.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "14743",
+      "name": "弘裕三",
+      "underlyingCode": "1474",
+      "conversionPrice": 14.0,
+      "cbPrice": 92.55,
+      "stockPrice": 10.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "15142",
+      "name": "亞力二",
+      "underlyingCode": "1514",
+      "conversionPrice": 109.2,
+      "cbPrice": 125.8,
+      "stockPrice": 125.0,
+      "category": "電網",
+      "changePercent": "--%"
+    },
+    {
+      "code": "15261",
+      "name": "日馳一",
+      "underlyingCode": "1526",
+      "conversionPrice": 37.29,
+      "cbPrice": 0,
+      "stockPrice": 20.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "15364",
+      "name": "和大四",
+      "underlyingCode": "1536",
+      "conversionPrice": 71.47,
+      "cbPrice": 99.0,
+      "stockPrice": 61.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "15601",
+      "name": "中砂一",
+      "underlyingCode": "1560",
+      "conversionPrice": 284.6,
+      "cbPrice": 143.05,
+      "stockPrice": 408.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "15864",
+      "name": "和勤四",
+      "underlyingCode": "1586",
+      "conversionPrice": 30.74,
+      "cbPrice": 0,
+      "stockPrice": 25.1,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "15865",
+      "name": "和勤五",
+      "underlyingCode": "1586",
+      "conversionPrice": 30.14,
+      "cbPrice": 100.05,
+      "stockPrice": 25.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "15894",
+      "name": "永冠四K",
+      "underlyingCode": "1589",
+      "conversionPrice": 60.7,
+      "cbPrice": 100.95,
+      "stockPrice": 17.3,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "15952",
+      "name": "川寶二",
+      "underlyingCode": "1595",
+      "conversionPrice": 37.7,
+      "cbPrice": 117.65,
+      "stockPrice": 37.9,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "15984",
+      "name": "岱宇四",
+      "underlyingCode": "1598",
+      "conversionPrice": 32.7,
+      "cbPrice": 96.5,
+      "stockPrice": 20.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "16095",
+      "name": "大亞五",
+      "underlyingCode": "1609",
+      "conversionPrice": 51.3,
+      "cbPrice": 110.55,
+      "stockPrice": 42.0,
+      "category": "電網",
+      "changePercent": "--%"
+    },
+    {
+      "code": "17813",
+      "name": "合世三",
+      "underlyingCode": "1781",
+      "conversionPrice": 18,
+      "cbPrice": 105.35,
+      "stockPrice": 12.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "17863",
+      "name": "科妍三",
+      "underlyingCode": "1786",
+      "conversionPrice": 116.5,
+      "cbPrice": 0,
+      "stockPrice": 79.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "18156",
+      "name": "富喬六",
+      "underlyingCode": "1815",
+      "conversionPrice": 13.53,
+      "cbPrice": 0,
+      "stockPrice": 91.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "19094",
+      "name": "榮成四",
+      "underlyingCode": "1909",
+      "conversionPrice": 23.9,
+      "cbPrice": 0,
+      "stockPrice": 9.9,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "20344",
+      "name": "允強四",
+      "underlyingCode": "2034",
+      "conversionPrice": 24.0,
+      "cbPrice": 111.0,
+      "stockPrice": 22.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "20662",
+      "name": "世德二",
+      "underlyingCode": "2066",
+      "conversionPrice": 88.1,
+      "cbPrice": 97.65,
+      "stockPrice": 53.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "21043",
+      "name": "國際中橡三",
+      "underlyingCode": "2104",
+      "conversionPrice": 21.2,
+      "cbPrice": 0,
+      "stockPrice": 12.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "22013",
+      "name": "裕隆三",
+      "underlyingCode": "2201",
+      "conversionPrice": 75.0,
+      "cbPrice": 99.6,
+      "stockPrice": 31.4,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "22283",
+      "name": "劍麟三",
+      "underlyingCode": "2228",
+      "conversionPrice": 85.36,
+      "cbPrice": 116.5,
+      "stockPrice": 95.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "22331",
+      "name": "宇隆一",
+      "underlyingCode": "2233",
+      "conversionPrice": 250.0,
+      "cbPrice": 134.0,
+      "stockPrice": 263.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "22362",
+      "name": "百達二K",
+      "underlyingCode": "2236",
+      "conversionPrice": 61,
+      "cbPrice": 0,
+      "stockPrice": 112.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "22471",
+      "name": "汎德永業一",
+      "underlyingCode": "2247",
+      "conversionPrice": 282.8,
+      "cbPrice": 105.0,
+      "stockPrice": 273.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "22472",
+      "name": "汎德永業二",
+      "underlyingCode": "2247",
+      "conversionPrice": 273.8,
+      "cbPrice": 105.8,
+      "stockPrice": 273.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "23372",
+      "name": "旺宏二",
+      "underlyingCode": "2337",
+      "conversionPrice": 23.0,
+      "cbPrice": 412.0,
+      "stockPrice": 93.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "23383",
+      "name": "光罩三",
+      "underlyingCode": "2338",
+      "conversionPrice": 74.5,
+      "cbPrice": 0,
+      "stockPrice": 39.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "23511",
+      "name": "順德一",
+      "underlyingCode": "2351",
+      "conversionPrice": 72.4,
+      "cbPrice": 129.0,
+      "stockPrice": 89.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "23683",
+      "name": "金像電三",
+      "underlyingCode": "2368",
+      "conversionPrice": 450.0,
+      "cbPrice": 160.0,
+      "stockPrice": 70.0,
+      "category": "PCB",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24023",
+      "name": "毅嘉三",
+      "underlyingCode": "2402",
+      "conversionPrice": 55.0,
+      "cbPrice": 119.95,
+      "stockPrice": 53.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24271",
+      "name": "三商電一",
+      "underlyingCode": "2427",
+      "conversionPrice": 26.3,
+      "cbPrice": 103.65,
+      "stockPrice": 25.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24361",
+      "name": "偉詮電一",
+      "underlyingCode": "2436",
+      "conversionPrice": 53.3,
+      "cbPrice": 110.35,
+      "stockPrice": 52.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24394",
+      "name": "美律四",
+      "underlyingCode": "2439",
+      "conversionPrice": 128.9,
+      "cbPrice": 105.5,
+      "stockPrice": 100.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24395",
+      "name": "美律五",
+      "underlyingCode": "2439",
+      "conversionPrice": 125.2,
+      "cbPrice": 104.0,
+      "stockPrice": 100.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "24423",
+      "name": "新美齊三",
+      "underlyingCode": "2442",
+      "conversionPrice": 25.6,
+      "cbPrice": 97.4,
+      "stockPrice": 21.4,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24424",
+      "name": "新美齊四",
+      "underlyingCode": "2442",
+      "conversionPrice": 25.9,
+      "cbPrice": 97.0,
+      "stockPrice": 21.4,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "24552",
+      "name": "全新二",
+      "underlyingCode": "2455",
+      "conversionPrice": 162.9,
+      "cbPrice": 138.2,
+      "stockPrice": 167.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24553",
+      "name": "全新三",
+      "underlyingCode": "2455",
+      "conversionPrice": 153.5,
+      "cbPrice": 139.0,
+      "stockPrice": 167.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24616",
+      "name": "光群雷六",
+      "underlyingCode": "2461",
+      "conversionPrice": 14.5,
+      "cbPrice": 0,
+      "stockPrice": 16.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "24624",
+      "name": "良得電四",
+      "underlyingCode": "2462",
+      "conversionPrice": 30.09,
+      "cbPrice": 102.1,
+      "stockPrice": 24.7,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24642",
+      "name": "盟立二",
+      "underlyingCode": "2464",
+      "conversionPrice": 78.5,
+      "cbPrice": 108.0,
+      "stockPrice": 69.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24672",
+      "name": "志聖二",
+      "underlyingCode": "2467",
+      "conversionPrice": 250.6,
+      "cbPrice": 124.0,
+      "stockPrice": 241.0,
+      "category": "半導體設備",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24673",
+      "name": "志聖三",
+      "underlyingCode": "2467",
+      "conversionPrice": 246.6,
+      "cbPrice": 125.0,
+      "stockPrice": 241.0,
+      "category": "半導體設備",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24762",
+      "name": "鉅祥二",
+      "underlyingCode": "2476",
+      "conversionPrice": 66.5,
+      "cbPrice": 128.5,
+      "stockPrice": 83.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "24866",
+      "name": "一詮六",
+      "underlyingCode": "2486",
+      "conversionPrice": 125.2,
+      "cbPrice": 128.5,
+      "stockPrice": 126.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "25283",
+      "name": "皇普三",
+      "underlyingCode": "2528",
+      "conversionPrice": 42.4,
+      "cbPrice": 106.0,
+      "stockPrice": 27.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "25284",
+      "name": "皇普四",
+      "underlyingCode": "2528",
+      "conversionPrice": 41,
+      "cbPrice": 92.0,
+      "stockPrice": 27.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "25303",
+      "name": "華建三",
+      "underlyingCode": "2530",
+      "conversionPrice": 32.2,
+      "cbPrice": 96.7,
+      "stockPrice": 26.4,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "25304",
+      "name": "華建四",
+      "underlyingCode": "2530",
+      "conversionPrice": 30.2,
+      "cbPrice": 98.2,
+      "stockPrice": 26.4,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "25483",
+      "name": "華固三",
+      "underlyingCode": "2548",
+      "conversionPrice": 125.0,
+      "cbPrice": 102.5,
+      "stockPrice": 107.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "25484",
+      "name": "華固四",
+      "underlyingCode": "2548",
+      "conversionPrice": 123.5,
+      "cbPrice": 103.45,
+      "stockPrice": 107.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "26107",
+      "name": "華航七",
+      "underlyingCode": "2610",
+      "conversionPrice": 16.9,
+      "cbPrice": 134.0,
+      "stockPrice": 22.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "26417",
+      "name": "正德七",
+      "underlyingCode": "2641",
+      "conversionPrice": 22.15,
+      "cbPrice": 101.05,
+      "stockPrice": 20.4,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "26418",
+      "name": "正德八",
+      "underlyingCode": "2641",
+      "conversionPrice": 19.3,
+      "cbPrice": 109.85,
+      "stockPrice": 20.4,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "27271",
+      "name": "王品一",
+      "underlyingCode": "2727",
+      "conversionPrice": 233.4,
+      "cbPrice": 104.0,
+      "stockPrice": 213.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "27323",
+      "name": "六角三",
+      "underlyingCode": "2732",
+      "conversionPrice": 124.8,
+      "cbPrice": 0,
+      "stockPrice": 67.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "27324",
+      "name": "六角四",
+      "underlyingCode": "2732",
+      "conversionPrice": 74.3,
+      "cbPrice": 105.0,
+      "stockPrice": 67.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "27431",
+      "name": "山富一",
+      "underlyingCode": "2743",
+      "conversionPrice": 101.9,
+      "cbPrice": 102.3,
+      "stockPrice": 78.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "27451",
+      "name": "五福一",
+      "underlyingCode": "2745",
+      "conversionPrice": 111.3,
+      "cbPrice": 109.1,
+      "stockPrice": 104.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "27531",
+      "name": "八方雲集一",
+      "underlyingCode": "2753",
+      "conversionPrice": 207.6,
+      "cbPrice": 108.3,
+      "stockPrice": 177.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "27532",
+      "name": "八方雲集二",
+      "underlyingCode": "2753",
+      "conversionPrice": 205.6,
+      "cbPrice": 108.0,
+      "stockPrice": 177.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "27551",
+      "name": "揚秦一",
+      "underlyingCode": "2755",
+      "conversionPrice": 86.7,
+      "cbPrice": 0,
+      "stockPrice": 112.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "27561",
+      "name": "聯發國際一",
+      "underlyingCode": "2756",
+      "conversionPrice": 90.1,
+      "cbPrice": 0,
+      "stockPrice": 75.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "29051",
+      "name": "三商一",
+      "underlyingCode": "2905",
+      "conversionPrice": 19.23,
+      "cbPrice": 0,
+      "stockPrice": 15.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "29061",
+      "name": "高林一",
+      "underlyingCode": "2906",
+      "conversionPrice": 16.8,
+      "cbPrice": 0,
+      "stockPrice": 12.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "30061",
+      "name": "晶豪科一",
+      "underlyingCode": "3006",
+      "conversionPrice": 83.6,
+      "cbPrice": 233.0,
+      "stockPrice": 195.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "30134",
+      "name": "晟銘電四",
+      "underlyingCode": "3013",
+      "conversionPrice": 143.8,
+      "cbPrice": 116.0,
+      "stockPrice": 112.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "30165",
+      "name": "嘉晶五",
+      "underlyingCode": "3016",
+      "conversionPrice": 71.4,
+      "cbPrice": 0,
+      "stockPrice": 64.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "30321",
+      "name": "偉訓一",
+      "underlyingCode": "3032",
+      "conversionPrice": 105.9,
+      "cbPrice": 93.4,
+      "stockPrice": 73.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "30322",
+      "name": "偉訓二",
+      "underlyingCode": "3032",
+      "conversionPrice": 101.9,
+      "cbPrice": 94.5,
+      "stockPrice": 73.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "30336",
+      "name": "威健六",
+      "underlyingCode": "3033",
+      "conversionPrice": 24.84,
+      "cbPrice": 0,
+      "stockPrice": 31.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "30337",
+      "name": "威健七",
+      "underlyingCode": "3033",
+      "conversionPrice": 34.44,
+      "cbPrice": 104.0,
+      "stockPrice": 31.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "30371",
+      "name": "欣興一",
+      "underlyingCode": "3037",
+      "conversionPrice": 164.1,
+      "cbPrice": 227.0,
+      "stockPrice": 378.0,
+      "category": "PCB",
+      "changePercent": "--%"
+    },
+    {
+      "code": "30401",
+      "name": "遠見一",
+      "underlyingCode": "3040",
+      "conversionPrice": 47.2,
+      "cbPrice": 109.0,
+      "stockPrice": 51.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "30454",
+      "name": "台灣大四",
+      "underlyingCode": "3045",
+      "conversionPrice": 118.2,
+      "cbPrice": 98.45,
+      "stockPrice": 105.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "30455",
+      "name": "台灣大五",
+      "underlyingCode": "3045",
+      "conversionPrice": 111.3,
+      "cbPrice": 101.9,
+      "stockPrice": 105.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "30882",
+      "name": "艾訊二",
+      "underlyingCode": "3088",
+      "conversionPrice": 88.5,
+      "cbPrice": 107.5,
+      "stockPrice": 82.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "30922",
+      "name": "鴻碩二",
+      "underlyingCode": "3092",
+      "conversionPrice": 36.0,
+      "cbPrice": 99.0,
+      "stockPrice": 24.7,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "30954",
+      "name": "及成四",
+      "underlyingCode": "3095",
+      "conversionPrice": 41.1,
+      "cbPrice": 0,
+      "stockPrice": 30.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "31222",
+      "name": "笙泉二",
+      "underlyingCode": "3122",
+      "conversionPrice": 42.3,
+      "cbPrice": 100.0,
+      "stockPrice": 25.3,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "31282",
+      "name": "昇銳二",
+      "underlyingCode": "3128",
+      "conversionPrice": 37.8,
+      "cbPrice": 0,
+      "stockPrice": 26.8,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "31311",
+      "name": "弘塑一",
+      "underlyingCode": "3131",
+      "conversionPrice": 1736.5,
+      "cbPrice": 123.5,
+      "stockPrice": 168.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "31312",
+      "name": "弘塑二",
+      "underlyingCode": "3131",
+      "conversionPrice": 1626.6,
+      "cbPrice": 127.55,
+      "stockPrice": 168.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "31351",
+      "name": "凌航一",
+      "underlyingCode": "3135",
+      "conversionPrice": 50.85,
+      "cbPrice": 200.0,
+      "stockPrice": 116.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "31382",
+      "name": "耀登二",
+      "underlyingCode": "3138",
+      "conversionPrice": 114.7,
+      "cbPrice": 148.5,
+      "stockPrice": 174.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "31413",
+      "name": "晶宏三",
+      "underlyingCode": "3141",
+      "conversionPrice": 93.6,
+      "cbPrice": 0,
+      "stockPrice": 48.1,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "31672",
+      "name": "大量二",
+      "underlyingCode": "3167",
+      "conversionPrice": 169.1,
+      "cbPrice": 129.6,
+      "stockPrice": 214.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "31882",
+      "name": "鑫龍騰二",
+      "underlyingCode": "3188",
+      "conversionPrice": 31.4,
+      "cbPrice": 98.0,
+      "stockPrice": 29.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "32071",
+      "name": "耀勝一",
+      "underlyingCode": "3207",
+      "conversionPrice": 100.99,
+      "cbPrice": 100.8,
+      "stockPrice": 69.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "32571",
+      "name": "虹冠電一",
+      "underlyingCode": "3257",
+      "conversionPrice": 72.2,
+      "cbPrice": 115.0,
+      "stockPrice": 66.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "32608",
+      "name": "威剛八",
+      "underlyingCode": "3260",
+      "conversionPrice": 244.0,
+      "cbPrice": 166.0,
+      "stockPrice": 356.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "32723",
+      "name": "東碩三",
+      "underlyingCode": "3272",
+      "conversionPrice": 34.2,
+      "cbPrice": 93.5,
+      "stockPrice": 19.9,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "32843",
+      "name": "太普高三",
+      "underlyingCode": "3284",
+      "conversionPrice": 23.91,
+      "cbPrice": 96.0,
+      "stockPrice": 20.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "33035",
+      "name": "岱稜五",
+      "underlyingCode": "3303",
+      "conversionPrice": 58.6,
+      "cbPrice": 0,
+      "stockPrice": 45.6,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "33055",
+      "name": "昇貿五",
+      "underlyingCode": "3305",
+      "conversionPrice": 73.3,
+      "cbPrice": 155.0,
+      "stockPrice": 113.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "33121",
+      "name": "弘憶股一",
+      "underlyingCode": "3312",
+      "conversionPrice": 73.2,
+      "cbPrice": 0,
+      "stockPrice": 39.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "33133",
+      "name": "斐成三",
+      "underlyingCode": "3313",
+      "conversionPrice": 15.7,
+      "cbPrice": 0,
+      "stockPrice": 13.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "33225",
+      "name": "建舜電五",
+      "underlyingCode": "3322",
+      "conversionPrice": 23.54,
+      "cbPrice": 0,
+      "stockPrice": 15.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "33233",
+      "name": "加百裕三",
+      "underlyingCode": "3323",
+      "conversionPrice": 32.6,
+      "cbPrice": 116.1,
+      "stockPrice": 37.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "33245",
+      "name": "雙鴻五",
+      "underlyingCode": "3324",
+      "conversionPrice": 734.4,
+      "cbPrice": 144.0,
+      "stockPrice": 91.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "33466",
+      "name": "麗清六",
+      "underlyingCode": "3346",
+      "conversionPrice": 36.5,
+      "cbPrice": 0,
+      "stockPrice": 22.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "33571",
+      "name": "臺慶科一",
+      "underlyingCode": "3357",
+      "conversionPrice": 107.4,
+      "cbPrice": 145.1,
+      "stockPrice": 157.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "33621",
+      "name": "先進光一",
+      "underlyingCode": "3362",
+      "conversionPrice": 251.0,
+      "cbPrice": 106.15,
+      "stockPrice": 109.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "33763",
+      "name": "新日興三",
+      "underlyingCode": "3376",
+      "conversionPrice": 195.2,
+      "cbPrice": 128.75,
+      "stockPrice": 210.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "33881",
+      "name": "崇越電一",
+      "underlyingCode": "3388",
+      "conversionPrice": 62.8,
+      "cbPrice": 106.95,
+      "stockPrice": 62.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "33902",
+      "name": "旭軟二",
+      "underlyingCode": "3390",
+      "conversionPrice": 24.2,
+      "cbPrice": 122.0,
+      "stockPrice": 22.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "34163",
+      "name": "融程電三",
+      "underlyingCode": "3416",
+      "conversionPrice": 127.1,
+      "cbPrice": 0,
+      "stockPrice": 144.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "34793",
+      "name": "安勤三",
+      "underlyingCode": "3479",
+      "conversionPrice": 109.3,
+      "cbPrice": 106.05,
+      "stockPrice": 89.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "34834",
+      "name": "力致四",
+      "underlyingCode": "3483",
+      "conversionPrice": 136.1,
+      "cbPrice": 102.2,
+      "stockPrice": 83.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "34843",
+      "name": "崧騰三",
+      "underlyingCode": "3484",
+      "conversionPrice": 42.2,
+      "cbPrice": 0,
+      "stockPrice": 49.9,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35161",
+      "name": "亞帝歐一",
+      "underlyingCode": "3516",
+      "conversionPrice": 25.81,
+      "cbPrice": 106.0,
+      "stockPrice": 19.8,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35181",
+      "name": "柏騰一",
+      "underlyingCode": "3518",
+      "conversionPrice": 34.9,
+      "cbPrice": 104.0,
+      "stockPrice": 21.1,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35221",
+      "name": "御嵿一",
+      "underlyingCode": "3522",
+      "conversionPrice": 18.6,
+      "cbPrice": 0,
+      "stockPrice": 16.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35265",
+      "name": "凡甲五",
+      "underlyingCode": "3526",
+      "conversionPrice": 161.2,
+      "cbPrice": 153.0,
+      "stockPrice": 248.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "35266",
+      "name": "凡甲六",
+      "underlyingCode": "3526",
+      "conversionPrice": 200.3,
+      "cbPrice": 133.35,
+      "stockPrice": 248.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "35267",
+      "name": "凡甲七",
+      "underlyingCode": "3526",
+      "conversionPrice": 269.6,
+      "cbPrice": 115.7,
+      "stockPrice": 248.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "35431",
+      "name": "州巧一",
+      "underlyingCode": "3543",
+      "conversionPrice": 45.0,
+      "cbPrice": 129.8,
+      "stockPrice": 44.6,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "35482",
+      "name": "兆利二",
+      "underlyingCode": "3548",
+      "conversionPrice": 186.0,
+      "cbPrice": 102.3,
+      "stockPrice": 89.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "35483",
+      "name": "兆利三",
+      "underlyingCode": "3548",
+      "conversionPrice": 162.8,
+      "cbPrice": 0,
+      "stockPrice": 89.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35513",
+      "name": "世禾三",
+      "underlyingCode": "3551",
+      "conversionPrice": 173.0,
+      "cbPrice": 124.0,
+      "stockPrice": 181.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35642",
+      "name": "其陽二",
+      "underlyingCode": "3564",
+      "conversionPrice": 83.9,
+      "cbPrice": 0,
+      "stockPrice": 50.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35831",
+      "name": "辛耘一",
+      "underlyingCode": "3583",
+      "conversionPrice": 349.3,
+      "cbPrice": 115.5,
+      "stockPrice": 326.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "35832",
+      "name": "辛耘二",
+      "underlyingCode": "3583",
+      "conversionPrice": 337.4,
+      "cbPrice": 116.75,
+      "stockPrice": 326.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "35871",
+      "name": "閎康一",
+      "underlyingCode": "3587",
+      "conversionPrice": 192.0,
+      "cbPrice": 116.0,
+      "stockPrice": 202.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "35914",
+      "name": "艾笛森四",
+      "underlyingCode": "3591",
+      "conversionPrice": 24.5,
+      "cbPrice": 0,
+      "stockPrice": 19.1,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "36053",
+      "name": "宏致三",
+      "underlyingCode": "3605",
+      "conversionPrice": 50.5,
+      "cbPrice": 139.5,
+      "stockPrice": 65.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "36173",
+      "name": "碩天三",
+      "underlyingCode": "3617",
+      "conversionPrice": 287.3,
+      "cbPrice": 104.5,
+      "stockPrice": 183.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "36804",
+      "name": "家登四",
+      "underlyingCode": "3680",
+      "conversionPrice": 354,
+      "cbPrice": 126.0,
+      "stockPrice": 405.0,
+      "category": "未分類 (UNCATEGORIZED)",
+      "changePercent": "--%"
+    },
+    {
+      "code": "36841",
+      "name": "榮昌一",
+      "underlyingCode": "3684",
+      "conversionPrice": 50.7,
+      "cbPrice": 0,
+      "stockPrice": 54.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "36872",
+      "name": "歐買尬二",
+      "underlyingCode": "3687",
+      "conversionPrice": 75.9,
+      "cbPrice": 105.05,
+      "stockPrice": 78.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "36873",
+      "name": "歐買尬三",
+      "underlyingCode": "3687",
+      "conversionPrice": 80.1,
+      "cbPrice": 103.35,
+      "stockPrice": 78.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "36894",
+      "name": "湧德四",
+      "underlyingCode": "3689",
+      "conversionPrice": 61.7,
+      "cbPrice": 0,
+      "stockPrice": 110.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "36913",
+      "name": "碩禾三",
+      "underlyingCode": "3691",
+      "conversionPrice": 118.0,
+      "cbPrice": 111.7,
+      "stockPrice": 116.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "37012",
+      "name": "大眾控二",
+      "underlyingCode": "3701",
+      "conversionPrice": 63.96,
+      "cbPrice": 100.05,
+      "stockPrice": 55.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "370201",
+      "name": "大聯大E1",
+      "underlyingCode": "3702",
+      "conversionPrice": 16.0,
+      "cbPrice": 110.55,
+      "stockPrice": 64.0,
+      "category": "電子通路",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "37022",
+      "name": "大聯大二",
+      "underlyingCode": "3702",
+      "conversionPrice": 76.9,
+      "cbPrice": 101.15,
+      "stockPrice": 64.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "37023",
+      "name": "大聯大三",
+      "underlyingCode": "3702",
+      "conversionPrice": 74.6,
+      "cbPrice": 103.3,
+      "stockPrice": 64.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "37075",
+      "name": "漢磊五",
+      "underlyingCode": "3707",
+      "conversionPrice": 40.1,
+      "cbPrice": 151.0,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "37083",
+      "name": "上緯投控三",
+      "underlyingCode": "3708",
+      "conversionPrice": 86.4,
+      "cbPrice": 148.0,
+      "stockPrice": 116.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "37084",
+      "name": "上緯投控四",
+      "underlyingCode": "3708",
+      "conversionPrice": 83,
+      "cbPrice": 0,
+      "stockPrice": 116.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "37131",
+      "name": "新晶投控一",
+      "underlyingCode": "3713",
+      "conversionPrice": 53.3,
+      "cbPrice": 0,
+      "stockPrice": 19.8,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "37151",
+      "name": "定穎投控一",
+      "underlyingCode": "3715",
+      "conversionPrice": 140.0,
+      "cbPrice": 136.5,
+      "stockPrice": 144.0,
+      "category": "PCB",
+      "changePercent": "--%"
+    },
+    {
+      "code": "37171",
+      "name": "聯嘉投控一",
+      "underlyingCode": "3717",
+      "conversionPrice": 17.5,
+      "cbPrice": 107.9,
+      "stockPrice": 17.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "41135",
+      "name": "聯上五",
+      "underlyingCode": "4113",
+      "conversionPrice": 26.3,
+      "cbPrice": 108.0,
+      "stockPrice": 21.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "41236",
+      "name": "晟德六",
+      "underlyingCode": "4123",
+      "conversionPrice": 38.6,
+      "cbPrice": 121.5,
+      "stockPrice": 40.7,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "41237",
+      "name": "晟德七",
+      "underlyingCode": "4123",
+      "conversionPrice": 39.3,
+      "cbPrice": 106.0,
+      "stockPrice": 40.7,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "41295",
+      "name": "聯合五",
+      "underlyingCode": "4129",
+      "conversionPrice": 105.6,
+      "cbPrice": 117.0,
+      "stockPrice": 106.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "41372",
+      "name": "麗豐二K",
+      "underlyingCode": "4137",
+      "conversionPrice": 141.3,
+      "cbPrice": 0,
+      "stockPrice": 104.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "41645",
+      "name": "承業醫五",
+      "underlyingCode": "4164",
+      "conversionPrice": 47,
+      "cbPrice": 104.5,
+      "stockPrice": 34.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "41684",
+      "name": "醣聯四",
+      "underlyingCode": "4168",
+      "conversionPrice": 23.91,
+      "cbPrice": 126.0,
+      "stockPrice": 28.7,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "41903",
+      "name": "佐登三K",
+      "underlyingCode": "4190",
+      "conversionPrice": 54.2,
+      "cbPrice": 99.15,
+      "stockPrice": 29.4,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "44163",
+      "name": "三圓",
+      "underlyingCode": "4416",
+      "conversionPrice": 65.7,
+      "cbPrice": 0,
+      "stockPrice": 29.6,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "44383",
+      "name": "廣越三",
+      "underlyingCode": "4438",
+      "conversionPrice": 75,
+      "cbPrice": 106.0,
+      "stockPrice": 68.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "44391",
+      "name": "冠星一K",
+      "underlyingCode": "4439",
+      "conversionPrice": 100.8,
+      "cbPrice": 101.15,
+      "stockPrice": 101.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "44421",
+      "name": "竣邦一K",
+      "underlyingCode": "4442",
+      "conversionPrice": 48.5,
+      "cbPrice": 0,
+      "stockPrice": 57.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "45102",
+      "name": "高鋒二",
+      "underlyingCode": "4510",
+      "conversionPrice": 48.41,
+      "cbPrice": 105.0,
+      "stockPrice": 49.6,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "45421",
+      "name": "科嶠一",
+      "underlyingCode": "4542",
+      "conversionPrice": 85.9,
+      "cbPrice": 116.25,
+      "stockPrice": 102.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "45491",
+      "name": "桓達一",
+      "underlyingCode": "4549",
+      "conversionPrice": 154.4,
+      "cbPrice": 0,
+      "stockPrice": 107.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "45554",
+      "name": "氣立四",
+      "underlyingCode": "4555",
+      "conversionPrice": 43.4,
+      "cbPrice": 106.65,
+      "stockPrice": 39.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "45581",
+      "name": "寶緯一",
+      "underlyingCode": "4558",
+      "conversionPrice": 29.8,
+      "cbPrice": 102.0,
+      "stockPrice": 19.7,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "45641",
+      "name": "元翎一",
+      "underlyingCode": "4564",
+      "conversionPrice": 26.4,
+      "cbPrice": 0,
+      "stockPrice": 16.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "45663",
+      "name": "時碩工業三",
+      "underlyingCode": "4566",
+      "conversionPrice": 49.6,
+      "cbPrice": 0,
+      "stockPrice": 57.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "45691",
+      "name": "六方科一K",
+      "underlyingCode": "4569",
+      "conversionPrice": 203.9,
+      "cbPrice": 0,
+      "stockPrice": 145.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "45721",
+      "name": "駐龍一",
+      "underlyingCode": "4572",
+      "conversionPrice": 160.6,
+      "cbPrice": 106.7,
+      "stockPrice": 145.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "45811",
+      "name": "光隆精密一K",
+      "underlyingCode": "4581",
+      "conversionPrice": 53.4,
+      "cbPrice": 99.6,
+      "stockPrice": 51.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "47223",
+      "name": "國精化三",
+      "underlyingCode": "4722",
+      "conversionPrice": 141.3,
+      "cbPrice": 124.0,
+      "stockPrice": 154.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "47393",
+      "name": "康普三",
+      "underlyingCode": "4739",
+      "conversionPrice": 97.8,
+      "cbPrice": 104.0,
+      "stockPrice": 68.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "47394",
+      "name": "康普四",
+      "underlyingCode": "4739",
+      "conversionPrice": 70.5,
+      "cbPrice": 118.3,
+      "stockPrice": 68.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "47471",
+      "name": "強生一",
+      "underlyingCode": "4747",
+      "conversionPrice": 59.58,
+      "cbPrice": 0,
+      "stockPrice": 57.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "47721",
+      "name": "台特化一",
+      "underlyingCode": "4772",
+      "conversionPrice": 323.8,
+      "cbPrice": 120.5,
+      "stockPrice": 325.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "49066",
+      "name": "正文六",
+      "underlyingCode": "4906",
+      "conversionPrice": 26.6,
+      "cbPrice": 114.2,
+      "stockPrice": 28.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "49165",
+      "name": "事欣科五",
+      "underlyingCode": "4916",
+      "conversionPrice": 42.88,
+      "cbPrice": 0,
+      "stockPrice": 64.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "49231",
+      "name": "力士一",
+      "underlyingCode": "4923",
+      "conversionPrice": 34.66,
+      "cbPrice": 102.8,
+      "stockPrice": 32.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "49674",
+      "name": "十銓四",
+      "underlyingCode": "4967",
+      "conversionPrice": 147.0,
+      "cbPrice": 171.0,
+      "stockPrice": 244.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "49793",
+      "name": "華星光三",
+      "underlyingCode": "4979",
+      "conversionPrice": 176.5,
+      "cbPrice": 180.0,
+      "stockPrice": 318.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "49794",
+      "name": "華星光四",
+      "underlyingCode": "4979",
+      "conversionPrice": 204.3,
+      "cbPrice": 165.0,
+      "stockPrice": 318.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "50097",
+      "name": "榮剛七",
+      "underlyingCode": "5009",
+      "conversionPrice": 50.3,
+      "cbPrice": 100.0,
+      "stockPrice": 34.3,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "52011",
+      "name": "凱衛一",
+      "underlyingCode": "5201",
+      "conversionPrice": 38.5,
+      "cbPrice": 0,
+      "stockPrice": 42.9,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "52091",
+      "name": "新鼎一",
+      "underlyingCode": "5209",
+      "conversionPrice": 151.1,
+      "cbPrice": 116.95,
+      "stockPrice": 173.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "52121",
+      "name": "凌網一",
+      "underlyingCode": "5212",
+      "conversionPrice": 62.64,
+      "cbPrice": 0,
+      "stockPrice": 53.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "52303",
+      "name": "雷笛克光學三",
+      "underlyingCode": "5230",
+      "conversionPrice": 22,
+      "cbPrice": 0,
+      "stockPrice": 18.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "52441",
+      "name": "弘凱一",
+      "underlyingCode": "5244",
+      "conversionPrice": 44.5,
+      "cbPrice": 101.5,
+      "stockPrice": 38.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "52452",
+      "name": "智晶二",
+      "underlyingCode": "5245",
+      "conversionPrice": 35.0,
+      "cbPrice": 99.15,
+      "stockPrice": 30.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "52635",
+      "name": "智崴五",
+      "underlyingCode": "5263",
+      "conversionPrice": 110.4,
+      "cbPrice": 115.0,
+      "stockPrice": 104.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "53064",
+      "name": "桂盟四",
+      "underlyingCode": "5306",
+      "conversionPrice": 121.3,
+      "cbPrice": 101.2,
+      "stockPrice": 90.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "53095",
+      "name": "系統電五",
+      "underlyingCode": "5309",
+      "conversionPrice": 38.2,
+      "cbPrice": 0,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "53096",
+      "name": "系統電六",
+      "underlyingCode": "5309",
+      "conversionPrice": 63.5,
+      "cbPrice": 110.0,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "53097",
+      "name": "系統電七",
+      "underlyingCode": "5309",
+      "conversionPrice": 55.0,
+      "cbPrice": 112.0,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "53211",
+      "name": "美而快一",
+      "underlyingCode": "5321",
+      "conversionPrice": 85.3,
+      "cbPrice": 100.35,
+      "stockPrice": 30.9,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "53887",
+      "name": "中磊七",
+      "underlyingCode": "5388",
+      "conversionPrice": 134.6,
+      "cbPrice": 103.5,
+      "stockPrice": 85.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "54342",
+      "name": "崇越二",
+      "underlyingCode": "5434",
+      "conversionPrice": 184.1,
+      "cbPrice": 183.0,
+      "stockPrice": 323.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "54391",
+      "name": "高技一",
+      "underlyingCode": "5439",
+      "conversionPrice": 300,
+      "cbPrice": 125.2,
+      "stockPrice": 299.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "54501",
+      "name": "南良一",
+      "underlyingCode": "5450",
+      "conversionPrice": 17.4,
+      "cbPrice": 105.75,
+      "stockPrice": 14.7,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "54573",
+      "name": "宣德三",
+      "underlyingCode": "5457",
+      "conversionPrice": 66.9,
+      "cbPrice": 95.15,
+      "stockPrice": 36.3,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "55434",
+      "name": "桓鼎四K",
+      "underlyingCode": "5543",
+      "conversionPrice": 52.3,
+      "cbPrice": 0,
+      "stockPrice": 29.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "56086",
+      "name": "四維航六",
+      "underlyingCode": "5608",
+      "conversionPrice": 22.1,
+      "cbPrice": 104.5,
+      "stockPrice": 17.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "56087",
+      "name": "四維航七",
+      "underlyingCode": "5608",
+      "conversionPrice": 19.3,
+      "cbPrice": 112.0,
+      "stockPrice": 17.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "59055",
+      "name": "南仁湖五",
+      "underlyingCode": "5905",
+      "conversionPrice": 12.62,
+      "cbPrice": 0,
+      "stockPrice": 9.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "60151",
+      "name": "宏遠證一",
+      "underlyingCode": "6015",
+      "conversionPrice": 14.54,
+      "cbPrice": 101.15,
+      "stockPrice": 14.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "60152",
+      "name": "宏遠證二",
+      "underlyingCode": "6015",
+      "conversionPrice": 10.22,
+      "cbPrice": 140.0,
+      "stockPrice": 14.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61011",
+      "name": "寬魚國際一",
+      "underlyingCode": "6101",
+      "conversionPrice": 36.9,
+      "cbPrice": 108.5,
+      "stockPrice": 39.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61012",
+      "name": "寬魚國際二",
+      "underlyingCode": "6101",
+      "conversionPrice": 38.9,
+      "cbPrice": 100.0,
+      "stockPrice": 39.1,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "61041",
+      "name": "創惟一",
+      "underlyingCode": "6104",
+      "conversionPrice": 124.8,
+      "cbPrice": 0,
+      "stockPrice": 98.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "61112",
+      "name": "大宇資二",
+      "underlyingCode": "6111",
+      "conversionPrice": 67,
+      "cbPrice": 97.5,
+      "stockPrice": 44.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61171",
+      "name": "迎廣一",
+      "underlyingCode": "6117",
+      "conversionPrice": 82,
+      "cbPrice": 103.1,
+      "stockPrice": 75.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61172",
+      "name": "迎廣二",
+      "underlyingCode": "6117",
+      "conversionPrice": 77.4,
+      "cbPrice": 105.8,
+      "stockPrice": 75.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "61255",
+      "name": "廣運五",
+      "underlyingCode": "6125",
+      "conversionPrice": 112,
+      "cbPrice": 100.95,
+      "stockPrice": 69.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61263",
+      "name": "信音三",
+      "underlyingCode": "6126",
+      "conversionPrice": 26.8,
+      "cbPrice": 139.1,
+      "stockPrice": 37.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61394",
+      "name": "亞翔四",
+      "underlyingCode": "6139",
+      "conversionPrice": 157.6,
+      "cbPrice": 380.0,
+      "stockPrice": 58.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "61506",
+      "name": "撼訊六",
+      "underlyingCode": "6150",
+      "conversionPrice": 90.2,
+      "cbPrice": 97.0,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61565",
+      "name": "松上五",
+      "underlyingCode": "6156",
+      "conversionPrice": 29,
+      "cbPrice": 102.75,
+      "stockPrice": 21.1,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "61635",
+      "name": "華電網五",
+      "underlyingCode": "6163",
+      "conversionPrice": 25.02,
+      "cbPrice": 262.0,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61777",
+      "name": "達麗七",
+      "underlyingCode": "6177",
+      "conversionPrice": 46.1,
+      "cbPrice": 118.0,
+      "stockPrice": 47.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61793",
+      "name": "亞通三",
+      "underlyingCode": "6179",
+      "conversionPrice": 34.4,
+      "cbPrice": 101.0,
+      "stockPrice": 27.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61794",
+      "name": "亞通四",
+      "underlyingCode": "6179",
+      "conversionPrice": 29.1,
+      "cbPrice": 102.4,
+      "stockPrice": 27.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61827",
+      "name": "合晶七",
+      "underlyingCode": "6182",
+      "conversionPrice": 61.2,
+      "cbPrice": 0,
+      "stockPrice": 37.1,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "61828",
+      "name": "合晶八",
+      "underlyingCode": "6182",
+      "conversionPrice": 33.5,
+      "cbPrice": 116.2,
+      "stockPrice": 37.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61843",
+      "name": "大豐電三",
+      "underlyingCode": "6184",
+      "conversionPrice": 49.4,
+      "cbPrice": 100.2,
+      "stockPrice": 47.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61875",
+      "name": "萬潤五",
+      "underlyingCode": "6187",
+      "conversionPrice": 276.8,
+      "cbPrice": 136.0,
+      "stockPrice": 382.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61894",
+      "name": "豐藝四",
+      "underlyingCode": "6189",
+      "conversionPrice": 43.14,
+      "cbPrice": 0,
+      "stockPrice": 43.8,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "61907",
+      "name": "萬泰科七",
+      "underlyingCode": "6190",
+      "conversionPrice": 41.7,
+      "cbPrice": 125.55,
+      "stockPrice": 47.6,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61965",
+      "name": "帆宣五",
+      "underlyingCode": "6196",
+      "conversionPrice": 130.7,
+      "cbPrice": 218.0,
+      "stockPrice": 284.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61973",
+      "name": "佳必琪三",
+      "underlyingCode": "6197",
+      "conversionPrice": 152,
+      "cbPrice": 123.5,
+      "stockPrice": 142.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61993",
+      "name": "天品三",
+      "underlyingCode": "6199",
+      "conversionPrice": 104.6,
+      "cbPrice": 118.5,
+      "stockPrice": 97.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "61994",
+      "name": "天品四",
+      "underlyingCode": "6199",
+      "conversionPrice": 114.8,
+      "cbPrice": 99.1,
+      "stockPrice": 97.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "62075",
+      "name": "雷科五",
+      "underlyingCode": "6207",
+      "conversionPrice": 50.7,
+      "cbPrice": 115.95,
+      "stockPrice": 54.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "62076",
+      "name": "雷科六",
+      "underlyingCode": "6207",
+      "conversionPrice": 49.2,
+      "cbPrice": 121.1,
+      "stockPrice": 54.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "62093",
+      "name": "今國光三",
+      "underlyingCode": "6209",
+      "conversionPrice": 38.6,
+      "cbPrice": 172.0,
+      "stockPrice": 66.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "62194",
+      "name": "富旺四",
+      "underlyingCode": "6219",
+      "conversionPrice": 21.17,
+      "cbPrice": 107.95,
+      "stockPrice": 15.8,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "62433",
+      "name": "迅杰三",
+      "underlyingCode": "6243",
+      "conversionPrice": 63.3,
+      "cbPrice": 94.2,
+      "stockPrice": 34.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "62695",
+      "name": "台郡五",
+      "underlyingCode": "6269",
+      "conversionPrice": 93,
+      "cbPrice": 102.4,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "62696",
+      "name": "台郡六",
+      "underlyingCode": "6269",
+      "conversionPrice": 101,
+      "cbPrice": 0,
+      "stockPrice": 60.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "62745",
+      "name": "台燿五",
+      "underlyingCode": "6274",
+      "conversionPrice": 386.0,
+      "cbPrice": 143.2,
+      "stockPrice": 50.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "62756",
+      "name": "元山六",
+      "underlyingCode": "6275",
+      "conversionPrice": 24,
+      "cbPrice": 0,
+      "stockPrice": 50.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "62822",
+      "name": "康舒二",
+      "underlyingCode": "6282",
+      "conversionPrice": 46.1,
+      "cbPrice": 119.45,
+      "stockPrice": 50.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "62843",
+      "name": "佳邦三",
+      "underlyingCode": "6284",
+      "conversionPrice": 86.6,
+      "cbPrice": 118.0,
+      "stockPrice": 84.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64145",
+      "name": "樺漢五",
+      "underlyingCode": "6414",
+      "conversionPrice": 273.6,
+      "cbPrice": 112.05,
+      "stockPrice": 285.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64251",
+      "name": "易發一",
+      "underlyingCode": "6425",
+      "conversionPrice": 58.7,
+      "cbPrice": 125.0,
+      "stockPrice": 67.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64324",
+      "name": "今展科四",
+      "underlyingCode": "6432",
+      "conversionPrice": 30.88,
+      "cbPrice": 112.95,
+      "stockPrice": 33.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64422",
+      "name": "光聖二",
+      "underlyingCode": "6442",
+      "conversionPrice": 1103.5,
+      "cbPrice": 170.0,
+      "stockPrice": 178.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64423",
+      "name": "光聖三",
+      "underlyingCode": "6442",
+      "conversionPrice": 1065.9,
+      "cbPrice": 175.0,
+      "stockPrice": 178.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64512",
+      "name": "訊芯二KY",
+      "underlyingCode": "6451",
+      "conversionPrice": 240.6,
+      "cbPrice": 94.15,
+      "stockPrice": 161.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64693",
+      "name": "大樹三",
+      "underlyingCode": "6469",
+      "conversionPrice": 132.53,
+      "cbPrice": 104.2,
+      "stockPrice": 96.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "64773",
+      "name": "安集三",
+      "underlyingCode": "6477",
+      "conversionPrice": 41.9,
+      "cbPrice": 100.6,
+      "stockPrice": 34.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "64774",
+      "name": "安集四",
+      "underlyingCode": "6477",
+      "conversionPrice": 50.4,
+      "cbPrice": 0,
+      "stockPrice": 34.5,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "64775",
+      "name": "安集五",
+      "underlyingCode": "6477",
+      "conversionPrice": 44.3,
+      "cbPrice": 95.85,
+      "stockPrice": 34.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65096",
+      "name": "聚和六",
+      "underlyingCode": "6509",
+      "conversionPrice": 37.6,
+      "cbPrice": 105.1,
+      "stockPrice": 35.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65101",
+      "name": "精測一",
+      "underlyingCode": "6510",
+      "conversionPrice": 2016.8,
+      "cbPrice": 166.0,
+      "stockPrice": 334.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65331",
+      "name": "晶心科一",
+      "underlyingCode": "6533",
+      "conversionPrice": 308.0,
+      "cbPrice": 100.5,
+      "stockPrice": 240.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65381",
+      "name": "倉和一",
+      "underlyingCode": "6538",
+      "conversionPrice": 104.4,
+      "cbPrice": 90.15,
+      "stockPrice": 66.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65461",
+      "name": "正基一",
+      "underlyingCode": "6546",
+      "conversionPrice": 149,
+      "cbPrice": 98.5,
+      "stockPrice": 62.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65521",
+      "name": "易華電一",
+      "underlyingCode": "6552",
+      "conversionPrice": 58.8,
+      "cbPrice": 101.3,
+      "stockPrice": 30.4,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65841",
+      "name": "南俊國際一",
+      "underlyingCode": "6584",
+      "conversionPrice": 177.5,
+      "cbPrice": 170.0,
+      "stockPrice": 299.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "65842",
+      "name": "南俊國際二",
+      "underlyingCode": "6584",
+      "conversionPrice": 191.6,
+      "cbPrice": 0,
+      "stockPrice": 299.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "65851",
+      "name": "鼎基一",
+      "underlyingCode": "6585",
+      "conversionPrice": 110.9,
+      "cbPrice": 0,
+      "stockPrice": 90.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "65852",
+      "name": "鼎基二",
+      "underlyingCode": "6585",
+      "conversionPrice": 110.7,
+      "cbPrice": 0,
+      "stockPrice": 90.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "65914",
+      "name": "動力四K",
+      "underlyingCode": "6591",
+      "conversionPrice": 78.61,
+      "cbPrice": 105.0,
+      "stockPrice": 66.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "66163",
+      "name": "特昇三K",
+      "underlyingCode": "6616",
+      "conversionPrice": 14.5,
+      "cbPrice": 99.8,
+      "stockPrice": 9.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "66241",
+      "name": "萬年清一",
+      "underlyingCode": "6624",
+      "conversionPrice": 40.6,
+      "cbPrice": 155.0,
+      "stockPrice": 64.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "66292",
+      "name": "泰金二K",
+      "underlyingCode": "6629",
+      "conversionPrice": 119.8,
+      "cbPrice": 0,
+      "stockPrice": 118.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "66411",
+      "name": "基士德一K",
+      "underlyingCode": "6641",
+      "conversionPrice": 56.5,
+      "cbPrice": 0,
+      "stockPrice": 22.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "66451",
+      "name": "金萬林一",
+      "underlyingCode": "6645",
+      "conversionPrice": 27.87,
+      "cbPrice": 104.05,
+      "stockPrice": 17.6,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "66642",
+      "name": "群翊二",
+      "underlyingCode": "6664",
+      "conversionPrice": 292.1,
+      "cbPrice": 119.6,
+      "stockPrice": 279.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "66702",
+      "name": "復盛應用二",
+      "underlyingCode": "6670",
+      "conversionPrice": 270.0,
+      "cbPrice": 113.5,
+      "stockPrice": 270.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "66721",
+      "name": "騰輝電子一KY",
+      "underlyingCode": "6672",
+      "conversionPrice": 96.0,
+      "cbPrice": 105.5,
+      "stockPrice": 90.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "66801",
+      "name": "鑫創電子一",
+      "underlyingCode": "6680",
+      "conversionPrice": 73.5,
+      "cbPrice": 107.5,
+      "stockPrice": 67.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "67062",
+      "name": "惠特二",
+      "underlyingCode": "6706",
+      "conversionPrice": 176,
+      "cbPrice": 97.05,
+      "stockPrice": 118.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "67152",
+      "name": "嘉基二",
+      "underlyingCode": "6715",
+      "conversionPrice": 157.1,
+      "cbPrice": 107.9,
+      "stockPrice": 131.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "67531",
+      "name": "龍德造船一",
+      "underlyingCode": "6753",
+      "conversionPrice": 116.6,
+      "cbPrice": 131.8,
+      "stockPrice": 147.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "67681",
+      "name": "志強一K",
+      "underlyingCode": "6768",
+      "conversionPrice": 95.2,
+      "cbPrice": 0,
+      "stockPrice": 102.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "67711",
+      "name": "平和環保一",
+      "underlyingCode": "6771",
+      "conversionPrice": 51.66,
+      "cbPrice": 0,
+      "stockPrice": 44.9,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "67961",
+      "name": "晉弘一",
+      "underlyingCode": "6796",
+      "conversionPrice": 107.9,
+      "cbPrice": 98.05,
+      "stockPrice": 87.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "67962",
+      "name": "晉弘二",
+      "underlyingCode": "6796",
+      "conversionPrice": 101.6,
+      "cbPrice": 97.0,
+      "stockPrice": 87.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68041",
+      "name": "明係一",
+      "underlyingCode": "6804",
+      "conversionPrice": 62.2,
+      "cbPrice": 0,
+      "stockPrice": 17.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68061",
+      "name": "森崴能源一",
+      "underlyingCode": "6806",
+      "conversionPrice": 105,
+      "cbPrice": 97.5,
+      "stockPrice": 47.8,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68211",
+      "name": "聯寶一",
+      "underlyingCode": "6821",
+      "conversionPrice": 43.06,
+      "cbPrice": 0,
+      "stockPrice": 37.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68231",
+      "name": "濾能一",
+      "underlyingCode": "6823",
+      "conversionPrice": 78.6,
+      "cbPrice": 0,
+      "stockPrice": 61.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68301",
+      "name": "汎銓一",
+      "underlyingCode": "6830",
+      "conversionPrice": 147.8,
+      "cbPrice": 0,
+      "stockPrice": 175.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68351",
+      "name": "圓裕一",
+      "underlyingCode": "6835",
+      "conversionPrice": 48.8,
+      "cbPrice": 98.85,
+      "stockPrice": 37.9,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68401",
+      "name": "東研信超一",
+      "underlyingCode": "6840",
+      "conversionPrice": 65.7,
+      "cbPrice": 108.55,
+      "stockPrice": 70.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68431",
+      "name": "進典一",
+      "underlyingCode": "6843",
+      "conversionPrice": 61.4,
+      "cbPrice": 104.0,
+      "stockPrice": 49.5,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68461",
+      "name": "綠茵一",
+      "underlyingCode": "6846",
+      "conversionPrice": 80.4,
+      "cbPrice": 100.4,
+      "stockPrice": 74.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68462",
+      "name": "綠茵二",
+      "underlyingCode": "6846",
+      "conversionPrice": 78,
+      "cbPrice": 106.9,
+      "stockPrice": 74.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68541",
+      "name": "錼創科技一KY",
+      "underlyingCode": "6854",
+      "conversionPrice": 248.3,
+      "cbPrice": 106.0,
+      "stockPrice": 120.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68631",
+      "name": "永道一K",
+      "underlyingCode": "6863",
+      "conversionPrice": 294.9,
+      "cbPrice": 92.1,
+      "stockPrice": 108.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68701",
+      "name": "騰雲一",
+      "underlyingCode": "6870",
+      "conversionPrice": 238.2,
+      "cbPrice": 100.5,
+      "stockPrice": 197.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68702",
+      "name": "騰雲二",
+      "underlyingCode": "6870",
+      "conversionPrice": 226.9,
+      "cbPrice": 102.6,
+      "stockPrice": 197.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68731",
+      "name": "泓德能源一",
+      "underlyingCode": "6873",
+      "conversionPrice": 95.4,
+      "cbPrice": 0,
+      "stockPrice": 119.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68732",
+      "name": "泓德能源二",
+      "underlyingCode": "6873",
+      "conversionPrice": 215.4,
+      "cbPrice": 92.95,
+      "stockPrice": 119.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68741",
+      "name": "倍力一",
+      "underlyingCode": "6874",
+      "conversionPrice": 103,
+      "cbPrice": 0,
+      "stockPrice": 62.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "68901",
+      "name": "來億一K",
+      "underlyingCode": "6890",
+      "conversionPrice": 246.4,
+      "cbPrice": 106.4,
+      "stockPrice": 228.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "68902",
+      "name": "來億二K",
+      "underlyingCode": "6890",
+      "conversionPrice": 245.2,
+      "cbPrice": 105.7,
+      "stockPrice": 228.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "69041",
+      "name": "伯鑫一",
+      "underlyingCode": "6904",
+      "conversionPrice": 130,
+      "cbPrice": 103.0,
+      "stockPrice": 131.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "69571",
+      "name": "裕慶一K",
+      "underlyingCode": "6957",
+      "conversionPrice": 190,
+      "cbPrice": 112.95,
+      "stockPrice": 186.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "69821",
+      "name": "大井泵浦一",
+      "underlyingCode": "6982",
+      "conversionPrice": 63.6,
+      "cbPrice": 101.05,
+      "stockPrice": 61.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "69822",
+      "name": "大井泵浦二",
+      "underlyingCode": "6982",
+      "conversionPrice": 61.8,
+      "cbPrice": 101.85,
+      "stockPrice": 61.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "74022",
+      "name": "邑錡二",
+      "underlyingCode": "7402",
+      "conversionPrice": 97.6,
+      "cbPrice": 137.6,
+      "stockPrice": 132.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "75561",
+      "name": "意德士一",
+      "underlyingCode": "7556",
+      "conversionPrice": 180.9,
+      "cbPrice": 0,
+      "stockPrice": 164.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "75562",
+      "name": "意德士二",
+      "underlyingCode": "7556",
+      "conversionPrice": 177.4,
+      "cbPrice": 109.0,
+      "stockPrice": 164.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "77131",
+      "name": "威力德生醫一",
+      "underlyingCode": "7713",
+      "conversionPrice": 73.9,
+      "cbPrice": 103.0,
+      "stockPrice": 70.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "80212",
+      "name": "尖點二",
+      "underlyingCode": "8021",
+      "conversionPrice": 203.5,
+      "cbPrice": 137.95,
+      "stockPrice": 202.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "80273",
+      "name": "鈦昇三",
+      "underlyingCode": "8027",
+      "conversionPrice": 64.74,
+      "cbPrice": 0,
+      "stockPrice": 112.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "80282",
+      "name": "昇陽半導體二",
+      "underlyingCode": "8028",
+      "conversionPrice": 138.0,
+      "cbPrice": 126.05,
+      "stockPrice": 169.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "80426",
+      "name": "金山電六",
+      "underlyingCode": "8042",
+      "conversionPrice": 60,
+      "cbPrice": 118.0,
+      "stockPrice": 59.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "80506",
+      "name": "廣積六",
+      "underlyingCode": "8050",
+      "conversionPrice": 63.3,
+      "cbPrice": 105.0,
+      "stockPrice": 42.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "80872",
+      "name": "麗升能源二",
+      "underlyingCode": "8087",
+      "conversionPrice": 39.4,
+      "cbPrice": 94.9,
+      "stockPrice": 29.4,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "80914",
+      "name": "翔名四",
+      "underlyingCode": "8091",
+      "conversionPrice": 127,
+      "cbPrice": 127.0,
+      "stockPrice": 137.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "80924",
+      "name": "建暐四",
+      "underlyingCode": "8092",
+      "conversionPrice": 14.5,
+      "cbPrice": 0,
+      "stockPrice": 14.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "81042",
+      "name": "錸寶二",
+      "underlyingCode": "8104",
+      "conversionPrice": 69.98,
+      "cbPrice": 97.7,
+      "stockPrice": 42.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "811210",
+      "name": "至上十",
+      "underlyingCode": "8112",
+      "conversionPrice": 73.5,
+      "cbPrice": 126.0,
+      "stockPrice": 83.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "81473",
+      "name": "正淩三",
+      "underlyingCode": "8147",
+      "conversionPrice": 132.1,
+      "cbPrice": 106.0,
+      "stockPrice": 100.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "81551",
+      "name": "博智一",
+      "underlyingCode": "8155",
+      "conversionPrice": 121.6,
+      "cbPrice": 178.0,
+      "stockPrice": 220.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "81714",
+      "name": "天宇四",
+      "underlyingCode": "8171",
+      "conversionPrice": 30.5,
+      "cbPrice": 115.5,
+      "stockPrice": 29.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "81715",
+      "name": "天宇五",
+      "underlyingCode": "8171",
+      "conversionPrice": 32.4,
+      "cbPrice": 100.65,
+      "stockPrice": 29.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "82102",
+      "name": "勤誠二",
+      "underlyingCode": "8210",
+      "conversionPrice": 1007.2,
+      "cbPrice": 121.5,
+      "stockPrice": 90.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "82551",
+      "name": "朋程一",
+      "underlyingCode": "8255",
+      "conversionPrice": 196.2,
+      "cbPrice": 103.1,
+      "stockPrice": 129.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "82992",
+      "name": "群聯二",
+      "underlyingCode": "8299",
+      "conversionPrice": 547.3,
+      "cbPrice": 0,
+      "stockPrice": 242.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "83742",
+      "name": "羅昇二",
+      "underlyingCode": "8374",
+      "conversionPrice": 132.5,
+      "cbPrice": 97.5,
+      "stockPrice": 90.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84041",
+      "name": "百和興業一K",
+      "underlyingCode": "8404",
+      "conversionPrice": 26.8,
+      "cbPrice": 111.0,
+      "stockPrice": 23.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84113",
+      "name": "福貞三K",
+      "underlyingCode": "8411",
+      "conversionPrice": 13.3,
+      "cbPrice": 99.55,
+      "stockPrice": 11.9,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "84221",
+      "name": "可寧衛一",
+      "underlyingCode": "8422",
+      "conversionPrice": 14.6,
+      "cbPrice": 250.0,
+      "stockPrice": 36.7,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84222",
+      "name": "可寧衛二",
+      "underlyingCode": "8422",
+      "conversionPrice": 19.0,
+      "cbPrice": 192.0,
+      "stockPrice": 36.7,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "84312",
+      "name": "匯鑽科二",
+      "underlyingCode": "8431",
+      "conversionPrice": 68,
+      "cbPrice": 106.0,
+      "stockPrice": 61.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "84331",
+      "name": "弘帆一",
+      "underlyingCode": "8433",
+      "conversionPrice": 63.2,
+      "cbPrice": 0,
+      "stockPrice": 54.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84332",
+      "name": "弘帆二",
+      "underlyingCode": "8433",
+      "conversionPrice": 94,
+      "cbPrice": 98.75,
+      "stockPrice": 54.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "84333",
+      "name": "弘帆三",
+      "underlyingCode": "8433",
+      "conversionPrice": 97.8,
+      "cbPrice": 0,
+      "stockPrice": 54.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84422",
+      "name": "威宏二K",
+      "underlyingCode": "8442",
+      "conversionPrice": 73.9,
+      "cbPrice": 0,
+      "stockPrice": 69.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84623",
+      "name": "柏文三",
+      "underlyingCode": "8462",
+      "conversionPrice": 141.2,
+      "cbPrice": 0,
+      "stockPrice": 141.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84662",
+      "name": "美吉吉二K",
+      "underlyingCode": "8466",
+      "conversionPrice": 48.2,
+      "cbPrice": 99.5,
+      "stockPrice": 22.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "84672",
+      "name": "波力二K",
+      "underlyingCode": "8467",
+      "conversionPrice": 188.9,
+      "cbPrice": 0,
+      "stockPrice": 181.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84673",
+      "name": "波力三K",
+      "underlyingCode": "8467",
+      "conversionPrice": 230.4,
+      "cbPrice": 0,
+      "stockPrice": 181.0,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84732",
+      "name": "山林水二",
+      "underlyingCode": "8473",
+      "conversionPrice": 34.1,
+      "cbPrice": 115.0,
+      "stockPrice": 37.2,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "84781",
+      "name": "東哥遊艇一",
+      "underlyingCode": "8478",
+      "conversionPrice": 369.5,
+      "cbPrice": 93.95,
+      "stockPrice": 184.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "84881",
+      "name": "吉源一K",
+      "underlyingCode": "8488",
+      "conversionPrice": 18.4,
+      "cbPrice": 0,
+      "stockPrice": 9.93,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "84891",
+      "name": "三貝德一",
+      "underlyingCode": "8489",
+      "conversionPrice": 27.9,
+      "cbPrice": 0,
+      "stockPrice": 36.3,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "89277",
+      "name": "北基七",
+      "underlyingCode": "8927",
+      "conversionPrice": 50.79,
+      "cbPrice": 0,
+      "stockPrice": 24.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "89278",
+      "name": "北基八",
+      "underlyingCode": "8927",
+      "conversionPrice": 47.4,
+      "cbPrice": 0,
+      "stockPrice": 24.2,
+      "category": "",
+      "changePercent": "0.00%"
+    },
+    {
+      "code": "89964",
+      "name": "高力四",
+      "underlyingCode": "8996",
+      "conversionPrice": 233.5,
+      "cbPrice": 330.0,
+      "stockPrice": 75.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "98026",
+      "name": "鈺齊六K",
+      "underlyingCode": "9802",
+      "conversionPrice": 106.4,
+      "cbPrice": 116.5,
+      "stockPrice": 94.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "99063",
+      "name": "欣巴巴三",
+      "underlyingCode": "9906",
+      "conversionPrice": 101.5,
+      "cbPrice": 95.55,
+      "stockPrice": 44.1,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "99332",
+      "name": "中鼎二",
+      "underlyingCode": "9933",
+      "conversionPrice": 45.5,
+      "cbPrice": 93.9,
+      "stockPrice": 31.3,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "99353",
+      "name": "慶豐富三",
+      "underlyingCode": "9935",
+      "conversionPrice": 32.2,
+      "cbPrice": 96.95,
+      "stockPrice": 19.9,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "99392",
+      "name": "宏全二",
+      "underlyingCode": "9939",
+      "conversionPrice": 161.2,
+      "cbPrice": 102.6,
+      "stockPrice": 119.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "99412",
+      "name": "裕融二",
+      "underlyingCode": "9941",
+      "conversionPrice": 179.3,
+      "cbPrice": 97.2,
+      "stockPrice": 78.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "99587",
+      "name": "世紀鋼七",
+      "underlyingCode": "9958",
+      "conversionPrice": 241.7,
+      "cbPrice": 97.95,
+      "stockPrice": 137.0,
+      "category": "",
+      "changePercent": "--%"
+    },
+    {
+      "code": "99588",
+      "name": "世紀鋼八",
+      "underlyingCode": "9958",
+      "conversionPrice": 232.7,
+      "cbPrice": 0,
+      "stockPrice": 137.0,
+      "category": "",
+      "changePercent": "0.00%"
+    }
+  ]
+}

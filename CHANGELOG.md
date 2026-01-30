@@ -4,6 +4,23 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.7.0] - 2026-01-30 (CB Metadata Automation Pipeline)
+
+### 新增 (Added) 🚀
+
+- **一鍵自動化同步 (Master Sync)**：建立 `CB_Sync_Master.bat` 與 `/sync-cb` 工作流，實現 DDE 同步至 JSON 導出的全自動流水線。
+- **Excel 批次匯入工具**：開發 `import_cb_xlsx.py`，支援直接從 Excel 同步高精度轉換價至 Firestore。
+- **ADR-007 (CB Maintenance Pipeline)**：確立「Excel -> Firestore -> JSON」的單一真相來源架構。
+
+### 變更 (Changed) ⚙️
+
+- **DDE 橋接器強化**：`xq_bridge.py` 正式支援名稱補正（移除問號、補序號）、標代號智慧推算，以及 CVP（已轉換比例）同步。
+- **數據品質保護**：實作 `Precision Protection` 邏輯，防止 DDE 整數數值覆蓋資料庫中的精確轉換價。
+
+### 優化 (Improvements) 🚀
+
+- **全市場清理**：完成 358 筆標的名稱自動清洗與補正，提升戰情室數據整潔度度。
+
 ## [1.6.0] - 2026-01-29 (Sitewide Typography & Layout Unification)
 
 ### 新增 (Added) 🚀
