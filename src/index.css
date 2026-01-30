@@ -1,1 +1,18 @@
 @import "tailwindcss";
+
+/* 
+  Mobile-First Touch Optimization 
+  Prevent grey tap highlight on iOS and provide custom active states 
+*/
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Global active state for interactive elements */
+button:active,
+a:active,
+.clickable:active {
+  opacity: 0.7;
+  transform: scale(0.98);
+  transition: transform 0.05s ease-out;
+}

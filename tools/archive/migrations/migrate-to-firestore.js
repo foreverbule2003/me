@@ -11,30 +11,14 @@ const path = require("path");
  * 3. 執行 `node tools/migrate-to-firestore.js`。
  */
 
-// Check for both key names
-const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
-let KEY_PATH = null;
+const { getFirebaseAdmin } = require("../../firebase-utils");
 
-for (const key of possibleKeys) {
-  const p = path.join(__dirname, "..", "..", key); // Adjusted path to root
-  if (fs.existsSync(p)) {
-    KEY_PATH = p;
-    break;
-  }
-}
-
-if (!KEY_PATH) {
-  console.error(
-    "❌ 錯誤：找不到 service-account.json 或 serviceAccountKey.json (於根目錄)",
-  );
+try {
+  getFirebaseAdmin();
+} catch (e) {
+  console.error(e.message);
   process.exit(1);
 }
-
-const serviceAccount = require(KEY_PATH);
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
 
 const db = admin.firestore();
 

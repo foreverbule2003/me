@@ -39,6 +39,11 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-01-30 (16:30)
+
+- [x] **Mobile-First Upgrade (v1.9.5)**: 完成 Viewport 全螢幕優化、手勢導航 (Swipe-Back) 與觸控回饋系統。
+- [x] **Firebase Utils Refactor**: 建立 `tools/firebase-utils.js` 並重構 4 個相關腳本，消除重複初始化代碼。
+
 ### 2026-01-30 (14:30)
 
 - [x] **Data-Code Decoupling (ADR-007)**: 從 Git 移除頻繁變動的 `cb-data.json` 並重構前端改向 Firestore 讀取。

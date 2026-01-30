@@ -11,6 +11,7 @@ import AboutView from "./views/AboutView.jsx";
 import TripsView from "./views/TripsView.jsx";
 import JournalView from "./views/JournalView.jsx";
 import ToolsView from "./views/ToolsView.jsx";
+import useSwipe from "./hooks/useSwipe";
 
 const AppContent = () => {
   const location = useLocation();
@@ -34,6 +35,21 @@ const AppContent = () => {
   const handleSetActions = useCallback((actions) => {
     setChildActions(actions);
   }, []);
+
+  // Global Swipe Handler
+  // Swipe Right -> Back (mimic iOS)
+  // Swipe Left -> Forward (optional)
+  useSwipe({
+    onSwipeRight: () => {
+      // Only go back if not on home page
+      if (location.pathname !== "/") {
+        window.history.back();
+      }
+    },
+    onSwipeLeft: () => {
+      // Placeholder: specific views might override or we add forward nav
+    },
+  });
 
   // Global Stage 2 Loading State
   useEffect(() => {

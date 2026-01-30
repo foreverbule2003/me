@@ -7,44 +7,21 @@ const admin = require("firebase-admin");
 async function saveSnapshotToCloud(data) {
   const fs = require("fs");
   const path = require("path");
-  const keyPath = path.join(__dirname, "../../service-account.json");
 
-  const hasEnv =
-    process.env.FIREBASE_SERVICE_ACCOUNT ||
-    process.env.GOOGLE_APPLICATION_CREDENTIALS;
-  const hasLocal = fs.existsSync(keyPath);
-
-  if (!hasEnv && !hasLocal) {
-    console.warn(
-      "[Cloud] No Firebase credentials found (Env/Local). Skipping cloud save.",
-    );
-    return null;
+  // Initialize Admin SDK if not already initialized
+  if (admin.apps.length === 0) {
+    // Try to use the shared util, relative path from src/utils to tools/
+    const { getFirebaseAdmin } = require("../../tools/firebase-utils");
+    try {
+      getFirebaseAdmin();
+    } catch (e) {
+      console.warn("[Cloud] Firebase init failed in hot-cb-cloud:", e.message);
+      // Fallback: If init fails (e.g. no creds), return null to skip cloud save
+      return null;
+    }
   }
 
   try {
-    // Initialize Admin SDK if not already initialized
-    if (admin.apps.length === 0) {
-      let credential;
-      // keyPath is already defined above
-
-      if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-        credential = admin.credential.cert(
-          JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
-        );
-      } else if (fs.existsSync(keyPath)) {
-        console.log("[Cloud] Using local service-account.json");
-        credential = admin.credential.cert(require(keyPath));
-      } else {
-        // Fallback to default if available
-        credential = admin.credential.applicationDefault();
-      }
-
-      admin.initializeApp({
-        credential,
-        // projectId handled by credential or env
-      });
-    }
-
     const db = admin.firestore();
 
     // 1. Save to daily collection (for history archive)

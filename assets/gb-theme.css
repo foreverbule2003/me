@@ -184,6 +184,16 @@ body {
   z-index: 20;
 }
 
+/* Expand touch area */
+.d-btn::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  bottom: -15px;
+  left: -15px;
+}
+
 .d-btn:active {
   opacity: 0.5;
   background: rgba(0, 0, 0, 0.1);
@@ -237,6 +247,16 @@ body {
   transition: transform 0.1s;
 }
 
+/* Expand touch area */
+.ab-btn::after {
+  content: "";
+  position: absolute;
+  top: -15px;
+  right: -15px;
+  bottom: -15px;
+  left: -15px;
+}
+
 .ab-btn:active {
   transform: scale(0.95);
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.4);
@@ -272,6 +292,18 @@ body {
   box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   margin-bottom: 4px;
+  position: relative;
+  /* for pseudo-element */
+}
+
+/* Expand touch area */
+.ss-btn::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: -10px;
+  bottom: -20px;
+  left: -10px;
 }
 
 .ss-btn:active {

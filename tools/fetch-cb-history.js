@@ -117,42 +117,17 @@ async function syncToFirestore(cbCode, data) {
   try {
     const admin = require("firebase-admin");
 
-    // Initialize if needed
-    if (!admin.apps.length) {
-      let credential = null;
+    // Initialize using shared utility
+    const { getFirebaseAdmin } = require("./firebase-utils");
 
-      // 1. Env Var
-      if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-        try {
-          credential = admin.credential.cert(
-            JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
-          );
-        } catch (e) {}
-      }
-      // 2. Local File
-      if (!credential) {
-        const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
-        for (const keyFile of possibleKeys) {
-          const keyPath = path.join(__dirname, "..", keyFile);
-          if (fs.existsSync(keyPath)) {
-            credential = admin.credential.cert(require(keyPath));
-            break;
-          }
-        }
-      }
-
-      // 3. Skip if no credential (Local Mode)
-      if (!credential) {
-        console.log(
-          "⚠️ [Cloud] No credentials found. Skipping sync (Local Mode Active).",
-        );
-        return;
-      }
-
-      admin.initializeApp({
-        credential,
-        projectId: "my-landing-page-2ca68",
-      });
+    // In local mode, getFirebaseAdmin might throw if no key found.
+    try {
+      getFirebaseAdmin();
+    } catch (e) {
+      console.log(
+        "⚠️ [Cloud] No credentials found. Skipping sync (Local Mode Active).",
+      );
+      return;
     }
 
     const db = admin.firestore();
@@ -226,40 +201,15 @@ async function syncToFirestore(cbCode, data) {
   // Init Admin SDK for Firestore if needed
   const admin = require("firebase-admin");
 
-  async function initFirebase() {
-    if (!admin.apps.length) {
-      let credential = null;
-      if (process.env.FIREBASE_SERVICE_ACCOUNT) {
-        try {
-          credential = admin.credential.cert(
-            JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT),
-          );
-        } catch (e) {
-          console.warn("[Init] Failed to parse env var:", e.message);
-        }
-      }
-      if (!credential) {
-        // Check for both common filenames
-        const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
-        for (const keyFile of possibleKeys) {
-          const keyPath = path.join(__dirname, "..", keyFile);
-          if (fs.existsSync(keyPath)) {
-            credential = admin.credential.cert(require(keyPath));
-            break;
-          }
-        }
-      }
+  const { getFirebaseAdmin } = require("./firebase-utils");
 
-      if (credential) {
-        admin.initializeApp({
-          credential,
-          projectId: "my-landing-page-2ca68",
-        });
-      } else {
-        console.warn(
-          "[Init] No credentials found. Firestore features may be limited.",
-        );
-      }
+  async function initFirebase() {
+    try {
+      getFirebaseAdmin();
+    } catch (e) {
+      console.warn(
+        "[Init] No credentials found. Firestore features may be limited.",
+      );
     }
   }
 
