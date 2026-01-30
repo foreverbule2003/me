@@ -2061,6 +2061,51 @@
             "",
         };
 
+        // 4. [Fix] Fetch realtime stock price - Infer underlyingCode if missing
+        let underlyingCode = item.underlyingCode;
+        if (!underlyingCode && item.code && item.code.length >= 5) {
+          // CB code format: XXXXN where XXXX is underlying stock code
+          underlyingCode = item.code.substring(0, 4);
+          item.underlyingCode = underlyingCode;
+          console.log(
+            `[Analysis] Inferred underlyingCode from CB code: ${underlyingCode}`,
+          );
+        }
+
+        if (underlyingCode && item.stockPrice === 0) {
+          try {
+            const queries = [
+              `tse_${underlyingCode}.tw`,
+              `otc_${underlyingCode}.tw`,
+            ];
+            const res = await fetch(
+              `/api/stock/getStockInfo.jsp?ex_ch=${queries.join("|")}&json=1&delay=0`,
+            );
+            if (res.ok) {
+              const json = await res.json();
+              if (json.msgArray) {
+                const stMatches = json.msgArray.filter(
+                  (q) => q.c === underlyingCode,
+                );
+                const stM =
+                  stMatches.find((q) => parseFloat(q.z) > 0) ||
+                  stMatches.find((q) => parseFloat(q.y) > 0);
+                if (stM) {
+                  const p = parseFloat(stM.z) || parseFloat(stM.y) || 0;
+                  if (p > 0) {
+                    item.stockPrice = p;
+                    console.log(
+                      `[Analysis] Fetched realtime stock price for ${underlyingCode}: ${p}`,
+                    );
+                  }
+                }
+              }
+            }
+          } catch (e) {
+            console.warn("[Analysis] Realtime stock price fetch failed:", e);
+          }
+        }
+
         document.getElementById("drawerTitle").textContent = item.name;
         document.getElementById("drawerCode").textContent = item.code;
         window.performAnalysis(item);
