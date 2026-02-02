@@ -337,6 +337,11 @@
           <span id="marketStatus" class="status-pill market-closed">
             <i class="fas fa-circle text-[6px] animate-pulse-soft"></i>載入中...
           </span>
+          <!-- Data Status Badge (New) -->
+          <span
+            id="dataStatusBadge"
+            class="hidden status-pill bg-slate-100 text-slate-400"
+          ></span>
           <!-- Network Signal Widget -->
           <div
             id="signalWidget"
@@ -1155,10 +1160,12 @@
           watchlistUnsubscribe = onSnapshot(
             collection(db, "cb_history"),
             (snapshot) => {
-              window.lastKnownItems = snapshot.docs.map((d) => ({
-                id: d.id,
-                ...d.data(),
-              }));
+              window.lastKnownItems = snapshot.docs
+                .map((d) => ({
+                  id: d.id,
+                  ...d.data(),
+                }))
+                .filter((item) => item.category); // Only show items with an explicit category
               renderTrackedList(window.lastKnownItems);
               updateWatchlistStats(window.lastKnownItems);
               if (window.lastDataPool)
@@ -1719,6 +1726,9 @@
           window.lastDataPool = list;
           renderDashboard(list, json.source || "cloud", poolChanged);
 
+          // Update Data Status Badge
+          updateDataFreshnessBadge(dataTime);
+
           // Update Watchlist Hero if data loaded
           const watchItems = Array.from(
             document.querySelectorAll("#trackedListContainer .mono"),
@@ -1733,7 +1743,7 @@
             if (countdownTimer) clearInterval(countdownTimer);
             document.getElementById("topProgressBar").style.width = "0%";
             // Provide visual cue
-            statusBanner.innerHTML = `<div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2"><i class="fas fa-history"></i><span>目前顯示歷史資料 (${SmartDateNavigator.formatDate(window.currentDisplayDate)}) - 即時報價已暫停更新。</span></div>`;
+            statusBanner.innerHTML = `<div class="bg-amber-50 border border-amber-100 p-3 rounded-xl text-xs text-amber-700 flex items-center justify-center gap-2"><i class="fas fa-history"></i><span>目前顯示歷史資料 (${SmartDateNavigator.formatDate(window.currentDisplayDate)})</span></div>`;
             statusBanner.classList.remove("hidden");
           } else {
             updateMarketStatus(dataTime);
@@ -1896,11 +1906,41 @@
         if (isOpen) {
           pill.className = "status-pill bg-green-50 text-green-600";
           pill.innerHTML =
-            '<span class="relative flex h-2 w-2 mr-1.5"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span></span> LIVE';
+            '<i class="fas fa-check-circle text-[10px] mr-1"></i> TODAY';
         } else {
           pill.className = "status-pill bg-slate-100 text-slate-500";
           pill.innerHTML =
             '<i class="fas fa-moon text-[10px] mr-1"></i> CLOSED';
+        }
+      }
+
+      function updateDataFreshnessBadge(dataDate) {
+        const badge = document.getElementById("dataStatusBadge");
+        if (!badge) return;
+
+        const dateStr = formatDateLocal(dataDate);
+        const todayStr = formatDateLocal(new Date());
+
+        badge.classList.remove(
+          "hidden",
+          "market-open",
+          "market-closed",
+          "bg-green-50",
+          "text-green-600",
+          "bg-slate-100",
+          "text-slate-500",
+        );
+
+        if (dateStr === todayStr) {
+          // Today's Data (Snapshot)
+          badge.className =
+            "status-pill bg-green-50 text-green-600 border border-green-200";
+          badge.innerHTML = `<i class="fas fa-cloud text-[10px]"></i> 今日資料`;
+        } else {
+          // Historical / Stale
+          badge.className =
+            "status-pill bg-slate-100 text-slate-500 border border-slate-200";
+          badge.innerHTML = `<i class="far fa-calendar-check text-[10px]"></i> 收盤快照 (${dateStr})`;
         }
       }
 

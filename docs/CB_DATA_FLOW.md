@@ -23,12 +23,13 @@
 - **主要來源**: **Firestore (`cb_history` collection)**
 - **內容**: 市場上 **300+ 檔** 所有可轉債的總集。
 - **資料特性**:
-  - **解耦**: `cb-data.json` 不再進入 Git 倉庫，解決了 **"Data in Code" 反模式**，避免 Git 歷史冗餘。
+  - **解耦**: `cb-data.json` 不再進入 Git 倉庫，作為 **CLI 工具鍊的本地快取 (Local Cache)**，供後端維護腳本使用。
+  - **權威性**: 前端計算機 (`cb-calculator.html`) 直接查詢 Firestore，**不再依賴此檔案**。
   - **即時**: 每次同步後，Firestore 即為權威版本，前端無需等待部署即可讀取。
   - **風險管理**：
     - **離線支援**：實作前端 `LocalStorage` 緩存，確保在斷網時仍能使用搜尋功能。
     - **費用控制**：僅在緩存過期（1 小時）或手動強制重新載入時才 Fetch Firestore，極小化雲端讀取成本。
-- **用途**: 供 `cb-calculator.html` (計算機) 使用。
+- **用途**: 供 `backfill-to-firebase.js` 等 CLI 維護工具查詢中繼資料。
 
 ## 自動化循環 (The Automation Loop)
 

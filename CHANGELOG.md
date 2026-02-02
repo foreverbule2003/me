@@ -4,6 +4,17 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.9.7] - 2026-02-02 (Scope Correction & Watchlist Polish)
+
+### 新增 (Added) 🚀
+
+- **Data Status Indicator**: 戰情室新增「資料狀態儀表」，明確區分「今日資料 (Today)」與「歷史快照 (Snapshot)」，解決盤中資訊不對稱問題。
+
+### 變更 (Changed) ⚙️
+
+- **Scope Correction (用語修正)**：全面移除戰情室中暗示「即時串流報價 (True Realtime)」的用語與圖示，回歸「每日快照」的準確定義。
+- **Watchlist Logic**: 強化追蹤清單過濾器，僅顯示具備明確 `category` 的標的，自動隱藏系統同步產生的背景資料。
+
 ## [1.9.6] - 2026-02-02 (Firebase Key Standardization)
 
 ### 錯誤修復 (Fixes) 🐛

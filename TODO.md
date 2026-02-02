@@ -39,6 +39,12 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-02 (20:30)
+
+- [x] **Data Status Indicator**: 實作戰情室資料狀態儀表，明確標示「今日資料」或「收盤快照」，解決盤中資訊落差誤解。
+- [x] **Scope Correction**: 修正介面用語，將「即時報價」降級為「每日快照/今日資料」，符合系統真實能力。
+- [x] **Watchlist Fix**: 修復追蹤清單回歸 Bug，增加 `category` 過濾邏輯，隱藏系統自動同步但未追蹤的標的。
+
 ### 2026-02-02 (10:45)
 
 - [x] **Data Sync Fix**: 統一全專案 Firebase Admin 金鑰檔名為 `serviceAccountKey.json`，修復 DDE 同步工具。
