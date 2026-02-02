@@ -5,7 +5,7 @@ from firebase_admin import credentials, firestore
 import argparse
 
 # Configuration
-SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../service-account.json')
+SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../serviceAccountKey.json')
 
 def import_xlsx(file_path, dry_run=False):
     if not os.path.exists(file_path):

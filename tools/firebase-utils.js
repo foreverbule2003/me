@@ -6,8 +6,8 @@ const fs = require("fs");
  * Initializes and returns the Firebase Admin instance.
  * Automatically checks for credentials in:
  * 1. FIREBASE_SERVICE_ACCOUNT (Environment Variable)
- * 2. service-account.json (Project Root)
- * 3. serviceAccountKey.json (Legacy)
+ * 2. serviceAccountKey.json (Project Root - Primary)
+ * 3. service-account.json (Fallback)
  *
  * @returns {admin.app.App} The initialized Firebase Admin app.
  * @throws {Error} If no credentials are found.
@@ -33,7 +33,7 @@ function getFirebaseAdmin() {
 
   // 2. Local File
   if (!credential) {
-    const possibleKeys = ["service-account.json", "serviceAccountKey.json"];
+    const possibleKeys = ["serviceAccountKey.json", "service-account.json"];
     for (const keyFile of possibleKeys) {
       // Check 1 level up (Project Root) assuming script is in tools/
       const keyPath = path.join(__dirname, "..", keyFile);

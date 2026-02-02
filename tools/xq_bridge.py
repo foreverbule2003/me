@@ -5,7 +5,7 @@ from lib.xq_dde import XQDDEClient
 from lib.cb_service import CBService
 
 # --- Configuration ---
-SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../service-account.json')
+SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../serviceAccountKey.json')
 
 def clean_cb_name(code, original_name):
     """

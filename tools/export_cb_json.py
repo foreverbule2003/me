@@ -5,7 +5,7 @@ from firebase_admin import credentials, firestore
 from datetime import datetime
 
 # Configuration
-SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../service-account.json')
+SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../serviceAccountKey.json')
 OUTPUT_JSON = os.path.join(os.path.dirname(__file__), '../public/data/cb-data.json')
 
 def export_to_json():

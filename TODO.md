@@ -39,6 +39,11 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-02 (10:45)
+
+- [x] **Data Sync Fix**: 統一全專案 Firebase Admin 金鑰檔名為 `serviceAccountKey.json`，修復 DDE 同步工具。
+- [x] **Investigation**: 驗證 Data Flow 雙軌架構文件 (`CB_DATA_FLOW.md`) 與實作的一致性。
+
 ### 2026-01-30 (16:40)
 
 - [x] **Performance Quick Win**: 實作 `DotGothic16` 字體優化 (Preload + Swap)，Lighthouse Performance 評分提升至 90 分 (LCP 2.3s)。

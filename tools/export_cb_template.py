@@ -4,7 +4,7 @@ import firebase_admin
 from firebase_admin import credentials, firestore
 
 # Configuration
-SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../service-account.json')
+SERVICE_ACCOUNT_PATH = os.path.join(os.path.dirname(__file__), '../serviceAccountKey.json')
 OUTPUT_CSV = os.path.join(os.path.dirname(__file__), '../cb_meta_template.csv')
 
 def export_template():

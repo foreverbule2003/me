@@ -4,6 +4,13 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [1.9.6] - 2026-02-02 (Firebase Key Standardization)
+
+### 錯誤修復 (Fixes) 🐛
+
+- **Firebase Utils**: 修復 `serviceAccountKey.json` 檔名不一致的問題，統一全專案工具鍊 (Python & JS) 的憑證讀取邏輯。
+- **Data Sync**: 修復 `/sync-cb` 工作流程因憑證錯誤導致的同步失敗問題。
+
 ## [1.9.5] - 2026-01-30 (Mobile-First Experience)
 
 ### 新增 (Added) 🚀
