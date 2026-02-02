@@ -19,94 +19,12 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
+    <link rel="stylesheet" href="../public/css/cb-theme.css" />
     <style>
-      :root {
-        --brand-slate: #0f172a;
-        --brand-indigo: #4f46e5;
-        --market-up: #ef4444;
-        --market-down: #22c55e;
-        --bg-main: #f8fafc;
-      }
-      body {
-        font-family:
-          "Inter",
-          system-ui,
-          -apple-system,
-          sans-serif;
-        background-color: var(--bg-main);
-      }
-      .mono {
-        font-family: "JetBrains Mono", monospace;
-      }
-      .premium-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-      }
-      .table-row-hover {
-        transition: all 0.15s ease;
-        cursor: pointer;
-      }
-      .table-row-hover:hover {
-        background-color: #f1f5f9;
-      }
-      .rank-dot {
-        width: 24px;
-        height: 24px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 11px;
-        font-weight: 800;
-        border-radius: 6px;
-        background: #f1f5f9;
-        color: #64748b;
-      }
-      .rank-dot.top-1 {
-        background: #fee2e2;
-        color: #ef4444;
-        border: 1px solid #fecaca;
-      }
-      .rank-dot.top-2 {
-        background: #ffedd5;
-        color: #f97316;
-        border: 1px solid #fed7aa;
-      }
-      .rank-dot.top-3 {
-        background: #fef9c3;
-        color: #ca8a04;
-        border: 1px solid #fef08a;
-      }
-      .status-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 4px 10px;
-        border-radius: 9999px;
-        font-size: 11px;
-        font-weight: 600;
-      }
-      .market-open {
-        background: #dcfce7;
-        color: #15803d;
-      }
-      .market-closed {
-        background: #f1f5f9;
-        color: #475569;
-      }
-      @keyframes pulse-soft {
-        0%,
-        100% {
-          opacity: 1;
-        }
-        50% {
-          opacity: 0.5;
-        }
-      }
-      .animate-pulse-soft {
-        animation: pulse-soft 2s infinite ease-in-out;
-      }
-
+      /* 
+       * Most styles moved to public/css/cb-theme.css 
+       */
+      
       /* Tab Styles */
       .tab-btn {
         padding: 12px 24px;
@@ -140,33 +58,6 @@
           opacity: 1;
           transform: translateY(0);
         }
-      }
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
-      }
-
-      /* Live Feedback Animations */
-      @keyframes price-up {
-        0% {
-          background-color: rgba(239, 68, 68, 0.2);
-        }
-        100% {
-          background-color: transparent;
-        }
-      }
-      @keyframes price-down {
-        0% {
-          background-color: rgba(34, 197, 94, 0.2);
-        }
-        100% {
-          background-color: transparent;
-        }
-      }
-      .flash-up {
-        animation: price-up 1s ease-out;
-      }
-      .flash-down {
-        animation: price-down 1s ease-out;
       }
 
       .progress-bar {
@@ -211,6 +102,7 @@
           opacity: 1;
         }
       }
+
 
       /* Analysis Drawer */
       #analysisDrawer {
@@ -920,66 +812,48 @@
       window.SmartDateNavigator = SmartDateNavigator;
     </script>
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getFirestore,
-        doc,
-        getDoc,
-        collection,
-        onSnapshot,
-        setDoc,
-        deleteDoc,
-        serverTimestamp,
-        query,
-        where,
-        getDocs,
-        orderBy,
-        limit,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-      import {
-        getAuth,
-        onAuthStateChanged,
-        signOut,
-        GoogleAuthProvider,
-        signInWithPopup,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-      import {
-        getAnalytics,
-        logEvent,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
-      import {
-        onCLS,
-        onINP,
-        onLCP,
-        onFCP,
-        onTTFB,
-      } from "https://unpkg.com/web-vitals@3/dist/web-vitals.attribution.js?module";
+      import { 
+        app, db, auth, analytics,
+        collection, getDocs, getDoc, doc, setDoc, serverTimestamp, writeBatch, query, where, orderBy, limit, onSnapshot,
+        getAnalytics, logEvent,
+        onAuthStateChanged, signInWithPopup, signOut, GoogleAuthProvider,
+        onCLS, onINP, onLCP, onFCP, onTTFB
+      } from "../src/lib/firebase-client.mjs";
+      import { measureFirestore, measureFetch } from "../src/lib/utils.mjs";
+      import { CbCalculatorCore } from "../src/lib/cb-logic.mjs";
       import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
       import { CbHistoryService } from "./components/CbHistoryService.mjs";
 
+      // Global Expose
+      window.CbCalculatorCore = CbCalculatorCore;
       window.CbPremiumHistoryChart = CbPremiumHistoryChart;
       window.CbHistoryService = CbHistoryService;
+      window.measureFetch = measureFetch;
+      window.measureFirestore = measureFirestore;
 
-      const firebaseConfig = {
-        apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
-        authDomain: "my-landing-page-2ca68.firebaseapp.com",
-        projectId: "my-landing-page-2ca68",
-        storageBucket: "my-landing-page-2ca68.firebasestorage.app",
-        messagingSenderId: "847051837050",
-        appId: "1:847051837050:web:c5e2bc56252e0d3ab835c3",
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+      // Share Firebase instances
       window.db = db;
-      const auth = getAuth(app);
+      window.auth = auth;
+      window.collection = collection;
+      window.getDocs = getDocs;
+      window.getDoc = getDoc;
+      window.doc = doc;
+      window.setDoc = setDoc;
+      window.serverTimestamp = serverTimestamp;
+      window.writeBatch = writeBatch;
+      window.query = query;
+      window.where = where;
+      window.orderBy = orderBy;
+      window.limit = limit;
+      window.onSnapshot = onSnapshot;
+      window.onAuthStateChanged = onAuthStateChanged;
+      window.signInWithPopup = signInWithPopup;
+      window.signOut = signOut;
+      window.GoogleAuthProvider = GoogleAuthProvider;
 
       // Initialize Analytics & Web Vitals
-      let analytics = null;
-      try {
-        analytics = getAnalytics(app);
-        console.log("[Analytics] Initialized for War Room");
-
+      if (analytics) {
+        console.log("[Analytics] Initialized using Shared Client");
         const sendToGA = ({ name, delta, id }) => {
           logEvent(analytics, "web_vitals", {
             event_category: "Web Vitals",
@@ -989,14 +863,11 @@
             non_interaction: true,
           });
         };
-
         onCLS(sendToGA);
         onINP(sendToGA);
         onLCP(sendToGA);
         onFCP(sendToGA);
         onTTFB(sendToGA);
-      } catch (e) {
-        console.warn("[Analytics] Init failed:", e);
       }
 
       // --- 0. Global Error Protection ---
@@ -1673,6 +1544,7 @@
             `[Data] Cache miss/stale. Requesting Firestore for ${dateId}...`,
           );
           const docRef = doc(db, "hot_cb_snapshots", dateId);
+          console.log(`[Data] Querying Firestore Path: ${docRef.path}`);
           const docSnap = await measureFirestore("getDoc:snapshot", () =>
             getDoc(docRef),
           );
@@ -1698,9 +1570,44 @@
 
             if (dateId === todayId) startUpdateTimer();
           } else {
-            console.warn(`[Data] No Firestore snapshot for ${dateId}`);
-            processData([], "history");
-            renderError("尚無資料", `資料庫中暫無 ${dateId} 的紀錄`);
+            console.warn(`[Data] No Firestore snapshot for ${dateId}. Attempting fallback to latest...`);
+            
+            // Fallback: Get the most recent snapshot
+            const fallbackQuery = query(
+                collection(db, "hot_cb_snapshots"), 
+                orderBy("__name__", "desc"), 
+                limit(1)
+            );
+            
+            const fallbackSnap = await getDocs(fallbackQuery);
+            
+            if (!fallbackSnap.empty) {
+                const latestDoc = fallbackSnap.docs[0];
+                const latestId = latestDoc.id;
+                const cloudData = latestDoc.data();
+                
+                console.log(`[Data] Fallback successful. Loaded latest data from ${latestId}`);
+                
+                const cloudDate = cloudData.updatedAt?.toDate
+                  ? cloudData.updatedAt.toDate()
+                  : new Date(cloudData.updatedAt || Date.now());
+
+                const items = cloudData.items || cloudData.data || [];
+                
+                // Show data but indicate it's not "today"
+                processData(items, "history");
+                updateHeaderTime(cloudDate);
+                
+                // Optional: Notify user
+                if (statusBanner) {
+                    statusBanner.innerHTML = `<i class="fas fa-info-circle"></i> 顯示最新可用資料 (${latestId})`;
+                    statusBanner.classList.remove("hidden", "bg-red-50", "text-red-600");
+                    statusBanner.classList.add("bg-amber-50", "text-amber-600");
+                }
+            } else {
+                processData([], "history");
+                renderError("尚無資料", `資料庫中暫無任何紀錄`);
+            }
           }
         } catch (e) {
           console.error("[Data] Fetch failure:", e);
@@ -1949,53 +1856,7 @@
       }
 
       // Performance Monitoring
-      window.measureFetch = async (url) => {
-        const start = performance.now();
-        try {
-          const res = await fetch(url);
-          if (!res.ok) throw new Error(`HTTP ${res.status}`);
-
-          const contentType = res.headers.get("content-type");
-          if (contentType && contentType.includes("text/html")) {
-            throw new Error(
-              "Received HTML instead of JSON (likely 404/fallback)",
-            );
-          }
-
-          const duration = performance.now() - start;
-
-          logPerfEvent("fetch_success", {
-            url: url.split("?")[0],
-            duration: Math.round(duration),
-          });
-
-          if (duration > 3000) {
-            console.warn(
-              `[Perf] Slow fetch: ${url} (${duration.toFixed(0)}ms)`,
-            );
-          }
-          return res;
-        } catch (e) {
-          logPerfEvent("fetch_error", { url, error: e.message });
-          throw e;
-        }
-      };
-
-      function logPerfEvent(name, params) {
-        try {
-          // Explicitly use analytics instance (V10)
-          if (typeof analytics !== "undefined" && analytics) {
-            logEvent(analytics, name, params);
-          }
-          console.log(`[Perf] ${name}:`, params);
-        } catch (e) {
-          // Safety: Don't call db.collection or anything else here
-          console.warn(
-            `[Perf] Analytics dispatch failed for ${name}:`,
-            e.message,
-          );
-        }
-      }
+      // measureFetch & logPerfEvent handled by shared implementation
 
       /**
        * Firestore Operation Performance Wrapper (Phase 4)
@@ -2003,37 +1864,7 @@
        * @param {Function} asyncFn - 要執行的 Firestore 操作
        * @returns {Promise<any>} - 操作結果
        */
-      async function measureFirestore(opName, asyncFn) {
-        const start = performance.now();
-        try {
-          const result = await asyncFn();
-          const duration = performance.now() - start;
-
-          logPerfEvent("firestore_op", {
-            operation: opName,
-            duration_ms: Math.round(duration),
-          });
-
-          // Threshold Alert (P1 trigger condition: > 2s)
-          if (duration > 2000) {
-            console.warn(
-              `[Perf:Alert] Slow Firestore: ${opName} took ${duration.toFixed(0)}ms (> 2s threshold)`,
-            );
-            logPerfEvent("firestore_slow", {
-              operation: opName,
-              duration_ms: Math.round(duration),
-            });
-          }
-
-          return result;
-        } catch (e) {
-          logPerfEvent("firestore_error", {
-            operation: opName,
-            error: e.message,
-          });
-          throw e;
-        }
-      }
+      // measureFirestore reused from utils.mjs
 
       window.openAnalysis = async (code) => {
         window.currentAnalysisCode = code;
@@ -2189,21 +2020,12 @@
         }
 
         // 4. Detailed Calculations
-        // Parity (平價) = (Spot / Conv) * 100
-        const parity =
-          convPrice > 0 && spotPrice > 0 ? (spotPrice / convPrice) * 100 : 0;
-
-        // Premium (溢價率) = (CBPrice / Parity - 1) * 100
-        let premium = 0;
-        if (parity > 0 && lastCbPrice > 0) {
-          premium = (lastCbPrice / parity - 1) * 100;
-        }
-
-        // Break-Even Stock Price (保本價) = (CBPrice / 100) * ConvPrice
-        const beStockPrice =
-          lastCbPrice > 0 && convPrice > 0
-            ? (lastCbPrice / 100) * convPrice
-            : 0;
+        // 4. Detailed Calculations (Centralized Logic)
+        const parity = CbCalculatorCore.calculateTheoreticalPrice(spotPrice, convPrice);
+        const premium = CbCalculatorCore.calculatePremiumRate(lastCbPrice, parity);
+        
+        // Break-Even Stock Price (保本價)
+        const beStockPrice = CbCalculatorCore.calculateParityPrice(lastCbPrice, convPrice);
 
         // 5. Update Metrics UI
         const dConvVal = document.getElementById("dConvVal");

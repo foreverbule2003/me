@@ -17,59 +17,38 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+    <link rel="stylesheet" href="../public/css/cb-theme.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
 
     <!-- Firebase SDK (Modular) -->
+    <!-- Shared Firebase SDK -->
     <script type="module">
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        getDocs,
-        doc,
-        getDoc,
-        query,
-        where,
-        orderBy,
-        limit,
-        serverTimestamp,
-        setDoc,
-        writeBatch,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-      import {
-        getAuth,
-        onAuthStateChanged,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+      import { app, db, auth, onAuthStateChanged, collection, getDocs, getDoc, doc, setDoc, serverTimestamp, writeBatch, query, where, orderBy, limit } from "../src/lib/firebase-client.mjs";
+      import { measureFetch } from "../src/lib/utils.mjs";
+      import { CbCalculatorCore } from "../src/lib/cb-logic.mjs";
       import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
       import { CbHistoryService } from "./components/CbHistoryService.mjs";
 
       // Global Expose for legacy compatibility with other script tags if needed
+      window.CbCalculatorCore = CbCalculatorCore;
       window.CbPremiumHistoryChart = CbPremiumHistoryChart;
       window.CbHistoryService = CbHistoryService;
-
-      const firebaseConfig = {
-        apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
-        authDomain: "my-landing-page-2ca68.firebaseapp.com",
-        projectId: "my-landing-page-2ca68",
-        storageBucket: "my-landing-page-2ca68.firebasestorage.app",
-        messagingSenderId: "847051837050",
-        appId: "1:847051837050:web:c5e2bc562520d3ab835c3",
-      };
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
-      const auth = getAuth(app);
+      window.measureFetch = measureFetch;
 
       // Share with window for non-module scripts
       window.db = db;
       window.auth = auth;
       window.collection = collection;
       window.getDocs = getDocs;
-      window.getDoc = getDoc; // [Fix] Missing export caused TypeError
+      window.getDoc = getDoc;
       window.doc = doc;
       window.setDoc = setDoc;
       window.serverTimestamp = serverTimestamp;
       window.writeBatch = writeBatch;
+      window.query = query;
+      window.where = where;
+      window.orderBy = orderBy;
+      window.limit = limit;
 
       onAuthStateChanged(auth, (user) => {
         window.currentUser = user;
@@ -79,34 +58,10 @@
       });
     </script>
     <style>
-      :root {
-        --brand-slate: #0f172a;
-        --brand-indigo: #4f46e5;
-        --market-up: #ef4444;
-        --market-down: #22c55e;
-        --bg-main: #f8fafc;
-      }
-
-      body {
-        font-family:
-          "Inter",
-          system-ui,
-          -apple-system,
-          sans-serif;
-        background-color: var(--bg-main);
-      }
-
-      .mono {
-        font-family: "JetBrains Mono", monospace;
-      }
-
-      .premium-card {
-        background: white;
-        border: 1px solid #e2e8f0;
-        box-shadow:
-          0 4px 6px -1px rgba(0, 0, 0, 0.05),
-          0 2px 4px -1px rgba(0, 0, 0, 0.03);
-      }
+      /* 
+       * Most styles moved to public/css/cb-theme.css
+       * Local specific overrides below 
+       */
 
       .input-premium:focus {
         outline: none;
@@ -136,114 +91,6 @@
         }
       }
 
-      /* Chart Loading Overlay */
-      .chart-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(2px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 10;
-        border-radius: 0.75rem;
-        transition: opacity 0.3s ease;
-      }
-      .chart-overlay.hidden {
-        opacity: 0;
-        pointer-events: none;
-      }
-
-      /* Autocomplete Dropdown */
-      .autocomplete-container {
-        position: relative;
-      }
-      .autocomplete-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        max-height: 250px;
-        overflow-y: auto;
-        background: white;
-        border: 1px solid #e2e8f0;
-        border-top: none;
-        border-radius: 0 0 12px 12px;
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-        z-index: 50;
-        display: none;
-      }
-      .autocomplete-dropdown.show {
-        display: block;
-      }
-      .autocomplete-item {
-        padding: 0.75rem 1rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        border-bottom: 1px solid #f3f4f6;
-        transition: background-color 0.15s ease;
-      }
-      .autocomplete-item:last-child {
-        border-bottom: none;
-      }
-      .autocomplete-item:hover,
-      .autocomplete-item.active {
-        background-color: #ecfdf5;
-      }
-      .autocomplete-item .symbol {
-        font-weight: 700;
-        color: #10b981;
-        font-family: monospace;
-      }
-      .autocomplete-item .hint {
-        font-size: 0.75rem;
-        color: #9ca3af;
-        margin-left: auto;
-      }
-      .autocomplete-empty {
-        padding: 1rem;
-        text-align: center;
-        color: #9ca3af;
-        font-size: 0.875rem;
-      }
-
-      .gradient-card {
-        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
-      }
-      .input-focus:focus {
-        border-color: #10b981;
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
-      }
-      .metric-card {
-        transition: all 0.3s ease;
-      }
-      .metric-card:hover {
-        transform: translateY(-2px);
-      }
-      /* 輸入欄位弱化/高亮狀態 */
-      .inputs-dimmed {
-        opacity: 0.5;
-        transition: opacity 0.3s ease;
-      }
-      .inputs-highlighted {
-        opacity: 1;
-        animation: highlightPulse 0.6s ease-out;
-      }
-      @keyframes highlightPulse {
-        0% {
-          transform: scale(1);
-        }
-        50% {
-          transform: scale(1.01);
-          box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
       /* 方案 A: 折疊式展開動畫 */
       .inputs-collapsed {
         max-height: 0;
@@ -261,116 +108,18 @@
           opacity 0.3s ease-in 0.1s;
       }
 
-      /* Chart Loading Overlay */
-      .chart-overlay {
-        position: absolute;
-        inset: 0;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(2px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        z-index: 10;
-        border-radius: 0.75rem;
-        transition: opacity 0.3s ease;
+      .gradient-card {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
       }
-      .chart-overlay.hidden {
-        opacity: 0;
-        pointer-events: none;
+      .input-focus:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
       }
-
-      /* Pulse Animation */
-      .pulse-ring {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #10b981;
-        position: relative;
-        animation: pulse-ring 2s infinite;
+      .metric-card {
+        transition: all 0.3s ease;
       }
-      .pulse-dot {
-        width: 12px;
-        height: 12px;
-        border-radius: 50%;
-        background: white;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-
-      @keyframes pulse-ring {
-        0% {
-          transform: scale(0.8);
-          opacity: 0.8;
-          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
-        }
-        70% {
-          transform: scale(1);
-          opacity: 0;
-          box-shadow: 0 0 0 20px rgba(16, 185, 129, 0);
-        }
-        100% {
-          transform: scale(0.8);
-          opacity: 0;
-          box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
-        }
-      }
-
-      /* Autocomplete Dropdown */
-      .autocomplete-container {
-        position: relative;
-      }
-      .autocomplete-dropdown {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        max-height: 200px;
-        overflow-y: auto;
-        background: white;
-        border: 1px solid #e5e7eb;
-        border-top: none;
-        border-radius: 0 0 0.75rem 0.75rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        z-index: 50;
-        display: none;
-      }
-      .autocomplete-dropdown.show {
-        display: block;
-      }
-      .autocomplete-item {
-        padding: 0.75rem 1rem;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        border-bottom: 1px solid #f3f4f6;
-        transition: background-color 0.15s ease;
-      }
-      .autocomplete-item:last-child {
-        border-bottom: none;
-      }
-      .autocomplete-item:hover,
-      .autocomplete-item.active {
-        background-color: #ecfdf5;
-      }
-      .autocomplete-item .symbol {
-        font-weight: 700;
-        color: #10b981;
-        font-family: monospace;
-      }
-      .autocomplete-item .hint {
-        font-size: 0.75rem;
-        color: #9ca3af;
-        margin-left: auto;
-      }
-      .autocomplete-empty {
-        padding: 1rem;
-        text-align: center;
-        color: #9ca3af;
-        font-size: 0.875rem;
+      .metric-card:hover {
+        transform: translateY(-2px);
       }
     </style>
   </head>
@@ -863,7 +612,7 @@
     <!-- Modal Removed -->
 
     <script type="module">
-      import { CbCalculatorCore } from "../src/lib/cb_logic.mjs";
+      import { CbCalculatorCore } from "../src/lib/cb-logic.mjs";
       import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
 
       // Expose to global scope for legacy scripts
@@ -968,19 +717,7 @@
       window.currentUser = null;
 
       // Helper for measureFetch (Shared with War Room)
-      window.measureFetch = async (url, options = {}) => {
-        const start = performance.now();
-        try {
-          const res = await fetch(url, options);
-          return res;
-        } finally {
-          const duration = performance.now() - start;
-          if (duration > 3000)
-            console.warn(
-              `[Perf] Slow fetch: ${url} (${duration.toFixed(0)}ms)`,
-            );
-        }
-      };
+      window.measureFetch = measureFetch;
 
       // ============== Autocomplete & Search 功能 ==============
       let availableSymbols = [];
@@ -1865,8 +1602,7 @@
         );
         const premiumRate = CbCalculatorCore.calculatePremiumRate(
           cbPrice,
-          stockPrice,
-          conversionPrice,
+          conversionValue
         );
         const parityPrice = CbCalculatorCore.calculateParityPrice(
           cbPrice,

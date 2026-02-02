@@ -1,0 +1,244 @@
+/* 
+ * CB Tools Shared Theme
+ * Extracted from cb-war-room.html
+ */
+
+:root {
+  --brand-slate: #0f172a;
+  --brand-indigo: #4f46e5;
+  --market-up: #ef4444;
+  --market-down: #22c55e;
+  --bg-main: #f8fafc;
+}
+
+body {
+  font-family: "Inter", system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-main);
+}
+
+.mono {
+  font-family: "JetBrains Mono", monospace;
+}
+
+.premium-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.table-row-hover {
+  transition: all 0.15s ease;
+  cursor: pointer;
+}
+
+.table-row-hover:hover {
+  background-color: #f1f5f9;
+}
+
+/* Rank Dots */
+.rank-dot {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.rank-dot.top-1 {
+  background: #fee2e2;
+  color: #ef4444;
+  border: 1px solid #fecaca;
+}
+
+.rank-dot.top-2 {
+  background: #ffedd5;
+  color: #f97316;
+  border: 1px solid #fed7aa;
+}
+
+.rank-dot.top-3 {
+  background: #fef9c3;
+  color: #ca8a04;
+  border: 1px solid #fef08a;
+}
+
+/* Status Pills */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.market-open {
+  background: #dcfce7;
+  color: #15803d;
+}
+
+.market-closed {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* Animations */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 2s infinite ease-in-out;
+}
+
+@keyframes price-up {
+  0% { background-color: rgba(239, 68, 68, 0.2); }
+  100% { background-color: transparent; }
+}
+
+@keyframes price-down {
+  0% { background-color: rgba(34, 197, 94, 0.2); }
+  100% { background-color: transparent; }
+}
+
+.flash-up {
+  animation: price-up 1s ease-out;
+}
+
+.flash-down {
+  animation: price-down 1s ease-out;
+}
+
+/* Chart Overlay */
+.chart-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(2px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  border-radius: 0.75rem;
+  transition: opacity 0.3s ease;
+}
+
+.chart-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Pulse Ring Animation */
+.pulse-ring {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #10b981;
+  position: relative;
+  animation: pulse-ring 2s infinite;
+}
+
+.pulse-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0.8;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    opacity: 0;
+    box-shadow: 0 0 0 20px rgba(16, 185, 129, 0);
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+  }
+}
+
+/* Autocomplete Dropdown */
+.autocomplete-container {
+  position: relative;
+}
+
+.autocomplete-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 250px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  z-index: 50;
+  display: none;
+}
+
+.autocomplete-dropdown.show {
+  display: block;
+}
+
+.autocomplete-item {
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid #f3f4f6;
+  transition: background-color 0.15s ease;
+}
+
+.autocomplete-item:last-child {
+  border-bottom: none;
+}
+
+.autocomplete-item:hover,
+.autocomplete-item.active {
+  background-color: #ecfdf5;
+}
+
+.autocomplete-item .symbol {
+  font-weight: 700;
+  color: #10b981;
+  font-family: monospace;
+}
+
+.autocomplete-item .hint {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-left: auto;
+}
+
+.autocomplete-empty {
+  padding: 1rem;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}
+
+/* No Scrollbar Utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

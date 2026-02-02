@@ -39,6 +39,12 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-02 (13:50)
+
+- [x] **Logic Core Refactoring**: 成功將 CB 計算邏輯抽離至 `src/lib/cb-logic.mjs`，消除 `cb-war-room` 與 `cb-calculator` 的代碼重複。
+- [x] **Console Guard**: 實作 `tests/console-guard.spec.js` 主動偵測執行期錯誤，成功修復 `measureFetch` 未定義問題並發現 Firestore 索引缺失漏洞。
+- [x] **Library Consolidation**: 集中管理 Firebase Client 與共用樣式 (`cb-theme.css`)。
+
 ### 2026-02-02 (20:30)
 
 - [x] **Data Status Indicator**: 實作戰情室資料狀態儀表，明確標示「今日資料」或「收盤快照」，解決盤中資訊落差誤解。

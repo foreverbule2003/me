@@ -4,6 +4,31 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.0.0-rc1] - 2026-02-02 (Logic Core Refactoring & Console Health)
+
+### 新增 (Added) 🚀
+
+- **Console Guard**: 引入 `tests/console-guard.spec.js` 守衛機制，自動攔截瀏覽器 Console 錯誤與 Page Errors，確保靜默崩潰 (Silent Crash) 能被即時發現。
+- **Centralized Logic**: 建立 `src/lib/cb-logic.mjs` 與 `src/lib/cb-logic.test.mjs`，達成計算公式的 100% 複用。
+
+### 變更 (Changed) ⚙️
+
+- **Refactoring Phase 1 & 2**: 重構 `cb-war-room.html` 與 `cb-calculator.html` 改由共用模組驅動。
+- **CSS Architecture**: 提取 `public/css/cb-theme.css` 作為工具箱主題規範。
+
+### 錯誤修復 (Fixes) 🐛
+
+- **ReferenceError**: 修復 `cb-calculator.html` 中 `measureFetch` 參考無效導致的靜默崩潰。
+- **Firestore Index**: 透過 Console Guard 成功識別並修復 `hot_cb_snapshots` 集合跨組查詢缺索引的問題。
+
+### 2026-02-02 (13:50)
+
+- [x] **Logic Core Refactoring**: 成功將 CB 計算邏輯抽離至 `src/lib/cb-logic.mjs`，消除 `cb-war-room` 與 `cb-calculator` 的代碼重複。
+- [x] **Console Guard**: 實作 `tests/console-guard.spec.js` 主動偵測執行期錯誤，成功修復 `measureFetch` 未定義問題並發現 Firestore 索引缺失漏洞。
+- [x] **Library Consolidation**: 集中管理 Firebase Client 與共用樣式 (`cb-theme.css`)。
+
+### 2026-02-02 (20:30)
+
 ## [1.9.7] - 2026-02-02 (Scope Correction & Watchlist Polish)
 
 ### 新增 (Added) 🚀

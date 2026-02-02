@@ -22,12 +22,12 @@ test.describe("CB Calculator Smoke Test", () => {
     await searchInput.press("Enter");
 
     // 2. Check if calculations are updated (with timeout for async fetch)
-    const premiumRate = page.locator("#premiumRate");
+    const premiumRate = page.locator("#dPremiumRate, #premiumRate").first();
     await expect(premiumRate).toContainText("%", { timeout: 10000 });
 
-    // 3. Check for specific status classes (premium-card should be visible)
-    const premiumCard = page.locator(".premium-card").first();
-    await expect(premiumCard).toBeVisible();
+    // 3. Verify specific element IDs that confirm correct HTML structure
+    await expect(page.locator("#stockPrice")).toBeVisible();
+    await expect(page.locator("#conversionPrice")).toBeVisible();
   });
 
   test("should maintain professional aesthetics", async ({ page }) => {
