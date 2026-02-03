@@ -12,11 +12,14 @@
 
 供 Vite + React 頁面使用，ESM 模組格式。
 
-| 檔案                 | 說明                                 |
-| -------------------- | ------------------------------------ |
-| `TripIcons.jsx`      | lucide-react 圖示統一導出            |
-| `TripComponents.jsx` | SectionCard, MapModal 等共用 UI 元件 |
-| `index.js`           | 統一導出入口                         |
+| 檔案                 | 說明                                   |
+| -------------------- | -------------------------------------- |
+| `TripIcons.jsx`      | lucide-react 圖示統一導出              |
+| `TripComponents.jsx` | SectionCard, MapModal 等共用 UI 元件   |
+| `DateNavigator.jsx`  | **戰情室日期選取器**：智慧跳過非交易日 |
+| `MarketPulse.jsx`    | **行情列表組件**：支援排序、分級底色   |
+| `AnalysisDrawer.jsx` | **個股分析抽屜**：整合計算邏輯與圖表   |
+| `index.js`           | 統一導出入口                           |
 
 **輔助函式**：`src/lib/trip-helpers.js`
 

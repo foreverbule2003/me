@@ -23,7 +23,23 @@
     <!-- Firebase SDK (Modular) -->
     <!-- Shared Firebase SDK -->
     <script type="module">
-      import { app, db, auth, onAuthStateChanged, collection, getDocs, getDoc, doc, setDoc, serverTimestamp, writeBatch, query, where, orderBy, limit } from "../src/lib/firebase-client.mjs";
+      import {
+        app,
+        db,
+        auth,
+        onAuthStateChanged,
+        collection,
+        getDocs,
+        getDoc,
+        doc,
+        setDoc,
+        serverTimestamp,
+        writeBatch,
+        query,
+        where,
+        orderBy,
+        limit,
+      } from "../src/lib/firebase-client.mjs";
       import { measureFetch } from "../src/lib/utils.mjs";
       import { CbCalculatorCore } from "../src/lib/cb-logic.mjs";
       import { CbPremiumHistoryChart } from "./components/CbPremiumHistoryChart.mjs";
@@ -1602,7 +1618,7 @@
         );
         const premiumRate = CbCalculatorCore.calculatePremiumRate(
           cbPrice,
-          conversionValue
+          conversionValue,
         );
         const parityPrice = CbCalculatorCore.calculateParityPrice(
           cbPrice,

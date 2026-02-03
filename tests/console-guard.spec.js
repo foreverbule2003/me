@@ -1,12 +1,9 @@
 const { test, expect } = require("@playwright/test");
-const fs = require('fs');
-const path = require('path');
+const fs = require("fs");
+const path = require("path");
 
 // Pages to monitor
-const PAGES = [
-  "tools/cb-calculator.html",
-  "tools/cb-war-room.html"
-];
+const PAGES = ["tools/cb-calculator.html", "tools/cb-war-room.html"];
 
 // Ignored harmless errors (if any)
 const IGNORED_ERRORS = [
@@ -19,39 +16,39 @@ const IGNORED_ERRORS = [
   "Cannot read properties of undefined (reading 'split')", // Firebase SDK side-effect of 404
   "TypeError: Failed to fetch", // Network/Firewall issue
   "Could not reach Cloud Firestore backend", // Offline/Firewall
-  "The operation could not be completed" // Connection noise
+  "The operation could not be completed", // Connection noise
 ];
 
 // Ensure log dir
-const logDir = path.join(__dirname, '../logs');
+const logDir = path.join(__dirname, "../logs");
 if (!fs.existsSync(logDir)) fs.mkdirSync(logDir);
 
-PAGES.forEach(url => {
+PAGES.forEach((url) => {
   test(`Console Health Check: ${url}`, async ({ page }) => {
     const errors = [];
-    
+
     // Log file path
-    const logFile = path.join(logDir, 'guard-report.txt');
-    
-    page.on("console", msg => {
+    const logFile = path.join(logDir, "guard-report.txt");
+
+    page.on("console", (msg) => {
       if (msg.type() === "error") {
         const text = msg.text();
-        if (!IGNORED_ERRORS.some(i => text.includes(i))) {
+        if (!IGNORED_ERRORS.some((i) => text.includes(i))) {
           errors.push(text);
           try {
-             fs.appendFileSync(logFile, `[${url}] Error: ${text}\n`);
-          } catch(e) {}
+            fs.appendFileSync(logFile, `[${url}] Error: ${text}\n`);
+          } catch (e) {}
           console.log(`[Browser Error] ${text}`);
         }
       }
     });
 
-    page.on("pageerror", err => {
-      if (!IGNORED_ERRORS.some(i => err.message.includes(i))) {
+    page.on("pageerror", (err) => {
+      if (!IGNORED_ERRORS.some((i) => err.message.includes(i))) {
         errors.push(err.message);
         try {
           fs.appendFileSync(logFile, `[${url}] Exception: ${err.message}\n`);
-        } catch(e) {}
+        } catch (e) {}
       }
     });
 
@@ -59,15 +56,18 @@ PAGES.forEach(url => {
     // Ideally we'd clear it once at the start of the suite, but appending is fine for debugging.
 
     try {
-        await page.goto(url);
-        await page.waitForLoadState("networkidle");
-        await page.waitForTimeout(1000);
+      await page.goto(url);
+      await page.waitForLoadState("networkidle");
+      await page.waitForTimeout(1000);
     } catch (e) {
-        try {
-            fs.appendFileSync(logFile, `[${url}] Nav Error: ${e.message}\n`);
-        } catch(e) {}
+      try {
+        fs.appendFileSync(logFile, `[${url}] Nav Error: ${e.message}\n`);
+      } catch (e) {}
     }
 
-    expect(errors.length, `Detected ${errors.length} console errors on ${url}`).toBe(0);
+    expect(
+      errors.length,
+      `Detected ${errors.length} console errors on ${url}`,
+    ).toBe(0);
   });
 });

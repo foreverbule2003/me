@@ -4,6 +4,25 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.0.0-rc2] - 2026-02-03 (React Migration & UI Restoration)
+
+### 新增 (Added) 🚀
+
+- **React Migration**: 全面將 CB 戰情室遷移至 React 元件架構，提升代碼可維護性。
+- **Metadata Recovery**: 於 `AnalysisDrawer` 實作靜態 metadata 池救援機制，修復資料缺失顯示 `--%` 的問題。
+- **Unified Testing**: 整合 React 專屬與冒煙測試至 `tests/war-room.spec.js`。
+
+### 變更 (Changed) ⚙️
+
+- **UI Restoration**: 恢復 DateNavigator 經典的大尺寸、置中樣式與智慧日期切換邏輯。
+- **Tab Styling**: 優化導航標籤顏色 (Indigo) 與底線動畫，改善視覺深度。
+- **Build Infrastructure**: 更新 Vite 配置，支援混合式 (MPA + SPA) 構建路徑。
+
+### 錯誤修復 (Fixes) 🐛
+
+- **TypeError**: 修復 `allMetadata.find` 不是函式的解析報錯（`cb-data.json` 格式解構修正）。
+- **Compatibility**: 修正 `useMarketPulse` 中對 Firestore `Timestamp` 與遺留資料格式的相容性解析。
+
 ## [2.0.0-rc1] - 2026-02-02 (Logic Core Refactoring & Console Health)
 
 ### 新增 (Added) 🚀

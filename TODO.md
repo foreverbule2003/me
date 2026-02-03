@@ -39,6 +39,13 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-03 (09:45)
+
+- [x] **React Migration (Phase 3)**: 完成 CB 戰情室由 HTML/JS 遷移至 Vite + React 架構，實現組件化開發。
+- [x] **UI Restoration**: 根據用戶反饋恢復 DateNavigator 經典樣式，並優化 Tab 導航配色與縮放效果。
+- [x] **Stability Fix**: 解決 `allMetadata.find` 與 `updatedAt.toDate` 等關鍵執行期報錯，增強代碼防礙性。
+- [x] **Test Consolidation**: 整合 React 專屬驗證至 `tests/war-room.spec.js`，達成測試集單一化。
+
 ### 2026-02-02 (13:50)
 
 - [x] **Logic Core Refactoring**: 成功將 CB 計算邏輯抽離至 `src/lib/cb-logic.mjs`，消除 `cb-war-room` 與 `cb-calculator` 的代碼重複。
