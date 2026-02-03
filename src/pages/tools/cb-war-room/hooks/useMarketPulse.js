@@ -73,13 +73,13 @@ export const useMarketPulse = (initialDate = null) => {
           const latestDoc = fallbackSnap.docs[0];
           const cloudData = latestDoc.data();
           setData(cloudData.items || cloudData.data || []);
-          
+
           // [Fix] Update UI Date to match the actual data derived
           const fallbackId = latestDoc.id; // YYYY-MM-DD
           if (fallbackId && fallbackId !== dateId) {
-             const [y, m, d] = fallbackId.split("-").map(Number);
-             const fallbackDate = new Date(y, m - 1, d);
-             setCurrentDate(fallbackDate);
+            const [y, m, d] = fallbackId.split("-").map(Number);
+            const fallbackDate = new Date(y, m - 1, d);
+            setCurrentDate(fallbackDate);
           }
 
           let updateTime = null;

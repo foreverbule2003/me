@@ -44,6 +44,7 @@
 - [x] **Blank Premium Fix**: 修正戰情室議價率空白問題，改採 On-Demand Fetch 直接讀取主資料庫。
 - [x] **React Stability**: 解決 Invalid Hook Call 與 Custom Element 重複註冊問題，確保戰情室渲染穩定。
 - [x] **Cloud Architecture**: 完成 `cb-data.json` 移除與 `utils.js` 雲端化重構。
+- [x] **Watchlist Enhancements**: 實作追蹤清單分類篩選 (Filter Chips) 與新增時的分類選單 (Dropdown UI)，優化長名單的管理體驗。
 
 ### 2026-02-03 (09:45)
 

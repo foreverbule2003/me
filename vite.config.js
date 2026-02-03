@@ -10,7 +10,6 @@ const reactAliases = {
   "react-dom": resolve(__dirname, "node_modules/react-dom"),
 };
 
-
 // Custom Plugin to handle local crawling API
 const cbCrawlerPlugin = () => ({
   name: "cb-crawler-api",

@@ -46,14 +46,19 @@ export const useWatchlist = (user) => {
   }, [user]);
 
   const addCB = useCallback(
-    async (code) => {
+    async (code, category = "未分類 (UNCATEGORIZED)") => {
       if (!user || !code) return;
+
+      // Smart formatting for category
+      let finalCategory = category.trim();
+      if (!finalCategory) finalCategory = "未分類 (UNCATEGORIZED)";
+
       const docRef = doc(db, "cb_history", code.toUpperCase());
       await setDoc(
         docRef,
         {
           addedAt: serverTimestamp(),
-          category: "未分類 (UNCATEGORIZED)",
+          category: finalCategory,
         },
         { merge: true },
       );
