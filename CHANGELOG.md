@@ -33,6 +33,7 @@
 - **Invalid Hook Call**: 透過 `vite.config.js` 的 `resolve.alias` 強制 React 單一本體，解決因依賴衝突導致的白畫面與 Hooks 報錯。
 - **Custom Element**: 修正防護腳本中的元素名稱檢測 (`ace` -> `mce`)，有效抑制第三方元件重複註冊錯誤。
 - **Data Decoupling**: 徹底移除本地 `cb-data.json` 並恢復 `.gitignore` 設定，完成雲端原生架構的最後一哩路。
+- **Date Sync**: 修正 `useMarketPulse` 下拉更新邏輯。當當日資料尚未產生而自動回退至歷史快照時，UI 日期標題現在會同步更正為實際資料日期，避免產生「未來資料」的誤解。
 
 ## [2.0.0-rc2] - 2026-02-03 (React Migration & UI Restoration)
 
