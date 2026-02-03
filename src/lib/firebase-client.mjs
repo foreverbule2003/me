@@ -35,12 +35,12 @@ import {
 import { onCLS, onINP, onLCP, onFCP, onTTFB } from "https://unpkg.com/web-vitals@3?module";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB4VXQaa_bWldNrXfSARgK3w258fac9Fvg",
-  authDomain: "my-landing-page-2ca68.firebaseapp.com",
-  projectId: "my-landing-page-2ca68",
-  storageBucket: "my-landing-page-2ca68.firebasestorage.app",
-  messagingSenderId: "847051837050",
-  appId: "1:847051837050:web:c5e2bc562520d3ab835c3",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
 // Initialize Singleton App
