@@ -41,6 +41,7 @@
 
 ### 2026-02-03 (09:45)
 
+- [x] **Security Fix (High Severity)**: 解決 Google Cloud API Key 洩漏問題，遷移至環境變數並實施 Referrer 限制，成功修復 403 錯誤。
 - [x] **React Migration (Phase 3)**: 完成 CB 戰情室由 HTML/JS 遷移至 Vite + React 架構，實現組件化開發。
 - [x] **UI Restoration**: 根據用戶反饋恢復 DateNavigator 經典樣式，並優化 Tab 導航配色與縮放效果。
 - [x] **Stability Fix**: 解決 `allMetadata.find` 與 `updatedAt.toDate` 等關鍵執行期報錯，增強代碼防礙性。
