@@ -34,15 +34,19 @@ export const fetchStockPrice = async (underlyingCode) => {
   return 0;
 };
 
-export const fetchAllCbMetadata = async () => {
+import { db, doc, getDoc } from "../../../lib/firebase-client.mjs";
+
+export const fetchCbDetails = async (code) => {
+  if (!code) return null;
   try {
-    const res = await fetch("/me/data/cb-data.json");
-    if (res.ok) {
-      const json = await res.json();
-      return json.items || (Array.isArray(json) ? json : []);
+    const docRef = doc(db, "cb_history", code);
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      return docSnap.data();
     }
   } catch (e) {
-    console.warn("[Utils] Failed to fetch CB metadata", e);
+    console.warn(`[Utils] Failed to fetch CB details for ${code}`, e);
   }
-  return [];
+  return null;
 };

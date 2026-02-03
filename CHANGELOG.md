@@ -23,7 +23,18 @@
 - **TypeError**: 修復 `allMetadata.find` 不是函式的解析報錯（`cb-data.json` 格式解構修正）。
 - **Compatibility**: 修正 `useMarketPulse` 中對 Firestore `Timestamp` 與遺留資料格式的相容性解析。
 
-## [2.0.0-rc1] - 2026-02-02 (Logic Core Refactoring & Console Health)
+    - [ ] 手動驗證：本地 `npm run dev` 預覽。
+
+## [2.0.0-rc3] - 2026-02-03 (War Room Core Stability)
+
+### 錯誤修復 (Fixes) 🐛
+
+- **Blank Premium Rate**: 修正戰情室轉換議價率空白問題。將 `cb-war-room` 的資料讀取邏輯重構為 On-Demand 模式，直接從 `cb_history` 讀取含 `conversionPrice` 的完整中繼資料，解決 `hot_cb_snapshots` 欄位缺失問題。
+- **Invalid Hook Call**: 透過 `vite.config.js` 的 `resolve.alias` 強制 React 單一本體，解決因依賴衝突導致的白畫面與 Hooks 報錯。
+- **Custom Element**: 修正防護腳本中的元素名稱檢測 (`ace` -> `mce`)，有效抑制第三方元件重複註冊錯誤。
+- **Data Decoupling**: 徹底移除本地 `cb-data.json` 並恢復 `.gitignore` 設定，完成雲端原生架構的最後一哩路。
+
+## [2.0.0-rc2] - 2026-02-03 (React Migration & UI Restoration)
 
 ### 新增 (Added) 🚀
 

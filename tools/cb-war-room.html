@@ -4,6 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CB War Room | Me Tools</title>
+    <!-- [Fix] Suppress duplicate custom element error from third-party scripts -->
+    <script>
+      (function () {
+        const originalDefine = customElements.define;
+        customElements.define = function (name, constructor, options) {
+          if (name === "mce-autosize-textarea" && customElements.get(name)) {
+            console.warn(`[Guard] Ignored duplicate definition for ${name}`);
+            return;
+          }
+          originalDefine.call(customElements, name, constructor, options);
+        };
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link

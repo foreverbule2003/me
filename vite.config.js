@@ -4,6 +4,13 @@ import { resolve } from "path";
 import { spawn } from "child_process";
 import fs from "fs";
 
+// Force React Deduplication
+const reactAliases = {
+  react: resolve(__dirname, "node_modules/react"),
+  "react-dom": resolve(__dirname, "node_modules/react-dom"),
+};
+
+
 // Custom Plugin to handle local crawling API
 const cbCrawlerPlugin = () => ({
   name: "cb-crawler-api",
@@ -232,4 +239,7 @@ export default defineConfig({
 
   // GitHub Pages 部署設定 (repo name: /me/)
   base: "/me/",
+  resolve: {
+    alias: reactAliases,
+  },
 });

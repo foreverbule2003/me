@@ -39,6 +39,12 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-03 (12:00)
+
+- [x] **Blank Premium Fix**: 修正戰情室議價率空白問題，改採 On-Demand Fetch 直接讀取主資料庫。
+- [x] **React Stability**: 解決 Invalid Hook Call 與 Custom Element 重複註冊問題，確保戰情室渲染穩定。
+- [x] **Cloud Architecture**: 完成 `cb-data.json` 移除與 `utils.js` 雲端化重構。
+
 ### 2026-02-03 (09:45)
 
 - [x] **Security Fix (High Severity)**: 解決 Google Cloud API Key 洩漏問題，遷移至環境變數並實施 Referrer 限制，成功修復 403 錯誤。

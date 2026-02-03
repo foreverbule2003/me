@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CbCalculatorCore } from "../../../../lib/cb-logic.mjs";
-import { fetchStockPrice, fetchAllCbMetadata } from "../utils.js";
+import { fetchStockPrice, fetchCbDetails } from "../utils.js";
 import { CbHistoryService } from "../../../../lib/CbHistoryService";
 import {
   db,
@@ -32,29 +32,21 @@ const AnalysisDrawer = ({ isOpen, onClose, code, initialData = {} }) => {
         stockPrice = await fetchStockPrice(underlyingCode);
       }
 
-      // Fallback for missing conversion price (Metadata Pool access)
+      // Fallback for missing conversion price (Fetch from Master Metadata)
       let conversionPrice = initialData.conversionPrice;
       if (!conversionPrice) {
         try {
-          const allMetadata = await fetchAllCbMetadata();
-          if (Array.isArray(allMetadata)) {
-            const poolItem = allMetadata.find((i) => i.code === code);
-            if (poolItem) {
-              conversionPrice = poolItem.conversionPrice;
-              // Backfill underlyingCode if missing
-              if (!underlyingCode) underlyingCode = poolItem.underlyingCode;
-              console.log(
-                `[AnalysisDrawer] Recovered metadata from static pool for ${code}`,
-              );
-            }
-          } else {
-            console.warn(
-              "[AnalysisDrawer] Metadata recovery failed: allMetadata is not an array",
-              allMetadata,
+          const details = await fetchCbDetails(code);
+          if (details) {
+            conversionPrice = details.conversionPrice;
+            // Backfill underlyingCode if missing
+            if (!underlyingCode) underlyingCode = details.underlyingCode;
+            console.log(
+              `[AnalysisDrawer] Recovered details from cb_history for ${code}`,
             );
           }
         } catch (err) {
-          console.warn("[AnalysisDrawer] Metadata recovery error", err);
+          console.warn("[AnalysisDrawer] Details recovery error", err);
         }
       }
 
@@ -100,6 +92,18 @@ const AnalysisDrawer = ({ isOpen, onClose, code, initialData = {} }) => {
       ? (beStockPrice / data.stockPrice - 1) * 100
       : 0;
   const status = CbCalculatorCore.getPremiumStatus(premium);
+
+  // [Debug] Trace Blank Premium Issue
+  useEffect(() => {
+    if (isOpen) {
+      console.log("[AnalysisDrawer Debug]", {
+        code,
+        data,
+        customConvPrice,
+        computed: { convPrice, parity, premium, status },
+      });
+    }
+  }, [isOpen, code, data, customConvPrice, parity, premium]);
 
   const handleSave = async () => {
     if (!code || !customConvPrice) return;
