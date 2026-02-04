@@ -186,8 +186,12 @@ async function syncToFirestore(cbCode, data) {
     // Detect Quota Exceeded (Error Code 8 or string match)
     const msg = e.message || "";
     if (msg.includes("RESOURCE_EXHAUSTED") || msg.includes("Quota exceeded")) {
-      console.warn(`\n🛑 [Cloud] Firebase Quota Exceeded! Switching to LOCAL-ONLY mode.`);
-      console.warn(`   Future items in this run will only be saved to local JSON.`);
+      console.warn(
+        `\n🛑 [Cloud] Firebase Quota Exceeded! Switching to LOCAL-ONLY mode.`,
+      );
+      console.warn(
+        `   Future items in this run will only be saved to local JSON.`,
+      );
       GLOBAL_CLOUD_QUOTA_EXCEEDED = true;
     } else {
       console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);

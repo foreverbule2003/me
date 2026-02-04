@@ -87,6 +87,7 @@ timboy/
 資料源自您的本地電腦 (XQ 全球贏家)，透過 Python 橋接腳本同步至雲端。
 
 ### 前置需求
+
 1.  **Windows OS**
 2.  **XQ 全球贏家 (個人版/企業版)** 需安裝並登入。
 3.  **Python 3.8+** 並安裝依賴 (需 `pywin32`):
@@ -95,6 +96,7 @@ timboy/
     ```
 
 ### 執行同步
+
 確保 XQ 軟體已開啟，然後執行：
 
 ```bash
@@ -102,11 +104,13 @@ npm run sync:dde
 ```
 
 這將會：
+
 1.  讀取 db 中的追蹤清單。
 2.  請求 XQ DDE 取得報價。
 3.  更新 Firestore 快署。
 
 ### 🔄 Data Sync (History) - 手動補齊 K 線
+
 若雲端自動排程失敗或過慢，可在本地執行全量歷史補齊：
 
 ```bash
@@ -114,6 +118,7 @@ npm run fetch:history:full
 ```
 
 這將會：
+
 1.  讀取雲端/本地追蹤清單。
 2.  針對每一檔 CB，智慧判斷需補齊的月份。
 3.  爬取櫃買中心資料並同步至 Firestore (需 `serviceAccountKey.json`)。

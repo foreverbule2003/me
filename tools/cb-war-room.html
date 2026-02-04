@@ -13,7 +13,9 @@
             originalDefine.call(customElements, name, constructor, options);
           } catch (e) {
             if (e.message.includes("has already been defined")) {
-              console.warn(`[Guard] Suppressed duplicate definition for ${name}`);
+              console.warn(
+                `[Guard] Suppressed duplicate definition for ${name}`,
+              );
               return;
             }
             throw e;

@@ -39,6 +39,12 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-04 (11:50)
+
+- [x] **Hybrid DDE Sync**: 建立 `fetch-hot-cb-dde.py` 以取代不穩定的 PChome 爬蟲，實現可靠的每日收盤價同步。
+- [x] **History Sync Resilience**: 於 `fetch-cb-history.js` 實作 Firebase Quota Exceeded 攔截機制，防止腳本崩潰並自動切換至 Local-Only 模式。
+- [x] **DDE Fallback Logic**: 針對無量個股實作 `PreClose` 自動回補，修正戰情室數據空白問題。
+
 ### 2026-02-03 (12:00)
 
 - [x] **Blank Premium Fix**: 修正戰情室議價率空白問題，改採 On-Demand Fetch 直接讀取主資料庫。

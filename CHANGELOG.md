@@ -22,8 +22,6 @@
 
 - **Sync Stability**: 修復因 Anti-Bot 導致的 Hot CB 資料間歇性空白問題。
 
-
-
 ### 新增 (Added) 🚀
 
 - **React Migration**: 全面將 CB 戰情室遷移至 React 元件架構，提升代碼可維護性。
