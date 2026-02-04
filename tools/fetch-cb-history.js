@@ -113,14 +113,19 @@ function getSmartMonths(targetCode, options) {
   return generateMonthRange(defaultDeep, now);
 }
 
+// Global flag to stop trying cloud sync if quota hit
+let GLOBAL_CLOUD_QUOTA_EXCEEDED = false;
+
 async function syncToFirestore(cbCode, data) {
+  if (GLOBAL_CLOUD_QUOTA_EXCEEDED) {
+    // Silently skip to save time
+    return;
+  }
+
   try {
     const admin = require("firebase-admin");
-
-    // Initialize using shared utility
     const { getFirebaseAdmin } = require("./firebase-utils");
 
-    // In local mode, getFirebaseAdmin might throw if no key found.
     try {
       getFirebaseAdmin();
     } catch (e) {
@@ -135,9 +140,7 @@ async function syncToFirestore(cbCode, data) {
     const docSnap = await docRef.get();
     const isManual = process.argv.includes(cbCode);
 
-    // Safety Gate: Only sync if tracked OR manual override
     if (!docSnap.exists && !isManual) {
-      // console.log(`[Cloud] Skipped sync for non-tracked item: ${cbCode}`);
       return;
     }
 
@@ -149,7 +152,6 @@ async function syncToFirestore(cbCode, data) {
 
     for (const record of data) {
       const subDocRef = docRef.collection("records").doc(record.date);
-
       batch.set(
         subDocRef,
         { ...record, updatedAt: admin.firestore.FieldValue.serverTimestamp() },
@@ -165,13 +167,11 @@ async function syncToFirestore(cbCode, data) {
     }
     if (count > 0) await batch.commit();
 
-    // Update heartbeat
     if (docSnap.exists) {
       await docRef.set(
         { lastUpdated: new Date().toISOString() },
         { merge: true },
       );
-      console.log(`[Cloud] Updated heartbeat for tracked item: ${cbCode}`);
     } else if (isManual) {
       await docRef.set(
         {
@@ -181,10 +181,17 @@ async function syncToFirestore(cbCode, data) {
         },
         { merge: true },
       );
-      console.log(`[Cloud] Registered new item via manual sync: ${cbCode}`);
     }
   } catch (e) {
-    console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);
+    // Detect Quota Exceeded (Error Code 8 or string match)
+    const msg = e.message || "";
+    if (msg.includes("RESOURCE_EXHAUSTED") || msg.includes("Quota exceeded")) {
+      console.warn(`\n🛑 [Cloud] Firebase Quota Exceeded! Switching to LOCAL-ONLY mode.`);
+      console.warn(`   Future items in this run will only be saved to local JSON.`);
+      GLOBAL_CLOUD_QUOTA_EXCEEDED = true;
+    } else {
+      console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);
+    }
   }
 }
 

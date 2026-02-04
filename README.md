@@ -60,10 +60,11 @@ timboy/
 │
 ├── tools/                  # 工具頁面與後端橋接器
 │   ├── components/         # 前端共用 Service (JS/MJS)
-│   ├── lib/                # Python DDE 模組化層
-│   │   ├── xq_dde.py       # 通訊協定封裝
-│   │   └── cb_service.py   # 業務邏輯封裝
-│   └── xq_bridge.py        # 核心 DDE 行情同步入口
+63: │   ├── lib/                # Python DDE 模組化層
+64: │   │   ├── xq_dde.py       # 通訊協定封裝
+65: │   │   └── cb_service.py   # 業務邏輯封裝
+66: │   ├── xq_bridge.py        # (Legacy) 舊版 DDE 入口
+67: │   └── fetch-hot-cb-dde.py # 🔥 核心 DDE 行情同步腳本
 ├── public/                 # 靜態資源 (Vite 直接複製)
 ├── assets/                 # CSS 與圖片
 └── vite.config.js          # Vite 設定檔
@@ -79,6 +80,43 @@ timboy/
 | `npm run new-trip` | 互動式建立新旅程              |
 | `npm run sync-cb`  | 執行 CB 資料自動化同步預覽    |
 | `npm run format`   | 格式化所有程式碼              |
+
+## 🔄 Data Sync (Hybrid DDE)
+
+我們採用 **Hybrid DDE 架構** 來解決爬蟲被封鎖的問題。
+資料源自您的本地電腦 (XQ 全球贏家)，透過 Python 橋接腳本同步至雲端。
+
+### 前置需求
+1.  **Windows OS**
+2.  **XQ 全球贏家 (個人版/企業版)** 需安裝並登入。
+3.  **Python 3.8+** 並安裝依賴 (需 `pywin32`):
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+### 執行同步
+確保 XQ 軟體已開啟，然後執行：
+
+```bash
+npm run sync:dde
+```
+
+這將會：
+1.  讀取 db 中的追蹤清單。
+2.  請求 XQ DDE 取得報價。
+3.  更新 Firestore 快署。
+
+### 🔄 Data Sync (History) - 手動補齊 K 線
+若雲端自動排程失敗或過慢，可在本地執行全量歷史補齊：
+
+```bash
+npm run fetch:history:full
+```
+
+這將會：
+1.  讀取雲端/本地追蹤清單。
+2.  針對每一檔 CB，智慧判斷需補齊的月份。
+3.  爬取櫃買中心資料並同步至 Firestore (需 `serviceAccountKey.json`)。
 
 ## 🛠️ 技術棧
 

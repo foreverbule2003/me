@@ -4,7 +4,25 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
-## [2.0.0-rc2] - 2026-02-03 (React Migration & UI Restoration)
+## [2.1.0] - 2026-02-04 (Hybrid DDE & Resilience)
+
+### 新增 (Added) 🚀
+
+- **Hybrid DDE Sync**: 引入 `tools/fetch-hot-cb-dde.py`，透過本地 XQ 客戶端直接獲取即時報價，彻底解決 PChome 爬蟲被封鎖的問題。
+- **DDE Fallback**: 針對無量跌停標的 (如 35831)，實作 `Price` -> `PreClose` 自動回補機制，確保戰情室數據完整。
+- **Diagnostic Tool**: 新增 `tools/test_dde_connection.py` 用於診斷 DDE 連線與欄位對應。
+- **Local History Backfill**: 新增 `npm run fetch:history:full` 指令，支援使用本地算力與 IP 進行全量歷史 K 線補齊。
+
+### 變更 (Changed) ⚙️
+
+- **Quota Protection**: 修改 `fetch-cb-history.js`，增加對 Firebase `RESOURCE_EXHAUSTED` 錯誤的攔截與降級處理 (Graceful Degradation)，防止因寫入額度耗盡導致腳本崩潰。
+- **Docs**: 更新 `README.md`，納入 DDE 操作指南與架構說明。
+
+### 錯誤修復 (Fixes) 🐛
+
+- **Sync Stability**: 修復因 Anti-Bot 導致的 Hot CB 資料間歇性空白問題。
+
+
 
 ### 新增 (Added) 🚀
 
