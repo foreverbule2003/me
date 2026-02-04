@@ -136,7 +136,7 @@ async function syncToFirestore(cbCode, data) {
     const isManual = process.argv.includes(cbCode);
 
     // Safety Gate: Only sync if tracked OR manual override
-    if (!docSnap.exists() && !isManual) {
+    if (!docSnap.exists && !isManual) {
       // console.log(`[Cloud] Skipped sync for non-tracked item: ${cbCode}`);
       return;
     }
@@ -166,7 +166,7 @@ async function syncToFirestore(cbCode, data) {
     if (count > 0) await batch.commit();
 
     // Update heartbeat
-    if (docSnap.exists()) {
+    if (docSnap.exists) {
       await docRef.set(
         { lastUpdated: new Date().toISOString() },
         { merge: true },

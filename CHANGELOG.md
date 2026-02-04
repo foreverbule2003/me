@@ -34,6 +34,7 @@
 - **Data Decoupling**: 徹底移除本地 `cb-data.json` 並恢復 `.gitignore` 設定，完成雲端原生架構的最後一哩路。
 - **Date Sync**: 修正 `useMarketPulse` 下拉更新邏輯。當當日資料尚未產生而自動回退至歷史快照時，UI 日期標題現在會同步更正為實際資料日期，避免產生「未來資料」的誤解。
 - **Watchlist Grouping**: 恢復追蹤清單的分組顯示功能，並新增 **Filter Chips** (分類篩選) 與 **Category Dropdown** (新增分類選單)，大幅提升清單管理效率。
+- **Cloud Sync Fix**: 修正 `fetch-cb-history.js` 中的 `docSnap.exists` 類型錯誤 (Prop vs Func)，恢復 GitHub Actions 自動同步功能。
 
 ## [2.0.0-rc2] - 2026-02-03 (React Migration & UI Restoration)
 

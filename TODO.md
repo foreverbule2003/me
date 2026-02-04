@@ -45,6 +45,7 @@
 - [x] **React Stability**: 解決 Invalid Hook Call 與 Custom Element 重複註冊問題，確保戰情室渲染穩定。
 - [x] **Cloud Architecture**: 完成 `cb-data.json` 移除與 `utils.js` 雲端化重構。
 - [x] **Watchlist Enhancements**: 實作追蹤清單分類篩選 (Filter Chips) 與新增時的分類選單 (Dropdown UI)，優化長名單的管理體驗。
+- [x] **Cloud Sync Fix**: 修正 `fetch-cb-history.js` 中錯誤的 `docSnap.exists` 呼叫方式，解決 GitHub Actions 同步失敗問題。
 
 ### 2026-02-03 (09:45)
 
