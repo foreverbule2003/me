@@ -139,7 +139,12 @@ export const useMarketPulse = (initialDate = null) => {
 
     const today = new Date();
     today.setHours(0, 0, 0, 0);
-    if (next > today) return;
+    
+    // Normalize next to midnight for comparison
+    const nextMidnight = new Date(next);
+    nextMidnight.setHours(0, 0, 0, 0);
+
+    if (nextMidnight > today) return;
     setCurrentDate(next);
   };
 
