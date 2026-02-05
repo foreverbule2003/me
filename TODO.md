@@ -39,6 +39,11 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-05 (14:25)
+
+- [x] **Strategy Revert**: 將每日同步腳本切回 PChome 爬蟲，以解決 DDE 資料缺漏問題。
+- [x] **DDE Fix**: 修正 DDE 腳本的排序邏輯 (Sort by Volume)。
+
 ### 2026-02-05 (14:15)
 
 - [x] **Hotfix**: 修復 `WarRoom` 白畫面問題 (SyntaxError in utils.js)。

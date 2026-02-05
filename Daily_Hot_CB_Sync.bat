@@ -7,8 +7,8 @@ echo.
 echo Target: Fetching Hot CB Snapshots for War Room...
 cd /d "%~dp0"
 
-echo [1/2] Connecting to XQ DDE...
-call npm run sync:dde
+echo [1/2] Fetching from PChome (Legacy Crawler)...
+call node tools/fetch-hot-cb.js --cloud
 
 echo.
 echo [2/2] Data Sync Complete.

@@ -4,7 +4,12 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
-## [2.1.1] - 2026-02-05 (Hotfix & Automation)
+## [2.1.2] - 2026-02-05 (Legacy Revert & DDE Sort)
+
+### 變更 (Changed) ⚙️
+
+- **Sync Strategy**: 由於 DDE 數據部分欄位缺漏，將自動化腳本 (`Daily_Hot_CB_Sync.bat`) 暫時切回 Legacy Crawler (`fetch-hot-cb.js`)，改由 PChome 獲取完整漲跌幅數據。
+- **DDE Improvement**: 雖已切換回舊版，但仍優化了 `fetch-hot-cb-dde.py` 腳本，加入成交量 (Volume) 遞減排序邏輯，以備未來切換回 DDE 時使用。
 
 ### 錯誤修復 (Fixes) 🐛
 

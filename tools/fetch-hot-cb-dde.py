@@ -143,6 +143,10 @@ def fetch_dde_data(codes):
             
             if i % 20 == 0: time.sleep(0.1)
 
+
+    # Sort results by Volume (Descending) to identify "Hot" items
+    results.sort(key=lambda x: x.get('volume', 0), reverse=True)
+    
     return results
 
 def save_to_firestore(db, data):

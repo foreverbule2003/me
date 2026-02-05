@@ -36,8 +36,6 @@ export const fetchStockPrice = async (underlyingCode) => {
   return 0;
 };
 
-
-
 export const fetchCbDetails = async (code) => {
   if (!code) return null;
   try {
