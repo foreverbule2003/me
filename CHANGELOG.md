@@ -4,7 +4,15 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
-## [2.1.0] - 2026-02-04 (Hybrid DDE & Resilience)
+## [2.1.1] - 2026-02-05 (Hotfix & Automation)
+
+### 錯誤修復 (Fixes) 🐛
+
+- **SyntaxError**: 修復 `WarRoom/utils.js` 中的 `import` 語句位置錯誤，解決導致頁面全白的嚴重 Bug。
+
+### 新增 (Added) 🚀
+
+- **Automation**: 新增 `Daily_Hot_CB_Sync.bat` 批次檔，方便使用者設定 Windows Task Scheduler 進行每日自動更新。
 
 ### 新增 (Added) 🚀
 

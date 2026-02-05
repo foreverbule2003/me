@@ -1,3 +1,5 @@
+import { db, doc, getDoc } from "../../../lib/firebase-client.mjs";
+
 export const fetchStockPrice = async (underlyingCode) => {
   if (!underlyingCode) return 0;
   try {
@@ -34,7 +36,7 @@ export const fetchStockPrice = async (underlyingCode) => {
   return 0;
 };
 
-import { db, doc, getDoc } from "../../../lib/firebase-client.mjs";
+
 
 export const fetchCbDetails = async (code) => {
   if (!code) return null;

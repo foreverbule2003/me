@@ -39,6 +39,11 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-05 (14:15)
+
+- [x] **Hotfix**: 修復 `WarRoom` 白畫面問題 (SyntaxError in utils.js)。
+- [x] **Automation**: 建立 `Daily_Hot_CB_Sync.bat` 供 Task Scheduler 使用。
+
 ### 2026-02-04 (11:50)
 
 - [x] **Hybrid DDE Sync**: 建立 `fetch-hot-cb-dde.py` 以取代不穩定的 PChome 爬蟲，實現可靠的每日收盤價同步。
