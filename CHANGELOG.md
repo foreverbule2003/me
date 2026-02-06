@@ -4,6 +4,24 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.2.0] - 2026-02-06 (Calculator React Transformation)
+
+### 重構 (Refactor) 🛠️
+
+- **React Migration (v3.0)**: `cb-calculator.html` 全面遷移至 React/Vite 架構。
+  - 拆分 `SearchInput`, `InputPanel`, `ResultsPanel` 等獨立元件。
+  - 復用 `useCalculator` hook 與 `cb-logic.mjs` 核心演算法。
+  - 移除 1700+ 行舊版 HTML/JS 代碼 (保留 legacy 備份)。
+
+### 錯誤修復 (Fixes) 🐛
+
+- **UI Overflow**: 修復搜尋下拉選單 (Dropdown) 因父容器 `overflow` 屬性導致的截斷問題，並修正 `absolute` 定位偏移。
+- **Font Consistency**: 修正輸入框與標的卡片字體過大問題，統一降級為 `text-sm` 以符合設計規範。
+
+### 優化 (Improvements) 🚀
+
+- **Visual Hierarchy**: 優化計算結果面板視讀性，將 Premium Rate 提升為 `4xl` 重點顯示，並統一輔助標籤樣式。
+
 ## [2.1.3] - 2026-02-06 (Typography Unification & Style Guide)
 
 ### 新增 (Added) 🚀

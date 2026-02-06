@@ -39,8 +39,11 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
-### 2026-02-06 (13:40)
+### 2026-02-06 (14:30)
 
+- [x] **React Migration (Calculator)**: 完成 `cb-calculator.html` 遷移至 React 架構 (v3.0)，加上元件拆分與邏輯復用。
+- [x] **UI Fix**: 解決搜尋下拉選單 (Dropdown) 被容器截斷與超出邊界的問題 (Overflow & Relative Fix)。
+- [x] **Typography Polish**: 實作 CB 工具介面的字體大小統一化 (Input Panel & Labels)，嚴格遵守 SM/XS 雙尺寸規範。
 - [x] **Typography Unification**: 統一 CB 戰情室與 CB 計算機字體規範 (批次替換 50+ 處樣式)。
 - [x] **Style Guide**: 建立 `STYLE_GUIDE.md` 設計規範文件。
 
