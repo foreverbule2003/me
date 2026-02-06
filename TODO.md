@@ -39,6 +39,11 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-02-06 (13:40)
+
+- [x] **Typography Unification**: 統一 CB 戰情室與 CB 計算機字體規範 (批次替換 50+ 處樣式)。
+- [x] **Style Guide**: 建立 `STYLE_GUIDE.md` 設計規範文件。
+
 ### 2026-02-05 (14:25)
 
 - [x] **Strategy Revert**: 將每日同步腳本切回 PChome 爬蟲，以解決 DDE 資料缺漏問題。

@@ -4,6 +4,21 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.1.3] - 2026-02-06 (Typography Unification & Style Guide)
+
+### 新增 (Added) 🚀
+
+- **Style Guide**: 建立 `STYLE_GUIDE.md` 設計規範文件，定義 CB 工具統一的字體、顏色、間距標準。
+
+### 變更 (Changed) ⚙️
+
+- **Typography Unification**: 統一 CB 戰情室與 CB 計算機的字體規範：
+  - 主要資訊：`text-sm font-semibold`
+  - 輔助資訊：`text-xs font-medium`
+- **Visual Noise Reduction**: 批次移除 `font-black`、`font-bold`、`text-[9/10/11px]` 等非標準樣式。
+- **MarketPulse**: 統一現價與漲跌欄字體為相同大小 (`text-sm`)。
+- **Watchlist**: 精簡卡片顯示，統一分類標籤樣式。
+
 ## [2.1.2] - 2026-02-05 (Legacy Revert & DDE Sort)
 
 ### 變更 (Changed) ⚙️

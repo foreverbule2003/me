@@ -83,34 +83,34 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-      {/* 1. Category Filter Bar (Material Chips) */}
+      {/* 1. Category Filter Bar */}
       {allCategories.length > 0 && (
         <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar px-1">
           <button
             onClick={handleSelectAll}
-            className={`px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap border ${
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap border ${
               selectedFilters.size === allCategories.length
-                ? "bg-slate-800 text-white border-slate-800"
-                : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
+                ? "bg-slate-700 text-white border-slate-700"
+                : "bg-slate-50 text-slate-500 border-slate-200 hover:border-slate-300"
             }`}
           >
             {selectedFilters.size === allCategories.length ? "全選" : "全不選"}
           </button>
-          <div className="w-[1px] h-4 bg-slate-300 mx-1"></div>
+          <div className="w-[1px] h-4 bg-slate-200 mx-0.5"></div>
           {allCategories.map((cat) => {
             const isSelected = selectedFilters.has(cat);
+            const displayName = cat.replace(" (UNCATEGORIZED)", "");
             return (
               <button
                 key={cat}
                 onClick={() => handleToggleFilter(cat)}
-                className={`px-3 py-1 rounded-full text-xs font-bold transition-all whitespace-nowrap border flex items-center gap-1 ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap border ${
                   isSelected
-                    ? "bg-indigo-600 text-white border-indigo-600 shadow-md shadow-indigo-200"
-                    : "bg-white text-slate-500 border-slate-200 hover:border-indigo-300"
+                    ? "bg-indigo-100 text-indigo-700 border-indigo-300"
+                    : "bg-white text-slate-500 border-slate-200 hover:border-slate-300"
                 }`}
               >
-                {isSelected && <i className="fas fa-check text-[10px]"></i>}
-                {cat}
+                {displayName}
               </button>
             );
           })}
@@ -120,7 +120,7 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         {/* 2. Add New Block */}
         <div className="premium-card p-5 rounded-2xl border-indigo-100 bg-gradient-to-br from-white to-indigo-50/50 h-fit">
-          <h3 className="text-[10px] font-black text-slate-400 uppercase mb-3 px-1 tracking-widest">
+          <h3 className="text-xs font-medium text-slate-400 uppercase mb-3 px-1">
             新增追蹤
           </h3>
           <form onSubmit={handleAdd} className="flex flex-col gap-3">
@@ -131,7 +131,7 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
                 value={newCode}
                 onChange={(e) => setNewCode(e.target.value)}
                 placeholder="代號 (例: 15142)"
-                className="w-full pl-8 border border-slate-200 rounded-xl px-4 py-3 text-sm font-black outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 transition-all mono uppercase"
+                className="w-full pl-8 border border-slate-200 rounded-xl px-4 py-3 text-sm font-semibold outline-none focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-400 transition-all mono uppercase"
               />
             </div>
 
@@ -148,7 +148,7 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
                       setAddCategory(e.target.value);
                     }
                   }}
-                  className="flex-grow w-0 border border-slate-200 rounded-xl px-3 py-2 text-xs font-bold text-slate-600 outline-none focus:border-indigo-400 bg-white"
+                  className="flex-grow w-0 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium text-slate-600 outline-none focus:border-indigo-400 bg-white"
                 >
                   {allCategories.map((cat) => (
                     <option key={cat} value={cat}>
@@ -165,7 +165,7 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
                     onChange={(e) => setCustomCategoryInput(e.target.value)}
                     placeholder="輸入新分類名稱"
                     autoFocus
-                    className="w-full border border-indigo-300 rounded-xl px-3 py-2 text-xs font-bold outline-none focus:ring-2 focus:ring-indigo-500/10 text-indigo-700 bg-indigo-50/50"
+                    className="w-full border border-indigo-300 rounded-xl px-3 py-2 text-sm font-medium outline-none focus:ring-2 focus:ring-indigo-500/10 text-indigo-700 bg-indigo-50/50"
                   />
                   <button
                     type="button"
@@ -180,7 +180,7 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
 
             <button
               type="submit"
-              className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95 font-bold text-sm"
+              className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg active:scale-95 font-semibold text-sm"
             >
               <i className="fas fa-plus"></i>
               <span>加入追蹤</span>
@@ -195,14 +195,13 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
               key={category}
               className="premium-card p-5 rounded-2xl border-slate-100 bg-slate-50/30"
             >
-              <h3 className="text-[10px] font-black text-slate-400 uppercase mb-4 px-1 tracking-widest flex items-center justify-between">
-                <span>{category}</span>
-                <span className="bg-white border border-slate-200 text-slate-500 px-2 py-0.5 rounded-full text-[9px] shadow-sm">
-                  {groupItems.length}
-                </span>
+              <h3 className="text-xs font-medium text-slate-500 uppercase mb-3 px-1 flex items-center gap-2">
+                <span>{category.replace(" (UNCATEGORIZED)", "")}</span>
+                <span className="text-slate-300">·</span>
+                <span>{groupItems.length}</span>
               </h3>
 
-              <div className="flex flex-wrap gap-3">
+              <div className="flex flex-wrap gap-2.5">
                 {groupItems.map((item) => {
                   const premium = parseFloat(
                     item.premium || item.premiumRate || 0,
@@ -212,33 +211,26 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
                   return (
                     <div
                       key={item.id}
-                      className="group relative flex items-center gap-2 pl-4 pr-1 py-1.5 bg-white border border-slate-200/60 rounded-xl shadow-sm hover:shadow-md hover:border-indigo-300 transition-all hover:-translate-y-0.5"
+                      onClick={() => onSelectCode(item.id)}
+                      className="group relative flex items-center gap-3 px-4 py-2.5 bg-white border border-slate-200 rounded-xl cursor-pointer hover:border-indigo-300 hover:bg-indigo-50/30 transition-all"
                     >
-                      <div
-                        onClick={() => onSelectCode(item.id)}
-                        className="cursor-pointer py-1"
-                      >
-                        <div className="flex flex-col">
-                          <span className="text-xs font-black text-slate-800 mono tracking-tighter">
-                            {item.id}
-                          </span>
-                          <span className="text-[9px] font-bold text-slate-400 truncate max-w-[60px]">
-                            {item.name || "--"}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div
-                        className={`ml-2 px-2 py-1 rounded-lg text-[10px] font-black mono ${isDiscount ? "bg-indigo-50 text-indigo-600" : "bg-slate-50 text-slate-500"}`}
+                      <span className="text-sm font-semibold text-slate-700 mono">
+                        {item.id}
+                      </span>
+                      <span
+                        className={`text-sm font-medium mono ${isDiscount ? "text-indigo-600" : "text-slate-400"}`}
                       >
                         {premium.toFixed(1)}%
-                      </div>
+                      </span>
 
                       <button
-                        onClick={() => onRemove(item.id)}
-                        className="w-6 h-6 rounded-full flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all absolute -top-2 -right-2 bg-white shadow-sm border border-slate-100"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRemove(item.id);
+                        }}
+                        className="w-5 h-5 rounded-full flex items-center justify-center text-slate-300 hover:text-red-500 hover:bg-red-50 opacity-0 group-hover:opacity-100 transition-all absolute -top-1.5 -right-1.5 bg-white shadow-sm border border-slate-100"
                       >
-                        <i className="fas fa-times text-[10px]"></i>
+                        <i className="fas fa-times text-[8px]"></i>
                       </button>
                     </div>
                   );
@@ -250,7 +242,7 @@ const Watchlist = ({ items, marketData, onAdd, onRemove, onSelectCode }) => {
           {enrichedItems.length === 0 && (
             <div className="py-16 text-center text-slate-300 premium-card rounded-2xl border-slate-100 bg-slate-50/20 border-dashed">
               <i className="fas fa-filter text-4xl mb-3 opacity-20 block"></i>
-              <p className="text-xs font-bold uppercase tracking-widest">
+              <p className="text-xs font-medium uppercase">
                 {items.length > 0
                   ? "沒有符合篩選條件的標的"
                   : "尚未新增任何標的"}

@@ -37,13 +37,13 @@ const MarketPulse = ({ data, onSelectCode }) => {
             const isLimitUp = pctVal >= 9.9;
             const isLimitDown = pctVal <= -9.9;
 
-            let pctClass = "text-[9px] font-bold text-slate-400 mt-0.5";
+            let pctClass = "text-xs font-medium text-slate-400 mt-0.5";
             if (isLimitUp) {
               pctClass =
-                "text-[9px] font-black bg-red-500 text-white px-1 rounded mt-0.5 shadow-sm shadow-red-100";
+                "text-xs font-semibold bg-red-500 text-white px-1 rounded mt-0.5 shadow-sm shadow-red-100";
             } else if (isLimitDown) {
               pctClass =
-                "text-[9px] font-black bg-green-500 text-white px-1 rounded mt-0.5 shadow-sm shadow-green-100";
+                "text-xs font-semibold bg-green-500 text-white px-1 rounded mt-0.5 shadow-sm shadow-green-100";
             }
 
             return (
@@ -61,34 +61,34 @@ const MarketPulse = ({ data, onSelectCode }) => {
                 </td>
                 <td className="px-3 md:px-4 py-5">
                   <div className="flex flex-col">
-                    <span className="font-black text-slate-700 text-sm truncate max-w-[120px]">
+                    <span className="font-semibold text-slate-700 text-sm truncate max-w-[120px]">
                       {item.name}
                     </span>
                     <div className="flex items-center gap-2 mt-0.5">
-                      <span className="mono text-[10px] font-bold text-slate-400">
+                      <span className="mono text-xs font-medium text-slate-400">
                         {item.code}
                       </span>
-                      <span className="text-[9px] text-slate-300 font-bold bg-slate-50 px-1 rounded">
+                      <span className="text-xs text-slate-300 font-medium bg-slate-50 px-1 rounded">
                         {item.time || "--:--"}
                       </span>
                     </div>
                   </div>
                 </td>
                 <td className="px-3 md:px-4 py-5 text-right">
-                  <span className={`mono font-black text-sm ${pColor}`}>
+                  <span className={`mono font-semibold text-sm ${pColor}`}>
                     {price.toFixed(2)}
                   </span>
                 </td>
                 <td className="px-3 md:px-4 py-5 text-right">
                   <div className="flex flex-col items-end">
-                    <span className={`mono text-[11px] font-black ${pColor}`}>
+                    <span className={`mono text-sm font-semibold ${pColor}`}>
                       {item.change}
                     </span>
                     <span className={pctClass}>{item.changePercent}</span>
                   </div>
                 </td>
                 <td className="px-3 md:px-4 py-5 text-right">
-                  <span className="mono text-xs font-bold text-slate-500">
+                  <span className="mono text-xs font-medium text-slate-500">
                     {item.volume}
                   </span>
                 </td>

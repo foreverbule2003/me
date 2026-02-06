@@ -58,7 +58,7 @@ const App = () => {
           <div className="flex items-center gap-4">
             <a
               href="/me/tools/cb-calculator.html"
-              className="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-bold text-sm"
+              className="flex items-center gap-2 text-slate-500 hover:text-slate-800 font-medium text-sm"
             >
               <i className="fas fa-arrow-left"></i>
               <span>計算機</span>
@@ -66,8 +66,8 @@ const App = () => {
             {isHistory && (
               <>
                 <div className="h-4 w-[1px] bg-slate-200"></div>
-                <span className="flex items-center gap-1.5 text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded">
-                  <i className="fas fa-archive text-[10px]"></i> HISTORY
+                <span className="flex items-center gap-1.5 text-xs font-medium text-slate-500 bg-slate-100 px-2 py-1 rounded">
+                  <i className="fas fa-archive"></i> HISTORY
                 </span>
               </>
             )}
@@ -121,12 +121,12 @@ const App = () => {
           <div className="flex items-center gap-3 text-xs text-slate-500 font-medium">
             <div className="flex items-center gap-1.5">
               <i className="far fa-clock"></i> 最後更新:
-              <span className="mono font-bold text-slate-600">
+              <span className="mono font-semibold text-slate-600">
                 {updatedAt ? updatedAt.toLocaleTimeString() : "--:--:--"}
               </span>
             </div>
             {isHistory && (
-              <span className="px-2 py-0.5 bg-amber-50 text-amber-600 border border-amber-100 rounded flex items-center gap-1 text-[11px] font-bold">
+              <span className="px-2 py-0.5 bg-amber-50 text-amber-600 border border-amber-100 rounded flex items-center gap-1 text-xs font-medium">
                 <i className="fas fa-history"></i> 歷史回顧模式
               </span>
             )}
@@ -137,13 +137,13 @@ const App = () => {
         <nav className="flex items-center gap-6 border-b border-slate-200 mb-6">
           <button
             onClick={() => setActiveTab("pulse")}
-            className={`flex items-center gap-2 py-3 px-1 text-sm font-bold border-b-2 transition-all ${activeTab === "pulse" ? "text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`flex items-center gap-2 py-3 px-1 text-sm font-semibold border-b-2 transition-all ${activeTab === "pulse" ? "text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
           >
             <i className="fas fa-chart-line"></i> 市場熱門
           </button>
           <button
             onClick={() => setActiveTab("watchlist")}
-            className={`flex items-center gap-2 py-3 px-1 text-sm font-bold border-b-2 transition-all ${activeTab === "watchlist" ? "text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`flex items-center gap-2 py-3 px-1 text-sm font-semibold border-b-2 transition-all ${activeTab === "watchlist" ? "text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
           >
             <i className="fas fa-star"></i> 我的追蹤
           </button>
