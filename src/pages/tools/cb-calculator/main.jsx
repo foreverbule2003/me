@@ -5,7 +5,7 @@ import "../../../index.css"; // Global Tailwind
 import "../../../../public/css/cb-theme.css"; // CB Specific Theme
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
 );

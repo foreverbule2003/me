@@ -56,8 +56,10 @@ export function useCalculator() {
         // 欄位名稱相容性：Firestore 可能使用不同欄位名
         setInputs({
           cbPrice: (data.cbPrice || data.price)?.toString() || "",
-          stockPrice: (data.stockPrice || data.underlyingPrice)?.toString() || "",
-          conversionPrice: (data.conversionPrice || data.convPrice)?.toString() || "",
+          stockPrice:
+            (data.stockPrice || data.underlyingPrice)?.toString() || "",
+          conversionPrice:
+            (data.conversionPrice || data.convPrice)?.toString() || "",
         });
       }
     } catch (e) {
@@ -87,9 +89,15 @@ export function useCalculator() {
 
     // 使用靜態方法計算
     const shares = CbCalculatorCore.calculateSharesPerBond(conversionPrice);
-    const cv = CbCalculatorCore.calculateConversionValue(stockPrice, conversionPrice);
+    const cv = CbCalculatorCore.calculateConversionValue(
+      stockPrice,
+      conversionPrice,
+    );
     const premium = CbCalculatorCore.calculatePremiumRate(cbPrice, cv);
-    const parity = CbCalculatorCore.calculateParityPrice(cbPrice, conversionPrice);
+    const parity = CbCalculatorCore.calculateParityPrice(
+      cbPrice,
+      conversionPrice,
+    );
     const upside = ((parity - stockPrice) / stockPrice) * 100;
 
     setResults({
