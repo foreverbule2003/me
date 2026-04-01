@@ -1,3 +1,7 @@
+---
+description: 清理專案架構 (歸檔舊檔)
+---
+
 # Cleanup Workflow
 
 > **Purpose**: 系統化清理專案架構，歸檔廢棄檔案，保持專案輕量化。

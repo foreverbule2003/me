@@ -1,3 +1,7 @@
+---
+description: 顯示可用指令總覽 (Dashboard)
+---
+
 # 🧭 Me Project Dashboard
 
 > **Usage**: `/menu` - 顯示可用指令總覽。
