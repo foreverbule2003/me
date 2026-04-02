@@ -9,8 +9,8 @@ const ToolsView = ({ onSetActions }) => {
 
   const menuItems = [
     {
-      label: "財務儀表板 (封存)",
-      href: "/me/tools/archive/prototypes/financial-dashboard.html",
+      label: "某公司",
+      href: "/me/tools/some-company.html",
       isExternal: true,
     },
     {

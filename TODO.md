@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-01-30 (Meta-Automation-V1.8-Final)
+> 最後更新：2026-04-02 (Financial-Dashboard-Optimization-V1.0)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -38,6 +38,14 @@
 ---
 
 ## 🏁 已完成歸檔 (Archived)
+
+### 2026-04-02 (15:26)
+
+- [x] **Financial Dashboard (React Migration)**: 將 `some-company.html` 遷移至 Vite + React 模組化架構。
+- [x] **No-Scroll Layout & UI Balance**: 移除 min-width 並縮減邊距，實現全站無捲軸、高密度的專業金融報表感。
+- [x] **Typography Scaling**: 統一並放大報表字體至 text-sm (14px) 與 text-base (16px)。
+- [x] **Dynamic Context Labels**: 實作動態表頭標籤（如：營收/QoQ），精確對齊數據意涵。
+- [x] **Clutter Reduction**: 移除 YoY/QoQ 圖示，改用簡約數學正負號。
 
 ### 2026-02-06 (14:30)
 

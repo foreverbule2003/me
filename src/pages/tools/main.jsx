@@ -16,7 +16,7 @@ const ToolsPage = () => {
   }, []);
 
   const menuItems = [
-    { label: "財務儀表板", href: "/me/tools/financial-dashboard.html" },
+    { label: "某公司", href: "/me/tools/some-company.html" },
     { label: "期權策略模擬器", href: "/me/tools/bull-put-spread.html" },
     { label: "台股分析自動化", href: "/me/tools/cb-war-room.html" },
     { label: "CB 戰情室 (React)", href: "/me/tools/war-room-react.html" },

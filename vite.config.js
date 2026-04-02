@@ -198,6 +198,7 @@ export default defineConfig({
         ),
         "tools-cb": resolve(__dirname, "tools/cb-calculator.html"),
         "tools-hot-cb": resolve(__dirname, "tools/cb-war-room.html"),
+        "tools-some-company": resolve(__dirname, "tools/some-company.html"),
       },
     },
   },

@@ -8,9 +8,12 @@
 ## ✨ 功能特色
 
 - 🕹️ **TimBoy 模擬器** - 復古遊戲機風格的首頁互動
+- 📊 **財務工具** - 投資策略模擬器與儀表板 ✨ NEW
+  - [財務儀表板](file:///tools/some-company.html) (Vite + React 版) 📈
+  - [可轉債戰情室](file:///tools/cb-war-room.html) (Vite + React 版) 🚀
+  - [可轉債計算機](file:///tools/cb-calculator.html) (Vite + React 版) 🧮
 - 🍿 **旅程規劃系統** - React 驅動的詳細行程頁面
 - 📓 **Vibe Coding Journal** - 開發日記（Firebase Auth 登入保護）
-- 📊 **財務工具** - 投資策略模擬器與儀表板
 - 🌿 **素食友善** - 旅程中的素食餐廳指南（雲端同步）
 - 🤖 **AI 助手** - 整合 Gemini API 的旅遊問答
 
@@ -60,15 +63,17 @@ timboy/
 │
 ├── tools/                  # 工具頁面與後端橋接器
 │   ├── components/         # 前端共用 Service (JS/MJS)
-63: │   ├── lib/                # Python DDE 模組化層
-64: │   │   ├── xq_dde.py       # 通訊協定封裝
-65: │   │   └── cb_service.py   # 業務邏輯封裝
-66: │   ├── xq_bridge.py        # (Legacy) 舊版 DDE 入口
-67: │   └── fetch-hot-cb-dde.py # 🔥 核心 DDE 行情同步腳本
+│   ├── lib/                # Python DDE 模組化層
+│   │   ├── xq_dde.py       # 通訊協定封裝
+│   │   └── cb_service.py   # 業務邏輯封裝
+│   ├── xq_bridge.py        # (Legacy) 舊版 DDE 入口
+│   └── fetch-hot-cb-dde.py # 🔥 核心 DDE 行情同步腳本
 ├── public/                 # 靜態資源 (Vite 直接複製)
 ├── assets/                 # CSS 與圖片
 └── vite.config.js          # Vite 設定檔
 ```
+
+---
 
 ## 📜 可用腳本
 
@@ -81,47 +86,24 @@ timboy/
 | `npm run sync-cb`  | 執行 CB 資料自動化同步預覽    |
 | `npm run format`   | 格式化所有程式碼              |
 
+---
+
 ## 🔄 Data Sync (Hybrid DDE)
 
-我們採用 **Hybrid DDE 架構** 來解決爬蟲被封鎖的問題。
+我們採用 **Hybrid DDE 架構** 來解決爬蟲與即時性的問題。
 資料源自您的本地電腦 (XQ 全球贏家)，透過 Python 橋接腳本同步至雲端。
 
-### 前置需求
+### 財務儀表板 (some-company) ✨
 
-1.  **Windows OS**
-2.  **XQ 全球贏家 (個人版/企業版)** 需安裝並登入。
-3.  **Python 3.8+** 並安裝依賴 (需 `pywin32`):
-    ```bash
-    pip install -r requirements.txt
-    ```
+| 檔案               | 說明                                                             |
+| ------------------ | ---------------------------------------------------------------- |
+| `DataTable.jsx`    | **財務報表元件**：支援 100% 寬度自適應、放大字體與季度動態標題。 |
+| `KpiCards.jsx`     | **KPI 視覺化卡片**：呈現營收、毛利、營益與淨利之核心指標。       |
+| `RevenueChart.jsx` | **成長趨勢圖**：Chart.js 驅動的營收成長視覺化。                  |
+| `ProfitChart.jsx`  | **獲利分析圖**：Chart.js 驅動的獲利能力走勢。                    |
+| `AnnualChart.jsx`  | **年度盈餘圖**：視覺化展示年度累積盈餘與成長。                   |
 
-### 執行同步
-
-確保 XQ 軟體已開啟，然後執行：
-
-```bash
-npm run sync:dde
-```
-
-這將會：
-
-1.  讀取 db 中的追蹤清單。
-2.  請求 XQ DDE 取得報價。
-3.  更新 Firestore 快署。
-
-### 🔄 Data Sync (History) - 手動補齊 K 線
-
-若雲端自動排程失敗或過慢，可在本地執行全量歷史補齊：
-
-```bash
-npm run fetch:history:full
-```
-
-這將會：
-
-1.  讀取雲端/本地追蹤清單。
-2.  針對每一檔 CB，智慧判斷需補齊的月份。
-3.  爬取櫃買中心資料並同步至 Firestore (需 `serviceAccountKey.json`)。
+---
 
 ## 🛠️ 技術棧
 
