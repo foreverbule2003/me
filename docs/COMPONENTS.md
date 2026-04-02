@@ -293,13 +293,25 @@ AI 聊天與翻譯功能的彈窗。
 - **用途**: 總覽頁的行程時間軸。
 - **特點**: 視覺化每日行程與住宿點。
 
-### 11.6 Itinerary Components (src/pages/trips/ise-shima/components/) ✨ NEW
+### 11.6 Itinerary Components (`src/pages/trips/ise-shima/components/`) ✨ NEW
 
 為解決 `App.jsx` 過度龐大而提取的專用元件：
 
 - **`ItineraryTab.jsx`**: 行程分頁容器，管理 `StickyPhaseHeader` 與 `DayCard`。
 - **`StickyPhaseHeader.jsx`**: 行程階段標題，支援捲動吸附與展開/折疊。
 - **`DayCard.jsx`**: 每日行程卡片，包含活動列表、地圖按鈕與 Highlight。
+
+### 11.7 財務儀表板專屬元件 (`src/pages/tools/some-company/components/`)
+
+- **`App.jsx` (Layout)**:
+  - 核心佈局容器。
+  - **新增**：具備 `backdrop-blur-md` 效果的頂部導覽列，整合 `Home` 按鈕與動態路徑標示。
+- **`DataTable.jsx`**:
+- **`KpiCards.jsx`**:
+- **`RevenueChart.jsx`**:
+- **`ProfitChart.jsx`**:
+- **`AnnualChart.jsx`**:
+- **`InsightPanel.jsx`**:
 
 ---
 

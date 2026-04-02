@@ -17,9 +17,9 @@ const ToolsPage = () => {
 
   const menuItems = [
     { label: "某公司", href: "/me/tools/some-company.html" },
-    { label: "期權策略模擬器", href: "/me/tools/bull-put-spread.html" },
+    { label: "CB 戰情室", href: "/me/tools/war-room-react.html" },
+    { label: "期權策略 (封存)", href: "/me/tools/bull-put-spread.html" },
     { label: "台股分析自動化", href: "/me/tools/cb-war-room.html" },
-    { label: "CB 戰情室 (React)", href: "/me/tools/war-room-react.html" },
     { label: "聯絡我", href: "mailto:foreverbule2003@gmail.com" },
     { label: "BACK", href: "/me/?booted=true", isBack: true },
   ];

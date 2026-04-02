@@ -39,8 +39,10 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
-### 2026-04-02 (15:26)
+### 2026-04-02 (15:35)
 
+- [x] **Home Navigation**: 為財務儀表板新增具備毛玻璃效果的「回到首頁」按鈕與麵包屑導覽 (Breadcrumb)。
+- [x] **UI Bug Fix (TimBoy)**: 修正工具選單重複顯示兩個 BACK 按鈕的問題，並同步選單標籤文字。
 - [x] **Financial Dashboard (React Migration)**: 將 `some-company.html` 遷移至 Vite + React 模組化架構。
 - [x] **No-Scroll Layout & UI Balance**: 移除 min-width 並縮減邊距，實現全站無捲軸、高密度的專業金融報表感。
 - [x] **Typography Scaling**: 統一並放大報表字體至 text-sm (14px) 與 text-base (16px)。

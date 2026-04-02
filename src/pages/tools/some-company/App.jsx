@@ -5,6 +5,7 @@ import ProfitChart from "./components/ProfitChart";
 import AnnualChart from "./components/AnnualChart";
 import DataTable from "./components/DataTable";
 import InsightPanel from "./components/InsightPanel";
+import { Home, ChevronRight } from "lucide-react";
 import {
   QUARTERS,
   revenue,
@@ -44,14 +45,35 @@ export default function App() {
   return (
     <div className="min-h-screen text-slate-800 p-4 md:p-8 bg-slate-50">
       <div className="max-w-7xl mx-auto">
+        {/* Top Navigation */}
+        <nav className="flex items-center gap-3 mb-6">
+          <a
+            href="/me/index.html"
+            className="flex items-center justify-center w-10 h-10 rounded-full bg-white/70 backdrop-blur-md border border-slate-200 shadow-sm text-slate-600 hover:text-indigo-600 hover:bg-white hover:scale-110 transition-all duration-200 group"
+            title="回到首頁"
+          >
+            <Home size={18} className="group-hover:drop-shadow-sm" />
+          </a>
+
+          <div className="flex items-center gap-2 text-xs font-medium text-slate-400 bg-slate-100/50 px-3 py-2 rounded-full border border-slate-200/50">
+            <span className="hover:text-slate-600 cursor-default">首頁</span>
+            <ChevronRight size={12} className="text-slate-300" />
+            <span className="hover:text-slate-600 cursor-default">工具箱</span>
+            <ChevronRight size={12} className="text-slate-300" />
+            <span className="text-indigo-600 font-bold">財務儀表板 (2025)</span>
+          </div>
+        </nav>
+
         {/* 標題區塊 */}
-        <header className="mb-10 pt-4">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+        <header className="mb-10">
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-900 mb-2 tracking-tight">
             財務趨勢視覺化儀表板
           </h1>
-          <p className="text-slate-500">
-            2023 - 2025 營業收入與本期淨利分析{" "}
-            <span className="text-slate-400 ml-1">(單位：千元)</span>
+          <p className="text-slate-500 flex items-center gap-2">
+            2023 - 2025 營業收入與本期淨利分析
+            <span className="inline-flex items-center px-2 py-0.5 rounded bg-slate-200/50 text-[10px] font-bold text-slate-500 uppercase tracking-wider">
+              單位：千元
+            </span>
           </p>
         </header>
 

@@ -85,6 +85,7 @@ const ToolsView = ({ onSetActions }) => {
                     ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
                     : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
                 }
+                ${item.isBack ? "mt-6" : ""}
               `}
                 onMouseEnter={() => setSelectedIndex(index)}
                 onClick={() => {
@@ -96,24 +97,6 @@ const ToolsView = ({ onSetActions }) => {
                 {item.label}
               </div>
             ))}
-          </div>
-        </div>
-
-        {/* Grounded Footer - Simplified */}
-        <div className="px-6 py-2 bg-transparent mt-auto">
-          <div
-            className={`
-              menu-item cursor-pointer text-base font-bold py-1.5 px-3 border-2 transition-colors duration-100 text-center
-              ${
-                selectedIndex === menuItems.length - 1
-                  ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
-                  : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
-              }
-            `}
-            onMouseEnter={() => setSelectedIndex(menuItems.length - 1)}
-            onClick={handleBack}
-          >
-            BACK
           </div>
         </div>
 
