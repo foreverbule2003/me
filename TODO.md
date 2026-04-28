@@ -4,7 +4,8 @@
 
 ## 🔴 P0: 立即執行 (Pending)
 
-- [ ] (暫無 P0 項目)
+- [ ] **GCP 費用監控與優化**: 追蹤 Firestore 寫入費用，確認 `xq_bridge.py` 優化後的節費效果。參閱：[gcp_billing_audit_20260428.md](file:///c:/Users/forev/myDev/me/docs/gcp_billing_audit_20260428.md) <!-- captured: 2026-04-28 -->
+
 
 ---
 

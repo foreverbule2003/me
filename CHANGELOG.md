@@ -4,6 +4,26 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.3.0] - 2026-04-28 (GCP Billing Audit & Cost Optimization)
+
+### 安全性加固 (Security) 🛡️
+
+- **API Key Hardening**: 實施 API 金鑰網域限制 (HTTP Referrer)，防止 `My Landing Page Web` 金鑰被他人盜用。
+- **API Cleanup**: 停用專案中未使用的高額 Google Maps Platform 服務（如 Solar, Roads, Routes 等），徹底消除潛在扣款。
+
+### 優化 (Improvements) 🚀
+
+- **Firestore Delta Check**: 在 `xq_bridge.py` 中實作「差異比對」機制。
+  - 只有在 DDE 數據與資料庫內容不一致時才執行寫入。
+  - **節費效果**：大幅減少盤後與股價盤整期間的無效寫入費用。
+- **Billing Audit**: 建立 [gcp_billing_audit_20260428.md](file:///c:/Users/forev/myDev/me/docs/gcp_billing_audit_20260428.md) 專項審核報告，確認費用來源為 `Daily Hot CB Sync` (13:40) 觸發的寫入高峰。
+
+### 變更 (Changed) ⚙️
+
+- **Maintenance Pipeline**: 更新 `TODO.md`，將 GCP 費用監控提升至 P0 最高優先權。
+
+---
+
 ## [2.2.0] - 2026-02-06 (Calculator React Transformation)
 
 ### 重構 (Refactor) 🛠️
