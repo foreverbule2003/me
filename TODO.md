@@ -1,10 +1,10 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-04-02 (Financial-Dashboard-Optimization-V1.0)
+> 最後更新：2026-04-29 (GCP-Billing-Audit-Complete)
 
 ## 🔴 P0: 立即執行 (Pending)
 
-- [ ] **GCP 費用監控與優化**: 追蹤 Firestore 寫入費用，確認 `xq_bridge.py` 優化後的節費效果。參閱：[gcp_billing_audit_20260428.md](file:///c:/Users/forev/myDev/me/docs/gcp_billing_audit_20260428.md) <!-- captured: 2026-04-28 -->
+- [ ] (暫無 P0 項目)
 
 
 ---
@@ -39,6 +39,10 @@
 ---
 
 ## 🏁 已完成歸檔 (Archived)
+
+### 2026-04-29 (11:56)
+
+- [x] **GCP 費用監控與優化 (全面稽核)**：完成 GCP 帳單全面稽核，實作 `xq_bridge.py` Delta Check（差異比對）、`hot-cb-cloud.js` 防重複快照寫入、停用閒置 GCP 服務（Dataform/Dataplex/Test Lab），並限制 API 金鑰與停用高危 Maps API。參閱：[gcp_billing_audit_20260428.md](file:///c:/Users/forev/myDev/me/docs/gcp_billing_audit_20260428.md)
 
 ### 2026-04-02 (15:35)
 

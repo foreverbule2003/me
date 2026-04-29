@@ -31,6 +31,15 @@ async function saveSnapshotToCloud(data) {
 
     const docRef = db.collection("hot_cb_snapshots").doc(dateId);
 
+    // --- 防重複寫入：今天已存在快照則跳過，避免重複扣費 ---
+    const existing = await docRef.get();
+    if (existing.exists) {
+      console.log(
+        `[Cloud] ⏭️  今日快照已存在 (${dateId})，跳過寫入以節省費用。`,
+      );
+      return dateId;
+    }
+
     const payload = {
       ...data,
       timestamp: admin.firestore.FieldValue.serverTimestamp(),

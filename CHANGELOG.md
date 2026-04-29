@@ -4,6 +4,16 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.3.1] - 2026-04-29 (GCP Firestore Write Optimization)
+
+### 優化 (Improvements) 🚀
+
+- **Delta Check (`xq_bridge.py`)**: 實作差異比對機制。同步腳本現在只會在 DDE 抓取到的數值與 Firestore 現有數值**不同**時才執行寫入，大幅降低盤後與股價盤整期間的寫入費用。
+- **防重複快照 (`hot-cb-cloud.js`)**: `saveSnapshotToCloud` 在寫入前會先檢查今日快照是否已存在。若已存在，直接返回並輸出提示訊息，避免同日多次執行時重複扣費。
+- **停用閒置 GCP 服務**: 停用 `Dataform`、`Dataplex`、`Firebase Test Lab` 三個未使用的服務，消除潛在的隱藏計費來源。
+
+---
+
 ## [2.3.0] - 2026-04-28 (GCP Billing Audit & Cost Optimization)
 
 ### 安全性加固 (Security) 🛡️

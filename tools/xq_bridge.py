@@ -150,15 +150,24 @@ def sync_cb_data(dry_run=False, sync_meta=False):
                         except: continue
 
             if update_payload:
-                updates[code] = update_payload
-                status_str = f"   [OK] {code}"
-                if 'name' in update_payload: status_str += f" ({update_payload['name']})"
-                if 'price' in update_payload: status_str += f" P={update_payload['price']}"
-                if 'stockPrice' in update_payload: status_str += f" S={update_payload['stockPrice']}"
-                if 'conversionPrice' in update_payload: status_str += f" CP={update_payload['conversionPrice']}"
-                if 'alreadyConvertedRatio' in update_payload: status_str += f" CVP={update_payload['alreadyConvertedRatio']}%"
-                if 'underlyingCode' in update_payload: status_str += f" UC={update_payload['underlyingCode']}"
-                print(status_str)
+                # --- D. Delta Check: 只在資料真正有變動時才加入寫入清單 ---
+                actual_changes = {}
+                for k, v in update_payload.items():
+                    if item.get(k) != v:
+                        actual_changes[k] = v
+
+                if actual_changes:
+                    updates[code] = actual_changes
+                    status_str = f"   [UPDATE] {code}"
+                    if 'name' in actual_changes: status_str += f" ({actual_changes['name']})"
+                    if 'price' in actual_changes: status_str += f" P={actual_changes['price']}"
+                    if 'stockPrice' in actual_changes: status_str += f" S={actual_changes['stockPrice']}"
+                    if 'conversionPrice' in actual_changes: status_str += f" CP={actual_changes['conversionPrice']}"
+                    if 'alreadyConvertedRatio' in actual_changes: status_str += f" CVP={actual_changes['alreadyConvertedRatio']}%"
+                    if 'underlyingCode' in actual_changes: status_str += f" UC={actual_changes['underlyingCode']}"
+                    print(status_str)
+                else:
+                    print(f"   [SKIP] {code}: 資料無變動，跳過寫入。")
             else:
                 print(f"   [SKIP] {code}: No data fetched.")
 
