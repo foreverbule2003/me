@@ -19,6 +19,8 @@
 - **Technical Roadmap**: 規劃技術疊代的優先順序（例如：先建立組件庫，再擴展功能頁面）。
 - **DevEx (Developer Experience)**: 持續優化開發者工具與 Workflows（如：強化 `/commit` 流程）。
 - **Architectural Guard**: 審查 Advisor 或 PM 提出的新需求，評估其對系統複雜度與效能的影響。
+- **Surgical Review (外科手術審查)**：嚴格檢查修改是否動了無關的程式碼，並要求清理當次修改造成的孤兒變數/引入。
+- **Simplicity First (簡單優先)**：對過度設計保持警覺。退回那些為「未來可能用到」而寫的推測性程式碼。
 
 ## 🚨 架構變更影響評估 (Architecture Migration Impact Assessment)
 

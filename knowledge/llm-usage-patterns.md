@@ -60,3 +60,4 @@ LLM 不是百科全書，而是「思維的協助手」。透過 [[workflow-vs-p
 - [[workflow-vs-prompt]] - 核心設計原則
 - [[ai-advisor-system]] - 本專案的專家體系實踐
 - [[cto-prompt]] - 技術審查專用角色
+- [[llm-coding-guidelines]] - LLM 編碼行為指南 (CLAUDE.md 準則)
