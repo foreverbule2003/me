@@ -1,0 +1,42 @@
+/**
+ * 2026 東京 專用樣式
+ * 主題色：紫色系 (Violet / Indigo)
+ */
+
+:root {
+  --primary: #7c3aed;
+  --headerPrimary: #1a0a2e;
+  --accent: #a78bfa;
+  --dark: #1c1c1e;
+  --subtle: #6e6e73;
+  --surface: #f5f5f0;
+}
+
+@keyframes float {
+  0%, 100% { transform: scale(1.05); }
+  50%       { transform: scale(1.08); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+.animate-fade-in  { animation: fadeIn  0.3s ease-out forwards; }
+.animate-fade-up  { animation: slideUp 0.6s ease-out forwards; }
+
+.animate-fade-up-delay-1 {
+  animation-delay: 0.1s;
+  opacity: 0;
+}
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

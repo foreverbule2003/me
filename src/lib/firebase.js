@@ -29,11 +29,30 @@ import {
 
 import { firebaseConfig } from "./firebase-config";
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
-const googleProvider = new GoogleAuthProvider();
+// Check if config is valid
+const isFirebaseConfigValid =
+  firebaseConfig &&
+  firebaseConfig.projectId &&
+  firebaseConfig.projectId !== "undefined";
+
+// Initialize Firebase safely
+let app, db, auth;
+
+if (isFirebaseConfigValid) {
+  try {
+    app = initializeApp(firebaseConfig);
+    db = getFirestore(app);
+    auth = getAuth(app);
+  } catch (error) {
+    console.error("Firebase initialization failed:", error);
+  }
+} else {
+  console.warn(
+    "Firebase configuration is missing or incomplete. Some features like sync and auth will be disabled. Please check your .env file.",
+  );
+}
+
+const googleProvider = isFirebaseConfigValid ? new GoogleAuthProvider() : null;
 
 // Export
 export {

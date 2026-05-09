@@ -4,6 +4,28 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.4.0] - 2026-05-09 (Tokyo Trip Bootstrap & Firebase Resilience)
+
+### 新增 (Added) 🚀
+
+- **2026 東京行程 (Bootstrap)**: 建立 `src/pages/trips/2026-tokyo/` 與 `trips/2026-tokyo/` 骨架，完成 Vite+React 架構初始化。
+- **旅程導覽更新**: 在 SPA (`TripsView.jsx`) 與 Legacy (`src/pages/trips/main.jsx`) 選單中新增「2026 東京」導覽入口。
+- **React 旅程模板 (`src/pages/trips/template/`)**: 建立標準化行程模板，供未來新行程複用。
+
+### 安全性加固 (Security) 🛡️
+
+- **Firebase 韌性初始化**: 重構 `src/lib/firebase.js`，加入 `isFirebaseConfigValid` 防護層。環境變數缺失時改為 Graceful Degradation（輸出警告）而非崩潰。
+- **環境變數設定**: 新增 `.env` 與 `serviceAccountKey.json`（已由 `.gitignore` 排除）。
+
+### 清理 (Cleanup) 🧹
+
+- **移除北海道 Legacy 頁面**: 刪除 `trips/2026-hokkaido/` 目錄（`index.html`, `spec.md`, `hero.png`）。
+- **Vite 設定更新**: 將 `trips-hokkaido` MPA 入口替換為 `trips-tokyo`。
+
+---
+
+
+
 ## [2.3.1] - 2026-04-29 (GCP Firestore Write Optimization)
 
 ### 優化 (Improvements) 🚀

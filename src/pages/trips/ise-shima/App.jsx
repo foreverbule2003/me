@@ -608,6 +608,10 @@ export default function App() {
 
   // Firebase Firestore 即時同步
   useEffect(() => {
+    if (!db) {
+      setIsSyncing(false);
+      return;
+    }
     const unsubscribe = onSnapshot(
       collection(db, "trips", TRIP_ID, "food_ratings"),
       (snapshot) => {
@@ -628,6 +632,7 @@ export default function App() {
 
   // 購物清單 Firebase 即時同步
   useEffect(() => {
+    if (!db) return;
     const unsubscribe = onSnapshot(
       collection(db, "trips", TRIP_ID, "shopping_purchased"),
       (snapshot) => {
@@ -679,6 +684,10 @@ export default function App() {
 
   // 切換收藏狀態
   const toggleFavorite = async (itemKey) => {
+    if (!db) {
+      alert("Firebase 配置缺失，無法同步收藏。");
+      return;
+    }
     const docRef = doc(db, "trips", TRIP_ID, "food_ratings", itemKey);
     try {
       if (favorites[itemKey]) {
@@ -718,6 +727,10 @@ export default function App() {
 
   // 購物清單：切換已購買狀態
   const togglePurchased = async (itemKey) => {
+    if (!db) {
+      alert("Firebase 配置缺失，無法同步購物狀態。");
+      return;
+    }
     const docRef = doc(db, "trips", TRIP_ID, "shopping_purchased", itemKey);
     try {
       if (purchased[itemKey]) {

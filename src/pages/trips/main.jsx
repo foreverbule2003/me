@@ -16,6 +16,7 @@ const TripsPage = () => {
   }, []);
 
   const menuItems = [
+    { label: "2026 東京", href: "/me/trips/2026-tokyo/index.html" },
     { label: "2026 北海道 (TBD)", href: "/me/trips/2026-hokkaido/index.html" },
     { label: "2026 伊勢志摩", href: "/me/trips/2026-ise-shima/index.html" },
     { label: "2025 大阪", href: "/me/trips/2025-osaka/index.html" },

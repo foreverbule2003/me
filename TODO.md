@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-04-29 (GCP-Billing-Audit-Complete)
+> 最後更新：2026-05-09 (Tokyo-Trip-Bootstrap)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -31,8 +31,7 @@
 
 - [ ] 完善 AI 旅遊助手功能
 - [ ] 完成 2025-osaka 行程規劃
-- [ ] 完成 2026-hokkaido 行程規劃
-- [ ] `trips/2026-hokkaido/` (Legacy HTML)
+- [ ] **2026-tokyo**: 完善行程內容（各分頁 Data/Component）
 - [ ] `trips/2025-osaka/` (Legacy HTML)
 - [ ] `trips/2025-cebu/` (Legacy HTML)
 

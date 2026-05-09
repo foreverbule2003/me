@@ -1,6 +1,6 @@
 # 網站地圖 (Sitemap)
 
-> 最後更新：2026-01-24
+> 最後更新：2026-05-09
 
 ## 視覺化結構
 
@@ -11,9 +11,9 @@
 │   └── ← 返回首頁
 │
 ├── ✈️ SELECT TRIP (trips.html)
+│   ├── 🗼 2026 東京 (trips/2026-tokyo/) [Vite+React]
 │   ├── 🌴 2025 宿霧 (trips/2025-cebu/)
 │   ├── 🏯 2025 大阪 (trips/2025-osaka/)
-│   ├── ❄️ 2026 北海道 (trips/2026-hokkaido/)
 │   └── 🦐 2026 伊勢志摩 (trips/2026-ise-shima/) [Vite+React]
 │       ├── 📋 行程總覽 (overview)
 │       │   ├── 航班資訊
@@ -59,8 +59,8 @@
 | 旅程列表       | `/trips/`                                      | ✅ 完成   | Vite+React   |
 | 工具箱         | `/tools/`                                      | ✅ 完成   | Vite+React   |
 | 2025 宿霧      | `/trips/2025-cebu/index.html`                  | ✅ 完成   | CDN+Babel    |
+| 2026 東京      | `/trips/2026-tokyo/index.html`                 | 🚧 建置中 | Vite+React   |
 | 2025 大阪      | `/trips/2025-osaka/index.html`                 | 🚧 建置中 | CDN+Babel    |
-| 2026 北海道    | `/trips/2026-hokkaido/index.html`              | 🚧 建置中 | CDN+Babel    |
 | 2026 伊勢志摩  | `/trips/2026-ise-shima/index.html`             | ✅ 完成   | Vite+React   |
 | 日記           | `/journal/`                                    | ✅ 完成   | Vite+React   |
 | 財務儀表板     | `/tools/financial-dashboard.html`              | ✅ 完成   | CDN+Vanilla  | \r  |
@@ -96,9 +96,9 @@ graph TD
     A --> C[旅程列表]
     A --> D[工具箱]
 
+    C --> T[東京]
     C --> E[宿霧]
     C --> F[大阪]
-    C --> G[北海道]
     C --> H[伊勢志摩]
 
     H --> H1[行程總覽]
