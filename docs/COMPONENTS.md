@@ -141,6 +141,7 @@ usefulLinks = {
 | `onOpenFoodGuide` | Function | 切換到美食分頁的回調       |
 | `isExpanded`      | Boolean  | 受控模式的展開狀態         |
 | `onToggle`        | Function | 切換展開狀態的回調         |
+| `anniversary`     | Boolean  | **(NEW)** 是否為紀念日，觸發 Rose 色系視覺 |
 
 **活動項目資料結構**:
 
@@ -265,7 +266,10 @@ AI 聊天與翻譯功能的彈窗。
 #### 11.1 FlightInfoSection (航班資訊)
 
 - **用途**: 顯示去回程航班、飛行時間、航廈資訊。
-- **特點**: 視覺化時間軸效果。
+- **特點**: 
+  - 視覺化漸層時間軸效果。
+  - **(Update)**: 支援機型 (Aircraft)、機艙 (Cabin) 與備註欄位。
+  - **(Update)**: 自動解析航廈 (NRT T1N 等) 顯示邏輯。
 
 #### 11.2 BudgetSection (預算概算)
 
@@ -299,7 +303,8 @@ AI 聊天與翻譯功能的彈窗。
 
 - **`ItineraryTab.jsx`**: 行程分頁容器，管理 `StickyPhaseHeader` 與 `DayCard`。
 - **`StickyPhaseHeader.jsx`**: 行程階段標題，支援捲動吸附與展開/折疊。
-- **`DayCard.jsx`**: 每日行程卡片，包含活動列表、地圖按鈕與 Highlight。
+- **`DayCard.jsx`**: 每日行程卡片，包含活動列表、地圖按鈕與 Highlight。支援 `anniversary` 紀念日模式。
+- **`VegetarianCard.jsx`**: **(NEW)** 蛋奶素溝通卡元件，整合日語需求出示、OK/NG 食材清單。
 
 ### 11.7 財務儀表板專屬元件 (`src/pages/tools/some-company/components/`)
 

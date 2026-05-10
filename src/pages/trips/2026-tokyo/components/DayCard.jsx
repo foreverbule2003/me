@@ -27,21 +27,42 @@ const DayCard = ({
     setInternalExpanded(!internalExpanded);
   };
 
+  const isAnniversary = dayData.anniversary === true;
+
   return (
     <div
       id={`day-${dayData.day}`}
-      className="bg-white rounded-3xl shadow-lg overflow-hidden mb-6 border border-gray-100/50"
+      className={`rounded-3xl shadow-lg overflow-hidden mb-6 border ${
+        isAnniversary
+          ? "border-rose-200 ring-2 ring-rose-300/50"
+          : "border-gray-100/50 bg-white"
+      }`}
     >
       {/* Header */}
       <div
         onClick={handleToggle}
-        className="cursor-pointer relative h-32 bg-cover bg-center"
+        className="cursor-pointer relative h-36 bg-cover bg-center"
         style={{ backgroundImage: `url(${dayData.image})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+        <div
+          className={`absolute inset-0 ${
+            isAnniversary
+              ? "bg-gradient-to-t from-rose-900/85 via-rose-600/40 to-transparent"
+              : "bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+          }`}
+        />
+        {isAnniversary && (
+          <div className="absolute top-3 right-3 px-3 py-1 bg-rose-500/90 backdrop-blur-sm rounded-full text-white text-xs font-bold flex items-center gap-1">
+            🎊 三週年紀念日
+          </div>
+        )}
         <div className="absolute bottom-0 left-0 right-0 p-4 flex justify-between items-end">
           <div>
-            <div className="text-white/80 text-xs font-bold tracking-wider mb-1">
+            <div
+              className={`text-xs font-bold tracking-wider mb-1 ${
+                isAnniversary ? "text-rose-200" : "text-white/80"
+              }`}
+            >
               DAY {dayData.day} • {dayData.date}
             </div>
             <h3 className="text-white text-xl font-bold">{dayData.title}</h3>
@@ -104,15 +125,31 @@ const DayCard = ({
 
           {/* Highlight */}
           <div className="mt-6 pt-6 border-t border-gray-50">
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-gradient-to-br from-white to-gray-50 border border-gray-100">
-              <div className="p-2 bg-[#E8968A]/10 text-[#E8968A] rounded-lg shrink-0">
+            <div
+              className={`flex items-start gap-3 p-3 rounded-xl border ${
+                isAnniversary
+                  ? "bg-gradient-to-br from-rose-50 to-pink-50 border-rose-100"
+                  : "bg-gradient-to-br from-white to-gray-50 border-gray-100"
+              }`}
+            >
+              <div
+                className={`p-2 rounded-lg shrink-0 ${
+                  isAnniversary
+                    ? "bg-rose-100 text-rose-500"
+                    : "bg-[#E8968A]/10 text-[#E8968A]"
+                }`}
+              >
                 <Sparkles size={16} />
               </div>
               <div>
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">
                   HIGHLIGHT
                 </div>
-                <div className="text-sm font-medium text-gray-700 leading-relaxed">
+                <div
+                  className={`text-sm font-medium leading-relaxed ${
+                    isAnniversary ? "text-rose-700" : "text-gray-700"
+                  }`}
+                >
                   {dayData.highlight}
                 </div>
               </div>

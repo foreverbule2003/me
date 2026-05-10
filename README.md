@@ -60,6 +60,7 @@ timboy/
 │   ├── shared/             # 共用元件庫
 │   ├── 2025-cebu/
 │   ├── 2026-ise-shima/
+│   ├── 2026-tokyo/         # 東京・橫濱・輕井澤 (React) ✨ NEW
 │   └── TRIP_STYLE_GUIDE.md
 │
 ├── tools/                  # 工具頁面與後端橋接器

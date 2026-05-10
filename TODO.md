@@ -31,7 +31,6 @@
 
 - [ ] 完善 AI 旅遊助手功能
 - [ ] 完成 2025-osaka 行程規劃
-- [ ] **2026-tokyo**: 完善行程內容（各分頁 Data/Component）
 - [ ] `trips/2025-osaka/` (Legacy HTML)
 - [ ] `trips/2025-cebu/` (Legacy HTML)
 
@@ -43,6 +42,10 @@
 
 - [x] **TWII Bias Analysis Tool**: 實作加權指數乖離率 (Bias) 分析工具 `tools/twii-bias.html`，整合 K 線圖與 MA 乖離率熱圖。
 - [x] **Mobile Optimization**: 優化 `twii-bias.html` 的行動裝置顯示效果，包含 Viewport 設定、響應式表格與 Plotly 圖表觸控縮放支援。
+
+### 2026-05-10 (13:50)
+
+- [x] **2026-tokyo (東京・橫濱・輕井澤 8 日旅)**：完成 v1.3 行程規格、確認 SL394/MM625 航班資訊、實作「蛋奶素」日文溝通卡、紀念日 UI 視覺效果 (Rose/Pink Theme)，並同步更新 29 間 Google Maps 美食清單。
 
 ### 2026-04-29 (11:56)
 

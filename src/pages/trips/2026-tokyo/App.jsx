@@ -1,6 +1,6 @@
 /**
- * 2026 東京 7日行程
- * 東京市區 / 輕井澤 / 橫濱
+ * 2026 東京・橫濱・輕井澤 8日行程
+ * 6/17~6/24 | 五辛蛋奶素 | Tim & Bei
  */
 import React, { useState, useEffect } from "react";
 import {
@@ -18,7 +18,8 @@ import {
   X,
   ShoppingBag,
   Check,
-  CloudSun,
+  AlertTriangle,
+  Heart,
 } from "lucide-react";
 
 // 共用元件
@@ -40,6 +41,7 @@ import {
   foodData,
   shoppingData,
   todoData,
+  vegetarianCard,
 } from "./data.js";
 
 import {
@@ -49,13 +51,20 @@ import {
   ToggleFAB,
 } from "../../../components/trips";
 
-import { db, collection, doc, setDoc, deleteDoc, onSnapshot } from "../../../lib/firebase.js";
+import {
+  db,
+  collection,
+  doc,
+  setDoc,
+  deleteDoc,
+  onSnapshot,
+} from "../../../lib/firebase.js";
 
 // ========== 本地元件 ==========
 
 // Header
 const Header = () => (
-  <header className="relative w-full py-8 px-6 text-white overflow-hidden">
+  <header className="relative w-full py-12 px-6 text-white overflow-hidden">
     <a
       href="/me/?booted=true"
       className="absolute top-4 left-4 z-50 p-2 bg-white/10 backdrop-blur-md rounded-full text-white hover:bg-white/20 transition-all border border-white/20 shadow-lg group"
@@ -77,28 +86,115 @@ const Header = () => (
       <div className="absolute inset-0 bg-[#1a0a2e]/40 mix-blend-overlay" />
     </div>
     <div className="max-w-5xl mx-auto text-center relative z-10">
-      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-[#1a0a2e]/30 backdrop-blur-md text-xs font-medium tracking-wider border border-[#a78bfa]/40 text-[#a78bfa]/90 animate-fade-up shadow-lg">
-        JP-TYO-2026-7D
+      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-[#1a0a2e]/30 backdrop-blur-md text-xs font-medium tracking-wider border border-[#a78bfa]/40 text-[#a78bfa]/90 shadow-lg">
+        JP · TYO · YOK · KRZ · 2026 · 8D
       </div>
-      <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight tracking-tight animate-fade-up text-yellow-50">
+      <h1 className="text-4xl md:text-6xl font-bold mb-3 leading-tight tracking-tight text-yellow-50">
         東京
-        <span className="block text-xl md:text-2xl mt-3 font-medium tracking-widest opacity-90">
-          輕井澤・橫濱 7日旅
+        <span className="block text-xl md:text-2xl mt-2 font-medium tracking-widest opacity-90">
+          橫濱・涉谷・輕井澤 8日旅
         </span>
       </h1>
+      <div className="mt-4 flex items-center justify-center gap-3 text-sm text-white/70">
+        <span>6/17 – 6/24</span>
+        <span>·</span>
+        <span>🎊 6/21 三週年</span>
+        <span>·</span>
+        <span>🌱 蛋奶素</span>
+      </div>
     </div>
   </header>
 );
 
+// VegetarianCard 素食溝通卡
+const VegetarianCard = ({ forceOpen }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  useEffect(() => {
+    if (forceOpen !== null) setIsOpen(forceOpen);
+  }, [forceOpen]);
+  return (
+    <div className="bg-white rounded-3xl shadow-sm border border-gray-100 overflow-hidden">
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full flex items-center justify-between p-5 text-left"
+      >
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
+            <span className="text-xl">🌱</span>
+          </div>
+          <div>
+            <div className="font-bold text-gray-800">蛋奶素溝通卡</div>
+            <div className="text-xs text-gray-400 mt-0.5">
+              日語・飲食限制快速出示
+            </div>
+          </div>
+        </div>
+        <ChevronDown
+          size={20}
+          className={`text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
+        />
+      </button>
+      {isOpen && (
+        <div className="px-5 pb-5 space-y-4">
+          <div className="p-4 bg-red-50 border border-red-100 rounded-2xl">
+            <p className="text-xs font-bold text-red-400 mb-2">🚫 飲食禁忌</p>
+            <p className="text-base font-bold text-red-700 leading-relaxed">
+              {vegetarianCard.restriction}
+            </p>
+            <p className="text-sm font-bold text-red-600 mt-2 leading-relaxed">
+              {vegetarianCard.dashi}
+            </p>
+          </div>
+          <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl">
+            <p className="text-xs font-bold text-amber-500 mb-2">💛 確認問句</p>
+            <p className="text-base font-bold text-amber-800 leading-relaxed">
+              {vegetarianCard.question}
+            </p>
+          </div>
+          <div className="p-4 bg-green-50 border border-green-100 rounded-2xl">
+            <p className="text-xs font-bold text-green-500 mb-2">✅ 可食</p>
+            <p className="text-sm font-bold text-green-700">
+              {vegetarianCard.ok}
+            </p>
+            <div className="flex flex-wrap gap-2 mt-2">
+              {vegetarianCard.canEat.map((item, i) => (
+                <span
+                  key={i}
+                  className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="p-4 bg-gray-50 border border-gray-200 rounded-2xl">
+            <p className="text-xs font-bold text-gray-400 mb-2">🚫 不可食</p>
+            <div className="flex flex-wrap gap-2">
+              {vegetarianCard.cannotEat.map((item, i) => (
+                <span
+                  key={i}
+                  className="text-xs bg-red-50 text-red-500 border border-red-100 px-3 py-1 rounded-full font-medium"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 // Tab 導航
 const TabNavigation = ({ activeTab, setActiveTab }) => {
   const tabs = [
-    { id: "overview",   label: "總覽",  Icon: Star },
-    { id: "itinerary",  label: "行程",  Icon: Calendar },
-    { id: "map",        label: "交通",  Icon: Train },
-    { id: "food",       label: "美食",  Icon: Utensils },
-    { id: "shopping",   label: "購物",  Icon: ShoppingBag },
-    { id: "budget",     label: "預算",  Icon: Wallet },
+    { id: "overview", label: "總覽", Icon: Star },
+    { id: "itinerary", label: "行程", Icon: Calendar },
+    { id: "map", label: "交通", Icon: Train },
+    { id: "food", label: "美食", Icon: Utensils },
+    { id: "shopping", label: "購物", Icon: ShoppingBag },
+    { id: "budget", label: "預算", Icon: Wallet },
   ];
 
   return (
@@ -126,9 +222,17 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
 };
 
 // 可折疊子區塊
-const CollapsibleSubsection = ({ title, count, children, defaultOpen = false, forceOpen = null }) => {
+const CollapsibleSubsection = ({
+  title,
+  count,
+  children,
+  defaultOpen = false,
+  forceOpen = null,
+}) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  useEffect(() => { if (forceOpen !== null) setIsOpen(forceOpen); }, [forceOpen]);
+  useEffect(() => {
+    if (forceOpen !== null) setIsOpen(forceOpen);
+  }, [forceOpen]);
 
   return (
     <div className="mb-4 last:mb-0">
@@ -144,11 +248,15 @@ const CollapsibleSubsection = ({ title, count, children, defaultOpen = false, fo
             </span>
           )}
         </div>
-        <div className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}>
+        <div
+          className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+        >
           <ChevronDown size={20} />
         </div>
       </button>
-      <div className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"}`}>
+      <div
+        className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"}`}
+      >
         <div className="overflow-hidden">{children}</div>
       </div>
     </div>
@@ -159,18 +267,28 @@ const CollapsibleSubsection = ({ title, count, children, defaultOpen = false, fo
 const ProductModal = ({ isOpen, onClose, product }) => {
   if (!isOpen || !product) return null;
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4"
+      onClick={onClose}
+    >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
       <div
         className="relative bg-white rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden animate-fade-up"
         onClick={(e) => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10">
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors z-10"
+        >
           <X size={20} className="text-gray-500" />
         </button>
         <div className="w-full aspect-square bg-gradient-to-br from-violet-50 to-indigo-50 flex items-center justify-center">
           {product.image ? (
-            <img src={product.image} alt={product.name} className="w-full h-full object-contain p-4" />
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-contain p-4"
+            />
           ) : (
             <div className="text-center text-gray-300">
               <ShoppingBag size={64} className="mx-auto mb-2 opacity-30" />
@@ -179,12 +297,22 @@ const ProductModal = ({ isOpen, onClose, product }) => {
           )}
         </div>
         <div className="p-6">
-          <h3 className="text-xl font-bold text-gray-800 mb-2">{product.name}</h3>
-          {product.nameJp && <p className="text-sm text-violet-500 mb-3">🇯🇵 {product.nameJp}</p>}
-          {product.desc && <p className="text-sm text-gray-500 mb-3">{product.desc}</p>}
+          <h3 className="text-xl font-bold text-gray-800 mb-2">
+            {product.name}
+          </h3>
+          {product.nameJp && (
+            <p className="text-sm text-violet-500 mb-3">🇯🇵 {product.nameJp}</p>
+          )}
+          {product.desc && (
+            <p className="text-sm text-gray-500 mb-3">{product.desc}</p>
+          )}
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-violet-600">¥{product.price?.toLocaleString()}</span>
-            <span className="text-sm text-gray-400">≈${Math.round((product.price || 0) * 0.22).toLocaleString()}</span>
+            <span className="text-2xl font-bold text-violet-600">
+              ¥{product.price?.toLocaleString()}
+            </span>
+            <span className="text-sm text-gray-400">
+              ≈${Math.round((product.price || 0) * 0.22).toLocaleString()}
+            </span>
           </div>
         </div>
       </div>
@@ -196,8 +324,14 @@ const ProductModal = ({ isOpen, onClose, product }) => {
 export default function App() {
   const [activeTab, setActiveTab] = useState("overview");
   const [expandedDays, setExpandedDays] = useState({});
-  const [mapModalData, setMapModalData] = useState({ isOpen: false, data: null });
-  const [productModalData, setProductModalData] = useState({ isOpen: false, product: null });
+  const [mapModalData, setMapModalData] = useState({
+    isOpen: false,
+    data: null,
+  });
+  const [productModalData, setProductModalData] = useState({
+    isOpen: false,
+    product: null,
+  });
   const [favorites, setFavorites] = useState({});
   const [purchased, setPurchased] = useState({});
   const [isSyncing, setIsSyncing] = useState(true);
@@ -214,11 +348,16 @@ export default function App() {
       collection(db, "trips", TRIP_ID, "food_ratings"),
       (snapshot) => {
         const newFavorites = {};
-        snapshot.forEach((docSnap) => { newFavorites[docSnap.id] = true; });
+        snapshot.forEach((docSnap) => {
+          newFavorites[docSnap.id] = true;
+        });
         setFavorites(newFavorites);
         setIsSyncing(false);
       },
-      (error) => { console.error("Firestore sync error:", error); setIsSyncing(false); }
+      (error) => {
+        console.error("Firestore sync error:", error);
+        setIsSyncing(false);
+      },
     );
     return () => unsubscribe();
   }, []);
@@ -230,10 +369,14 @@ export default function App() {
       collection(db, "trips", TRIP_ID, "shopping_purchased"),
       (snapshot) => {
         const newPurchased = {};
-        snapshot.forEach((docSnap) => { newPurchased[docSnap.id] = true; });
+        snapshot.forEach((docSnap) => {
+          newPurchased[docSnap.id] = true;
+        });
         setPurchased(newPurchased);
       },
-      (error) => { console.error("Shopping sync error:", error); }
+      (error) => {
+        console.error("Shopping sync error:", error);
+      },
     );
     return () => unsubscribe();
   }, []);
@@ -250,14 +393,18 @@ export default function App() {
     } else {
       const newExpanded = {};
       itineraryData.forEach((phase, pIdx) => {
-        phase.days.forEach((_, dIdx) => { newExpanded[`${pIdx}-${dIdx}`] = true; });
+        phase.days.forEach((_, dIdx) => {
+          newExpanded[`${pIdx}-${dIdx}`] = true;
+        });
       });
       setExpandedDays(newExpanded);
     }
   };
 
-  const getItemKey = (catIdx, secIdx, itemIdx) => `food-${catIdx}-${secIdx}-${itemIdx}`;
-  const getShoppingItemKey = (catIdx, itemIdx) => `shopping-${catIdx}-${itemIdx}`;
+  const getItemKey = (catIdx, secIdx, itemIdx) =>
+    `food-${catIdx}-${secIdx}-${itemIdx}`;
+  const getShoppingItemKey = (catIdx, itemIdx) =>
+    `shopping-${catIdx}-${itemIdx}`;
 
   const toggleFavorite = async (itemKey) => {
     if (!db) {
@@ -267,14 +414,24 @@ export default function App() {
     const docRef = doc(db, "trips", TRIP_ID, "food_ratings", itemKey);
     try {
       if (favorites[itemKey]) await deleteDoc(docRef);
-      else await setDoc(docRef, { timestamp: new Date().toISOString(), userId: "anonymous" });
-    } catch (e) { console.error("Error updating rating:", e); }
+      else
+        await setDoc(docRef, {
+          timestamp: new Date().toISOString(),
+          userId: "anonymous",
+        });
+    } catch (e) {
+      console.error("Error updating rating:", e);
+    }
   };
 
   const sortItems = (items, catIdx, secIdx) =>
     [...items].sort((a, b) => {
-      const aFav = favorites[getItemKey(catIdx, secIdx, items.indexOf(a))] ? 1 : 0;
-      const bFav = favorites[getItemKey(catIdx, secIdx, items.indexOf(b))] ? 1 : 0;
+      const aFav = favorites[getItemKey(catIdx, secIdx, items.indexOf(a))]
+        ? 1
+        : 0;
+      const bFav = favorites[getItemKey(catIdx, secIdx, items.indexOf(b))]
+        ? 1
+        : 0;
       return bFav - aFav;
     });
 
@@ -287,17 +444,24 @@ export default function App() {
     try {
       if (purchased[itemKey]) await deleteDoc(docRef);
       else await setDoc(docRef, { timestamp: new Date().toISOString() });
-    } catch (e) { console.error("Error updating purchase status:", e); }
+    } catch (e) {
+      console.error("Error updating purchase status:", e);
+    }
   };
 
   const sortShoppingItems = (items, catIdx) =>
     [...items].sort((a, b) => {
-      const aPurchased = purchased[getShoppingItemKey(catIdx, items.indexOf(a))] ? 1 : 0;
-      const bPurchased = purchased[getShoppingItemKey(catIdx, items.indexOf(b))] ? 1 : 0;
+      const aPurchased = purchased[getShoppingItemKey(catIdx, items.indexOf(a))]
+        ? 1
+        : 0;
+      const bPurchased = purchased[getShoppingItemKey(catIdx, items.indexOf(b))]
+        ? 1
+        : 0;
       return aPurchased - bPurchased;
     });
 
-  const handleOpenMap = (mapData) => setMapModalData({ isOpen: true, data: mapData });
+  const handleOpenMap = (mapData) =>
+    setMapModalData({ isOpen: true, data: mapData });
 
   return (
     <div className="min-h-screen bg-[#F5F5F0] text-[#1C1C1E] selection:bg-[#a78bfa]/20 selection:text-violet-600">
@@ -305,7 +469,6 @@ export default function App() {
       <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
       <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
-
         {/* 總覽 Tab */}
         <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
           <FlightInfoSection
@@ -323,13 +486,18 @@ export default function App() {
                   if (day.day === dayNum) targetKey = `${pIdx}-${dIdx}`;
                 });
               });
-              if (targetKey) setExpandedDays((prev) => ({ ...prev, [targetKey]: true }));
+              if (targetKey)
+                setExpandedDays((prev) => ({ ...prev, [targetKey]: true }));
               setActiveTab("itinerary");
               setTimeout(() => {
                 const el = document.getElementById(`day-${dayNum}`);
                 if (el) {
-                  const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-                  window.scrollTo({ top: elementPosition - 140, behavior: "smooth" });
+                  const elementPosition =
+                    el.getBoundingClientRect().top + window.scrollY;
+                  window.scrollTo({
+                    top: elementPosition - 140,
+                    behavior: "smooth",
+                  });
                 }
               }, 100);
             }}
@@ -338,10 +506,14 @@ export default function App() {
           <ChecklistSection
             title="待訂清單"
             items={todoData}
-            storageKey="tokyo_2026_todos_v1"
+            storageKey="tokyo_2026_todos_v2"
             forceOpen={isAnyExpanded}
           />
-          <LinksGallery links={usefulLinks?.categories || []} forceOpen={isAnyExpanded} />
+          <VegetarianCard forceOpen={isAnyExpanded} />
+          <LinksGallery
+            links={usefulLinks?.categories || []}
+            forceOpen={isAnyExpanded}
+          />
         </div>
 
         {/* 行程 Tab */}
@@ -357,7 +529,9 @@ export default function App() {
         </div>
 
         {/* 預算 Tab */}
-        <div className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}>
+        <div
+          className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
+        >
           <BudgetSection
             data={budgetData}
             forceOpen={isAnyExpanded}
@@ -366,7 +540,8 @@ export default function App() {
                 <Info className="text-violet-600 flex-shrink-0 mt-1" />
                 <div className="text-sm text-violet-600 leading-relaxed">
                   <p className="font-bold mb-1">預算說明</p>
-                  以上為估算值，機票與住宿確認後更新。匯率以 ¥1 = $0.22 TWD 計算。
+                  以上為估算值，機票與住宿確認後更新。匯率以 ¥1 = $0.22 TWD
+                  計算。
                 </div>
               </div>
             }
@@ -374,7 +549,11 @@ export default function App() {
         </div>
 
         {/* 交通 Tab */}
-        <div className={activeTab === "map" ? "max-w-3xl mx-auto space-y-6" : "hidden"}>
+        <div
+          className={
+            activeTab === "map" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+          }
+        >
           {/* 每日交通路線 */}
           <SectionCard
             icon={MapPin}
@@ -394,9 +573,13 @@ export default function App() {
                     <span className="text-xs font-bold text-violet-600 bg-violet-50 px-2 py-1 rounded">
                       {route.day}
                     </span>
-                    <span className="text-xs text-gray-400">{route.duration}</span>
+                    <span className="text-xs text-gray-400">
+                      {route.duration}
+                    </span>
                   </div>
-                  <div className="font-bold text-gray-800 mb-1">{route.name}</div>
+                  <div className="font-bold text-gray-800 mb-1">
+                    {route.name}
+                  </div>
                   <div className="text-sm text-gray-500">{route.desc}</div>
                 </div>
               ))}
@@ -413,15 +596,38 @@ export default function App() {
           >
             <div className="space-y-3">
               {[
-                { title: "Suica (西瓜卡)", desc: "建議在成田機場 JR 服務窗口購買，適用地鐵、JR、公車、便利商店", tag: "必備" },
-                { title: "N'EX 成田特快", desc: "成田機場 ↔ 東京/新宿/橫濱，外國旅客可購買來回優惠票 ¥4,070", tag: "推薦" },
-                { title: "北陸新幹線 (東京-輕井澤)", desc: "はくたか 或 あさま，約 70~80 分，需事先劃位", tag: "需預訂" },
-                { title: "JR 湘南新宿ライン", desc: "新宿 ↔ 橫濱，不需換車，約 28 分鐘", tag: "便利" },
+                {
+                  title: "Suica (西瓜卡)",
+                  desc: "建議在成田機場 JR 服務窗口購買，適用地鐵、JR、公車、便利商店",
+                  tag: "必備",
+                },
+                {
+                  title: "N'EX 成田特快",
+                  desc: "成田機場 ↔ 東京/新宿/橫濱，外國旅客可購買來回優惠票 ¥4,070",
+                  tag: "推薦",
+                },
+                {
+                  title: "北陸新幹線 (東京-輕井澤)",
+                  desc: "はくたか 或 あさま，約 70~80 分，需事先劃位",
+                  tag: "需預訂",
+                },
+                {
+                  title: "JR 湘南新宿ライン",
+                  desc: "新宿 ↔ 橫濱，不需換車，約 28 分鐘",
+                  tag: "便利",
+                },
               ].map((item, idx) => (
-                <div key={idx} className="p-4 bg-white rounded-xl border border-gray-100">
+                <div
+                  key={idx}
+                  className="p-4 bg-white rounded-xl border border-gray-100"
+                >
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-gray-800">{item.title}</span>
-                    <span className="text-xs font-bold text-violet-600 bg-violet-50 px-2 py-0.5 rounded">{item.tag}</span>
+                    <span className="font-bold text-gray-800">
+                      {item.title}
+                    </span>
+                    <span className="text-xs font-bold text-violet-600 bg-violet-50 px-2 py-0.5 rounded">
+                      {item.tag}
+                    </span>
                   </div>
                   <p className="text-sm text-gray-500">{item.desc}</p>
                 </div>
@@ -431,9 +637,15 @@ export default function App() {
         </div>
 
         {/* 美食 Tab */}
-        <div className={activeTab === "food" ? "max-w-3xl mx-auto space-y-6" : "hidden"}>
+        <div
+          className={
+            activeTab === "food" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+          }
+        >
           {isSyncing && (
-            <div className="text-center text-gray-400 text-sm py-2">✨ 正在同步雲端收藏...</div>
+            <div className="text-center text-gray-400 text-sm py-2">
+              ✨ 正在同步雲端收藏...
+            </div>
           )}
           {foodData.categories
             .filter((cat) => cat.sections[0].items.length > 0)
@@ -468,7 +680,9 @@ export default function App() {
                           <div
                             key={itemKey}
                             className={`p-3 rounded-xl transition-colors ${
-                              isFavorite ? "bg-pink-50 border border-pink-200" : "bg-gray-50 hover:bg-gray-100"
+                              isFavorite
+                                ? "bg-pink-50 border border-pink-200"
+                                : "bg-gray-50 hover:bg-gray-100"
                             }`}
                           >
                             <div className="flex items-start gap-3">
@@ -480,19 +694,37 @@ export default function App() {
                                     : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
                                 }`}
                               >
-                                <Star size={18} className={isFavorite ? "fill-current" : ""} />
+                                <Star
+                                  size={18}
+                                  className={isFavorite ? "fill-current" : ""}
+                                />
                               </button>
                               <div className="flex-1 min-w-0 pt-1">
                                 <div className="font-bold text-gray-800 flex items-center gap-2">
                                   {item.name}
-                                  {item.recommended && <Star size={14} className="text-yellow-500 fill-yellow-500" />}
+                                  {item.recommended && (
+                                    <Star
+                                      size={14}
+                                      className="text-yellow-500 fill-yellow-500"
+                                    />
+                                  )}
                                 </div>
-                                <div className="text-xs text-gray-500 mt-1">{item.type} • {item.desc}</div>
-                                {item.note && <div className="text-xs text-orange-600 mt-1">{item.note}</div>}
+                                <div className="text-xs text-gray-500 mt-1">
+                                  {item.type} • {item.desc}
+                                </div>
+                                {item.note && (
+                                  <div className="text-xs text-orange-600 mt-1">
+                                    {item.note}
+                                  </div>
+                                )}
                               </div>
                               {item.mapUrl && (
-                                <a href={item.mapUrl} target="_blank" rel="noopener noreferrer"
-                                  className="p-2 text-gray-400 hover:text-violet-600 transition-colors shrink-0">
+                                <a
+                                  href={item.mapUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-2 text-gray-400 hover:text-violet-600 transition-colors shrink-0"
+                                >
                                   <MapPin size={16} />
                                 </a>
                               )}
@@ -508,7 +740,11 @@ export default function App() {
         </div>
 
         {/* 購物 Tab */}
-        <div className={activeTab === "shopping" ? "max-w-3xl mx-auto space-y-6" : "hidden"}>
+        <div
+          className={
+            activeTab === "shopping" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+          }
+        >
           {shoppingData.categories.length === 0 ? (
             <div className="text-center py-16 text-gray-400">
               <ShoppingBag size={48} className="mx-auto mb-4 opacity-30" />
@@ -516,7 +752,12 @@ export default function App() {
               <p className="text-sm mt-1">待行程確認後填入</p>
             </div>
           ) : (
-            <SectionCard icon={ShoppingBag} title="購物清單" collapsible={true} forceOpen={isAnyExpanded}>
+            <SectionCard
+              icon={ShoppingBag}
+              title="購物清單"
+              collapsible={true}
+              forceOpen={isAnyExpanded}
+            >
               {shoppingData.categories.map((category, cIdx) => (
                 <CollapsibleSubsection
                   key={cIdx}
@@ -549,28 +790,45 @@ export default function App() {
                                   : "border-gray-300 bg-white hover:border-violet-400"
                               }`}
                             >
-                              {isPurchased && <Check size={12} strokeWidth={4} />}
+                              {isPurchased && (
+                                <Check size={12} strokeWidth={4} />
+                              )}
                             </button>
                             <div className="flex-1 min-w-0">
                               <button
-                                onClick={() => setProductModalData({ isOpen: true, product: item })}
+                                onClick={() =>
+                                  setProductModalData({
+                                    isOpen: true,
+                                    product: item,
+                                  })
+                                }
                                 className={`font-bold mb-1 text-left hover:underline ${
-                                  isPurchased ? "text-gray-500 line-through" : "text-gray-800 hover:text-violet-600"
+                                  isPurchased
+                                    ? "text-gray-500 line-through"
+                                    : "text-gray-800 hover:text-violet-600"
                                 }`}
                               >
                                 {item.name}
                               </button>
                               {item.desc && (
-                                <div className={`text-sm ${isPurchased ? "text-gray-400" : "text-gray-500"}`}>
+                                <div
+                                  className={`text-sm ${isPurchased ? "text-gray-400" : "text-gray-500"}`}
+                                >
                                   {item.desc}
                                 </div>
                               )}
                             </div>
                             <div className="text-right shrink-0">
-                              <div className={`font-bold tabular-nums ${isPurchased ? "text-gray-400" : "text-violet-600"}`}>
+                              <div
+                                className={`font-bold tabular-nums ${isPurchased ? "text-gray-400" : "text-violet-600"}`}
+                              >
                                 ¥{item.price?.toLocaleString()}
                               </div>
-                              {isPurchased && <div className="text-xs text-green-500 mt-1">✓ 已購買</div>}
+                              {isPurchased && (
+                                <div className="text-xs text-green-500 mt-1">
+                                  ✓ 已購買
+                                </div>
+                              )}
                             </div>
                           </div>
                         </div>
@@ -586,7 +844,14 @@ export default function App() {
 
       {/* FAB */}
       <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
-        {["itinerary", "food", "shopping", "overview", "budget", "map"].includes(activeTab) && (
+        {[
+          "itinerary",
+          "food",
+          "shopping",
+          "overview",
+          "budget",
+          "map",
+        ].includes(activeTab) && (
           <ToggleFAB isExpanded={isAnyExpanded} onToggle={handleSmartToggle} />
         )}
       </div>
@@ -594,7 +859,7 @@ export default function App() {
       <ScrollToTop />
 
       <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6">
-        <p>© 2026 東京・輕井澤・橫濱 7日旅</p>
+        <p>© 2026 東京・橫濱・輕井澤 8日旅</p>
       </footer>
 
       <MapModal
