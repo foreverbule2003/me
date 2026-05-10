@@ -48,14 +48,14 @@ export const itineraryData = [
   {
     phase: "橫濱 (Day 1–2)",
     image:
-      "https://images.unsplash.com/photo-1588959977869-e8d52dc1aab4?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1545459720-aac8509eb02c?q=80&w=2070&auto=format&fit=crop",
     days: [
       {
         day: 1,
         date: "6/17 (三)",
         title: "抵達成田 → 橫濱",
         image:
-          "https://images.unsplash.com/photo-1588959977869-e8d52dc1aab4?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
         highlight: "✈️ 16:30 抵達成田，N'EX 直達橫濱港都",
         activities: [
           {
@@ -90,7 +90,7 @@ export const itineraryData = [
         date: "6/18 (四)",
         title: "橫濱探索",
         image:
-          "https://images.unsplash.com/photo-1528360983277-13d401cdc186?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
         highlight: "⚓ 山下公園・紅磚倉庫・港未來夜景",
         activities: [
           {
@@ -142,14 +142,14 @@ export const itineraryData = [
   {
     phase: "涉谷・新宿 (Day 3–4)",
     image:
-      "https://images.unsplash.com/photo-1534430480872-3498386e7856?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=2070&auto=format&fit=crop",
     days: [
       {
         day: 3,
         date: "6/19 (五)",
         title: "Shibuya 109 連假採買",
         image:
-          "https://images.unsplash.com/photo-1513407030348-c983a97b98d8?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2070&auto=format&fit=crop",
         highlight: "🛍️ 連假首日！Shibuya 109 主攻服飾",
         activities: [
           {
@@ -175,7 +175,7 @@ export const itineraryData = [
         date: "6/20 (六)",
         title: "涉谷→新宿→原宿",
         image:
-          "https://images.unsplash.com/photo-1513407030348-c983a97b98d8?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2070&auto=format&fit=crop",
         highlight: "🗼 Laforet 原宿・新宿補貨・Check-in 新宿",
         activities: [
           {
@@ -220,7 +220,7 @@ export const itineraryData = [
   {
     phase: "輕井澤 (Day 5–7)",
     image:
-      "https://images.unsplash.com/photo-1570197788417-0e82375c9371?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
     days: [
       {
         day: 5,
@@ -228,7 +228,7 @@ export const itineraryData = [
         anniversary: true,
         title: "新宿 → 輕井澤 🎊",
         image:
-          "https://images.unsplash.com/photo-1570197788417-0e82375c9371?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
         highlight: "🎊 三週年結婚紀念日！中輕井澤野菜晚餐",
         activities: [
           { time: "上午", text: "新宿退房，搭電車至大宮站" },
@@ -256,7 +256,7 @@ export const itineraryData = [
         date: "6/22 (一)",
         title: "輕井澤慢活",
         image:
-          "https://images.unsplash.com/photo-1601042879364-f3947d3f9c16?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=2070&auto=format&fit=crop",
         highlight: "🌿 腳踏車穿梭三區：雲場池・中輕・舊輕",
         activities: [
           {
@@ -301,7 +301,7 @@ export const itineraryData = [
         date: "6/23 (二)",
         title: "輕井澤→東京",
         image:
-          "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2070&auto=format&fit=crop",
+          "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
         highlight: "🛍️ 王子 Outlet 採買・章姬草莓・返東京",
         activities: [
           {
@@ -804,7 +804,114 @@ export const shoppingData = {
     "唐吉訶德",
     "輕井澤 Outlet",
   ],
-  categories: [],
+  categories: [
+    {
+      title: "橫濱區",
+      icon: "⚓",
+      items: [
+        {
+          name: "科萊特馬雷 港未來購物中心",
+          desc: "櫻木町站前的綜合性購物商場。",
+        },
+        {
+          name: "橫濱元町商店街",
+          desc: "具有歐式風情的歷史商店街，以精品、飾品與咖啡店聞名。",
+        },
+        {
+          name: "橫濱紅磚倉庫 1號館 & 2號館",
+          desc: "歷史建築改建的文創與商業空間，有許多獨特的雜貨與美食。",
+        },
+        {
+          name: "MARINE & WALK 橫濱",
+          desc: "充滿美式開放感的海濱購物中心，聚集時尚品牌與露天餐廳。",
+        },
+      ],
+    },
+    {
+      title: "涉谷・原宿・新宿區",
+      icon: "🗼",
+      items: [
+        {
+          name: "澀谷SCRAMBLE SQUARE",
+          desc: "澀谷最新地標，擁有豐富的高級時尚品牌與流行雜貨。",
+        },
+        {
+          name: "MAGNET by SHIBUYA109",
+          desc: "以次文化與潮流為主的購物中心，頂樓可俯瞰澀谷十字路口。",
+        },
+        { name: "Shibuya 109", desc: "澀谷最具代表性的潮流服飾百貨。" },
+        {
+          name: "任天堂 東京旗艦店",
+          desc: "位於澀谷 PARCO 的任天堂官方直營店，販售多樣限定周邊。",
+        },
+        {
+          name: "東急FoodShow 澀谷店",
+          desc: "位於澀谷站的地下一樓美食街，採買在地甜點與伴手禮的好去處。",
+        },
+        {
+          name: "Laforet Harajuku",
+          desc: "原宿時尚的中心，匯集許多獨特的街頭潮流品牌。",
+        },
+        {
+          name: "竹下通",
+          desc: "原宿最熱鬧的商店街，流行文化、甜點與平價雜貨集散地。",
+        },
+        {
+          name: "手工牛奶糖 NUMBER SUGAR",
+          desc: "原宿表參道的超人氣手工糖果店，包裝精美適合送禮。",
+        },
+        {
+          name: "SEIKATSU no KI Harajuku",
+          desc: "生活之木旗艦店，提供精油、香氛與天然健康護理產品。",
+        },
+        {
+          name: "LUMINE EST新宿",
+          desc: "新宿站內直結百貨，主打年輕族群服飾與人氣美食。",
+        },
+        {
+          name: "新宿丸井 本館",
+          desc: "新宿百貨核心之一，風格簡約精緻，頂樓花園優美。",
+        },
+        {
+          name: "and ST TOKYO",
+          desc: "知名服裝集團的旗艦選物店，提供多元的生活風格提案。",
+        },
+      ],
+    },
+    {
+      title: "輕井澤區",
+      icon: "🌿",
+      items: [
+        {
+          name: "輕井澤王子購物廣場",
+          desc: "位於輕井澤車站南側的大型暢貨中心，環境優美品牌豐富。",
+        },
+        {
+          name: "榆樹街小鎮",
+          desc: "位於星野區的文青風木棧道購物區，有多家精緻小店與餐廳。",
+        },
+        {
+          name: "舊輕井澤銀座通",
+          desc: "輕井澤最著名的商店街，適合購買果醬、手工藝品與散策美食。",
+        },
+      ],
+    },
+    {
+      title: "其他（備用/返程）",
+      icon: "🛍️",
+      items: [
+        {
+          name: "酒酒井名牌暢貨中心",
+          desc: "鄰近成田機場的大型 Outlet，適合行程最後一天回國前大採購。",
+        },
+        {
+          name: "小町通商店街",
+          desc: "鎌倉站前的著名商店街，有豐富的工藝品、伴手禮與在地美食。",
+          isBackup: true,
+        },
+      ],
+    },
+  ],
 };
 
 export const todoData = [

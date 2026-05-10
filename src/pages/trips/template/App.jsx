@@ -31,19 +31,21 @@ import LinksGallery from "../shared/LinksGallery";
 import WeatherForecastSection from "../shared/WeatherForecastSection";
 import ShoppingSection from "../shared/ShoppingSection";
 import ItineraryTab from "./components/ItineraryTab";
+import PageHeader from "../shared/PageHeader";
 
 import {
-  flightData,
-  overviewData,
+  TRIP_ID,
+  weatherData,
   itineraryData,
   budgetData,
-  recommendedRoutes,
-  usefulLinks,
+  checklistData,
+  linksData,
+  flightData,
   foodData,
   shoppingData,
-  todoData,
   vegetarianCard,
-} from "./data.js";
+  recommendedRoutes,
+} from "./data.template";
 
 import {
   SectionCard,
@@ -337,8 +339,6 @@ export default function App() {
   const [purchased, setPurchased] = useState({});
   const [isSyncing, setIsSyncing] = useState(true);
 
-  const TRIP_ID = "2026-tokyo";
-
   // Firebase：美食收藏同步
   useEffect(() => {
     if (!db) {
@@ -464,46 +464,30 @@ export default function App() {
             inbound={flightData.inbound}
             forceOpen={isAnyExpanded}
           />
-          <Timeline
-            data={overviewData}
+          <PageHeader
+            tripTitle="旅程標題 (請修改 data.template.js)"
+            dates="出發日期"
+            participants="參與者"
+            heroImage={itineraryData[0]?.image}
+            // removeFilter={true} /* 若圖片過亮或需要原色可開啟此參數移除遮罩 */
+          />
+          <WeatherForecastSection
+            data={weatherData}
             forceOpen={isAnyExpanded}
             theme="forest"
-            onDayClick={(dayNum) => {
-              let targetKey = null;
-              itineraryData.forEach((phase, pIdx) => {
-                phase.days.forEach((day, dIdx) => {
-                  if (day.day === dayNum) targetKey = `${pIdx}-${dIdx}`;
-                });
-              });
-              if (targetKey)
-                setExpandedDays((prev) => ({ ...prev, [targetKey]: true }));
-              setActiveTab("itinerary");
-              setTimeout(() => {
-                const el = document.getElementById(`day-${dayNum}`);
-                if (el) {
-                  const elementPosition =
-                    el.getBoundingClientRect().top + window.scrollY;
-                  window.scrollTo({
-                    top: elementPosition - 140,
-                    behavior: "smooth",
-                  });
-                }
-              }, 100);
-            }}
           />
-          <WeatherForecastSection forceOpen={isAnyExpanded} theme="forest" />
           <ChecklistSection
             title="待訂清單"
-            items={todoData}
+            items={checklistData}
             storageKey="tokyo_2026_todos_v2"
             forceOpen={isAnyExpanded}
             theme="forest"
           />
           <VegetarianCard forceOpen={isAnyExpanded} />
           <LinksGallery
-            links={usefulLinks?.categories || []}
+            links={linksData}
             forceOpen={isAnyExpanded}
-            theme="forest"
+            // theme="default" /* 可替換為 forest, ocean 等主題 */
           />
         </div>
 
@@ -523,6 +507,11 @@ export default function App() {
         <div
           className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
         >
+          <WeatherForecastSection
+            data={weatherData}
+            forceOpen={isAnyExpanded}
+            // theme="default" /* 可替換為 forest, ocean 等主題 */
+          />
           <BudgetSection
             data={budgetData}
             forceOpen={isAnyExpanded}
@@ -743,7 +732,7 @@ export default function App() {
             togglePurchased={togglePurchased}
             setProductModalData={setProductModalData}
             forceOpen={isAnyExpanded}
-            theme="forest"
+            // theme="default" /* 可替換為 forest, ocean 等主題 */
           />
         </div>
       </main>

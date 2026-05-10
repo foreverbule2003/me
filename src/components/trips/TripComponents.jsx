@@ -43,6 +43,7 @@ export const PageHeader = ({
   backgroundImage = "",
   tags = [],
   children = null,
+  removeFilter = false,
 }) => {
   return (
     <header className="relative w-full py-32 px-6 text-white overflow-hidden">
@@ -57,8 +58,14 @@ export const PageHeader = ({
             className="w-full h-full object-cover opacity-90 scale-105 animate-[float_20s_ease-in-out_infinite]"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/60 to-surface/100" />
-        <div className="absolute inset-0 bg-primary/40 mix-blend-overlay" />
+        {removeFilter ? (
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+        ) : (
+          <>
+            <div className="absolute inset-0 bg-gradient-to-b from-primary/90 via-primary/60 to-surface/100" />
+            <div className="absolute inset-0 bg-primary/40 mix-blend-overlay" />
+          </>
+        )}
       </div>
 
       {/* 內容 */}
@@ -445,11 +452,10 @@ export const PhaseHeader = ({
 };
 
 // === 10. Toggle FAB ===
-// === 10. Toggle FAB ===
-export const ToggleFAB = ({ isExpanded, onToggle }) => (
+export const ToggleFAB = ({ isExpanded, onToggle, colorClass = "text-indigo-600", hoverClass = "hover:text-indigo-600" }) => (
   <button
     onClick={() => onToggle(!isExpanded)}
-    className="p-3 rounded-full bg-white/70 backdrop-blur-md text-indigo-600 shadow-xl border border-white/50 hover:bg-white hover:text-indigo-600 transition-all duration-300 group relative"
+    className={`p-3 rounded-full bg-white/70 backdrop-blur-md shadow-xl border border-white/50 hover:bg-white transition-all duration-300 group relative ${colorClass} ${hoverClass}`}
     title={isExpanded ? "全部折疊" : "全部展開"}
   >
     {isExpanded ? <FoldVertical size={24} /> : <UnfoldVertical size={24} />}
@@ -457,7 +463,7 @@ export const ToggleFAB = ({ isExpanded, onToggle }) => (
 );
 
 // === 11. ScrollToTop FAB ===
-export const ScrollToTop = () => {
+export const ScrollToTop = ({ bgClass = "bg-indigo-600", shadowClass = "shadow-indigo-200", hoverBgClass = "hover:bg-indigo-700" }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   React.useEffect(() => {
@@ -483,7 +489,7 @@ export const ScrollToTop = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-24 right-6 z-40 p-3 rounded-full bg-indigo-600 text-white shadow-lg shadow-indigo-200 transition-all duration-300 hover:bg-indigo-700 hover:-translate-y-1 ${
+      className={`fixed bottom-24 right-6 z-40 p-3 rounded-full text-white shadow-lg transition-all duration-300 hover:-translate-y-1 ${bgClass} ${shadowClass} ${hoverBgClass} ${
         isVisible
           ? "opacity-100 translate-y-0"
           : "opacity-0 translate-y-10 pointer-events-none"

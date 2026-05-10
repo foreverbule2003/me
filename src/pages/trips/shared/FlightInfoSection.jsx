@@ -9,13 +9,13 @@ const FlightInfoSection = ({
   title = "航班資訊",
 }) => {
   const FlightCard = ({ type, data }) => (
-    <div className="p-4 bg-white rounded-2xl border border-gray-100 space-y-3">
+    <div className="p-4 bg-[#F5F7F2] rounded-2xl border border-[#8B7355]/20 space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <span className="text-sm font-bold text-gray-700">
+        <span className="text-sm font-bold text-[#8B7355]">
           {type === "outbound" ? "✈️ 去程" : "🛬 回程"}
         </span>
-        <span className="text-xs px-2.5 py-1 bg-violet-50 text-violet-600 rounded-full font-bold">
+        <span className="text-xs px-2.5 py-1 bg-[#F5F7F2] text-[#2D5A27] rounded-full font-bold">
           {data.flightNo}
         </span>
       </div>
@@ -32,8 +32,8 @@ const FlightInfoSection = ({
         </div>
         <div className="flex-1 flex flex-col items-center px-3">
           <div className="text-xs text-gray-400 mb-1">{data.duration}</div>
-          <div className="w-full h-px bg-gradient-to-r from-violet-200 via-violet-400 to-violet-200 relative">
-            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[6px] border-l-violet-400 border-y-[4px] border-y-transparent" />
+          <div className="w-full h-px bg-gradient-to-r from-[#A8C69F] via-[#A8C69F] to-[#A8C69F] relative">
+            <div className="absolute right-0 top-1/2 -translate-y-1/2 w-0 h-0 border-l-[6px] border-l-[#A8C69F] border-y-[4px] border-y-transparent" />
           </div>
           <div className="text-xs text-gray-400 mt-1">{data.date}</div>
         </div>
@@ -67,7 +67,7 @@ const FlightInfoSection = ({
       {/* 備註 */}
       {data.note && (
         <div className="flex items-start gap-2 text-xs text-gray-400">
-          <Info size={12} className="mt-0.5 shrink-0 text-violet-400" />
+          <Info size={12} className="mt-0.5 shrink-0 text-[#A8C69F]" />
           <span>{data.note}</span>
         </div>
       )}

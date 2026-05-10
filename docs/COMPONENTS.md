@@ -134,13 +134,13 @@ usefulLinks = {
 
 可折疊的每日行程卡片，支援受控與非受控模式。
 
-| 屬性              | 類型     | 說明                       |
-| ----------------- | -------- | -------------------------- |
-| `dayData`         | Object   | 日期、標題、圖片、活動列表 |
-| `onOpenRoute`     | Function | 開啟地圖 modal 的回調      |
-| `onOpenFoodGuide` | Function | 切換到美食分頁的回調       |
-| `isExpanded`      | Boolean  | 受控模式的展開狀態         |
-| `onToggle`        | Function | 切換展開狀態的回調         |
+| 屬性              | 類型     | 說明                                       |
+| ----------------- | -------- | ------------------------------------------ |
+| `dayData`         | Object   | 日期、標題、圖片、活動列表                 |
+| `onOpenRoute`     | Function | 開啟地圖 modal 的回調                      |
+| `onOpenFoodGuide` | Function | 切換到美食分頁的回調                       |
+| `isExpanded`      | Boolean  | 受控模式的展開狀態                         |
+| `onToggle`        | Function | 切換展開狀態的回調                         |
 | `anniversary`     | Boolean  | **(NEW)** 是否為紀念日，觸發 Rose 色系視覺 |
 
 **活動項目資料結構**:
@@ -266,7 +266,7 @@ AI 聊天與翻譯功能的彈窗。
 #### 11.1 FlightInfoSection (航班資訊)
 
 - **用途**: 顯示去回程航班、飛行時間、航廈資訊。
-- **特點**: 
+- **特點**:
   - 視覺化漸層時間軸效果。
   - **(Update)**: 支援機型 (Aircraft)、機艙 (Cabin) 與備註欄位。
   - **(Update)**: 自動解析航廈 (NRT T1N 等) 顯示邏輯。
@@ -290,14 +290,29 @@ AI 聊天與翻譯功能的彈窗。
 #### 11.4 LinksGallery (實用連結)
 
 - **用途**: 網格狀展示外部連結集合。
-- **特點**: 支援 icon 與分類標籤。
+- **特點**: 支援 icon 與分類標籤。支援 `theme` prop（`default` / `forest`）。
 
 #### 11.5 Timeline (行程概覽)
 
 - **用途**: 總覽頁的行程時間軸。
-- **特點**: 視覺化每日行程與住宿點。
+- **特點**: 視覺化每日行程與住宿點。支援 `theme` prop。
 
-### 11.6 Itinerary Components (`src/pages/trips/ise-shima/components/`) ✨ NEW
+#### 11.6 ShoppingSection (購物清單) ✨ NEW
+
+- **用途**: 管理購物清單，按地區分類展示可勾選商品。
+- **Props**:
+  - `categories` — 資料陣列（`{ title, icon, items[] }`）
+  - `purchased` — 已購買狀態物件（由 Firebase 或父層管理）
+  - `togglePurchased(itemKey)` — 切換已購狀態
+  - `setProductModalData({ isOpen, product })` — 開啟商品詳情 Modal
+  - `forceOpen` — 同步展開/折疊控制
+  - `theme` — `"default"` | `"forest"`（預設 `"default"`）
+- **特點**:
+  - Firebase key 格式：`shopping-{catIdx}-{itemIdx}`（與父層保持一致）。
+  - 備案商品（`isBackup: true`）以虛線邊框區分。
+  - 已購商品自動沉底並加上刪除線。
+
+### 11.7 Itinerary Components (`src/pages/trips/ise-shima/components/`) ✨ NEW
 
 為解決 `App.jsx` 過度龐大而提取的專用元件：
 

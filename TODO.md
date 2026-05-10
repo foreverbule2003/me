@@ -6,7 +6,6 @@
 
 - [ ] (暫無 P0 項目)
 
-
 ---
 
 ## 🟡 P1: 下階段技術優化 (Future Tech)
@@ -46,6 +45,8 @@
 ### 2026-05-10 (13:50)
 
 - [x] **2026-tokyo (東京・橫濱・輕井澤 8 日旅)**：完成 v1.3 行程規格、確認 SL394/MM625 航班資訊、實作「蛋奶素」日文溝通卡、紀念日 UI 視覺效果 (Rose/Pink Theme)，並同步更新 29 間 Google Maps 美食清單。
+- [x] **Tokyo UI 視覺重構 (Forest Theme)**：移除 Hero Image 濾鏡、全站色系統一為森林綠/醒木色、清除所有橘色/紫色 Icon，購物頁籤結構扁平化（與美食頁籤對齊）。
+- [x] **ShoppingSection 元件萃取**：將購物清單邏輯獨立為 `shared/ShoppingSection.jsx`，支援 `forest`/`default` 主題切換，並更新 `template/` 模板目錄（補齊 `TRIP_ID`、`weatherData`、`linksData`、`checklistData`、`vegetarianCard`）。
 
 ### 2026-04-29 (11:56)
 

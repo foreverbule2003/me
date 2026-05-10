@@ -9,8 +9,27 @@ import {
 } from "lucide-react";
 import { SectionCard } from "../../../components/trips";
 
-const LinksGallery = ({ links = [], title = "實用連結", forceOpen = null }) => {
+const LinksGallery = ({
+  links = [],
+  title = "實用連結",
+  forceOpen = null,
+  theme = "default",
+}) => {
   const iconMap = { Train, Hotel, Star, MapPin };
+
+  const t =
+    {
+      default: {
+        categoryIcon: "text-[#E8968A]",
+        hoverText: "group-hover:text-indigo-600",
+        linkIconHover: "group-hover:text-[#E8968A]",
+      },
+      forest: {
+        categoryIcon: "text-[#8B7355]",
+        hoverText: "group-hover:text-[#2D5A27]",
+        linkIconHover: "group-hover:text-[#8B7355]",
+      },
+    }[theme] || "default";
 
   return (
     <SectionCard
@@ -29,7 +48,7 @@ const LinksGallery = ({ links = [], title = "實用連結", forceOpen = null }) 
               className="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden"
             >
               <div className="px-4 py-3 bg-gray-50 border-b border-gray-100 flex items-center gap-2">
-                <CategoryIcon size={16} className="text-[#E8968A]" />
+                <CategoryIcon size={16} className={t.categoryIcon} />
                 <span className="font-bold text-gray-700 text-sm">
                   {category.label}
                 </span>
@@ -44,7 +63,9 @@ const LinksGallery = ({ links = [], title = "實用連結", forceOpen = null }) 
                     className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                   >
                     <div className="flex items-center gap-2 min-w-0">
-                      <span className="text-gray-700 font-medium group-hover:text-indigo-600 transition-colors text-sm truncate">
+                      <span
+                        className={`text-gray-700 font-medium ${t.hoverText} transition-colors text-sm truncate`}
+                      >
                         {item.name}
                       </span>
                       <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
@@ -53,7 +74,7 @@ const LinksGallery = ({ links = [], title = "實用連結", forceOpen = null }) 
                     </div>
                     <ExternalLink
                       size={14}
-                      className="text-gray-300 group-hover:text-[#E8968A] shrink-0 ml-2"
+                      className={`text-gray-300 ${t.linkIconHover} shrink-0 ml-2`}
                     />
                   </a>
                 ))}

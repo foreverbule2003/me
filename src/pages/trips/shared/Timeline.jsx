@@ -62,7 +62,33 @@ const Timeline = ({
   icon: Icon = Calendar,
   forceOpen = false,
   onDayClick,
+  theme = "default",
 }) => {
+  const themes = {
+    default: {
+      gradient: "from-indigo-400 via-pink-400 to-orange-400",
+      bgLight: "bg-indigo-50",
+      bgMain: "bg-indigo-500",
+      borderMain: "border-indigo-500",
+      borderLight: "border-indigo-400",
+      textMain: "text-indigo-600",
+      textDark: "text-indigo-700",
+      textLight: "text-indigo-500",
+    },
+    forest: {
+      gradient: "from-[#2D5A27] via-[#A8C69F] to-[#8B7355]",
+      bgLight: "bg-[#F5F7F2]",
+      bgMain: "bg-[#2D5A27]",
+      borderMain: "border-[#2D5A27]",
+      borderLight: "border-[#A8C69F]",
+      textMain: "text-[#2D5A27]",
+      textDark: "text-[#8B7355]",
+      textLight: "text-[#A8C69F]",
+    },
+  };
+
+  const currentTheme = themes[theme] || themes.default;
+
   // 取得今天的日期 (格式: "1/11")
   const now = new Date();
   const todayStr = `${now.getMonth() + 1}/${now.getDate()}`;
@@ -94,7 +120,9 @@ const Timeline = ({
     >
       <div className="relative">
         {/* 時間軸線 - 置中於節點，底部縮短避免超出最後一天 */}
-        <div className="absolute left-[13px] top-4 bottom-8 w-0.5 bg-gradient-to-b from-indigo-400 via-pink-400 to-orange-400 rounded-full z-[1]" />
+        <div
+          className={`absolute left-[13px] top-4 bottom-8 w-0.5 bg-gradient-to-b ${currentTheme.gradient} rounded-full z-[1]`}
+        />
 
         <div className="space-y-1">
           {data.map((item, idx) => {
@@ -107,19 +135,21 @@ const Timeline = ({
               >
                 {/* 背景層 (z-0 讓線條顯示在上面) */}
                 {today && (
-                  <div className="absolute inset-0 bg-indigo-50 rounded-lg z-0" />
+                  <div
+                    className={`absolute inset-0 ${currentTheme.bgLight} rounded-lg z-0`}
+                  />
                 )}
                 {/* 時間軸節點 */}
                 <div
                   className={`relative w-5 h-5 rounded-full flex items-center justify-center z-10 shrink-0 ${
                     today
-                      ? "bg-indigo-500 border-2 border-indigo-500"
-                      : "bg-white border-2 border-indigo-400"
+                      ? `${currentTheme.bgMain} border-2 ${currentTheme.borderMain}`
+                      : `bg-white border-2 ${currentTheme.borderLight}`
                   }`}
                 >
                   <span
                     className={`text-[10px] font-bold ${
-                      today ? "text-white" : "text-indigo-600"
+                      today ? "text-white" : currentTheme.textMain
                     }`}
                   >
                     {item.day}
@@ -129,23 +159,25 @@ const Timeline = ({
                 <div className="relative flex-1 pb-1">
                   <div className="flex items-center gap-2 mb-0.5">
                     {today && (
-                      <span className="px-1.5 py-0.5 text-[10px] font-bold bg-indigo-500 text-white rounded shrink-0">
+                      <span
+                        className={`px-1.5 py-0.5 text-[10px] font-bold ${currentTheme.bgMain} text-white rounded shrink-0`}
+                      >
                         TODAY
                       </span>
                     )}
                     <span
-                      className={`text-xs font-medium ${today ? "text-indigo-600" : "text-gray-500"}`}
+                      className={`text-xs font-medium ${today ? currentTheme.textMain : "text-gray-500"}`}
                     >
                       {item.date}
                     </span>
                     <span
-                      className={`text-sm font-bold ${today ? "text-indigo-700" : "text-gray-800"}`}
+                      className={`text-sm font-bold ${today ? currentTheme.textDark : "text-gray-800"}`}
                     >
                       {item.title}
                     </span>
                   </div>
                   <div
-                    className={`flex items-center gap-1 text-xs ${today ? "text-indigo-500" : "text-gray-500"}`}
+                    className={`flex items-center gap-1 text-xs ${today ? currentTheme.textLight : "text-gray-500"}`}
                   >
                     <Hotel size={12} />
                     <span>{item.hotel}</span>

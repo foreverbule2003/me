@@ -7,7 +7,23 @@ const ChecklistSection = ({
   items = [],
   storageKey,
   forceOpen = null,
+  theme = "default",
 }) => {
+  const t =
+    {
+      default: {
+        hoverBorder: "hover:border-indigo-200",
+        checkboxHover: "hover:border-pink-400",
+        tagBg: "bg-indigo-100",
+        tagText: "text-indigo-600",
+      },
+      forest: {
+        hoverBorder: "hover:border-[#2D5A27]/30",
+        checkboxHover: "hover:border-[#8B7355]",
+        tagBg: "bg-[#2D5A27]/10",
+        tagText: "text-[#2D5A27]",
+      },
+    }[theme] || "default";
   const [completed, setCompleted] = useState({});
 
   // 初始化：從 localStorage 讀取
@@ -64,7 +80,7 @@ const ChecklistSection = ({
               className={`py-2.5 px-4 rounded-xl border transition-all cursor-pointer active:scale-[0.98] active:bg-gray-50 ${
                 isDone
                   ? "bg-gray-100 border-gray-200 opacity-60"
-                  : "bg-white border-gray-100 hover:border-indigo-200 shadow-sm"
+                  : `bg-white border-gray-100 ${t.hoverBorder} shadow-sm`
               }`}
               onClick={() => toggleItem(row.originalIdx)}
             >
@@ -73,7 +89,7 @@ const ChecklistSection = ({
                   className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${
                     isDone
                       ? "bg-green-500 border-green-500 text-white shadow-sm"
-                      : "border-gray-300 bg-white hover:border-pink-400"
+                      : `border-gray-300 bg-white ${t.checkboxHover}`
                   }`}
                 >
                   {isDone && <Check size={12} strokeWidth={4} />}
@@ -81,7 +97,7 @@ const ChecklistSection = ({
                 <div className="flex-1">
                   <div className="mb-1">
                     <span
-                      className={`px-2 py-0.5 text-xs font-bold rounded ${isDone ? "bg-gray-200 text-gray-500" : "bg-indigo-100 text-indigo-600"}`}
+                      className={`px-2 py-0.5 text-xs font-bold rounded ${isDone ? "bg-gray-200 text-gray-500" : `${t.tagBg} ${t.tagText}`}`}
                     >
                       {row.category}
                     </span>

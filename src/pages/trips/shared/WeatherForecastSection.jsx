@@ -2,7 +2,34 @@ import React from "react";
 import { CloudSun, MapPin, Droplets, Thermometer } from "lucide-react";
 import { SectionCard } from "../../../components/trips";
 
-const WeatherForecastSection = ({ forceOpen }) => {
+const WeatherForecastSection = ({ forceOpen, theme = "default" }) => {
+  const t =
+    {
+      default: {
+        activeBorder: "border-indigo-500",
+        shadow: "shadow-indigo-200/50",
+        hoverBorder: "hover:border-indigo-100",
+        borderLight: "border-indigo-100",
+        bgMain: "bg-indigo-500",
+        textLight: "text-indigo-300",
+        textMain: "text-indigo-600",
+        textDark: "text-indigo-900",
+        textSecondary: "text-indigo-400",
+        tempHigh: "bg-orange-500",
+      },
+      forest: {
+        activeBorder: "border-[#2D5A27]",
+        shadow: "shadow-[#2D5A27]/20",
+        hoverBorder: "hover:border-[#2D5A27]/30",
+        borderLight: "border-[#2D5A27]/20",
+        bgMain: "bg-[#2D5A27]",
+        textLight: "text-[#8B7355]/60",
+        textMain: "text-[#2D5A27]",
+        textDark: "text-[#1A3A17]",
+        textSecondary: "text-[#8B7355]",
+        tempHigh: "bg-[#8B7355]",
+      },
+    }[theme] || "default";
   const forecastData = [
     {
       date: "1/11",
@@ -200,24 +227,28 @@ const WeatherForecastSection = ({ forceOpen }) => {
                 key={idx}
                 className={`snap-center shrink-0 w-[100px] flex flex-col items-center p-3 rounded-2xl border-2 transition-all ${
                   isToday
-                    ? "bg-white border-indigo-500 shadow-lg shadow-indigo-200/50 scale-[1.02] z-10"
-                    : "bg-white border-gray-100 hover:border-indigo-100 shadow-sm hover:shadow-md"
+                    ? `bg-white ${t.activeBorder} shadow-lg ${t.shadow} scale-[1.02] z-10`
+                    : `bg-white border-gray-100 ${t.hoverBorder} shadow-sm hover:shadow-md`
                 }`}
               >
                 {/* Day Index & Date */}
                 <div
                   className={`text-center mb-2 w-full border-b pb-1 ${
-                    isToday ? "border-indigo-100" : "border-gray-50"
+                    isToday ? t.borderLight : "border-gray-50"
                   }`}
                 >
                   {/* Fixed height container for label to match alignment */}
                   <div className="h-[22px] flex items-center justify-center mb-1">
                     {isToday ? (
-                      <div className="text-[10px] font-extrabold text-white bg-indigo-500 rounded-full px-2 py-0.5 tracking-widest shadow-sm">
+                      <div
+                        className={`text-[10px] font-extrabold text-white ${t.bgMain} rounded-full px-2 py-0.5 tracking-widest shadow-sm`}
+                      >
                         DAY {idx + 1}
                       </div>
                     ) : (
-                      <div className="text-[10px] font-extrabold text-indigo-300 tracking-widest">
+                      <div
+                        className={`text-[10px] font-extrabold ${t.textLight} tracking-widest`}
+                      >
                         DAY {idx + 1}
                       </div>
                     )}
@@ -226,14 +257,14 @@ const WeatherForecastSection = ({ forceOpen }) => {
                   <div className="flex items-baseline justify-center gap-1">
                     <span
                       className={`text-sm font-black leading-tight ${
-                        isToday ? "text-indigo-600" : "text-indigo-900"
+                        isToday ? t.textMain : t.textDark
                       }`}
                     >
                       {item.date.split("/")[1]}
                     </span>
                     <span
                       className={`text-[10px] font-bold uppercase tracking-wider ${
-                        isToday ? "text-indigo-400" : "text-gray-400"
+                        isToday ? t.textSecondary : "text-gray-400"
                       }`}
                     >
                       ({item.day})
@@ -270,7 +301,7 @@ const WeatherForecastSection = ({ forceOpen }) => {
                   <div className="w-full h-1 rounded-full bg-gray-100 mt-1.5 overflow-hidden relative">
                     <div
                       className={`absolute top-0 bottom-0 rounded-full opacity-40 ${
-                        item.tempHigh >= 15 ? "bg-orange-500" : "bg-blue-500"
+                        item.tempHigh >= 15 ? t.tempHigh : "bg-blue-500"
                       }`}
                       style={{
                         left: "10%",

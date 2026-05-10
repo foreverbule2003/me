@@ -9,7 +9,25 @@ const BudgetSection = ({
   targetCurrency = "TWD",
   forceOpen = null,
   notes = null,
+  theme = "default",
 }) => {
+  const t =
+    {
+      default: {
+        bgLight: "bg-indigo-50",
+        textMain: "text-indigo-600",
+        borderMain: "border-indigo-200",
+        borderLight: "border-indigo-100",
+        hoverBgRow: "hover:bg-[#E8968A]/5",
+      },
+      forest: {
+        bgLight: "bg-[#2D5A27]/5",
+        textMain: "text-[#2D5A27]",
+        borderMain: "border-[#2D5A27]/20",
+        borderLight: "border-[#2D5A27]/10",
+        hoverBgRow: "hover:bg-[#8B7355]/5",
+      },
+    }[theme] || "default";
   const totalOriginal = data.reduce((acc, curr) => acc + curr.cost, 0);
   const totalTarget = Math.round(totalOriginal * rate);
 
@@ -32,7 +50,7 @@ const BudgetSection = ({
       <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-100">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-indigo-50 text-indigo-600">
+            <tr className={`${t.bgLight} ${t.textMain}`}>
               <th className="p-3 font-bold text-sm whitespace-nowrap">項目</th>
               <th className="p-3 font-bold text-sm whitespace-nowrap">
                 金額 ({currency})
@@ -47,7 +65,7 @@ const BudgetSection = ({
             {data.map((row, idx) => (
               <tr
                 key={idx}
-                className="border-b border-gray-100 hover:bg-[#E8968A]/5 transition-colors"
+                className={`border-b border-gray-100 ${t.hoverBgRow} transition-colors`}
               >
                 <td className="p-3 font-bold text-gray-700 text-sm whitespace-nowrap">
                   {row.item}
@@ -63,11 +81,15 @@ const BudgetSection = ({
                 </td>
               </tr>
             ))}
-            <tr className="bg-indigo-50 text-gray-800 font-bold border-t-2 border-indigo-200">
+            <tr
+              className={`${t.bgLight} text-gray-800 font-bold border-t-2 ${t.borderMain}`}
+            >
               <td className="p-3 rounded-bl-lg text-sm whitespace-nowrap">
                 總計
               </td>
-              <td className="p-3 font-bold tabular-nums text-xl text-indigo-600 font-black whitespace-nowrap">
+              <td
+                className={`p-3 font-bold tabular-nums text-xl ${t.textMain} font-black whitespace-nowrap`}
+              >
                 ¥{totalOriginal.toLocaleString()}
               </td>
               <td className="p-3 font-bold tabular-nums text-xl text-gray-500 font-black whitespace-nowrap">
@@ -91,7 +113,7 @@ const BudgetSection = ({
             <div className="flex justify-between items-start">
               <div className="font-bold text-gray-800 text-sm">{row.item}</div>
               <div className="text-right">
-                <div className="font-bold tabular-nums text-indigo-600 text-sm">
+                <div className={`font-bold tabular-nums ${t.textMain} text-sm`}>
                   ¥{row.cost.toLocaleString()}
                 </div>
                 <div className="text-xs text-gray-400 tabular-nums">
@@ -104,11 +126,13 @@ const BudgetSection = ({
             </div>
           </div>
         ))}
-        <div className="p-4 bg-indigo-50 border border-indigo-200 rounded-xl shadow-sm">
+        <div
+          className={`p-4 ${t.bgLight} border ${t.borderMain} rounded-xl shadow-sm`}
+        >
           <div className="flex justify-between items-center mb-2">
             <span className="font-bold text-gray-800 text-sm">總計 (預估)</span>
             <div className="text-right">
-              <div className="font-black tabular-nums text-xl text-indigo-600">
+              <div className={`font-black tabular-nums text-xl ${t.textMain}`}>
                 ¥{totalOriginal.toLocaleString()}
               </div>
               <div className="text-sm text-gray-500 tabular-nums font-bold">
@@ -116,7 +140,9 @@ const BudgetSection = ({
               </div>
             </div>
           </div>
-          <div className="text-xs text-gray-500 text-center pt-2 border-t border-indigo-100">
+          <div
+            className={`text-xs text-gray-500 text-center pt-2 border-t ${t.borderLight}`}
+          >
             預算重點：吃得好、住得好、移動舒適 (匯率: {rate})
           </div>
         </div>
@@ -124,7 +150,9 @@ const BudgetSection = ({
 
       {/* Optional Notes */}
       {notes && (
-        <div className="mt-8 p-6 bg-indigo-50 rounded-3xl flex gap-4 items-start">
+        <div
+          className={`mt-8 p-6 ${t.bgLight} rounded-3xl flex gap-4 items-start`}
+        >
           {notes}
         </div>
       )}
