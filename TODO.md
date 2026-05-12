@@ -39,6 +39,11 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-05-12 (16:15)
+
+- [x] **TWII Bias Analysis Tool**: 實作加權指數乖離率 (Bias) 分析工具 `tools/twii-bias.html`，整合 K 線圖與 MA 乖離率熱圖。
+- [x] **Mobile Optimization**: 優化 `twii-bias.html` 的行動裝置顯示效果，包含 Viewport 設定、響應式表格與 Plotly 圖表觸控縮放支援。
+
 ### 2026-04-29 (11:56)
 
 - [x] **GCP 費用監控與優化 (全面稽核)**：完成 GCP 帳單全面稽核，實作 `xq_bridge.py` Delta Check（差異比對）、`hot-cb-cloud.js` 防重複快照寫入、停用閒置 GCP 服務（Dataform/Dataplex/Test Lab），並限制 API 金鑰與停用高危 Maps API。參閱：[gcp_billing_audit_20260428.md](file:///c:/Users/forev/myDev/me/docs/gcp_billing_audit_20260428.md)

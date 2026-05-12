@@ -4,6 +4,24 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.5.0] - 2026-05-12 (TWII Bias Tool & Mobile Optimization)
+
+### 新增 (Added) 🚀
+
+- **大盤熱度分析工具 (TWII Bias)**: 實作 `tools/twii-bias.html`，提供加權指數 (^TWII) 的 5MA/20MA/60MA 乖離率 (Bias) 分析。
+- **Plotly 互動圖表**: 整合 Plotly.js 繪製 K 線圖與乖離率走勢，支援極端門檻標示與均線切換。
+- **乖離率熱圖**: 實作歷史極端乖離統計表格，輔以顏色分級標示熱度強度。
+
+### 優化 (Improvements) 🚀
+
+- **行動裝置適應性**:
+  - 加入 `viewport-fit=cover` 與 `user-scalable=no` (Plotly) 以優化全螢幕體驗。
+  - 實作響應式表格佈局，在手機版自動調整寬度與字體大小。
+  - 配置 Plotly `dragmode: 'pan'` 與 `scrollZoom: true` 以支援觸控縮放與平移手勢。
+  - 修正 CSS Media Queries，確保圖表容器在各尺寸螢幕下比例正確。
+
+---
+
 ## [2.4.0] - 2026-05-09 (Tokyo Trip Bootstrap & Firebase Resilience)
 
 ### 新增 (Added) 🚀
