@@ -12,6 +12,7 @@
   - [財務儀表板](file:///tools/some-company.html) (Vite + React 版) 📈
   - [可轉債戰情室](file:///tools/cb-war-room.html) (Vite + React 版) 🚀
   - [可轉債計算機](file:///tools/cb-calculator.html) (Vite + React 版) 🧮
+  - [大盤熱度](file:///tools/twii-bias.html) (加權指數乖離率分析) 🔥
 - 🍿 **旅程規劃系統** - React 驅動的詳細行程頁面
 - 📓 **Vibe Coding Journal** - 開發日記（Firebase Auth 登入保護）
 - 🌿 **素食友善** - 旅程中的素食餐廳指南（雲端同步）

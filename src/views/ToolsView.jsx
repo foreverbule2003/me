@@ -19,6 +19,11 @@ const ToolsView = ({ onSetActions }) => {
       isExternal: true,
     },
     {
+      label: "大盤熱度",
+      href: "/me/tools/twii-bias.html",
+      isExternal: true,
+    },
+    {
       label: "期權策略 (封存)",
       href: "/me/tools/archive/prototypes/bull-put-spread.html",
       isExternal: true,
