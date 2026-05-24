@@ -65,38 +65,39 @@ import {
 
 // Header
 const Header = () => (
-  <header className="relative w-full py-12 px-6 text-white overflow-hidden">
-    <a
-      href="/me/?booted=true"
-      className="absolute top-4 left-4 z-50 p-2 bg-[#F5F7F2]/10 backdrop-blur-md rounded-full text-white hover:bg-[#F5F7F2]/20 transition-all border border-white/20 shadow-lg group"
-      title="回到首頁"
-    >
-      <ArrowRight
-        size={20}
-        className="rotate-180 group-hover:-translate-x-1 transition-transform"
-      />
-    </a>
-    <div className="absolute inset-0 z-0 select-none">
-      <img
-        src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop"
-        alt="Tokyo Skyline"
-        className="w-full h-full object-cover opacity-90 scale-105"
-        style={{ animation: "float 20s ease-in-out infinite" }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#2D5A27]/90 via-[#4A7246]/60 to-[#F5F7F2]" />
-      <div className="absolute inset-0 bg-[#2D5A27]/40 mix-blend-overlay" />
-    </div>
-    <div className="max-w-5xl mx-auto text-center relative z-10">
-      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-[#2D5A27]/30 backdrop-blur-md text-xs font-medium tracking-wider border border-[#A8C69F]/40 text-[#A8C69F] shadow-lg">
+  <header className="relative w-full pt-8 pb-6 px-6 md:px-12 text-[#1c1c1e] overflow-hidden flex flex-col items-center justify-center">
+    <div className="max-w-5xl mx-auto text-center relative z-10 w-full">
+      <div className="flex items-center justify-between w-full mb-8">
+        <a
+          href="/me/?booted=true"
+          className="p-2 bg-white/40 backdrop-blur-md rounded-full text-[#5F7A61] hover:bg-white/60 transition-all border border-white/40 shadow-sm group"
+          title="回到首頁"
+        >
+          <ArrowRight
+            size={20}
+            className="rotate-180 group-hover:-translate-x-1 transition-transform"
+          />
+        </a>
+        <div className="flex items-center gap-3">
+          <span className="font-medium text-[#5F7A61] text-sm hidden sm:block">
+            Tim & Bei
+          </span>
+          <div className="w-8 h-8 bg-white/50 backdrop-blur-md border border-white/60 rounded-full flex items-center justify-center text-[#5F7A61] shadow-sm">
+            <Star size={14} />
+          </div>
+        </div>
+      </div>
+
+      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-white/50 backdrop-blur-md text-xs font-medium tracking-wider border border-white/60 text-[#5F7A61] shadow-sm">
         JP · TYO · YOK · KRZ · 2026 · 8D
       </div>
-      <h1 className="text-4xl md:text-6xl font-bold mb-3 leading-tight tracking-tight text-yellow-50">
+      <h1 className="text-4xl md:text-5xl font-bold mb-3 leading-tight tracking-tight text-[#1c1c1e]">
         東京
-        <span className="block text-xl md:text-2xl mt-2 font-medium tracking-widest opacity-90">
+        <span className="block text-xl md:text-2xl mt-2 font-medium tracking-widest text-[#5F7A61]">
           橫濱・涉谷・輕井澤 8日旅
         </span>
       </h1>
-      <div className="mt-4 flex items-center justify-center gap-3 text-sm text-white/70">
+      <div className="mt-4 flex items-center justify-center gap-3 text-sm text-[#6e6e73]">
         <span>6/17 – 6/24</span>
         <span>·</span>
         <span>🎊 6/21 三週年</span>
@@ -114,7 +115,7 @@ const VegetarianCard = ({ forceOpen }) => {
     if (forceOpen !== null) setIsOpen(forceOpen);
   }, [forceOpen]);
   return (
-    <div className="bg-[#F5F7F2] rounded-3xl shadow-sm border border-[#8B7355]/20 overflow-hidden">
+    <div className="bg-white/40 backdrop-blur-xl rounded-3xl shadow-lg border border-white/60 overflow-hidden">
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full flex items-center justify-between p-5 text-left"
@@ -124,7 +125,7 @@ const VegetarianCard = ({ forceOpen }) => {
             <span className="text-xl">🌱</span>
           </div>
           <div>
-            <div className="font-bold text-[#8B7355]">蛋奶素溝通卡</div>
+            <div className="font-bold text-[#7A8B7B]">蛋奶素溝通卡</div>
             <div className="text-xs text-gray-400 mt-0.5">
               日語・飲食限制快速出示
             </div>
@@ -199,21 +200,24 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-[#F5F7F2]/95 backdrop-blur-md border-b border-[#8B7355]/20 shadow-sm">
-      <div className="max-w-5xl mx-auto overflow-x-auto no-scrollbar">
-        <div className="flex">
+    <nav className="sticky top-0 z-40 bg-white/20 backdrop-blur-md border-b border-white/30 mb-6">
+      <div className="max-w-5xl mx-auto overflow-x-auto no-scrollbar px-6 md:px-12">
+        <div className="flex gap-6">
           {tabs.map(({ id, label, Icon }) => (
             <button
               key={id}
               onClick={() => setActiveTab(id)}
-              className={`flex-1 min-w-[80px] py-4 flex flex-col items-center gap-1 transition-colors ${
+              className={`flex-none py-4 flex items-center gap-2 transition-colors relative ${
                 activeTab === id
-                  ? "text-[#2D5A27] font-bold border-b-2 border-[#2D5A27]"
-                  : "text-gray-400 hover:text-[#2D5A27]"
+                  ? "text-[#1c1c1e] font-bold"
+                  : "text-[#6e6e73] hover:text-[#1c1c1e]"
               }`}
             >
-              <Icon size={20} />
-              <span className="text-xs">{label}</span>
+              <Icon size={16} />
+              <span className="text-sm">{label}</span>
+              {activeTab === id && (
+                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#1c1c1e] rounded-t-full"></span>
+              )}
             </button>
           ))}
         </div>
@@ -242,7 +246,7 @@ const CollapsibleSubsection = ({
         className="w-full flex items-center justify-between py-2 text-left group"
       >
         <div className="flex items-center gap-2">
-          <h4 className="font-bold text-[#8B7355]">{title}</h4>
+          <h4 className="font-bold text-[#7A8B7B]">{title}</h4>
           {count !== undefined && (
             <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
               {count}
@@ -274,7 +278,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
       <div
-        className="relative bg-[#F5F7F2] rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden animate-fade-up"
+        className="relative bg-[#F4F6F0] rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden animate-fade-up"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -298,17 +302,17 @@ const ProductModal = ({ isOpen, onClose, product }) => {
           )}
         </div>
         <div className="p-6">
-          <h3 className="text-xl font-bold text-[#8B7355] mb-2">
+          <h3 className="text-xl font-bold text-[#7A8B7B] mb-2">
             {product.name}
           </h3>
           {product.nameJp && (
-            <p className="text-sm text-[#2D5A27] mb-3">🇯🇵 {product.nameJp}</p>
+            <p className="text-sm text-[#5F7A61] mb-3">🇯🇵 {product.nameJp}</p>
           )}
           {product.desc && (
             <p className="text-sm text-gray-500 mb-3">{product.desc}</p>
           )}
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-[#2D5A27]">
+            <span className="text-2xl font-bold text-[#5F7A61]">
               ¥{product.price?.toLocaleString()}
             </span>
             <span className="text-sm text-gray-400">
@@ -452,341 +456,368 @@ export default function App() {
     setMapModalData({ isOpen: true, data: mapData });
 
   return (
-    <div className="min-h-screen bg-[#F5F7F2] text-[#1C1C1E] selection:bg-[#a78bfa]/20 selection:text-[#2D5A27]">
-      <Header />
-      <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
-        {/* 總覽 Tab */}
-        <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
-          <FlightInfoSection
-            outbound={flightData.outbound}
-            inbound={flightData.inbound}
-            forceOpen={isAnyExpanded}
-          />
-          <Timeline
-            data={overviewData}
-            forceOpen={isAnyExpanded}
-            theme="forest"
-            onDayClick={(dayNum) => {
-              let targetKey = null;
-              itineraryData.forEach((phase, pIdx) => {
-                phase.days.forEach((day, dIdx) => {
-                  if (day.day === dayNum) targetKey = `${pIdx}-${dIdx}`;
-                });
-              });
-              if (targetKey)
-                setExpandedDays((prev) => ({ ...prev, [targetKey]: true }));
-              setActiveTab("itinerary");
-              setTimeout(() => {
-                const el = document.getElementById(`day-${dayNum}`);
-                if (el) {
-                  const elementPosition =
-                    el.getBoundingClientRect().top + window.scrollY;
-                  window.scrollTo({
-                    top: elementPosition - 140,
-                    behavior: "smooth",
-                  });
-                }
-              }, 100);
+    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative overflow-x-hidden p-2 sm:p-6 lg:p-8 bg-[#e4e9e3]">
+      <div className="relative z-10 max-w-[1400px] mx-auto bg-white/40 backdrop-blur-3xl rounded-[2.5rem] shadow-2xl overflow-hidden min-h-[90vh]">
+        {/* 內嵌 Hero Image，使用 mask-image 讓底部完美漸層消失，無縫融入毛玻璃面板 */}
+        <div
+          className="absolute top-0 left-0 right-0 h-[600px] pointer-events-none z-0"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
+          }}
+        >
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-70"
+            style={{
+              backgroundImage: `url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop')`,
             }}
           />
-          <WeatherForecastSection forceOpen={isAnyExpanded} theme="forest" />
-          <ChecklistSection
-            title="待訂清單"
-            items={todoData}
-            storageKey="tokyo_2026_todos_v2"
-            forceOpen={isAnyExpanded}
-            theme="forest"
-          />
-          <VegetarianCard forceOpen={isAnyExpanded} />
-          <LinksGallery
-            links={usefulLinks?.categories || []}
-            forceOpen={isAnyExpanded}
-            theme="forest"
-          />
+          {/* 輕微的白色覆蓋，確保上方文字易讀性，同時跟隨 mask 漸變 */}
+          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/10 to-transparent" />
         </div>
 
-        {/* 行程 Tab */}
-        <div className={activeTab === "itinerary" ? "" : "hidden"}>
-          <ItineraryTab
-            itineraryData={itineraryData}
-            expandedDays={expandedDays}
-            toggleDay={toggleDay}
-            onOpenMap={handleOpenMap}
-            onOpenFoodGuide={() => setActiveTab("food")}
-            isAnyExpanded={isAnyExpanded}
-          />
-        </div>
+        <Header />
+        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        {/* 預算 Tab */}
-        <div
-          className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
-        >
-          <BudgetSection
-            data={budgetData}
-            forceOpen={isAnyExpanded}
-            theme="forest"
-            notes={
-              <div className="flex gap-4 items-start w-full">
-                <Info className="text-[#2D5A27] flex-shrink-0 mt-1" />
-                <div className="text-sm text-[#2D5A27] leading-relaxed">
-                  <p className="font-bold mb-1">預算說明</p>
-                  以上為估算值，機票與住宿確認後更新。匯率以 ¥1 = $0.22 TWD
-                  計算。
+        <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pt-4 pb-12">
+          {/* 總覽 Tab */}
+          <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
+            <FlightInfoSection
+              outbound={flightData.outbound}
+              inbound={flightData.inbound}
+              forceOpen={isAnyExpanded}
+            />
+            <Timeline
+              data={overviewData}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+              onDayClick={(dayNum) => {
+                let targetKey = null;
+                itineraryData.forEach((phase, pIdx) => {
+                  phase.days.forEach((day, dIdx) => {
+                    if (day.day === dayNum) targetKey = `${pIdx}-${dIdx}`;
+                  });
+                });
+                if (targetKey)
+                  setExpandedDays((prev) => ({ ...prev, [targetKey]: true }));
+                setActiveTab("itinerary");
+                setTimeout(() => {
+                  const el = document.getElementById(`day-${dayNum}`);
+                  if (el) {
+                    const elementPosition =
+                      el.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({
+                      top: elementPosition - 140,
+                      behavior: "smooth",
+                    });
+                  }
+                }, 100);
+              }}
+            />
+
+            <ChecklistSection
+              title="待訂清單"
+              items={todoData}
+              storageKey="tokyo_2026_todos_v2"
+              forceOpen={isAnyExpanded}
+              theme="forest"
+            />
+            <VegetarianCard forceOpen={isAnyExpanded} />
+            <LinksGallery
+              links={usefulLinks?.categories || []}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+            />
+          </div>
+
+          {/* 行程 Tab */}
+          <div className={activeTab === "itinerary" ? "" : "hidden"}>
+            <ItineraryTab
+              itineraryData={itineraryData}
+              expandedDays={expandedDays}
+              toggleDay={toggleDay}
+              onOpenMap={handleOpenMap}
+              onOpenFoodGuide={() => setActiveTab("food")}
+              isAnyExpanded={isAnyExpanded}
+            />
+          </div>
+
+          {/* 預算 Tab */}
+          <div
+            className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
+          >
+            <BudgetSection
+              data={budgetData}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+              notes={
+                <div className="flex gap-4 items-start w-full">
+                  <Info className="text-[#5F7A61] flex-shrink-0 mt-1" />
+                  <div className="text-sm text-[#5F7A61] leading-relaxed">
+                    <p className="font-bold mb-1">預算說明</p>
+                    以上為估算值，機票與住宿確認後更新。匯率以 ¥1 = $0.22 TWD
+                    計算。
+                  </div>
                 </div>
-              </div>
+              }
+            />
+          </div>
+
+          {/* 交通 Tab */}
+          <div
+            className={
+              activeTab === "map" ? "max-w-3xl mx-auto space-y-6" : "hidden"
             }
-          />
-        </div>
-
-        {/* 交通 Tab */}
-        <div
-          className={
-            activeTab === "map" ? "max-w-3xl mx-auto space-y-6" : "hidden"
-          }
-        >
-          {/* 每日交通路線 */}
-          <SectionCard
-            icon={MapPin}
-            title="每日交通路線"
-            collapsible={true}
-            defaultOpen={true}
-            forceOpen={isAnyExpanded}
           >
-            <div className="space-y-3">
-              {recommendedRoutes.map((route, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 bg-[#F5F7F2] rounded-xl border border-[#8B7355]/20 hover:border-[#A8C69F] transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
-                  onClick={() => handleOpenMap(route)}
-                >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-[#2D5A27] bg-[#F5F7F2] px-2 py-1 rounded">
-                      {route.day}
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      {route.duration}
-                    </span>
-                  </div>
-                  <div className="font-bold text-[#8B7355] mb-1">
-                    {route.name}
-                  </div>
-                  <div className="text-sm text-gray-500">{route.desc}</div>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
-
-          {/* 交通攻略說明 */}
-          <SectionCard
-            icon={Train}
-            title="東京交通攻略"
-            collapsible={true}
-            defaultOpen={false}
-            forceOpen={isAnyExpanded}
-          >
-            <div className="space-y-3">
-              {[
-                {
-                  title: "Suica (西瓜卡)",
-                  desc: "建議在成田機場 JR 服務窗口購買，適用地鐵、JR、公車、便利商店",
-                  tag: "必備",
-                },
-                {
-                  title: "N'EX 成田特快",
-                  desc: "成田機場 ↔ 東京/新宿/橫濱，外國旅客可購買來回優惠票 ¥4,070",
-                  tag: "推薦",
-                },
-                {
-                  title: "北陸新幹線 (東京-輕井澤)",
-                  desc: "はくたか 或 あさま，約 70~80 分，需事先劃位",
-                  tag: "需預訂",
-                },
-                {
-                  title: "JR 湘南新宿ライン",
-                  desc: "新宿 ↔ 橫濱，不需換車，約 28 分鐘",
-                  tag: "便利",
-                },
-              ].map((item, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 bg-[#F5F7F2] rounded-xl border border-[#8B7355]/20"
-                >
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-[#8B7355]">
-                      {item.title}
-                    </span>
-                    <span className="text-xs font-bold text-[#2D5A27] bg-[#F5F7F2] px-2 py-0.5 rounded">
-                      {item.tag}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-500">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
-        </div>
-
-        {/* 美食 Tab */}
-        <div
-          className={
-            activeTab === "food" ? "max-w-3xl mx-auto space-y-6" : "hidden"
-          }
-        >
-          {isSyncing && (
-            <div className="text-center text-gray-400 text-sm py-2">
-              ✨ 正在同步雲端收藏...
-            </div>
-          )}
-          {foodData.categories
-            .filter((cat) => cat.sections[0].items.length > 0)
-            .map((category, cIdx) => (
-              <SectionCard
-                key={cIdx}
-                icon={Utensils}
-                title={
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span>{category.location}</span>
-                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                      {category.day}
-                    </span>
-                  </div>
-                }
-                collapsible={true}
-                forceOpen={isAnyExpanded}
-              >
-                {category.sections.map((section, sIdx) => (
-                  <CollapsibleSubsection
-                    key={sIdx}
-                    title={section.title}
-                    count={section.items.length}
-                    forceOpen={isAnyExpanded}
+            {/* 每日交通路線 */}
+            <SectionCard
+              icon={MapPin}
+              title="每日交通路線"
+              collapsible={true}
+              defaultOpen={true}
+              forceOpen={isAnyExpanded}
+              variant="glass"
+            >
+              <div className="space-y-3">
+                {recommendedRoutes.map((route, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 bg-[#F4F6F0] rounded-xl border border-[#7A8B7B]/20 hover:border-[#93A895] transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
+                    onClick={() => handleOpenMap(route)}
                   >
-                    <div className="space-y-2">
-                      {sortItems(section.items, cIdx, sIdx).map((item) => {
-                        const originalIdx = section.items.indexOf(item);
-                        const itemKey = getItemKey(cIdx, sIdx, originalIdx);
-                        const isFavorite = favorites[itemKey];
-                        return (
-                          <div
-                            key={itemKey}
-                            className={`p-3 rounded-xl transition-colors ${
-                              isFavorite
-                                ? "bg-pink-50 border border-pink-200"
-                                : "bg-gray-50 hover:bg-gray-100"
-                            }`}
-                          >
-                            <div className="flex items-start gap-3">
-                              <button
-                                onClick={() => toggleFavorite(itemKey)}
-                                className={`p-2 rounded-full transition-all shrink-0 ${
-                                  isFavorite
-                                    ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
-                                    : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
-                                }`}
-                              >
-                                <Star
-                                  size={18}
-                                  className={isFavorite ? "fill-current" : ""}
-                                />
-                              </button>
-                              <div className="flex-1 min-w-0 pt-1">
-                                <div className="font-bold text-[#8B7355] flex items-center gap-2">
-                                  {item.name}
-                                  {item.recommended && (
-                                    <Star
-                                      size={14}
-                                      className="text-yellow-500 fill-yellow-500"
-                                    />
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-bold text-[#5F7A61] bg-[#F4F6F0] px-2 py-1 rounded">
+                        {route.day}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        {route.duration}
+                      </span>
+                    </div>
+                    <div className="font-bold text-[#7A8B7B] mb-1">
+                      {route.name}
+                    </div>
+                    <div className="text-sm text-gray-500">{route.desc}</div>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+
+            {/* 交通攻略說明 */}
+            <SectionCard
+              icon={Train}
+              title="東京交通攻略"
+              collapsible={true}
+              defaultOpen={false}
+              forceOpen={isAnyExpanded}
+              variant="glass"
+            >
+              <div className="space-y-3">
+                {[
+                  {
+                    title: "Suica (西瓜卡)",
+                    desc: "建議在成田機場 JR 服務窗口購買，適用地鐵、JR、公車、便利商店",
+                    tag: "必備",
+                  },
+                  {
+                    title: "N'EX 成田特快",
+                    desc: "成田機場 ↔ 東京/新宿/橫濱，外國旅客可購買來回優惠票 ¥4,070",
+                    tag: "推薦",
+                  },
+                  {
+                    title: "北陸新幹線 (東京-輕井澤)",
+                    desc: "はくたか 或 あさま，約 70~80 分，需事先劃位",
+                    tag: "需預訂",
+                  },
+                  {
+                    title: "JR 湘南新宿ライン",
+                    desc: "新宿 ↔ 橫濱，不需換車，約 28 分鐘",
+                    tag: "便利",
+                  },
+                ].map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 bg-[#F4F6F0] rounded-xl border border-[#7A8B7B]/20"
+                  >
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="font-bold text-[#7A8B7B]">
+                        {item.title}
+                      </span>
+                      <span className="text-xs font-bold text-[#5F7A61] bg-[#F4F6F0] px-2 py-0.5 rounded">
+                        {item.tag}
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500">{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+          </div>
+
+          {/* 美食 Tab */}
+          <div
+            className={
+              activeTab === "food" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+            }
+          >
+            {isSyncing && (
+              <div className="text-center text-gray-400 text-sm py-2">
+                ✨ 正在同步雲端收藏...
+              </div>
+            )}
+            {foodData.categories
+              .filter((cat) => cat.sections[0].items.length > 0)
+              .map((category, cIdx) => (
+                <SectionCard
+                  key={cIdx}
+                  icon={Utensils}
+                  title={
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span>{category.location}</span>
+                      <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                        {category.day}
+                      </span>
+                    </div>
+                  }
+                  collapsible={true}
+                  forceOpen={isAnyExpanded}
+                  variant="glass"
+                >
+                  {category.sections.map((section, sIdx) => (
+                    <CollapsibleSubsection
+                      key={sIdx}
+                      title={section.title}
+                      count={section.items.length}
+                      forceOpen={isAnyExpanded}
+                    >
+                      <div className="space-y-2">
+                        {sortItems(section.items, cIdx, sIdx).map((item) => {
+                          const originalIdx = section.items.indexOf(item);
+                          const itemKey = getItemKey(cIdx, sIdx, originalIdx);
+                          const isFavorite = favorites[itemKey];
+                          return (
+                            <div
+                              key={itemKey}
+                              className={`p-3 rounded-xl transition-colors ${
+                                isFavorite
+                                  ? "bg-pink-50 border border-pink-200"
+                                  : "bg-gray-50 hover:bg-gray-100"
+                              }`}
+                            >
+                              <div className="flex items-start gap-3">
+                                <button
+                                  onClick={() => toggleFavorite(itemKey)}
+                                  className={`p-2 rounded-full transition-all shrink-0 ${
+                                    isFavorite
+                                      ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
+                                      : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
+                                  }`}
+                                >
+                                  <Star
+                                    size={18}
+                                    className={isFavorite ? "fill-current" : ""}
+                                  />
+                                </button>
+                                <div className="flex-1 min-w-0 pt-1">
+                                  <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
+                                    {item.name}
+                                    {item.recommended && (
+                                      <Star
+                                        size={14}
+                                        className="text-yellow-500 fill-yellow-500"
+                                      />
+                                    )}
+                                  </div>
+                                  <div className="text-xs text-gray-500 mt-1">
+                                    {item.type} • {item.desc}
+                                  </div>
+                                  {item.note && (
+                                    <div className="text-xs text-orange-600 mt-1">
+                                      {item.note}
+                                    </div>
                                   )}
                                 </div>
-                                <div className="text-xs text-gray-500 mt-1">
-                                  {item.type} • {item.desc}
-                                </div>
-                                {item.note && (
-                                  <div className="text-xs text-orange-600 mt-1">
-                                    {item.note}
-                                  </div>
+                                {item.mapUrl && (
+                                  <a
+                                    href={item.mapUrl}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
+                                  >
+                                    <MapPin size={16} />
+                                  </a>
                                 )}
                               </div>
-                              {item.mapUrl && (
-                                <a
-                                  href={item.mapUrl}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="p-2 text-gray-400 hover:text-[#2D5A27] transition-colors shrink-0"
-                                >
-                                  <MapPin size={16} />
-                                </a>
-                              )}
                             </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </CollapsibleSubsection>
-                ))}
-              </SectionCard>
-            ))}
+                          );
+                        })}
+                      </div>
+                    </CollapsibleSubsection>
+                  ))}
+                </SectionCard>
+              ))}
+          </div>
+
+          {/* 購物 Tab */}
+          <div
+            className={
+              activeTab === "shopping"
+                ? "max-w-3xl mx-auto space-y-6"
+                : "hidden"
+            }
+          >
+            <ShoppingSection
+              categories={shoppingData.categories}
+              purchased={purchased}
+              togglePurchased={togglePurchased}
+              setProductModalData={setProductModalData}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+            />
+          </div>
+        </main>
+
+        {/* FAB */}
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+          {[
+            "itinerary",
+            "food",
+            "shopping",
+            "overview",
+            "budget",
+            "map",
+          ].includes(activeTab) && (
+            <ToggleFAB
+              isExpanded={isAnyExpanded}
+              onToggle={handleSmartToggle}
+              colorClass="text-[#5F7A61]"
+              hoverClass="hover:text-[#5F7A61]"
+            />
+          )}
         </div>
 
-        {/* 購物 Tab */}
-        <div
-          className={
-            activeTab === "shopping" ? "max-w-3xl mx-auto space-y-6" : "hidden"
-          }
-        >
-          <ShoppingSection
-            categories={shoppingData.categories}
-            purchased={purchased}
-            togglePurchased={togglePurchased}
-            setProductModalData={setProductModalData}
-            forceOpen={isAnyExpanded}
-            theme="forest"
-          />
-        </div>
-      </main>
+        <ScrollToTop
+          bgClass="bg-[#5F7A61]"
+          shadowClass="shadow-[#5F7A61]/20"
+          hoverBgClass="hover:bg-[#4b614d]"
+        />
 
-      {/* FAB */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
-        {[
-          "itinerary",
-          "food",
-          "shopping",
-          "overview",
-          "budget",
-          "map",
-        ].includes(activeTab) && (
-          <ToggleFAB
-            isExpanded={isAnyExpanded}
-            onToggle={handleSmartToggle}
-            colorClass="text-[#2D5A27]"
-            hoverClass="hover:text-[#2D5A27]"
-          />
-        )}
+        <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6">
+          <p>© 2026 東京・橫濱・輕井澤 8日旅</p>
+        </footer>
+
+        <MapModal
+          isOpen={mapModalData.isOpen}
+          onClose={() => setMapModalData({ ...mapModalData, isOpen: false })}
+          data={mapModalData.data}
+        />
+        <ProductModal
+          isOpen={productModalData.isOpen}
+          onClose={() => setProductModalData({ isOpen: false, product: null })}
+          product={productModalData.product}
+        />
       </div>
-
-      <ScrollToTop
-        bgClass="bg-[#2D5A27]"
-        shadowClass="shadow-[#2D5A27]/20"
-        hoverBgClass="hover:bg-[#1f3f1b]"
-      />
-
-      <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6">
-        <p>© 2026 東京・橫濱・輕井澤 8日旅</p>
-      </footer>
-
-      <MapModal
-        isOpen={mapModalData.isOpen}
-        onClose={() => setMapModalData({ ...mapModalData, isOpen: false })}
-        data={mapModalData.data}
-      />
-      <ProductModal
-        isOpen={productModalData.isOpen}
-        onClose={() => setProductModalData({ isOpen: false, product: null })}
-        product={productModalData.product}
-      />
     </div>
   );
 }

@@ -38,6 +38,7 @@ const LinksGallery = ({
       collapsible={true}
       defaultOpen={false}
       forceOpen={forceOpen}
+      variant="glass"
     >
       <div className="grid md:grid-cols-3 gap-4">
         {links.map((category, idx) => {

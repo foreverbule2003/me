@@ -66,6 +66,7 @@ const ShoppingSection = ({
           title={`${category.icon} ${category.title}`}
           collapsible={true}
           forceOpen={forceOpen}
+          variant="glass"
         >
           <div className="space-y-3">
             {sortShoppingItems(category.items, cIdx).map((item) => {

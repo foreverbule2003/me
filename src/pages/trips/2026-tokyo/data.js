@@ -34,12 +34,17 @@ export const flightData = {
 };
 
 export const overviewData = [
-  { day: 1, date: "6/17 (三)", title: "抵達成田 → 橫濱", hotel: "橫濱" },
+  {
+    day: 1,
+    date: "6/17 (三)",
+    title: "抵達成田 → 橫濱",
+    hotel: "橫濱三井花園 🆕",
+  },
   { day: 2, date: "6/18 (四)", title: "橫濱探索", hotel: "橫濱/涉谷" },
   { day: 3, date: "6/19 (五)", title: "Shibuya 109 採買", hotel: "涉谷" },
-  { day: 4, date: "6/20 (六)", title: "涉谷→新宿→原宿", hotel: "新宿" },
-  { day: 5, date: "6/21 (日)", title: "新宿→輕井澤 🎊", hotel: "輕井澤" },
-  { day: 6, date: "6/22 (一)", title: "輕井澤慢活", hotel: "輕井澤" },
+  { day: 4, date: "6/20 (六)", title: "涉谷→輕井澤 🚄", hotel: "輕井澤 APA" },
+  { day: 5, date: "6/21 (日)", title: "輕井澤慢活 🎊", hotel: "英迪格 🎊" },
+  { day: 6, date: "6/22 (一)", title: "輕井澤慢活", hotel: "淺間王子" },
   { day: 7, date: "6/23 (二)", title: "輕井澤→東京", hotel: "東京" },
   { day: 8, date: "6/24 (三)", title: "返程", hotel: "✈️ 回家" },
 ];
@@ -80,8 +85,12 @@ export const itineraryData = [
           },
           {
             time: "約19:00",
-            text: "Check-in 橫濱旅館",
-            map: { type: "search", query: "Yokohama Hotel" },
+            text: "Check-in 三井花園飯店橫濱港未來普米爾",
+            subText: "港未來區高空絕美海景，精緻奢華首夜 🆕",
+            map: {
+              type: "search",
+              query: "Mitsui Garden Hotel Yokohama Minatomirai Premier",
+            },
           },
         ],
       },
@@ -140,7 +149,7 @@ export const itineraryData = [
     ],
   },
   {
-    phase: "涉谷・新宿 (Day 3–4)",
+    phase: "涉谷 (Day 3)",
     image:
       "https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=2070&auto=format&fit=crop",
     days: [
@@ -170,73 +179,35 @@ export const itineraryData = [
           { time: "晚上", text: "晚餐：涉谷周邊素食", foodGuideLink: "涉谷" },
         ],
       },
-      {
-        day: 4,
-        date: "6/20 (六)",
-        title: "涉谷→新宿→原宿",
-        image:
-          "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🗼 Laforet 原宿・新宿補貨・Check-in 新宿",
-        activities: [
-          {
-            time: "上午",
-            text: "涉谷 → 新宿（JR，7分）寄放行李",
-            map: {
-              type: "route",
-              origin: "Shibuya Station",
-              destination: "Shinjuku Station",
-            },
-          },
-          {
-            time: "上午",
-            text: "新宿 → 原宿（JR，5分）",
-            map: {
-              type: "route",
-              origin: "Shinjuku Station",
-              destination: "Harajuku Station",
-            },
-          },
-          {
-            time: "午前",
-            text: "Laforet 原宿",
-            subText: "潮牌、設計師聯名",
-            map: { type: "search", query: "Laforet Harajuku" },
-          },
-          {
-            time: "傍晚",
-            text: "新宿藥妝補貨",
-            subText: "松本清、唐吉訶德",
-            map: { type: "search", query: "Shinjuku Drugstore Tokyo" },
-          },
-          {
-            time: "晚上",
-            text: "Check-in 新宿旅館，新宿周邊晚餐",
-            map: { type: "search", query: "Shinjuku Hotel" },
-          },
-        ],
-      },
     ],
   },
   {
-    phase: "輕井澤 (Day 5–7)",
+    phase: "輕井澤 (Day 4–7)",
     image:
       "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
     days: [
       {
-        day: 5,
-        date: "6/21 (日)",
-        anniversary: true,
-        title: "新宿 → 輕井澤 🎊",
+        day: 4,
+        date: "6/20 (六)",
+        title: "涉谷退房 → 大宮 → 輕井澤",
         image:
-          "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🎊 三週年結婚紀念日！中輕井澤野菜晚餐",
+          "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
+        highlight: "🚄 退房後直奔輕井澤度假，當晚入住輕井澤",
         activities: [
-          { time: "上午", text: "新宿退房，搭電車至大宮站" },
           {
             time: "上午",
-            text: "大宮 → 輕井澤（北陸新幹線）",
-            subText: "約75分，建議指定席（週日早訂）",
-            note: "週日旺季，請提前訂位",
+            text: "涉谷飯店退房，搭電車前往大宮站",
+            subText: "約35-40分",
+            map: {
+              type: "route",
+              origin: "Shibuya Station",
+              destination: "Omiya Station",
+            },
+          },
+          {
+            time: "上午",
+            text: "大宮搭北陸新幹線 → 輕井澤",
+            subText: "約50分，建議提早預訂指定席（週六旺季）",
             map: {
               type: "route",
               origin: "Omiya Station",
@@ -244,9 +215,55 @@ export const itineraryData = [
             },
           },
           {
+            time: "中午",
+            text: "Check-in 輕井澤 APA 飯店",
+            subText: "站前步行 3 分鐘寄放行李，便捷高效首選 🆕",
+            map: { type: "search", query: "APA Hotel Karuizawa Ekimae" },
+          },
+          {
+            time: "下午",
+            text: "舊輕井澤銀座通或新輕井澤散步",
+            subText: "避開週末人潮，悠閒開始慢活行程",
+            map: { type: "search", query: "Kyu-Karuizawa Ginza" },
+          },
+          {
+            time: "晚上",
+            text: "輕井澤周邊素食晚餐",
+            tips: "入座前確認湯底是否為純昆布",
+          },
+        ],
+      },
+      {
+        day: 5,
+        date: "6/21 (日)",
+        anniversary: true,
+        title: "全天輕井澤慢活（紀念日） 🎊",
+        image:
+          "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
+        highlight: "🎊 三週年結婚紀念日！全天悠閒享受輕井澤度假感",
+        activities: [
+          {
+            time: "上午",
+            text: "輕井澤 APA 退房，移動至新飯店",
+            subText: "搭乘公車或計程車至南輕井澤地區",
+          },
+          {
+            time: "中午",
+            text: "Check-in 輕井澤英迪格酒店",
+            subText: "🎊 三週年紀念日主場！奢華設計木質渡假體驗 🆕",
+            map: { type: "search", query: "Hotel Indigo Karuizawa" },
+          },
+          {
+            time: "下午",
+            text: "中輕井澤森林漫步",
+            subText:
+              "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
+            map: { type: "search", query: "Harunire Terrace Karuizawa" },
+          },
+          {
             time: "晚上",
             text: "🎊 中輕井澤野菜晚餐",
-            subText: "紀念日主場，確認餐廳無葷高湯",
+            subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
             foodGuideLink: "輕井澤",
           },
         ],
@@ -257,37 +274,19 @@ export const itineraryData = [
         title: "輕井澤慢活",
         image:
           "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🌿 腳踏車穿梭三區：雲場池・中輕・舊輕",
+        highlight: "🌿 租腳踏車悠閒穿梭：舊輕井澤銀座通・高原教會",
         activities: [
           {
             time: "上午",
-            text: "租借腳踏車穿梭各區",
-            subText: "輕井澤站前可租",
-            note: "白貓自行車（しろねこ）為清單推薦店",
-          },
-          {
-            time: "上午",
-            text: "雲場池",
-            subText: "倒影湖，新輕井澤",
+            text: "英迪格退房，租借腳踏車慢遊三區",
+            subText: "租借腳踏車穿梭雲場池、輕井澤高原教會與舊輕銀座老街 🚲",
             map: { type: "search", query: "Kumoba Pond Karuizawa" },
           },
           {
-            time: "下午",
-            text: "榆樹街小鎮 (Harunire Terrace)",
-            subText: "中輕井澤，森林步道、特色小店",
-            map: { type: "search", query: "Harunire Terrace Karuizawa" },
-          },
-          {
-            time: "下午",
-            text: "石之教會",
-            subText: "中輕井澤，建築景點（需預約）",
-            map: { type: "search", query: "Stone Church Karuizawa" },
-          },
-          {
             time: "傍晚",
-            text: "舊輕井澤銀座通",
-            subText: "老街散步",
-            map: { type: "search", query: "Kyu-Karuizawa Ginza" },
+            text: "Check-in 輕井澤淺間王子大飯店",
+            subText: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景 🆕",
+            map: { type: "search", query: "Karuizawa Asama Prince Hotel" },
           },
           {
             time: "晚上",
@@ -307,13 +306,13 @@ export const itineraryData = [
           {
             time: "上午",
             text: "輕井澤王子購物廣場（Outlet）最後採買",
-            subText: "確認開館時間",
+            subText: "把握最後的購物折扣",
             map: { type: "search", query: "Karuizawa Prince Shopping Plaza" },
           },
           {
             time: "上午",
             text: "🍓 章姬 / 香野草莓尋購",
-            subText: "季節限定伴手禮",
+            subText: "季節限定，美味甜度極佳",
           },
           {
             time: "中午後",
@@ -412,21 +411,21 @@ export const recommendedRoutes = [
     id: 4,
     day: "Day 4",
     type: "route",
-    name: "涉谷 → 新宿",
+    name: "涉谷 → 大宮 → 輕井澤",
     origin: "Shibuya Station",
-    destination: "Shinjuku Station",
-    desc: "JR 山手線",
-    duration: "約7分",
+    destination: "Karuizawa Station",
+    desc: "JR 湘南新宿線至大宮站，轉乘北陸新幹線至輕井澤",
+    duration: "約85分",
   },
   {
     id: 5,
-    day: "Day 5",
-    type: "route",
-    name: "大宮 → 輕井澤",
-    origin: "Omiya Station",
-    destination: "Karuizawa Station",
-    desc: "北陸新幹線 はくたか（週日提前訂）",
-    duration: "約50分",
+    day: "Day 5-6",
+    type: "bike",
+    name: "輕井澤區內慢活",
+    origin: "Karuizawa Station",
+    destination: "Karuizawa Area",
+    desc: "租借腳踏車穿梭新輕井澤、中輕井澤與舊輕井澤區",
+    duration: "全天彈性",
   },
   {
     id: 6,
@@ -915,17 +914,54 @@ export const shoppingData = {
 };
 
 export const todoData = [
-  { category: "交通", item: "機票確認（班次/時間填入）" },
-  { category: "交通", item: "N'EX 成田特快（來回）" },
-  { category: "交通", item: "北陸新幹線 6/21 指定席（週日旺季，最緊迫）" },
-  { category: "住宿", item: "橫濱旅館（Day 1-2）" },
-  { category: "住宿", item: "涉谷/新宿旅館（Day 3-4）" },
-  { category: "住宿", item: "輕井澤王子大飯店西館（Day 5-6，紀念日）" },
-  { category: "住宿", item: "東京旅館（Day 7）" },
-  { category: "餐廳", item: "6/21 紀念日晚餐預約（中輕井澤，確認五辛蛋奶素）" },
-  { category: "通訊", item: "日本上網 eSIM" },
-  { category: "景點", item: "輕井澤腳踏車租借（白貓自行車）" },
-  { category: "景點", item: "王子 Outlet 6/23 開館時間確認" },
+  // A 組：出國前準備 (行前必辦)
+  {
+    group: "🔴 A 組：出國前準備 (🚨 行前必辦)",
+    category: "交通",
+    item: "北陸新幹線「去程」指定席預訂 (6/20 六，出國前預訂) 🚄",
+  },
+  {
+    group: "🔴 A 組：出國前準備 (🚨 行前必辦)",
+    category: "交通",
+    item: "N'EX 來回特惠票預訂 (機場往返特快) 🎫",
+  },
+  {
+    group: "🔴 A 組：出國前準備 (🚨 行前必辦)",
+    category: "通訊",
+    item: "日本上網 eSIM 方案評估與挑選 📱",
+  },
+  {
+    group: "🔴 A 組：出國前準備 (🚨 行前必辦)",
+    category: "交通",
+    item: "訂機場接送 🚗",
+  },
+  {
+    group: "🔴 A 組：出國前準備 (🚨 行前必辦)",
+    category: "準備",
+    item: "請假 ✍️",
+  },
+
+  // B 組：確認項目 (追蹤與清理)
+  {
+    group: "🟡 B 組：確認項目 (追蹤與清理)",
+    category: "住宿",
+    item: "輕井澤飯店 (6/20-6/23 第 4-6 晚)：APA、英迪格、淺間王子 (慢慢看，可出國再訂)",
+  },
+  {
+    group: "🟡 B 組：確認項目 (追蹤與清理)",
+    category: "住宿",
+    item: "東京/新宿飯店 (6/23 第 7 晚)：東京站 or 新宿飯店預訂",
+  },
+  {
+    group: "🟡 B 組：確認項目 (追蹤與清理)",
+    category: "住宿",
+    item: "涉谷飯店 (備選，方案 B 才需要)",
+  },
+  {
+    group: "🟡 B 組：確認項目 (追蹤與清理)",
+    category: "交通",
+    item: "北陸新幹線「回程」指定席 (6/23 二，可出國再訂或現場處理)",
+  },
 ];
 
 export const vegetarianCard = {

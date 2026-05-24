@@ -117,6 +117,7 @@ const Timeline = ({
       collapsible={true}
       defaultOpen={false}
       forceOpen={forceOpen}
+      variant="glass"
     >
       <div className="relative">
         {/* 時間軸線 - 置中於節點，底部縮短避免超出最後一天 */}

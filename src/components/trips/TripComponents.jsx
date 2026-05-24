@@ -117,6 +117,7 @@ export const SectionCard = ({
   collapsible = false,
   defaultOpen = true,
   forceOpen = null,
+  variant = "solid", // "solid" | "glass"
 }) => {
   const [isOpen, setIsOpen] = useState(defaultOpen);
   const [enableTransition, setEnableTransition] = useState(false);
@@ -159,9 +160,14 @@ export const SectionCard = ({
     ? "transition-all duration-500 ease-in-out"
     : "";
 
+  const baseStyle =
+    variant === "glass"
+      ? `bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg`
+      : `bg-white/95 border border-white/80 shadow-sm`;
+
   return (
     <section
-      className={`bg-white rounded-3xl shadow-lg ${transitionClass} ${!collapsible ? "hover:shadow-xl hover:-translate-y-1 p-3 md:p-6" : "hover:shadow-md overflow-hidden"} ${className}`}
+      className={`${baseStyle} rounded-3xl ${transitionClass} ${!collapsible ? "hover:shadow-md hover:-translate-y-1 p-3 md:p-6" : "hover:shadow overflow-hidden"} ${className}`}
     >
       {collapsible ? (
         <button
@@ -452,7 +458,12 @@ export const PhaseHeader = ({
 };
 
 // === 10. Toggle FAB ===
-export const ToggleFAB = ({ isExpanded, onToggle, colorClass = "text-indigo-600", hoverClass = "hover:text-indigo-600" }) => (
+export const ToggleFAB = ({
+  isExpanded,
+  onToggle,
+  colorClass = "text-indigo-600",
+  hoverClass = "hover:text-indigo-600",
+}) => (
   <button
     onClick={() => onToggle(!isExpanded)}
     className={`p-3 rounded-full bg-white/70 backdrop-blur-md shadow-xl border border-white/50 hover:bg-white transition-all duration-300 group relative ${colorClass} ${hoverClass}`}
@@ -463,7 +474,11 @@ export const ToggleFAB = ({ isExpanded, onToggle, colorClass = "text-indigo-600"
 );
 
 // === 11. ScrollToTop FAB ===
-export const ScrollToTop = ({ bgClass = "bg-indigo-600", shadowClass = "shadow-indigo-200", hoverBgClass = "hover:bg-indigo-700" }) => {
+export const ScrollToTop = ({
+  bgClass = "bg-indigo-600",
+  shadowClass = "shadow-indigo-200",
+  hoverBgClass = "hover:bg-indigo-700",
+}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   React.useEffect(() => {

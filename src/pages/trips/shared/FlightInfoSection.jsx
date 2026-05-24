@@ -81,6 +81,7 @@ const FlightInfoSection = ({
       collapsible={true}
       defaultOpen={false}
       forceOpen={forceOpen}
+      variant="glass"
     >
       <div className="grid md:grid-cols-2 gap-3">
         <FlightCard type="outbound" data={outbound} />

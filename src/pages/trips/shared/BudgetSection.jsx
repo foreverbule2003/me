@@ -45,6 +45,7 @@ const BudgetSection = ({
       collapsible={true}
       defaultOpen={false}
       forceOpen={forceOpen}
+      variant="glass"
     >
       {/* Desktop View */}
       <div className="hidden md:block overflow-x-auto rounded-xl border border-gray-100">

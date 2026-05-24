@@ -32,10 +32,10 @@ const DayCard = ({
   return (
     <div
       id={`day-${dayData.day}`}
-      className={`rounded-3xl shadow-lg overflow-hidden mb-6 border ${
+      className={`rounded-3xl shadow-sm overflow-hidden mb-6 border transition-all ${
         isAnniversary
-          ? "border-[#8B7355]/40 ring-2 ring-[#8B7355]/30"
-          : "border-gray-100/50 bg-white"
+          ? "border-[#7A8B7B]/50 ring-2 ring-[#7A8B7B]/20 bg-amber-50"
+          : "border-white/80 bg-white/95 hover:shadow-md hover:scale-[1.005]"
       }`}
     >
       {/* Header */}
@@ -47,12 +47,12 @@ const DayCard = ({
         <div
           className={`absolute inset-0 ${
             isAnniversary
-              ? "bg-gradient-to-t from-[#8B7355]/85 via-[#8B7355]/40 to-transparent"
-              : "bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+              ? "bg-gradient-to-t from-[#5F7A61]/85 via-[#5F7A61]/30 to-transparent"
+              : "bg-gradient-to-t from-[#2e3e30]/80 via-black/30 to-transparent"
           }`}
         />
         {isAnniversary && (
-          <div className="absolute top-3 right-3 px-3 py-1 bg-[#8B7355]/90 backdrop-blur-sm rounded-full text-white text-xs font-bold flex items-center gap-1">
+          <div className="absolute top-3 right-3 px-3 py-1 bg-[#5F7A61]/90 backdrop-blur-md rounded-full text-white text-xs font-bold flex items-center gap-1 border border-white/20 shadow-md">
             🎊 三週年紀念日
           </div>
         )}
@@ -60,7 +60,7 @@ const DayCard = ({
           <div>
             <div
               className={`text-xs font-bold tracking-wider mb-1 ${
-                isAnniversary ? "text-[#F5F7F2]" : "text-white/80"
+                isAnniversary ? "text-[#F4F6F0]" : "text-white/80"
               }`}
             >
               DAY {dayData.day} • {dayData.date}
@@ -80,11 +80,11 @@ const DayCard = ({
             {dayData.activities.map((act, idx) => (
               <div key={idx} className="flex gap-2 md:gap-4">
                 <div className="w-11 md:w-14 shrink-0 text-right">
-                  <span className="text-xs md:text-sm font-bold text-[#2D5A27]">
+                  <span className="text-xs md:text-sm font-bold text-[#5F7A61]">
                     {act.time}
                   </span>
                 </div>
-                <div className="flex-1 pb-4 border-b border-gray-50 last:border-0">
+                <div className="flex-1 pb-4 border-b border-gray-50/30 last:border-0">
                   <div className="flex justify-between items-start gap-2">
                     <div className="flex-1 min-w-0">
                       <div className="font-bold text-gray-800 mb-1">
@@ -100,7 +100,7 @@ const DayCard = ({
                       {act.map && (
                         <button
                           onClick={() => onOpenRoute(act.map)}
-                          className="p-1.5 text-gray-400 hover:text-[#2D5A27] transition-colors rounded-lg hover:bg-[#F5F7F2]"
+                          className="p-1.5 text-gray-400 hover:text-[#5F7A61] transition-colors rounded-lg hover:bg-[#5F7A61]/10"
                           title="查看地圖"
                         >
                           <MapPin size={16} />
@@ -109,12 +109,12 @@ const DayCard = ({
                     </div>
                   </div>
                   {act.note && (
-                    <div className="mt-1 text-xs text-[#2D5A27]/70 flex items-start gap-1">
+                    <div className="mt-1 text-xs text-[#5F7A61]/80 flex items-start gap-1">
                       <Info size={12} className="mt-0.5 shrink-0" /> {act.note}
                     </div>
                   )}
                   {act.tips && (
-                    <div className="mt-2 text-xs text-[#8B7355] bg-[#8B7355]/10 border border-[#8B7355]/20 px-3 py-1.5 rounded-lg inline-block">
+                    <div className="mt-2 text-xs text-[#5F7A61] bg-[#5F7A61]/10 border border-[#5F7A61]/20 px-3 py-1.5 rounded-lg inline-block font-medium">
                       <span className="font-bold mr-1">⚠️</span> {act.tips}
                     </div>
                   )}
@@ -124,19 +124,19 @@ const DayCard = ({
           </div>
 
           {/* Highlight */}
-          <div className="mt-6 pt-6 border-t border-gray-50">
+          <div className="mt-6 pt-6 border-t border-gray-100/40">
             <div
               className={`flex items-start gap-3 p-3 rounded-xl border ${
                 isAnniversary
-                  ? "bg-gradient-to-br from-[#8B7355]/5 to-[#8B7355]/10 border-[#8B7355]/20"
-                  : "bg-gradient-to-br from-white to-gray-50 border-gray-100"
+                  ? "bg-gradient-to-br from-[#5F7A61]/5 to-[#5F7A61]/10 border-[#5F7A61]/20"
+                  : "bg-gray-50 border-gray-100 shadow-sm"
               }`}
             >
               <div
                 className={`p-2 rounded-lg shrink-0 ${
                   isAnniversary
-                    ? "bg-[#8B7355]/10 text-[#8B7355]"
-                    : "bg-[#E8968A]/10 text-[#E8968A]"
+                    ? "bg-[#5F7A61]/10 text-[#5F7A61]"
+                    : "bg-[#5F7A61]/10 text-[#5F7A61]"
                 }`}
               >
                 <Sparkles size={16} />
@@ -146,8 +146,10 @@ const DayCard = ({
                   HIGHLIGHT
                 </div>
                 <div
-                  className={`text-sm font-medium leading-relaxed ${
-                    isAnniversary ? "text-[#8B7355]" : "text-gray-700"
+                  className={`text-sm leading-relaxed ${
+                    isAnniversary
+                      ? "text-[#5F7A61] font-bold"
+                      : "text-gray-700 font-medium"
                   }`}
                 >
                   {dayData.highlight}

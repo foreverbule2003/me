@@ -54,7 +54,7 @@ const StickyPhaseHeader = ({
           <div className="absolute inset-0">
             {/* Open Background */}
             <div
-              className={`absolute inset-0 bg-white/95 backdrop-blur-md border-b border-gray-100/50 transition-opacity duration-500 ${isOpen ? "opacity-100" : "opacity-0"}`}
+              className={`absolute inset-0 bg-white/95 backdrop-blur-md border-b border-gray-200 transition-opacity duration-500 ${isOpen ? "opacity-100" : "opacity-0"}`}
             ></div>
 
             {/* Closed Background */}
@@ -68,7 +68,7 @@ const StickyPhaseHeader = ({
                   alt=""
                 />
               )}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#2e3e30]/80 via-black/20 to-transparent"></div>
             </div>
           </div>
 
@@ -76,8 +76,8 @@ const StickyPhaseHeader = ({
           <div
             className={`absolute inset-0 px-5 flex items-center justify-between transition-all duration-500 ${isOpen ? "opacity-100 translate-y-0 delay-100" : "opacity-0 -translate-y-4 pointer-events-none"}`}
           >
-            <h2 className="text-sm font-medium text-[#0F2540] flex items-center gap-2">
-              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#E8968A]/10 text-[#E8968A]">
+            <h2 className="text-sm font-bold text-[#5F7A61] flex items-center gap-2">
+              <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#5F7A61]/10 text-[#5F7A61]">
                 <MapPin size={12} />
               </span>
               {title}

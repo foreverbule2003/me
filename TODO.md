@@ -37,6 +37,10 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-05-24 (21:42)
+
+- [x] **Tokyo UI 視覺重構 (Glass Effect)**: 修復 Hero Image 邊界斷裂感（導入 `mask-image` 漸層遮罩）、移除多餘邊框，並替附屬面板（Timeline, Flight, Checklist, Shopping 等）導入 `variant="glass"` 半透明毛玻璃材質，完美還原高質感層次對比。
+
 ### 2026-05-12 (16:15)
 
 - [x] **TWII Bias Analysis Tool**: 實作加權指數乖離率 (Bias) 分析工具 `tools/twii-bias.html`，整合 K 線圖與 MA 乖離率熱圖。

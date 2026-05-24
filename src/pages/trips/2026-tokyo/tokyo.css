@@ -1,41 +1,81 @@
 /**
  * 2026 東京 專用樣式
- * 主題色：紫色系 (Violet / Indigo)
+ * 主題色：莫蘭迪鼠尾草綠 (Sage & Morandi Green)
  */
 
 :root {
-  --primary: #7c3aed;
-  --headerPrimary: #1a0a2e;
-  --accent: #a78bfa;
+  --primary: #5f7a61;
+  --headerPrimary: #2e3e30;
+  --accent: #a3b19b;
   --dark: #1c1c1e;
   --subtle: #6e6e73;
-  --surface: #f5f5f0;
+  --surface: #f4f6f0;
+}
+
+/* 高級流光莫蘭迪鼠尾草綠漸層背景 (Mesh Gradient / Fluid Aura) 
+   主體是高雅明亮的偏灰白色調，但在四周與中心隱約浮現出大面積柔和綠色與莫蘭迪色光暈
+   能為白色毛玻璃卡片提供極致完美的物理折射對比，即使在淺色背景下也極具層次感 */
+.sage-aurora-bg {
+  background-color: #f4f6f0;
+  background-image:
+    radial-gradient(at 0% 0%, rgba(95, 122, 97, 0.14) 0px, transparent 50%),
+    radial-gradient(at 100% 0%, rgba(163, 177, 155, 0.16) 0px, transparent 50%),
+    radial-gradient(at 100% 50%, rgba(95, 122, 97, 0.08) 0px, transparent 40%),
+    radial-gradient(at 0% 100%, rgba(46, 62, 48, 0.06) 0px, transparent 50%),
+    radial-gradient(
+      at 50% 100%,
+      rgba(163, 177, 155, 0.14) 0px,
+      transparent 50%
+    ),
+    radial-gradient(at 50% 50%, rgba(244, 246, 240, 0.5) 0px, transparent 100%);
+  background-attachment: fixed;
 }
 
 @keyframes float {
-  0%, 100% { transform: scale(1.05); }
-  50%       { transform: scale(1.08); }
+  0%,
+  100% {
+    transform: scale(1.05);
+  }
+  50% {
+    transform: scale(1.08);
+  }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { transform: translateY(20px); opacity: 0; }
-  to   { transform: translateY(0);    opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
-.animate-fade-in  { animation: fadeIn  0.3s ease-out forwards; }
-.animate-fade-up  { animation: slideUp 0.6s ease-out forwards; }
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+.animate-fade-up {
+  animation: slideUp 0.6s ease-out forwards;
+}
 
 .animate-fade-up-delay-1 {
   animation-delay: 0.1s;
   opacity: 0;
 }
 
-.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;

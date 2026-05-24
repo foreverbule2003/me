@@ -211,6 +211,7 @@ const WeatherForecastSection = ({ forceOpen, theme = "default" }) => {
       collapsible={true}
       defaultOpen={true}
       forceOpen={forceOpen}
+      variant="glass"
     >
       {/* Horizontal Scroll Container */}
       <div className="relative -mx-4 md:mx-0">
