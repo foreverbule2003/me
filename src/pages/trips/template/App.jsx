@@ -94,8 +94,8 @@ const Header = () => (
       </div>
       <h1 className="text-4xl md:text-6xl font-bold mb-3 leading-tight tracking-tight text-yellow-50">
         東京
-        <span className="block text-xl md:text-2xl mt-2 font-medium tracking-widest opacity-90">
-          橫濱・涉谷・輕井澤 8日旅
+        <span className="block text-xl md:text-2xl mt-2 font-medium tracking-widest text-[#5F7A61]">
+          橫濱・澀谷・輕井澤 8日旅
         </span>
       </h1>
       <div className="mt-4 flex items-center justify-center gap-3 text-sm text-white/70">

@@ -43,6 +43,7 @@ import {
   shoppingData,
   todoData,
   vegetarianCard,
+  accommodationData,
 } from "./data.js";
 
 import {
@@ -65,12 +66,12 @@ import {
 
 // Header
 const Header = () => (
-  <header className="relative w-full pt-8 pb-6 px-6 md:px-12 text-[#1c1c1e] overflow-hidden flex flex-col items-center justify-center">
+  <header className="relative w-full pt-4 md:pt-8 pb-2 md:pb-6 px-6 md:px-12 text-white overflow-hidden flex flex-col items-center justify-center drop-shadow-md">
     <div className="max-w-5xl mx-auto text-center relative z-10 w-full">
-      <div className="flex items-center justify-between w-full mb-8">
+      <div className="flex items-center justify-start w-full mb-4 md:mb-8">
         <a
           href="/me/?booted=true"
-          className="p-2 bg-white/40 backdrop-blur-md rounded-full text-[#5F7A61] hover:bg-white/60 transition-all border border-white/40 shadow-sm group"
+          className="p-2 bg-black/20 backdrop-blur-md rounded-full text-white hover:bg-black/40 transition-all border border-white/20 shadow-lg group"
           title="回到首頁"
         >
           <ArrowRight
@@ -78,121 +79,69 @@ const Header = () => (
             className="rotate-180 group-hover:-translate-x-1 transition-transform"
           />
         </a>
-        <div className="flex items-center gap-3">
-          <span className="font-medium text-[#5F7A61] text-sm hidden sm:block">
-            Tim & Bei
-          </span>
-          <div className="w-8 h-8 bg-white/50 backdrop-blur-md border border-white/60 rounded-full flex items-center justify-center text-[#5F7A61] shadow-sm">
-            <Star size={14} />
-          </div>
-        </div>
       </div>
 
-      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-white/50 backdrop-blur-md text-xs font-medium tracking-wider border border-white/60 text-[#5F7A61] shadow-sm">
+      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-black/20 backdrop-blur-md text-xs font-medium tracking-wider border border-white/20 text-white shadow-lg">
         JP · TYO · YOK · KRZ · 2026 · 8D
       </div>
-      <h1 className="text-4xl md:text-5xl font-bold mb-3 leading-tight tracking-tight text-[#1c1c1e]">
+      <h1 className="text-4xl md:text-5xl font-bold mb-3 leading-tight tracking-tight text-white drop-shadow-lg">
         東京
-        <span className="block text-xl md:text-2xl mt-2 font-medium tracking-widest text-[#5F7A61]">
-          橫濱・涉谷・輕井澤 8日旅
+        <span className="block text-xl md:text-2xl mt-3 font-medium tracking-widest text-white/90 drop-shadow-md">
+          橫濱・澀谷・輕井澤 8日旅
         </span>
       </h1>
-      <div className="mt-4 flex items-center justify-center gap-3 text-sm text-[#6e6e73]">
-        <span>6/17 – 6/24</span>
-        <span>·</span>
-        <span>🎊 6/21 三週年</span>
-        <span>·</span>
-        <span>🌱 蛋奶素</span>
-      </div>
     </div>
   </header>
 );
 
 // VegetarianCard 素食溝通卡
 const VegetarianCard = ({ forceOpen }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    if (forceOpen !== null) setIsOpen(forceOpen);
-  }, [forceOpen]);
   return (
-    <div className="bg-white/40 backdrop-blur-xl rounded-3xl shadow-lg border border-white/60 overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-5 text-left"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
-            <span className="text-xl">🌱</span>
-          </div>
-          <div>
-            <div className="font-bold text-[#7A8B7B]">蛋奶素溝通卡</div>
-            <div className="text-xs text-gray-400 mt-0.5">
-              日語・飲食限制快速出示
-            </div>
-          </div>
+    <SectionCard
+      icon={Utensils}
+      title="蛋奶素溝通卡"
+      collapsible={true}
+      defaultOpen={false}
+      forceOpen={forceOpen}
+      variant="glass"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        {/* 🚫 飲食禁忌 */}
+        <div className="p-5 bg-red-50 border border-red-100 rounded-2xl space-y-3 animate-fade-in">
+          <p className="text-sm font-black text-red-500 tracking-wider mb-3">食べられないもの (🚫 飲食禁忌)</p>
+          <ul className="space-y-2.5">
+            {vegetarianCard.cannotEat.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-red-800">
+                <span className="text-red-500 mt-1 text-xs">■</span>
+                <span className="text-base font-extrabold leading-tight">{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ChevronDown
-          size={20}
-          className={`text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
-        />
-      </button>
-      {isOpen && (
-        <div className="px-5 pb-5 space-y-4">
-          <div className="p-4 bg-red-50 border border-red-100 rounded-2xl">
-            <p className="text-xs font-bold text-red-400 mb-2">🚫 飲食禁忌</p>
-            <p className="text-base font-bold text-red-700 leading-relaxed">
-              {vegetarianCard.restriction}
-            </p>
-            <p className="text-sm font-bold text-red-600 mt-2 leading-relaxed">
-              {vegetarianCard.dashi}
-            </p>
-          </div>
-          <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl">
-            <p className="text-xs font-bold text-amber-500 mb-2">💛 確認問句</p>
-            <p className="text-base font-bold text-amber-800 leading-relaxed">
-              {vegetarianCard.question}
-            </p>
-          </div>
-          <div className="p-4 bg-green-50 border border-green-100 rounded-2xl">
-            <p className="text-xs font-bold text-green-500 mb-2">✅ 可食</p>
-            <p className="text-sm font-bold text-green-700">
-              {vegetarianCard.ok}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {vegetarianCard.canEat.map((item, i) => (
-                <span
-                  key={i}
-                  className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
-          <div className="p-4 bg-gray-50 border border-gray-200 rounded-2xl">
-            <p className="text-xs font-bold text-gray-400 mb-2">🚫 不可食</p>
-            <div className="flex flex-wrap gap-2">
-              {vegetarianCard.cannotEat.map((item, i) => (
-                <span
-                  key={i}
-                  className="text-xs bg-red-50 text-red-500 border border-red-100 px-3 py-1 rounded-full font-medium"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-          </div>
+
+        {/* ✅ 可食項目 */}
+        <div className="p-5 bg-emerald-50 border border-emerald-100 rounded-2xl space-y-3 animate-fade-in">
+          <p className="text-sm font-black text-emerald-600 tracking-wider mb-3">食べられるもの (✅ 可食項目)</p>
+          <ul className="space-y-2.5">
+            {vegetarianCard.canEat.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-emerald-800">
+                <span className="text-emerald-500 mt-1 text-xs">●</span>
+                <span className="text-base font-extrabold leading-tight">{item}</span>
+              </li>
+            ))}
+          </ul>
         </div>
-      )}
-    </div>
+      </div>
+    </SectionCard>
   );
 };
 
-// Tab 導航
+// Tab 導航 - 等寬設計
 const TabNavigation = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { id: "overview", label: "總覽", Icon: Star },
     { id: "itinerary", label: "行程", Icon: Calendar },
+    { id: "accommodation", label: "住宿", Icon: Hotel },
     { id: "map", label: "交通", Icon: Train },
     { id: "food", label: "美食", Icon: Utensils },
     { id: "shopping", label: "購物", Icon: ShoppingBag },
@@ -200,26 +149,25 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-white/20 backdrop-blur-md border-b border-white/30 mb-6">
-      <div className="max-w-5xl mx-auto overflow-x-auto no-scrollbar px-6 md:px-12">
-        <div className="flex gap-6">
-          {tabs.map(({ id, label, Icon }) => (
-            <button
-              key={id}
-              onClick={() => setActiveTab(id)}
-              className={`flex-none py-4 flex items-center gap-2 transition-colors relative ${
-                activeTab === id
-                  ? "text-[#1c1c1e] font-bold"
-                  : "text-[#6e6e73] hover:text-[#1c1c1e]"
-              }`}
-            >
-              <Icon size={16} />
-              <span className="text-sm">{label}</span>
-              {activeTab === id && (
-                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-[#1c1c1e] rounded-t-full"></span>
-              )}
-            </button>
-          ))}
+    <nav className="sticky top-4 z-40 mb-8 w-full max-w-5xl mx-auto px-6 md:px-12 pointer-events-none">
+      <div className="w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl pointer-events-auto overflow-hidden">
+        <div className="overflow-x-auto no-scrollbar w-full">
+          <div className="flex items-center p-1.5 min-w-max w-full gap-1">
+            {tabs.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                onClick={() => setActiveTab(id)}
+                className={`flex-1 flex justify-center items-center px-4 py-2.5 gap-2 rounded-xl transition-all duration-300 ${
+                  activeTab === id
+                    ? "bg-white/20 text-white font-bold shadow-sm"
+                    : "text-white/70 hover:text-white hover:bg-white/10 font-medium"
+                }`}
+              >
+                <Icon size={14} />
+                <span className="text-sm whitespace-nowrap">{label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </nav>
@@ -340,6 +288,7 @@ export default function App() {
   const [favorites, setFavorites] = useState({});
   const [purchased, setPurchased] = useState({});
   const [isSyncing, setIsSyncing] = useState(true);
+  const [showBreakdown, setShowBreakdown] = useState(false);
 
   const TRIP_ID = "2026-tokyo";
 
@@ -455,33 +404,82 @@ export default function App() {
   const handleOpenMap = (mapData) =>
     setMapModalData({ isOpen: true, data: mapData });
 
+  const totalAccommodationBudget = accommodationData.reduce((total, section) => {
+    const booked = section.hotels.find((h) => h.status === "已預訂" || h.status === "已訂妥" || h.status === "已決定");
+    if (booked && booked.priceTwd) return total + booked.priceTwd;
+
+    const candidatesWithPrice = section.hotels.filter((h) => h.priceTwd);
+    if (candidatesWithPrice.length > 0) {
+      const sum = candidatesWithPrice.reduce((acc, h) => acc + h.priceTwd, 0);
+      return total + (sum / candidatesWithPrice.length);
+    }
+    return total;
+  }, 0);
+
+  const accommodationBreakdown = accommodationData.map((section) => {
+    const booked = section.hotels.find((h) => h.status === "已預訂" || h.status === "已訂妥" || h.status === "已決定");
+    if (booked && booked.priceTwd) {
+      return {
+        location: section.location,
+        period: section.period,
+        type: "confirmed",
+        detailText: `${booked.name} (${booked.status})`,
+        price: booked.priceTwd,
+      };
+    }
+
+    const candidatesWithPrice = section.hotels.filter((h) => h.priceTwd);
+    if (candidatesWithPrice.length > 0) {
+      const sum = candidatesWithPrice.reduce((acc, h) => acc + h.priceTwd, 0);
+      const avg = sum / candidatesWithPrice.length;
+      const count = candidatesWithPrice.length;
+      return {
+        location: section.location,
+        period: section.period,
+        type: "candidate_avg",
+        detailText: `${count}間候選均價`,
+        formula: `(${candidatesWithPrice.map(h => h.priceTwd).join("+")}) / ${count} = ${Math.round(avg)}`,
+        price: avg,
+      };
+    }
+
+    return {
+      location: section.location,
+      period: section.period,
+      type: "none",
+      detailText: "無預估價格",
+      price: 0,
+    };
+  });
+
   return (
-    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative overflow-x-hidden p-2 sm:p-6 lg:p-8 bg-[#e4e9e3]">
-      <div className="relative z-10 max-w-[1400px] mx-auto bg-white/40 backdrop-blur-3xl rounded-[2.5rem] shadow-2xl overflow-hidden min-h-[90vh]">
-        {/* 內嵌 Hero Image，使用 mask-image 讓底部完美漸層消失，無縫融入毛玻璃面板 */}
+    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative bg-[#f1f4ee]">
+      {/* 移除 overflow-hidden 確保內部 sticky 導航列能正常置頂 */}
+      <div className="relative z-10 w-full min-h-screen">
+        {/* 頂部 Hero Image，手機版降低高度避免佔比過大 */}
         <div
-          className="absolute top-0 left-0 right-0 h-[600px] pointer-events-none z-0"
+          className="absolute top-0 left-0 right-0 h-[380px] md:h-[600px] pointer-events-none z-0"
           style={{
             maskImage:
-              "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
+              "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)",
             WebkitMaskImage:
-              "linear-gradient(to bottom, black 0%, black 30%, transparent 100%)",
+              "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)",
           }}
         >
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-70"
+            className="absolute inset-0 bg-cover bg-center opacity-80"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop')`,
             }}
           />
-          {/* 輕微的白色覆蓋，確保上方文字易讀性，同時跟隨 mask 漸變 */}
-          <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-white/10 to-transparent" />
+          {/* 確保頂部文字清晰的暗色漸層 */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
         </div>
 
         <Header />
         <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-        <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pt-4 pb-12">
+        <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pb-12">
           {/* 總覽 Tab */}
           <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
             <FlightInfoSection
@@ -544,9 +542,151 @@ export default function App() {
             />
           </div>
 
+          {/* 住宿 Tab */}
+          <div
+            className={
+              activeTab === "accommodation" ? "space-y-8" : "hidden"
+            }
+          >
+            <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/60 shadow-sm">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h3 className="text-xl font-bold text-[#1c1c1e] mb-1">住宿總預算估算</h3>
+                  <p className="text-sm text-[#6e6e73]">
+                    已訂妥以該飯店計費，候選日期以<span className="font-bold text-[#1c1c1e]">候選飯店均價</span>進行估算。
+                  </p>
+                </div>
+                <div className="text-right">
+                  <div className="text-2xl font-bold text-[#5F7A61]">
+                    NT$ {Math.round(totalAccommodationBudget).toLocaleString()}
+                  </div>
+                  <div className="text-xs text-[#6e6e73]">7 晚總計</div>
+                </div>
+              </div>
+              
+              <div className="mt-4 pt-4 border-t border-[#7A8B7B]/10">
+                <button
+                  onClick={() => setShowBreakdown(!showBreakdown)}
+                  className="inline-flex items-center gap-1 text-xs text-[#5F7A61] hover:text-[#7A8B7B] transition-colors font-semibold"
+                >
+                  {showBreakdown ? "收起計算明細" : "顯示每日計算明細"}
+                  <ChevronDown size={14} className={`transition-transform ${showBreakdown ? "rotate-180" : ""}`} />
+                </button>
+                
+                {showBreakdown && (
+                  <div className="mt-3 p-4 bg-[#F4F6F0]/80 rounded-xl space-y-2.5 border border-[#7A8B7B]/10 animate-fade-in">
+                    <div className="text-xs font-bold text-[#7A8B7B] pb-1.5 border-b border-[#7A8B7B]/20 flex justify-between">
+                      <span>日期與地點</span>
+                      <span>計算依據與房價</span>
+                    </div>
+                    {accommodationBreakdown.map((item, bIdx) => (
+                      <div key={bIdx} className="flex justify-between items-center text-xs text-gray-600 py-1.5 last:pb-0 border-b border-[#7A8B7B]/10 last:border-0">
+                        <div className="flex flex-col sm:flex-row sm:items-center">
+                          <span className="font-semibold text-[#5F7A61] sm:mr-1.5">{item.period}</span>
+                          <span className="text-gray-400 text-[10px] sm:text-xs">{item.location}</span>
+                        </div>
+                        <div className="flex flex-col items-end sm:flex-row sm:items-center sm:gap-2">
+                          <span className="text-gray-400 text-[10px] sm:text-xs" title={item.formula}>
+                            {item.detailText}
+                          </span>
+                          <span className="font-bold text-[#1c1c1e]">
+                            NT$ {Math.round(item.price).toLocaleString()}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {accommodationData.map((section, idx) => (
+              <SectionCard
+                key={idx}
+                icon={null}
+                title={
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span>{section.location}</span>
+                    <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2 py-0.5 rounded-full">
+                      {section.period}
+                    </span>
+                  </div>
+                }
+                collapsible={true}
+                defaultOpen={true}
+                forceOpen={isAnyExpanded}
+                variant="glass"
+              >
+                <div className="space-y-4">
+                  {section.hotels.map((hotel, hIdx) => {
+                    const isSelected = hotel.status === "已決定" || hotel.status === "已訂妥" || hotel.status === "已預訂";
+                    return (
+                      <div
+                        key={hIdx}
+                        className={`p-4 rounded-xl border relative group overflow-hidden transition-all duration-300 ${
+                          isSelected
+                            ? "bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/20 animate-fade-in"
+                            : "bg-[#F4F6F0] border-[#7A8B7B]/20"
+                        }`}
+                      >
+                        {hotel.status && (() => {
+                          const isConfirmed = hotel.status === "已決定" || hotel.status === "已訂妥" || hotel.status === "已預訂";
+                          const badgeClass = isConfirmed
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                            : "bg-gray-50 text-gray-500 border-gray-200/60";
+                          return (
+                            <div className={`absolute top-4 right-4 text-xs rounded-full px-2.5 py-0.5 font-medium border ${badgeClass}`}>
+                              <span>{hotel.status}</span>
+                            </div>
+                          );
+                        })()}
+                        <h4 className="font-bold text-[#7A8B7B] text-lg pr-16 mb-1">
+                          {hotel.name}
+                        </h4>
+                        <p className="text-sm text-gray-500 mb-3">{hotel.desc}</p>
+                        
+                        {hotel.features && (
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            {hotel.features.map((feature, fIdx) => (
+                              <span
+                                key={fIdx}
+                                className={`text-xs px-2 py-1 rounded-full font-medium shadow-sm ${
+                                  isSelected ? "bg-[#F4F6F0] text-[#5F7A61]" : "bg-white text-[#5F7A61]"
+                                }`}
+                              >
+                                {feature}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#7A8B7B]/10">
+                          {hotel.mapUrl ? (
+                            <a
+                              href={hotel.mapUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-xs text-[#5F7A61] hover:text-[#7A8B7B] transition-colors font-medium bg-white px-2 py-1 rounded shadow-sm hover:shadow-md"
+                            >
+                              <MapPin size={12} /> 查看地圖
+                            </a>
+                          ) : <div />}
+                          {hotel.priceTwd && (
+                            <div className="text-sm font-bold text-[#5F7A61]">
+                              NT$ {hotel.priceTwd.toLocaleString()} <span className="text-xs font-normal text-gray-400">/晚</span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </SectionCard>
+            ))}
+          </div>
+
           {/* 預算 Tab */}
           <div
-            className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
+            className={activeTab === "budget" ? "space-y-8" : "hidden"}
           >
             <BudgetSection
               data={budgetData}
@@ -568,7 +708,7 @@ export default function App() {
           {/* 交通 Tab */}
           <div
             className={
-              activeTab === "map" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+              activeTab === "map" ? "space-y-8" : "hidden"
             }
           >
             {/* 每日交通路線 */}
@@ -658,7 +798,7 @@ export default function App() {
           {/* 美食 Tab */}
           <div
             className={
-              activeTab === "food" ? "max-w-3xl mx-auto space-y-6" : "hidden"
+              activeTab === "food" ? "space-y-8" : "hidden"
             }
           >
             {isSyncing && (
@@ -763,7 +903,7 @@ export default function App() {
           <div
             className={
               activeTab === "shopping"
-                ? "max-w-3xl mx-auto space-y-6"
+                ? "space-y-8"
                 : "hidden"
             }
           >
@@ -782,6 +922,7 @@ export default function App() {
         <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
           {[
             "itinerary",
+            "accommodation",
             "food",
             "shopping",
             "overview",
