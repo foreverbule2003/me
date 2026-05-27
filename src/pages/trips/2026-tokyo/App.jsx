@@ -21,6 +21,7 @@ import {
   AlertTriangle,
   Heart,
   Bike,
+  Clock,
 } from "lucide-react";
 
 // 共用元件
@@ -725,48 +726,48 @@ export default function App() {
                 {recommendedRoutes.map((route, idx) => (
                   <div
                     key={idx}
-                    className="p-5 bg-white rounded-2xl border border-[#7A8B7B]/20 hover:border-[#93A895] transition-all hover:shadow-md"
+                    className="p-3.5 md:p-5 bg-white rounded-2xl border border-[#7A8B7B]/20 hover:border-[#93A895] transition-all hover:shadow-md"
                   >
-                    <div className="flex items-center justify-between mb-4 border-b border-[#7A8B7B]/10 pb-3">
-                      <div className="flex items-center gap-3">
-                        <span className="text-xs font-bold text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-1 rounded-md">
+                    <div className="flex items-center justify-between mb-3 border-b border-[#7A8B7B]/10 pb-2">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] md:text-xs font-bold text-[#5F7A61] bg-[#5F7A61]/10 px-2 py-0.5 rounded">
                           {route.day}
                         </span>
-                        <span className="font-bold text-[#1c1c1e] text-lg">
+                        <span className="font-bold text-[#1c1c1e] text-base md:text-lg">
                           {route.name}
                         </span>
                       </div>
-                      <span className="text-sm font-medium text-[#7A8B7B] bg-[#F4F6F0] px-2.5 py-1 rounded-full flex items-center gap-1">
-                        ⏱️ {route.duration}
+                      <span className="text-xs md:text-sm font-medium text-[#7A8B7B] bg-[#F4F6F0] px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
+                        <Clock size={12} className="text-[#93A895]" /> {route.duration}
                       </span>
                     </div>
                     
-                    <div className="space-y-3">
+                    <div className="space-y-2">
                       {route.steps && route.steps.map((step, sIdx) => (
-                        <div key={sIdx} className="bg-[#F4F6F0] rounded-xl p-3.5 flex flex-col gap-2 border border-[#7A8B7B]/10 relative overflow-hidden group">
+                        <div key={sIdx} className="bg-[#F4F6F0] rounded-xl p-3 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group">
                           {/* 裝飾線條 */}
                           <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
                           
-                          <div className="flex items-center gap-2 border-b border-[#7A8B7B]/10 pb-2 mb-1 pl-2">
-                            {step.type === 'bike' ? <Bike size={16} className="text-[#93A895]" /> : <Train size={16} className="text-[#5F7A61]" />}
-                            <span className="text-[15px] font-bold text-[#5F7A61]">{step.line}</span>
+                          <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
+                            {step.type === 'bike' ? <Bike size={14} className="text-[#93A895]" /> : <Train size={14} className="text-[#5F7A61]" />}
+                            <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
                           </div>
                           
-                          <div className="flex flex-wrap gap-2 text-xs pl-2">
+                          <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
                             {step.station && (
-                              <span className="bg-white text-gray-700 font-medium px-2.5 py-1.5 rounded-md shadow-sm flex items-center gap-1.5">
-                                <span className="text-[11px]">📍</span> {step.station}
+                              <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                                <span className="text-[10px]">📍</span> <span className="truncate">{step.station}</span>
                               </span>
                             )}
                             {step.platform && (
-                              <span className="bg-white text-gray-700 font-medium px-2.5 py-1.5 rounded-md shadow-sm flex items-center gap-1.5 border border-emerald-100">
-                                <span className="text-[11px]">🛤️</span> {step.platform}
+                              <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100">
+                                <span className="text-[10px]">🛤️</span> <span className="truncate">{step.platform}</span>
                               </span>
                             )}
                           </div>
                           
                           {step.note && (
-                            <div className="text-[12px] text-gray-600 mt-1.5 leading-relaxed bg-white/60 p-2.5 rounded-lg border border-white pl-2 ml-2">
+                            <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white pl-2 ml-2">
                               {step.note.includes("⚠️") ? (
                                 <span className="text-red-500 font-bold">{step.note}</span>
                               ) : (
