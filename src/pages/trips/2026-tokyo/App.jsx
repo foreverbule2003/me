@@ -279,6 +279,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
 export default function App() {
   const [activeTab, setActiveTab] = useState("overview");
   const [expandedDays, setExpandedDays] = useState({});
+  const [collapseCounter, setCollapseCounter] = useState(0); // 用於通知 StickyPhaseHeader 全收合
   const [mapModalData, setMapModalData] = useState({
     isOpen: false,
     data: null,
@@ -346,6 +347,7 @@ export default function App() {
   const handleSmartToggle = () => {
     if (isAnyExpanded) {
       setExpandedDays({});
+      setCollapseCounter(c => c + 1); // 觸發所有 StickyPhaseHeader 收合
     } else {
       const newExpanded = {};
       itineraryData.forEach((phase, pIdx) => {
@@ -541,6 +543,7 @@ export default function App() {
               onOpenMap={handleOpenMap}
               onOpenFoodGuide={() => setActiveTab("food")}
               isAnyExpanded={isAnyExpanded}
+              collapseCounter={collapseCounter}
             />
           </div>
 
@@ -607,9 +610,9 @@ export default function App() {
                 key={idx}
                 icon={null}
                 title={
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center justify-between w-full">
                     <span>{section.location}</span>
-                    <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2 py-0.5 rounded-full">
+                    <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
                       {section.period}
                     </span>
                   </div>
@@ -710,141 +713,85 @@ export default function App() {
           {/* 交通 Tab */}
           <div
             className={
-              activeTab === "map" ? "space-y-8" : "hidden"
+              activeTab === "map" ? "space-y-6" : "hidden"
             }
           >
-            {/* 每日交通路線 */}
-            <SectionCard
-              icon={MapPin}
-              title="每日交通路線"
-              collapsible={true}
-              defaultOpen={true}
-              forceOpen={isAnyExpanded}
-              variant="glass"
-            >
-              <div className="space-y-3">
-                {recommendedRoutes.map((route, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3.5 md:p-5 bg-white rounded-2xl border border-[#7A8B7B]/20 hover:border-[#93A895] transition-all hover:shadow-md"
-                  >
-                    <div className="flex items-center justify-between mb-3 border-b border-[#7A8B7B]/10 pb-2">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] md:text-xs font-bold text-[#5F7A61] bg-[#5F7A61]/10 px-2 py-0.5 rounded">
-                          {route.day}
-                        </span>
-                        <span className="font-bold text-[#1c1c1e] text-base md:text-lg">
-                          {route.name}
-                        </span>
-                      </div>
-                      <span className="text-xs md:text-sm font-medium text-[#7A8B7B] bg-[#F4F6F0] px-2 py-0.5 rounded-full flex items-center gap-1 shrink-0">
-                        <Clock size={12} className="text-[#93A895]" /> {route.duration}
+            {recommendedRoutes.map((route, idx) => (
+              <SectionCard
+                key={idx}
+                icon={Train}
+                collapsible={true}
+                defaultOpen={true}
+                forceOpen={isAnyExpanded}
+                variant="glass"
+                title={
+                  <div className="flex items-center justify-between w-full">
+                    <span>{route.name}</span>
+                    <div className="flex items-center gap-2 flex-shrink-0">
+                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                        {route.day}
                       </span>
                     </div>
-                    
-                    <div className="space-y-2">
-                      {route.steps && route.steps.map((step, sIdx) => (
-                        <div key={sIdx} className="bg-[#F4F6F0] rounded-xl p-3 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group">
-                          {/* 裝飾線條 */}
-                          <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
-                          
-                          <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
-                            <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                              {step.type === 'bike' ? <Bike size={14} className="text-[#93A895] shrink-0" /> : <Train size={14} className="text-[#5F7A61] shrink-0" />}
-                              <div className="flex items-center gap-2">
-                                <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
-                                {step.duration && (
-                                  <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80">
-                                    <Clock size={10} />
-                                    {step.duration}
-                                  </span>
-                                )}
-                              </div>
-                            </div>
-                          </div>
-                          
-                          <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
-                            {step.station && (
-                              <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
-                                <span className="text-[10px]">📍</span> <span className="truncate">{step.station}</span>
-                              </span>
-                            )}
-                            {step.platform && (
-                              <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100">
-                                <span className="text-[10px]">🛤️</span> <span className="truncate">{step.platform}</span>
+                  </div>
+                }
+              >
+                <div className="space-y-2.5">
+                  {route.duration && (
+                    <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-1">
+                      <Clock size={12} />
+                      <span className="font-medium">預估總時間：{route.duration}</span>
+                    </div>
+                  )}
+                  {route.steps && route.steps.map((step, sIdx) => (
+                    <div key={sIdx} className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group">
+                      {/* 裝飾線條 */}
+                      <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
+                      
+                      <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
+                        <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                          {step.type === 'bike' ? <Bike size={14} className="text-[#93A895] shrink-0" /> : <Train size={14} className="text-[#5F7A61] shrink-0" />}
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
+                            {step.duration && (
+                              <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80">
+                                <Clock size={10} />
+                                {step.duration}
                               </span>
                             )}
                           </div>
-                          
-                          {step.note && (
-                            <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white pl-2 ml-2">
-                              {step.note.includes("⚠️") ? (
-                                <span className="text-red-500 font-bold">{step.note}</span>
-                              ) : (
-                                <span>* {step.note}</span>
-                              )}
-                            </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
+                        {step.station && (
+                          <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                            <span className="text-[10px]">📍</span> <span className="truncate">{step.station}</span>
+                          </span>
+                        )}
+                        {step.platform && (
+                          <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
+                            <span className="text-[10px]">🛤️</span> <span className="truncate">{step.platform}</span>
+                          </span>
+                        )}
+                      </div>
+                      
+                      {step.note && (
+                        <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white/40 pl-2 ml-2">
+                          {step.note.includes("⚠️") ? (
+                            <span className="text-red-500 font-bold">{step.note}</span>
+                          ) : (
+                            <span>* {step.note}</span>
                           )}
                         </div>
-                      ))}
-                      {route.desc && !route.steps && (
-                        <div className="text-sm text-gray-500 pl-2">{route.desc}</div>
                       )}
                     </div>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
-
-            {/* 交通攻略說明 */}
-            <SectionCard
-              icon={Train}
-              title="東京交通攻略"
-              collapsible={true}
-              defaultOpen={false}
-              forceOpen={isAnyExpanded}
-              variant="glass"
-            >
-              <div className="space-y-3">
-                {[
-                  {
-                    title: "Suica (西瓜卡)",
-                    desc: "建議在成田機場 JR 服務窗口購買，適用地鐵、JR、公車、便利商店",
-                    tag: "必備",
-                  },
-                  {
-                    title: "N'EX 成田特快",
-                    desc: "成田機場 ↔ 東京/新宿/橫濱，外國旅客可購買來回優惠票 ¥4,070",
-                    tag: "推薦",
-                  },
-                  {
-                    title: "北陸新幹線 (東京-輕井澤)",
-                    desc: "はくたか 或 あさま，約 70~80 分，需事先劃位",
-                    tag: "需預訂",
-                  },
-                  {
-                    title: "JR 湘南新宿ライン",
-                    desc: "新宿 ↔ 橫濱，不需換車，約 28 分鐘",
-                    tag: "便利",
-                  },
-                ].map((item, idx) => (
-                  <div
-                    key={idx}
-                    className="p-4 bg-[#F4F6F0] rounded-xl border border-[#7A8B7B]/20"
-                  >
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="font-bold text-[#7A8B7B]">
-                        {item.title}
-                      </span>
-                      <span className="text-xs font-bold text-[#5F7A61] bg-[#F4F6F0] px-2 py-0.5 rounded">
-                        {item.tag}
-                      </span>
-                    </div>
-                    <p className="text-sm text-gray-500">{item.desc}</p>
-                  </div>
-                ))}
-              </div>
-            </SectionCard>
+                  ))}
+                  {route.desc && !route.steps && (
+                    <div className="text-sm text-gray-500 pl-2">{route.desc}</div>
+                  )}
+                </div>
+              </SectionCard>
+            ))}
           </div>
 
           {/* 美食 Tab */}
@@ -865,9 +812,9 @@ export default function App() {
                   key={cIdx}
                   icon={Utensils}
                   title={
-                    <div className="flex items-center gap-2 flex-wrap">
+                    <div className="flex items-center justify-between w-full">
                       <span>{category.location}</span>
-                      <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
+                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
                         {category.day}
                       </span>
                     </div>
