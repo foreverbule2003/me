@@ -846,7 +846,7 @@ export const shoppingData = {
   categories: [
     {
       title: "橫濱區",
-      icon: "⚓",
+      day: "Day 1-2",
       items: [
         {
           name: "科萊特馬雷 港未來購物中心",
@@ -868,7 +868,7 @@ export const shoppingData = {
     },
     {
       title: "澀谷・表參道區",
-      icon: "🗼",
+      day: "Day 2-3",
       items: [
         {
           name: "澀谷SCRAMBLE SQUARE",
@@ -899,7 +899,7 @@ export const shoppingData = {
     },
     {
       title: "輕井澤區",
-      icon: "🌿",
+      day: "Day 4-6",
       items: [
         {
           name: "輕井澤王子購物廣場",
@@ -917,7 +917,7 @@ export const shoppingData = {
     },
     {
       title: "其他（備用/返程）",
-      icon: "🛍️",
+      day: "Day 7-8",
       items: [
         {
           name: "酒酒井名牌暢貨中心",

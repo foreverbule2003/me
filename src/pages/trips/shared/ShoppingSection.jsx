@@ -63,7 +63,18 @@ const ShoppingSection = ({
         <SectionCard
           key={cIdx}
           icon={null}
-          title={`${category.icon} ${category.title}`}
+          title={
+            category.day ? (
+              <div className="flex items-center gap-3 w-full">
+                <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                  {category.day}
+                </span>
+                <span>{category.title}</span>
+              </div>
+            ) : (
+              category.icon ? `${category.icon} ${category.title}` : category.title
+            )
+          }
           collapsible={true}
           forceOpen={forceOpen}
           variant="glass"
