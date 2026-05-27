@@ -485,7 +485,7 @@ export default function App() {
 
         <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pb-12">
           {/* 總覽 Tab */}
-          <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
+          <div className={activeTab === "overview" ? "space-y-6" : "hidden"}>
             <FlightInfoSection
               outbound={flightData.outbound}
               inbound={flightData.inbound}
@@ -550,7 +550,7 @@ export default function App() {
           {/* 住宿 Tab */}
           <div
             className={
-              activeTab === "accommodation" ? "space-y-8" : "hidden"
+              activeTab === "accommodation" ? "space-y-6" : "hidden"
             }
           >
             <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/60 shadow-sm">
@@ -608,7 +608,7 @@ export default function App() {
             {accommodationData.map((section, idx) => (
               <SectionCard
                 key={idx}
-                icon={null}
+                icon={Hotel}
                 title={
                   <div className="flex items-center justify-between w-full">
                     <span>{section.location}</span>
@@ -797,7 +797,7 @@ export default function App() {
           {/* 美食 Tab */}
           <div
             className={
-              activeTab === "food" ? "space-y-8" : "hidden"
+              activeTab === "food" ? "space-y-6" : "hidden"
             }
           >
             {isSyncing && (
