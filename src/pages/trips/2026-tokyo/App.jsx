@@ -757,20 +757,12 @@ export default function App() {
                   }
                 >
                   <div className="space-y-2.5">
-                    {(parsedDate.date || route.duration) && (
+                    {parsedDate.date && (
                       <div className="flex flex-wrap items-center gap-2 mb-1">
-                        {parsedDate.date && (
-                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
-                            <Calendar size={12} />
-                            <span className="font-medium">{parsedDate.date}</span>
-                          </div>
-                        )}
-                        {route.duration && (
-                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
-                            <Clock size={12} />
-                            <span className="font-medium">預估總時間：{route.duration}</span>
-                          </div>
-                        )}
+                        <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
+                          <Calendar size={12} />
+                          <span className="font-medium">{parsedDate.date}</span>
+                        </div>
                       </div>
                     )}
                     {route.steps && route.steps.map((step, sIdx) => (
