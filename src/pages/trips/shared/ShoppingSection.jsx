@@ -103,25 +103,24 @@ const ShoppingSection = ({
 
   return (
     <>
-      {/* 🛍️ 購買清單 (可折疊收合，帶有進度條的 SectionCard) */}
+      {/* 購買清單 (可折疊收合，無 icon 且前置日期標籤，右側只留文字採購比例) */}
       {wishlist.length > 0 && (
         <SectionCard
           icon={null}
           title={
             <div className="flex items-center justify-between gap-4 w-full">
-              <span className="font-bold text-gray-800">🛍️ 購買清單</span>
-              
-              {/* 採購進度條 */}
-              <div className="flex items-center gap-3 shrink-0 mr-1 sm:mr-3">
-                <span className="text-[11px] font-bold text-[#5F7A61] tabular-nums">
-                  {wishlistProgress.completed}/{wishlistProgress.total} ({wishlistProgress.percent}%)
+              <div className="flex items-center gap-3">
+                <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                  Day 1-8
                 </span>
-                <div className="w-16 sm:w-28 h-2 bg-gray-200/50 rounded-full overflow-hidden p-0.5 border border-white/50 shadow-inner shrink-0">
-                  <div
-                    className="h-full bg-gradient-to-r from-[#8B9D8B] to-[#5F7A61] rounded-full transition-all duration-500 ease-out shadow-sm"
-                    style={{ width: `${wishlistProgress.percent}%` }}
-                  />
-                </div>
+                <span className="font-bold text-gray-800">購買清單</span>
+              </div>
+              
+              {/* 採購進度文字比例 */}
+              <div className="flex items-center shrink-0 mr-1 sm:mr-3">
+                <span className="text-[11px] font-bold text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full tabular-nums">
+                  {wishlistProgress.completed} / {wishlistProgress.total}
+                </span>
               </div>
             </div>
           }
