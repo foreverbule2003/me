@@ -138,11 +138,11 @@ export const SectionCard = ({
   const HeaderContent = () => (
     <div className="flex items-center gap-2">
       {Icon && (
-        <div className="p-2 bg-accent/10 rounded-lg text-accent">
-          <Icon size={18} />
+        <div className="text-[#5F7A61] flex-shrink-0 pr-1">
+          <Icon size={20} />
         </div>
       )}
-      <h2 className="text-lg md:text-xl font-bold text-gray-800 flex-1 text-left">
+      <h2 className="text-lg font-bold text-gray-800 flex-1 text-left">
         {title}
       </h2>
       {collapsible && (

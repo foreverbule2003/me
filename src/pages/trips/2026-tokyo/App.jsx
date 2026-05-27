@@ -66,6 +66,16 @@ import {
 
 // ========== 本地元件 ==========
 
+// 處理日期字串的輔助函數，例如將 "Day 1 (6/17 三)" 解析為 { day: "Day 1", date: "6/17 三" }
+const parseDateStr = (str) => {
+  if (!str) return { day: "", date: "" };
+  const match = str.match(/^(.*?)\s*\((.*)\)$/);
+  if (match) {
+    return { day: match[1].trim(), date: match[2].trim() };
+  }
+  return { day: str, date: "" };
+};
+
 // Header
 const Header = () => (
   <header className="relative w-full pt-4 md:pt-8 pb-2 md:pb-6 px-6 md:px-12 text-white overflow-hidden flex flex-col items-center justify-center drop-shadow-md">
@@ -605,27 +615,35 @@ export default function App() {
               </div>
             </div>
 
-            {accommodationData.map((section, idx) => (
-              <SectionCard
-                key={idx}
-                icon={null}
-                title={
-                  <div className="flex items-center gap-3 w-full">
-                    <div className="w-[110px] md:w-[150px] flex-shrink-0 flex justify-start">
-                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
-                        {section.period}
-                      </span>
+            {accommodationData.map((section, idx) => {
+              const parsedDate = parseDateStr(section.period);
+              return (
+                <SectionCard
+                  key={idx}
+                  icon={null}
+                  title={
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="w-[70px] md:w-[80px] flex-shrink-0 flex justify-start">
+                        <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                          {parsedDate.day}
+                        </span>
+                      </div>
+                      <span>{section.location}</span>
                     </div>
-                    <span>{section.location}</span>
-                  </div>
-                }
-                collapsible={true}
-                defaultOpen={true}
-                forceOpen={isAnyExpanded}
-                variant="glass"
-              >
-                <div className="space-y-4">
-                  {section.hotels.map((hotel, hIdx) => {
+                  }
+                  collapsible={true}
+                  defaultOpen={true}
+                  forceOpen={isAnyExpanded}
+                  variant="glass"
+                >
+                  <div className="space-y-4">
+                    {parsedDate.date && (
+                      <div className="inline-flex items-center gap-1 text-xs text-[#5F7A61] mb-1 font-medium">
+                        <Calendar size={14} className="opacity-70" />
+                        日期：{parsedDate.date}
+                      </div>
+                    )}
+                    {section.hotels.map((hotel, hIdx) => {
                     const isSelected = hotel.status === "已決定" || hotel.status === "已訂妥" || hotel.status === "已預訂";
                     return (
                       <div
@@ -688,7 +706,8 @@ export default function App() {
                   })}
                 </div>
               </SectionCard>
-            ))}
+            );
+          })}
           </div>
 
           {/* 預算 Tab */}
@@ -718,33 +737,45 @@ export default function App() {
               activeTab === "map" ? "space-y-6" : "hidden"
             }
           >
-            {recommendedRoutes.map((route, idx) => (
-              <SectionCard
-                key={idx}
-                icon={null}
-                collapsible={true}
-                defaultOpen={true}
-                forceOpen={isAnyExpanded}
-                variant="glass"
-                title={
-                  <div className="flex items-center gap-3 w-full">
-                    <div className="w-[110px] md:w-[150px] flex-shrink-0 flex justify-start">
-                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
-                        {route.day}
-                      </span>
+            {recommendedRoutes.map((route, idx) => {
+              const parsedDate = parseDateStr(route.day);
+              return (
+                <SectionCard
+                  key={idx}
+                  icon={null}
+                  collapsible={true}
+                  defaultOpen={true}
+                  forceOpen={isAnyExpanded}
+                  variant="glass"
+                  title={
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="w-[70px] md:w-[80px] flex-shrink-0 flex justify-start">
+                        <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                          {parsedDate.day}
+                        </span>
+                      </div>
+                      <span>{route.name}</span>
                     </div>
-                    <span>{route.name}</span>
-                  </div>
-                }
-              >
-                <div className="space-y-2.5">
-                  {route.duration && (
-                    <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-1">
-                      <Clock size={12} />
-                      <span className="font-medium">預估總時間：{route.duration}</span>
-                    </div>
-                  )}
-                  {route.steps && route.steps.map((step, sIdx) => (
+                  }
+                >
+                  <div className="space-y-2.5">
+                    {(parsedDate.date || route.duration) && (
+                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                        {parsedDate.date && (
+                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
+                            <Calendar size={12} />
+                            <span className="font-medium">{parsedDate.date}</span>
+                          </div>
+                        )}
+                        {route.duration && (
+                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
+                            <Clock size={12} />
+                            <span className="font-medium">預估總時間：{route.duration}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                    {route.steps && route.steps.map((step, sIdx) => (
                     <div key={sIdx} className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group">
                       {/* 裝飾線條 */}
                       <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
@@ -793,7 +824,8 @@ export default function App() {
                   )}
                 </div>
               </SectionCard>
-            ))}
+            );
+          })}
           </div>
 
           {/* 美食 Tab */}
@@ -809,25 +841,33 @@ export default function App() {
             )}
             {foodData.categories
               .filter((cat) => cat.sections[0].items.length > 0)
-              .map((category, cIdx) => (
-                <SectionCard
-                  key={cIdx}
-                  icon={null}
-                  title={
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="w-[110px] md:w-[150px] flex-shrink-0 flex justify-start">
-                        <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
-                          {category.day}
-                        </span>
+              .map((category, cIdx) => {
+                const parsedDate = parseDateStr(category.day);
+                return (
+                  <SectionCard
+                    key={cIdx}
+                    icon={null}
+                    title={
+                      <div className="flex items-center gap-3 w-full">
+                        <div className="w-[70px] md:w-[80px] flex-shrink-0 flex justify-start">
+                          <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                            {parsedDate.day}
+                          </span>
+                        </div>
+                        <span>{category.location}</span>
                       </div>
-                      <span>{category.location}</span>
-                    </div>
-                  }
-                  collapsible={true}
-                  forceOpen={isAnyExpanded}
-                  variant="glass"
-                >
-                  {category.sections.map((section, sIdx) => (
+                    }
+                    collapsible={true}
+                    forceOpen={isAnyExpanded}
+                    variant="glass"
+                  >
+                    {parsedDate.date && (
+                      <div className="inline-flex items-center gap-1 text-xs text-[#5F7A61] mb-4 font-medium pl-2">
+                        <Calendar size={14} className="opacity-70" />
+                        日期：{parsedDate.date}
+                      </div>
+                    )}
+                    {category.sections.map((section, sIdx) => (
                     <CollapsibleSubsection
                       key={sIdx}
                       title={section.title}
@@ -899,7 +939,8 @@ export default function App() {
                     </CollapsibleSubsection>
                   ))}
                 </SectionCard>
-              ))}
+              );
+            })}
           </div>
 
           {/* 購物 Tab */}
