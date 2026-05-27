@@ -949,6 +949,7 @@ export default function App() {
           >
             <ShoppingSection
               categories={shoppingData.categories}
+              wishlist={shoppingData.wishlist}
               purchased={purchased}
               togglePurchased={togglePurchased}
               setProductModalData={setProductModalData}
