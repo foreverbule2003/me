@@ -748,9 +748,17 @@ export default function App() {
                           {/* 裝飾線條 */}
                           <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
                           
-                          <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
-                            {step.type === 'bike' ? <Bike size={14} className="text-[#93A895]" /> : <Train size={14} className="text-[#5F7A61]" />}
-                            <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
+                          <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2 justify-between pr-2">
+                            <div className="flex items-center gap-1.5 min-w-0">
+                              {step.type === 'bike' ? <Bike size={14} className="text-[#93A895] shrink-0" /> : <Train size={14} className="text-[#5F7A61] shrink-0" />}
+                              <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
+                            </div>
+                            {step.duration && (
+                              <div className="flex items-center gap-0.5 text-[#7A8B7B] bg-white px-1.5 py-0.5 rounded shadow-sm shrink-0 border border-[#7A8B7B]/10">
+                                <Clock size={10} />
+                                <span className="text-[10px] font-bold">{step.duration}</span>
+                              </div>
+                            )}
                           </div>
                           
                           <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">

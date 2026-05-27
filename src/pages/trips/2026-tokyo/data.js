@@ -420,9 +420,10 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "train",
-        line: "N'EX 成田特快",
+        line: "JR N'EX 成田特快",
         station: "成田 T1 (B1 JR)",
         platform: "1/2號月台",
+        duration: "約90分",
         note: "直達車，免換車。"
       }
     ]
@@ -441,6 +442,7 @@ export const recommendedRoutes = [
         line: "JR 湘南新宿線",
         station: "橫濱站",
         platform: "10號月台",
+        duration: "約30分",
         note: "直達。亦可搭東急/東海道線(需轉乘)。"
       }
     ]
@@ -459,6 +461,7 @@ export const recommendedRoutes = [
         line: "JR 湘南新宿線",
         station: "澀谷站",
         platform: "3號月台",
+        duration: "約35分",
         note: "搭至大宮轉乘"
       },
       {
@@ -466,6 +469,7 @@ export const recommendedRoutes = [
         line: "北陸新幹線",
         station: "大宮站",
         platform: "17/18月台",
+        duration: "約50分",
         note: "轉乘需過聯絡閘門"
       }
     ]
@@ -490,7 +494,8 @@ export const recommendedRoutes = [
         line: "信濃鐵道",
         station: "中輕井澤",
         platform: "北口 1/2號",
-        note: "單程 ¥240，車程 4 分。"
+        duration: "約4分",
+        note: "單程 ¥240"
       }
     ]
   },
@@ -508,6 +513,7 @@ export const recommendedRoutes = [
         line: "北陸新幹線",
         station: "輕井澤站",
         platform: "1/2號月台",
+        duration: "約70分",
         note: "直達東京"
       }
     ]
@@ -523,9 +529,10 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "train",
-        line: "N'EX 成田特快",
+        line: "JR N'EX 成田特快",
         station: "東京總武地下",
         platform: "B5 1/2月台",
+        duration: "約60分",
         note: "⚠️ B5月台極深，從地面步行需15-20分，務必提早！"
       }
     ]
