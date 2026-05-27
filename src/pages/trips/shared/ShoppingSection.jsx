@@ -62,7 +62,7 @@ const ShoppingSection = ({
       {categories.map((category, cIdx) => (
         <SectionCard
           key={cIdx}
-          icon={ShoppingBag}
+          icon={null}
           title={`${category.icon} ${category.title}`}
           collapsible={true}
           forceOpen={forceOpen}
