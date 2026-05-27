@@ -416,8 +416,16 @@ export const recommendedRoutes = [
     name: "成田 → 橫濱",
     origin: "Narita Airport Terminal 1",
     destination: "Yokohama Station",
-    desc: "搭乘 N'EX (成田特快) 直達。乘車處：成田機場 T1 地下一樓 (B1) JR 線剪票口進站，通常於 1 或 2 號月台搭乘。",
     duration: "約90分",
+    steps: [
+      {
+        type: "train",
+        line: "N'EX 成田特快",
+        station: "成田機場 T1 (地下一樓 B1 JR 剪票口)",
+        platform: "1 或 2 號月台",
+        note: "直達車，免換車。"
+      }
+    ]
   },
   {
     id: 2,
@@ -426,8 +434,16 @@ export const recommendedRoutes = [
     name: "橫濱 → 澀谷",
     origin: "Yokohama Station",
     destination: "Shibuya Station",
-    desc: "推薦搭乘 JR 湘南新宿線 (直達，橫濱站 10 號月台)；亦可搭乘東急東橫線 (地下月台) 或 JR 東海道線 (7、8 號月台，但須在戶塚/大崎轉乘)。",
     duration: "約30分",
+    steps: [
+      {
+        type: "train",
+        line: "JR 湘南新宿線",
+        station: "橫濱站",
+        platform: "10 號月台",
+        note: "強烈推薦此路線，為直達車。亦可搭東急東橫線或 JR 東海道線 (需轉乘)。"
+      }
+    ]
   },
   {
     id: 3,
@@ -436,8 +452,23 @@ export const recommendedRoutes = [
     name: "澀谷 → 大宮 → 輕井澤",
     origin: "Shibuya Station",
     destination: "Karuizawa Station",
-    desc: "1. 澀谷站 (3 號月台) 搭乘 JR 湘南新宿線至大宮站。\n2. 大宮站轉乘北陸新幹線 (往長野/金澤方向，17、18 號月台) 至輕井澤站 (轉乘需經聯絡閘門)。",
     duration: "約85分",
+    steps: [
+      {
+        type: "train",
+        line: "JR 湘南新宿線",
+        station: "澀谷站",
+        platform: "3 號月台",
+        note: "搭乘至「大宮站」轉乘新幹線。"
+      },
+      {
+        type: "shinkansen",
+        line: "北陸新幹線",
+        station: "大宮站",
+        platform: "17、18 號新幹線月台",
+        note: "轉乘需通過專用聯絡閘門，往長野/金澤方向搭乘至「輕井澤站」。"
+      }
+    ]
   },
   {
     id: 4,
@@ -446,8 +477,22 @@ export const recommendedRoutes = [
     name: "輕井澤區內慢活",
     origin: "Karuizawa Station",
     destination: "Karuizawa Area",
-    desc: "1. 租借白貓自行車 (北口右對面，電動車 ¥1,500/日 / 普通車 ¥700/日，17:00 前還)。\n2. 輕井澤 ↔ 中輕井澤亦可搭乘信濃鐵道 (北口獨立月台 1、2 號，車程 4 分，單程 ¥240)。",
     duration: "全天彈性",
+    steps: [
+      {
+        type: "bike",
+        line: "白貓腳踏車",
+        station: "輕井澤站 北口右對面",
+        note: "電動車 ¥1,500/日、普通車 ¥700/日，需於 17:00 前歸還。"
+      },
+      {
+        type: "train",
+        line: "信濃鐵道",
+        station: "輕井澤站 ↔ 中輕井澤站",
+        platform: "北口獨立月台 1、2 號",
+        note: "若不騎車可搭乘此線。車程 4 分，單程 ¥240。"
+      }
+    ]
   },
   {
     id: 5,
@@ -456,18 +501,34 @@ export const recommendedRoutes = [
     name: "輕井澤 → 東京站",
     origin: "Karuizawa Station",
     destination: "Tokyo Station",
-    desc: "於輕井澤站 (新幹線 1、2 號月台) 搭乘北陸新幹線 (往東京方向) 直達東京站。",
     duration: "約70分",
+    steps: [
+      {
+        type: "shinkansen",
+        line: "北陸新幹線",
+        station: "輕井澤站",
+        platform: "新幹線 1、2 號月台",
+        note: "搭乘往東京方向班次，直達東京站。"
+      }
+    ]
   },
   {
     id: 6,
     day: "Day 8",
     type: "route",
-    name: "東京站 ➔ 成田",
+    name: "東京站 ➔ 成田機場",
     origin: "Tokyo Station",
     destination: "Narita Airport Terminal 1",
-    desc: "搭乘 N'EX (成田特快)。乘車處：東京站總武地下月台 (地下 5 樓，通常為 1、2 號月台)。\n⚠️ 警告：總武地下月台極深，從地面轉乘步行至少需 15-20 分鐘，務必提早出發！",
     duration: "約60分",
+    steps: [
+      {
+        type: "train",
+        line: "N'EX 成田特快",
+        station: "東京站",
+        platform: "總武地下線 地下 5 樓 1、2 號月台",
+        note: "⚠️ 警告：總武地下月台極深，從地面層轉乘步行至少需 15-20 分鐘，請務必提早出發！"
+      }
+    ]
   },
 ];
 

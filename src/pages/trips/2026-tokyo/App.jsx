@@ -20,6 +20,7 @@ import {
   Check,
   AlertTriangle,
   Heart,
+  Bike,
 } from "lucide-react";
 
 // 共用元件
@@ -453,7 +454,7 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative bg-[#f1f4ee]">
+    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative bg-[#e2e8db]">
       {/* 移除 overflow-hidden 確保內部 sticky 導航列能正常置頂 */}
       <div className="relative z-10 w-full min-h-screen">
         {/* 頂部 Hero Image，手機版降低高度避免佔比過大 */}
@@ -724,21 +725,61 @@ export default function App() {
                 {recommendedRoutes.map((route, idx) => (
                   <div
                     key={idx}
-                    className="p-4 bg-[#F4F6F0] rounded-xl border border-[#7A8B7B]/20 hover:border-[#93A895] transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
-                    onClick={() => handleOpenMap(route)}
+                    className="p-5 bg-white rounded-2xl border border-[#7A8B7B]/20 hover:border-[#93A895] transition-all hover:shadow-md"
                   >
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-xs font-bold text-[#5F7A61] bg-[#F4F6F0] px-2 py-1 rounded">
-                        {route.day}
-                      </span>
-                      <span className="text-xs text-gray-400">
-                        {route.duration}
+                    <div className="flex items-center justify-between mb-4 border-b border-[#7A8B7B]/10 pb-3">
+                      <div className="flex items-center gap-3">
+                        <span className="text-xs font-bold text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-1 rounded-md">
+                          {route.day}
+                        </span>
+                        <span className="font-bold text-[#1c1c1e] text-lg">
+                          {route.name}
+                        </span>
+                      </div>
+                      <span className="text-sm font-medium text-[#7A8B7B] bg-[#F4F6F0] px-2.5 py-1 rounded-full flex items-center gap-1">
+                        ⏱️ {route.duration}
                       </span>
                     </div>
-                    <div className="font-bold text-[#7A8B7B] mb-1">
-                      {route.name}
+                    
+                    <div className="space-y-3">
+                      {route.steps && route.steps.map((step, sIdx) => (
+                        <div key={sIdx} className="bg-[#F4F6F0] rounded-xl p-3.5 flex flex-col gap-2 border border-[#7A8B7B]/10 relative overflow-hidden group">
+                          {/* 裝飾線條 */}
+                          <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
+                          
+                          <div className="flex items-center gap-2 border-b border-[#7A8B7B]/10 pb-2 mb-1 pl-2">
+                            {step.type === 'bike' ? <Bike size={16} className="text-[#93A895]" /> : <Train size={16} className="text-[#5F7A61]" />}
+                            <span className="text-[15px] font-bold text-[#5F7A61]">{step.line}</span>
+                          </div>
+                          
+                          <div className="flex flex-wrap gap-2 text-xs pl-2">
+                            {step.station && (
+                              <span className="bg-white text-gray-700 font-medium px-2.5 py-1.5 rounded-md shadow-sm flex items-center gap-1.5">
+                                <span className="text-[11px]">📍</span> {step.station}
+                              </span>
+                            )}
+                            {step.platform && (
+                              <span className="bg-white text-gray-700 font-medium px-2.5 py-1.5 rounded-md shadow-sm flex items-center gap-1.5 border border-emerald-100">
+                                <span className="text-[11px]">🛤️</span> {step.platform}
+                              </span>
+                            )}
+                          </div>
+                          
+                          {step.note && (
+                            <div className="text-[12px] text-gray-600 mt-1.5 leading-relaxed bg-white/60 p-2.5 rounded-lg border border-white pl-2 ml-2">
+                              {step.note.includes("⚠️") ? (
+                                <span className="text-red-500 font-bold">{step.note}</span>
+                              ) : (
+                                <span>* {step.note}</span>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {route.desc && !route.steps && (
+                        <div className="text-sm text-gray-500 pl-2">{route.desc}</div>
+                      )}
                     </div>
-                    <div className="text-sm text-gray-500">{route.desc}</div>
                   </div>
                 ))}
               </div>
