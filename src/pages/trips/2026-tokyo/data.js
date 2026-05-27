@@ -845,7 +845,7 @@ export const shoppingData = {
   ],
   categories: [
     {
-      title: "橫濱區",
+      title: "橫濱",
       day: "Day 1-2",
       items: [
         {
@@ -867,7 +867,7 @@ export const shoppingData = {
       ],
     },
     {
-      title: "澀谷・表參道區",
+      title: "澀谷・表參道",
       day: "Day 2-3",
       items: [
         {
@@ -898,7 +898,7 @@ export const shoppingData = {
       ],
     },
     {
-      title: "輕井澤區",
+      title: "輕井澤",
       day: "Day 4-6",
       items: [
         {

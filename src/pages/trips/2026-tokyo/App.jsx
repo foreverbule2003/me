@@ -943,7 +943,7 @@ export default function App() {
           <div
             className={
               activeTab === "shopping"
-                ? "space-y-8"
+                ? "space-y-6"
                 : "hidden"
             }
           >
