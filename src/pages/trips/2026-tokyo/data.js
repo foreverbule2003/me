@@ -430,7 +430,7 @@ export const recommendedRoutes = [
   },
   {
     id: 2,
-    day: "Day 2-3 (6/18-6/19)",
+    day: "Day 2-3 (6/18 四 - 6/19 五)",
     type: "route",
     name: "橫濱 → 澀谷",
     origin: "Yokohama Station",
@@ -476,7 +476,7 @@ export const recommendedRoutes = [
   },
   {
     id: 4,
-    day: "Day 5-6 (6/21-6/22)",
+    day: "Day 5-6 (6/21 日 - 6/22 一)",
     type: "bike",
     name: "輕井澤",
     origin: "Karuizawa Station",

@@ -636,9 +636,9 @@ export default function App() {
                 >
                   <div className="space-y-4">
                     {parsedDate.date && (
-                      <div className="inline-flex items-center gap-1 text-xs text-[#5F7A61] mb-1 font-medium">
-                        <Calendar size={14} className="opacity-70" />
-                        日期：{parsedDate.date}
+                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-2">
+                        <Calendar size={12} />
+                        <span className="font-medium">{parsedDate.date}</span>
                       </div>
                     )}
                     {section.hotels.map((hotel, hIdx) => {
@@ -850,9 +850,9 @@ export default function App() {
                     variant="glass"
                   >
                     {parsedDate.date && (
-                      <div className="inline-flex items-center gap-1 text-xs text-[#5F7A61] mb-4 font-medium pl-2">
-                        <Calendar size={14} className="opacity-70" />
-                        日期：{parsedDate.date}
+                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-3 ml-2">
+                        <Calendar size={12} />
+                        <span className="font-medium">{parsedDate.date}</span>
                       </div>
                     )}
                     {category.sections.map((section, sIdx) => (
