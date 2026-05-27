@@ -51,7 +51,7 @@ export const overviewData = [
 
 export const itineraryData = [
   {
-    phase: "橫濱 (Day 1–2)",
+    phase: "橫濱 (Day 1-2)",
     image:
       "https://images.unsplash.com/photo-1545459720-aac8509eb02c?q=80&w=2070&auto=format&fit=crop",
     days: [
@@ -197,7 +197,7 @@ export const itineraryData = [
     ],
   },
   {
-    phase: "輕井澤 (Day 4–7)",
+    phase: "輕井澤 (Day 4-7)",
     image:
       "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
     days: [
@@ -587,7 +587,7 @@ export const foodData = {
   categories: [
     {
       location: "橫濱",
-      day: "Day 1–2",
+      day: "Day 1-2",
       sections: [
         {
           title: "☕ 咖啡・甜點",
@@ -644,7 +644,7 @@ export const foodData = {
     },
     {
       location: "澀谷・表參道",
-      day: "Day 3–4",
+      day: "Day 3-4",
       sections: [
         {
           title: "🍞 麵包・甜點",
@@ -732,7 +732,7 @@ export const foodData = {
     },
     {
       location: "輕井澤",
-      day: "Day 5–7",
+      day: "Day 5-7",
       sections: [
         {
           title: "🌿 野菜・紀念日餐廳",
@@ -815,7 +815,7 @@ export const foodData = {
     },
     {
       location: "東京站",
-      day: "Day 7–8",
+      day: "Day 7-8",
       sections: [
         {
           title: "🌱 素食",
