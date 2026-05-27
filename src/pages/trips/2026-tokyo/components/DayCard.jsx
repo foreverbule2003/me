@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronUp, ChevronDown, MapPin, Info, Sparkles } from "lucide-react";
+import { ChevronUp, ChevronDown, MapPin, Info, Sparkles, Train } from "lucide-react";
 
 const DayCard = ({
   dayData,
@@ -108,9 +108,38 @@ const DayCard = ({
                       )}
                     </div>
                   </div>
-                  {act.note && (
+                  {act.note && !act.transport && (
                     <div className="mt-1 text-xs text-[#5F7A61]/80 flex items-start gap-1">
                       <Info size={12} className="mt-0.5 shrink-0" /> {act.note}
+                    </div>
+                  )}
+                  {act.transport && (
+                    <div className="mt-2.5 bg-[#F4F6F0] border border-[#7A8B7B]/20 rounded-xl p-3 flex flex-col gap-2">
+                      <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5">
+                        <Train size={14} className="text-[#5F7A61]" />
+                        <span className="text-sm font-bold text-[#5F7A61]">{act.transport.line}</span>
+                      </div>
+                      <div className="flex flex-wrap gap-2 text-xs">
+                        {act.transport.station && (
+                          <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
+                            <span className="text-[10px]">📍</span> {act.transport.station}
+                          </span>
+                        )}
+                        {act.transport.platform && (
+                          <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded-md shadow-sm flex items-center gap-1 border border-emerald-100">
+                            <span className="text-[10px]">🛤️</span> {act.transport.platform}
+                          </span>
+                        )}
+                      </div>
+                      {act.transport.note && (
+                        <div className="text-[11px] text-gray-500 mt-0.5 leading-relaxed bg-white/50 p-2 rounded">
+                          {act.transport.note.includes("⚠️") ? (
+                            <span className="text-red-500 font-medium">{act.transport.note}</span>
+                          ) : (
+                            <span>* {act.transport.note}</span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   )}
                   {act.tips && (
