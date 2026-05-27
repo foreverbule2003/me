@@ -608,13 +608,15 @@ export default function App() {
             {accommodationData.map((section, idx) => (
               <SectionCard
                 key={idx}
-                icon={Hotel}
+                icon={null}
                 title={
-                  <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="w-[110px] md:w-[150px] flex-shrink-0 flex justify-start">
+                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                        {section.period}
+                      </span>
+                    </div>
                     <span>{section.location}</span>
-                    <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
-                      {section.period}
-                    </span>
                   </div>
                 }
                 collapsible={true}
@@ -719,19 +721,19 @@ export default function App() {
             {recommendedRoutes.map((route, idx) => (
               <SectionCard
                 key={idx}
-                icon={Train}
+                icon={null}
                 collapsible={true}
                 defaultOpen={true}
                 forceOpen={isAnyExpanded}
                 variant="glass"
                 title={
-                  <div className="flex items-center justify-between w-full">
-                    <span>{route.name}</span>
-                    <div className="flex items-center gap-2 flex-shrink-0">
+                  <div className="flex items-center gap-3 w-full">
+                    <div className="w-[110px] md:w-[150px] flex-shrink-0 flex justify-start">
                       <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
                         {route.day}
                       </span>
                     </div>
+                    <span>{route.name}</span>
                   </div>
                 }
               >
@@ -810,13 +812,15 @@ export default function App() {
               .map((category, cIdx) => (
                 <SectionCard
                   key={cIdx}
-                  icon={Utensils}
+                  icon={null}
                   title={
-                    <div className="flex items-center justify-between w-full">
+                    <div className="flex items-center gap-3 w-full">
+                      <div className="w-[110px] md:w-[150px] flex-shrink-0 flex justify-start">
+                        <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                          {category.day}
+                        </span>
+                      </div>
                       <span>{category.location}</span>
-                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
-                        {category.day}
-                      </span>
                     </div>
                   }
                   collapsible={true}

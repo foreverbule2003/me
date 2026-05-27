@@ -66,7 +66,7 @@ export const itineraryData = [
           {
             time: "16:30",
             text: "抵達成田機場 NRT T1",
-            subText: "提領行李、辦 Suica IC 卡",
+            subText: "提領行李、辦理入境與通關",
             map: {
               type: "search",
               query: "Narita International Airport Terminal 1",
@@ -402,7 +402,7 @@ export const itineraryData = [
 
 export const budgetData = [
   { item: "機票（TPE-NRT 來回）", cost: 0, note: "待確認" },
-  { item: "交通（N'EX / 新幹線 / Suica）", cost: 18000, note: "估算/人" },
+  { item: "交通（N'EX / 新幹線）", cost: 18000, note: "估算/人" },
   { item: "住宿（7泊）", cost: 49000, note: "均攤約¥7,000/晚" },
   { item: "餐飲", cost: 22000, note: "紀念日餐廳另計" },
   { item: "購物 / 景點", cost: 30000, note: "含 Outlet、藥妝" },
@@ -411,7 +411,7 @@ export const budgetData = [
 export const recommendedRoutes = [
   {
     id: 1,
-    day: "Day 1",
+    day: "Day 1 (6/17 三)",
     type: "route",
     name: "成田 → 橫濱",
     origin: "Narita Airport Terminal 1",
@@ -430,7 +430,7 @@ export const recommendedRoutes = [
   },
   {
     id: 2,
-    day: "Day 2-3",
+    day: "Day 2-3 (6/18-6/19)",
     type: "route",
     name: "橫濱 → 澀谷",
     origin: "Yokohama Station",
@@ -449,7 +449,7 @@ export const recommendedRoutes = [
   },
   {
     id: 3,
-    day: "Day 4",
+    day: "Day 4 (6/20 六)",
     type: "route",
     name: "澀谷 → 輕井澤",
     origin: "Shibuya Station",
@@ -476,7 +476,7 @@ export const recommendedRoutes = [
   },
   {
     id: 4,
-    day: "Day 5-6",
+    day: "Day 5-6 (6/21-6/22)",
     type: "bike",
     name: "輕井澤",
     origin: "Karuizawa Station",
@@ -501,7 +501,7 @@ export const recommendedRoutes = [
   },
   {
     id: 5,
-    day: "Day 7",
+    day: "Day 7 (6/23 二)",
     type: "route",
     name: "輕井澤 → 東京",
     origin: "Karuizawa Station",
@@ -520,7 +520,7 @@ export const recommendedRoutes = [
   },
   {
     id: 6,
-    day: "Day 8",
+    day: "Day 8 (6/24 三)",
     type: "route",
     name: "東京 → 成田",
     origin: "Tokyo Station",
@@ -938,22 +938,22 @@ export const todoData = [
   {
     group: "出國前準備",
     category: "交通",
-    item: "預訂新幹線去程：大宮 ➔ 輕井澤 (6/20 六)",
+    item: "新幹線去程：大宮 ➔ 輕井澤 (6/20 六)",
   },
   {
     group: "出國前準備",
     category: "交通",
-    item: "預訂 N'EX 來回車票",
+    item: "N'EX 來回車票",
   },
   {
     group: "出國前準備",
     category: "通訊",
-    item: "購買日本上網 eSIM",
+    item: "日本上網 eSIM",
   },
   {
     group: "出國前準備",
     category: "交通",
-    item: "預約機場接送",
+    item: "機場接送",
   },
   {
     group: "出國前準備",
@@ -965,7 +965,7 @@ export const todoData = [
   {
     group: "確認與追蹤項目",
     category: "交通",
-    item: "預訂新幹線回程：輕井澤 ➔ 東京 (6/23 二)",
+    item: "新幹線回程：輕井澤 ➔ 東京 (6/23 二)",
   },
 ];
 
