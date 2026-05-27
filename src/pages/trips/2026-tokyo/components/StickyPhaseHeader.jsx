@@ -80,7 +80,7 @@ const StickyPhaseHeader = ({
             <div className="flex items-center gap-3">
               {/* 日期 badge 移到最左邊，並給予固定寬度以對齊地點名稱 */}
               {dayRange && (
-                <div className="w-[110px] md:w-[150px] flex-shrink-0 flex justify-start">
+                <div className="w-[76px] flex-shrink-0 flex justify-start">
                   <span
                     className={`text-xs font-medium px-2.5 py-0.5 rounded-full flex-shrink-0 ${transitionClass} ${
                       isOpen

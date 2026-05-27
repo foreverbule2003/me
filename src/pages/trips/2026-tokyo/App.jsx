@@ -747,9 +747,11 @@ export default function App() {
                   variant="glass"
                   title={
                     <div className="flex items-center gap-3 w-full">
-                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
-                        {parsedDate.day}
-                      </span>
+                      <div className="w-[76px] flex-shrink-0 flex justify-start">
+                        <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                          {parsedDate.day}
+                        </span>
+                      </div>
                       <span>{route.name}</span>
                     </div>
                   }
