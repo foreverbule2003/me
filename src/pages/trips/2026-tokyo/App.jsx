@@ -46,6 +46,7 @@ import {
   todoData,
   vegetarianCard,
   accommodationData,
+  weatherData,
 } from "./data.js";
 
 import {
@@ -529,6 +530,14 @@ export default function App() {
               }}
             />
 
+            <WeatherForecastSection
+              forecastData={weatherData.days}
+              sourceNote={weatherData.sourceNote}
+              sourceUrl={weatherData.sourceUrl}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+            />
+
             <ChecklistSection
               title="待訂清單"
               items={todoData}
@@ -634,14 +643,15 @@ export default function App() {
                   forceOpen={isAnyExpanded}
                   variant="glass"
                 >
-                  <div className="space-y-4">
+                  <div>
                     {parsedDate.date && (
-                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-2">
+                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4">
                         <Calendar size={12} />
                         <span className="font-medium">{parsedDate.date}</span>
                       </div>
                     )}
-                    {section.hotels.map((hotel, hIdx) => {
+                    <div className="space-y-4">
+                      {section.hotels.map((hotel, hIdx) => {
                     const isSelected = hotel.status === "已決定" || hotel.status === "已訂妥" || hotel.status === "已預訂";
                     return (
                       <div
@@ -702,6 +712,7 @@ export default function App() {
                       </div>
                     );
                   })}
+                  </div>
                 </div>
               </SectionCard>
             );
@@ -756,63 +767,65 @@ export default function App() {
                     </div>
                   }
                 >
-                  <div className="space-y-2.5">
+                  <div>
                     {parsedDate.date && (
-                      <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <div className="flex flex-wrap items-center gap-2 mb-4">
                         <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
                           <Calendar size={12} />
                           <span className="font-medium">{parsedDate.date}</span>
                         </div>
                       </div>
                     )}
-                    {route.steps && route.steps.map((step, sIdx) => (
-                    <div key={sIdx} className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group">
-                      {/* 裝飾線條 */}
-                      <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
-                      
-                      <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
-                        <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                          {step.type === 'bike' ? <Bike size={14} className="text-[#93A895] shrink-0" /> : <Train size={14} className="text-[#5F7A61] shrink-0" />}
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
-                            {step.duration && (
-                              <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80">
-                                <Clock size={10} />
-                                {step.duration}
-                              </span>
-                            )}
+                    <div className="space-y-2.5">
+                      {route.steps && route.steps.map((step, sIdx) => (
+                      <div key={sIdx} className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group">
+                        {/* 裝飾線條 */}
+                        <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
+                        
+                        <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
+                          <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                            {step.type === 'bike' ? <Bike size={14} className="text-[#93A895] shrink-0" /> : <Train size={14} className="text-[#5F7A61] shrink-0" />}
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
+                              {step.duration && (
+                                <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80">
+                                  <Clock size={10} />
+                                  {step.duration}
+                                </span>
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      
-                      <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
-                        {step.station && (
-                          <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
-                            <span className="text-[10px]">📍</span> <span className="truncate">{step.station}</span>
-                          </span>
-                        )}
-                        {step.platform && (
-                          <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
-                            <span className="text-[10px]">🛤️</span> <span className="truncate">{step.platform}</span>
-                          </span>
-                        )}
-                      </div>
-                      
-                      {step.note && (
-                        <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white/40 pl-2 ml-2">
-                          {step.note.includes("⚠️") ? (
-                            <span className="text-red-500 font-bold">{step.note}</span>
-                          ) : (
-                            <span>* {step.note}</span>
+                        
+                        <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
+                          {step.station && (
+                            <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                              <span className="text-[10px]">📍</span> <span className="truncate">{step.station}</span>
+                            </span>
+                          )}
+                          {step.platform && (
+                            <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
+                              <span className="text-[10px]">🛤️</span> <span className="truncate">{step.platform}</span>
+                            </span>
                           )}
                         </div>
+                        
+                        {step.note && (
+                          <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white/40 pl-2 ml-2">
+                            {step.note.includes("⚠️") ? (
+                              <span className="text-red-500 font-bold">{step.note}</span>
+                            ) : (
+                              <span>* {step.note}</span>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                      ))}
+                      {route.desc && !route.steps && (
+                        <div className="text-sm text-gray-500 pl-2">{route.desc}</div>
                       )}
                     </div>
-                  ))}
-                  {route.desc && !route.steps && (
-                    <div className="text-sm text-gray-500 pl-2">{route.desc}</div>
-                  )}
-                </div>
+                  </div>
               </SectionCard>
             );
           })}
@@ -850,7 +863,7 @@ export default function App() {
                     variant="glass"
                   >
                     {parsedDate.date && (
-                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-3 ml-2">
+                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4 ml-2">
                         <Calendar size={12} />
                         <span className="font-medium">{parsedDate.date}</span>
                       </div>
@@ -901,10 +914,10 @@ export default function App() {
                                     )}
                                   </div>
                                   <div className="text-xs text-gray-500 mt-1">
-                                    {item.type} • {item.desc}
+                                    <span className="text-orange-600 font-medium">{item.type}</span> • {item.desc}
                                   </div>
                                   {item.note && (
-                                    <div className="text-xs text-orange-600 mt-1">
+                                    <div className="text-xs text-gray-500 mt-1">
                                       {item.note}
                                     </div>
                                   )}

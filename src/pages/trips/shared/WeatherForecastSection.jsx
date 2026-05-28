@@ -2,7 +2,7 @@ import React from "react";
 import { CloudSun, MapPin, Droplets, Thermometer } from "lucide-react";
 import { SectionCard } from "../../../components/trips";
 
-const WeatherForecastSection = ({ forceOpen, theme = "default" }) => {
+const WeatherForecastSection = ({ forceOpen, theme = "default", forecastData: propForecastData, sourceNote, sourceUrl }) => {
   const t =
     {
       default: {
@@ -30,7 +30,7 @@ const WeatherForecastSection = ({ forceOpen, theme = "default" }) => {
         tempHigh: "bg-[#8B7355]",
       },
     }[theme] || "default";
-  const forecastData = [
+  const defaultForecastData = [
     {
       date: "1/11",
       day: "日",
@@ -176,7 +176,10 @@ const WeatherForecastSection = ({ forceOpen, theme = "default" }) => {
     },
   ];
 
-  // Get current date string matching data format "M/D" (e.g., "1/11")
+  // 若有外部傳入資料則使用，否則 fallback 至上方預設資料
+  const forecastData = propForecastData || defaultForecastData;
+
+  // Get current date string matching data format \"M/D\" (e.g., \"1/11\")
   const todayObj = new Date();
   const TODAY_STR = `${todayObj.getMonth() + 1}/${todayObj.getDate()}`;
 
@@ -234,12 +237,12 @@ const WeatherForecastSection = ({ forceOpen, theme = "default" }) => {
               >
                 {/* Day Index & Date */}
                 <div
-                  className={`text-center mb-2 w-full border-b pb-1 ${
+                  className={`text-center mb-3 w-full border-b pb-2 ${
                     isToday ? t.borderLight : "border-gray-50"
                   }`}
                 >
-                  {/* Fixed height container for label to match alignment */}
-                  <div className="h-[22px] flex items-center justify-center mb-1">
+                  {/* Container for label to match alignment */}
+                  <div className="flex items-center justify-center mb-1.5">
                     {isToday ? (
                       <div
                         className={`text-[10px] font-extrabold text-white ${t.bgMain} rounded-full px-2 py-0.5 tracking-widest shadow-sm`}
@@ -356,9 +359,28 @@ const WeatherForecastSection = ({ forceOpen, theme = "default" }) => {
           })}
         </div>
 
-        {/* Helper Gradient for Scroll Hint */}
+        {/* Scroll Hint Gradient */}
         <div className="absolute right-0 top-0 bottom-4 w-8 bg-gradient-to-l from-white/90 to-transparent pointer-events-none md:hidden" />
       </div>
+
+      {/* 資料來源說明 */}
+      {sourceNote && (
+        <div className={`mt-3 pt-3 border-t ${t.borderLight} flex items-start gap-1.5`}>
+          <span className={`text-[10px] ${t.textLight} leading-relaxed flex-1`}>
+            ⚠️ {sourceNote}
+          </span>
+          {sourceUrl && (
+            <a
+              href={sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`text-[10px] font-bold ${t.textMain} shrink-0 hover:underline`}
+            >
+              tenki.jp →
+            </a>
+          )}
+        </div>
+      )}
     </SectionCard>
   );
 };

@@ -595,7 +595,7 @@ export const foodData = {
             {
               name: "Dean & DeLuca コレットマーレ",
               type: "咖啡廳",
-              desc: "港未來，優雅海景咖啡",
+              desc: "港未來優雅海景咖啡，紐約頂級超市品牌開的店",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Dean+DeLuca+Colette+Mare+Minatomirai",
@@ -603,26 +603,10 @@ export const foodData = {
             {
               name: "YOKOHAMA SORAiRO gelato",
               type: "義式冰淇淋",
-              desc: "在地人氣冰淇淋",
+              desc: "港未來在地超人氣義式冰淇淋",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=SORAiRO+gelato+Yokohama",
-            },
-            {
-              name: "Lumière de Paris",
-              type: "咖啡廳",
-              desc: "法式氛圍小店",
-              recommended: false,
-              mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=Lumiere+de+Paris+Yokohama",
-            },
-            {
-              name: "Elysee",
-              type: "咖啡廳",
-              desc: "山手地區老牌咖啡店",
-              recommended: false,
-              mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=Elysee+Yamate+Yokohama",
             },
           ],
         },
@@ -632,11 +616,19 @@ export const foodData = {
             {
               name: "Center Grill",
               type: "西式料理",
-              desc: "招牌蛋包飯，老字號洋食",
+              desc: "老字號昭和風洋食，招牌蛋包飯，老闆娘是台灣人",
               recommended: true,
-              note: "蛋包飯可素食，確認無肉高湯",
+              note: "蛋包飯可素食",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Center+Grill+Yokohama",
+            },
+            {
+              name: "Rice Cuisine SŪYA",
+              type: "Vegan / 無麩質",
+              desc: "日本大通純素與無麩質米粉料理專賣，極力推薦擔擔麵與披薩",
+              recommended: true,
+              mapUrl:
+                "https://maps.app.goo.gl/p2WtcQGsogN4VZWx9",
             },
           ],
         },
@@ -652,7 +644,7 @@ export const foodData = {
             {
               name: "AMAM DACOTAN",
               type: "麵包店",
-              desc: "超人氣排隊麵包，表參道",
+              desc: "表參道超人氣排隊麵包名店，I'm donut? 姊妹店，可內用",
               recommended: true,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=AMAM+DACOTAN+Omotesando",
@@ -660,7 +652,7 @@ export const foodData = {
             {
               name: "I'm donut? Omotesando",
               type: "甜甜圈",
-              desc: "現炸生甜甜圈，必排",
+              desc: "現炸生甜甜圈，表參道必排極限人氣店",
               recommended: true,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Im+donut+Omotesando",
@@ -668,7 +660,7 @@ export const foodData = {
             {
               name: "NUMBER SUGAR",
               type: "牛奶糖",
-              desc: "手工牛奶糖，伴手禮首選",
+              desc: "表參道手工牛奶糖，精緻伴手禮首選",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Number+Sugar+Tokyo",
@@ -681,7 +673,7 @@ export const foodData = {
             {
               name: "neel",
               type: "咖啡廳",
-              desc: "澀谷區靜謐咖啡",
+              desc: "澀谷神宮前靜謐老屋咖啡廳，老辣妹推薦軟可麗餅",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=neel+cafe+Shibuya",
@@ -694,34 +686,47 @@ export const foodData = {
             {
               name: "Brown Rice Tokyo Omotesando",
               type: "有機素食",
-              desc: "表參道，素食友善，玄米料理",
-              recommended: true,
-              note: "蛋奶素完全OK，無肉無魚",
+              desc: "表參道精緻素食日式定食，提供一汁三菜、蒸籠蒸膳與野菜咖喱",
+              recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Brown+Rice+Tokyo+Omotesando",
             },
             {
               name: "Neo Nice Burger 表参道",
               type: "漢堡",
-              desc: "表參道精緻漢堡",
+              desc: "表參道精緻漢堡名店，I'm donut? 姊妹店，有蘑菇漢堡，薯條好吃",
               recommended: false,
-              note: "可點蔬菜堡",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Neo+Nice+Burger+Omotesando",
             },
             {
               name: "大阪燒 櫻亭",
               type: "御好燒",
-              desc: "關西風大阪燒",
+              desc: "裏參道藝術風格大阪燒，提供蔬食選項，可自己動手做",
               recommended: false,
-              note: "可點蔬菜口味，確認湯底",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Sakuratel+okonomiyaki+Tokyo",
             },
             {
+              name: "AFURI 澀谷",
+              type: "拉麵",
+              desc: "澀谷超人氣拉麵名店，提供兩款素食拉麵",
+              recommended: true,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=AFURI+Shibuya+Tokyo",
+            },
+            {
+              name: "YAYOI 彌生軒 澀谷新南口店",
+              type: "日式定食",
+              desc: "澀谷新南口日式定食餐廳，各式經典和食與定食套餐選擇",
+              recommended: false,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=YAYOI+Shibuya+Shinnanguchi+Tokyo",
+            },
+            {
               name: "東急FoodShow 澀谷店",
               type: "食品賣場",
-              desc: "澀谷站內，熟食便當、甜點一次買",
+              desc: "澀谷地下街食品賣場，熟食便當與甜點一應俱全",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Tokyu+FoodShow+Shibuya",
@@ -740,27 +745,25 @@ export const foodData = {
             {
               name: "中輕井澤野菜料理",
               type: "野菜料理",
-              desc: "🎊 紀念日晚餐，提前預約確認蛋奶素",
+              desc: "🎊 紀念日晚餐首選，需提前預約",
               recommended: true,
-              note: "提前確認全素昆布高湯，無魚介",
+              note: "全素昆布高湯，無魚介",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=中軽井沢+野菜料理",
             },
             {
               name: "Trattoria Primo",
               type: "義大利菜",
-              desc: "輕井澤義式餐廳",
+              desc: "輕井澤超人氣窯烤披薩與經典義大利麵餐廳",
               recommended: false,
-              note: "可點義大利麵素食款",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Trattoria+Primo+Karuizawa",
             },
             {
               name: "蕎麥麵 川上庵",
               type: "蕎麥麵",
-              desc: "輕井澤名店，現磨蕎麥麵",
+              desc: "舊輕井澤必吃手打粗蕎麥麵排隊名店",
               recommended: false,
-              note: "確認湯底是否昆布，蕎麥麵本身無肉",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Kawakami-an+Karuizawa",
             },
@@ -771,8 +774,8 @@ export const foodData = {
           items: [
             {
               name: "Bakery & Restaurant Sawamura 舊輕井澤",
-              type: "麵包/餐廳",
-              desc: "輕井澤經典麵包店，酸種麵包",
+              type: "麵包 / 餐廳",
+              desc: "輕井澤森林經典麵包餐廳，酸種麵包極受歡迎",
               recommended: true,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Sawamura+Kyukaruizawa",
@@ -780,7 +783,7 @@ export const foodData = {
             {
               name: "Hygge by ØC",
               type: "咖啡廳",
-              desc: "北歐風格咖啡廳，輕井澤",
+              desc: "輕井澤森林深處北歐風文青咖啡廳",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Hygge+OC+Karuizawa",
@@ -788,7 +791,7 @@ export const foodData = {
             {
               name: "Café Merukoro",
               type: "咖啡廳",
-              desc: "輕井澤在地咖啡",
+              desc: "舊輕井澤人氣自製麵包與手沖咖啡店",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Cafe+Merukoro+Karuizawa",
@@ -796,15 +799,15 @@ export const foodData = {
             {
               name: "Kamepan",
               type: "麵包店",
-              desc: "輕井澤特色麵包",
+              desc: "中輕井澤人氣經典烏龜麵包店",
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Kamepan+Karuizawa",
             },
             {
               name: "Paomu",
-              type: "西式料理/甜點",
-              desc: "以布丁聞名的輕井澤小店",
+              type: "西食 / 甜點",
+              desc: "以舊輕井澤布丁與精緻輕食聞名的打卡小店",
               recommended: true,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Paomu+Karuizawa",
@@ -822,10 +825,9 @@ export const foodData = {
           items: [
             {
               name: "T's Tantan",
-              type: "嚴格素食拉麵",
-              desc: "東京車站站內，純素拉麵旗艦店",
+              type: "純素拉麵",
+              desc: "東京車站內超人氣純素擔擔麵拉麵旗艦店",
               recommended: true,
-              note: "全素食材，蛋奶素完全OK",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=T%27s+Tantan+Tokyo+Station",
             },
@@ -1180,3 +1182,114 @@ export const accommodationData = [
     ]
   }
 ];
+
+export const weatherData = {
+  sourceNote: "依據 tenki.jp 東京千代田區氣候值推估（6月中旬梅雨季），旅行前請至 tenki.jp 確認最新預報",
+  sourceUrl: "https://tenki.jp/forecast/3/16/4410/13101/10days.html",
+  days: [
+    {
+      date: "6/17",
+      day: "三",
+      fullDate: "6/17 (三)",
+      loc: "橫濱",
+      weatherIcon: "🌧️",
+      weatherText: "雨時有雷",
+      tempHigh: 25,
+      tempLow: 19,
+      precip: "70%",
+      note: "帶傘必備",
+      warn: true,
+    },
+    {
+      date: "6/18",
+      day: "四",
+      fullDate: "6/18 (四)",
+      loc: "橫濱",
+      weatherIcon: "🌦️",
+      weatherText: "曇時々雨",
+      tempHigh: 27,
+      tempLow: 20,
+      precip: "50%",
+      note: "午後或放晴",
+      warn: false,
+    },
+    {
+      date: "6/19",
+      day: "五",
+      fullDate: "6/19 (五)",
+      loc: "澀谷",
+      weatherIcon: "⛅",
+      weatherText: "曇時々晴",
+      tempHigh: 28,
+      tempLow: 21,
+      precip: "40%",
+      note: "悶熱注意",
+      warn: false,
+    },
+    {
+      date: "6/20",
+      day: "六",
+      fullDate: "6/20 (六)",
+      loc: "輕井澤",
+      weatherIcon: "🌤️",
+      weatherText: "晴時多雲",
+      tempHigh: 22,
+      tempLow: 13,
+      precip: "20%",
+      note: "涼爽舒適",
+      warn: false,
+    },
+    {
+      date: "6/21",
+      day: "日",
+      fullDate: "6/21 (日)",
+      loc: "輕井澤",
+      weatherIcon: "⛅",
+      weatherText: "多雲偶晴",
+      tempHigh: 23,
+      tempLow: 14,
+      precip: "30%",
+      note: "早晚偏涼",
+      warn: false,
+    },
+    {
+      date: "6/22",
+      day: "一",
+      fullDate: "6/22 (一)",
+      loc: "輕井澤",
+      weatherIcon: "🌧️",
+      weatherText: "曇時々雨",
+      tempHigh: 21,
+      tempLow: 13,
+      precip: "60%",
+      note: "梅雨鋒面",
+      warn: true,
+    },
+    {
+      date: "6/23",
+      day: "二",
+      fullDate: "6/23 (二)",
+      loc: "東京",
+      weatherIcon: "🌦️",
+      weatherText: "曇一時雨",
+      tempHigh: 29,
+      tempLow: 22,
+      precip: "40%",
+      note: "濕熱",
+      warn: false,
+    },
+    {
+      date: "6/24",
+      day: "三",
+      fullDate: "6/24 (三)",
+      loc: "成田",
+      weatherIcon: "☁️",
+      weatherText: "曇",
+      tempHigh: 27,
+      tempLow: 21,
+      precip: "30%",
+      note: "返程日",
+      warn: false,
+    },
+  ],
+};
