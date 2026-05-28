@@ -9,10 +9,10 @@ const FlightInfoSection = ({
   title = "航班資訊",
 }) => {
   const FlightCard = ({ type, data }) => (
-    <div className="p-4 bg-[#F5F7F2] rounded-2xl border border-[#8B7355]/20 space-y-3">
+    <div className="p-4 bg-[#F5F7F2] rounded-2xl border border-[#5F7A61]/20 space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <span className="text-sm font-bold text-[#8B7355]">
+        <span className="text-sm font-bold text-[#5F7A61]">
           {type === "outbound" ? "✈️ 去程" : "🛬 回程"}
         </span>
         <span className="text-xs px-2.5 py-1 bg-[#F5F7F2] text-[#2D5A27] rounded-full font-bold">

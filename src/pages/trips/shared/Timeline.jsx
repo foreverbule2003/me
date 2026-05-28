@@ -74,9 +74,10 @@ const Timeline = ({
       textMain: "text-indigo-600",
       textDark: "text-indigo-700",
       textLight: "text-indigo-500",
+      lineColor: "bg-indigo-300",
     },
     forest: {
-      gradient: "from-[#2D5A27] via-[#A8C69F] to-[#8B7355]",
+      gradient: "from-[#2D5A27] via-[#A8C69F] to-[#5F7A61]",
       bgLight: "bg-[#F5F7F2]",
       bgMain: "bg-[#2D5A27]",
       borderMain: "border-[#2D5A27]",
@@ -84,6 +85,7 @@ const Timeline = ({
       textMain: "text-[#2D5A27]",
       textDark: "text-[#8B7355]",
       textLight: "text-[#A8C69F]",
+      lineColor: "bg-[#A8C69F]",
     },
   };
 
@@ -122,7 +124,7 @@ const Timeline = ({
       <div className="relative">
         {/* 時間軸線 - 置中於節點，底部縮短避免超出最後一天 */}
         <div
-          className={`absolute left-[13px] top-4 bottom-8 w-0.5 bg-gradient-to-b ${currentTheme.gradient} rounded-full z-[1]`}
+          className={`absolute left-[13px] top-4 bottom-8 w-0.5 ${currentTheme.lineColor} rounded-full z-[1]`}
         />
 
         <div className="space-y-1">
