@@ -713,15 +713,15 @@ export const foodData = {
               desc: "澀谷超人氣拉麵名店，提供兩款素食拉麵",
               recommended: true,
               mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=AFURI+Shibuya+Tokyo",
+                "https://maps.app.goo.gl/LiH7B3axDie1uHbk9",
             },
             {
-              name: "YAYOI 彌生軒 澀谷新南口店",
+              name: "YAYOI 彌生軒 青山學院大學前店",
               type: "日式定食",
-              desc: "澀谷新南口日式定食餐廳，各式經典和食與定食套餐選擇",
+              desc: "表參道與澀谷之間日式定食餐廳，各式經典和食與定食套餐選擇",
               recommended: false,
               mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=YAYOI+Shibuya+Shinnanguchi+Tokyo",
+                "https://maps.app.goo.gl/AaC4g4TxhKB2dfdo6",
             },
             {
               name: "東急FoodShow 澀谷店",
