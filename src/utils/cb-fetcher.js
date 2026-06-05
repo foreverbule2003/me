@@ -96,7 +96,7 @@ async function fetchHotCB() {
     console.error(
       `[Fetcher] Enriching ${results.length} items with real-time stock prices (TWSE/OTC)...`,
     );
-    const enrichPromises = results.map(async (item) => {
+    for (const item of results) {
       try {
         // Heuristic: CB Code is 5 digits, Stock Code is first 4.
         const stockCode = item.code.substring(0, 4);
@@ -105,7 +105,12 @@ async function fetchHotCB() {
         // TWSE MIS API (Official Real-time - Delayed/Cached)
         // Query both TSE and OTC to be safe
         const qUrl = `https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=tse_${stockCode}.tw|otc_${stockCode}.tw&json=1&delay=0`;
-        const res = await fetch(qUrl);
+        const res = await fetch(qUrl, {
+          headers: {
+            "User-Agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          },
+        });
         const json = await res.json();
 
         if (json.msgArray && json.msgArray.length > 0) {
@@ -113,7 +118,6 @@ async function fetchHotCB() {
           const stockData = json.msgArray.find((d) => d.c === stockCode);
           if (stockData && stockData.z !== "-") {
             item.stockPrice = parseFloat(stockData.z);
-            // console.log(`[Stock] ${item.name} (${stockCode}) = ${item.stockPrice}`);
           } else if (stockData && stockData.y !== "-") {
             // Fallback to yesterday closing if current price is unavailable (e.g. pre-market)
             item.stockPrice = parseFloat(stockData.y);
@@ -123,6 +127,9 @@ async function fetchHotCB() {
         } else {
           item.stockPrice = 0;
         }
+
+        // Polite delay to prevent rate limiting
+        await new Promise((r) => setTimeout(r, 100));
       } catch (e) {
         console.error(
           `[Fetcher] Failed to fetch stock price for ${item.code}:`,
@@ -130,10 +137,7 @@ async function fetchHotCB() {
         );
         item.stockPrice = 0;
       }
-    });
-
-    // Wait for all enrichments (fairly fast)
-    await Promise.all(enrichPromises);
+    }
     console.error("[Fetcher] Enrichment complete.");
 
     // Wrap in object with metadata
