@@ -79,7 +79,7 @@ export const itineraryData = [
               line: "N'EX 成田特快",
               station: "成田機場 T1 (B1 JR 剪票口)",
               platform: "1、2 號月台",
-              note: "全車指定席，外國旅客可購買優惠票 ¥4,070。直達約 90 分鐘。"
+              note: "全車指定席，外國旅客可購買優惠票 ¥4,070。直達約 90 分鐘。",
             },
             map: {
               type: "route",
@@ -145,7 +145,7 @@ export const itineraryData = [
               line: "JR 湘南新宿線",
               station: "橫濱站",
               platform: "10 號月台",
-              note: "直達車，車程約 30 分鐘"
+              note: "直達車，車程約 30 分鐘",
             },
             map: {
               type: "route",
@@ -177,7 +177,7 @@ export const itineraryData = [
               line: "JR 湘南新宿線",
               station: "橫濱站",
               platform: "10 號月台",
-              note: "直達車，車程約 30 分鐘"
+              note: "直達車，車程約 30 分鐘",
             },
             map: {
               type: "route",
@@ -216,7 +216,7 @@ export const itineraryData = [
               line: "JR 湘南新宿線",
               station: "澀谷站",
               platform: "3 號月台",
-              note: "車程約 35-40 分鐘"
+              note: "車程約 35-40 分鐘",
             },
             map: {
               type: "route",
@@ -231,7 +231,7 @@ export const itineraryData = [
               line: "北陸新幹線 (はくたか / あさま)",
               station: "大宮站",
               platform: "17、18 號新幹線月台",
-              note: "從普通線換乘新幹線須過專用聯絡閘門，車程約 50 分鐘。週六強烈建議預訂指定席。"
+              note: "從普通線換乘新幹線須過專用聯絡閘門，車程約 50 分鐘。週六強烈建議預訂指定席。",
             },
             map: {
               type: "route",
@@ -281,11 +281,12 @@ export const itineraryData = [
           {
             time: "下午",
             text: "中輕井澤森林漫步",
-            subText: "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
+            subText:
+              "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
             transport: {
               line: "信濃鐵道 或 腳踏車",
               station: "輕井澤站 (1、2號月台) → 中輕井澤站",
-              note: "車程約 4 分鐘，單程 ¥240"
+              note: "車程約 4 分鐘，單程 ¥240",
             },
             map: { type: "search", query: "Harunire Terrace Karuizawa" },
           },
@@ -308,7 +309,8 @@ export const itineraryData = [
           {
             time: "上午",
             text: "輕井澤 APA 退房，租借腳踏車慢遊三區",
-            subText: "推薦租借站前的白貓自行車（普通車約 ¥700/日，電動車約 ¥1,500/日，限 17:00 前歸還）🚲",
+            subText:
+              "推薦租借站前的白貓自行車（普通車約 ¥700/日，電動車約 ¥1,500/日，限 17:00 前歸還）🚲",
             note: "新輕井澤 ↔ 中輕井澤若不騎車，亦可搭乘信濃鐵道（車程約 4 分鐘，單程 ¥240，每小時 1-2 班）",
             map: { type: "search", query: "Kumoba Pond Karuizawa" },
           },
@@ -351,7 +353,7 @@ export const itineraryData = [
               line: "北陸新幹線",
               station: "輕井澤站",
               platform: "1、2 號新幹線月台",
-              note: "直達東京站，車程約 70 分鐘"
+              note: "直達東京站，車程約 70 分鐘",
             },
             map: {
               type: "route",
@@ -385,7 +387,7 @@ export const itineraryData = [
               line: "N'EX 成田特快",
               station: "東京站 (總武地下線)",
               platform: "地下 5 樓 1、2 號月台",
-              note: "⚠️ 警告：總武地下月台極深，從地面轉乘步行至少需 15-20 分鐘，請務必提早出發！車程約 60 分鐘。"
+              note: "⚠️ 警告：總武地下月台極深，從地面轉乘步行至少需 15-20 分鐘，請務必提早出發！車程約 60 分鐘。",
             },
             map: {
               type: "route",
@@ -424,9 +426,9 @@ export const recommendedRoutes = [
         station: "成田 T1 (B1 JR)",
         platform: "1/2號月台",
         duration: "約90分",
-        note: "直達車，免換車。"
-      }
-    ]
+        note: "直達車，免換車。",
+      },
+    ],
   },
   {
     id: 2,
@@ -443,9 +445,9 @@ export const recommendedRoutes = [
         station: "橫濱站",
         platform: "10號月台",
         duration: "約30分",
-        note: "直達。亦可搭東急/東海道線(需轉乘)。"
-      }
-    ]
+        note: "直達。亦可搭東急/東海道線(需轉乘)。",
+      },
+    ],
   },
   {
     id: 3,
@@ -462,7 +464,7 @@ export const recommendedRoutes = [
         station: "澀谷站",
         platform: "3號月台",
         duration: "約35分",
-        note: "搭至大宮轉乘"
+        note: "搭至大宮轉乘",
       },
       {
         type: "shinkansen",
@@ -470,9 +472,9 @@ export const recommendedRoutes = [
         station: "大宮站",
         platform: "17/18月台",
         duration: "約50分",
-        note: "轉乘需過聯絡閘門"
-      }
-    ]
+        note: "轉乘需過聯絡閘門",
+      },
+    ],
   },
   {
     id: 4,
@@ -487,7 +489,7 @@ export const recommendedRoutes = [
         type: "bike",
         line: "白貓腳踏車",
         station: "輕井澤北口對面",
-        note: "電動 ¥1,500、普通 ¥700，17:00 前還。"
+        note: "電動 ¥1,500、普通 ¥700，17:00 前還。",
       },
       {
         type: "train",
@@ -495,9 +497,9 @@ export const recommendedRoutes = [
         station: "中輕井澤",
         platform: "北口 1/2號",
         duration: "約4分",
-        note: "單程 ¥240"
-      }
-    ]
+        note: "單程 ¥240",
+      },
+    ],
   },
   {
     id: 5,
@@ -514,9 +516,9 @@ export const recommendedRoutes = [
         station: "輕井澤站",
         platform: "1/2號月台",
         duration: "約70分",
-        note: "直達東京"
-      }
-    ]
+        note: "直達東京",
+      },
+    ],
   },
   {
     id: 6,
@@ -533,9 +535,9 @@ export const recommendedRoutes = [
         station: "東京總武地下",
         platform: "B5 1/2月台",
         duration: "約60分",
-        note: "⚠️ B5月台極深，從地面步行需15-20分，務必提早！"
-      }
-    ]
+        note: "⚠️ B5月台極深，從地面步行需15-20分，務必提早！",
+      },
+    ],
   },
 ];
 
@@ -627,8 +629,7 @@ export const foodData = {
               type: "Vegan / 無麩質",
               desc: "日本大通純素與無麩質米粉料理專賣，極力推薦擔擔麵與披薩",
               recommended: true,
-              mapUrl:
-                "https://maps.app.goo.gl/p2WtcQGsogN4VZWx9",
+              mapUrl: "https://maps.app.goo.gl/p2WtcQGsogN4VZWx9",
             },
           ],
         },
@@ -712,16 +713,14 @@ export const foodData = {
               type: "拉麵",
               desc: "澀谷超人氣拉麵名店，提供兩款素食拉麵",
               recommended: true,
-              mapUrl:
-                "https://maps.app.goo.gl/LiH7B3axDie1uHbk9",
+              mapUrl: "https://maps.app.goo.gl/LiH7B3axDie1uHbk9",
             },
             {
               name: "YAYOI 彌生軒 青山學院大學前店",
               type: "日式定食",
               desc: "表參道與澀谷之間日式定食餐廳，各式經典和食與定食套餐選擇",
               recommended: false,
-              mapUrl:
-                "https://maps.app.goo.gl/AaC4g4TxhKB2dfdo6",
+              mapUrl: "https://maps.app.goo.gl/AaC4g4TxhKB2dfdo6",
             },
             {
               name: "東急FoodShow 澀谷店",
@@ -777,8 +776,7 @@ export const foodData = {
               type: "咖啡廳",
               desc: "雲場池旁咖啡店，提供無肉咖哩 (價位偏高)",
               recommended: false,
-              mapUrl:
-                "https://maps.app.goo.gl/pGcXaeyvvxXoS1sa9",
+              mapUrl: "https://maps.app.goo.gl/pGcXaeyvvxXoS1sa9",
             },
             {
               name: "Paomu",
@@ -842,8 +840,7 @@ export const foodData = {
               type: "麵包店",
               desc: "人氣造型烏龜麵包，山編推薦必吃咖哩麵包",
               recommended: true,
-              mapUrl:
-                "https://maps.app.goo.gl/8fqYdYBZqVebwp5f7",
+              mapUrl: "https://maps.app.goo.gl/8fqYdYBZqVebwp5f7",
             },
             {
               name: "Izumiya Saku (和泉屋 傳兵衛)",
@@ -893,12 +890,7 @@ export const foodData = {
 };
 
 export const shoppingData = {
-  targetStores: [
-    "Shibuya 109",
-    "松本清",
-    "唐吉訶德",
-    "輕井澤 Outlet",
-  ],
+  targetStores: ["Shibuya 109", "松本清", "唐吉訶德", "輕井澤 Outlet"],
   categories: [
     {
       title: "橫濱",
@@ -906,19 +898,31 @@ export const shoppingData = {
       items: [
         {
           name: "科萊特馬雷 港未來購物中心",
-          desc: "櫻木町站前的綜合性購物商場。",
+          type: "綜合商場",
+          desc: "櫻木町站前的綜合性購物商場，匯聚時尚、餐飲、生活雜貨，視野佳。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Colette+Mare+Minatomirai",
         },
         {
           name: "橫濱元町商店街",
-          desc: "具有歐式風情的歷史商店街，以精品、飾品與咖啡店聞名。",
+          type: "特色商店街",
+          desc: "具有歐式風情的歷史商店街，以精品、飾品與咖啡店聞名，散步感十足。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Yokohama+Motomachi+Shopping+Street",
         },
         {
           name: "橫濱紅磚倉庫 1號館 & 2號館",
-          desc: "歷史建築改建的文創與商業空間，有許多獨特的雜貨與美食。",
+          type: "文創市集",
+          desc: "歷史建築改建的文創與商業空間，有許多獨特的雜貨、美食與期間限定市集。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Yokohama+Red+Brick+Warehouse",
         },
         {
           name: "MARINE & WALK 橫濱",
-          desc: "充滿美式開放感的海濱購物中心，聚集時尚品牌與露天餐廳。",
+          type: "海濱購物",
+          desc: "充滿美式開放感的海濱購物中心，聚集時尚品牌與露天餐廳，景色怡人。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Marine+Walk+Yokohama",
         },
       ],
     },
@@ -928,28 +932,44 @@ export const shoppingData = {
       items: [
         {
           name: "澀谷SCRAMBLE SQUARE",
-          desc: "澀谷最新地標，擁有豐富的高級時尚品牌與流行雜貨。",
+          type: "地標百貨",
+          desc: "澀谷最新超高層地標，擁有豐富的高級時尚品牌、流行雜貨，頂樓展望台景色絕佳。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Shibuya+Scramble+Square",
         },
         {
           name: "MAGNET by SHIBUYA109",
-          desc: "以次文化與潮流為主的購物中心，頂樓可俯瞰澀谷十字路口。",
+          type: "次文化潮流",
+          desc: "以次文化與潮流為主的購物中心，頂樓免費俯瞰澀谷十字路口全景。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=MAGNET+by+SHIBUYA109",
         },
-        { name: "Shibuya 109", desc: "澀谷最具代表性的潮流服飾百貨。" },
+        {
+          name: "Shibuya 109",
+          type: "潮流服飾",
+          desc: "澀谷最具代表性的潮流服飾百貨，集結日本最新流行趨勢品牌。",
+          mapUrl: "https://www.google.com/maps/search/?api=1&query=Shibuya+109",
+        },
         {
           name: "任天堂 東京旗艦店",
-          desc: "位於澀谷 PARCO 的任天堂官方直營店，販售多樣限定周邊。",
+          type: "限定旗艦店",
+          desc: "位於澀谷 PARCO 6F 的任天堂官方直營店，販售多樣限定周邊與特色商品。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Nintendo+Tokyo+Shibuya+PARCO",
         },
         {
           name: "東急FoodShow 澀谷店",
-          desc: "位於澀谷站的地下一樓美食街，採買在地甜點與伴手禮的好去處。",
-        },
-        {
-          name: "手工牛奶糖 NUMBER SUGAR",
-          desc: "原宿表參道的超人氣手工糖果店，包裝精美適合送禮。",
+          type: "伴手禮・美食",
+          desc: "位於澀谷站地下一樓，採買在地甜點、熟食便當與伴手禮的必去好去處。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Tokyu+FoodShow+Shibuya",
         },
         {
           name: "and ST TOKYO",
-          desc: "知名服裝集團的旗艦選物店，提供多元的生活風格提案。",
+          type: "選物・生活風格",
+          desc: "知名服裝集團的旗艦選物店，提供多元的生活風格提案與設計師品牌。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=and+ST+TOKYO",
         },
       ],
     },
@@ -959,19 +979,44 @@ export const shoppingData = {
       items: [
         {
           name: "輕井澤王子購物廣場",
-          desc: "位於輕井澤車站南側的大型暢貨中心，環境優美品牌豐富。",
-        },
-        {
-          name: "榆樹街小鎮",
-          desc: "位於星野區的文青風木棧道購物區，有多家精緻小店與餐廳。",
+          type: "Outlet",
+          desc: "位於輕井澤車站南側的大型暢貨中心，環境優美品牌豐富，適合整天採購。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Shopping+Plaza",
         },
         {
           name: "舊輕井澤銀座通",
-          desc: "輕井澤最著名的商店街，適合購買手工藝品與散策美食。",
+          type: "歷史商店街",
+          desc: "輕井澤最著名的散策商店街，適合購買手工藝品、特色伴手禮與享用散策美食。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Kyu+Karuizawa+Ginza+Street",
         },
         {
           name: "天然果醬 澤屋 (SAWAYA)",
+          type: "必買伴手禮",
           desc: "輕井澤必買的無添加果醬伴手禮，特別推薦草莓牛奶果醬等熱銷口味。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Sawaya+Karuizawa+Jam",
+        },
+      ],
+    },
+    {
+      title: "中輕井澤",
+      day: "Day 5-7",
+      items: [
+        {
+          name: "榆樹街小鎮",
+          type: "文青選物",
+          desc: "位於星野區的文青風木棧道購物區，有多家精緻小店、咖啡廳與設計師品牌。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Harunire+Terrace+Karuizawa",
+        },
+        {
+          name: "PICCHIO 野鳥の森 商店",
+          type: "自然選物",
+          desc: "星野區自然主題選物店，販售輕井澤限定自然系雜貨與戶外生活用品。",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Picchio+Hoshino+Karuizawa",
         },
       ],
     },
@@ -1020,34 +1065,80 @@ export const shoppingData = {
       price: 880,
       category: "彩妝",
       shop: "藥妝店 / 唐吉訶德",
-      image: "https://cosme-global-production.s3.amazonaws.com/uploads/product_sku_image/149669/211753/215225/medium_211753_202505200306.png",
+      image:
+        "https://cosme-global-production.s3.amazonaws.com/uploads/product_sku_image/149669/211753/215225/medium_211753_202505200306.png",
     },
     {
-      name: "【待定】眼藥水",
-      nameJp: "",
-      desc: "請選擇想買的眼藥水款式",
-      price: null,
+      name: "樂敦 抗藍光眼藥水",
+      nameJp: "ロート デジアイ",
+      desc: "【黃盒PC】專攻藍光傷害，黃色包裝與液體，修復長時間看螢幕造成的細胞疲勞。涼度 2 級。",
+      price: 968,
       category: "保養",
       shop: "藥妝店",
-      image: "",
+      image: "/me/images/products/rohto_digi_eye.png",
     },
     {
-      name: "【待定】潤色防曬",
-      nameJp: "",
-      desc: "請選擇想買的潤色防曬款式",
-      price: null,
-      category: "彩妝",
+      name: "參天 Sante PC",
+      nameJp: "サンテPC",
+      desc: "【紅盒PC】含維生素 B12 (粉紅液體)，舒緩眼睛緊盯螢幕肌肉疲勞。涼度 3 級。",
+      price: 880,
+      category: "保養",
       shop: "藥妝店",
-      image: "",
+      image: "/me/images/products/sante_pc.png",
     },
     {
-      name: "【待定】氣墊粉餅",
-      nameJp: "",
-      desc: "請選擇想買的氣墊粉餅款式",
-      price: null,
-      category: "彩妝",
+      name: "樂敦 Dry Aid EX",
+      nameJp: "ロート ドライエイドEX",
+      desc: "【高保濕】高黏度質地，在眼球表面形成持久保濕膜，解決水分快速蒸發的乾澀。涼度 1-2 級。",
+      price: 1320,
+      category: "保養",
       shop: "藥妝店",
-      image: "",
+      image: "/me/images/products/rohto_dry_aid_ex.png",
+    },
+    {
+      name: "ELIXIR 小粉管防曬乳",
+      nameJp: "デーケアレボリューション トーンアップ SP+",
+      desc: "妝前乳+防曬+乳液三合一，SPF50+ PA++++，淡淡粉嫩提亮，保濕度佳讓氣墊粉餅更服貼。",
+      price: 3410,
+      category: "彩妝",
+      shop: "藥妝店 / 唐吉訶德",
+      image: "/me/images/products/elixir_pink_tube.png",
+    },
+    {
+      name: "ELIXIR 小銀管防曬乳",
+      nameJp: "エリクシール ブライトニング UV クリーム",
+      desc: "防曬+美白二合一，SPF50+ PA++++，質地清爽不黏膩，提升膚色均勻感。",
+      price: 3410,
+      category: "彩妝",
+      shop: "藥妝店 / 唐吉訶德",
+      image: "/me/images/products/elixir_silver_tube.png",
+    },
+    {
+      name: "&be 氣墊粉餅",
+      nameJp: "アンドビー クッションファンデ",
+      desc: "【白氣墊（霧面）】色號：Beige (自然米色)。霧面妝效，輕薄透氣，溫水可卸。深色痘疤需搭配遮瑕盤。",
+      price: 3200,
+      category: "彩妝",
+      shop: "藥妝店 / 唐吉訶德",
+      image: "/me/images/products/andbe_cushion.png",
+    },
+    {
+      name: "ByUR 氣墊粉餅",
+      nameJp: "バイユア クッションファンデ",
+      desc: "【霧面白盒 Matte】Serumfit Fullcover Matte Cushion。色號：#21 Light Beige (自然偏白)。中高遮瑕，柔焦毛孔與泛紅。",
+      price: 3600,
+      category: "彩妝",
+      shop: "藥妝店 / 唐吉訶德",
+      image: "/me/images/products/byur_matte_cushion.png",
+    },
+    {
+      name: "NUMBER SUGAR 手工牛奶糖",
+      nameJp: "ナンバーシュガー キャラメル",
+      desc: "表參道超人氣手工牛奶糖，精緻白盒包裝送禮首選，口味多樣。",
+      price: 1296,
+      category: "食物",
+      shop: "NUMBER SUGAR 表參道",
+      image: "/me/images/products/number_sugar.png",
     },
     {
       name: "天然果醬 澤屋 (SAWAYA)",
@@ -1056,7 +1147,8 @@ export const shoppingData = {
       price: 810,
       category: "食物",
       shop: "舊輕井澤",
-      image: "https://m.media-amazon.com/images/I/414grYP1OHL._AC_UF1000,1000_QL80_.jpg",
+      image:
+        "https://m.media-amazon.com/images/I/414grYP1OHL._AC_UF1000,1000_QL80_.jpg",
     },
     {
       name: "MUJI 無印良品 柚子金桔糖",
@@ -1074,26 +1166,26 @@ export const shoppingData = {
       price: null,
       category: "衣飾",
       shop: "直營店 / 鞋店",
-      image: "",
+      image: "https://m.media-amazon.com/images/I/71X7r4QyQKL._AC_UY900_.jpg",
     },
     {
       name: "隨身背包",
       nameJp: "",
-      desc: "輕便好裝的旅行外出包",
+      desc: "皮革側背包，棕色真皮質感",
       price: null,
       category: "衣飾",
-      shop: "百貨 / 品牌專櫃",
-      image: "",
+      shop: "百貨 / 專賣店",
+      image: "/me/images/products/leather_bag.jpg",
     },
     {
       name: "皮夾",
       nameJp: "",
-      desc: "質感短夾/長夾",
+      desc: "Roots 經典棕色真皮短夾",
       price: null,
       category: "衣飾",
-      shop: "百貨 / 品牌專櫃",
-      image: "",
-    }
+      shop: "Roots / 百貨",
+      image: "/me/images/products/roots_wallet.png",
+    },
   ],
 };
 
@@ -1142,7 +1234,7 @@ export const vegetarianCard = {
     "野菜・卵・乳製品 (蔬菜、雞蛋、乳製品)",
     "昆布だし (昆布高湯)",
     "ネギ・にんにく類 (蔥、蒜、韭菜等五辛)",
-  ]
+  ],
 };
 
 export const accommodationData = [
@@ -1155,10 +1247,11 @@ export const accommodationData = [
         status: "已訂妥",
         desc: "港未來區高空絕美海景，精緻奢華首夜",
         features: ["海景", "高空", "新開幕"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Mitsui+Garden+Hotel+Yokohama+Minatomirai+Premier",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Mitsui+Garden+Hotel+Yokohama+Minatomirai+Premier",
         priceTwd: 3000,
-      }
-    ]
+      },
+    ],
   },
   {
     location: "橫濱 / 澀谷",
@@ -1168,14 +1261,16 @@ export const accommodationData = [
         name: "Super Hotel Yokohama Kannai",
         status: "候選",
         desc: "高CP值商務旅館",
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Super+Hotel+Yokohama+Kannai",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Super+Hotel+Yokohama+Kannai",
         priceTwd: 3000,
       },
       {
         name: "相鐵Fresa Inn 橫濱櫻木町",
         status: "候選",
         desc: "近車站，交通便利",
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Sotetsu+Fresa+Inn+Yokohama+Sakuragicho",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Sotetsu+Fresa+Inn+Yokohama+Sakuragicho",
         priceTwd: 3000,
       },
       {
@@ -1183,8 +1278,8 @@ export const accommodationData = [
         status: "候選",
         desc: "若選擇提早移動到澀谷",
         priceTwd: 3000,
-      }
-    ]
+      },
+    ],
   },
   {
     location: "澀谷",
@@ -1196,8 +1291,8 @@ export const accommodationData = [
         desc: "Shibuya 109 採買日，住澀谷最方便",
         features: ["交通樞紐", "購物"],
         priceTwd: 3000,
-      }
-    ]
+      },
+    ],
   },
   {
     location: "輕井澤",
@@ -1208,7 +1303,8 @@ export const accommodationData = [
         status: "候選",
         desc: "站前步行 3 分鐘寄放行李，便捷高效首選",
         features: ["交通便利", "車站旁"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
         priceTwd: 4700,
       },
       {
@@ -1216,7 +1312,8 @@ export const accommodationData = [
         status: "候選",
         desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
         features: ["溫泉", "淺間山景"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
         priceTwd: 6800,
       },
       {
@@ -1224,10 +1321,11 @@ export const accommodationData = [
         status: "候選",
         desc: "奢華設計木質渡假體驗",
         features: ["設計感", "渡假"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
         priceTwd: 10000,
-      }
-    ]
+      },
+    ],
   },
   {
     location: "輕井澤",
@@ -1238,7 +1336,8 @@ export const accommodationData = [
         status: "候選",
         desc: "站前步行 3 分鐘放行李，平價便捷",
         features: ["交通便利", "車站旁"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
         priceTwd: 2200,
       },
       {
@@ -1246,7 +1345,8 @@ export const accommodationData = [
         status: "候選",
         desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
         features: ["溫泉", "淺間山景"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
         priceTwd: 5500,
       },
       {
@@ -1254,10 +1354,11 @@ export const accommodationData = [
         status: "候選",
         desc: "三週年紀念日主場！奢華設計木質渡假體驗",
         features: ["設計感", "紀念日", "渡假"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
         priceTwd: 8700,
-      }
-    ]
+      },
+    ],
   },
   {
     location: "輕井澤",
@@ -1268,7 +1369,8 @@ export const accommodationData = [
         status: "候選",
         desc: "站前步行 3 分鐘放行李，平價便捷",
         features: ["交通便利", "車站旁"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
         priceTwd: 2200,
       },
       {
@@ -1276,7 +1378,8 @@ export const accommodationData = [
         status: "候選",
         desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
         features: ["溫泉", "淺間山景"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
         priceTwd: 5000,
       },
       {
@@ -1284,10 +1387,11 @@ export const accommodationData = [
         status: "候選",
         desc: "奢華設計木質渡假體驗",
         features: ["設計感", "渡假"],
-        mapUrl: "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
         priceTwd: 8000,
-      }
-    ]
+      },
+    ],
   },
   {
     location: "東京",
@@ -1299,13 +1403,14 @@ export const accommodationData = [
         desc: "最後一晚，考量隔日搭乘 N'EX 前往成田機場的便利性",
         features: ["交通樞紐"],
         priceTwd: 3000,
-      }
-    ]
-  }
+      },
+    ],
+  },
 ];
 
 export const weatherData = {
-  sourceNote: "依據 tenki.jp 東京千代田區氣候值推估（6月中旬梅雨季），旅行前請至 tenki.jp 確認最新預報",
+  sourceNote:
+    "依據 tenki.jp 東京千代田區氣候值推估（6月中旬梅雨季），旅行前請至 tenki.jp 確認最新預報",
   sourceUrl: "https://tenki.jp/forecast/3/16/4410/13101/10days.html",
   days: [
     {

@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from "react";
-import { Check, ShoppingBag, Eye } from "lucide-react";
+import { Check, ShoppingBag, Eye, MapPin } from "lucide-react";
 import { SectionCard } from "../../../components/trips";
 
 const ShoppingSection = ({
@@ -33,16 +33,27 @@ const ShoppingSection = ({
       },
     }[theme] || "default";
 
-  // 購買清單分類與過濾狀態
-  const [activeCategory, setActiveCategory] = useState("全部");
+  // 購買清單分類與過濾狀態（預設顯示第一個分類）
+  const firstCategory = useMemo(() => {
+    for (const item of wishlist) {
+      if (item.category) return item.category.slice(0, 2);
+    }
+    return null;
+  }, [wishlist]);
+  const [activeCategory, setActiveCategory] = useState(() => {
+    for (const item of wishlist) {
+      if (item.category) return item.category.slice(0, 2);
+    }
+    return null;
+  });
 
   // 計算唯一的 Item Key
   const getWishlistItemKey = (index) => `wishlist-${index}`;
   const getShoppingItemKey = (cIdx, iIdx) => `shopping-${cIdx}-${iIdx}`;
 
-  // 取得購買清單分類列表 (限制兩個字)
+  // 取得購買清單分類列表 (限制兩個字，不含「全部」)
   const categoriesList = useMemo(() => {
-    const cats = ["全部"];
+    const cats = [];
     wishlist.forEach((item) => {
       if (item.category) {
         const shortCat = item.category.slice(0, 2);
@@ -54,10 +65,12 @@ const ShoppingSection = ({
     return cats;
   }, [wishlist]);
 
-  // 過濾後的購買清單商品
+  // 過濾後的購買清單商品（null = 全部）
   const filteredWishlist = useMemo(() => {
-    if (activeCategory === "全部") return wishlist;
-    return wishlist.filter((item) => (item.category || "").slice(0, 2) === activeCategory);
+    if (!activeCategory) return wishlist;
+    return wishlist.filter(
+      (item) => (item.category || "").slice(0, 2) === activeCategory,
+    );
   }, [wishlist, activeCategory]);
 
   // 計算購買清單採購進度
@@ -91,7 +104,10 @@ const ShoppingSection = ({
     });
   };
 
-  if ((!categories || categories.length === 0) && (!wishlist || wishlist.length === 0)) {
+  if (
+    (!categories || categories.length === 0) &&
+    (!wishlist || wishlist.length === 0)
+  ) {
     return (
       <div className="text-center py-16 text-gray-400">
         <ShoppingBag size={48} className="mx-auto mb-4 opacity-30" />
@@ -115,7 +131,7 @@ const ShoppingSection = ({
                 </span>
                 <span className="font-bold text-gray-800">購買清單</span>
               </div>
-              
+
               {/* 採購進度文字比例 */}
               <div className="flex items-center shrink-0 mr-1 sm:mr-3">
                 <span className="text-[11px] font-bold text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full tabular-nums">
@@ -130,13 +146,15 @@ const ShoppingSection = ({
         >
           {/* 下方分類 Tabs 與商品網格列表 */}
           <div className="space-y-4 pt-1">
-            {/* 分類頁籤 */}
-            {categoriesList.length > 1 && (
+            {/* 分類頁籤（不含「全部」） */}
+            {categoriesList.length > 0 && (
               <div className="flex flex-wrap gap-1.5">
                 {categoriesList.map((cat) => (
                   <button
                     key={cat}
-                    onClick={() => setActiveCategory(cat)}
+                    onClick={() =>
+                      setActiveCategory(activeCategory === cat ? null : cat)
+                    }
                     className={`text-[11px] px-3.5 py-1 rounded-full font-medium transition-all duration-200 ${
                       activeCategory === cat
                         ? t.tagActive + " shadow-sm scale-105"
@@ -149,7 +167,6 @@ const ShoppingSection = ({
               </div>
             )}
 
-            {/* 商品 Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
               {filteredWishlist.map((item) => {
                 const originalIndex = wishlist.indexOf(item);
@@ -164,7 +181,9 @@ const ShoppingSection = ({
                         ? "bg-gray-100/60 border-gray-200 opacity-60"
                         : `bg-white border-gray-100 ${t.hoverBorder} shadow-sm hover:shadow-md hover:translate-y-[-1px]`
                     }`}
-                    onClick={() => setProductModalData({ isOpen: true, product: item })}
+                    onClick={() =>
+                      setProductModalData({ isOpen: true, product: item })
+                    }
                   >
                     {/* 左側勾選框 */}
                     <button
@@ -208,27 +227,26 @@ const ShoppingSection = ({
                       <div className="flex items-start justify-between gap-1">
                         <span
                           className={`font-bold block truncate text-sm sm:text-base leading-tight ${
-                            isPurchased ? "text-gray-500 line-through" : "text-gray-800"
+                            isPurchased
+                              ? "text-gray-500 line-through"
+                              : "text-gray-800"
                           }`}
                         >
                           {item.name}
                         </span>
                       </div>
 
-                      {item.category && (
-                        <div className="text-[9px] mt-1 flex items-center gap-1">
-                          <span className="inline-block px-1.5 py-0.5 bg-pink-50 rounded text-[9px] text-pink-600 font-medium">
-                            {(item.category || "").slice(0, 2)}
-                          </span>
-                        </div>
-                      )}
-
                       <div className="flex items-baseline gap-1.5 mt-1">
-                        <span className={`font-extrabold text-xs sm:text-sm tabular-nums ${isPurchased ? "text-gray-400 line-through" : t.priceText}`}>
+                        <span
+                          className={`font-extrabold text-xs sm:text-sm tabular-nums ${isPurchased ? "text-gray-400 line-through" : t.priceText}`}
+                        >
                           ¥{item.price?.toLocaleString()}
                         </span>
                         <span className="text-[9px] text-gray-400">
-                          ≈NT${Math.round((item.price || 0) * 0.22).toLocaleString()}
+                          ≈NT$
+                          {Math.round(
+                            (item.price || 0) * 0.22,
+                          ).toLocaleString()}
                         </span>
                       </div>
                     </div>
@@ -253,15 +271,17 @@ const ShoppingSection = ({
                 </span>
                 <span>{category.title}</span>
               </div>
+            ) : category.icon ? (
+              `${category.icon} ${category.title}`
             ) : (
-              category.icon ? `${category.icon} ${category.title}` : category.title
+              category.title
             )
           }
           collapsible={true}
           forceOpen={forceOpen}
           variant="glass"
         >
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {sortShoppingItems(category.items, cIdx).map((item) => {
               const originalIdx = category.items.indexOf(item);
               const itemKey = getShoppingItemKey(cIdx, originalIdx);
@@ -269,21 +289,22 @@ const ShoppingSection = ({
               return (
                 <div
                   key={originalIdx}
-                  className={`py-2.5 px-4 rounded-xl border transition-all ${
+                  className={`p-3 rounded-xl border transition-all ${
                     isPurchased
                       ? "bg-gray-100 border-gray-200 opacity-60"
                       : item.isBackup
                         ? "bg-gray-50 border-gray-200 border-dashed"
-                        : `bg-white border-gray-100 ${t.hoverBorder} shadow-sm`
+                        : `bg-white border-gray-100 ${t.hoverBorder} shadow-sm hover:shadow-md`
                   }`}
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-start gap-3">
+                    {/* 勾選框 */}
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
                         togglePurchased(itemKey);
                       }}
-                      className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 transition-all ${
+                      className={`w-5 h-5 rounded border flex items-center justify-center shrink-0 mt-0.5 transition-all ${
                         isPurchased
                           ? t.checkboxChecked
                           : `${t.checkboxUnchecked} ${t.checkboxHover}`
@@ -291,37 +312,46 @@ const ShoppingSection = ({
                     >
                       {isPurchased && <Check size={12} strokeWidth={4} />}
                     </button>
-                    <div
-                      className="flex-1 min-w-0 cursor-pointer active:opacity-70 transition-opacity"
-                      onClick={() =>
-                        setProductModalData({ isOpen: true, product: item })
-                      }
-                    >
-                      <div className="flex justify-between items-center">
-                        <span
-                          className={`font-bold block truncate text-sm sm:text-base ${
-                            isPurchased
-                              ? "text-gray-500 line-through"
-                              : "text-gray-800"
-                          }`}
-                        >
+
+                    {/* 內容 */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="font-bold text-[#7A8B7B] text-sm sm:text-base leading-tight">
                           {item.name}
-                        </span>
-                        {item.price && (
-                          <span
-                            className={`font-bold text-xs sm:text-sm tabular-nums ml-2 shrink-0 ${isPurchased ? "text-gray-400" : t.priceText}`}
+                        </div>
+                        {/* 地圖連結 */}
+                        {item.mapUrl && (
+                          <a
+                            href={item.mapUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            onClick={(e) => e.stopPropagation()}
+                            className="p-1.5 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
                           >
-                            ¥{item.price.toLocaleString()}
+                            <MapPin size={15} />
+                          </a>
+                        )}
+                      </div>
+                      {/* 類型標籤 + 描述 */}
+                      <div className="text-xs text-gray-500 mt-1">
+                        {item.type && (
+                          <span className="text-orange-600 font-medium">
+                            {item.type}
+                          </span>
+                        )}
+                        {item.type && item.desc && (
+                          <span className="text-gray-400"> • </span>
+                        )}
+                        {item.desc && (
+                          <span
+                            className={
+                              isPurchased ? "line-through text-gray-400" : ""
+                            }
+                          >
+                            {item.desc}
                           </span>
                         )}
                       </div>
-                      {item.desc && (
-                        <div
-                          className={`text-xs mt-0.5 line-clamp-1 ${isPurchased ? "text-gray-400 line-through" : "text-gray-500"}`}
-                        >
-                          {item.desc}
-                        </div>
-                      )}
                     </div>
                   </div>
                 </div>
