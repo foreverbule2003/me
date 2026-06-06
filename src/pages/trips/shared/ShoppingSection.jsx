@@ -187,7 +187,7 @@ const ShoppingSection = ({
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-contain p-1 mix-blend-multiply"
                           onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = "";
@@ -215,19 +215,10 @@ const ShoppingSection = ({
                         </span>
                       </div>
 
-                      {item.nameJp && (
-                        <div className="text-[10px] text-[#5F7A61] font-mono mt-0.5 truncate leading-none">
-                          🇯🇵 {item.nameJp}
-                        </div>
-                      )}
-
-                      {item.shop && (
-                        <div className="text-[9px] text-gray-400 mt-1 flex items-center gap-1">
-                          <span className="inline-block px-1.5 py-0.5 bg-gray-100 rounded text-[9px] text-gray-500 font-medium truncate max-w-[110px] sm:max-w-[140px]">
-                            📍 {item.shop}
-                          </span>
+                      {item.category && (
+                        <div className="text-[9px] mt-1 flex items-center gap-1">
                           <span className="inline-block px-1.5 py-0.5 bg-pink-50 rounded text-[9px] text-pink-600 font-medium">
-                            🎀 {(item.category || "").slice(0, 2)}
+                            {(item.category || "").slice(0, 2)}
                           </span>
                         </div>
                       )}
