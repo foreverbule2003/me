@@ -8,6 +8,7 @@ const ItineraryTab = ({
   toggleDay,
   onOpenMap,
   onOpenFoodGuide,
+  onJumpToTransport,
   isAnyExpanded,
   collapseCounter,
 }) => {
@@ -33,6 +34,7 @@ const ItineraryTab = ({
                   dayData={day}
                   onOpenRoute={onOpenMap}
                   onOpenFoodGuide={onOpenFoodGuide}
+                  onJumpToTransport={onJumpToTransport}
                   isExpanded={!!expandedDays[dayKey]}
                   onToggle={() => toggleDay(dayKey)}
                 />

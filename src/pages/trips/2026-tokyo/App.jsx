@@ -585,6 +585,10 @@ export default function App() {
               toggleDay={toggleDay}
               onOpenMap={handleOpenMap}
               onOpenFoodGuide={() => setActiveTab("food")}
+              onJumpToTransport={() => {
+                setActiveTab("map");
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
               isAnyExpanded={isAnyExpanded}
               collapseCounter={collapseCounter}
             />

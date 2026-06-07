@@ -15,6 +15,7 @@ const DayCard = ({
   onOpenFoodGuide,
   isExpanded: controlledExpanded,
   onToggle,
+  onJumpToTransport,
 }) => {
   const [internalExpanded, setInternalExpanded] = useState(true);
   const [selectedOptIndex, setSelectedOptIndex] = useState(0);
@@ -137,69 +138,38 @@ const DayCard = ({
                       )}
                     </div>
                     <div className="flex items-start gap-1 shrink-0">
-                      {act.map && (
+                      {act.transport ? (
                         <button
-                          onClick={() => onOpenRoute(act.map)}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onJumpToTransport?.();
+                          }}
+                          className="p-1.5 text-gray-400 hover:text-[#5F7A61] transition-colors rounded-lg hover:bg-[#5F7A61]/10"
+                          title="查看交通詳情"
+                        >
+                          {act.transport.line?.includes("巴士") || act.transport.line?.includes("公車") ? (
+                            <Bus size={16} />
+                          ) : (
+                            <Train size={16} />
+                          )}
+                        </button>
+                      ) : act.map ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenRoute(act.map);
+                          }}
                           className="p-1.5 text-gray-400 hover:text-[#5F7A61] transition-colors rounded-lg hover:bg-[#5F7A61]/10"
                           title="查看地圖"
                         >
                           <MapPin size={16} />
                         </button>
-                      )}
+                      ) : null}
                     </div>
                   </div>
                   {act.note && !act.transport && (
                     <div className="mt-1 text-xs text-[#5F7A61]/80 flex items-start gap-1">
                       <Info size={12} className="mt-0.5 shrink-0" /> {act.note}
-                    </div>
-                  )}
-                  {act.transport && (
-                    <div className="mt-2.5 bg-[#F4F6F0] border border-[#7A8B7B]/20 rounded-xl p-3 flex flex-col gap-2">
-                      <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5">
-                        {act.transport.line.includes("巴士") ||
-                        act.transport.line.includes("公車") ? (
-                          <Bus size={14} className="text-[#5F7A61]" />
-                        ) : (
-                          <Train size={14} className="text-[#5F7A61]" />
-                        )}
-                        <span className="text-sm font-bold text-[#5F7A61]">
-                          {act.transport.line}
-                        </span>
-                      </div>
-                      <div className="flex flex-wrap gap-2 text-xs">
-                        {act.transport.station && (
-                          <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded-md shadow-sm flex items-center gap-1">
-                            <span className="text-[10px]">📍</span>{" "}
-                            {act.transport.station}
-                          </span>
-                        )}
-                        {act.transport.platform && (
-                          <span className="bg-white text-gray-700 font-medium px-2 py-1 rounded-md shadow-sm flex items-center gap-1 border border-emerald-100">
-                            <span className="text-[10px]">🛤️</span>{" "}
-                            {act.transport.platform}
-                          </span>
-                        )}
-                      </div>
-                      {(act.transport.fare || act.transport.note) && (
-                        <div className="text-[11px] text-gray-500 mt-2 leading-relaxed bg-white/50 p-2.5 rounded-lg flex flex-col gap-1 border border-white/30">
-                          {act.transport.fare && (
-                            <div className="flex items-center gap-1 text-[#5F7A61] font-bold">
-                              <span>🪙</span> 票價：{act.transport.fare}
-                            </div>
-                          )}
-                          {act.transport.note && (
-                            <div className="text-gray-500">
-                              {act.transport.note.includes("⚠️") ? (
-                                <span className="text-red-500 font-medium">
-                                  {act.transport.note}
-                                </span>
-                              ) : (
-                                <span>* {act.transport.note}</span>
-                              )}
-                            </div>
-                          )}
-                        </div>
-                      )}
                     </div>
                   )}
                   {act.tips && (
