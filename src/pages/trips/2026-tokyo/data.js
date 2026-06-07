@@ -204,15 +204,15 @@ export const itineraryData = [
       {
         day: 4,
         date: "6/20 (六)",
-        title: "澀谷退房 → 大宮 → 輕井澤 / 高崎 / 草津",
+        title: "澀谷退房 → 輕井澤 / 高崎 / 草津",
         image:
           "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
         highlight: "🚄 退房後直奔輕井澤度假、高崎溫泉中繼或前往草津溫泉",
         options: [
           {
             id: 1,
-            label: "方案 1：輕井澤",
-            title: "澀谷退房 → 大宮 → 輕井澤",
+            label: "輕井澤",
+            title: "澀谷退房 → 輕井澤",
             image:
               "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
             highlight: "🚄 退房後直奔輕井澤，當晚入住輕井澤淺間王子飯店",
@@ -268,7 +268,7 @@ export const itineraryData = [
           },
           {
             id: 2,
-            label: "方案 2：高崎",
+            label: "高崎",
             title: "澀谷退房 → 高崎",
             image:
               "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
@@ -312,7 +312,7 @@ export const itineraryData = [
           },
           {
             id: 3,
-            label: "方案 3：草津溫泉",
+            label: "草津溫泉",
             title: "澀谷退房 → 輕井澤 → 草津溫泉",
             image:
               "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
@@ -371,35 +371,145 @@ export const itineraryData = [
         image:
           "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
         highlight: "🎊 三週年結婚紀念日！全天悠閒享受輕井澤度假感",
-        activities: [
+        options: [
           {
-            time: "上午",
-            text: "輕井澤淺間王子退房，移動至新飯店",
-            subText: "搭乘公車或計程車至輕井澤站前",
+            id: 1,
+            label: "輕井澤",
+            title: "全天輕井澤慢活（紀念日） 🎊",
+            image:
+              "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
+            highlight:
+              "🎊 三週年結婚紀念日！淺間王子退房，移至輕井澤 APA 並慢活遊玩",
+            activities: [
+              {
+                time: "上午",
+                text: "輕井澤淺間王子退房 ➔ 移動至新飯店",
+                subText: "搭乘飯店接駁車或計程車至輕井澤站前",
+              },
+              {
+                time: "中午",
+                text: "Check-in 輕井澤 APA 飯店",
+                subText: "站前步行 3 分鐘放行李，平價便捷 🆕",
+                map: { type: "search", query: "APA Hotel Karuizawa Ekimae" },
+              },
+              {
+                time: "下午",
+                text: "中輕井澤森林漫步",
+                subText:
+                  "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
+                transport: {
+                  line: "信濃鐵道 或 腳踏車",
+                  station: "輕井澤站 (1、2號月台) → 中輕井澤站",
+                  note: "車程約 4 分鐘，單程 ¥240",
+                },
+                map: { type: "search", query: "Harunire Terrace Karuizawa" },
+              },
+              {
+                time: "晚上",
+                text: "🎊 中輕井澤野菜晚餐",
+                subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
+                foodGuideLink: "輕井澤",
+              },
+            ],
           },
           {
-            time: "中午",
-            text: "Check-in 輕井澤 APA 飯店",
-            subText: "站前步行 3 分鐘放行李，平價便捷 🆕",
-            map: { type: "search", query: "APA Hotel Karuizawa Ekimae" },
+            id: 2,
+            label: "高崎",
+            title: "高崎 → 輕井澤慢活（紀念日） 🎊",
+            image:
+              "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
+            highlight:
+              "🎊 三週年結婚紀念日！從高崎搭乘新幹線返回輕井澤慢活遊玩",
+            activities: [
+              {
+                time: "上午",
+                text: "高崎飯店退房 ➔ 搭乘新幹線返輕井澤",
+                transport: {
+                  line: "JR 北陸新幹線",
+                  station: "高崎站 ➔ 輕井澤站",
+                  note: "車程約 25 分鐘，單程自由席 ¥2,510。週日早上建議提前購票或劃位。",
+                },
+                map: {
+                  type: "route",
+                  origin: "Takasaki Station",
+                  destination: "Karuizawa Station",
+                },
+              },
+              {
+                time: "中午",
+                text: "Check-in 輕井澤 APA 飯店",
+                subText: "輕井澤站北口步行 3 分鐘寄放行李，展開輕井澤行程 🆕",
+                map: { type: "search", query: "APA Hotel Karuizawa Ekimae" },
+              },
+              {
+                time: "下午",
+                text: "中輕井澤森林漫步",
+                subText:
+                  "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
+                transport: {
+                  line: "信濃鐵道 或 腳踏車",
+                  station: "輕井澤站 → 中輕井澤站",
+                  note: "車程約 4 分鐘，單程 ¥240",
+                },
+                map: { type: "search", query: "Harunire Terrace Karuizawa" },
+              },
+              {
+                time: "晚上",
+                text: "🎊 中輕井澤野菜晚餐",
+                subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
+                foodGuideLink: "輕井澤",
+              },
+            ],
           },
           {
-            time: "下午",
-            text: "中輕井澤森林漫步",
-            subText:
-              "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
-            transport: {
-              line: "信濃鐵道 或 腳踏車",
-              station: "輕井澤站 (1、2號月台) → 中輕井澤站",
-              note: "車程約 4 分鐘，單程 ¥240",
-            },
-            map: { type: "search", query: "Harunire Terrace Karuizawa" },
-          },
-          {
-            time: "晚上",
-            text: "🎊 中輕井澤野菜晚餐",
-            subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
-            foodGuideLink: "輕井澤",
+            id: 3,
+            label: "草津溫泉",
+            title: "草津溫泉 → 輕井澤慢活（紀念日） 🎊",
+            image:
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
+            highlight:
+              "🎊 三週年結婚紀念日！草津溫泉晨間漫步後，搭急行巴士返輕井澤度假",
+            activities: [
+              {
+                time: "上午",
+                text: "草津溫泉老街晨間散策",
+                subText:
+                  "清晨的溫泉街「湯畑」漫步，享受清幽的溫泉鄉氛圍，隨後退房",
+                map: { type: "search", query: "Yubatake Kusatsu" },
+              },
+              {
+                time: "中午",
+                text: "搭急行巴士返輕井澤站 ➔ APA 飯店",
+                transport: {
+                  line: "草津交通巴士 / 西武觀光巴士 (急行)",
+                  station: "草津溫泉巴士總站 ➔ 輕井澤站北口",
+                  note: "車程約 80 分鐘，單程票價約 ¥2,240-2,300。抵達後步行 3 分鐘至 APA 飯店寄放行李。",
+                },
+                map: {
+                  type: "route",
+                  origin: "Kusatsu Onsen Bus Terminal",
+                  destination: "Karuizawa Station",
+                },
+              },
+              {
+                time: "下午",
+                text: "中輕井澤森林漫步",
+                subText:
+                  "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
+                transport: {
+                  line: "信濃鐵道 或 腳踏車",
+                  station: "輕井澤站 → 中輕井澤站",
+                  note: "車程約 4 分鐘，單程 ¥240",
+                },
+                map: { type: "search", query: "Harunire Terrace Karuizawa" },
+              },
+              {
+                time: "晚上",
+                text: "🎊 中輕井澤野菜晚餐",
+                subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
+                foodGuideLink: "輕井澤",
+              },
+            ],
           },
         ],
       },
@@ -561,8 +671,8 @@ export const recommendedRoutes = [
     options: [
       {
         id: "opt1",
-        label: "方案 1：輕井澤",
-        name: "澀谷 → 大宮 → 輕井澤",
+        label: "輕井澤",
+        name: "澀谷 → 輕井澤",
         origin: "Shibuya Station",
         destination: "Karuizawa Station",
         duration: "85分",
@@ -587,7 +697,7 @@ export const recommendedRoutes = [
       },
       {
         id: "opt2",
-        label: "方案 2：高崎",
+        label: "高崎",
         name: "澀谷 → 高崎",
         origin: "Shibuya Station",
         destination: "Takasaki Station",
@@ -596,14 +706,16 @@ export const recommendedRoutes = [
           {
             type: "train",
             line: "方式 A：大宮轉乘新幹線",
-            station: "澀谷站 ➔ 大宮站 ➔ 高崎站",
+            station: "澀谷站 ➔ 大宮站 (站內轉乘) ➔ 高崎站",
+            platform: "澀谷3號月台 / 大宮17、18號月台",
             duration: "約60分",
-            note: "大宮轉北陸/上越新幹線，票價共約 ¥4,490 (含特急券)。持東京廣域周遊券免額外補票。",
+            note: "大宮轉北陸/上越新幹線，票價共約 ¥4,490 (含特急自由席)。持東京廣域周遊券免額外補票。",
           },
           {
             type: "train",
             line: "方式 B：JR 湘南新宿線特別快速",
             station: "澀谷站 ➔ 高崎站",
+            platform: "澀谷3號月台",
             duration: "約95分",
             note: "直達高崎免轉乘，票價只需乘車券 ¥1,980。比新幹線省下特急券 ¥2,510，車程多約 35 分鐘。",
           },
@@ -611,7 +723,7 @@ export const recommendedRoutes = [
       },
       {
         id: "opt3",
-        label: "方案 3：草津溫泉",
+        label: "草津溫泉",
         name: "澀谷 → 輕井澤 → 草津",
         origin: "Shibuya Station",
         destination: "Kusatsu Onsen",
@@ -646,9 +758,97 @@ export const recommendedRoutes = [
   },
   {
     id: 4,
-    day: "Day 5-6 (6/21 日 - 6/22 一)",
+    day: "Day 5 (6/21 日)",
+    type: "route",
+    options: [
+      {
+        id: "d5-opt1",
+        label: "輕井澤",
+        name: "輕井澤區內移動",
+        duration: "全天",
+        steps: [
+          {
+            type: "bike",
+            line: "白貓腳踏車",
+            station: "輕井澤北口對面",
+            note: "電動 ¥1,500、普通 ¥700，17:00 前還。",
+          },
+          {
+            type: "train",
+            line: "信濃鐵道",
+            station: "中輕井澤站",
+            platform: "北口 1/2號",
+            duration: "約4分",
+            note: "單程 ¥240",
+          },
+        ],
+      },
+      {
+        id: "d5-opt2",
+        label: "高崎",
+        name: "高崎 → 輕井澤 ➔ 區內移動",
+        duration: "全天",
+        steps: [
+          {
+            type: "train",
+            line: "JR 北陸新幹線",
+            station: "高崎站 ➔ 輕井澤站",
+            platform: "高崎站新幹線月台",
+            duration: "約25分",
+            note: "新幹線單程自由席 ¥2,510，持東京廣域周遊券免費。",
+          },
+          {
+            type: "bike",
+            line: "白貓腳踏車",
+            station: "輕井澤北口對面",
+            note: "電動 ¥1,500、普通 ¥700，17:00 前還。",
+          },
+          {
+            type: "train",
+            line: "信濃鐵道",
+            station: "中輕井澤站",
+            platform: "北口 1/2號",
+            duration: "約4分",
+            note: "單程 ¥240",
+          },
+        ],
+      },
+      {
+        id: "d5-opt3",
+        label: "草津溫泉",
+        name: "草津溫泉 → 輕井澤 ➔ 區內移動",
+        duration: "全天",
+        steps: [
+          {
+            type: "bus",
+            line: "草津交通 / 西武觀光巴士 (急行)",
+            station: "草津溫泉巴士總站 ➔ 輕井澤站北口",
+            duration: "約80分",
+            note: "急行巴士單程約 ¥2,240-2,300。沿途可欣賞高原山林美景。",
+          },
+          {
+            type: "bike",
+            line: "白貓腳踏車",
+            station: "輕井澤北口對面",
+            note: "電動 ¥1,500、普通 ¥700，17:00 前還。",
+          },
+          {
+            type: "train",
+            line: "信濃鐵道",
+            station: "中輕井澤站",
+            platform: "北口 1/2號",
+            duration: "約4分",
+            note: "單程 ¥240",
+          },
+        ],
+      },
+    ],
+  },
+  {
+    id: 5,
+    day: "Day 6 (6/22 一)",
     type: "bike",
-    name: "輕井澤",
+    name: "輕井澤區內慢遊",
     origin: "Karuizawa Station",
     destination: "Karuizawa Area",
     duration: "全天",
@@ -670,7 +870,7 @@ export const recommendedRoutes = [
     ],
   },
   {
-    id: 5,
+    id: 6,
     day: "Day 7 (6/23 二)",
     type: "route",
     name: "輕井澤 → 東京",
@@ -689,7 +889,7 @@ export const recommendedRoutes = [
     ],
   },
   {
-    id: 6,
+    id: 7,
     day: "Day 8 (6/24 三)",
     type: "route",
     name: "東京 → 成田",
