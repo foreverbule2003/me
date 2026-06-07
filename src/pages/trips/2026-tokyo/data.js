@@ -37,21 +37,21 @@ export const overviewData = [
   {
     day: 1,
     date: "6/17 (三)",
-    title: "抵達成田 → 橫濱",
+    title: "成田 → 橫濱",
     hotel: "橫濱三井花園",
   },
-  { day: 2, date: "6/18 (四)", title: "橫濱探索", hotel: "待訂" },
-  { day: 3, date: "6/19 (五)", title: "Shibuya 109 採買", hotel: "待訂" },
+  { day: 2, date: "6/18 (四)", title: "橫濱", hotel: "待訂" },
+  { day: 3, date: "6/19 (五)", title: "澀谷", hotel: "待訂" },
   {
     day: 4,
     date: "6/20 (六)",
-    title: "澀谷→輕井澤/高崎/草津",
+    title: "澀谷 → 輕井澤/高崎/草津",
     hotel: "待訂",
   },
-  { day: 5, date: "6/21 (日)", title: "輕井澤慢活", hotel: "待訂" },
-  { day: 6, date: "6/22 (一)", title: "輕井澤慢活", hotel: "待訂" },
-  { day: 7, date: "6/23 (二)", title: "輕井澤→東京", hotel: "待訂" },
-  { day: 8, date: "6/24 (三)", title: "返程", hotel: "回家" },
+  { day: 5, date: "6/21 (日)", title: "輕井澤", hotel: "待訂" },
+  { day: 6, date: "6/22 (一)", title: "輕井澤", hotel: "待訂" },
+  { day: 7, date: "6/23 (二)", title: "輕井澤 → 東京", hotel: "待訂" },
+  { day: 8, date: "6/24 (三)", title: "東京", hotel: "回家" },
 ];
 
 export const itineraryData = [
@@ -199,7 +199,6 @@ export const itineraryData = [
             subText: "連假首日，建議早到",
             map: { type: "search", query: "Shibuya 109 Tokyo" },
           },
-          { time: "晚上", text: "晚餐：澀谷周邊素食", foodGuideLink: "澀谷" },
         ],
       },
     ],
@@ -269,10 +268,6 @@ export const itineraryData = [
                 subText: "避開週末人潮，悠閒開始慢活行程",
                 map: { type: "search", query: "Kyu-Karuizawa Ginza" },
               },
-              {
-                time: "晚上",
-                text: "輕井澤周邊素食晚餐",
-              },
             ],
           },
           {
@@ -311,11 +306,6 @@ export const itineraryData = [
                 subText:
                   "可搭乘高崎市內公車前往全日本達磨不倒翁的發源地，祈求旅途平安順利",
                 map: { type: "search", query: "Shorinzan Darumaji Temple" },
-              },
-              {
-                time: "晚上",
-                text: "晚餐：高崎在地名物義大利麵",
-                tips: "高崎為日本著名的「義大利麵之街」，可品嚐在地風味洋食，或至高崎站共構百貨享用美食",
               },
             ],
           },
@@ -364,11 +354,6 @@ export const itineraryData = [
                 subText: "草津溫泉旅館 (候選) • 湯畑與揉湯體驗",
                 map: { type: "search", query: "Yubatake Kusatsu" },
               },
-              {
-                time: "晚上",
-                text: "晚餐：享受溫泉旅館精緻一泊二食",
-                tips: "品嚐在地食材製作的溫泉會席料理，並請旅館提前備註五辛蛋奶素飲食需求",
-              },
             ],
           },
         ],
@@ -415,12 +400,6 @@ export const itineraryData = [
                 },
                 map: { type: "search", query: "Harunire Terrace Karuizawa" },
               },
-              {
-                time: "晚上",
-                text: "中輕井澤野菜晚餐",
-                subText: "紀念日慶祝大餐，請提前預約",
-                foodGuideLink: "輕井澤",
-              },
             ],
           },
           {
@@ -465,12 +444,6 @@ export const itineraryData = [
                   note: "車程約 4 分鐘",
                 },
                 map: { type: "search", query: "Harunire Terrace Karuizawa" },
-              },
-              {
-                time: "晚上",
-                text: "中輕井澤野菜晚餐",
-                subText: "紀念日慶祝大餐，請提前預約",
-                foodGuideLink: "輕井澤",
               },
             ],
           },
@@ -518,12 +491,6 @@ export const itineraryData = [
                 },
                 map: { type: "search", query: "Harunire Terrace Karuizawa" },
               },
-              {
-                time: "晚上",
-                text: "中輕井澤野菜晚餐",
-                subText: "紀念日慶祝大餐，請提前預約",
-                foodGuideLink: "輕井澤",
-              },
             ],
           },
         ],
@@ -548,10 +515,6 @@ export const itineraryData = [
             text: "飯店 Check-in",
             subText: "輕井澤英迪格 (候選) • 渡假設計體驗",
             map: { type: "search", query: "Hotel Indigo Karuizawa" },
-          },
-          {
-            time: "晚上",
-            text: "輕井澤市區素食晚餐",
           },
         ],
       },
