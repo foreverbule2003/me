@@ -51,11 +51,7 @@ const DayCard = ({
   return (
     <div
       id={`day-${dayData.day}`}
-      className={`rounded-3xl shadow-sm overflow-hidden mb-6 border transition-all ${
-        isAnniversary
-          ? "border-[#7A8B7B]/50 ring-2 ring-[#7A8B7B]/20 bg-amber-50"
-          : "border-white/80 bg-white/95 hover:shadow-md hover:scale-[1.005]"
-      }`}
+      className="rounded-3xl shadow-sm overflow-hidden mb-6 border border-white/80 bg-white/95 hover:shadow-md hover:scale-[1.005] transition-all"
     >
       {/* Header */}
       <div
@@ -63,13 +59,7 @@ const DayCard = ({
         className="cursor-pointer relative h-36 bg-cover bg-center"
         style={{ backgroundImage: `url(${image})` }}
       >
-        <div
-          className={`absolute inset-0 ${
-            isAnniversary
-              ? "bg-gradient-to-t from-[#5F7A61]/85 via-[#5F7A61]/30 to-transparent"
-              : "bg-gradient-to-t from-[#2e3e30]/80 via-black/30 to-transparent"
-          }`}
-        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2e3e30]/80 via-black/30 to-transparent" />
         {isAnniversary && (
           <div className="absolute top-3 right-3 px-3 py-1 bg-[#5F7A61]/90 backdrop-blur-md rounded-full text-white text-xs font-bold flex items-center gap-1 border border-white/20 shadow-md">
             🎊 三週年紀念日
@@ -136,6 +126,17 @@ const DayCard = ({
                           {act.subText}
                         </div>
                       )}
+                      {act.note && !act.transport && (
+                        <div className="mt-1 text-xs text-[#5F7A61]/80 flex items-start gap-1">
+                          <Info size={12} className="mt-0.5 shrink-0" />{" "}
+                          {act.note}
+                        </div>
+                      )}
+                      {act.tips && (
+                        <div className="mt-2 text-xs text-[#5F7A61] bg-[#5F7A61]/10 border border-[#5F7A61]/20 px-3 py-1.5 rounded-lg inline-block font-medium">
+                          <span className="font-bold mr-1">⚠️</span> {act.tips}
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-start gap-1 shrink-0">
                       {act.transport ? (
@@ -147,7 +148,8 @@ const DayCard = ({
                           className="p-1.5 text-gray-400 hover:text-[#5F7A61] transition-colors rounded-lg hover:bg-[#5F7A61]/10"
                           title="查看交通詳情"
                         >
-                          {act.transport.line?.includes("巴士") || act.transport.line?.includes("公車") ? (
+                          {act.transport.line?.includes("巴士") ||
+                          act.transport.line?.includes("公車") ? (
                             <Bus size={16} />
                           ) : (
                             <Train size={16} />
@@ -167,16 +169,6 @@ const DayCard = ({
                       ) : null}
                     </div>
                   </div>
-                  {act.note && !act.transport && (
-                    <div className="mt-1 text-xs text-[#5F7A61]/80 flex items-start gap-1">
-                      <Info size={12} className="mt-0.5 shrink-0" /> {act.note}
-                    </div>
-                  )}
-                  {act.tips && (
-                    <div className="mt-2 text-xs text-[#5F7A61] bg-[#5F7A61]/10 border border-[#5F7A61]/20 px-3 py-1.5 rounded-lg inline-block font-medium">
-                      <span className="font-bold mr-1">⚠️</span> {act.tips}
-                    </div>
-                  )}
                 </div>
               </div>
             ))}
@@ -184,33 +176,15 @@ const DayCard = ({
 
           {/* Highlight */}
           <div className="mt-6 pt-6 border-t border-gray-100/40">
-            <div
-              className={`flex items-start gap-3 p-3 rounded-xl border ${
-                isAnniversary
-                  ? "bg-gradient-to-br from-[#5F7A61]/5 to-[#5F7A61]/10 border-[#5F7A61]/20"
-                  : "bg-gray-50 border-gray-100 shadow-sm"
-              }`}
-            >
-              <div
-                className={`p-2 rounded-lg shrink-0 ${
-                  isAnniversary
-                    ? "bg-[#5F7A61]/10 text-[#5F7A61]"
-                    : "bg-[#5F7A61]/10 text-[#5F7A61]"
-                }`}
-              >
+            <div className="flex items-start gap-3 p-3 rounded-xl border bg-gray-50 border-gray-100 shadow-sm">
+              <div className="p-2 rounded-lg shrink-0 bg-[#5F7A61]/10 text-[#5F7A61]">
                 <Sparkles size={16} />
               </div>
               <div>
                 <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">
                   HIGHLIGHT
                 </div>
-                <div
-                  className={`text-sm leading-relaxed ${
-                    isAnniversary
-                      ? "text-[#5F7A61] font-bold"
-                      : "text-gray-700 font-medium"
-                  }`}
-                >
+                <div className="text-sm leading-relaxed text-gray-700 font-medium">
                   {highlight}
                 </div>
               </div>

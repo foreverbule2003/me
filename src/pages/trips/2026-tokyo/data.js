@@ -40,12 +40,17 @@ export const overviewData = [
     title: "抵達成田 → 橫濱",
     hotel: "橫濱三井花園",
   },
-  { day: 2, date: "6/18 (四)", title: "橫濱探索", hotel: "橫濱/澀谷" },
-  { day: 3, date: "6/19 (五)", title: "Shibuya 109 採買", hotel: "澀谷" },
-  { day: 4, date: "6/20 (六)", title: "澀谷→輕井澤", hotel: "淺間王子" },
-  { day: 5, date: "6/21 (日)", title: "輕井澤慢活", hotel: "輕井澤 APA" },
-  { day: 6, date: "6/22 (一)", title: "輕井澤慢活", hotel: "英迪格" },
-  { day: 7, date: "6/23 (二)", title: "輕井澤→東京", hotel: "東京" },
+  { day: 2, date: "6/18 (四)", title: "橫濱探索", hotel: "待訂" },
+  { day: 3, date: "6/19 (五)", title: "Shibuya 109 採買", hotel: "待訂" },
+  {
+    day: 4,
+    date: "6/20 (六)",
+    title: "澀谷→輕井澤/高崎/草津",
+    hotel: "待訂",
+  },
+  { day: 5, date: "6/21 (日)", title: "輕井澤慢活", hotel: "待訂" },
+  { day: 6, date: "6/22 (一)", title: "輕井澤慢活", hotel: "待訂" },
+  { day: 7, date: "6/23 (二)", title: "輕井澤→東京", hotel: "待訂" },
   { day: 8, date: "6/24 (三)", title: "返程", hotel: "回家" },
 ];
 
@@ -65,7 +70,7 @@ export const itineraryData = [
         activities: [
           {
             time: "16:30",
-            text: "抵達成田機場 NRT T1",
+            text: "抵達成田機場 NRT",
             subText: "提領行李、辦理入境與通關",
             map: {
               type: "search",
@@ -73,7 +78,7 @@ export const itineraryData = [
             },
           },
           {
-            time: "約17:30",
+            time: "17:30",
             text: "搭 N'EX → 橫濱站",
             transport: {
               line: "N'EX 成田特快",
@@ -89,9 +94,9 @@ export const itineraryData = [
             },
           },
           {
-            time: "約19:00",
-            text: "Check-in 三井花園飯店橫濱港未來普米爾",
-            subText: "港未來區高空絕美海景，精緻奢華首夜 🆕",
+            time: "19:00",
+            text: "三井花園 Check-in",
+            subText: "港未來區高空絕美海景，精緻奢華首夜",
             map: {
               type: "search",
               query: "Mitsui Garden Hotel Yokohama Minatomirai Premier",
@@ -115,7 +120,7 @@ export const itineraryData = [
           },
           {
             time: "下午",
-            text: "紅磚倉庫（1・2號館）",
+            text: "紅磚倉庫",
             subText: "購物、餐廳、海景",
             map: { type: "search", query: "Yokohama Red Brick Warehouse" },
           },
@@ -190,7 +195,7 @@ export const itineraryData = [
           },
           {
             time: "全天",
-            text: "Shibuya 109 採買服飾",
+            text: "Shibuya 109 採買",
             subText: "連假首日，建議早到",
             map: { type: "search", query: "Shibuya 109 Tokyo" },
           },
@@ -222,7 +227,7 @@ export const itineraryData = [
             activities: [
               {
                 time: "上午",
-                text: "澀谷飯店退房 → 大宮站",
+                text: "澀谷退房 → 大宮",
                 transport: {
                   line: "JR 湘南新宿線",
                   station: "澀谷站",
@@ -238,7 +243,7 @@ export const itineraryData = [
               },
               {
                 time: "上午",
-                text: "大宮站 → 輕井澤",
+                text: "大宮 → 輕井澤",
                 transport: {
                   line: "北陸新幹線 (はくたか / あさま)",
                   station: "大宮站",
@@ -254,20 +259,19 @@ export const itineraryData = [
               },
               {
                 time: "中午",
-                text: "Check-in 輕井澤淺間王子大飯店",
-                subText: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景 🆕",
+                text: "飯店 Check-in",
+                subText: "輕井澤淺間王子 (候選) • 眺望淺間山景",
                 map: { type: "search", query: "Karuizawa Asama Prince Hotel" },
               },
               {
                 time: "下午",
-                text: "舊輕井澤銀座通或新輕井澤散步",
+                text: "舊輕井澤銀座通",
                 subText: "避開週末人潮，悠閒開始慢活行程",
                 map: { type: "search", query: "Kyu-Karuizawa Ginza" },
               },
               {
                 time: "晚上",
                 text: "輕井澤周邊素食晚餐",
-                tips: "入座前確認湯底是否為純昆布",
               },
             ],
           },
@@ -281,7 +285,7 @@ export const itineraryData = [
             activities: [
               {
                 time: "上午",
-                text: "澀谷飯店退房 → 高崎站",
+                text: "澀谷退房 → 高崎",
                 transport: {
                   line: "JR 湘南新宿線 (特別快速・高崎行)",
                   station: "澀谷站",
@@ -297,14 +301,13 @@ export const itineraryData = [
               },
               {
                 time: "中午",
-                text: "Check-in 多美迎高崎酒店 (Dormy Inn Takasaki)",
-                subText:
-                  "車站旁步行 5 鐘，附設天然溫泉「榛名之湯」與宵夜免費拉麵 🆕",
+                text: "飯店 Check-in",
+                subText: "多美迎高崎 (候選) • 附設天然溫泉",
                 map: { type: "search", query: "Dormy Inn Takasaki" },
               },
               {
                 time: "下午",
-                text: "高崎市區散策 / 少林山達磨寺",
+                text: "高崎散策 / 達磨寺",
                 subText:
                   "可搭乘高崎市內公車前往全日本達磨不倒翁的發源地，祈求旅途平安順利",
                 map: { type: "search", query: "Shorinzan Darumaji Temple" },
@@ -327,7 +330,7 @@ export const itineraryData = [
             activities: [
               {
                 time: "上午",
-                text: "澀谷飯店退房 → 大宮 → 輕井澤站",
+                text: "澀谷退房 → 輕井澤",
                 transport: {
                   line: "JR 湘南新宿線 + 北陸新幹線",
                   station: "澀谷站 (3號月台) → 大宮站 → 輕井澤站",
@@ -342,7 +345,7 @@ export const itineraryData = [
               },
               {
                 time: "中午",
-                text: "輕井澤站前 → 草津溫泉巴士總站",
+                text: "輕井澤 → 草津巴士",
                 transport: {
                   line: "草津交通巴士 / 西武觀光巴士 (急行草津溫泉行)",
                   station: "輕井澤站北口 2 號乘車處",
@@ -357,9 +360,8 @@ export const itineraryData = [
               },
               {
                 time: "下午",
-                text: "Check-in 草津溫泉旅館（待定）",
-                subText:
-                  "放行李後，漫步草津老街欣賞「湯畑」溫泉湧源、熱乃湯揉湯體驗與西之河原公園",
+                text: "飯店 Check-in",
+                subText: "草津溫泉旅館 (候選) • 湯畑與揉湯體驗",
                 map: { type: "search", query: "Yubatake Kusatsu" },
               },
               {
@@ -375,7 +377,7 @@ export const itineraryData = [
         day: 5,
         date: "6/21 (日)",
         anniversary: true,
-        title: "全天輕井澤慢活（紀念日） 🎊",
+        title: "輕井澤慢活",
         image:
           "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
         highlight: "🎊 三週年結婚紀念日！全天悠閒享受輕井澤度假感",
@@ -383,7 +385,7 @@ export const itineraryData = [
           {
             id: 1,
             label: "輕井澤",
-            title: "全天輕井澤慢活（紀念日） 🎊",
+            title: "輕井澤慢活",
             image:
               "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
             highlight:
@@ -391,18 +393,18 @@ export const itineraryData = [
             activities: [
               {
                 time: "上午",
-                text: "輕井澤淺間王子退房 ➔ 移動至新飯店",
+                text: "退房並移動至新飯店",
                 subText: "搭乘飯店接駁車或計程車至輕井澤站前",
               },
               {
                 time: "中午",
-                text: "Check-in 輕井澤 APA 飯店",
-                subText: "站前步行 3 分鐘放行李，平價便捷 🆕",
+                text: "飯店 Check-in",
+                subText: "輕井澤 APA (候選) • 站前步行 3 分鐘",
                 map: { type: "search", query: "APA Hotel Karuizawa Ekimae" },
               },
               {
                 time: "下午",
-                text: "中輕井澤森林漫步",
+                text: "中輕井澤漫步",
                 subText:
                   "漫遊榆樹街小鎮 (Harunire Terrace) 與造訪石之教會（需預約）",
                 transport: {
@@ -415,8 +417,8 @@ export const itineraryData = [
               },
               {
                 time: "晚上",
-                text: "🎊 中輕井澤野菜晚餐",
-                subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
+                text: "中輕井澤野菜晚餐",
+                subText: "紀念日慶祝大餐，請提前預約",
                 foodGuideLink: "輕井澤",
               },
             ],
@@ -424,7 +426,7 @@ export const itineraryData = [
           {
             id: 2,
             label: "高崎",
-            title: "高崎 → 輕井澤慢活（紀念日） 🎊",
+            title: "高崎 → 輕井澤慢活",
             image:
               "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
             highlight:
@@ -432,7 +434,7 @@ export const itineraryData = [
             activities: [
               {
                 time: "上午",
-                text: "高崎飯店退房 ➔ 搭乘新幹線返輕井澤",
+                text: "高崎退房 → 輕井澤",
                 transport: {
                   line: "JR 北陸新幹線",
                   station: "高崎站 ➔ 輕井澤站",
@@ -447,8 +449,8 @@ export const itineraryData = [
               },
               {
                 time: "中午",
-                text: "Check-in 輕井澤 APA 飯店",
-                subText: "輕井澤站北口步行 3 分鐘寄放行李，展開輕井澤行程 🆕",
+                text: "飯店 Check-in",
+                subText: "輕井澤 APA (候選) • 站前步行 3 分鐘",
                 map: { type: "search", query: "APA Hotel Karuizawa Ekimae" },
               },
               {
@@ -466,8 +468,8 @@ export const itineraryData = [
               },
               {
                 time: "晚上",
-                text: "🎊 中輕井澤野菜晚餐",
-                subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
+                text: "中輕井澤野菜晚餐",
+                subText: "紀念日慶祝大餐，請提前預約",
                 foodGuideLink: "輕井澤",
               },
             ],
@@ -475,7 +477,7 @@ export const itineraryData = [
           {
             id: 3,
             label: "草津溫泉",
-            title: "草津溫泉 → 輕井澤慢活（紀念日） 🎊",
+            title: "草津溫泉 → 輕井澤慢活",
             image:
               "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
             highlight:
@@ -483,14 +485,14 @@ export const itineraryData = [
             activities: [
               {
                 time: "上午",
-                text: "草津溫泉老街晨間散策",
+                text: "草津老街晨間散步",
                 subText:
                   "清晨的溫泉街「湯畑」漫步，享受清幽的溫泉鄉氛圍，隨後退房",
                 map: { type: "search", query: "Yubatake Kusatsu" },
               },
               {
                 time: "中午",
-                text: "搭急行巴士返輕井澤站 ➔ APA 飯店",
+                text: "巴士返輕井澤",
                 transport: {
                   line: "草津交通巴士 / 西武觀光巴士 (急行)",
                   station: "草津溫泉巴士總站 ➔ 輕井澤站北口",
@@ -518,8 +520,8 @@ export const itineraryData = [
               },
               {
                 time: "晚上",
-                text: "🎊 中輕井澤野菜晚餐",
-                subText: "紀念日慶祝大餐，請提前預約並確認無柴魚/魚介高湯",
+                text: "中輕井澤野菜晚餐",
+                subText: "紀念日慶祝大餐，請提前預約",
                 foodGuideLink: "輕井澤",
               },
             ],
@@ -536,22 +538,20 @@ export const itineraryData = [
         activities: [
           {
             time: "上午",
-            text: "輕井澤 APA 退房，租借腳踏車慢遊三區",
-            subText:
-              "推薦租借站前的白貓自行車（普通車約 ¥700/日，電動車約 ¥1,500/日，限 17:00 前歸還）🚲",
+            text: "退房 ➔ 租車慢遊",
+            subText: "推薦白貓自行車（電動 ¥1,500/日，普通 ¥700/日）",
             note: "新輕井澤 ↔ 中輕井澤若不騎車，亦可搭乘信濃鐵道（車程約 4 分鐘，單程 ¥240，每小時 1-2 班）",
             map: { type: "search", query: "Kumoba Pond Karuizawa" },
           },
           {
             time: "傍晚",
-            text: "Check-in 輕井澤英迪格酒店",
-            subText: "延續紀念日的輕奢享受，木質渡假設計體驗",
+            text: "飯店 Check-in",
+            subText: "輕井澤英迪格 (候選) • 渡假設計體驗",
             map: { type: "search", query: "Hotel Indigo Karuizawa" },
           },
           {
             time: "晚上",
             text: "輕井澤市區素食晚餐",
-            tips: "嚴守五辛蛋奶素，入座前確認無柴魚高湯",
           },
         ],
       },
@@ -565,7 +565,7 @@ export const itineraryData = [
         activities: [
           {
             time: "上午",
-            text: "輕井澤王子購物廣場（Outlet）最後採買",
+            text: "王子 Outlet 採買",
             subText: "把握最後的購物折扣",
             map: { type: "search", query: "Karuizawa Prince Shopping Plaza" },
           },
@@ -590,7 +590,11 @@ export const itineraryData = [
               destination: "Tokyo Station",
             },
           },
-          { time: "傍晚", text: "Check-in 東京站周邊飯店" },
+          {
+            time: "傍晚",
+            text: "飯店 Check-in",
+            subText: "東京站周邊飯店 (候選)",
+          },
         ],
       },
     ],
@@ -611,7 +615,7 @@ export const itineraryData = [
           { time: "上午", text: "整理行李、退房" },
           {
             time: "13:30",
-            text: "東京站 → 成田機場",
+            text: "東京站 → 成田",
             transport: {
               line: "N'EX 成田特快",
               station: "東京站 (總武地下線)",
@@ -685,11 +689,11 @@ export const recommendedRoutes = [
     id: 3,
     day: "Day 4 (6/20 六)",
     type: "route",
+    name: "澀谷 → 輕井澤/高崎/草津",
     options: [
       {
         id: "opt1",
         label: "輕井澤",
-        name: "澀谷 → 輕井澤",
         origin: "Shibuya Station",
         destination: "Karuizawa Station",
         duration: "85分",
@@ -717,7 +721,6 @@ export const recommendedRoutes = [
       {
         id: "opt2",
         label: "高崎",
-        name: "澀谷 → 高崎",
         origin: "Shibuya Station",
         destination: "Takasaki Station",
         duration: "約60分 / 95分",
@@ -745,7 +748,6 @@ export const recommendedRoutes = [
       {
         id: "opt3",
         label: "草津溫泉",
-        name: "澀谷 → 輕井澤 → 草津",
         origin: "Shibuya Station",
         destination: "Kusatsu Onsen",
         duration: "165分",
@@ -784,11 +786,11 @@ export const recommendedRoutes = [
     id: 4,
     day: "Day 5 (6/21 日)",
     type: "route",
+    name: "輕井澤",
     options: [
       {
         id: "d5-opt1",
         label: "輕井澤",
-        name: "輕井澤區內移動",
         duration: "全天",
         steps: [
           {
@@ -812,7 +814,6 @@ export const recommendedRoutes = [
       {
         id: "d5-opt2",
         label: "高崎",
-        name: "高崎 → 輕井澤 ➔ 區內移動",
         duration: "全天",
         steps: [
           {
@@ -845,7 +846,6 @@ export const recommendedRoutes = [
       {
         id: "d5-opt3",
         label: "草津溫泉",
-        name: "草津溫泉 → 輕井澤 ➔ 區內移動",
         duration: "全天",
         steps: [
           {
@@ -880,7 +880,7 @@ export const recommendedRoutes = [
     id: 5,
     day: "Day 6 (6/22 一)",
     type: "bike",
-    name: "輕井澤區內慢遊",
+    name: "輕井澤",
     origin: "Karuizawa Station",
     destination: "Karuizawa Area",
     duration: "全天",
@@ -1851,7 +1851,7 @@ export const accommodationData = [
     hotels: [
       {
         name: "Super Hotel Yokohama Kannai",
-        status: "候選",
+        status: "待訂",
         desc: "高CP值商務旅館",
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Super+Hotel+Yokohama+Kannai",
@@ -1859,7 +1859,7 @@ export const accommodationData = [
       },
       {
         name: "相鐵Fresa Inn 橫濱櫻木町",
-        status: "候選",
+        status: "待訂",
         desc: "近車站，交通便利",
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Sotetsu+Fresa+Inn+Yokohama+Sakuragicho",
@@ -1867,7 +1867,7 @@ export const accommodationData = [
       },
       {
         name: "澀谷飯店 (待定)",
-        status: "候選",
+        status: "待訂",
         desc: "若選擇提早移動到澀谷",
         priceTwd: 3000,
       },
@@ -1879,7 +1879,7 @@ export const accommodationData = [
     hotels: [
       {
         name: "待定 (澀谷周邊)",
-        status: "未決定",
+        status: "待訂",
         desc: "Shibuya 109 採買日，住澀谷最方便",
         features: ["交通樞紐", "購物"],
         priceTwd: 3000,
@@ -1892,7 +1892,7 @@ export const accommodationData = [
     hotels: [
       {
         name: "輕井澤 APA 飯店",
-        status: "候選",
+        status: "待訂",
         desc: "站前步行 3 分鐘寄放行李，便捷高效首選",
         features: ["交通便利", "車站旁"],
         mapUrl:
@@ -1901,7 +1901,7 @@ export const accommodationData = [
       },
       {
         name: "多美迎高崎酒店 (Dormy Inn Takasaki)",
-        status: "候選",
+        status: "待訂",
         desc: "高崎站旁附天然溫泉與免費拉麵，適合作為交通中繼站",
         features: ["溫泉", "交通便利"],
         mapUrl: "https://maps.app.goo.gl/TnUyWtAd4NAzA8MA8",
@@ -1909,7 +1909,7 @@ export const accommodationData = [
       },
       {
         name: "輕井澤淺間王子大飯店",
-        status: "候選",
+        status: "待訂",
         desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
         features: ["溫泉", "淺間山景"],
         mapUrl:
@@ -1918,7 +1918,7 @@ export const accommodationData = [
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
-        status: "候選",
+        status: "待訂",
         desc: "奢華設計木質渡假體驗",
         features: ["設計感", "渡假"],
         mapUrl:
@@ -1927,7 +1927,7 @@ export const accommodationData = [
       },
       {
         name: "待定 (草津溫泉)",
-        status: "未決定",
+        status: "待訂",
         desc: "若提早前去草津，考量老牌溫泉旅館的一泊二食體驗",
         features: ["溫泉", "一泊二食"],
         priceTwd: 8000,
@@ -1940,7 +1940,7 @@ export const accommodationData = [
     hotels: [
       {
         name: "輕井澤 APA 飯店",
-        status: "候選",
+        status: "待訂",
         desc: "站前步行 3 分鐘放行李，平價便捷",
         features: ["交通便利", "車站旁"],
         mapUrl:
@@ -1949,7 +1949,7 @@ export const accommodationData = [
       },
       {
         name: "輕井澤淺間王子大飯店",
-        status: "候選",
+        status: "待訂",
         desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
         features: ["溫泉", "淺間山景"],
         mapUrl:
@@ -1958,7 +1958,7 @@ export const accommodationData = [
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
-        status: "候選",
+        status: "待訂",
         desc: "三週年紀念日主場！奢華設計木質渡假體驗",
         features: ["設計感", "紀念日", "渡假"],
         mapUrl:
@@ -1973,7 +1973,7 @@ export const accommodationData = [
     hotels: [
       {
         name: "輕井澤 APA 飯店",
-        status: "候選",
+        status: "待訂",
         desc: "站前步行 3 分鐘放行李，平價便捷",
         features: ["交通便利", "車站旁"],
         mapUrl:
@@ -1982,7 +1982,7 @@ export const accommodationData = [
       },
       {
         name: "輕井澤淺間王子大飯店",
-        status: "候選",
+        status: "待訂",
         desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
         features: ["溫泉", "淺間山景"],
         mapUrl:
@@ -1991,7 +1991,7 @@ export const accommodationData = [
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
-        status: "候選",
+        status: "待訂",
         desc: "奢華設計木質渡假體驗",
         features: ["設計感", "渡假"],
         mapUrl:
@@ -2006,7 +2006,7 @@ export const accommodationData = [
     hotels: [
       {
         name: "待定 (東京站周邊)",
-        status: "未決定",
+        status: "待訂",
         desc: "最後一晚，考量隔日搭乘 N'EX 前往成田機場的便利性",
         features: ["交通樞紐"],
         priceTwd: 3000,
