@@ -802,7 +802,9 @@ export default function App() {
             {recommendedRoutes.map((route, idx) => {
               const parsedDate = parseDateStr(route.day);
               const currentOptIdx = selectedRouteOpts[route.id] || 0;
-              const currentRoute = route.options ? route.options[currentOptIdx] : route;
+              const currentRoute = route.options
+                ? route.options[currentOptIdx]
+                : route;
 
               const name = currentRoute.name || route.name;
               const steps = currentRoute.steps || route.steps;
@@ -921,14 +923,23 @@ export default function App() {
                               )}
                             </div>
 
-                            {step.note && (
-                              <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white/40 pl-2 ml-2">
-                                {step.note.includes("⚠️") ? (
-                                  <span className="text-red-500 font-bold">
-                                    {step.note}
-                                  </span>
-                                ) : (
-                                  <span>* {step.note}</span>
+                            {(step.fare || step.note) && (
+                              <div className="text-[11px] text-gray-600 mt-2 leading-snug bg-white/60 p-2.5 rounded-lg border border-white/45 pl-3 ml-2 flex flex-col gap-1">
+                                {step.fare && (
+                                  <div className="flex items-center gap-1 text-[#5F7A61] font-bold">
+                                    <span>🪙</span> 票價：{step.fare}
+                                  </div>
+                                )}
+                                {step.note && (
+                                  <div className="text-gray-600">
+                                    {step.note.includes("⚠️") ? (
+                                      <span className="text-red-500 font-bold">
+                                        {step.note}
+                                      </span>
+                                    ) : (
+                                      <span>* {step.note}</span>
+                                    )}
+                                  </div>
                                 )}
                               </div>
                             )}
