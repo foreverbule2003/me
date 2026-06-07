@@ -312,6 +312,13 @@ AI 聊天與翻譯功能的彈窗。
   - 備案商品（`isBackup: true`）以虛線邊框區分。
   - 已購商品自動沉底並加上刪除線。
 
+#### 11.6.5 Attraction Tab (景點分頁) ✨ NEW
+
+- **用途**: 顯示獨立的旅遊景點列表，支援地理分區折疊、景點分類小節與 Google Maps 連結。
+- **結構**:
+  - **地理分區卡片**: 使用 `SectionCard` 並標註 Day 標籤與地區名稱。
+  - **景點分類子區塊**: 使用 `CollapsibleSubsection` 區分「觀光」、「購物」等，提供再次折疊與計數功能。
+
 ### 11.7 Itinerary Components (`src/pages/trips/ise-shima/components/`) ✨ NEW
 
 為解決 `App.jsx` 過度龐大而提取的專用元件：

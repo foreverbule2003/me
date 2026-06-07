@@ -9,7 +9,9 @@
 簡短描述問題、背景脈絡以及這次變更要達成什麼目的。
 
 ## 取捨與假設 (Trade-offs & Assumptions)
+
 > **(Think Before Coding 核心精神)**
+
 - **我們的假設是**：(例如：資料量不會超過 1000 筆，所以先不實作分頁)
 - **為什麼不選更複雜的方案**：(說明為了貫徹 Simplicity First 而放棄的選項)
 - **潛在風險**：(如果這個假設錯了，會發生什麼事？)
@@ -29,20 +31,25 @@
 ### [Component Name]
 
 #### [MODIFY] [file basename](file:///absolute/path/to/modifiedfile)
+
 - 修改目的...
 - **外科手術檢查 (Surgical Check)**：確保不包含格式自動排版，只動與需求有關的邏輯。
 
 #### [NEW] [file basename](file:///absolute/path/to/newfile)
+
 - 新增目的...
 
 ## 驗證計畫 (Verification Plan)
+
 > **(落實目標驅動執行 Goal-Driven Execution)**
 
 我們如何驗證這些修改達到預期效果？
 
 ### 自動化化測試 (Automated Tests)
+
 - [ ] 將執行的具體指令或測試腳本。
 
 ### 手動驗證流程 (Manual Verification)
+
 - [ ] 步驟 1：... 預期結果：...
 - [ ] 步驟 2：... 預期結果：...

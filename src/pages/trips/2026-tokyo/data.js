@@ -168,7 +168,7 @@ export const itineraryData = [
         title: "Shibuya 109 連假採買",
         image:
           "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🛍️ 連假首日！Shibuya 109 主攻服飾",
+        highlight: "🛒 連假首日！Shibuya 109 主攻服飾",
         activities: [
           {
             time: "方案A",
@@ -204,57 +204,162 @@ export const itineraryData = [
       {
         day: 4,
         date: "6/20 (六)",
-        title: "澀谷退房 → 大宮 → 輕井澤",
+        title: "澀谷退房 → 大宮 → 輕井澤 / 高崎 / 草津",
         image:
           "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🚄 退房後直奔輕井澤度假，當晚入住輕井澤",
-        activities: [
+        highlight: "🚄 退房後直奔輕井澤度假、高崎溫泉中繼或前往草津溫泉",
+        options: [
           {
-            time: "上午",
-            text: "澀谷飯店退房 → 大宮站",
-            transport: {
-              line: "JR 湘南新宿線",
-              station: "澀谷站",
-              platform: "3 號月台",
-              note: "車程約 35-40 分鐘",
-            },
-            map: {
-              type: "route",
-              origin: "Shibuya Station",
-              destination: "Omiya Station",
-            },
+            id: 1,
+            label: "方案 1：輕井澤",
+            title: "澀谷退房 → 大宮 → 輕井澤",
+            image:
+              "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
+            highlight: "🚄 退房後直奔輕井澤，當晚入住輕井澤淺間王子飯店",
+            activities: [
+              {
+                time: "上午",
+                text: "澀谷飯店退房 → 大宮站",
+                transport: {
+                  line: "JR 湘南新宿線",
+                  station: "澀谷站",
+                  platform: "3 號月台",
+                  note: "車程約 35-40 分鐘",
+                },
+                map: {
+                  type: "route",
+                  origin: "Shibuya Station",
+                  destination: "Omiya Station",
+                },
+              },
+              {
+                time: "上午",
+                text: "大宮站 → 輕井澤",
+                transport: {
+                  line: "北陸新幹線 (はくたか / あさま)",
+                  station: "大宮站",
+                  platform: "17、18 號新幹線月台",
+                  note: "從普通線換乘新幹線須過專用聯絡閘門，車程約 50 分鐘。週六強烈建議預訂指定席。",
+                },
+                map: {
+                  type: "route",
+                  origin: "Omiya Station",
+                  destination: "Karuizawa Station",
+                },
+              },
+              {
+                time: "中午",
+                text: "Check-in 輕井澤淺間王子大飯店",
+                subText: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景 🆕",
+                map: { type: "search", query: "Karuizawa Asama Prince Hotel" },
+              },
+              {
+                time: "下午",
+                text: "舊輕井澤銀座通或新輕井澤散步",
+                subText: "避開週末人潮，悠閒開始慢活行程",
+                map: { type: "search", query: "Kyu-Karuizawa Ginza" },
+              },
+              {
+                time: "晚上",
+                text: "輕井澤周邊素食晚餐",
+                tips: "入座前確認湯底是否為純昆布",
+              },
+            ],
           },
           {
-            time: "上午",
-            text: "大宮站 → 輕井澤",
-            transport: {
-              line: "北陸新幹線 (はくたか / あさま)",
-              station: "大宮站",
-              platform: "17、18 號新幹線月台",
-              note: "從普通線換乘新幹線須過專用聯絡閘門，車程約 50 分鐘。週六強烈建議預訂指定席。",
-            },
-            map: {
-              type: "route",
-              origin: "Omiya Station",
-              destination: "Karuizawa Station",
-            },
+            id: 2,
+            label: "方案 2：高崎",
+            title: "澀谷退房 → 高崎",
+            image:
+              "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
+            highlight: "🚄 澀谷搭乘特別快速直達高崎，入住天然溫泉多美迎酒店",
+            activities: [
+              {
+                time: "上午",
+                text: "澀谷飯店退房 → 高崎站",
+                transport: {
+                  line: "JR 湘南新宿線 (特別快速・高崎行)",
+                  station: "澀谷站",
+                  platform: "3 號月台",
+                  note: "直達高崎免換車，車程約 95 分鐘。亦可於大宮轉乘新幹線（新幹線大宮至高崎約 25 分鐘）。",
+                },
+                map: {
+                  type: "route",
+                  origin: "Shibuya Station",
+                  destination: "Takasaki Station",
+                },
+              },
+              {
+                time: "中午",
+                text: "Check-in 多美迎高崎酒店 (Dormy Inn Takasaki)",
+                subText:
+                  "車站旁步行 5 鐘，附設天然溫泉「榛名之湯」與宵夜免費拉麵 🆕",
+                map: { type: "search", query: "Dormy Inn Takasaki" },
+              },
+              {
+                time: "下午",
+                text: "高崎市區散策 / 少林山達磨寺",
+                subText:
+                  "可搭乘高崎市內公車前往全日本達磨不倒翁的發源地，祈求旅途平安順利",
+                map: { type: "search", query: "Shorinzan Darumaji Temple" },
+              },
+              {
+                time: "晚上",
+                text: "晚餐：高崎在地名物義大利麵",
+                tips: "高崎為日本著名的「義大利麵之街」，可品嚐在地風味洋食，或至高崎站共構百貨享用美食",
+              },
+            ],
           },
           {
-            time: "中午",
-            text: "Check-in 輕井澤淺間王子大飯店",
-            subText: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景 🆕",
-            map: { type: "search", query: "Karuizawa Asama Prince Hotel" },
-          },
-          {
-            time: "下午",
-            text: "舊輕井澤銀座通或新輕井澤散步",
-            subText: "避開週末人潮，悠閒開始慢活行程",
-            map: { type: "search", query: "Kyu-Karuizawa Ginza" },
-          },
-          {
-            time: "晚上",
-            text: "輕井澤周邊素食晚餐",
-            tips: "入座前確認湯底是否為純昆布",
+            id: 3,
+            label: "方案 3：草津溫泉",
+            title: "澀谷退房 → 輕井澤 → 草津溫泉",
+            image:
+              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
+            highlight:
+              "♨️ 輕井澤站轉乘急行巴士前往草津溫泉，入住享受老牌溫泉一泊二食",
+            activities: [
+              {
+                time: "上午",
+                text: "澀谷飯店退房 → 大宮 → 輕井澤站",
+                transport: {
+                  line: "JR 湘南新宿線 + 北陸新幹線",
+                  station: "澀谷站 (3號月台) → 大宮站 → 輕井澤站",
+                  note: "大宮轉新幹線車程共約 85 分鐘。週六強烈建議預訂新幹線指定席。",
+                },
+                map: {
+                  type: "route",
+                  origin: "Shibuya Station",
+                  destination: "Karuizawa Station",
+                },
+              },
+              {
+                time: "中午",
+                text: "輕井澤站前 → 草津溫泉巴士總站",
+                transport: {
+                  line: "草津交通巴士 / 西武觀光巴士 (急行草津溫泉行)",
+                  station: "輕井澤站北口 2 號乘車處",
+                  note: "車程約 76-80 分鐘，單程票價約 ¥2,240-2,300。沿途可欣賞高原森林風光。",
+                },
+                map: {
+                  type: "route",
+                  origin: "Karuizawa Station",
+                  destination: "Kusatsu Onsen Bus Terminal",
+                },
+              },
+              {
+                time: "下午",
+                text: "Check-in 草津溫泉旅館（待定）",
+                subText:
+                  "放行李後，漫步草津老街欣賞「湯畑」溫泉湧源、熱乃湯揉湯體驗與西之河原公園",
+                map: { type: "search", query: "Yubatake Kusatsu" },
+              },
+              {
+                time: "晚上",
+                text: "晚餐：享受溫泉旅館精緻一泊二食",
+                tips: "品嚐在地食材製作的溫泉會席料理，並請旅館提前備註五辛蛋奶素飲食需求",
+              },
+            ],
           },
         ],
       },
@@ -333,7 +438,7 @@ export const itineraryData = [
         title: "輕井澤→東京",
         image:
           "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🛍️ 王子 Outlet 採買・章姬草莓・返東京",
+        highlight: "🛒 王子 Outlet 採買・章姬草莓・返東京",
         activities: [
           {
             time: "上午",
@@ -453,26 +558,89 @@ export const recommendedRoutes = [
     id: 3,
     day: "Day 4 (6/20 六)",
     type: "route",
-    name: "澀谷 → 輕井澤",
-    origin: "Shibuya Station",
-    destination: "Karuizawa Station",
-    duration: "85分",
-    steps: [
+    options: [
       {
-        type: "train",
-        line: "JR 湘南新宿線",
-        station: "澀谷站",
-        platform: "3號月台",
-        duration: "約35分",
-        note: "搭至大宮轉乘",
+        id: "opt1",
+        label: "方案 1：輕井澤",
+        name: "澀谷 → 大宮 → 輕井澤",
+        origin: "Shibuya Station",
+        destination: "Karuizawa Station",
+        duration: "85分",
+        steps: [
+          {
+            type: "train",
+            line: "JR 湘南新宿線",
+            station: "澀谷站",
+            platform: "3號月台",
+            duration: "約35分",
+            note: "搭至大宮轉乘",
+          },
+          {
+            type: "shinkansen",
+            line: "北陸新幹線",
+            station: "大宮站",
+            platform: "17/18月台",
+            duration: "約50分",
+            note: "轉乘需過聯絡閘門",
+          },
+        ],
       },
       {
-        type: "shinkansen",
-        line: "北陸新幹線",
-        station: "大宮站",
-        platform: "17/18月台",
-        duration: "約50分",
-        note: "轉乘需過聯絡閘門",
+        id: "opt2",
+        label: "方案 2：高崎",
+        name: "澀谷 → 高崎",
+        origin: "Shibuya Station",
+        destination: "Takasaki Station",
+        duration: "約60分 / 95分",
+        steps: [
+          {
+            type: "train",
+            line: "方式 A：大宮轉乘新幹線",
+            station: "澀谷站 ➔ 大宮站 ➔ 高崎站",
+            duration: "約60分",
+            note: "大宮轉北陸/上越新幹線，票價共約 ¥4,490 (含特急券)。持東京廣域周遊券免額外補票。",
+          },
+          {
+            type: "train",
+            line: "方式 B：JR 湘南新宿線特別快速",
+            station: "澀谷站 ➔ 高崎站",
+            duration: "約95分",
+            note: "直達高崎免轉乘，票價只需乘車券 ¥1,980。比新幹線省下特急券 ¥2,510，車程多約 35 分鐘。",
+          },
+        ],
+      },
+      {
+        id: "opt3",
+        label: "方案 3：草津溫泉",
+        name: "澀谷 → 輕井澤 → 草津",
+        origin: "Shibuya Station",
+        destination: "Kusatsu Onsen",
+        duration: "165分",
+        steps: [
+          {
+            type: "train",
+            line: "JR 湘南新宿線",
+            station: "澀谷站",
+            platform: "3號月台",
+            duration: "約35分",
+            note: "搭至大宮轉乘",
+          },
+          {
+            type: "shinkansen",
+            line: "北陸新幹線",
+            station: "大宮站",
+            platform: "17/18月台",
+            duration: "約50分",
+            note: "大宮轉乘至輕井澤",
+          },
+          {
+            type: "bus",
+            line: "草津交通 / 西武觀光巴士 (急行)",
+            station: "輕井澤站北口 2號乘車處",
+            duration: "約80分",
+            note: "搭乘急行巴士直達草津溫泉，單程約 ¥2,240-2,300",
+          },
+        ],
       },
     ],
   },
@@ -636,7 +804,33 @@ export const foodData = {
       ],
     },
     {
-      location: "澀谷・表參道",
+      location: "澀谷",
+      day: "Day 3-4",
+      sections: [
+        {
+          title: "🍽 餐廳",
+          items: [
+            {
+              name: "AFURI 澀谷",
+              type: "拉麵",
+              desc: "澀谷超人氣拉麵名店，提供兩款素食拉麵",
+              recommended: true,
+              mapUrl: "https://maps.app.goo.gl/LiH7B3axDie1uHbk9",
+            },
+            {
+              name: "東急FoodShow 澀谷店",
+              type: "食品賣場",
+              desc: "澀谷地下街食品賣場，熟食便當與甜點一應俱全",
+              recommended: false,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Tokyu+FoodShow+Shibuya",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      location: "原宿・表參道",
       day: "Day 3-4",
       sections: [
         {
@@ -669,21 +863,22 @@ export const foodData = {
           ],
         },
         {
-          title: "☕ 咖啡",
-          items: [
-            {
-              name: "neel",
-              type: "咖啡廳",
-              desc: "澀谷神宮前靜謐老屋咖啡廳，老辣妹推薦軟可麗餅",
-              recommended: false,
-              mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=neel+cafe+Shibuya",
-            },
-          ],
-        },
-        {
           title: "🍽 餐廳",
           items: [
+            {
+              name: "AFURI 原宿",
+              type: "拉麵",
+              desc: "位於原宿的超人氣拉麵名店，招牌柚子拉麵極受歡迎，同樣提供兩款精緻素食拉麵",
+              recommended: true,
+              mapUrl: "https://maps.app.goo.gl/k6MXQBnUxg1NbzpJ6",
+            },
+            {
+              name: "九州じゃんがら 原宿店",
+              type: "拉麵",
+              desc: "東京老牌拉麵名店，提供經典九州豚骨拉麵，有多款人氣全素拉麵可供選擇，湯頭濃郁",
+              recommended: false,
+              mapUrl: "https://maps.app.goo.gl/HvdtNQmww5g9vDk87",
+            },
             {
               name: "Brown Rice Tokyo Omotesando",
               type: "有機素食",
@@ -709,26 +904,11 @@ export const foodData = {
                 "https://www.google.com/maps/search/?api=1&query=Sakuratel+okonomiyaki+Tokyo",
             },
             {
-              name: "AFURI 澀谷",
-              type: "拉麵",
-              desc: "澀谷超人氣拉麵名店，提供兩款素食拉麵",
-              recommended: true,
-              mapUrl: "https://maps.app.goo.gl/LiH7B3axDie1uHbk9",
-            },
-            {
               name: "YAYOI 彌生軒 青山學院大學前店",
               type: "日式定食",
               desc: "表參道與澀谷之間日式定食餐廳，各式經典和食與定食套餐選擇",
               recommended: false,
               mapUrl: "https://maps.app.goo.gl/AaC4g4TxhKB2dfdo6",
-            },
-            {
-              name: "東急FoodShow 澀谷店",
-              type: "食品賣場",
-              desc: "澀谷地下街食品賣場，熟食便當與甜點一應俱全",
-              recommended: false,
-              mapUrl:
-                "https://www.google.com/maps/search/?api=1&query=Tokyu+FoodShow+Shibuya",
             },
           ],
         },
@@ -770,6 +950,22 @@ export const foodData = {
               recommended: false,
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Sawamura+Kyukaruizawa",
+            },
+            {
+              name: "BOULANGERIE ASANOYA 舊輕井澤本店",
+              type: "麵包店",
+              desc: "舊輕井澤銀座通百年老鋪，招牌是石窯烘烤的歐式麵包",
+              recommended: true,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=BOULANGERIE+ASANOYA+Karuizawa",
+            },
+            {
+              name: "輕井澤法國麵包店 (Karuizawa French Bakery)",
+              type: "麵包店",
+              desc: "約翰藍儂也愛造訪的經典老店，法國麵包與香脆可頌非常出名",
+              recommended: false,
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Karuizawa+French+Bakery",
             },
             {
               name: "Café St.Maire KUMOBA",
@@ -889,138 +1085,280 @@ export const foodData = {
   ],
 };
 
-export const shoppingData = {
-  targetStores: ["Shibuya 109", "松本清", "唐吉訶德", "輕井澤 Outlet"],
+export const attractionData = {
   categories: [
     {
-      title: "橫濱",
+      location: "橫濱",
       day: "Day 1-2",
-      items: [
+      sections: [
         {
-          name: "科萊特馬雷 港未來購物中心",
-          type: "綜合商場",
-          desc: "櫻木町站前的綜合性購物商場，匯聚時尚、餐飲、生活雜貨，視野佳。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Colette+Mare+Minatomirai",
+          title: "🌲 觀光",
+          items: [
+            {
+              name: "YOKOHAMA AIR CABIN (橫濱空中纜車)",
+              type: "空中纜車",
+              desc: "連接櫻木町站與運河公園，體驗全日本首座都市型循環式索道纜車，橫濱港灣美景盡收眼底。",
+              note: "🎫 門票：單程 1,000円 / 往復 1,800円",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=YOKOHAMA+AIR+CABIN",
+            },
+            {
+              name: "山下公園",
+              type: "海濱公園",
+              desc: "海濱散步，享受橫濱港灣風情與玫瑰花季。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Yamashita+Park+Yokohama",
+            },
+            {
+              name: "港未來・COSMOWORLD",
+              type: "遊樂園",
+              desc: "擁有地標摩天輪與 AIR CABIN 纜車，夜景絕佳。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Cosmoworld+Yokohama",
+            },
+            {
+              name: "合味道紀念館",
+              type: "博物館",
+              desc: "泡麵博物館，可體驗親手製作專屬的杯麵。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=CupNoodles+Museum+Yokohama",
+            },
+          ],
         },
         {
-          name: "橫濱元町商店街",
-          type: "特色商店街",
-          desc: "具有歐式風情的歷史商店街，以精品、飾品與咖啡店聞名，散步感十足。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Yokohama+Motomachi+Shopping+Street",
-        },
-        {
-          name: "橫濱紅磚倉庫 1號館 & 2號館",
-          type: "文創市集",
-          desc: "歷史建築改建的文創與商業空間，有許多獨特的雜貨、美食與期間限定市集。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Yokohama+Red+Brick+Warehouse",
-        },
-        {
-          name: "MARINE & WALK 橫濱",
-          type: "海濱購物",
-          desc: "充滿美式開放感的海濱購物中心，聚集時尚品牌與露天餐廳，景色怡人。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Marine+Walk+Yokohama",
+          title: "🛒 購物",
+          items: [
+            {
+              name: "科萊特馬雷 港未來購物中心",
+              type: "綜合商場",
+              desc: "櫻木町站前的綜合性購物商場，匯聚時尚、餐飲、生活雜貨，視野佳。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Colette+Mare+Minatomirai",
+            },
+            {
+              name: "橫濱元町商店街",
+              type: "特色商店街",
+              desc: "具有歐式風情的歷史商店街，以精品、飾品與咖啡店聞名，散步感十足。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Yokohama+Motomachi+Shopping+Street",
+            },
+            {
+              name: "橫濱紅磚倉庫 1號館 & 2號館",
+              type: "文創市集",
+              desc: "歷史建築改建的文創與商業空間，有許多獨特的雜貨、美食與期間限定市集。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Yokohama+Red+Brick+Warehouse",
+            },
+            {
+              name: "MARINE & WALK 橫濱",
+              type: "海濱購物",
+              desc: "充滿美式開放感的海濱購物中心，聚集時尚品牌與露天餐廳，景色怡人。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Marine+Walk+Yokohama",
+            },
+          ],
         },
       ],
     },
     {
-      title: "澀谷・表參道",
+      location: "澀谷",
       day: "Day 2-3",
-      items: [
+      sections: [
         {
-          name: "澀谷SCRAMBLE SQUARE",
-          type: "地標百貨",
-          desc: "澀谷最新超高層地標，擁有豐富的高級時尚品牌、流行雜貨，頂樓展望台景色絕佳。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Shibuya+Scramble+Square",
+          title: "🌲 觀光",
+          items: [
+            {
+              name: "SHIBUYA SKY (澀谷天空展望台)",
+              type: "展望台",
+              desc: "頂樓 360 度無死角玻璃展望台，極力推薦日落前入場，可俯瞰著名的澀谷十字路口與東京鐵塔。",
+              note: "🎫 門票 (WEB)：15:00前 2,700円 / 15:00後 3,400円",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY",
+            },
+          ],
         },
         {
-          name: "MAGNET by SHIBUYA109",
-          type: "次文化潮流",
-          desc: "以次文化與潮流為主的購物中心，頂樓免費俯瞰澀谷十字路口全景。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=MAGNET+by+SHIBUYA109",
-        },
-        {
-          name: "Shibuya 109",
-          type: "潮流服飾",
-          desc: "澀谷最具代表性的潮流服飾百貨，集結日本最新流行趨勢品牌。",
-          mapUrl: "https://www.google.com/maps/search/?api=1&query=Shibuya+109",
-        },
-        {
-          name: "任天堂 東京旗艦店",
-          type: "限定旗艦店",
-          desc: "位於澀谷 PARCO 6F 的任天堂官方直營店，販售多樣限定周邊與特色商品。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Nintendo+Tokyo+Shibuya+PARCO",
-        },
-        {
-          name: "東急FoodShow 澀谷店",
-          type: "伴手禮・美食",
-          desc: "位於澀谷站地下一樓，採買在地甜點、熟食便當與伴手禮的必去好去處。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Tokyu+FoodShow+Shibuya",
-        },
-        {
-          name: "and ST TOKYO",
-          type: "選物・生活風格",
-          desc: "知名服裝集團的旗艦選物店，提供多元的生活風格提案與設計師品牌。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=and+ST+TOKYO",
+          title: "🛒 購物",
+          items: [
+            {
+              name: "澀谷SCRAMBLE SQUARE",
+              type: "地標百貨",
+              desc: "澀谷最新超高層地標，擁有豐富的高級時尚品牌、流行雜貨，SHIBUYA SKY 展望台入口位於 14F。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Shibuya+Scramble+Square",
+            },
+            {
+              name: "MAGNET by SHIBUYA109",
+              type: "商場",
+              desc: "以動漫、流行 culture 與美食為主打，還有頂樓觀景台",
+              mapUrl: "https://maps.app.goo.gl/N9sU1pX3XzJvKxTq5",
+            },
+            {
+              name: "Shibuya 109",
+              type: "潮流服飾",
+              desc: "澀谷最具代表性的潮流服飾百貨，集結日本最新流行趨勢品牌。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Shibuya+109",
+            },
+            {
+              name: "任天堂 東京旗艦店",
+              type: "限定旗艦店",
+              desc: "位於澀谷 PARCO 6F 的任天堂官方直營店，販售多樣限定周邊與特色商品。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Nintendo+Tokyo+Shibuya+PARCO",
+            },
+            {
+              name: "東急FoodShow 澀谷店",
+              type: "伴手禮・美食",
+              desc: "位於澀谷站地下一樓，採買在地甜點、熟食便當與伴手禮的必去好去處。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Tokyu+FoodShow+Shibuya",
+            },
+          ],
         },
       ],
     },
     {
-      title: "輕井澤",
+      location: "原宿・表參道",
+      day: "Day 2-3",
+      sections: [
+        {
+          title: "🌲 觀光",
+          items: [
+            {
+              name: "代代木公園",
+              type: "公園",
+              desc: "都市中的綠洲，賞楓勝地，佔地廣大適合散步放鬆",
+              mapUrl: "https://maps.app.goo.gl/4N3r6P8sB2wz5eZc9",
+            },
+            {
+              name: "竹下通",
+              type: "景點",
+              desc: "原宿人氣徒步區，充滿年輕流行文化、日系服飾與可麗餅",
+              mapUrl: "https://www.google.com/maps/search/?api=1&query=竹下通",
+            },
+          ],
+        },
+        {
+          title: "🛒 購物",
+          items: [
+            {
+              name: "Laforet 原宿",
+              type: "商場",
+              desc: "原宿地標性時尚購物中心，匯集眾多日系潮流服飾品牌",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Laforet+Harajuku",
+            },
+            {
+              name: "生活之木 原宿表參道店",
+              type: "香氛/雜貨",
+              desc: "知名香氛精油品牌旗艦店，可購買各類精油與香氛產品",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=生活之木+原宿表參道店",
+            },
+            {
+              name: "NUMBER SUGAR 手工牛奶糖",
+              type: "伴手禮",
+              desc: "表參道高人氣的質感手工焦糖牛奶糖，包裝精美適合送禮",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=NUMBER+SUGAR+Omotesando",
+            },
+          ],
+        },
+      ],
+    },
+    {
+      location: "輕井澤",
       day: "Day 4-6",
-      items: [
+      sections: [
         {
-          name: "輕井澤王子購物廣場",
-          type: "Outlet",
-          desc: "位於輕井澤車站南側的大型暢貨中心，環境優美品牌豐富，適合整天採購。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Shopping+Plaza",
+          title: "🌲 觀光",
+          items: [
+            {
+              name: "雲場池",
+              type: "自然名勝",
+              desc: "輕井澤代表性景點，四季皆美，尤其是新綠與紅葉時期，被稱為天鵝湖。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Kumoba+Pond+Karuizawa",
+            },
+          ],
         },
         {
-          name: "舊輕井澤銀座通",
-          type: "歷史商店街",
-          desc: "輕井澤最著名的散策商店街，適合購買手工藝品、特色伴手禮與享用散策美食。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Kyu+Karuizawa+Ginza+Street",
-        },
-        {
-          name: "天然果醬 澤屋 (SAWAYA)",
-          type: "必買伴手禮",
-          desc: "輕井澤必買的無添加果醬伴手禮，特別推薦草莓牛奶果醬等熱銷口味。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Sawaya+Karuizawa+Jam",
+          title: "🛒 購物",
+          items: [
+            {
+              name: "輕井澤王子購物廣場",
+              type: "Outlet",
+              desc: "位於輕井澤車站南側的大型暢貨中心，環境優美品牌豐富，適合整天採購。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Karuizawa+Prince+Shopping+Plaza",
+            },
+            {
+              name: "舊輕井澤銀座通",
+              type: "歷史商店街",
+              desc: "輕井澤最著名的散策商店街，適合購買手工藝品、特色伴手禮與享用散策美食。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Kyu+Karuizawa+Ginza+Street",
+            },
+          ],
         },
       ],
     },
     {
-      title: "中輕井澤",
+      location: "中輕井澤",
       day: "Day 5-7",
-      items: [
+      sections: [
         {
-          name: "榆樹街小鎮",
-          type: "文青選物",
-          desc: "位於星野區的文青風木棧道購物區，有多家精緻小店、咖啡廳與設計師品牌。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Harunire+Terrace+Karuizawa",
+          title: "🌲 觀光",
+          items: [
+            {
+              name: "石之教會",
+              type: "特色建築",
+              desc: "由石頭與玻璃建成的獨特教堂，光影變幻令人讚嘆 (內部參觀需預約)。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Stone+Church+Karuizawa",
+            },
+            {
+              name: "輕井澤高原教會",
+              type: "歷史教堂",
+              desc: "隱密於森林中的木造教堂，充滿歷史溫度，也是知名婚禮聖地，常有音樂會。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Karuizawa+Kogen+Church",
+            },
+            {
+              name: "星野溫泉 蜻蛉之湯",
+              type: "溫泉",
+              desc: "位於星野區的現代日式溫泉，擁有被森林環繞的露天大浴池與室內檜木風呂，四季風情極佳",
+              note: "🎫 泡湯：1,550円",
+              mapUrl: "https://maps.app.goo.gl/zFoZCaYtuG3MZ7BE6",
+            },
+            {
+              name: "輕井澤野鳥之森",
+              type: "自然名勝",
+              desc: "佔地約 100 公頃的國立自然保護區，設有漫步步道，可觀賞百餘種野鳥與野生動植物，適合森林浴",
+              mapUrl: "https://maps.app.goo.gl/Mq6p4srsDW9M8pVm9",
+            },
+          ],
         },
         {
-          name: "PICCHIO 野鳥の森 商店",
-          type: "自然選物",
-          desc: "星野區自然主題選物店，販售輕井澤限定自然系雜貨與戶外生活用品。",
-          mapUrl:
-            "https://www.google.com/maps/search/?api=1&query=Picchio+Hoshino+Karuizawa",
+          title: "🛒 購物",
+          items: [
+            {
+              name: "榆樹街小鎮",
+              type: "文青選物",
+              desc: "位於星野區的文青風木棧道購物區，有多家精緻小店、咖啡廳與設計師品牌。",
+              mapUrl:
+                "https://www.google.com/maps/search/?api=1&query=Harunire+Terrace+Karuizawa",
+            },
+          ],
         },
       ],
     },
   ],
+};
+
+export const shoppingData = {
+  targetStores: ["Shibuya 109", "松本清", "唐吉訶德", "輕井澤 Outlet"],
   wishlist: [
     {
       name: "肌研化妝水 白潤Premium",
@@ -1186,6 +1524,24 @@ export const shoppingData = {
       shop: "Roots / 百貨",
       image: "/me/images/products/roots_wallet.png",
     },
+    {
+      name: "MUJI 耳環收納",
+      nameJp: "ベロア内箱仕切リング用　ネックレス・ピアススタンド用",
+      desc: "無印良品灰色天鵝絨首飾盒/內盒仕切，適合收納手鍊與耳環。",
+      price: 390,
+      category: "居家",
+      shop: "無印良品",
+      image: "/me/images/products/muji_velour_case.png",
+    },
+    {
+      name: "MUJI 精油",
+      nameJp: "エッセンシャルオイル",
+      desc: "100% 天然精油，至現場親自體驗並挑選喜愛的香氣味道。",
+      price: 890,
+      category: "居家",
+      shop: "無印良品",
+      image: "/me/images/products/muji_essential_oil_lemongrass.png",
+    },
   ],
 };
 
@@ -1305,7 +1661,15 @@ export const accommodationData = [
         features: ["交通便利", "車站旁"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
-        priceTwd: 4700,
+        priceTwd: 4900,
+      },
+      {
+        name: "多美迎高崎酒店 (Dormy Inn Takasaki)",
+        status: "候選",
+        desc: "高崎站旁附天然溫泉與免費拉麵，適合作為交通中繼站",
+        features: ["溫泉", "交通便利"],
+        mapUrl: "https://maps.app.goo.gl/TnUyWtAd4NAzA8MA8",
+        priceTwd: 3500,
       },
       {
         name: "輕井澤淺間王子大飯店",
@@ -1314,7 +1678,7 @@ export const accommodationData = [
         features: ["溫泉", "淺間山景"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 6800,
+        priceTwd: 8500,
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
@@ -1323,7 +1687,14 @@ export const accommodationData = [
         features: ["設計感", "渡假"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
-        priceTwd: 10000,
+        priceTwd: 15000,
+      },
+      {
+        name: "待定 (草津溫泉)",
+        status: "未決定",
+        desc: "若提早前去草津，考量老牌溫泉旅館的一泊二食體驗",
+        features: ["溫泉", "一泊二食"],
+        priceTwd: 8000,
       },
     ],
   },
@@ -1338,7 +1709,7 @@ export const accommodationData = [
         features: ["交通便利", "車站旁"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
-        priceTwd: 2200,
+        priceTwd: 2400,
       },
       {
         name: "輕井澤淺間王子大飯店",
@@ -1347,7 +1718,7 @@ export const accommodationData = [
         features: ["溫泉", "淺間山景"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 5500,
+        priceTwd: 6500,
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
@@ -1356,7 +1727,7 @@ export const accommodationData = [
         features: ["設計感", "紀念日", "渡假"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
-        priceTwd: 8700,
+        priceTwd: 11000,
       },
     ],
   },
@@ -1371,7 +1742,7 @@ export const accommodationData = [
         features: ["交通便利", "車站旁"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
-        priceTwd: 2200,
+        priceTwd: 2400,
       },
       {
         name: "輕井澤淺間王子大飯店",
@@ -1380,7 +1751,7 @@ export const accommodationData = [
         features: ["溫泉", "淺間山景"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 5000,
+        priceTwd: 5800,
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
@@ -1389,7 +1760,7 @@ export const accommodationData = [
         features: ["設計感", "渡假"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
-        priceTwd: 8000,
+        priceTwd: 10000,
       },
     ],
   },

@@ -8,6 +8,7 @@ import {
   Calendar,
   Wallet,
   Train,
+  Bus,
   Utensils,
   Hotel,
   ArrowRight,
@@ -22,6 +23,7 @@ import {
   Heart,
   Bike,
   Clock,
+  Compass,
 } from "lucide-react";
 
 // 共用元件
@@ -43,6 +45,7 @@ import {
   usefulLinks,
   foodData,
   shoppingData,
+  attractionData,
   todoData,
   vegetarianCard,
   accommodationData,
@@ -121,12 +124,16 @@ const VegetarianCard = ({ forceOpen }) => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
         {/* 🚫 飲食禁忌 */}
         <div className="p-5 bg-red-50 border border-red-100 rounded-2xl space-y-3 animate-fade-in">
-          <p className="text-sm font-black text-red-500 tracking-wider mb-3">食べられないもの (🚫 飲食禁忌)</p>
+          <p className="text-sm font-black text-red-500 tracking-wider mb-3">
+            食べられないもの (🚫 飲食禁忌)
+          </p>
           <ul className="space-y-2.5">
             {vegetarianCard.cannotEat.map((item, i) => (
               <li key={i} className="flex items-start gap-2 text-red-800">
                 <span className="text-red-500 mt-1 text-xs">■</span>
-                <span className="text-base font-extrabold leading-tight">{item}</span>
+                <span className="text-base font-extrabold leading-tight">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -134,12 +141,16 @@ const VegetarianCard = ({ forceOpen }) => {
 
         {/* ✅ 可食項目 */}
         <div className="p-5 bg-emerald-50 border border-emerald-100 rounded-2xl space-y-3 animate-fade-in">
-          <p className="text-sm font-black text-emerald-600 tracking-wider mb-3">食べられるもの (✅ 可食項目)</p>
+          <p className="text-sm font-black text-emerald-600 tracking-wider mb-3">
+            食べられるもの (✅ 可食項目)
+          </p>
           <ul className="space-y-2.5">
             {vegetarianCard.canEat.map((item, i) => (
               <li key={i} className="flex items-start gap-2 text-emerald-800">
                 <span className="text-emerald-500 mt-1 text-xs">●</span>
-                <span className="text-base font-extrabold leading-tight">{item}</span>
+                <span className="text-base font-extrabold leading-tight">
+                  {item}
+                </span>
               </li>
             ))}
           </ul>
@@ -154,10 +165,11 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { id: "overview", label: "總覽", Icon: Star },
     { id: "itinerary", label: "行程", Icon: Calendar },
-    { id: "accommodation", label: "住宿", Icon: Hotel },
     { id: "map", label: "交通", Icon: Train },
+    { id: "attraction", label: "景點", Icon: Compass },
     { id: "food", label: "美食", Icon: Utensils },
     { id: "shopping", label: "購物", Icon: ShoppingBag },
+    { id: "accommodation", label: "住宿", Icon: Hotel },
     { id: "budget", label: "預算", Icon: Wallet },
   ];
 
@@ -303,6 +315,7 @@ export default function App() {
   const [purchased, setPurchased] = useState({});
   const [isSyncing, setIsSyncing] = useState(true);
   const [showBreakdown, setShowBreakdown] = useState(false);
+  const [selectedRouteOpts, setSelectedRouteOpts] = useState({});
 
   const TRIP_ID = "2026-tokyo";
 
@@ -358,7 +371,7 @@ export default function App() {
   const handleSmartToggle = () => {
     if (isAnyExpanded) {
       setExpandedDays({});
-      setCollapseCounter(c => c + 1); // 觸發所有 StickyPhaseHeader 收合
+      setCollapseCounter((c) => c + 1); // 觸發所有 StickyPhaseHeader 收合
     } else {
       const newExpanded = {};
       itineraryData.forEach((phase, pIdx) => {
@@ -419,20 +432,31 @@ export default function App() {
   const handleOpenMap = (mapData) =>
     setMapModalData({ isOpen: true, data: mapData });
 
-  const totalAccommodationBudget = accommodationData.reduce((total, section) => {
-    const booked = section.hotels.find((h) => h.status === "已預訂" || h.status === "已訂妥" || h.status === "已決定");
-    if (booked && booked.priceTwd) return total + booked.priceTwd;
+  const totalAccommodationBudget = accommodationData.reduce(
+    (total, section) => {
+      const booked = section.hotels.find(
+        (h) =>
+          h.status === "已預訂" ||
+          h.status === "已訂妥" ||
+          h.status === "已決定",
+      );
+      if (booked && booked.priceTwd) return total + booked.priceTwd;
 
-    const candidatesWithPrice = section.hotels.filter((h) => h.priceTwd);
-    if (candidatesWithPrice.length > 0) {
-      const sum = candidatesWithPrice.reduce((acc, h) => acc + h.priceTwd, 0);
-      return total + (sum / candidatesWithPrice.length);
-    }
-    return total;
-  }, 0);
+      const candidatesWithPrice = section.hotels.filter((h) => h.priceTwd);
+      if (candidatesWithPrice.length > 0) {
+        const sum = candidatesWithPrice.reduce((acc, h) => acc + h.priceTwd, 0);
+        return total + sum / candidatesWithPrice.length;
+      }
+      return total;
+    },
+    0,
+  );
 
   const accommodationBreakdown = accommodationData.map((section) => {
-    const booked = section.hotels.find((h) => h.status === "已預訂" || h.status === "已訂妥" || h.status === "已決定");
+    const booked = section.hotels.find(
+      (h) =>
+        h.status === "已預訂" || h.status === "已訂妥" || h.status === "已決定",
+    );
     if (booked && booked.priceTwd) {
       return {
         location: section.location,
@@ -453,7 +477,7 @@ export default function App() {
         period: section.period,
         type: "candidate_avg",
         detailText: `${count}間候選均價`,
-        formula: `(${candidatesWithPrice.map(h => h.priceTwd).join("+")}) / ${count} = ${Math.round(avg)}`,
+        formula: `(${candidatesWithPrice.map((h) => h.priceTwd).join("+")}) / ${count} = ${Math.round(avg)}`,
         price: avg,
       };
     }
@@ -568,16 +592,20 @@ export default function App() {
 
           {/* 住宿 Tab */}
           <div
-            className={
-              activeTab === "accommodation" ? "space-y-6" : "hidden"
-            }
+            className={activeTab === "accommodation" ? "space-y-6" : "hidden"}
           >
             <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/60 shadow-sm">
               <div className="flex items-center justify-between">
                 <div>
-                  <h3 className="text-xl font-bold text-[#1c1c1e] mb-1">住宿總預算估算</h3>
+                  <h3 className="text-xl font-bold text-[#1c1c1e] mb-1">
+                    住宿總預算估算
+                  </h3>
                   <p className="text-sm text-[#6e6e73]">
-                    已訂妥以該飯店計費，候選日期以<span className="font-bold text-[#1c1c1e]">候選飯店均價</span>進行估算。
+                    已訂妥以該飯店計費，候選日期以
+                    <span className="font-bold text-[#1c1c1e]">
+                      候選飯店均價
+                    </span>
+                    進行估算。
                   </p>
                 </div>
                 <div className="text-right">
@@ -587,16 +615,19 @@ export default function App() {
                   <div className="text-xs text-[#6e6e73]">7 晚總計</div>
                 </div>
               </div>
-              
+
               <div className="mt-4 pt-4 border-t border-[#7A8B7B]/10">
                 <button
                   onClick={() => setShowBreakdown(!showBreakdown)}
                   className="inline-flex items-center gap-1 text-xs text-[#5F7A61] hover:text-[#7A8B7B] transition-colors font-semibold"
                 >
                   {showBreakdown ? "收起計算明細" : "顯示每日計算明細"}
-                  <ChevronDown size={14} className={`transition-transform ${showBreakdown ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${showBreakdown ? "rotate-180" : ""}`}
+                  />
                 </button>
-                
+
                 {showBreakdown && (
                   <div className="mt-3 p-4 bg-[#F4F6F0]/80 rounded-xl space-y-2.5 border border-[#7A8B7B]/10 animate-fade-in">
                     <div className="text-xs font-bold text-[#7A8B7B] pb-1.5 border-b border-[#7A8B7B]/20 flex justify-between">
@@ -604,13 +635,23 @@ export default function App() {
                       <span>計算依據與房價</span>
                     </div>
                     {accommodationBreakdown.map((item, bIdx) => (
-                      <div key={bIdx} className="flex justify-between items-center text-xs text-gray-600 py-1.5 last:pb-0 border-b border-[#7A8B7B]/10 last:border-0">
+                      <div
+                        key={bIdx}
+                        className="flex justify-between items-center text-xs text-gray-600 py-1.5 last:pb-0 border-b border-[#7A8B7B]/10 last:border-0"
+                      >
                         <div className="flex flex-col sm:flex-row sm:items-center">
-                          <span className="font-semibold text-[#5F7A61] sm:mr-1.5">{item.period}</span>
-                          <span className="text-gray-400 text-[10px] sm:text-xs">{item.location}</span>
+                          <span className="font-semibold text-[#5F7A61] sm:mr-1.5">
+                            {item.period}
+                          </span>
+                          <span className="text-gray-400 text-[10px] sm:text-xs">
+                            {item.location}
+                          </span>
                         </div>
                         <div className="flex flex-col items-end sm:flex-row sm:items-center sm:gap-2">
-                          <span className="text-gray-400 text-[10px] sm:text-xs" title={item.formula}>
+                          <span
+                            className="text-gray-400 text-[10px] sm:text-xs"
+                            title={item.formula}
+                          >
                             {item.detailText}
                           </span>
                           <span className="font-bold text-[#1c1c1e]">
@@ -652,77 +693,93 @@ export default function App() {
                     )}
                     <div className="space-y-4">
                       {section.hotels.map((hotel, hIdx) => {
-                    const isSelected = hotel.status === "已決定" || hotel.status === "已訂妥" || hotel.status === "已預訂";
-                    return (
-                      <div
-                        key={hIdx}
-                        className={`p-4 rounded-xl border relative group overflow-hidden transition-all duration-300 ${
-                          isSelected
-                            ? "bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/20 animate-fade-in"
-                            : "bg-[#F4F6F0] border-[#7A8B7B]/20"
-                        }`}
-                      >
-                        {hotel.status && (() => {
-                          const isConfirmed = hotel.status === "已決定" || hotel.status === "已訂妥" || hotel.status === "已預訂";
-                          const badgeClass = isConfirmed
-                            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
-                            : "bg-gray-50 text-gray-500 border-gray-200/60";
-                          return (
-                            <div className={`absolute top-4 right-4 text-xs rounded-full px-2.5 py-0.5 font-medium border ${badgeClass}`}>
-                              <span>{hotel.status}</span>
+                        const isSelected =
+                          hotel.status === "已決定" ||
+                          hotel.status === "已訂妥" ||
+                          hotel.status === "已預訂";
+                        return (
+                          <div
+                            key={hIdx}
+                            className={`p-4 rounded-xl border relative group overflow-hidden transition-all duration-300 ${
+                              isSelected
+                                ? "bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/20 animate-fade-in"
+                                : "bg-[#F4F6F0] border-[#7A8B7B]/20"
+                            }`}
+                          >
+                            {hotel.status &&
+                              (() => {
+                                const isConfirmed =
+                                  hotel.status === "已決定" ||
+                                  hotel.status === "已訂妥" ||
+                                  hotel.status === "已預訂";
+                                const badgeClass = isConfirmed
+                                  ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                  : "bg-gray-50 text-gray-500 border-gray-200/60";
+                                return (
+                                  <div
+                                    className={`absolute top-4 right-4 text-xs rounded-full px-2.5 py-0.5 font-medium border ${badgeClass}`}
+                                  >
+                                    <span>{hotel.status}</span>
+                                  </div>
+                                );
+                              })()}
+                            <h4 className="font-bold text-[#7A8B7B] text-lg pr-16 mb-1">
+                              {hotel.name}
+                            </h4>
+                            <p className="text-sm text-gray-500 mb-3">
+                              {hotel.desc}
+                            </p>
+
+                            {hotel.features && (
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {hotel.features.map((feature, fIdx) => (
+                                  <span
+                                    key={fIdx}
+                                    className={`text-xs px-2 py-1 rounded-full font-medium shadow-sm ${
+                                      isSelected
+                                        ? "bg-[#F4F6F0] text-[#5F7A61]"
+                                        : "bg-white text-[#5F7A61]"
+                                    }`}
+                                  >
+                                    {feature}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#7A8B7B]/10">
+                              {hotel.mapUrl ? (
+                                <a
+                                  href={hotel.mapUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-xs text-[#5F7A61] hover:text-[#7A8B7B] transition-colors font-medium bg-white px-2 py-1 rounded shadow-sm hover:shadow-md"
+                                >
+                                  <MapPin size={12} /> 查看地圖
+                                </a>
+                              ) : (
+                                <div />
+                              )}
+                              {hotel.priceTwd && (
+                                <div className="text-sm font-bold text-[#5F7A61]">
+                                  NT$ {hotel.priceTwd.toLocaleString()}{" "}
+                                  <span className="text-xs font-normal text-gray-400">
+                                    /晚
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                          );
-                        })()}
-                        <h4 className="font-bold text-[#7A8B7B] text-lg pr-16 mb-1">
-                          {hotel.name}
-                        </h4>
-                        <p className="text-sm text-gray-500 mb-3">{hotel.desc}</p>
-                        
-                        {hotel.features && (
-                          <div className="flex flex-wrap gap-2 mb-3">
-                            {hotel.features.map((feature, fIdx) => (
-                              <span
-                                key={fIdx}
-                                className={`text-xs px-2 py-1 rounded-full font-medium shadow-sm ${
-                                  isSelected ? "bg-[#F4F6F0] text-[#5F7A61]" : "bg-white text-[#5F7A61]"
-                                }`}
-                              >
-                                {feature}
-                              </span>
-                            ))}
                           </div>
-                        )}
-                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#7A8B7B]/10">
-                          {hotel.mapUrl ? (
-                            <a
-                              href={hotel.mapUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-xs text-[#5F7A61] hover:text-[#7A8B7B] transition-colors font-medium bg-white px-2 py-1 rounded shadow-sm hover:shadow-md"
-                            >
-                              <MapPin size={12} /> 查看地圖
-                            </a>
-                          ) : <div />}
-                          {hotel.priceTwd && (
-                            <div className="text-sm font-bold text-[#5F7A61]">
-                              NT$ {hotel.priceTwd.toLocaleString()} <span className="text-xs font-normal text-gray-400">/晚</span>
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    );
-                  })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div>
-              </SectionCard>
-            );
-          })}
+                </SectionCard>
+              );
+            })}
           </div>
 
           {/* 預算 Tab */}
-          <div
-            className={activeTab === "budget" ? "space-y-8" : "hidden"}
-          >
+          <div className={activeTab === "budget" ? "space-y-8" : "hidden"}>
             <BudgetSection
               data={budgetData}
               forceOpen={isAnyExpanded}
@@ -741,13 +798,15 @@ export default function App() {
           </div>
 
           {/* 交通 Tab */}
-          <div
-            className={
-              activeTab === "map" ? "space-y-6" : "hidden"
-            }
-          >
+          <div className={activeTab === "map" ? "space-y-6" : "hidden"}>
             {recommendedRoutes.map((route, idx) => {
               const parsedDate = parseDateStr(route.day);
+              const currentOptIdx = selectedRouteOpts[route.id] || 0;
+              const currentRoute = route.options ? route.options[currentOptIdx] : route;
+
+              const name = currentRoute.name || route.name;
+              const steps = currentRoute.steps || route.steps;
+
               return (
                 <SectionCard
                   key={idx}
@@ -763,11 +822,34 @@ export default function App() {
                           {parsedDate.day}
                         </span>
                       </div>
-                      <span>{route.name}</span>
+                      <span>{name}</span>
                     </div>
                   }
                 >
                   <div>
+                    {route.options && (
+                      <div className="flex gap-2 mb-5 bg-[#F4F6F0] p-1 rounded-2xl border border-[#7A8B7B]/10">
+                        {route.options.map((opt, oIdx) => (
+                          <button
+                            key={oIdx}
+                            onClick={(e) => {
+                              e.stopPropagation(); // 阻止卡片折疊
+                              setSelectedRouteOpts((prev) => ({
+                                ...prev,
+                                [route.id]: oIdx,
+                              }));
+                            }}
+                            className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-center ${
+                              currentOptIdx === oIdx
+                                ? "bg-[#5F7A61] text-white shadow-sm"
+                                : "text-[#5F7A61] hover:bg-[#5F7A61]/5"
+                            }`}
+                          >
+                            {opt.label}
+                          </button>
+                        ))}
+                      </div>
+                    )}
                     {parsedDate.date && (
                       <div className="flex flex-wrap items-center gap-2 mb-4">
                         <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
@@ -777,66 +859,172 @@ export default function App() {
                       </div>
                     )}
                     <div className="space-y-2.5">
-                      {route.steps && route.steps.map((step, sIdx) => (
-                      <div key={sIdx} className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group">
-                        {/* 裝飾線條 */}
-                        <div className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === 'bike' ? 'bg-[#93A895]' : 'bg-[#5F7A61]'}`}></div>
-                        
-                        <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
-                          <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                            {step.type === 'bike' ? <Bike size={14} className="text-[#93A895] shrink-0" /> : <Train size={14} className="text-[#5F7A61] shrink-0" />}
-                            <div className="flex items-center gap-2">
-                              <span className="text-sm font-bold text-[#5F7A61] truncate">{step.line}</span>
-                              {step.duration && (
-                                <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80">
-                                  <Clock size={10} />
-                                  {step.duration}
+                      {steps &&
+                        steps.map((step, sIdx) => (
+                          <div
+                            key={sIdx}
+                            className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group"
+                          >
+                            {/* 裝飾線條 */}
+                            <div
+                              className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === "bike" ? "bg-[#93A895]" : "bg-[#5F7A61]"}`}
+                            ></div>
+
+                            <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
+                              <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                                {step.type === "bike" ? (
+                                  <Bike
+                                    size={14}
+                                    className="text-[#93A895] shrink-0"
+                                  />
+                                ) : step.type === "bus" ? (
+                                  <Bus
+                                    size={14}
+                                    className="text-[#5F7A61] shrink-0"
+                                  />
+                                ) : (
+                                  <Train
+                                    size={14}
+                                    className="text-[#5F7A61] shrink-0"
+                                  />
+                                )}
+                                <div className="flex items-center gap-2">
+                                  <span className="text-sm font-bold text-[#5F7A61] truncate">
+                                    {step.line}
+                                  </span>
+                                  {step.duration && (
+                                    <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80">
+                                      <Clock size={10} />
+                                      {step.duration}
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
+                              {step.station && (
+                                <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                                  <span className="text-[10px]">📍</span>{" "}
+                                  <span className="truncate">
+                                    {step.station}
+                                  </span>
+                                </span>
+                              )}
+                              {step.platform && (
+                                <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
+                                  <span className="text-[10px]">🛤️</span>{" "}
+                                  <span className="truncate">
+                                    {step.platform}
+                                  </span>
                                 </span>
                               )}
                             </div>
-                          </div>
-                        </div>
-                        
-                        <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
-                          {step.station && (
-                            <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
-                              <span className="text-[10px]">📍</span> <span className="truncate">{step.station}</span>
-                            </span>
-                          )}
-                          {step.platform && (
-                            <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
-                              <span className="text-[10px]">🛤️</span> <span className="truncate">{step.platform}</span>
-                            </span>
-                          )}
-                        </div>
-                        
-                        {step.note && (
-                          <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white/40 pl-2 ml-2">
-                            {step.note.includes("⚠️") ? (
-                              <span className="text-red-500 font-bold">{step.note}</span>
-                            ) : (
-                              <span>* {step.note}</span>
+
+                            {step.note && (
+                              <div className="text-[11px] text-gray-600 mt-1 leading-snug bg-white/60 p-2 rounded-lg border border-white/40 pl-2 ml-2">
+                                {step.note.includes("⚠️") ? (
+                                  <span className="text-red-500 font-bold">
+                                    {step.note}
+                                  </span>
+                                ) : (
+                                  <span>* {step.note}</span>
+                                )}
+                              </div>
                             )}
                           </div>
-                        )}
-                      </div>
-                      ))}
-                      {route.desc && !route.steps && (
-                        <div className="text-sm text-gray-500 pl-2">{route.desc}</div>
+                        ))}
+                      {currentRoute.desc && !steps && (
+                        <div className="text-sm text-gray-500 pl-2">
+                          {currentRoute.desc}
+                        </div>
                       )}
                     </div>
                   </div>
-              </SectionCard>
-            );
-          })}
+                </SectionCard>
+              );
+            })}
+          </div>
+
+          {/* 景點 Tab */}
+          <div className={activeTab === "attraction" ? "space-y-6" : "hidden"}>
+            {attractionData.categories.map((category, cIdx) => {
+              const parsedDate = parseDateStr(category.day);
+              return (
+                <SectionCard
+                  key={cIdx}
+                  icon={null}
+                  title={
+                    <div className="flex items-center gap-3 w-full">
+                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                        {parsedDate.day}
+                      </span>
+                      <span>{category.location}</span>
+                    </div>
+                  }
+                  collapsible={true}
+                  forceOpen={isAnyExpanded}
+                  variant="glass"
+                >
+                  {parsedDate.date && (
+                    <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4 ml-2">
+                      <Calendar size={12} />
+                      <span className="font-medium">{parsedDate.date}</span>
+                    </div>
+                  )}
+                  {category.sections.map((section, sIdx) => (
+                    <CollapsibleSubsection
+                      key={sIdx}
+                      title={section.title}
+                      count={section.items.length}
+                      forceOpen={isAnyExpanded}
+                    >
+                      <div className="space-y-2">
+                        {section.items.map((item, iIdx) => (
+                          <div
+                            key={iIdx}
+                            className="p-3 rounded-xl transition-colors bg-gray-50 hover:bg-gray-100"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="flex-1 min-w-0 pt-1 pl-2">
+                                <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
+                                  {item.name}
+                                </div>
+                                <div className="text-xs text-gray-500 mt-1">
+                                  <span className="text-orange-600 font-medium">
+                                    {item.type}
+                                  </span>{" "}
+                                  • {item.desc}
+                                </div>
+                                {item.note && (
+                                  <div className="text-xs text-gray-500 mt-2 pl-2.5 border-l-2 border-[#5F7A61]/35 leading-relaxed">
+                                    {item.note}
+                                  </div>
+                                )}
+                              </div>
+                              {item.mapUrl && (
+                                <a
+                                  href={item.mapUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
+                                >
+                                  <MapPin size={16} />
+                                </a>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CollapsibleSubsection>
+                  ))}
+                </SectionCard>
+              );
+            })}
           </div>
 
           {/* 美食 Tab */}
-          <div
-            className={
-              activeTab === "food" ? "space-y-6" : "hidden"
-            }
-          >
+          <div className={activeTab === "food" ? "space-y-6" : "hidden"}>
             {isSyncing && (
               <div className="text-center text-gray-400 text-sm py-2">
                 ✨ 正在同步雲端收藏...
@@ -869,89 +1057,88 @@ export default function App() {
                       </div>
                     )}
                     {category.sections.map((section, sIdx) => (
-                    <CollapsibleSubsection
-                      key={sIdx}
-                      title={section.title}
-                      count={section.items.length}
-                      forceOpen={isAnyExpanded}
-                    >
-                      <div className="space-y-2">
-                        {sortItems(section.items, cIdx, sIdx).map((item) => {
-                          const originalIdx = section.items.indexOf(item);
-                          const itemKey = getItemKey(cIdx, sIdx, originalIdx);
-                          const isFavorite = favorites[itemKey];
-                          return (
-                            <div
-                              key={itemKey}
-                              className={`p-3 rounded-xl transition-colors ${
-                                isFavorite
-                                  ? "bg-pink-50 border border-pink-200"
-                                  : "bg-gray-50 hover:bg-gray-100"
-                              }`}
-                            >
-                              <div className="flex items-start gap-3">
-                                <button
-                                  onClick={() => toggleFavorite(itemKey)}
-                                  className={`p-2 rounded-full transition-all shrink-0 ${
-                                    isFavorite
-                                      ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
-                                      : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
-                                  }`}
-                                >
-                                  <Star
-                                    size={18}
-                                    className={isFavorite ? "fill-current" : ""}
-                                  />
-                                </button>
-                                <div className="flex-1 min-w-0 pt-1">
-                                  <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
-                                    {item.name}
-                                    {item.recommended && (
-                                      <Star
-                                        size={14}
-                                        className="text-yellow-500 fill-yellow-500"
-                                      />
+                      <CollapsibleSubsection
+                        key={sIdx}
+                        title={section.title}
+                        count={section.items.length}
+                        forceOpen={isAnyExpanded}
+                      >
+                        <div className="space-y-2">
+                          {sortItems(section.items, cIdx, sIdx).map((item) => {
+                            const originalIdx = section.items.indexOf(item);
+                            const itemKey = getItemKey(cIdx, sIdx, originalIdx);
+                            const isFavorite = favorites[itemKey];
+                            return (
+                              <div
+                                key={itemKey}
+                                className={`p-3 rounded-xl transition-colors ${
+                                  isFavorite
+                                    ? "bg-pink-50 border border-pink-200"
+                                    : "bg-gray-50 hover:bg-gray-100"
+                                }`}
+                              >
+                                <div className="flex items-start gap-3">
+                                  <button
+                                    onClick={() => toggleFavorite(itemKey)}
+                                    className={`p-2 rounded-full transition-all shrink-0 ${
+                                      isFavorite
+                                        ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
+                                        : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
+                                    }`}
+                                  >
+                                    <Star
+                                      size={18}
+                                      className={
+                                        isFavorite ? "fill-current" : ""
+                                      }
+                                    />
+                                  </button>
+                                  <div className="flex-1 min-w-0 pt-1">
+                                    <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
+                                      {item.name}
+                                      {item.recommended && (
+                                        <Star
+                                          size={14}
+                                          className="text-yellow-500 fill-yellow-500"
+                                        />
+                                      )}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">
+                                      <span className="text-orange-600 font-medium">
+                                        {item.type}
+                                      </span>{" "}
+                                      • {item.desc}
+                                    </div>
+                                    {item.note && (
+                                      <div className="text-xs text-gray-500 mt-1">
+                                        {item.note}
+                                      </div>
                                     )}
                                   </div>
-                                  <div className="text-xs text-gray-500 mt-1">
-                                    <span className="text-orange-600 font-medium">{item.type}</span> • {item.desc}
-                                  </div>
-                                  {item.note && (
-                                    <div className="text-xs text-gray-500 mt-1">
-                                      {item.note}
-                                    </div>
+                                  {item.mapUrl && (
+                                    <a
+                                      href={item.mapUrl}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
+                                    >
+                                      <MapPin size={16} />
+                                    </a>
                                   )}
                                 </div>
-                                {item.mapUrl && (
-                                  <a
-                                    href={item.mapUrl}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
-                                  >
-                                    <MapPin size={16} />
-                                  </a>
-                                )}
                               </div>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </CollapsibleSubsection>
-                  ))}
-                </SectionCard>
-              );
-            })}
+                            );
+                          })}
+                        </div>
+                      </CollapsibleSubsection>
+                    ))}
+                  </SectionCard>
+                );
+              })}
           </div>
 
           {/* 購物 Tab */}
-          <div
-            className={
-              activeTab === "shopping"
-                ? "space-y-6"
-                : "hidden"
-            }
-          >
+          <div className={activeTab === "shopping" ? "space-y-6" : "hidden"}>
             <ShoppingSection
               categories={shoppingData.categories}
               wishlist={shoppingData.wishlist}
@@ -974,6 +1161,7 @@ export default function App() {
             "overview",
             "budget",
             "map",
+            "attraction",
           ].includes(activeTab) && (
             <ToggleFAB
               isExpanded={isAnyExpanded}

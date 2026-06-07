@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { ChevronUp, ChevronDown, MapPin, Info, Sparkles, Train } from "lucide-react";
+import { ChevronUp, ChevronDown, MapPin, Info, Sparkles, Train, Bus } from "lucide-react";
 
 const DayCard = ({
   dayData,
@@ -9,6 +9,7 @@ const DayCard = ({
   onToggle,
 }) => {
   const [internalExpanded, setInternalExpanded] = useState(true);
+  const [selectedOptIndex, setSelectedOptIndex] = useState(0);
   const isControlled =
     controlledExpanded !== null && controlledExpanded !== undefined;
 
@@ -29,6 +30,13 @@ const DayCard = ({
 
   const isAnniversary = dayData.anniversary === true;
 
+  // 動態切換方案資料
+  const currentData = dayData.options ? dayData.options[selectedOptIndex] : dayData;
+  const title = currentData.title || dayData.title;
+  const highlight = currentData.highlight || dayData.highlight;
+  const image = currentData.image || dayData.image;
+  const activities = currentData.activities || dayData.activities;
+
   return (
     <div
       id={`day-${dayData.day}`}
@@ -42,7 +50,7 @@ const DayCard = ({
       <div
         onClick={handleToggle}
         className="cursor-pointer relative h-36 bg-cover bg-center"
-        style={{ backgroundImage: `url(${dayData.image})` }}
+        style={{ backgroundImage: `url(${image})` }}
       >
         <div
           className={`absolute inset-0 ${
@@ -65,7 +73,7 @@ const DayCard = ({
             >
               DAY {dayData.day} • {dayData.date}
             </div>
-            <h3 className="text-white text-xl font-bold">{dayData.title}</h3>
+            <h3 className="text-white text-xl font-bold">{title}</h3>
           </div>
           <div className="text-white/70">
             {isExpanded ? <ChevronUp size={24} /> : <ChevronDown size={24} />}
@@ -76,8 +84,30 @@ const DayCard = ({
       {/* Content */}
       {isExpanded && (
         <div className="p-4 md:p-6">
+          {/* 方案切換 Tabs */}
+          {dayData.options && (
+            <div className="flex gap-2 mb-5 bg-[#F4F6F0] p-1 rounded-2xl border border-[#7A8B7B]/10">
+              {dayData.options.map((opt, oIdx) => (
+                <button
+                  key={oIdx}
+                  onClick={(e) => {
+                    e.stopPropagation(); // 阻止卡片折疊
+                    setSelectedOptIndex(oIdx);
+                  }}
+                  className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-center ${
+                    selectedOptIndex === oIdx
+                      ? "bg-[#5F7A61] text-white shadow-sm"
+                      : "text-[#5F7A61] hover:bg-[#5F7A61]/5"
+                  }`}
+                >
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          )}
+
           <div className="space-y-4">
-            {dayData.activities.map((act, idx) => (
+            {activities.map((act, idx) => (
               <div key={idx} className="flex gap-2 md:gap-4">
                 <div className="w-11 md:w-14 shrink-0 text-right">
                   <span className="text-xs md:text-sm font-bold text-[#5F7A61]">
@@ -116,7 +146,11 @@ const DayCard = ({
                   {act.transport && (
                     <div className="mt-2.5 bg-[#F4F6F0] border border-[#7A8B7B]/20 rounded-xl p-3 flex flex-col gap-2">
                       <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5">
-                        <Train size={14} className="text-[#5F7A61]" />
+                        {act.transport.line.includes("巴士") || act.transport.line.includes("公車") ? (
+                          <Bus size={14} className="text-[#5F7A61]" />
+                        ) : (
+                          <Train size={14} className="text-[#5F7A61]" />
+                        )}
                         <span className="text-sm font-bold text-[#5F7A61]">{act.transport.line}</span>
                       </div>
                       <div className="flex flex-wrap gap-2 text-xs">
@@ -181,7 +215,7 @@ const DayCard = ({
                       : "text-gray-700 font-medium"
                   }`}
                 >
-                  {dayData.highlight}
+                  {highlight}
                 </div>
               </div>
             </div>

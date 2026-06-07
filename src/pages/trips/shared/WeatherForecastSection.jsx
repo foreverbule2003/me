@@ -2,7 +2,13 @@ import React from "react";
 import { CloudSun, MapPin, Droplets, Thermometer } from "lucide-react";
 import { SectionCard } from "../../../components/trips";
 
-const WeatherForecastSection = ({ forceOpen, theme = "default", forecastData: propForecastData, sourceNote, sourceUrl }) => {
+const WeatherForecastSection = ({
+  forceOpen,
+  theme = "default",
+  forecastData: propForecastData,
+  sourceNote,
+  sourceUrl,
+}) => {
   const t =
     {
       default: {
@@ -365,7 +371,9 @@ const WeatherForecastSection = ({ forceOpen, theme = "default", forecastData: pr
 
       {/* 資料來源說明 */}
       {sourceNote && (
-        <div className={`mt-3 pt-3 border-t ${t.borderLight} flex items-start gap-1.5`}>
+        <div
+          className={`mt-3 pt-3 border-t ${t.borderLight} flex items-start gap-1.5`}
+        >
           <span className={`text-[10px] ${t.textLight} leading-relaxed flex-1`}>
             ⚠️ {sourceNote}
           </span>

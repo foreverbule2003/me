@@ -42,8 +42,6 @@
 
 ---
 
-
-
 ## [2.3.1] - 2026-04-29 (GCP Firestore Write Optimization)
 
 ### 優化 (Improvements) 🚀
