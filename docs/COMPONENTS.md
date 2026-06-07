@@ -1,6 +1,6 @@
 # 元件清單 (Components)
 
-> 最後更新：2026-01-03
+> 最後更新：2026-06-07
 
 ## 共用元件庫 (兩套架構並存)
 
@@ -134,14 +134,15 @@ usefulLinks = {
 
 可折疊的每日行程卡片，支援受控與非受控模式。
 
-| 屬性              | 類型     | 說明                                       |
-| ----------------- | -------- | ------------------------------------------ |
-| `dayData`         | Object   | 日期、標題、圖片、活動列表                 |
-| `onOpenRoute`     | Function | 開啟地圖 modal 的回調                      |
-| `onOpenFoodGuide` | Function | 切換到美食分頁的回調                       |
-| `isExpanded`      | Boolean  | 受控模式的展開狀態                         |
-| `onToggle`        | Function | 切換展開狀態的回調                         |
-| `anniversary`     | Boolean  | **(NEW)** 是否為紀念日，觸發 Rose 色系視覺 |
+| 屬性                | 類型     | 說明                                           |
+| ------------------- | -------- | ---------------------------------------------- |
+| `dayData`           | Object   | 日期、標題、圖片、活動列表                     |
+| `onOpenRoute`       | Function | 開啟地圖 modal 的回調                          |
+| `onOpenFoodGuide`   | Function | 切換到美食分頁的回調                           |
+| `isExpanded`        | Boolean  | 受控模式的展開狀態                             |
+| `onToggle`          | Function | 切換展開狀態的回調                             |
+| `anniversary`       | Boolean  | **(NEW)** 是否為紀念日，觸發 Rose 色系視覺     |
+| `onJumpToTransport` | Function | 點擊交通項目圖示跳轉至交通分頁並滾動定位的回調 |
 
 **活動項目資料結構**:
 

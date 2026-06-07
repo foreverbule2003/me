@@ -1,6 +1,6 @@
 # 網站地圖 (Sitemap)
 
-> 最後更新：2026-05-09
+> 最後更新：2026-06-07
 
 ## 視覺化結構
 
@@ -18,7 +18,8 @@
 │   │   ├── 🌲 景點分頁 (attraction) ✨ NEW
 │   │   ├── 🍽️ 美食指南 (food)
 │   │   ├── 🛒 購物清單 (shopping)
-│   │   └── 🏨 住宿資訊 (budget)
+│   │   ├── 🏨 住宿資訊 (accommodation)
+│   │   └── 💰 預算規劃 (budget)
 │   ├── 🌴 2025 宿霧 (trips/2025-cebu/)
 │   ├── 🏯 2025 大阪 (trips/2025-osaka/)
 │   └── 🦐 2026 伊勢志摩 (trips/2026-ise-shima/) [Vite+React]
