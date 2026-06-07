@@ -585,9 +585,30 @@ export default function App() {
               toggleDay={toggleDay}
               onOpenMap={handleOpenMap}
               onOpenFoodGuide={() => setActiveTab("food")}
-              onJumpToTransport={() => {
+              onJumpToTransport={(dayNum) => {
                 setActiveTab("map");
-                window.scrollTo({ top: 0, behavior: "smooth" });
+                const matchRoute = recommendedRoutes.find(r => {
+                  const match = r.day.match(/Day\s+([\d-]+)/);
+                  if (!match) return false;
+                  const range = match[1];
+                  if (range.includes("-")) {
+                    const [start, end] = range.split("-");
+                    return dayNum >= parseInt(start, 10) && dayNum <= parseInt(end, 10);
+                  }
+                  return dayNum === parseInt(range, 10);
+                });
+
+                setTimeout(() => {
+                  if (matchRoute) {
+                    const el = document.getElementById(`transport-route-${matchRoute.id}`);
+                    if (el) {
+                      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+                      window.scrollTo({ top: elementPosition - 140, behavior: "smooth" });
+                      return;
+                    }
+                  }
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }, 100);
               }}
               isAnyExpanded={isAnyExpanded}
               collapseCounter={collapseCounter}
@@ -814,9 +835,9 @@ export default function App() {
               const steps = currentRoute.steps || route.steps;
 
               return (
-                <SectionCard
-                  key={idx}
-                  icon={null}
+                <div key={idx} id={`transport-route-${route.id}`}>
+                  <SectionCard
+                    icon={null}
                   collapsible={true}
                   defaultOpen={true}
                   forceOpen={isAnyExpanded}
@@ -957,6 +978,7 @@ export default function App() {
                     </div>
                   </div>
                 </SectionCard>
+                </div>
               );
             })}
           </div>

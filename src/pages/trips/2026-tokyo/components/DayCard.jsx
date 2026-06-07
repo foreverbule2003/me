@@ -142,7 +142,7 @@ const DayCard = ({
                         <button
                           onClick={(e) => {
                             e.stopPropagation();
-                            onJumpToTransport?.();
+                            onJumpToTransport?.(dayData.day);
                           }}
                           className="p-1.5 text-gray-400 hover:text-[#5F7A61] transition-colors rounded-lg hover:bg-[#5F7A61]/10"
                           title="查看交通詳情"
