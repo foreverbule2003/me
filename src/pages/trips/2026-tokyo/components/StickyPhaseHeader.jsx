@@ -31,7 +31,10 @@ const StickyPhaseHeader = ({
 
   // FAB 收合全部時關閉（collapseCounter 遞增即觸發）
   useEffect(() => {
-    if (collapseCounter > 0 && collapseCounter !== prevCollapseCounter.current) {
+    if (
+      collapseCounter > 0 &&
+      collapseCounter !== prevCollapseCounter.current
+    ) {
       prevCollapseCounter.current = collapseCounter;
       setIsOpen(false);
     }
@@ -104,9 +107,7 @@ const StickyPhaseHeader = ({
               <div
                 className={`flex-shrink-0 ${
                   enableTransition ? "transition-transform duration-300" : ""
-                } ${
-                  isOpen ? "rotate-180 text-gray-300" : "text-gray-400"
-                }`}
+                } ${isOpen ? "rotate-180 text-gray-300" : "text-gray-400"}`}
               >
                 <ChevronDown size={isOpen ? 16 : 20} />
               </div>
@@ -118,7 +119,9 @@ const StickyPhaseHeader = ({
       {/* ── 內容區 ── */}
       <div
         className={`${contentTransitionClass} ${
-          isOpen ? "max-h-[5000px] opacity-100 mt-3" : "max-h-0 opacity-0 overflow-hidden mt-0"
+          isOpen
+            ? "max-h-[5000px] opacity-100 mt-3"
+            : "max-h-0 opacity-0 overflow-hidden mt-0"
         }`}
       >
         {children}

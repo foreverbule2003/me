@@ -14,7 +14,7 @@ export const flightData = {
     aircraft: "波音 737-900",
     cabin: "經濟艙",
     meal: "無餐點",
-    baggage: "❗ 無免費託運行李，需另購",
+    baggage: "❗ 無託運行李",
     duration: "約4小時20分",
     note: "抵達後直接搭 N'EX 前往橫濱，免換車",
   },
@@ -27,7 +27,7 @@ export const flightData = {
     aircraft: "A320-212",
     cabin: "經濟艙",
     meal: "無餐點",
-    baggage: "❗ 部分旅客無免費託運，確認訂單",
+    baggage: "✅ 兩人共用一件託運行李",
     duration: "約2小時50分",
     note: "最晚出發：13:30（東京站）",
   },
@@ -81,7 +81,7 @@ export const itineraryData = [
             time: "17:30",
             text: "搭 N'EX → 橫濱站",
             transport: {
-              line: "N'EX 成田特快",
+              line: "🚇 [特急] N'EX 成田特快",
               station: "成田機場 T1 (B1 JR 剪票口)",
               platform: "1、2 號月台",
               fare: "來回優惠票 NT$ 1,109",
@@ -244,7 +244,7 @@ export const itineraryData = [
                 time: "上午",
                 text: "大宮 → 輕井澤",
                 transport: {
-                  line: "北陸新幹線 (はくたか / あさま)",
+                  line: "🚄 [新幹線] 北陸新幹線 (はくたか / あさま)",
                   station: "大宮站",
                   platform: "17、18 號新幹線月台",
                   fare: "¥5,720 (指定席) / ¥5,200 (自由席)",
@@ -322,7 +322,7 @@ export const itineraryData = [
                 time: "上午",
                 text: "澀谷退房 → 輕井澤",
                 transport: {
-                  line: "JR 湘南新宿線 + 北陸新幹線",
+                  line: "JR 湘南新宿線 + 🚄 [新幹線] 北陸新幹線",
                   station: "澀谷站 (3號月台) → 大宮站 → 輕井澤站",
                   fare: "澀谷 ➔ 大宮 (JR): ¥580 / 大宮 ➔ 輕井澤 (新幹線): ¥5,720 (指定席) 或 ¥5,200 (自由席)",
                   note: "大宮轉新幹線車程共約 85 分鐘。週六強烈建議預訂新幹線指定席。",
@@ -415,7 +415,7 @@ export const itineraryData = [
                 time: "上午",
                 text: "高崎退房 → 輕井澤",
                 transport: {
-                  line: "JR 北陸新幹線",
+                  line: "🚄 [新幹線] JR 北陸新幹線",
                   station: "高崎站 ➔ 輕井澤站",
                   fare: "¥2,510 (自由席) / ¥3,040 (指定席)",
                   note: "車程約 25 分鐘。週日早上建議提前購票或劃位。",
@@ -541,7 +541,7 @@ export const itineraryData = [
             time: "中午後",
             text: "新幹線返東京",
             transport: {
-              line: "北陸新幹線",
+              line: "🚄 [新幹線] 北陸新幹線",
               station: "輕井澤站",
               platform: "1、2 號新幹線月台",
               fare: "¥6,020 (指定席) / ¥5,490 (自由席)",
@@ -580,7 +580,7 @@ export const itineraryData = [
             time: "13:30",
             text: "東京站 → 成田",
             transport: {
-              line: "N'EX 成田特快",
+              line: "🚇 [特急] N'EX 成田特快",
               station: "東京站 (總武地下線)",
               platform: "地下 5 樓 1、2 號月台",
               fare: "含於 N'EX 來回優惠票 (NT$ 1,109)",
@@ -600,8 +600,11 @@ export const itineraryData = [
 ];
 
 export const budgetData = [
-  { item: "機票（TPE-NRT 來回）", cost: 0, note: "待確認" },
-  { item: "交通（N'EX / 新幹線）", cost: 18000, note: "估算/人" },
+  { item: "機票（單人）", cost: 52273, note: "去程無托運，回程合購1件托運" },
+  { item: "交通 - N'EX 特急", cost: 5000, note: "約 NT$1,100" },
+  { item: "交通 - 新幹線", cost: 10330, note: "大宮→輕井澤→東京" },
+  { item: "交通 - 腳踏車", cost: 700, note: "非電動（輕井澤）" },
+  { item: "交通 - ICOCA/Suica", cost: 2000, note: "市區地鐵、公車儲值" },
   { item: "住宿（7泊）", cost: 49000, note: "均攤約¥7,000/晚" },
   { item: "餐飲", cost: 22000, note: "紀念日餐廳另計" },
   { item: "購物 / 景點", cost: 30000, note: "含 Outlet、藥妝" },
@@ -619,7 +622,7 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "train",
-        line: "JR N'EX 成田特快",
+        line: "🚇 [特急] JR N'EX 成田特快",
         station: "成田 T1 (B1 JR)",
         platform: "1/2號月台",
         duration: "約90分",
@@ -672,7 +675,7 @@ export const recommendedRoutes = [
           },
           {
             type: "shinkansen",
-            line: "北陸新幹線",
+            line: "🚄 [新幹線] 北陸新幹線",
             station: "大宮站",
             platform: "17/18月台",
             duration: "約50分",
@@ -690,7 +693,7 @@ export const recommendedRoutes = [
         steps: [
           {
             type: "train",
-            line: "方式 A：大宮轉乘新幹線",
+            line: "方式 A：大宮轉乘 🚄 [新幹線] 北陸/上越新幹線",
             station: "澀谷站 ➔ 大宮站 (站內轉乘) ➔ 高崎站",
             platform: "澀谷3號月台 / 大宮17、18號月台",
             duration: "約60分",
@@ -726,7 +729,7 @@ export const recommendedRoutes = [
           },
           {
             type: "shinkansen",
-            line: "北陸新幹線",
+            line: "🚄 [新幹線] 北陸新幹線",
             station: "大宮站",
             platform: "17/18月台",
             duration: "約50分",
@@ -781,7 +784,7 @@ export const recommendedRoutes = [
         steps: [
           {
             type: "train",
-            line: "JR 北陸新幹線",
+            line: "🚄 [新幹線] JR 北陸新幹線",
             station: "高崎站 ➔ 輕井澤站",
             platform: "高崎站新幹線月台",
             duration: "約25分",
@@ -877,7 +880,7 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "shinkansen",
-        line: "北陸新幹線",
+        line: "🚄 [新幹線] 北陸新幹線",
         station: "輕井澤站",
         platform: "1/2號月台",
         duration: "約70分",
@@ -897,7 +900,7 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "train",
-        line: "JR N'EX 成田特快",
+        line: "🚇 [特急] JR N'EX 成田特快",
         station: "東京總武地下",
         platform: "B5 1/2月台",
         duration: "約60分",

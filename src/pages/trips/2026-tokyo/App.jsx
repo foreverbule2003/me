@@ -587,23 +587,32 @@ export default function App() {
               onOpenFoodGuide={() => setActiveTab("food")}
               onJumpToTransport={(dayNum) => {
                 setActiveTab("map");
-                const matchRoute = recommendedRoutes.find(r => {
+                const matchRoute = recommendedRoutes.find((r) => {
                   const match = r.day.match(/Day\s+([\d-]+)/);
                   if (!match) return false;
                   const range = match[1];
                   if (range.includes("-")) {
                     const [start, end] = range.split("-");
-                    return dayNum >= parseInt(start, 10) && dayNum <= parseInt(end, 10);
+                    return (
+                      dayNum >= parseInt(start, 10) &&
+                      dayNum <= parseInt(end, 10)
+                    );
                   }
                   return dayNum === parseInt(range, 10);
                 });
 
                 setTimeout(() => {
                   if (matchRoute) {
-                    const el = document.getElementById(`transport-route-${matchRoute.id}`);
+                    const el = document.getElementById(
+                      `transport-route-${matchRoute.id}`,
+                    );
                     if (el) {
-                      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-                      window.scrollTo({ top: elementPosition - 140, behavior: "smooth" });
+                      const elementPosition =
+                        el.getBoundingClientRect().top + window.scrollY;
+                      window.scrollTo({
+                        top: elementPosition - 140,
+                        behavior: "smooth",
+                      });
                       return;
                     }
                   }
@@ -838,146 +847,188 @@ export default function App() {
                 <div key={idx} id={`transport-route-${route.id}`}>
                   <SectionCard
                     icon={null}
-                  collapsible={true}
-                  defaultOpen={true}
-                  forceOpen={isAnyExpanded}
-                  variant="glass"
-                  title={
-                    <div className="flex items-center gap-3 w-full">
-                      <div className="w-[76px] flex-shrink-0 flex justify-start">
-                        <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
-                          {parsedDate.day}
-                        </span>
-                      </div>
-                      <span>{name}</span>
-                    </div>
-                  }
-                >
-                  <div>
-                    {route.options && (
-                      <div className="flex gap-2 mb-5 bg-[#F4F6F0] p-1 rounded-2xl border border-[#7A8B7B]/10">
-                        {route.options.map((opt, oIdx) => (
-                          <button
-                            key={oIdx}
-                            onClick={(e) => {
-                              e.stopPropagation(); // 阻止卡片折疊
-                              setSelectedRouteOpts((prev) => ({
-                                ...prev,
-                                [route.id]: oIdx,
-                              }));
-                            }}
-                            className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-center ${
-                              currentOptIdx === oIdx
-                                ? "bg-[#5F7A61] text-white shadow-sm"
-                                : "text-[#5F7A61] hover:bg-[#5F7A61]/5"
-                            }`}
-                          >
-                            {opt.label}
-                          </button>
-                        ))}
-                      </div>
-                    )}
-                    {parsedDate.date && (
-                      <div className="flex flex-wrap items-center gap-2 mb-4">
-                        <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
-                          <Calendar size={12} />
-                          <span className="font-medium">{parsedDate.date}</span>
+                    collapsible={true}
+                    defaultOpen={true}
+                    forceOpen={isAnyExpanded}
+                    variant="glass"
+                    title={
+                      <div className="flex items-center gap-3 w-full">
+                        <div className="w-[76px] flex-shrink-0 flex justify-start">
+                          <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
+                            {parsedDate.day}
+                          </span>
                         </div>
+                        <span>{name}</span>
                       </div>
-                    )}
-                    <div className="space-y-2.5">
-                      {steps &&
-                        steps.map((step, sIdx) => (
-                          <div
-                            key={sIdx}
-                            className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group"
-                          >
-                            {/* 裝飾線條 */}
-                            <div
-                              className={`absolute left-0 top-0 bottom-0 w-1 ${step.type === "bike" ? "bg-[#93A895]" : "bg-[#5F7A61]"}`}
-                            ></div>
+                    }
+                  >
+                    <div>
+                      {route.options && (
+                        <div className="flex gap-2 mb-5 bg-[#F4F6F0] p-1 rounded-2xl border border-[#7A8B7B]/10">
+                          {route.options.map((opt, oIdx) => (
+                            <button
+                              key={oIdx}
+                              onClick={(e) => {
+                                e.stopPropagation(); // 阻止卡片折疊
+                                setSelectedRouteOpts((prev) => ({
+                                  ...prev,
+                                  [route.id]: oIdx,
+                                }));
+                              }}
+                              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-center ${
+                                currentOptIdx === oIdx
+                                  ? "bg-[#5F7A61] text-white shadow-sm"
+                                  : "text-[#5F7A61] hover:bg-[#5F7A61]/5"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      {parsedDate.date && (
+                        <div className="flex flex-wrap items-center gap-2 mb-4">
+                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
+                            <Calendar size={12} />
+                            <span className="font-medium">
+                              {parsedDate.date}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      <div className="space-y-2.5">
+                        {steps &&
+                          steps.map((step, sIdx) => {
+                            const isShinkansen =
+                              step.line?.includes("新幹線") ||
+                              step.type === "shinkansen";
+                            const isLimitedExpress =
+                              step.line?.includes("特急") ||
+                              step.line?.includes("N'EX");
+                            return (
+                              <div
+                                key={sIdx}
+                                className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group transition-all duration-300 hover:shadow-sm"
+                              >
+                                {/* 裝飾線條 */}
+                                <div
+                                  className={`absolute left-0 top-0 bottom-0 w-1 ${
+                                    step.type === "bike"
+                                      ? "bg-[#93A895]"
+                                      : isShinkansen
+                                        ? "bg-amber-500"
+                                        : isLimitedExpress
+                                          ? "bg-red-500"
+                                          : "bg-[#5F7A61]"
+                                  }`}
+                                ></div>
 
-                            <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
-                              <div className="flex items-center gap-1.5 min-w-0 flex-1">
-                                {step.type === "bike" ? (
-                                  <Bike
-                                    size={14}
-                                    className="text-[#93A895] shrink-0"
-                                  />
-                                ) : step.type === "bus" ? (
-                                  <Bus
-                                    size={14}
-                                    className="text-[#5F7A61] shrink-0"
-                                  />
-                                ) : (
-                                  <Train
-                                    size={14}
-                                    className="text-[#5F7A61] shrink-0"
-                                  />
-                                )}
-                                <div className="flex items-center gap-2">
-                                  <span className="text-sm font-bold text-[#5F7A61] truncate">
-                                    {step.line}
-                                  </span>
-                                  {step.duration && (
-                                    <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80">
-                                      <Clock size={10} />
-                                      {step.duration}
+                                <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
+                                  <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                                    {step.type === "bike" ? (
+                                      <Bike
+                                        size={14}
+                                        className="text-[#93A895] shrink-0"
+                                      />
+                                    ) : step.type === "bus" ? (
+                                      <Bus
+                                        size={14}
+                                        className="text-[#5F7A61] shrink-0"
+                                      />
+                                    ) : (
+                                      <Train
+                                        size={14}
+                                        className={`${
+                                          isShinkansen
+                                            ? "text-amber-600"
+                                            : isLimitedExpress
+                                              ? "text-red-600"
+                                              : "text-[#5F7A61]"
+                                        } shrink-0`}
+                                      />
+                                    )}
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span
+                                        className={`text-sm font-bold truncate ${
+                                          isShinkansen
+                                            ? "text-amber-800"
+                                            : isLimitedExpress
+                                              ? "text-red-800"
+                                              : "text-[#5F7A61]"
+                                        }`}
+                                      >
+                                        {step.line}
+                                      </span>
+                                      {isShinkansen && (
+                                        <span className="text-[10px] font-bold bg-amber-500 text-white px-1.5 py-0.5 rounded shadow-sm shrink-0">
+                                          新幹線
+                                        </span>
+                                      )}
+                                      {isLimitedExpress && (
+                                        <span className="text-[10px] font-bold bg-red-500 text-white px-1.5 py-0.5 rounded shadow-sm shrink-0">
+                                          特急
+                                        </span>
+                                      )}
+                                      {step.duration && (
+                                        <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80 shrink-0">
+                                          <Clock size={10} />
+                                          {step.duration}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
+                                  {step.station && (
+                                    <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
+                                      <span className="text-[10px]">📍</span>{" "}
+                                      <span className="truncate">
+                                        {step.station}
+                                      </span>
+                                    </span>
+                                  )}
+                                  {step.platform && (
+                                    <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
+                                      <span className="text-[10px]">🛤️</span>{" "}
+                                      <span className="truncate">
+                                        {step.platform}
+                                      </span>
                                     </span>
                                   )}
                                 </div>
-                              </div>
-                            </div>
 
-                            <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
-                              {step.station && (
-                                <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
-                                  <span className="text-[10px]">📍</span>{" "}
-                                  <span className="truncate">
-                                    {step.station}
-                                  </span>
-                                </span>
-                              )}
-                              {step.platform && (
-                                <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
-                                  <span className="text-[10px]">🛤️</span>{" "}
-                                  <span className="truncate">
-                                    {step.platform}
-                                  </span>
-                                </span>
-                              )}
-                            </div>
-
-                            {(step.fare || step.note) && (
-                              <div className="text-[11px] text-gray-600 mt-2 leading-snug bg-white/60 p-2.5 rounded-lg border border-white/45 pl-3 ml-2 flex flex-col gap-1">
-                                {step.fare && (
-                                  <div className="flex items-center gap-1 text-[#5F7A61] font-bold">
-                                    <span>🪙</span> 票價：{step.fare}
-                                  </div>
-                                )}
-                                {step.note && (
-                                  <div className="text-gray-600">
-                                    {step.note.includes("⚠️") ? (
-                                      <span className="text-red-500 font-bold">
-                                        {step.note}
-                                      </span>
-                                    ) : (
-                                      <span>* {step.note}</span>
+                                {(step.fare || step.note) && (
+                                  <div className="text-[11px] text-gray-600 mt-2 leading-snug bg-white/60 p-2.5 rounded-lg border border-white/45 pl-3 ml-2 flex flex-col gap-1">
+                                    {step.fare && (
+                                      <div className="flex items-center gap-1 text-[#5F7A61] font-bold">
+                                        <span>🪙</span> 票價：{step.fare}
+                                      </div>
+                                    )}
+                                    {step.note && (
+                                      <div className="text-gray-600">
+                                        {step.note.includes("⚠️") ? (
+                                          <span className="text-red-500 font-bold">
+                                            {step.note}
+                                          </span>
+                                        ) : (
+                                          <span>* {step.note}</span>
+                                        )}
+                                      </div>
                                     )}
                                   </div>
                                 )}
                               </div>
-                            )}
+                            );
+                          })}
+                        {currentRoute.desc && !steps && (
+                          <div className="text-sm text-gray-500 pl-2">
+                            {currentRoute.desc}
                           </div>
-                        ))}
-                      {currentRoute.desc && !steps && (
-                        <div className="text-sm text-gray-500 pl-2">
-                          {currentRoute.desc}
-                        </div>
-                      )}
+                        )}
+                      </div>
                     </div>
-                  </div>
-                </SectionCard>
+                  </SectionCard>
                 </div>
               );
             })}

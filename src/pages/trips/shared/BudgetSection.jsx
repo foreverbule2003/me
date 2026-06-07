@@ -96,9 +96,7 @@ const BudgetSection = ({
               <td className="p-3 font-bold tabular-nums text-xl text-gray-500 font-black whitespace-nowrap">
                 ${totalTarget.toLocaleString()}
               </td>
-              <td className="p-3 rounded-br-lg text-gray-500 font-normal text-sm">
-                預算重點：吃得好、住得好、移動舒適 (匯率: {rate})
-              </td>
+              <td className="p-3 rounded-br-lg text-gray-500 font-normal text-sm"></td>
             </tr>
           </tbody>
         </table>
@@ -143,9 +141,7 @@ const BudgetSection = ({
           </div>
           <div
             className={`text-xs text-gray-500 text-center pt-2 border-t ${t.borderLight}`}
-          >
-            預算重點：吃得好、住得好、移動舒適 (匯率: {rate})
-          </div>
+          ></div>
         </div>
       </div>
 
