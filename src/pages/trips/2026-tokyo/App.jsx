@@ -563,7 +563,7 @@ export default function App() {
             />
 
             <ChecklistSection
-              title="待訂清單"
+              title="待辦事項"
               items={todoData}
               storageKey="tokyo_2026_todos_v2"
               forceOpen={isAnyExpanded}
@@ -584,7 +584,40 @@ export default function App() {
               expandedDays={expandedDays}
               toggleDay={toggleDay}
               onOpenMap={handleOpenMap}
-              onOpenFoodGuide={() => setActiveTab("food")}
+              onOpenFoodGuide={(dayNum) => {
+                setActiveTab("food");
+                const matchIndex = foodData.categories.findIndex((cat) => {
+                  const match = cat.day.match(/Day\s+([\d-]+)/);
+                  if (!match) return false;
+                  const range = match[1];
+                  if (range.includes("-")) {
+                    const [start, end] = range.split("-");
+                    return (
+                      dayNum >= parseInt(start, 10) &&
+                      dayNum <= parseInt(end, 10)
+                    );
+                  }
+                  return dayNum === parseInt(range, 10);
+                });
+
+                setTimeout(() => {
+                  if (matchIndex !== -1) {
+                    const el = document.getElementById(
+                      `food-section-${matchIndex}`,
+                    );
+                    if (el) {
+                      const elementPosition =
+                        el.getBoundingClientRect().top + window.scrollY;
+                      window.scrollTo({
+                        top: elementPosition - 140,
+                        behavior: "smooth",
+                      });
+                      return;
+                    }
+                  }
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }, 100);
+              }}
               onJumpToTransport={(dayNum) => {
                 setActiveTab("map");
                 const matchRoute = recommendedRoutes.find((r) => {
@@ -734,7 +767,7 @@ export default function App() {
                   icon={null}
                   title={
                     <div className="flex items-center gap-3 w-full">
-                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                      <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
                         {parsedDate.day}
                       </span>
                       <span>{section.location}</span>
@@ -850,6 +883,66 @@ export default function App() {
 
           {/* 交通 Tab */}
           <div className={activeTab === "map" ? "space-y-6" : "hidden"}>
+            <SectionCard
+              icon={null}
+              title={
+                <div className="flex items-center gap-3 w-full">
+                  <span className="w-[76px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                    Day 1-8
+                  </span>
+                  <span>車站名稱對照表</span>
+                </div>
+              }
+              collapsible={true}
+              defaultOpen={true}
+              forceOpen={isAnyExpanded}
+              variant="glass"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
+                {[
+                  {
+                    zh: "成田機場",
+                    ja: "成田空港 (なりたくうこう)",
+                    en: "Narita Airport",
+                  },
+                  { zh: "東京", ja: "東京 (とうきょう)", en: "Tokyo" },
+                  { zh: "橫濱", ja: "横浜 (よこはま)", en: "Yokohama" },
+                  { zh: "澀谷", ja: "渋谷 (しぶや)", en: "Shibuya" },
+                  { zh: "原宿", ja: "原宿 (はらじゅく)", en: "Harajuku" },
+                  { zh: "大宮", ja: "大宮 (おおみや)", en: "Omiya" },
+                  { zh: "高崎", ja: "高崎 (たかさき)", en: "Takasaki" },
+                  { zh: "輕井澤", ja: "軽井沢 (かるいざわ)", en: "Karuizawa" },
+                  {
+                    zh: "中輕井澤",
+                    ja: "中軽井沢 (なかかるいざわ)",
+                    en: "Naka-Karuizawa",
+                  },
+                  {
+                    zh: "草津溫泉",
+                    ja: "草津温泉 (くさつおんせん)",
+                    en: "Kusatsu Onsen",
+                  },
+                ].map((st, i) => (
+                  <div
+                    key={i}
+                    className="flex justify-between items-center bg-white/70 p-2.5 rounded-xl border border-[#5F7A61]/10 shadow-sm hover:shadow-md transition-shadow"
+                  >
+                    <span className="font-bold text-[#5F7A61] text-[13px] md:text-sm">
+                      {st.zh}
+                    </span>
+                    <div className="text-right">
+                      <div className="text-xs font-bold text-gray-800">
+                        {st.ja}
+                      </div>
+                      <div className="text-[10px] text-gray-500 font-medium">
+                        {st.en}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </SectionCard>
+
             {recommendedRoutes.map((route, idx) => {
               const parsedDate = parseDateStr(route.day);
               const currentOptIdx = selectedRouteOpts[route.id] || 0;
@@ -870,11 +963,9 @@ export default function App() {
                     variant="glass"
                     title={
                       <div className="flex items-center gap-3 w-full">
-                        <div className="w-[76px] flex-shrink-0 flex justify-start">
-                          <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full">
-                            {parsedDate.day}
-                          </span>
-                        </div>
+                        <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                          {parsedDate.day}
+                        </span>
                         <span>{name}</span>
                       </div>
                     }
@@ -1114,7 +1205,7 @@ export default function App() {
                   icon={null}
                   title={
                     <div className="flex items-center gap-3 w-full">
-                      <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                      <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
                         {parsedDate.day}
                       </span>
                       <span>{category.location}</span>
@@ -1193,104 +1284,111 @@ export default function App() {
               .map((category, cIdx) => {
                 const parsedDate = parseDateStr(category.day);
                 return (
-                  <SectionCard
-                    key={cIdx}
-                    icon={null}
-                    title={
-                      <div className="flex items-center gap-3 w-full">
-                        <span className="text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
-                          {parsedDate.day}
-                        </span>
-                        <span>{category.location}</span>
-                      </div>
-                    }
-                    collapsible={true}
-                    forceOpen={isAnyExpanded}
-                    variant="glass"
-                  >
-                    {parsedDate.date && (
-                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4 ml-2">
-                        <Calendar size={12} />
-                        <span className="font-medium">{parsedDate.date}</span>
-                      </div>
-                    )}
-                    {category.sections.map((section, sIdx) => (
-                      <CollapsibleSubsection
-                        key={sIdx}
-                        title={section.title}
-                        count={section.items.length}
-                        forceOpen={isAnyExpanded}
-                      >
-                        <div className="space-y-2">
-                          {sortItems(section.items, cIdx, sIdx).map((item) => {
-                            const originalIdx = section.items.indexOf(item);
-                            const itemKey = getItemKey(cIdx, sIdx, originalIdx);
-                            const isFavorite = favorites[itemKey];
-                            return (
-                              <div
-                                key={itemKey}
-                                className={`p-3 rounded-xl transition-colors ${
-                                  isFavorite
-                                    ? "bg-pink-50 border border-pink-200"
-                                    : "bg-gray-50 hover:bg-gray-100"
-                                }`}
-                              >
-                                <div className="flex items-start gap-3">
-                                  <button
-                                    onClick={() => toggleFavorite(itemKey)}
-                                    className={`p-2 rounded-full transition-all shrink-0 ${
+                  <div key={cIdx} id={`food-section-${cIdx}`}>
+                    <SectionCard
+                      icon={null}
+                      title={
+                        <div className="flex items-center gap-3 w-full">
+                          <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                            {parsedDate.day}
+                          </span>
+                          <span>{category.location}</span>
+                        </div>
+                      }
+                      collapsible={true}
+                      forceOpen={isAnyExpanded}
+                      variant="glass"
+                    >
+                      {parsedDate.date && (
+                        <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4 ml-2">
+                          <Calendar size={12} />
+                          <span className="font-medium">{parsedDate.date}</span>
+                        </div>
+                      )}
+                      {category.sections.map((section, sIdx) => (
+                        <CollapsibleSubsection
+                          key={sIdx}
+                          title={section.title}
+                          count={section.items.length}
+                          forceOpen={isAnyExpanded}
+                        >
+                          <div className="space-y-2">
+                            {sortItems(section.items, cIdx, sIdx).map(
+                              (item) => {
+                                const originalIdx = section.items.indexOf(item);
+                                const itemKey = getItemKey(
+                                  cIdx,
+                                  sIdx,
+                                  originalIdx,
+                                );
+                                const isFavorite = favorites[itemKey];
+                                return (
+                                  <div
+                                    key={itemKey}
+                                    className={`p-3 rounded-xl transition-colors ${
                                       isFavorite
-                                        ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
-                                        : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
+                                        ? "bg-pink-50 border border-pink-200"
+                                        : "bg-gray-50 hover:bg-gray-100"
                                     }`}
                                   >
-                                    <Star
-                                      size={18}
-                                      className={
-                                        isFavorite ? "fill-current" : ""
-                                      }
-                                    />
-                                  </button>
-                                  <div className="flex-1 min-w-0 pt-1">
-                                    <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
-                                      {item.name}
-                                      {item.recommended && (
+                                    <div className="flex items-start gap-3">
+                                      <button
+                                        onClick={() => toggleFavorite(itemKey)}
+                                        className={`p-2 rounded-full transition-all shrink-0 ${
+                                          isFavorite
+                                            ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
+                                            : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
+                                        }`}
+                                      >
                                         <Star
-                                          size={14}
-                                          className="text-yellow-500 fill-yellow-500"
+                                          size={18}
+                                          className={
+                                            isFavorite ? "fill-current" : ""
+                                          }
                                         />
+                                      </button>
+                                      <div className="flex-1 min-w-0 pt-1">
+                                        <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
+                                          {item.name}
+                                          {item.recommended && (
+                                            <Star
+                                              size={14}
+                                              className="text-yellow-500 fill-yellow-500"
+                                            />
+                                          )}
+                                        </div>
+                                        <div className="text-xs text-gray-500 mt-1">
+                                          <span className="text-orange-600 font-medium">
+                                            {item.type}
+                                          </span>{" "}
+                                          • {item.desc}
+                                        </div>
+                                        {item.note && (
+                                          <div className="text-xs text-gray-500 mt-1">
+                                            {item.note}
+                                          </div>
+                                        )}
+                                      </div>
+                                      {item.mapUrl && (
+                                        <a
+                                          href={item.mapUrl}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
+                                        >
+                                          <MapPin size={16} />
+                                        </a>
                                       )}
                                     </div>
-                                    <div className="text-xs text-gray-500 mt-1">
-                                      <span className="text-orange-600 font-medium">
-                                        {item.type}
-                                      </span>{" "}
-                                      • {item.desc}
-                                    </div>
-                                    {item.note && (
-                                      <div className="text-xs text-gray-500 mt-1">
-                                        {item.note}
-                                      </div>
-                                    )}
                                   </div>
-                                  {item.mapUrl && (
-                                    <a
-                                      href={item.mapUrl}
-                                      target="_blank"
-                                      rel="noopener noreferrer"
-                                      className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
-                                    >
-                                      <MapPin size={16} />
-                                    </a>
-                                  )}
-                                </div>
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </CollapsibleSubsection>
-                    ))}
-                  </SectionCard>
+                                );
+                              },
+                            )}
+                          </div>
+                        </CollapsibleSubsection>
+                      ))}
+                    </SectionCard>
+                  </div>
                 );
               })}
           </div>

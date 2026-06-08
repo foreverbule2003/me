@@ -7,6 +7,7 @@ import {
   Sparkles,
   Train,
   Bus,
+  Utensils,
 } from "lucide-react";
 
 const DayCard = ({
@@ -155,6 +156,27 @@ const DayCard = ({
                             <Train size={16} />
                           )}
                         </button>
+                      ) : act.isFood ||
+                        act.text?.includes("晚餐") ||
+                        act.text?.includes("午餐") ||
+                        act.text?.includes("早餐") ||
+                        act.text?.includes("美食") ||
+                        act.text?.includes("大餐") ||
+                        act.time?.includes("晚餐") ||
+                        act.time?.includes("午餐") ||
+                        act.time?.includes("早餐") ||
+                        act.time?.includes("美食") ||
+                        act.time?.includes("大餐") ? (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onOpenFoodGuide?.(dayData.day);
+                          }}
+                          className="p-1.5 text-gray-400 hover:text-[#5F7A61] transition-colors rounded-lg hover:bg-[#5F7A61]/10"
+                          title="查看美食詳情"
+                        >
+                          <Utensils size={16} />
+                        </button>
                       ) : act.map ? (
                         <button
                           onClick={(e) => {
@@ -175,7 +197,7 @@ const DayCard = ({
           </div>
 
           {/* Highlight */}
-          <div className="mt-6 pt-6 border-t border-gray-100/40">
+          <div className="mt-2 pt-4 border-t border-gray-100/40">
             <div className="flex items-start gap-3 p-3 rounded-xl border bg-gray-50 border-gray-100 shadow-sm">
               <div className="p-2 rounded-lg shrink-0 bg-[#5F7A61]/10 text-[#5F7A61]">
                 <Sparkles size={16} />
