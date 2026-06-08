@@ -41,7 +41,7 @@ export const overviewData = [
     hotel: "橫濱三井花園",
   },
   { day: 2, date: "6/18 (四)", title: "橫濱", hotel: "待訂" },
-  { day: 3, date: "6/19 (五)", title: "澀谷", hotel: "待訂" },
+  { day: 3, date: "6/19 (五)", title: "澀谷／原宿", hotel: "待訂" },
   {
     day: 4,
     date: "6/20 (六)",
@@ -165,14 +165,14 @@ export const itineraryData = [
     ],
   },
   {
-    phase: "澀谷 (Day 3)",
+    phase: "澀谷／原宿 (Day 3)",
     image:
       "https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=2070&auto=format&fit=crop",
     days: [
       {
         day: 3,
         date: "6/19 (五)",
-        title: "Shibuya 109 連假採買",
+        title: "澀谷／原宿連假採買",
         image:
           "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2070&auto=format&fit=crop",
         highlight: "🛒 連假首日！Shibuya 109 主攻服飾",
@@ -211,7 +211,7 @@ export const itineraryData = [
       {
         day: 4,
         date: "6/20 (六)",
-        title: "澀谷退房 → 輕井澤 / 高崎 / 草津",
+        title: "澀谷退房 → 輕井澤/高崎/草津",
         image:
           "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
         highlight: "🚄 退房後直奔輕井澤度假、高崎溫泉中繼或前往草津溫泉",
@@ -302,7 +302,7 @@ export const itineraryData = [
               },
               {
                 time: "下午",
-                text: "高崎散策 / 達磨寺",
+                text: "高崎散策／達磨寺",
                 subText:
                   "可搭乘高崎市內公車前往全日本達磨不倒翁的發源地，祈求旅途平安順利",
                 map: { type: "search", query: "Shorinzan Darumaji Temple" },
@@ -312,7 +312,7 @@ export const itineraryData = [
           {
             id: 3,
             label: "草津溫泉",
-            title: "澀谷退房 → 輕井澤 → 草津溫泉",
+            title: "澀谷退房 → 輕井澤／草津溫泉",
             image:
               "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
             highlight:
@@ -337,7 +337,7 @@ export const itineraryData = [
                 time: "中午",
                 text: "輕井澤 → 草津巴士",
                 transport: {
-                  line: "草津交通巴士 / 西武觀光巴士 (急行草津溫泉行)",
+                  line: "草津交通巴士／西武觀光巴士 (急行草津溫泉行)",
                   station: "輕井澤站北口 2 號乘車處",
                   fare: "¥2,240 - ¥2,300",
                   note: "車程約 76-80 分鐘，沿途可欣賞高原森林風光。",
@@ -467,7 +467,7 @@ export const itineraryData = [
                 time: "中午",
                 text: "巴士返輕井澤",
                 transport: {
-                  line: "草津交通巴士 / 西武觀光巴士 (急行)",
+                  line: "草津交通巴士／西武觀光巴士 (急行)",
                   station: "草津溫泉巴士總站 ➔ 輕井澤站北口",
                   fare: "¥2,240 - ¥2,300",
                   note: "車程約 80 分鐘。抵達後步行 3 分鐘至 APA 飯店寄放行李。",
@@ -534,7 +534,7 @@ export const itineraryData = [
           },
           {
             time: "上午",
-            text: "🍓 章姬 / 香野草莓尋購",
+            text: "🍓 章姬／香野草莓尋購",
             subText: "季節限定，美味甜度極佳",
           },
           {
@@ -600,14 +600,85 @@ export const itineraryData = [
 ];
 
 export const budgetData = [
-  { item: "機票（單人）", cost: 52273, note: "去程無托運，回程合購1件托運" },
-  { item: "交通 - N'EX 特急", cost: 5000, note: "約 NT$1,100" },
-  { item: "交通 - 新幹線", cost: 10330, note: "大宮→輕井澤→東京" },
-  { item: "交通 - 腳踏車", cost: 700, note: "非電動（輕井澤）" },
-  { item: "交通 - ICOCA/Suica", cost: 2000, note: "市區地鐵、公車儲值" },
-  { item: "住宿（7泊）", cost: 49000, note: "均攤約¥7,000/晚" },
-  { item: "餐飲", cost: 22000, note: "紀念日餐廳另計" },
-  { item: "購物 / 景點", cost: 30000, note: "含 Outlet、藥妝" },
+  {
+    item: "機票（來回）",
+    cost: 104546,
+    note: "兩人合計 NT$23,000。去程無托運，回程合購1件托運",
+  },
+  {
+    item: "交通",
+    cost: 36060,
+    note: "包含新幹線、N'EX 與市區交通",
+    subItems: [
+      { item: "N'EX 特急", cost: 10000, note: "單人約 ¥5,000 (約 NT$1,100)" },
+      {
+        item: "新幹線",
+        cost: 20660,
+        note: "單人約 ¥10,330 (大宮→輕井澤→東京)",
+      },
+      { item: "腳踏車", cost: 1400, note: "單人約 ¥700 (輕井澤)" },
+      { item: "ICOCA/Suica", cost: 4000, note: "單人約 ¥2,000 (市區交通)" },
+    ],
+  },
+  {
+    item: "住宿",
+    cost: 156000,
+    note: "已訂妥與估算之兩人總價",
+    subItems: [
+      {
+        item: "橫濱三井花園 6/17 (三)",
+        cost: 15000,
+        note: "已訂妥，約 NT$3,300",
+      },
+      {
+        item: "待訂 - 橫濱或澀谷 6/18 (四)",
+        cost: 15000,
+        note: "候選均價估算",
+      },
+      { item: "待訂 - 澀谷周邊 6/19 (五)", cost: 15000, note: "候選均價估算" },
+      { item: "待訂 - 輕井澤 6/20 (六)", cost: 36000, note: "候選均價估算" },
+      { item: "待訂 - 輕井澤 6/21 (日)", cost: 30000, note: "候選均價估算" },
+      { item: "待訂 - 輕井澤 6/22 (一)", cost: 30000, note: "候選均價估算" },
+      { item: "待訂 - 東京市區 6/23 (二)", cost: 15000, note: "候選均價估算" },
+    ],
+  },
+  {
+    item: "餐飲",
+    cost: 63000,
+    note: "兩人每日預算約 ¥9,000 (近 NT$2,000)",
+    subItems: [
+      { item: "每日早餐 (共 7 餐)", cost: 7000, note: "平均每餐兩人約 ¥1,000" },
+      {
+        item: "每日午、晚餐 (共約 14 餐)",
+        cost: 42000,
+        note: "平均每餐兩人約 ¥3,000",
+      },
+      {
+        item: "輕食、咖啡與甜點 (7天)",
+        cost: 14000,
+        note: "平均每日兩人約 ¥2,000",
+      },
+    ],
+  },
+  {
+    item: "購物與景點",
+    cost: 60000,
+    note: "觀景台門票與採買總預估",
+    subItems: [
+      { item: "景點 - SHIBUYA SKY", cost: 5000, note: "單人約 ¥2,500" },
+      { item: "景點 - 合味道紀念館", cost: 1000, note: "單人約 ¥500" },
+      {
+        item: "購物 - 服飾／Outlet 採買",
+        cost: 30000,
+        note: "單人預留 ¥15,000",
+      },
+      {
+        item: "購物 - 藥妝與零食伴手禮",
+        cost: 24000,
+        note: "單人預留 ¥12,000",
+      },
+    ],
+  },
 ];
 
 export const recommendedRoutes = [
@@ -628,6 +699,21 @@ export const recommendedRoutes = [
         duration: "約90分",
         fare: "來回優惠票 NT$ 1,109",
         note: "直達車，免換車。",
+        link: {
+          text: "查看 N'EX 往東京/橫濱方向時刻表",
+          url: "https://www.jreast.co.jp/",
+        },
+        timetable: [
+          {
+            train: "N'EX 40",
+            dep: "17:16",
+            arr: "18:51",
+            note: "無託運有機會趕上",
+          },
+          { train: "N'EX 42", dep: "17:45", arr: "19:19", note: "最保險班次" },
+          { train: "N'EX 46", dep: "18:45", arr: "20:19", note: "" },
+          { train: "N'EX 50", dep: "19:49", arr: "21:23", note: "" },
+        ],
       },
     ],
   },
@@ -689,13 +775,13 @@ export const recommendedRoutes = [
         label: "高崎",
         origin: "Shibuya Station",
         destination: "Takasaki Station",
-        duration: "約60分 / 95分",
+        duration: "約60分／95分",
         steps: [
           {
             type: "train",
             line: "方式 A：大宮轉乘 🚄 [新幹線] 北陸/上越新幹線",
             station: "澀谷站 ➔ 大宮站 (站內轉乘) ➔ 高崎站",
-            platform: "澀谷3號月台 / 大宮17、18號月台",
+            platform: "澀谷3號月台／大宮17、18號月台",
             duration: "約60分",
             fare: "澀谷 ➔ 大宮 (JR): ¥580 / 大宮 ➔ 高崎 (新幹線): ¥3,910 (指定席) 或 ¥3,280 (自由席)",
             note: "大宮轉北陸/上越新幹線，票價為大宮轉乘差額。持東京廣域周遊券免額外補票。",
@@ -738,7 +824,7 @@ export const recommendedRoutes = [
           },
           {
             type: "bus",
-            line: "草津交通 / 西武觀光巴士 (急行)",
+            line: "草津交通／西武觀光巴士 (急行)",
             station: "輕井澤站北口 2號乘車處",
             duration: "約80分",
             fare: "¥2,240 - ¥2,300",
@@ -816,7 +902,7 @@ export const recommendedRoutes = [
         steps: [
           {
             type: "bus",
-            line: "草津交通 / 西武觀光巴士 (急行)",
+            line: "草津交通／西武觀光巴士 (急行)",
             station: "草津溫泉巴士總站 ➔ 輕井澤站北口",
             duration: "約80分",
             fare: "¥2,240 - ¥2,300",
@@ -906,6 +992,33 @@ export const recommendedRoutes = [
         duration: "約60分",
         fare: "含於 N'EX 來回優惠票 (NT$ 1,109)",
         note: "⚠️ B5月台極深，從地面步行需15-20分，務必提早！",
+        link: {
+          text: "查看 N'EX 往成田機場方向時刻表",
+          url: "https://www.jreast.co.jp/",
+        },
+        timetable: [
+          {
+            train: "N'EX 19",
+            dep: "11:03",
+            arr: "12:04",
+            note: "提早至機場午餐",
+          },
+          { train: "N'EX 21", dep: "11:33", arr: "12:34", note: "" },
+          { train: "N'EX 23", dep: "12:03", arr: "13:04", note: "" },
+          {
+            train: "N'EX 25",
+            dep: "12:33",
+            arr: "13:34",
+            note: "提前約3小時抵達",
+          },
+          { train: "N'EX 27", dep: "13:03", arr: "14:04", note: "較佳班次" },
+          {
+            train: "N'EX 29",
+            dep: "13:33",
+            arr: "14:34",
+            note: "最晚底線班次",
+          },
+        ],
       },
     ],
   },
@@ -996,7 +1109,7 @@ export const foodData = {
             },
             {
               name: "Rice Cuisine SŪYA",
-              type: "Vegan / 無麩質",
+              type: "Vegan／無麩質",
               desc: "日本大通純素與無麩質米粉料理專賣，極力推薦擔擔麵與披薩",
               recommended: true,
               mapUrl: "https://maps.app.goo.gl/p2WtcQGsogN4VZWx9",
@@ -1147,7 +1260,7 @@ export const foodData = {
           items: [
             {
               name: "Bakery & Restaurant Sawamura 舊輕井澤",
-              type: "麵包 / 餐廳",
+              type: "麵包／餐廳",
               desc: "輕井澤森林經典麵包餐廳，酸種麵包極受歡迎",
               recommended: false,
               mapUrl:
@@ -1178,7 +1291,7 @@ export const foodData = {
             },
             {
               name: "Paomu",
-              type: "西食 / 甜點",
+              type: "西食／甜點",
               desc: "知名舊輕井澤布丁與輕食打卡店",
               recommended: true,
               mapUrl:
@@ -1242,7 +1355,7 @@ export const foodData = {
             },
             {
               name: "Izumiya Saku (和泉屋 傳兵衛)",
-              type: "甜點 / 和菓子",
+              type: "甜點／和菓子",
               desc: "日式甜點老鋪，大推味噌糰子與起司蛋糕",
               recommended: true,
               mapUrl:
@@ -1253,7 +1366,7 @@ export const foodData = {
       ],
     },
     {
-      location: "東京 / 銀座",
+      location: "東京／銀座",
       day: "Day 7-8",
       sections: [
         {
@@ -1568,7 +1681,7 @@ export const shoppingData = {
       desc: "清爽型。【美白化妝水】含傳明酸，適合想改善暗沉",
       price: 990,
       category: "保養",
-      shop: "松本清 / 藥妝店",
+      shop: "松本清／藥妝店",
       image: "/me/images/products/hada_labo_premium.png",
     },
     {
@@ -1577,7 +1690,7 @@ export const shoppingData = {
       desc: "【囤貨帶回台灣】愛用品補貨，放托運",
       price: 700,
       category: "保養",
-      shop: "松本清 / 藥妝店",
+      shop: "松本清／藥妝店",
       image: "/me/images/products/hada_labo_refill.png",
     },
     {
@@ -1586,7 +1699,7 @@ export const shoppingData = {
       desc: "💛 黃色-深層淨化。【粉刺終結者 - 試用】旅行先用小罐測試膚感",
       price: 880,
       category: "保養",
-      shop: "唐吉訶德 / 松本清",
+      shop: "唐吉訶德／松本清",
       image: "/me/images/products/duo_mini_20g.jpg",
     },
     {
@@ -1595,7 +1708,7 @@ export const shoppingData = {
       desc: "💛 黃色-深層淨化。【囤貨帶回台灣】若小罐好用，回程買大罐放托運",
       price: 3960,
       category: "保養",
-      shop: "唐吉訶德 / 松本清",
+      shop: "唐吉訶德／松本清",
       image: "/me/images/products/duo_cleansing_balm_90g.png",
     },
     {
@@ -1604,7 +1717,7 @@ export const shoppingData = {
       desc: "超強防水防汗定妝噴霧，隨手小罐裝攜帶超方便。",
       price: 880,
       category: "彩妝",
-      shop: "藥妝店 / 唐吉訶德",
+      shop: "藥妝店／唐吉訶德",
       image:
         "https://cosme-global-production.s3.amazonaws.com/uploads/product_sku_image/149669/211753/215225/medium_211753_202505200306.png",
     },
@@ -1641,7 +1754,7 @@ export const shoppingData = {
       desc: "妝前乳+防曬+乳液三合一，SPF50+ PA++++，淡淡粉嫩提亮，保濕度佳讓氣墊粉餅更服貼。",
       price: 3410,
       category: "彩妝",
-      shop: "藥妝店 / 唐吉訶德",
+      shop: "藥妝店／唐吉訶德",
       image: "/me/images/products/elixir_pink_tube.png",
     },
     {
@@ -1650,7 +1763,7 @@ export const shoppingData = {
       desc: "防曬+美白二合一，SPF50+ PA++++，質地清爽不黏膩，提升膚色均勻感。",
       price: 3410,
       category: "彩妝",
-      shop: "藥妝店 / 唐吉訶德",
+      shop: "藥妝店／唐吉訶德",
       image: "/me/images/products/elixir_silver_tube.png",
     },
     {
@@ -1659,7 +1772,7 @@ export const shoppingData = {
       desc: "【白氣墊（霧面）】色號：Beige (自然米色)。霧面妝效，輕薄透氣，溫水可卸。深色痘疤需搭配遮瑕盤。",
       price: 3200,
       category: "彩妝",
-      shop: "藥妝店 / 唐吉訶德",
+      shop: "藥妝店／唐吉訶德",
       image: "/me/images/products/andbe_cushion.png",
     },
     {
@@ -1668,7 +1781,7 @@ export const shoppingData = {
       desc: "【霧面白盒 Matte】Serumfit Fullcover Matte Cushion。色號：#21 Light Beige (自然偏白)。中高遮瑕，柔焦毛孔與泛紅。",
       price: 3600,
       category: "彩妝",
-      shop: "藥妝店 / 唐吉訶德",
+      shop: "藥妝店／唐吉訶德",
       image: "/me/images/products/byur_matte_cushion.png",
     },
     {
@@ -1705,7 +1818,7 @@ export const shoppingData = {
       desc: "舒適好穿的避震機能鞋",
       price: null,
       category: "衣飾",
-      shop: "直營店 / 鞋店",
+      shop: "直營店／鞋店",
       image: "https://m.media-amazon.com/images/I/71X7r4QyQKL._AC_UY900_.jpg",
     },
     {
@@ -1714,7 +1827,7 @@ export const shoppingData = {
       desc: "皮革側背包，棕色真皮質感",
       price: null,
       category: "衣飾",
-      shop: "百貨 / 專賣店",
+      shop: "百貨／專賣店",
       image: "/me/images/products/leather_bag.jpg",
     },
     {
@@ -1723,7 +1836,7 @@ export const shoppingData = {
       desc: "Roots 經典棕色真皮短夾",
       price: null,
       category: "衣飾",
-      shop: "Roots / 百貨",
+      shop: "Roots／百貨",
       image: "/me/images/products/roots_wallet.png",
     },
     {
@@ -1801,18 +1914,18 @@ export const accommodationData = [
     period: "Day 1 (6/17 三)",
     hotels: [
       {
-        name: "三井花園飯店橫濱港未來普米爾",
+        name: "橫濱三井花園",
         status: "已訂妥",
         desc: "港未來區高空絕美海景，精緻奢華首夜",
         features: ["海景", "高空", "新開幕"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Mitsui+Garden+Hotel+Yokohama+Minatomirai+Premier",
-        priceTwd: 3000,
+        priceTwd: 3300,
       },
     ],
   },
   {
-    location: "橫濱 / 澀谷",
+    location: "橫濱／澀谷",
     period: "Day 2 (6/18 四)",
     hotels: [
       {
@@ -1821,7 +1934,7 @@ export const accommodationData = [
         desc: "高CP值商務旅館",
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Super+Hotel+Yokohama+Kannai",
-        priceTwd: 3000,
+        priceTwd: 3300,
       },
       {
         name: "相鐵Fresa Inn 橫濱櫻木町",
@@ -1829,26 +1942,26 @@ export const accommodationData = [
         desc: "近車站，交通便利",
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Sotetsu+Fresa+Inn+Yokohama+Sakuragicho",
-        priceTwd: 3000,
+        priceTwd: 3300,
       },
       {
-        name: "澀谷飯店 (待定)",
+        name: "澀谷飯店 (待訂)",
         status: "待訂",
         desc: "若選擇提早移動到澀谷",
-        priceTwd: 3000,
+        priceTwd: 3300,
       },
     ],
   },
   {
-    location: "澀谷",
+    location: "澀谷／原宿",
     period: "Day 3 (6/19 五)",
     hotels: [
       {
-        name: "待定 (澀谷周邊)",
+        name: "待訂 (澀谷周邊)",
         status: "待訂",
-        desc: "Shibuya 109 採買日，住澀谷最方便",
+        desc: "連假採買日，住澀谷或原宿周邊最方便",
         features: ["交通樞紐", "購物"],
-        priceTwd: 3000,
+        priceTwd: 3300,
       },
     ],
   },
@@ -1892,11 +2005,11 @@ export const accommodationData = [
         priceTwd: 15000,
       },
       {
-        name: "待定 (草津溫泉)",
+        name: "待訂 (草津溫泉)",
         status: "待訂",
         desc: "若提早前去草津，考量老牌溫泉旅館的一泊二食體驗",
         features: ["溫泉", "一泊二食"],
-        priceTwd: 8000,
+        priceTwd: 7700,
       },
     ],
   },
@@ -1920,7 +2033,7 @@ export const accommodationData = [
         features: ["溫泉", "淺間山景"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 6500,
+        priceTwd: 6400,
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
@@ -1953,7 +2066,7 @@ export const accommodationData = [
         features: ["溫泉", "淺間山景"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 5800,
+        priceTwd: 6400,
       },
       {
         name: "輕井澤英迪格酒店 (Hotel Indigo)",
@@ -1962,7 +2075,7 @@ export const accommodationData = [
         features: ["設計感", "渡假"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
-        priceTwd: 10000,
+        priceTwd: 11000,
       },
     ],
   },
@@ -1971,11 +2084,11 @@ export const accommodationData = [
     period: "Day 7 (6/23 二)",
     hotels: [
       {
-        name: "待定 (東京站周邊)",
+        name: "待訂 (東京站周邊)",
         status: "待訂",
         desc: "最後一晚，考量隔日搭乘 N'EX 前往成田機場的便利性",
         features: ["交通樞紐"],
-        priceTwd: 3000,
+        priceTwd: 3300,
       },
     ],
   },
@@ -2016,7 +2129,7 @@ export const weatherData = {
       date: "6/19",
       day: "五",
       fullDate: "6/19 (五)",
-      loc: "澀谷",
+      loc: "澀谷／原宿",
       weatherIcon: "⛅",
       weatherText: "曇時々晴",
       tempHigh: 28,

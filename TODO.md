@@ -1,6 +1,6 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-06-07 (Tokyo-UI-Polish)
+> 最後更新：2026-06-08 (Tokyo-UI-Polish)
 
 ## 🔴 P0: 立即執行 (Pending)
 
@@ -259,3 +259,4 @@
 - [x] **Refactor Guard**: 於下一次 UI 重構時試行並驗證防禦性開發機制 (Completed: 2026-01-24)
 - [x] **Vibe Coding 驗證**: 完成「側邊欄動畫」的快速實作與自動歸檔測試，確認 /capture 指令與歸檔流程運作正常。 ✅ (Capture: 2026-01-24)
 - [x] **Ultimate Integration (Phase 3)**: 將 CB 計算機完全併入戰情室，實現單頁分析體驗、即時數據自動補全 (Live Enrichment)、與爬蟲腳本標準化。 ✅ (Completed: 2026-01-24)
+- [x] **UI Polish**: 完善 2026-tokyo 交通分頁的 N'EX 時刻表動態顯示與排版修正 (Completed: 2026-06-08)

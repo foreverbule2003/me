@@ -628,25 +628,49 @@ export default function App() {
           <div
             className={activeTab === "accommodation" ? "space-y-6" : "hidden"}
           >
-            <div className="bg-white/60 backdrop-blur-md rounded-2xl p-6 border border-white/60 shadow-sm">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-xl font-bold text-[#1c1c1e] mb-1">
-                    住宿總預算估算
-                  </h3>
-                  <p className="text-sm text-[#6e6e73]">
-                    已訂妥以該飯店計費，候選日期以
-                    <span className="font-bold text-[#1c1c1e]">
-                      候選飯店均價
+            <div className="bg-white/40 backdrop-blur-md rounded-xl p-4 border border-white/40 shadow-sm">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#1c1c1e] text-base">
+                      住宿估算 (7晚)
                     </span>
-                    進行估算。
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="text-2xl font-bold text-[#5F7A61]">
-                    NT$ {Math.round(totalAccommodationBudget).toLocaleString()}
+                    <span className="text-[10px] font-medium bg-[#1c1c1e]/5 text-[#6e6e73] px-2 py-0.5 rounded-full">
+                      ¥1 = NT$0.22
+                    </span>
                   </div>
-                  <div className="text-xs text-[#6e6e73]">7 晚總計</div>
+                  <span className="text-[11px] text-[#6e6e73]">
+                    已訂妥以該飯店計費，候選日期以均價估算
+                  </span>
+                </div>
+                <div className="flex flex-col items-start sm:items-end gap-0.5 mt-2 sm:mt-0">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xl font-bold text-[#5F7A61] tabular-nums">
+                      ¥
+                      {Math.round(
+                        totalAccommodationBudget / 0.22,
+                      ).toLocaleString()}
+                    </span>
+                    <span className="text-xs font-bold text-[#6e6e73] tabular-nums">
+                      / NT$
+                      {Math.round(totalAccommodationBudget).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-1 text-[11px]">
+                    <span className="text-[#6e6e73]">每晚平均:</span>
+                    <span className="font-semibold text-[#5F7A61] tabular-nums">
+                      ¥
+                      {Math.round(
+                        totalAccommodationBudget / 0.22 / 7,
+                      ).toLocaleString()}
+                    </span>
+                    <span className="text-[#6e6e73] tabular-nums">
+                      / NT$
+                      {Math.round(
+                        totalAccommodationBudget / 7,
+                      ).toLocaleString()}
+                    </span>
+                  </div>
                 </div>
               </div>
 
@@ -688,8 +712,11 @@ export default function App() {
                           >
                             {item.detailText}
                           </span>
-                          <span className="font-bold text-[#1c1c1e]">
-                            NT$ {Math.round(item.price).toLocaleString()}
+                          <span className="font-bold text-[#1c1c1e] tabular-nums">
+                            ¥{Math.round(item.price / 0.22).toLocaleString()}
+                          </span>
+                          <span className="text-xs text-gray-500 tabular-nums">
+                            (NT$ {Math.round(item.price).toLocaleString()})
                           </span>
                         </div>
                       </div>
@@ -818,16 +845,6 @@ export default function App() {
               data={budgetData}
               forceOpen={isAnyExpanded}
               theme="forest"
-              notes={
-                <div className="flex gap-4 items-start w-full">
-                  <Info className="text-[#5F7A61] flex-shrink-0 mt-1" />
-                  <div className="text-sm text-[#5F7A61] leading-relaxed">
-                    <p className="font-bold mb-1">預算說明</p>
-                    以上為估算值，機票與住宿確認後更新。匯率以 ¥1 = $0.22 TWD
-                    計算。
-                  </div>
-                </div>
-              }
             />
           </div>
 
@@ -1014,6 +1031,59 @@ export default function App() {
                                         ) : (
                                           <span>* {step.note}</span>
                                         )}
+                                      </div>
+                                    )}
+                                    {step.link && (
+                                      <a
+                                        href={step.link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1 text-[#5F7A61] hover:text-[#7A8B7B] underline font-medium mt-1 transition-colors"
+                                      >
+                                        🔗 {step.link.text}
+                                      </a>
+                                    )}
+                                    {step.timetable && (
+                                      <div className="mt-2.5 bg-white/80 rounded-xl overflow-hidden border border-[#5F7A61]/20 shadow-sm">
+                                        <table className="w-full text-[11px] md:text-xs text-center">
+                                          <thead className="bg-[#5F7A61]/10 text-[#5F7A61] font-bold">
+                                            <tr>
+                                              <th className="py-1.5 px-2">
+                                                車次
+                                              </th>
+                                              <th className="py-1.5 px-2">
+                                                發車
+                                              </th>
+                                              <th className="py-1.5 px-2">
+                                                抵達
+                                              </th>
+                                              <th className="py-1.5 px-2 text-left">
+                                                備註
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody className="divide-y divide-[#5F7A61]/10">
+                                            {step.timetable.map((row, rIdx) => (
+                                              <tr
+                                                key={rIdx}
+                                                className="hover:bg-[#5F7A61]/5 transition-colors"
+                                              >
+                                                <td className="py-1.5 px-2 font-medium text-gray-700">
+                                                  {row.train}
+                                                </td>
+                                                <td className="py-1.5 px-2 font-bold text-gray-900">
+                                                  {row.dep}
+                                                </td>
+                                                <td className="py-1.5 px-2 font-bold text-gray-900">
+                                                  {row.arr}
+                                                </td>
+                                                <td className="py-1.5 px-2 text-left text-gray-500">
+                                                  {row.note || "-"}
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </table>
                                       </div>
                                     )}
                                   </div>
