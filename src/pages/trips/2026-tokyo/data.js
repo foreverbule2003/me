@@ -635,12 +635,12 @@ export const budgetData = [
   {
     item: "機票（來回）",
     cost: 104546,
-    note: "兩人合計 NT$23,000。去程無托運，回程合購1件托運",
+    note: "兩人合計 NT$23,000\n去程無托運，回程合購1件托運",
   },
   {
     item: "交通",
     cost: 36060,
-    note: "包含新幹線、N'EX 與市區交通",
+    note: "每人總計約 ¥18,030",
     subItems: [
       { item: "N'EX 特急", cost: 10000, note: "單人約 ¥5,000 (約 NT$1,100)" },
       {
@@ -655,7 +655,7 @@ export const budgetData = [
   {
     item: "住宿",
     cost: 156000,
-    note: "已訂妥與估算之兩人總價",
+    note: "兩人每晚平均約 ¥22,000",
     subItems: [
       {
         item: "橫濱三井花園 6/17 (三)",
@@ -665,19 +665,19 @@ export const budgetData = [
       {
         item: "待訂 - 橫濱或澀谷 6/18 (四)",
         cost: 15000,
-        note: "候選均價估算",
+        note: "每晚平均",
       },
-      { item: "待訂 - 澀谷周邊 6/19 (五)", cost: 15000, note: "候選均價估算" },
-      { item: "待訂 - 輕井澤 6/20 (六)", cost: 36000, note: "候選均價估算" },
-      { item: "待訂 - 輕井澤 6/21 (日)", cost: 30000, note: "候選均價估算" },
-      { item: "待訂 - 輕井澤 6/22 (一)", cost: 30000, note: "候選均價估算" },
-      { item: "待訂 - 東京市區 6/23 (二)", cost: 15000, note: "候選均價估算" },
+      { item: "待訂 - 澀谷周邊 6/19 (五)", cost: 15000, note: "每晚平均" },
+      { item: "待訂 - 輕井澤 6/20 (六)", cost: 36000, note: "每晚平均" },
+      { item: "待訂 - 輕井澤 6/21 (日)", cost: 30000, note: "每晚平均" },
+      { item: "待訂 - 輕井澤 6/22 (一)", cost: 30000, note: "每晚平均" },
+      { item: "待訂 - 東京市區 6/23 (二)", cost: 15000, note: "每晚平均" },
     ],
   },
   {
     item: "餐飲",
     cost: 63000,
-    note: "兩人每日預算約 ¥9,000 (近 NT$2,000)",
+    note: "兩人每日預算約 ¥9,000",
     subItems: [
       { item: "每日早餐 (共 7 餐)", cost: 7000, note: "平均每餐兩人約 ¥1,000" },
       {
@@ -693,19 +693,19 @@ export const budgetData = [
     ],
   },
   {
-    item: "購物與景點",
+    item: "購物",
     cost: 60000,
     note: "觀景台門票與採買總預估",
     subItems: [
-      { item: "景點 - SHIBUYA SKY", cost: 5000, note: "單人約 ¥2,500" },
-      { item: "景點 - 合味道紀念館", cost: 1000, note: "單人約 ¥500" },
+      { item: "SHIBUYA SKY", cost: 5000, note: "單人約 ¥2,500" },
+      { item: "合味道紀念館", cost: 1000, note: "單人約 ¥500" },
       {
-        item: "購物 - 服飾／Outlet 採買",
+        item: "服飾／Outlet 採買",
         cost: 30000,
         note: "單人預留 ¥15,000",
       },
       {
-        item: "購物 - 藥妝與零食伴手禮",
+        item: "藥妝與零食伴手禮",
         cost: 24000,
         note: "單人預留 ¥12,000",
       },
