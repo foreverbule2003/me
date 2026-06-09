@@ -75,7 +75,7 @@
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.3s ease-out forwards;
+  animation: fadeIn 0.8s ease-out forwards;
 }
 
 .anim-float {

@@ -25,9 +25,9 @@ const LinksGallery = ({
         linkIconHover: "group-hover:text-[#E8968A]",
       },
       forest: {
-        categoryIcon: "text-[#8B7355]",
-        hoverText: "group-hover:text-[#2D5A27]",
-        linkIconHover: "group-hover:text-[#8B7355]",
+        categoryIcon: "text-[#5F7A61]",
+        hoverText: "group-hover:text-[#5F7A61]",
+        linkIconHover: "group-hover:text-[#5F7A61]",
       },
     }[theme] || "default";
 
@@ -63,20 +63,22 @@ const LinksGallery = ({
                     rel="noopener noreferrer"
                     className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 transition-colors group"
                   >
-                    <div className="flex items-center gap-2 min-w-0">
+                    <div className="flex items-center gap-2 min-w-0 flex-1">
                       <span
                         className={`text-gray-700 font-medium ${t.hoverText} transition-colors text-sm truncate`}
                       >
                         {item.name}
                       </span>
-                      <span className="text-xs text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full shrink-0">
+                    </div>
+                    <div className="flex items-center gap-2 shrink-0">
+                      <span className="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full w-[64px] text-center shrink-0">
                         {item.day}
                       </span>
+                      <ExternalLink
+                        size={14}
+                        className={`text-gray-300 ${t.linkIconHover} shrink-0`}
+                      />
                     </div>
-                    <ExternalLink
-                      size={14}
-                      className={`text-gray-300 ${t.linkIconHover} shrink-0 ml-2`}
-                    />
                   </a>
                 ))}
               </div>

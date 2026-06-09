@@ -85,7 +85,7 @@ export const itineraryData = [
             time: "17:30",
             text: "搭 N'EX → 橫濱站",
             transport: {
-              line: "🚇 [特急] N'EX 成田特快",
+              line: "N'EX 成田特快",
               station: "成田機場 T1",
               fare: "來回優惠票 NT$ 1,109",
               note: "直達約 90 分鐘",
@@ -438,7 +438,7 @@ export const itineraryData = [
                 time: "上午",
                 text: "高崎 → 輕井澤",
                 transport: {
-                  line: "🚄 新幹線",
+                  line: "新幹線",
                   station: "高崎站 ➔ 輕井澤站",
                   note: "車程約 25 分鐘",
                 },
@@ -568,7 +568,7 @@ export const itineraryData = [
             time: "下午",
             text: "新幹線返東京",
             transport: {
-              line: "🚄 [新幹線] 北陸新幹線",
+              line: "北陸新幹線",
               station: "輕井澤站 ➔ 東京站",
               fare: "約 ¥6,020",
               note: "車程約 70 分鐘",
@@ -607,14 +607,14 @@ export const itineraryData = [
             time: "上午",
             text: "東京車站周邊早午餐",
             isFood: true,
-            subText: "YAYOI 彌生軒 (銀座 INZ 店)",
+            subText: "YAYOI 彌生軒 銀座 INZ 店",
             map: { type: "search", query: "Yayoi Ginza INZ" },
           },
           {
             time: "13:30",
             text: "搭 N'EX 往成田機場",
             transport: {
-              line: "🚇 [特急] N'EX 成田特快",
+              line: "N'EX 成田特快",
               station: "東京站 (總武地下線) ➔ 成田機場",
               note: "總武地下月台極深，務必提早出發！車程約 60 分鐘。",
             },
@@ -623,6 +623,12 @@ export const itineraryData = [
               origin: "Tokyo Station",
               destination: "Narita Airport Terminal 1",
             },
+          },
+          {
+            time: "14:30",
+            text: "抵達成田機場 T1",
+            subText: "泰國獅航 SL395 報到 (16:50 起飛)",
+            note: "回程有一件託運行李，需至櫃檯報到",
           },
           { time: "16:50", text: "🛫 NRT T1 起飛 → TPE T1" },
         ],
@@ -633,7 +639,7 @@ export const itineraryData = [
 
 export const budgetData = [
   {
-    item: "機票（來回）",
+    item: "機票",
     cost: 104546,
     note: "兩人合計 NT$23,000\n去程無托運，回程合購1件托運",
   },
@@ -725,14 +731,14 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "train",
-        line: "🚇 [特急] JR N'EX 成田特快",
+        line: "JR N'EX 成田特快",
         station: "成田 T1 (B1 JR)",
         platform: "1/2號月台",
         duration: "約90分",
         fare: "來回優惠票 NT$ 1,109",
         note: "直達車，免換車。",
         link: {
-          text: "查看 N'EX 往東京/橫濱方向時刻表",
+          text: "官方時刻表",
           url: "https://www.jreast.co.jp/",
         },
         timetable: [
@@ -793,7 +799,7 @@ export const recommendedRoutes = [
           },
           {
             type: "shinkansen",
-            line: "🚄 [新幹線] 北陸新幹線",
+            line: "北陸新幹線",
             station: "大宮站",
             platform: "17/18月台",
             duration: "約50分",
@@ -811,7 +817,7 @@ export const recommendedRoutes = [
         steps: [
           {
             type: "train",
-            line: "方式 A：大宮轉乘 🚄 [新幹線] 北陸/上越新幹線",
+            line: "方式 A：大宮轉乘 北陸/上越新幹線",
             station: "澀谷站 ➔ 大宮站 (站內轉乘) ➔ 高崎站",
             platform: "澀谷3號月台／大宮17、18號月台",
             duration: "約60分",
@@ -847,7 +853,7 @@ export const recommendedRoutes = [
           },
           {
             type: "shinkansen",
-            line: "🚄 [新幹線] 北陸新幹線",
+            line: "北陸新幹線",
             station: "大宮站",
             platform: "17/18月台",
             duration: "約50分",
@@ -902,7 +908,7 @@ export const recommendedRoutes = [
         steps: [
           {
             type: "train",
-            line: "🚄 [新幹線] JR 北陸新幹線",
+            line: "JR 北陸新幹線",
             station: "高崎站 ➔ 輕井澤站",
             platform: "高崎站新幹線月台",
             duration: "約25分",
@@ -998,7 +1004,7 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "shinkansen",
-        line: "🚄 [新幹線] 北陸新幹線",
+        line: "北陸新幹線",
         station: "輕井澤站",
         platform: "1/2號月台",
         duration: "約70分",
@@ -1018,14 +1024,14 @@ export const recommendedRoutes = [
     steps: [
       {
         type: "train",
-        line: "🚇 [特急] JR N'EX 成田特快",
+        line: "JR N'EX 成田特快",
         station: "東京總武地下",
         platform: "B5 1/2月台",
         duration: "約60分",
-        fare: "含於 N'EX 來回優惠票 (NT$ 1,109)",
+        fare: "來回優惠票 NT$ 1,109",
         note: "⚠️ B5月台極深，從地面步行需15-20分，務必提早！",
         link: {
-          text: "查看 N'EX 往成田機場方向時刻表",
+          text: "官方時刻表",
           url: "https://www.jreast.co.jp/",
         },
         timetable: [
@@ -1064,7 +1070,7 @@ export const usefulLinks = {
       icon: "Train",
       items: [
         {
-          name: "N'EX 成田特快車票 (Klook 專屬優惠)",
+          name: "N'EX 成田特快車票 (Klook)",
           day: "Day 1, 8",
           url: "https://www.klook.com/zh-TW/activity/124707-narita-express-tokyo/",
         },
@@ -1081,6 +1087,11 @@ export const usefulLinks = {
       icon: "Star",
       items: [
         {
+          name: "合味道紀念館橫濱",
+          day: "Day 2",
+          url: "https://www.cupnoodles-museum.jp/zh_TW/yokohama/",
+        },
+        {
           name: "Shibuya 109",
           day: "Day 3",
           url: "https://www.shibuya109.jp/",
@@ -1090,10 +1101,29 @@ export const usefulLinks = {
           day: "Day 5, 7",
           url: "https://www.karuizawa-psp.jp/tw/",
         },
+      ],
+    },
+    {
+      type: "accommodation",
+      label: "住宿",
+      icon: "MapPin",
+      items: [
         {
-          name: "合味道紀念館橫濱",
-          day: "Day 2",
-          url: "https://www.cupnoodles-museum.jp/zh_TW/yokohama/",
+          name: "Dormy Inn 官網",
+          day: "Day 5, 6",
+          url: "https://www.hotespa.net/dormyinn/",
+        },
+      ],
+    },
+    {
+      type: "prep",
+      label: "出國準備",
+      icon: "Globe",
+      items: [
+        {
+          name: "Visit Japan Web (VJW)",
+          day: "行前",
+          url: "https://vjw-lp.digital.go.jp/zh-hant/",
         },
       ],
     },
@@ -1110,7 +1140,7 @@ export const foodData = {
           title: "☕ 咖啡・甜點",
           items: [
             {
-              name: "Dean & DeLuca コレットマーレ",
+              name: "Dean & DeLuca",
               type: "咖啡廳",
               desc: "港未來優雅海景咖啡，紐約頂級超市品牌開的店",
               recommended: false,
@@ -1133,9 +1163,9 @@ export const foodData = {
             {
               name: "Center Grill",
               type: "西式料理",
-              desc: "老字號昭和風洋食，招牌蛋包飯，老闆娘是台灣人",
+              desc: "老字號昭和風洋食，招牌蛋包飯 (可素食)，老闆娘是台灣人",
               recommended: true,
-              note: "蛋包飯可素食",
+
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=Center+Grill+Yokohama",
             },
@@ -1251,7 +1281,7 @@ export const foodData = {
                 "https://www.google.com/maps/search/?api=1&query=Sakuratel+okonomiyaki+Tokyo",
             },
             {
-              name: "YAYOI 彌生軒 青山學院大學前店",
+              name: "YAYOI 彌生軒\n青山學院大學前店",
               type: "日式定食",
               desc: "澀谷周邊目前最近的分店！位在表參道往澀谷的順路上",
               recommended: true,
@@ -1386,7 +1416,7 @@ export const foodData = {
               mapUrl: "https://maps.app.goo.gl/8fqYdYBZqVebwp5f7",
             },
             {
-              name: "Izumiya Saku (和泉屋 傳兵衛)",
+              name: "Izumiya Saku\n和泉屋 傳兵衛",
               type: "甜點／和菓子",
               desc: "日式甜點老鋪，大推味噌糰子與起司蛋糕",
               recommended: true,
@@ -1418,7 +1448,7 @@ export const foodData = {
           title: "🍽 定食・餐廳",
           items: [
             {
-              name: "YAYOI 彌生軒 (銀座 INZ 店)",
+              name: "YAYOI 彌生軒 銀座 INZ 店",
               type: "日式定食",
               desc: "平價美味定食，米飯好吃",
               recommended: false,
@@ -1442,10 +1472,10 @@ export const attractionData = {
           title: "🌲 觀光",
           items: [
             {
-              name: "YOKOHAMA AIR CABIN (橫濱空中纜車)",
+              name: "YOKOHAMA AIR CABIN",
               type: "空中纜車",
               desc: "連接櫻木町站與運河公園，體驗全日本首座都市型循環式索道纜車，橫濱港灣美景盡收眼底。",
-              note: "🎫 門票：單程 1,000円 / 往復 1,800円",
+              fee: "單程 1,000円 / 往復 1,800円",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=YOKOHAMA+AIR+CABIN",
             },
@@ -1467,6 +1497,7 @@ export const attractionData = {
               name: "合味道紀念館",
               type: "博物館",
               desc: "泡麵博物館，可體驗親手製作專屬的杯麵。",
+              fee: "門票 ¥500，製麵體驗 ¥500",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=CupNoodles+Museum+Yokohama",
             },
@@ -1518,7 +1549,7 @@ export const attractionData = {
               name: "SHIBUYA SKY (澀谷天空展望台)",
               type: "展望台",
               desc: "頂樓 360 度無死角玻璃展望台，極力推薦日落前入場，可俯瞰著名的澀谷十字路口與東京鐵塔。",
-              note: "🎫 門票 (WEB)：15:00前 2,700円 / 15:00後 3,400円",
+              fee: "門票 (WEB)：15:00前 2,700円 / 15:00後 3,400円",
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=SHIBUYA+SKY",
             },
@@ -1676,7 +1707,7 @@ export const attractionData = {
               name: "星野溫泉 蜻蛉之湯",
               type: "溫泉",
               desc: "位於星野區的現代日式溫泉，擁有被森林環繞的露天大浴池與室內檜木風呂，四季風情極佳",
-              note: "🎫 泡湯：1,550円",
+              fee: "泡湯：1,550円",
               mapUrl: "https://maps.app.goo.gl/zFoZCaYtuG3MZ7BE6",
             },
             {
@@ -1896,6 +1927,11 @@ export const todoData = [
   // 出國前準備
   {
     group: "出國前準備",
+    category: "準備",
+    item: "Visit Japan Web (VJW)",
+  },
+  {
+    group: "出國前準備",
     category: "交通",
     item: "新幹線去程：大宮 ➔ 輕井澤 (6/20 六)",
   },
@@ -1906,18 +1942,13 @@ export const todoData = [
   },
   {
     group: "出國前準備",
-    category: "通訊",
-    item: "日本上網 eSIM",
-  },
-  {
-    group: "出國前準備",
     category: "交通",
     item: "機場接送",
   },
   {
     group: "出國前準備",
-    category: "準備",
-    item: "Visit Japan Web (VJW)",
+    category: "通訊",
+    item: "日本上網 eSIM",
   },
 
   // 確認與追蹤項目
@@ -1934,9 +1965,9 @@ export const vegetarianCard = {
     "すべての出汁 (柴魚/魚介/肉骨等高湯)",
   ],
   canEat: [
-    "野菜・卵・乳製品 (蔬菜、雞蛋、乳製品)",
+    "野菜/卵/乳製品 (蔬菜/雞蛋/乳製品)",
     "昆布だし (昆布高湯)",
-    "ネギ・にんにく類 (蔥、蒜、韭菜等五辛)",
+    "ネギ/にんにく類 (蔥/蒜/韭菜等五辛)",
   ],
 };
 

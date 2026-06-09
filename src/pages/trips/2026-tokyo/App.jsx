@@ -182,7 +182,12 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
             {tabs.map(({ id, label, Icon }) => (
               <button
                 key={id}
-                onClick={() => setActiveTab(id)}
+                onClick={() => {
+                  setActiveTab(id);
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }, 50);
+                }}
                 className={`flex-1 flex justify-center items-center px-4 py-2.5 gap-2 rounded-xl transition-all duration-300 ${
                   activeTab === id
                     ? "bg-white/20 text-white font-bold shadow-sm"
@@ -237,6 +242,57 @@ const CollapsibleSubsection = ({
         className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"}`}
       >
         <div className="overflow-hidden">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+// 車站名稱對照表 - 標籤雲 (Pill Tags)
+const StationMappingCloud = ({ stations }) => {
+  const [selectedStation, setSelectedStation] = useState(null);
+
+  return (
+    <div className="bg-white/40 rounded-xl p-2.5">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+        {stations.map((st, i) => (
+          <button
+            key={i}
+            onClick={() => setSelectedStation(selectedStation === i ? null : i)}
+            className={`w-full px-1 py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
+              selectedStation === i
+                ? "bg-[#5F7A61] text-white shadow-md scale-[1.02]"
+                : "bg-white text-[#5F7A61] border border-[#5F7A61]/20 hover:bg-[#5F7A61]/5 hover:shadow-sm"
+            }`}
+          >
+            <span className="truncate w-full block text-center tracking-wide">
+              {st.zh}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          selectedStation !== null
+            ? "max-h-24 opacity-100 mt-3"
+            : "max-h-0 opacity-0 mt-0"
+        }`}
+      >
+        {selectedStation !== null && (
+          <div className="bg-white/80 rounded-xl border border-[#5F7A61]/10 flex items-center gap-3 p-3">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#5F7A61]/10 flex items-center justify-center">
+              <Train size={14} className="text-[#5F7A61]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-800 text-sm mb-0.5">
+                {stations[selectedStation].ja}
+              </span>
+              <span className="text-[11px] text-gray-500 font-medium tracking-wide">
+                {stations[selectedStation].en}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -500,7 +556,7 @@ export default function App() {
   });
 
   return (
-    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative bg-[#e2e8db]">
+    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative bg-[#e2e8db] overflow-x-clip">
       {/* 移除 overflow-hidden 確保內部 sticky 導航列能正常置頂 */}
       <div className="relative z-10 w-full min-h-screen">
         {/* 頂部 Hero Image，手機版降低高度避免佔比過大 */}
@@ -530,7 +586,11 @@ export default function App() {
 
         <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pb-12">
           {/* 總覽 Tab */}
-          <div className={activeTab === "overview" ? "space-y-6" : "hidden"}>
+          <div
+            className={
+              activeTab === "overview" ? "space-y-6 animate-fade-in" : "hidden"
+            }
+          >
             <FlightInfoSection
               outbound={flightData.outbound}
               inbound={flightData.inbound}
@@ -588,7 +648,9 @@ export default function App() {
           </div>
 
           {/* 行程 Tab */}
-          <div className={activeTab === "itinerary" ? "" : "hidden"}>
+          <div
+            className={activeTab === "itinerary" ? "animate-fade-in" : "hidden"}
+          >
             <ItineraryTab
               itineraryData={itineraryData}
               expandedDays={expandedDays}
@@ -669,7 +731,11 @@ export default function App() {
 
           {/* 住宿 Tab */}
           <div
-            className={activeTab === "accommodation" ? "space-y-6" : "hidden"}
+            className={
+              activeTab === "accommodation"
+                ? "space-y-6 animate-fade-in"
+                : "hidden"
+            }
           >
             <div className="bg-white/40 backdrop-blur-md rounded-xl p-4 border border-white/40 shadow-sm">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -883,7 +949,11 @@ export default function App() {
           </div>
 
           {/* 預算 Tab */}
-          <div className={activeTab === "budget" ? "space-y-8" : "hidden"}>
+          <div
+            className={
+              activeTab === "budget" ? "space-y-6 animate-fade-in" : "hidden"
+            }
+          >
             <BudgetSection
               data={budgetData}
               forceOpen={isAnyExpanded}
@@ -892,7 +962,11 @@ export default function App() {
           </div>
 
           {/* 交通 Tab */}
-          <div className={activeTab === "map" ? "space-y-6" : "hidden"}>
+          <div
+            className={
+              activeTab === "map" ? "space-y-6 animate-fade-in" : "hidden"
+            }
+          >
             <SectionCard
               icon={null}
               title={
@@ -908,8 +982,8 @@ export default function App() {
               forceOpen={isAnyExpanded}
               variant="glass"
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-2.5">
-                {[
+              <StationMappingCloud
+                stations={[
                   {
                     zh: "成田機場",
                     ja: "成田空港 (なりたくうこう)",
@@ -922,35 +996,14 @@ export default function App() {
                   { zh: "大宮", ja: "大宮 (おおみや)", en: "Omiya" },
                   { zh: "高崎", ja: "高崎 (たかさき)", en: "Takasaki" },
                   { zh: "輕井澤", ja: "軽井沢 (かるいざわ)", en: "Karuizawa" },
-                  {
-                    zh: "中輕井澤",
-                    ja: "中軽井沢 (なかかるいざわ)",
-                    en: "Naka-Karuizawa",
-                  },
+
                   {
                     zh: "草津溫泉",
                     ja: "草津温泉 (くさつおんせん)",
                     en: "Kusatsu Onsen",
                   },
-                ].map((st, i) => (
-                  <div
-                    key={i}
-                    className="flex justify-between items-center bg-white/70 p-2.5 rounded-xl border border-[#5F7A61]/10 shadow-sm hover:shadow-md transition-shadow"
-                  >
-                    <span className="font-bold text-[#5F7A61] text-[13px] md:text-sm">
-                      {st.zh}
-                    </span>
-                    <div className="text-right">
-                      <div className="text-xs font-bold text-gray-800">
-                        {st.ja}
-                      </div>
-                      <div className="text-[10px] text-gray-500 font-medium">
-                        {st.en}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                ]}
+              />
             </SectionCard>
 
             {recommendedRoutes.map((route, idx) => {
@@ -981,8 +1034,18 @@ export default function App() {
                     }
                   >
                     <div>
+                      {parsedDate.date && (
+                        <div className="flex flex-wrap items-center gap-2 mb-4">
+                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
+                            <Calendar size={12} />
+                            <span className="font-medium">
+                              {parsedDate.date}
+                            </span>
+                          </div>
+                        </div>
+                      )}
                       {route.options && (
-                        <div className="flex gap-2 mb-5 bg-[#F4F6F0] p-1 rounded-2xl border border-[#7A8B7B]/10">
+                        <div className="flex gap-2 mb-4 bg-[#F4F6F0] p-1 rounded-2xl border border-[#7A8B7B]/10">
                           {route.options.map((opt, oIdx) => (
                             <button
                               key={oIdx}
@@ -1002,16 +1065,6 @@ export default function App() {
                               {opt.label}
                             </button>
                           ))}
-                        </div>
-                      )}
-                      {parsedDate.date && (
-                        <div className="flex flex-wrap items-center gap-2 mb-4">
-                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
-                            <Calendar size={12} />
-                            <span className="font-medium">
-                              {parsedDate.date}
-                            </span>
-                          </div>
                         </div>
                       )}
                       <div className="space-y-2.5">
@@ -1088,7 +1141,7 @@ export default function App() {
                                         </span>
                                       )}
                                       {step.duration && (
-                                        <span className="text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80 shrink-0">
+                                        <span className="ml-auto text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80 shrink-0">
                                           <Clock size={10} />
                                           {step.duration}
                                         </span>
@@ -1097,22 +1150,19 @@ export default function App() {
                                   </div>
                                 </div>
 
-                                <div className="flex flex-wrap gap-1.5 text-[11px] md:text-xs pl-2">
+                                <div className="flex flex-wrap items-center gap-2 text-[12px] md:text-[13px] pl-2 mt-1">
                                   {step.station && (
-                                    <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1">
-                                      <span className="text-[10px]">📍</span>{" "}
-                                      <span className="truncate">
-                                        {step.station}
-                                      </span>
-                                    </span>
+                                    <div className="text-gray-800 font-bold tracking-wide">
+                                      {step.station}
+                                    </div>
                                   )}
                                   {step.platform && (
-                                    <span className="bg-white/80 backdrop-blur-sm text-gray-700 font-medium px-2 py-1 rounded shadow-sm flex items-center gap-1 border border-emerald-100/50">
-                                      <span className="text-[10px]">🛤️</span>{" "}
-                                      <span className="truncate">
-                                        {step.platform}
+                                    <div className="flex items-center text-gray-500 font-medium text-[11px]">
+                                      <span className="mr-1.5 text-gray-300">
+                                        /
                                       </span>
-                                    </span>
+                                      {step.platform}
+                                    </div>
                                   )}
                                 </div>
 
@@ -1138,18 +1188,8 @@ export default function App() {
                                         )}
                                       </div>
                                     )}
-                                    {step.link && (
-                                      <a
-                                        href={step.link.url}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="inline-flex items-center gap-1 text-[#5F7A61] hover:text-[#7A8B7B] underline font-medium mt-1 transition-colors"
-                                      >
-                                        🔗 {step.link.text}
-                                      </a>
-                                    )}
                                     {step.timetable && (
-                                      <div className="mt-2.5 bg-white/80 rounded-xl overflow-hidden border border-[#5F7A61]/20 shadow-sm">
+                                      <div className="mt-2.5 mb-2 bg-white/80 rounded-xl overflow-hidden border border-[#5F7A61]/20 shadow-sm">
                                         <table className="w-full text-[11px] md:text-xs text-center">
                                           <thead className="bg-[#5F7A61]/10 text-[#5F7A61] font-bold">
                                             <tr>
@@ -1191,6 +1231,16 @@ export default function App() {
                                         </table>
                                       </div>
                                     )}
+                                    {step.link && (
+                                      <a
+                                        href={step.link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1 text-[#5F7A61] hover:text-[#7A8B7B] underline font-medium mt-1 transition-colors"
+                                      >
+                                        🔗 {step.link.text}
+                                      </a>
+                                    )}
                                   </div>
                                 )}
                               </div>
@@ -1210,7 +1260,13 @@ export default function App() {
           </div>
 
           {/* 景點 Tab */}
-          <div className={activeTab === "attraction" ? "space-y-6" : "hidden"}>
+          <div
+            className={
+              activeTab === "attraction"
+                ? "space-y-6 animate-fade-in"
+                : "hidden"
+            }
+          >
             {attractionData.categories.map((category, cIdx) => {
               const parsedDate = parseDateStr(category.day);
               return (
@@ -1259,6 +1315,15 @@ export default function App() {
                                   </span>{" "}
                                   • {item.desc}
                                 </div>
+                                {item.fee && (
+                                  <div className="mt-1.5 text-[11px] text-[#5F7A61] font-bold flex items-start gap-1">
+                                    <Ticket
+                                      size={12}
+                                      className="mt-0.5 shrink-0"
+                                    />
+                                    <span>{item.fee}</span>
+                                  </div>
+                                )}
                                 {item.note && (
                                   <div className="text-xs text-gray-500 mt-2 pl-2.5 border-l-2 border-[#5F7A61]/35 leading-relaxed">
                                     {item.note}
@@ -1287,7 +1352,11 @@ export default function App() {
           </div>
 
           {/* 美食 Tab */}
-          <div className={activeTab === "food" ? "space-y-6" : "hidden"}>
+          <div
+            className={
+              activeTab === "food" ? "space-y-6 animate-fade-in" : "hidden"
+            }
+          >
             {isSyncing && (
               <div className="text-center text-gray-400 text-sm py-2">
                 ✨ 正在同步雲端收藏...
@@ -1362,14 +1431,8 @@ export default function App() {
                                         />
                                       </button>
                                       <div className="flex-1 min-w-0 pt-1">
-                                        <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
+                                        <div className="font-bold text-[#7A8B7B] whitespace-pre-wrap leading-tight">
                                           {item.name}
-                                          {item.recommended && (
-                                            <Star
-                                              size={14}
-                                              className="text-yellow-500 fill-yellow-500"
-                                            />
-                                          )}
                                         </div>
                                         <div className="text-xs text-gray-500 mt-1">
                                           <span className="text-[#E86B50] font-bold tracking-wide">
@@ -1408,7 +1471,11 @@ export default function App() {
           </div>
 
           {/* 購物 Tab */}
-          <div className={activeTab === "shopping" ? "space-y-6" : "hidden"}>
+          <div
+            className={
+              activeTab === "shopping" ? "space-y-6 animate-fade-in" : "hidden"
+            }
+          >
             <ShoppingSection
               categories={shoppingData.categories}
               wishlist={shoppingData.wishlist}
