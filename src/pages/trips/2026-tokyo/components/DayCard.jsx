@@ -8,6 +8,7 @@ import {
   Train,
   Bus,
   Utensils,
+  Ticket,
 } from "lucide-react";
 
 const DayCard = ({
@@ -128,9 +129,9 @@ const DayCard = ({
                         </div>
                       )}
                       {act.fee && (
-                        <div className="mt-1 text-xs text-[#5F7A61] font-bold flex items-center gap-1">
-                          <span>🪙</span>
-                          <span>{act.fee}</span>
+                        <div className="mt-1 text-xs text-[#5F7A61] font-bold flex items-start gap-1">
+                          <Ticket size={12} className="mt-0.5 shrink-0" />{" "}
+                          {act.fee}
                         </div>
                       )}
                       {act.note && !act.transport && (
@@ -145,7 +146,7 @@ const DayCard = ({
                         </div>
                       )}
                     </div>
-                    <div className="flex items-start gap-1 shrink-0">
+                    <div className="flex items-start justify-end shrink-0 w-7 ml-1">
                       {act.transport ? (
                         <button
                           onClick={(e) => {

@@ -24,6 +24,7 @@ import {
   Bike,
   Clock,
   Compass,
+  Ticket,
 } from "lucide-react";
 
 // 共用元件
@@ -1118,8 +1119,12 @@ export default function App() {
                                 {(step.fare || step.note) && (
                                   <div className="text-[11px] text-gray-600 mt-2 leading-snug bg-white/60 p-2.5 rounded-lg border border-white/45 pl-3 ml-2 flex flex-col gap-1">
                                     {step.fare && (
-                                      <div className="flex items-center gap-1 text-[#5F7A61] font-bold">
-                                        <span>🪙</span> 票價：{step.fare}
+                                      <div className="text-xs text-[#5F7A61] font-bold flex items-start gap-1">
+                                        <Ticket
+                                          size={12}
+                                          className="mt-0.5 shrink-0"
+                                        />{" "}
+                                        {step.fare}
                                       </div>
                                     )}
                                     {step.note && (
@@ -1241,7 +1246,7 @@ export default function App() {
                         {section.items.map((item, iIdx) => (
                           <div
                             key={iIdx}
-                            className="p-3 rounded-xl transition-colors bg-gray-50 hover:bg-gray-100"
+                            className="p-3 rounded-xl transition-colors bg-white/70 backdrop-blur-sm hover:bg-white border border-transparent hover:border-[#5F7A61]/10"
                           >
                             <div className="flex items-start gap-3">
                               <div className="flex-1 min-w-0 pt-1 pl-2">
@@ -1249,7 +1254,7 @@ export default function App() {
                                   {item.name}
                                 </div>
                                 <div className="text-xs text-gray-500 mt-1">
-                                  <span className="text-orange-600 font-medium">
+                                  <span className="text-[#E86B50] font-bold tracking-wide">
                                     {item.type}
                                   </span>{" "}
                                   • {item.desc}
@@ -1336,8 +1341,8 @@ export default function App() {
                                     key={itemKey}
                                     className={`p-3 rounded-xl transition-colors ${
                                       isFavorite
-                                        ? "bg-pink-50 border border-pink-200"
-                                        : "bg-gray-50 hover:bg-gray-100"
+                                        ? "bg-pink-50/80 border border-pink-200/60 shadow-sm"
+                                        : "bg-white/70 backdrop-blur-sm hover:bg-white border border-transparent hover:border-[#5F7A61]/10"
                                     }`}
                                   >
                                     <div className="flex items-start gap-3">
@@ -1367,7 +1372,7 @@ export default function App() {
                                           )}
                                         </div>
                                         <div className="text-xs text-gray-500 mt-1">
-                                          <span className="text-orange-600 font-medium">
+                                          <span className="text-[#E86B50] font-bold tracking-wide">
                                             {item.type}
                                           </span>{" "}
                                           • {item.desc}

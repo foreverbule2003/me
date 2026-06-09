@@ -68,6 +68,20 @@ export const itineraryData = [
           "✈️ 16:30 抵達成田，N'EX 直達橫濱港都，體驗港未來纜車與浪漫晚餐",
         activities: [
           {
+            time: "08:30",
+            text: "出發前往機場",
+            transport: {
+              line: "🚕 機場接送",
+              note: "預約 08:30，預計 1 小時車程",
+            },
+          },
+          {
+            time: "09:30",
+            text: "抵達桃園機場 T1",
+            subText: "泰國獅航 SL394 報到 (12:10 起飛)",
+            note: "無託運行李，可直接用電子登機證或自助機台報到",
+          },
+          {
             time: "17:30",
             text: "搭 N'EX → 橫濱站",
             transport: {
