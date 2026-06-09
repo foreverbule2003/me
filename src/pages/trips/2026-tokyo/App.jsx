@@ -176,7 +176,7 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
   return (
     <nav className="sticky top-4 z-40 mb-8 w-full max-w-5xl mx-auto px-6 md:px-12 pointer-events-none">
       <div className="w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl pointer-events-auto overflow-hidden">
-        <div className="overflow-x-auto no-scrollbar w-full">
+        <div className="overflow-x-auto no-scrollbar w-full [mask-image:linear-gradient(to_right,transparent_0%,black_16px,black_calc(100%-16px),transparent_100%)] md:[mask-image:none]">
           <div className="flex items-center p-1.5 min-w-max w-full gap-1">
             {tabs.map(({ id, label, Icon }) => (
               <button
@@ -301,6 +301,13 @@ const ProductModal = ({ isOpen, onClose, product }) => {
 // ========== 主應用程式 ==========
 export default function App() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const [expandedDays, setExpandedDays] = useState({});
   const [collapseCounter, setCollapseCounter] = useState(0); // 用於通知 StickyPhaseHeader 全收合
   const [mapModalData, setMapModalData] = useState({
@@ -509,6 +516,8 @@ export default function App() {
             className="absolute inset-0 bg-cover bg-center opacity-80"
             style={{
               backgroundImage: `url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop')`,
+              transform: `translateY(${scrollY * 0.3}px) scale(1.1)`,
+              transformOrigin: "top center",
             }}
           />
           {/* 確保頂部文字清晰的暗色漸層 */}
@@ -606,7 +615,6 @@ export default function App() {
                       `food-section-${matchIndex}`,
                     );
                     if (el) {
-
                       const elementPosition =
                         el.getBoundingClientRect().top + window.scrollY;
                       window.scrollTo({
@@ -641,7 +649,6 @@ export default function App() {
                       `transport-route-${matchRoute.id}`,
                     );
                     if (el) {
-
                       const elementPosition =
                         el.getBoundingClientRect().top + window.scrollY;
                       window.scrollTo({

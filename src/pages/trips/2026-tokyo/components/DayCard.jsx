@@ -111,8 +111,8 @@ const DayCard = ({
           <div className="space-y-4">
             {activities.map((act, idx) => (
               <div key={idx} className="flex gap-2 md:gap-4">
-                <div className="w-11 md:w-14 shrink-0 text-right">
-                  <span className="text-xs md:text-sm font-bold text-[#5F7A61]">
+                <div className="w-14 md:w-16 shrink-0 pt-0.5">
+                  <span className="w-full text-center inline-block text-[11px] md:text-xs font-bold text-[#5F7A61] bg-[#5F7A61]/10 py-0.5 rounded-full whitespace-nowrap">
                     {act.time}
                   </span>
                 </div>
@@ -204,15 +204,15 @@ const DayCard = ({
 
           {/* Highlight */}
           <div className="mt-2 pt-4 border-t border-gray-100/40">
-            <div className="flex items-start gap-3 p-3 rounded-xl border bg-gray-50 border-gray-100 shadow-sm">
+            <div className="flex items-start gap-3 p-3 rounded-xl border bg-[#5F7A61]/[0.03] border-[#5F7A61]/10 shadow-sm">
               <div className="p-2 rounded-lg shrink-0 bg-[#5F7A61]/10 text-[#5F7A61]">
                 <Sparkles size={16} />
               </div>
               <div>
-                <div className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-0.5">
+                <div className="text-xs font-bold text-[#5F7A61]/60 uppercase tracking-wider mb-0.5">
                   HIGHLIGHT
                 </div>
-                <div className="text-sm leading-relaxed text-gray-700 font-medium">
+                <div className="text-sm leading-relaxed text-[#5F7A61]/90 font-medium">
                   {highlight}
                 </div>
               </div>
