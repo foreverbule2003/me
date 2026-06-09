@@ -127,6 +127,12 @@ const DayCard = ({
                           {act.subText}
                         </div>
                       )}
+                      {act.fee && (
+                        <div className="mt-1 text-xs text-[#5F7A61] font-bold flex items-center gap-1">
+                          <span>🪙</span>
+                          <span>{act.fee}</span>
+                        </div>
+                      )}
                       {act.note && !act.transport && (
                         <div className="mt-1 text-xs text-[#5F7A61]/80 flex items-start gap-1">
                           <Info size={12} className="mt-0.5 shrink-0" />{" "}

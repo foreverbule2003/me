@@ -606,6 +606,7 @@ export default function App() {
                       `food-section-${matchIndex}`,
                     );
                     if (el) {
+
                       const elementPosition =
                         el.getBoundingClientRect().top + window.scrollY;
                       window.scrollTo({
@@ -640,6 +641,7 @@ export default function App() {
                       `transport-route-${matchRoute.id}`,
                     );
                     if (el) {
+
                       const elementPosition =
                         el.getBoundingClientRect().top + window.scrollY;
                       window.scrollTo({
@@ -887,7 +889,7 @@ export default function App() {
               icon={null}
               title={
                 <div className="flex items-center gap-3 w-full">
-                  <span className="w-[76px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                  <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
                     Day 1-8
                   </span>
                   <span>車站名稱對照表</span>

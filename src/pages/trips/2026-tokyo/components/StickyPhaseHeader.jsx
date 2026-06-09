@@ -84,7 +84,7 @@ const StickyPhaseHeader = ({
               {/* 日期 badge 移到最左邊，並給予固定寬度以對齊地點名稱 */}
               {dayRange && (
                 <span
-                  className={`w-[76px] text-center inline-block text-xs font-medium px-2.5 py-0.5 rounded-full flex-shrink-0 ${transitionClass} ${
+                  className={`w-[72px] text-center inline-block text-xs font-medium px-2.5 py-0.5 rounded-full flex-shrink-0 ${transitionClass} ${
                     isOpen
                       ? "text-[#5F7A61]/50 border border-[#5F7A61]/20 bg-transparent"
                       : "text-[#5F7A61] bg-[#5F7A61]/10 border border-transparent"

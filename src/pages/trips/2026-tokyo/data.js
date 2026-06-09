@@ -43,7 +43,7 @@ export const overviewData = [
   {
     day: 4,
     date: "6/20 (六)",
-    title: "澀谷 → 輕井澤／高崎／草津",
+    title: "澀谷 → 輕井澤/高崎/草津",
     hotel: "待訂",
   },
   { day: 5, date: "6/21 (日)", title: "輕井澤", hotel: "待訂" },
@@ -83,9 +83,10 @@ export const itineraryData = [
             },
           },
           {
-            time: "19:00",
+            time: "18:00",
             text: "YOKOHAMA AIR CABIN",
             subText: "體驗全日本首座都市型循環式索道纜車，橫濱港灣美景盡收眼底",
+            fee: "單程 ¥1,000 / 來回 ¥1,800",
             map: { type: "search", query: "YOKOHAMA AIR CABIN" },
           },
           {
@@ -121,6 +122,7 @@ export const itineraryData = [
             time: "上午",
             text: "合味道紀念館",
             subText: "親手製作專屬杯麵",
+            fee: "門票 ¥500，製麵體驗 ¥500",
             map: { type: "search", query: "CupNoodles Museum Yokohama" },
           },
           {
@@ -179,16 +181,9 @@ export const itineraryData = [
         activities: [
           {
             time: "上午",
-            text: "代代木公園 & 竹下通",
-            subText: "都市綠洲散策，體驗原宿年輕流行文化",
+            text: "代代木公園",
+            subText: "廣闊的都市綠洲散策，享受寧靜的早晨",
             map: { type: "search", query: "Yoyogi Park" },
-          },
-          {
-            time: "中午",
-            text: "AMAM DACOTAN／I'm donut?",
-            isFood: true,
-            subText: "超人氣排隊麵包與生甜甜圈",
-            map: { type: "search", query: "Im donut Omotesando" },
           },
           {
             time: "中午",
@@ -199,20 +194,41 @@ export const itineraryData = [
           },
           {
             time: "下午",
-            text: "澀谷商場採買",
-            subText: "Shibuya 109 潮流服飾、澀谷 PARCO 任天堂旗艦店",
-            map: { type: "search", query: "Shibuya 109" },
+            text: "AMAM DACOTAN／I'm donut?",
+            isFood: true,
+            subText: "超人氣排隊麵包與生甜甜圈",
+            map: { type: "search", query: "Im donut Omotesando" },
+          },
+          {
+            time: "下午",
+            text: "原宿竹下通",
+            subText: "體驗原宿年輕流行文化與特色商店",
+            map: { type: "search", query: "Takeshita Street" },
           },
           {
             time: "傍晚",
+            text: "YAYOI 彌生軒",
+            isFood: true,
+            subText: "青山學院大學前店，從表參道往澀谷方向順路吃晚餐",
+            map: { type: "search", query: "Yayoiken Aoyama Gakuin" },
+          },
+          {
+            time: "晚上",
+            text: "澀谷商場採買",
+            subText: "吃飽後散步逛 Shibuya 109、澀谷 PARCO 任天堂旗艦店",
+            map: { type: "search", query: "Shibuya 109" },
+          },
+          {
+            time: "晚上",
             text: "SHIBUYA SKY (展望台)",
-            subText: "日落前入場，360 度無死角俯瞰澀谷十字路口",
+            subText: "飽覽東京絕美百萬夜景 (建議先網上預約)",
+            fee: "門票約 ¥2,500",
             map: { type: "search", query: "SHIBUYA SKY" },
           },
           {
             time: "晚上",
             text: "東急FoodShow 澀谷店",
-            subText: "地下街採買熟食便當與人氣伴手禮",
+            subText: "看完夜景下樓，採買隔日搭車要吃的早餐",
             map: { type: "search", query: "Tokyu FoodShow Shibuya" },
           },
         ],
@@ -507,8 +523,9 @@ export const itineraryData = [
           {
             time: "下午",
             text: "星野溫泉 蜻蛉之湯",
-            subText: "被森林環繞的露天大浴池",
-            map: { type: "search", query: "Tonbo no Yu" },
+            subText: "星野區的天然溫泉，享受露天風呂與森林浴",
+            fee: "入場費 ¥1,350",
+            map: { type: "search", query: "Tombo-no-yu" },
           },
           {
             time: "晚餐",
@@ -742,7 +759,7 @@ export const recommendedRoutes = [
     id: 3,
     day: "Day 4 (6/20 六)",
     type: "route",
-    name: "澀谷 → 輕井澤／高崎／草津",
+    name: "澀谷 → 輕井澤/高崎/草津",
     options: [
       {
         id: "opt1",
@@ -1222,8 +1239,8 @@ export const foodData = {
             {
               name: "YAYOI 彌生軒 青山學院大學前店",
               type: "日式定食",
-              desc: "表參道與澀谷之間日式定食餐廳，各式經典和食與定食套餐選擇",
-              recommended: false,
+              desc: "澀谷周邊目前最近的分店！位在表參道往澀谷的順路上",
+              recommended: true,
               mapUrl: "https://maps.app.goo.gl/AaC4g4TxhKB2dfdo6",
             },
           ],
