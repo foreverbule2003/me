@@ -1,19 +1,28 @@
 import fs from "fs";
 import path from "path";
-import {
-  shoppingData,
-  flightData,
-  itineraryData,
-  foodData,
-  attractionData,
-  recommendedRoutes,
-  accommodationData,
-  todoData,
-  budgetData,
-} from "./src/pages/trips/2026-tokyo/data.js";
 
-let html =
-  `<!DOCTYPE html>
+const tripId = process.argv[2] || "2026-tokyo";
+const dataPath = path.resolve(
+  process.cwd(),
+  `src/pages/trips/${tripId}/data.js`,
+);
+const modulePath = "file://" + dataPath;
+
+async function generateHTML() {
+  const {
+    shoppingData,
+    flightData,
+    itineraryData,
+    foodData,
+    attractionData,
+    recommendedRoutes,
+    accommodationData,
+    todoData,
+    budgetData,
+  } = await import(modulePath);
+
+  let html =
+    `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="utf-8">
@@ -123,51 +132,51 @@ let html =
     <div class="grid-2">
       <div class="card avoid-break">
         <h3 style="margin-top:0;">🛫 航班去程：` +
-  flightData.outbound.date +
-  `</h3>
+    flightData.outbound.date +
+    `</h3>
         <p style="font-size: 18px;"><strong>` +
-  flightData.outbound.airline +
-  ` ` +
-  flightData.outbound.flightNo +
-  `</strong></p>
+    flightData.outbound.airline +
+    ` ` +
+    flightData.outbound.flightNo +
+    `</strong></p>
         <p>` +
-  flightData.outbound.time.depart +
-  ` ` +
-  flightData.outbound.airport.depart +
-  `<br>↓<br>` +
-  flightData.outbound.time.arrive +
-  ` ` +
-  flightData.outbound.airport.arrive +
-  `</p>
+    flightData.outbound.time.depart +
+    ` ` +
+    flightData.outbound.airport.depart +
+    `<br>↓<br>` +
+    flightData.outbound.time.arrive +
+    ` ` +
+    flightData.outbound.airport.arrive +
+    `</p>
         <p style="font-size: 13px; color: var(--text-light); margin-top: 15px;">` +
-  flightData.outbound.baggage +
-  `<br>` +
-  flightData.outbound.note +
-  `</p>
+    flightData.outbound.baggage +
+    `<br>` +
+    flightData.outbound.note +
+    `</p>
       </div>
       <div class="card avoid-break">
         <h3 style="margin-top:0;">🛬 航班回程：` +
-  flightData.inbound.date +
-  `</h3>
+    flightData.inbound.date +
+    `</h3>
         <p style="font-size: 18px;"><strong>` +
-  flightData.inbound.airline +
-  ` ` +
-  flightData.inbound.flightNo +
-  `</strong></p>
+    flightData.inbound.airline +
+    ` ` +
+    flightData.inbound.flightNo +
+    `</strong></p>
         <p>` +
-  flightData.inbound.time.depart +
-  ` ` +
-  flightData.inbound.airport.depart +
-  `<br>↓<br>` +
-  flightData.inbound.time.arrive +
-  ` ` +
-  flightData.inbound.airport.arrive +
-  `</p>
+    flightData.inbound.time.depart +
+    ` ` +
+    flightData.inbound.airport.depart +
+    `<br>↓<br>` +
+    flightData.inbound.time.arrive +
+    ` ` +
+    flightData.inbound.airport.arrive +
+    `</p>
         <p style="font-size: 13px; color: var(--text-light); margin-top: 15px;">` +
-  flightData.inbound.baggage +
-  `<br>` +
-  flightData.inbound.note +
-  `</p>
+    flightData.inbound.baggage +
+    `<br>` +
+    flightData.inbound.note +
+    `</p>
       </div>
     </div>
 
@@ -175,25 +184,25 @@ let html =
     <div class="grid-2">
 `;
 
-let todoGroups = {};
-todoData.forEach((t) => {
-  if (!todoGroups[t.group]) todoGroups[t.group] = [];
-  todoGroups[t.group].push(t);
-});
-
-for (let group in todoGroups) {
-  html +=
-    `<div class="card avoid-break"><h4 style="margin-top:0; color:var(--primary);">` +
-    group +
-    `</h4><ul style="list-style-type: square; padding-left:15px; margin-bottom:0;">`;
-  todoGroups[group].forEach((t) => {
-    html +=
-      `<li style="font-size:13px;">[` + t.category + `] ` + t.item + `</li>`;
+  let todoGroups = {};
+  todoData.forEach((t) => {
+    if (!todoGroups[t.group]) todoGroups[t.group] = [];
+    todoGroups[t.group].push(t);
   });
-  html += `</ul></div>`;
-}
 
-html += `
+  for (let group in todoGroups) {
+    html +=
+      `<div class="card avoid-break"><h4 style="margin-top:0; color:var(--primary);">` +
+      group +
+      `</h4><ul style="list-style-type: square; padding-left:15px; margin-bottom:0;">`;
+    todoGroups[group].forEach((t) => {
+      html +=
+        `<li style="font-size:13px;">[` + t.category + `] ` + t.item + `</li>`;
+    });
+    html += `</ul></div>`;
+  }
+
+  html += `
     </div>
 
     <div class="veg-card avoid-break">
@@ -213,115 +222,115 @@ html += `
     <h2 id="sec-itinerary">2. 行程 (Itinerary)</h2>
 `;
 
-itineraryData.forEach((phase) => {
-  phase.days.forEach((day) => {
-    html +=
-      `
+  itineraryData.forEach((phase) => {
+    phase.days.forEach((day) => {
+      html +=
+        `
     <div class="day-block">
       <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px;">Day ` +
-      day.day +
-      `：` +
-      day.date +
-      ` - ` +
-      day.title +
-      ` <span class="tag">` +
-      phase.phase +
-      `</span></h3>
+        day.day +
+        `：` +
+        day.date +
+        ` - ` +
+        day.title +
+        ` <span class="tag">` +
+        phase.phase +
+        `</span></h3>
     `;
-    let activities = day.activities;
-    if (!activities && day.options && day.options.length > 0) {
-      activities = day.options[0].activities;
-    }
-    if (activities) {
-      activities.forEach((act) => {
-        html +=
-          `
+      let activities = day.activities;
+      if (!activities && day.options && day.options.length > 0) {
+        activities = day.options[0].activities;
+      }
+      if (activities) {
+        activities.forEach((act) => {
+          html +=
+            `
         <div class="timeline-item">
           <span class="time">` +
-          act.time +
-          `</span>
+            act.time +
+            `</span>
           <div class="timeline-content">
             <div class="timeline-title">` +
-          act.text +
-          ` ` +
-          (act.isFood ? "🍽️" : "") +
-          `</div>
+            act.text +
+            ` ` +
+            (act.isFood ? "🍽️" : "") +
+            `</div>
             ` +
-          (act.subText
-            ? `<div class="timeline-subtext">` + act.subText + `</div>`
-            : "") +
-          `
+            (act.subText
+              ? `<div class="timeline-subtext">` + act.subText + `</div>`
+              : "") +
+            `
             ` +
-          (act.transport
-            ? `<div class="timeline-subtext" style="color:#0284c7; margin-top: 4px; font-weight:bold;">🚆 ` +
-              act.transport.line +
-              ` (` +
-              act.transport.station +
-              `) - ` +
-              act.transport.note +
-              `</div>`
-            : "") +
-          `
+            (act.transport
+              ? `<div class="timeline-subtext" style="color:#0284c7; margin-top: 4px; font-weight:bold;">🚆 ` +
+                act.transport.line +
+                ` (` +
+                act.transport.station +
+                `) - ` +
+                act.transport.note +
+                `</div>`
+              : "") +
+            `
           </div>
         </div>
         `;
-      });
-    }
-    html += `</div>`;
+        });
+      }
+      html += `</div>`;
+    });
   });
-});
 
-html += `
+  html += `
     <div class="page-break"></div>
 
     <!-- 3. 交通 Transport/Map -->
     <h2 id="sec-transport">3. 交通 (Transport)</h2>
 `;
-recommendedRoutes.forEach((route) => {
-  html +=
-    `
+  recommendedRoutes.forEach((route) => {
+    html +=
+      `
   <div class="card avoid-break">
     <h3 style="margin-top:0;">` +
-    route.day +
-    ` | ` +
-    route.name +
-    `</h3>
+      route.day +
+      ` | ` +
+      route.name +
+      `</h3>
     <p style="font-size:14px; color:#555;">` +
-    route.origin +
-    ` ➔ ` +
-    route.destination +
-    ` (約 ` +
-    route.duration +
-    `)</p>
+      route.origin +
+      ` ➔ ` +
+      route.destination +
+      ` (約 ` +
+      route.duration +
+      `)</p>
   `;
-  if (route.options) {
-    route.steps = route.options[0].steps;
-  }
-  if (route.steps) {
-    route.steps.forEach((step) => {
-      html +=
-        `
+    if (route.options) {
+      route.steps = route.options[0].steps;
+    }
+    if (route.steps) {
+      route.steps.forEach((step) => {
+        html +=
+          `
       <div style="margin-top: 10px; border-left: 2px solid #94a3b8; padding-left: 12px;">
         <strong>` +
-        (step.line || step.type) +
-        `</strong> (` +
-        step.station +
-        ` ` +
-        (step.platform ? "- " + step.platform : "") +
-        `)<br>
+          (step.line || step.type) +
+          `</strong> (` +
+          step.station +
+          ` ` +
+          (step.platform ? "- " + step.platform : "") +
+          `)<br>
         <span style="font-size:13px; color:#666;">` +
-        (step.note || "") +
-        ` | 票價: ` +
-        (step.fare || "無") +
-        `</span>
+          (step.note || "") +
+          ` | 票價: ` +
+          (step.fare || "無") +
+          `</span>
       </div>
       `;
-    });
-  }
-  html += `</div>`;
-});
+      });
+    }
+    html += `</div>`;
+  });
 
-html += `
+  html += `
     <div class="page-break"></div>
     
     <!-- 4. 景點 Attraction -->
@@ -329,42 +338,44 @@ html += `
     <div class="grid-2">
 `;
 
-attractionData.categories.forEach((cat) => {
-  html += `<div class="card avoid-break">`;
-  html +=
-    `<h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 ` +
-    cat.location +
-    ` (` +
-    cat.day +
-    `)</h3>`;
-  cat.sections.forEach((sec) => {
+  attractionData.categories.forEach((cat) => {
+    html += `<div class="card avoid-break">`;
     html +=
-      `<h4 style="color: #666;">📸 ` +
-      sec.title +
-      `</h4><ul style="padding-left:15px;">`;
-    sec.items.forEach((item) => {
+      `<h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 ` +
+      cat.location +
+      ` (` +
+      cat.day +
+      `)</h3>`;
+    cat.sections.forEach((sec) => {
       html +=
-        `<li style="margin-bottom:8px;"><strong>` +
-        item.name +
-        `</strong> <span style="color:#888; font-size:12px;">(` +
-        item.type +
-        `)</span>
+        `<h4 style="color: #666;">📸 ` +
+        sec.title +
+        `</h4><ul style="padding-left:15px;">`;
+      sec.items.forEach((item) => {
+        html +=
+          `<li style="margin-bottom:8px;"><strong>` +
+          item.name +
+          `</strong> <span style="color:#888; font-size:12px;">(` +
+          item.type +
+          `)</span>
         <div style="font-size:13px; color:#555;">` +
-        item.desc +
-        `</div>
+          item.desc +
+          `</div>
         ` +
-        (item.fee
-          ? `<div style="font-size:12px; color:#e11d48;">` + item.fee + `</div>`
-          : "") +
-        `
+          (item.fee
+            ? `<div style="font-size:12px; color:#e11d48;">` +
+              item.fee +
+              `</div>`
+            : "") +
+          `
       </li>`;
+      });
+      html += `</ul>`;
     });
-    html += `</ul>`;
+    html += `</div>`;
   });
-  html += `</div>`;
-});
 
-html += `
+  html += `
     </div>
 
     <div class="page-break"></div>
@@ -374,42 +385,42 @@ html += `
     <div class="grid-2">
 `;
 
-foodData.categories.forEach((cat) => {
-  html += `<div class="card avoid-break">`;
-  html +=
-    `<h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 ` +
-    cat.location +
-    ` (` +
-    cat.day +
-    `)</h3>`;
-  cat.sections.forEach((sec) => {
+  foodData.categories.forEach((cat) => {
+    html += `<div class="card avoid-break">`;
     html +=
-      `<h4 style="color: #666;">🍽️ ` +
-      sec.title +
-      `</h4><ul style="padding-left:15px;">`;
-    sec.items.forEach((item) => {
+      `<h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 ` +
+      cat.location +
+      ` (` +
+      cat.day +
+      `)</h3>`;
+    cat.sections.forEach((sec) => {
       html +=
-        `<li style="margin-bottom:8px;"><strong>` +
-        item.name +
-        `</strong> <span style="color:#888; font-size:12px;">(` +
-        item.type +
-        `)</span>
+        `<h4 style="color: #666;">🍽️ ` +
+        sec.title +
+        `</h4><ul style="padding-left:15px;">`;
+      sec.items.forEach((item) => {
+        html +=
+          `<li style="margin-bottom:8px;"><strong>` +
+          item.name +
+          `</strong> <span style="color:#888; font-size:12px;">(` +
+          item.type +
+          `)</span>
         ` +
-        (item.recommended
-          ? '<span style="color:#e11d48; font-weight:bold; font-size:12px; margin-left:4px;">★推薦</span>'
-          : "") +
-        `
+          (item.recommended
+            ? '<span style="color:#e11d48; font-weight:bold; font-size:12px; margin-left:4px;">★推薦</span>'
+            : "") +
+          `
         <div style="font-size:13px; color:#555;">` +
-        item.desc +
-        `</div>
+          item.desc +
+          `</div>
       </li>`;
+      });
+      html += `</ul>`;
     });
-    html += `</ul>`;
+    html += `</div>`;
   });
-  html += `</div>`;
-});
 
-html += `
+  html += `
     </div>
 
     <div class="page-break"></div>
@@ -418,54 +429,55 @@ html += `
     <h2 id="sec-shopping">6. 購物 (Shopping)</h2>
 `;
 
-shoppingData.wishlist.forEach((item) => {
-  let imgBase64 = "";
-  if (item.image && item.image.startsWith("http")) {
-    imgBase64 = item.image;
-  } else if (item.image) {
-    let imgPath = path.join(
-      "/Users/tim/myDev/me/public",
-      item.image.replace("/me/", "/"),
-    );
-    try {
-      let ext = path.extname(imgPath).replace(".", "");
-      if (ext === "jpg") ext = "jpeg";
-      let data = fs.readFileSync(imgPath).toString("base64");
-      imgBase64 = "data:image/" + ext + ";base64," + data;
-    } catch (e) {
-      console.log("Missing image:", imgPath);
+  shoppingData.wishlist.forEach((item) => {
+    let imgBase64 = "";
+    if (item.image && item.image.startsWith("http")) {
+      imgBase64 = item.image;
+    } else if (item.image) {
+      let imgPath = path.join(
+        process.cwd(),
+        "public",
+        item.image.replace("/me/", "/"),
+      );
+      try {
+        let ext = path.extname(imgPath).replace(".", "");
+        if (ext === "jpg") ext = "jpeg";
+        let data = fs.readFileSync(imgPath).toString("base64");
+        imgBase64 = "data:image/" + ext + ";base64," + data;
+      } catch (e) {
+        console.log("Missing image:", imgPath);
+      }
     }
-  }
 
-  html +=
-    `
+    html +=
+      `
   <div class="shop-item avoid-break">
     ` +
-    (imgBase64
-      ? `<img src="` + imgBase64 + `">`
-      : '<div style="width:120px;height:120px;background:#eee;margin-right:20px;display:flex;align-items:center;justify-content:center;color:#999;">無</div>') +
-    `
+      (imgBase64
+        ? `<img src="` + imgBase64 + `">`
+        : '<div style="width:120px;height:120px;background:#eee;margin-right:20px;display:flex;align-items:center;justify-content:center;color:#999;">無</div>') +
+      `
     <div class="shop-item-info">
       <h4>` +
-    item.name +
-    `</h4>
+      item.name +
+      `</h4>
       <div class="jp">` +
-    item.nameJp +
-    `</div>
+      item.nameJp +
+      `</div>
       <div class="desc">` +
-    (item.desc || "") +
-    `</div>
+      (item.desc || "") +
+      `</div>
       <div class="price">¥` +
-    item.price +
-    ` <span style="font-size:13px; color:#0284c7; font-weight:bold; margin-left:10px;">📍 ` +
-    (item.shop || "") +
-    `</span></div>
+      item.price +
+      ` <span style="font-size:13px; color:#0284c7; font-weight:bold; margin-left:10px;">📍 ` +
+      (item.shop || "") +
+      `</span></div>
     </div>
   </div>
   `;
-});
+  });
 
-html += `
+  html += `
     <div class="page-break"></div>
 
     <!-- 7. 住宿 Accommodation -->
@@ -473,41 +485,41 @@ html += `
     <div class="card">
 `;
 
-accommodationData.forEach((acc) => {
-  html +=
-    `<h4 style="color: var(--primary); border-bottom: 1px dashed #ccc; padding-bottom: 5px;">📍 ` +
-    acc.location +
-    ` (` +
-    acc.period +
-    `)</h4>`;
-  acc.hotels.forEach((hotel) => {
-    let badge = hotel.status === "已訂妥" ? "badge-status" : "badge-pending";
+  accommodationData.forEach((acc) => {
     html +=
-      `
+      `<h4 style="color: var(--primary); border-bottom: 1px dashed #ccc; padding-bottom: 5px;">📍 ` +
+      acc.location +
+      ` (` +
+      acc.period +
+      `)</h4>`;
+    acc.hotels.forEach((hotel) => {
+      let badge = hotel.status === "已訂妥" ? "badge-status" : "badge-pending";
+      html +=
+        `
     <div class="hotel-row avoid-break">
       <div>
         <strong>` +
-      hotel.name +
-      `</strong> <span class="` +
-      badge +
-      `">` +
-      hotel.status +
-      `</span>
+        hotel.name +
+        `</strong> <span class="` +
+        badge +
+        `">` +
+        hotel.status +
+        `</span>
         <div style="font-size: 13px; color: #666; margin-top: 4px;">` +
-      hotel.desc +
-      `</div>
+        hotel.desc +
+        `</div>
       </div>
       <div style="text-align: right; color: #e11d48; font-weight: bold;">
         ` +
-      (hotel.priceTwd ? "NT$ " + hotel.priceTwd : "價格未定") +
-      `
+        (hotel.priceTwd ? "NT$ " + hotel.priceTwd : "價格未定") +
+        `
       </div>
     </div>
     `;
+    });
   });
-});
 
-html += `
+  html += `
     </div>
 
     <div class="page-break"></div>
@@ -517,33 +529,33 @@ html += `
     <div class="card">
 `;
 
-let totalBudget = 0;
-budgetData.forEach((b) => {
-  totalBudget += b.cost;
-  html +=
-    `
+  let totalBudget = 0;
+  budgetData.forEach((b) => {
+    totalBudget += b.cost;
+    html +=
+      `
   <div class="budget-row avoid-break" style="margin-bottom: 10px;">
     <div>
       <div style="font-size: 16px; font-weight: bold;">` +
-    b.item +
-    `</div>
+      b.item +
+      `</div>
       <div style="font-size: 13px; color: #666;">` +
-    b.note +
-    `</div>
+      b.note +
+      `</div>
     </div>
     <div class="budget-amount">¥ ` +
-    b.cost.toLocaleString() +
-    `</div>
+      b.cost.toLocaleString() +
+      `</div>
   </div>
   `;
-});
+  });
 
-html +=
-  `
+  html +=
+    `
       <div style="text-align: right; font-size: 20px; font-weight: bold; margin-top: 20px; padding-top: 10px; border-top: 2px solid #333;">
         總預算預估：<span style="color: #e11d48;">¥ ` +
-  totalBudget.toLocaleString() +
-  `</span>
+    totalBudget.toLocaleString() +
+    `</span>
       </div>
     </div>
 
@@ -552,8 +564,12 @@ html +=
 </html>
 `;
 
-fs.writeFileSync(
-  "/Users/tim/myDev/me/trips/2026-tokyo/master_guide.html",
-  html,
-);
-console.log("Master guide HTML generated successfully!");
+  const outHtmlPath = path.resolve(
+    process.cwd(),
+    `trips/${tripId}/master_guide.html`,
+  );
+  fs.writeFileSync(outHtmlPath, html);
+  console.log(`Master guide HTML generated successfully at ${outHtmlPath}`);
+}
+
+generateHTML().catch(console.error);

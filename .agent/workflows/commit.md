@@ -45,6 +45,15 @@ git status --short
 
 > 💡 若有可複用項目，提交後執行 `/sync-to-brain`
 
+## 步驟 2.1：自動同步行程規格 (Auto-Sync Spec)
+
+若本次變更包含任何旅遊專案（例如 `2026-tokyo`）的 `data.js`，AI 必須主動執行腳本以同步 `spec.md`：
+
+```bash
+# <trip_id> 替換為實際專案資料夾名稱，如 2026-tokyo
+node scripts/sync-travel-spec.mjs <trip_id>
+```
+
 ## 步驟 2.5：🤖 專家審查 (PM & CTO Review)
 
 > ⚠️ 在執行 git commit 之前，**強烈建議/必須** 先進行以下動作：
