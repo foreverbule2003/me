@@ -25,6 +25,7 @@ import {
   Clock,
   Compass,
   Ticket,
+  Printer,
 } from "lucide-react";
 
 // 共用元件
@@ -85,7 +86,7 @@ const parseDateStr = (str) => {
 const Header = () => (
   <header className="relative w-full pt-4 md:pt-8 pb-2 md:pb-6 px-6 md:px-12 text-white overflow-hidden flex flex-col items-center justify-center drop-shadow-md">
     <div className="max-w-5xl mx-auto text-center relative z-10 w-full">
-      <div className="flex items-center justify-start w-full mb-4 md:mb-8">
+      <div className="flex items-center justify-between w-full mb-4 md:mb-8 print:hidden">
         <a
           href="/me/?booted=true"
           className="p-2 bg-black/20 backdrop-blur-md rounded-full text-white hover:bg-black/40 transition-all border border-white/20 shadow-lg group"
@@ -96,6 +97,16 @@ const Header = () => (
             className="rotate-180 group-hover:-translate-x-1 transition-transform"
           />
         </a>
+        <button
+          onClick={() => window.print()}
+          className="px-3 sm:px-4 py-2 bg-black/20 backdrop-blur-md rounded-full text-white font-medium hover:bg-black/40 transition-all border border-white/20 shadow-lg flex items-center gap-2"
+          title="匯出 PDF 旅遊小書"
+        >
+          <Printer size={16} />
+          <span className="font-bold tracking-wide text-xs sm:text-sm">
+            匯出 PDF 小書
+          </span>
+        </button>
       </div>
 
       <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-black/20 backdrop-blur-md text-xs font-medium tracking-wider border border-white/20 text-white shadow-lg">
@@ -175,7 +186,7 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
   ];
 
   return (
-    <nav className="sticky top-4 z-40 mb-8 w-full max-w-5xl mx-auto px-6 md:px-12 pointer-events-none">
+    <nav className="sticky top-4 z-40 mb-8 w-full max-w-5xl mx-auto px-6 md:px-12 pointer-events-none print:hidden">
       <div className="w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl pointer-events-auto overflow-hidden">
         <div className="overflow-x-auto no-scrollbar w-full [mask-image:linear-gradient(to_right,transparent_0%,black_16px,black_calc(100%-16px),transparent_100%)] md:[mask-image:none]">
           <div className="flex items-center p-1.5 min-w-max w-full gap-1">
@@ -233,15 +244,15 @@ const CollapsibleSubsection = ({
           )}
         </div>
         <div
-          className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""} print:hidden`}
         >
           <ChevronDown size={20} />
         </div>
       </button>
       <div
-        className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"}`}
+        className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"} print:grid-rows-[1fr] print:opacity-100 print:mt-2`}
       >
-        <div className="overflow-hidden">{children}</div>
+        <div className="overflow-hidden print:overflow-visible">{children}</div>
       </div>
     </div>
   );
@@ -587,9 +598,9 @@ export default function App() {
         <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pb-12">
           {/* 總覽 Tab */}
           <div
-            className={
+            className={`print:block print:break-before-page print:space-y-6 ${
               activeTab === "overview" ? "space-y-6 animate-fade-in" : "hidden"
-            }
+            }`}
           >
             <FlightInfoSection
               outbound={flightData.outbound}
@@ -649,7 +660,9 @@ export default function App() {
 
           {/* 行程 Tab */}
           <div
-            className={activeTab === "itinerary" ? "animate-fade-in" : "hidden"}
+            className={`print:block print:break-before-page print:mt-8 ${
+              activeTab === "itinerary" ? "animate-fade-in" : "hidden"
+            }`}
           >
             <ItineraryTab
               itineraryData={itineraryData}
@@ -731,11 +744,11 @@ export default function App() {
 
           {/* 住宿 Tab */}
           <div
-            className={
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
               activeTab === "accommodation"
                 ? "space-y-6 animate-fade-in"
                 : "hidden"
-            }
+            }`}
           >
             <div className="bg-white/40 backdrop-blur-md rounded-xl p-4 border border-white/40 shadow-sm">
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
@@ -950,9 +963,9 @@ export default function App() {
 
           {/* 預算 Tab */}
           <div
-            className={
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
               activeTab === "budget" ? "space-y-6 animate-fade-in" : "hidden"
-            }
+            }`}
           >
             <BudgetSection
               data={budgetData}
@@ -963,9 +976,9 @@ export default function App() {
 
           {/* 交通 Tab */}
           <div
-            className={
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
               activeTab === "map" ? "space-y-6 animate-fade-in" : "hidden"
-            }
+            }`}
           >
             <SectionCard
               icon={null}
@@ -1261,11 +1274,11 @@ export default function App() {
 
           {/* 景點 Tab */}
           <div
-            className={
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
               activeTab === "attraction"
                 ? "space-y-6 animate-fade-in"
                 : "hidden"
-            }
+            }`}
           >
             {attractionData.categories.map((category, cIdx) => {
               const parsedDate = parseDateStr(category.day);
@@ -1353,9 +1366,9 @@ export default function App() {
 
           {/* 美食 Tab */}
           <div
-            className={
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
               activeTab === "food" ? "space-y-6 animate-fade-in" : "hidden"
-            }
+            }`}
           >
             {isSyncing && (
               <div className="text-center text-gray-400 text-sm py-2">
@@ -1472,9 +1485,9 @@ export default function App() {
 
           {/* 購物 Tab */}
           <div
-            className={
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
               activeTab === "shopping" ? "space-y-6 animate-fade-in" : "hidden"
-            }
+            }`}
           >
             <ShoppingSection
               categories={shoppingData.categories}
@@ -1489,7 +1502,7 @@ export default function App() {
         </main>
 
         {/* FAB */}
-        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end print:hidden">
           {[
             "itinerary",
             "accommodation",
@@ -1509,13 +1522,15 @@ export default function App() {
           )}
         </div>
 
-        <ScrollToTop
-          bgClass="bg-[#5F7A61]"
-          shadowClass="shadow-[#5F7A61]/20"
-          hoverBgClass="hover:bg-[#4b614d]"
-        />
+        <div className="print:hidden">
+          <ScrollToTop
+            bgClass="bg-[#5F7A61]"
+            shadowClass="shadow-[#5F7A61]/20"
+            hoverBgClass="hover:bg-[#4b614d]"
+          />
+        </div>
 
-        <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6">
+        <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6 print:hidden">
           <p>© 2026 東京・橫濱・輕井澤 8日旅</p>
         </footer>
 
