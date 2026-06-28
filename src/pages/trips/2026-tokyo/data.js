@@ -1998,54 +1998,43 @@ export const accommodationData = [
     period: "Day 1 (6/17 三)",
     hotels: [
       {
-        name: "橫濱三井花園",
+        name: "MGH Yokohama Minatomirai",
         status: "已訂妥",
         desc: "港未來區高空絕美海景，精緻奢華首夜",
         features: ["海景", "高空", "新開幕"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Mitsui+Garden+Hotel+Yokohama+Minatomirai+Premier",
-        priceTwd: 3300,
+        priceJpy: 14070,
       },
     ],
   },
   {
-    location: "橫濱／澀谷",
+    location: "橫濱",
     period: "Day 2 (6/18 四)",
     hotels: [
       {
-        name: "Super Hotel Yokohama Kannai",
-        status: "待訂",
-        desc: "高CP值商務旅館",
+        name: "MGH Yokohama Minatomirai",
+        status: "已訂妥",
+        desc: "續住港未來",
+        features: ["海景", "高空", "新開幕"],
         mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=Super+Hotel+Yokohama+Kannai",
-        priceTwd: 3300,
-      },
-      {
-        name: "相鐵Fresa Inn 橫濱櫻木町",
-        status: "待訂",
-        desc: "近車站，交通便利",
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=Sotetsu+Fresa+Inn+Yokohama+Sakuragicho",
-        priceTwd: 3300,
-      },
-      {
-        name: "澀谷飯店 (待訂)",
-        status: "待訂",
-        desc: "若選擇提早移動到澀谷",
-        priceTwd: 3300,
+          "https://www.google.com/maps/search/?api=1&query=Mitsui+Garden+Hotel+Yokohama+Minatomirai+Premier",
+        priceJpy: 19000,
       },
     ],
   },
   {
-    location: "澀谷／原宿",
+    location: "大宮",
     period: "Day 3 (6/19 五)",
     hotels: [
       {
-        name: "待訂 (澀谷周邊)",
-        status: "待訂",
-        desc: "連假採買日，住澀谷或原宿周邊最方便",
-        features: ["交通樞紐", "購物"],
-        priceTwd: 3300,
+        name: "Marroad Inn Omiya",
+        status: "已訂妥",
+        desc: "抵達大宮中繼，補單人房差額",
+        features: ["交通樞紐"],
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Marroad+Inn+Omiya",
+        priceJpy: 7400,
       },
     ],
   },
@@ -2054,46 +2043,13 @@ export const accommodationData = [
     period: "Day 4 (6/20 六)",
     hotels: [
       {
-        name: "輕井澤 APA 飯店",
-        status: "待訂",
-        desc: "站前步行 3 分鐘寄放行李，便捷高效首選",
-        features: ["交通便利", "車站旁"],
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
-        priceTwd: 4900,
-      },
-      {
-        name: "多美迎高崎酒店 (Dormy Inn Takasaki)",
-        status: "待訂",
-        desc: "高崎站旁附天然溫泉與免費拉麵，適合作為交通中繼站",
-        features: ["溫泉", "交通便利"],
-        mapUrl: "https://maps.app.goo.gl/TnUyWtAd4NAzA8MA8",
-        priceTwd: 3500,
-      },
-      {
         name: "輕井澤淺間王子大飯店",
-        status: "待訂",
-        desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
+        status: "已訂妥",
+        desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景 (含稅)",
         features: ["溫泉", "淺間山景"],
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 8500,
-      },
-      {
-        name: "輕井澤英迪格酒店 (Hotel Indigo)",
-        status: "待訂",
-        desc: "奢華設計木質渡假體驗",
-        features: ["設計感", "渡假"],
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
-        priceTwd: 15000,
-      },
-      {
-        name: "待訂 (草津溫泉)",
-        status: "待訂",
-        desc: "若提早前去草津，考量老牌溫泉旅館的一泊二食體驗",
-        features: ["溫泉", "一泊二食"],
-        priceTwd: 7700,
+        priceJpy: 34008,
       },
     ],
   },
@@ -2102,31 +2058,13 @@ export const accommodationData = [
     period: "Day 5 (6/21 日)",
     hotels: [
       {
-        name: "輕井澤 APA 飯店",
-        status: "待訂",
-        desc: "站前步行 3 分鐘放行李，平價便捷",
-        features: ["交通便利", "車站旁"],
+        name: "旧軽井沢 ホテル音羽ノ森",
+        status: "已訂妥",
+        desc: "三週年紀念日！體驗舊輕井澤的古典和風",
+        features: ["和式房", "紀念日", "古典"],
         mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
-        priceTwd: 2400,
-      },
-      {
-        name: "輕井澤淺間王子大飯店",
-        status: "待訂",
-        desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
-        features: ["溫泉", "淺間山景"],
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 6400,
-      },
-      {
-        name: "輕井澤英迪格酒店 (Hotel Indigo)",
-        status: "待訂",
-        desc: "三週年紀念日主場！奢華設計木質渡假體驗",
-        features: ["設計感", "紀念日", "渡假"],
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
-        priceTwd: 11000,
+          "https://www.google.com/maps/search/?api=1&query=Kyu-Karuizawa+Hotel+Otowanomori",
+        priceJpy: 15874,
       },
     ],
   },
@@ -2135,31 +2073,13 @@ export const accommodationData = [
     period: "Day 6 (6/22 一)",
     hotels: [
       {
-        name: "輕井澤 APA 飯店",
-        status: "待訂",
-        desc: "站前步行 3 分鐘放行李，平價便捷",
-        features: ["交通便利", "車站旁"],
+        name: "星野集團 BEB5 輕井澤",
+        status: "已訂妥",
+        desc: "享受星野集團年輕活力的渡假體驗",
+        features: ["設計感", "渡假", "星野"],
         mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=APA+Hotel+Karuizawa+Ekimae",
-        priceTwd: 2400,
-      },
-      {
-        name: "輕井澤淺間王子大飯店",
-        status: "待訂",
-        desc: "溫泉溫潤身心，房內可直接眺望淺間山雄偉美景",
-        features: ["溫泉", "淺間山景"],
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
-        priceTwd: 6400,
-      },
-      {
-        name: "輕井澤英迪格酒店 (Hotel Indigo)",
-        status: "待訂",
-        desc: "奢華設計木質渡假體驗",
-        features: ["設計感", "渡假"],
-        mapUrl:
-          "https://www.google.com/maps/search/?api=1&query=Hotel+Indigo+Karuizawa",
-        priceTwd: 11000,
+          "https://www.google.com/maps/search/?api=1&query=BEB5+Karuizawa",
+        priceJpy: 27000,
       },
     ],
   },
@@ -2168,11 +2088,13 @@ export const accommodationData = [
     period: "Day 7 (6/23 二)",
     hotels: [
       {
-        name: "待訂 (東京站周邊)",
-        status: "待訂",
-        desc: "最後一晚，考量隔日搭乘 N'EX 前往成田機場的便利性",
-        features: ["交通樞紐"],
-        priceTwd: 3300,
+        name: "dormy inn PREMIUM 神田",
+        status: "已訂妥",
+        desc: "最後一晚，享用免費拉麵與大浴場",
+        features: ["大浴場", "消夜拉麵"],
+        mapUrl:
+          "https://www.google.com/maps/search/?api=1&query=Dormy+Inn+Premium+Kanda",
+        priceJpy: 19080,
       },
     ],
   },
