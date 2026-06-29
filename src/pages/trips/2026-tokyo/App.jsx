@@ -26,23 +26,24 @@ import {
   Compass,
   Ticket,
   Printer,
+  ReceiptText,
 } from "lucide-react";
 
 // 共用元件
 import Timeline from "../shared/Timeline";
 import FlightInfoSection from "../shared/FlightInfoSection";
-import BudgetSection from "../shared/BudgetSection";
+// BudgetSection 已由 ExpenseSection (內嵌) 取代
 import ChecklistSection from "../shared/ChecklistSection";
 import LinksGallery from "../shared/LinksGallery";
 import WeatherForecastSection from "../shared/WeatherForecastSection";
 import ShoppingSection from "../shared/ShoppingSection";
 import ItineraryTab from "./components/ItineraryTab";
+import ExpenseSection from "./components/ExpenseSection";
 
 import {
   flightData,
   overviewData,
   itineraryData,
-  budgetData,
   recommendedRoutes,
   usefulLinks,
   foodData,
@@ -52,6 +53,7 @@ import {
   vegetarianCard,
   accommodationData,
   weatherData,
+  expenseData,
 } from "./data.js";
 
 import {
@@ -182,7 +184,7 @@ const TabNavigation = ({ activeTab, setActiveTab }) => {
     { id: "food", label: "美食", Icon: Utensils },
     { id: "shopping", label: "購物", Icon: ShoppingBag },
     { id: "accommodation", label: "住宿", Icon: Hotel },
-    { id: "budget", label: "預算", Icon: Wallet },
+    { id: "budget", label: "花費", Icon: ReceiptText },
   ];
 
   return (
@@ -961,17 +963,13 @@ export default function App() {
             })}
           </div>
 
-          {/* 預算 Tab */}
+          {/* 花費 Tab */}
           <div
             className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
               activeTab === "budget" ? "space-y-6 animate-fade-in" : "hidden"
             }`}
           >
-            <BudgetSection
-              data={budgetData}
-              forceOpen={isAnyExpanded}
-              theme="forest"
-            />
+            <ExpenseSection data={expenseData} forceOpen={isAnyExpanded} />
           </div>
 
           {/* 交通 Tab */}
