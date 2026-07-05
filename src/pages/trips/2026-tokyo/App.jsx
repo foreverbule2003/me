@@ -359,7 +359,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
               ¥{product.price?.toLocaleString()}
             </span>
             <span className="text-sm text-gray-400">
-              ≈${Math.round((product.price || 0) * 0.22).toLocaleString()}
+              ≈${Math.round((product.price || 0) * 0.2).toLocaleString()}
             </span>
           </div>
         </div>
@@ -760,7 +760,7 @@ export default function App() {
                       住宿估算 (7晚)
                     </span>
                     <span className="text-[10px] font-medium bg-[#1c1c1e]/5 text-[#6e6e73] px-2 py-0.5 rounded-full">
-                      ¥1 = NT$0.22
+                      ¥1 = NT$0.2
                     </span>
                   </div>
                   <span className="text-[11px] text-[#6e6e73]">
@@ -772,7 +772,7 @@ export default function App() {
                     <span className="text-xl font-bold text-[#5F7A61] tabular-nums">
                       ¥
                       {Math.round(
-                        totalAccommodationBudget / 0.22,
+                        totalAccommodationBudget / 0.2,
                       ).toLocaleString()}
                     </span>
                     <span className="text-xs font-bold text-[#6e6e73] tabular-nums">
@@ -785,7 +785,7 @@ export default function App() {
                     <span className="font-semibold text-[#5F7A61] tabular-nums">
                       ¥
                       {Math.round(
-                        totalAccommodationBudget / 0.22 / 7,
+                        totalAccommodationBudget / 0.2 / 7,
                       ).toLocaleString()}
                     </span>
                     <span className="text-[#6e6e73] tabular-nums">
@@ -837,7 +837,7 @@ export default function App() {
                             {item.detailText}
                           </span>
                           <span className="font-bold text-[#1c1c1e] tabular-nums">
-                            ¥{Math.round(item.price / 0.22).toLocaleString()}
+                            ¥{Math.round(item.price / 0.2).toLocaleString()}
                           </span>
                           <span className="text-xs text-gray-500 tabular-nums">
                             (NT$ {Math.round(item.price).toLocaleString()})

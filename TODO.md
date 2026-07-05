@@ -35,6 +35,16 @@
 
 ## 🏁 已完成歸檔 (Archived)
 
+### 2026-07-05
+
+- [x] **2026-Tokyo UI/Data Polish**:
+  - 修復 `App.jsx` 中 GameBoyShell 因為 `isPoweredOn` 初始狀態為 `false` 導致重新整理時白畫面的問題。
+  - 修正 `data.js` Day 3 住宿費用（Marroad Inn Omiya）漏登錄的台幣 1976 差價與日圓費用，並支援住宿總額的跨幣別統一換算顯示。
+  - 將最後一天班機資訊更正回 MM625 樂桃航空。
+  - 精簡 `ExpenseSection.jsx` 花費總覽 UI，移除右上角複雜的日圓/台幣雙區塊，統一顯示台幣總花費與等值日圓換算（`≈ ¥493,325`）。
+  - 將花費圓餅圖與分類明細表一律依照「總花費佔比」由大至小排序。
+  - 調整手機版圓餅圖排版，強制保持左右並排 (`flex-row`) 提升空間利用率，並退回 CSS `conic-gradient` 的無縫圓環設計。
+
 ### 2026-06-29
 
 - [x] **2026-Tokyo UI Refactor**: 

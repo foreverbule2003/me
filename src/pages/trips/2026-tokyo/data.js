@@ -35,21 +35,41 @@ export const overviewData = [
   {
     day: 1,
     date: "6/17 (三)",
-    title: "成田 → 橫濱",
+    title: "抵達成田 → 橫濱",
     hotel: "橫濱三井花園",
   },
-  { day: 2, date: "6/18 (四)", title: "橫濱", hotel: "待訂" },
-  { day: 3, date: "6/19 (五)", title: "澀谷／原宿", hotel: "待訂" },
+  { day: 2, date: "6/18 (四)", title: "橫濱一日遊", hotel: "橫濱三井花園" },
+  {
+    day: 3,
+    date: "6/19 (五)",
+    title: "橫濱 → 澀谷 → 上野 → 大宮",
+    hotel: "Marroad Inn Omiya",
+  },
   {
     day: 4,
     date: "6/20 (六)",
-    title: "澀谷 → 輕井澤/高崎/草津",
-    hotel: "待訂",
+    title: "大宮 → 輕井澤",
+    hotel: "輕井澤淺間王子大飯店",
   },
-  { day: 5, date: "6/21 (日)", title: "輕井澤", hotel: "待訂" },
-  { day: 6, date: "6/22 (一)", title: "輕井澤", hotel: "待訂" },
-  { day: 7, date: "6/23 (二)", title: "輕井澤 → 東京", hotel: "待訂" },
-  { day: 8, date: "6/24 (三)", title: "東京", hotel: "回家" },
+  {
+    day: 5,
+    date: "6/21 (日)",
+    title: "舊輕井澤",
+    hotel: "旧軽井沢 ホテル音羽ノ森",
+  },
+  {
+    day: 6,
+    date: "6/22 (一)",
+    title: "中輕井澤 / 星野區",
+    hotel: "星野集團 BEB5 輕井澤",
+  },
+  {
+    day: 7,
+    date: "6/23 (二)",
+    title: "輕井澤 → 秋葉原",
+    hotel: "dormy inn PREMIUM 神田",
+  },
+  { day: 8, date: "6/24 (三)", title: "秋葉原 → 成田機場", hotel: "溫暖的家" },
 ];
 
 export const itineraryData = [
@@ -64,57 +84,48 @@ export const itineraryData = [
         title: "抵達成田 → 橫濱港未來",
         image:
           "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
-        highlight:
-          "✈️ 16:30 抵達成田，N'EX 直達橫濱港都，體驗港未來纜車與浪漫晚餐",
+        highlight: "✈️ 抵達成田，N'EX 直達橫濱港都，晚餐品嚐 AFURI 柚子鹽拉麵",
         activities: [
           {
             time: "08:30",
             text: "出發前往機場",
-            transport: {
-              line: "🚕 機場接送",
-              note: "預約 08:30，預計 1 小時車程",
-            },
+            transport: { line: "🚕 機場接送", note: "預約 08:30" },
           },
           {
             time: "09:30",
             text: "抵達桃園機場 T1",
             subText: "泰國獅航 SL394 報到 (12:10 起飛)",
-            note: "無託運行李，可直接用電子登機證或自助機台報到",
+            note: "無託運行李",
           },
           {
-            time: "17:30",
+            time: "16:30",
+            text: "抵達成田機場",
+            subText: "加值 ICOCA、超商買飯糰點心",
+          },
+          {
+            time: "18:00",
             text: "搭 N'EX → 橫濱站",
             transport: {
               line: "N'EX 成田特快",
               station: "成田機場 T1",
-              fare: "來回優惠票 NT$ 1,109",
               note: "直達約 90 分鐘",
             },
-            map: {
-              type: "route",
-              origin: "Narita Airport",
-              destination: "Yokohama Station",
-            },
           },
           {
-            time: "18:00",
-            text: "YOKOHAMA AIR CABIN",
-            subText: "體驗全日本首座都市型循環式索道纜車，橫濱港灣美景盡收眼底",
-            fee: "單程 ¥1,000 / 來回 ¥1,800",
-            map: { type: "search", query: "YOKOHAMA AIR CABIN" },
+            time: "20:49",
+            text: "入住 MGH Yokohama Minatomirai",
+            subText: "橫濱三井花園酒店",
           },
           {
-            time: "20:00",
-            text: "港未來・COSMOWORLD",
-            subText: "地標摩天輪浪漫夜景",
-            map: { type: "search", query: "Cosmoworld Yokohama" },
-          },
-          {
-            time: "20:30",
-            text: "Center Grill",
+            time: "21:15",
+            text: "AFURI 橫濱地標塔店",
             isFood: true,
-            subText: "老字號昭和風洋食，招牌蛋包飯 (可素食)",
-            map: { type: "search", query: "Center Grill Yokohama" },
+            subText: "清爽柚子鹽拉麵",
+          },
+          {
+            time: "21:30",
+            text: "超商大採買",
+            subText: "成城石井超市、Lawson、7-Eleven 買蕎麥麵、泡芙等宵夜",
           },
         ],
       },
@@ -124,477 +135,313 @@ export const itineraryData = [
         title: "橫濱海濱與文創散策",
         image:
           "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
-        highlight: "⚓ 悠閒漫步山下公園、紅磚倉庫與元町商店街，傍晚前往澀谷",
+        highlight: "⚓ 悠閒漫步紅磚倉庫、MARINE & WALK，晚上搭乘空中纜車",
         activities: [
-          {
-            time: "上午",
-            text: "山下公園散步",
-            subText: "海濱漫步，享受玫瑰花季",
-            map: { type: "search", query: "Yamashita Park Yokohama" },
-          },
-          {
-            time: "上午",
-            text: "合味道紀念館",
-            subText: "親手製作專屬杯麵",
-            fee: "門票 ¥500，製麵體驗 ¥500",
-            map: { type: "search", query: "CupNoodles Museum Yokohama" },
-          },
           {
             time: "中午",
             text: "Rice Cuisine SŪYA",
             isFood: true,
-            subText: "日本大通純素與無麩質米粉料理專賣，擔擔麵與披薩極推",
-            map: { type: "search", query: "Rice Cuisine SUYA Yokohama" },
+            subText: "日本大通純素與無麩質米粉料理專賣 (和膳、大豆肉泡菜丼)",
+          },
+          {
+            time: "14:00",
+            text: "VANILLABEANS THE ROASTERY",
+            isFood: true,
+            subText: "港景配巧克力下午茶 (熱紅茶套餐、Berry 巧克力刨冰聖代)",
           },
           {
             time: "下午",
             text: "橫濱紅磚倉庫 & MARINE & WALK",
-            subText: "歷史建築改建文創市集、美式海濱購物中心",
-            map: { type: "search", query: "Yokohama Red Brick Warehouse" },
+            subText:
+              "歷史建築改建文創市集、美式海濱購物中心 (BAGGYPORT 買零錢包)",
           },
           {
             time: "下午",
-            text: "橫濱元町商店街",
-            subText: "充滿歐式風情的精品與咖啡街散策",
-            map: {
-              type: "search",
-              query: "Yokohama Motomachi Shopping Street",
-            },
+            text: "OWNDAYS 橫濱 World Porters",
+            subText: "配木村拓哉同款眼鏡",
           },
           {
-            time: "傍晚",
-            text: "前往澀谷",
-            transport: {
-              line: "JR 湘南新宿線",
-              station: "橫濱站 ➔ 澀谷站",
-              fare: "¥480",
-              note: "直達車，車程約 30 分鐘",
-            },
-            map: {
-              type: "route",
-              origin: "Yokohama Station",
-              destination: "Shibuya Station",
-            },
+            time: "19:47",
+            text: "橫濱元町 Doria",
+            isFood: true,
+            subText: "雞肉馬鈴薯番茄奶油起司筆管麵、蘑菇蛋包飯",
+          },
+          {
+            time: "20:00",
+            text: "買吉伊卡哇玩偶與點心",
+            subText: "Character Station 買背包",
+          },
+          {
+            time: "20:30",
+            text: "YOKOHAMA AIR CABIN",
+            subText: "體驗都市型空中纜車，橫濱港灣美景盡收眼底",
+            fee: "單程 ¥1,000",
           },
         ],
       },
     ],
   },
   {
-    phase: "澀谷／原宿 (Day 3)",
+    phase: "澀谷／上野／大宮 (Day 3)",
     image:
       "https://images.unsplash.com/photo-1542931287-023b922fa89b?q=80&w=2070&auto=format&fit=crop",
     days: [
       {
         day: 3,
         date: "6/19 (五)",
-        title: "澀谷原宿潮流與觀景",
+        title: "橫濱購物 → 澀谷 → 上野 → 大宮",
         image:
           "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🛒 原宿竹下通、排隊甜甜圈，傍晚 SHIBUYA SKY 百萬日落",
+        highlight: "🛒 MARK IS 採買，快閃澀谷 109 後，落腳大宮準備明日新幹線",
         activities: [
           {
-            time: "上午",
-            text: "代代木公園",
-            subText: "廣闊的都市綠洲散策，享受寧靜的早晨",
-            map: { type: "search", query: "Yoyogi Park" },
-          },
-          {
-            time: "中午",
-            text: "AFURI 原宿",
+            time: "早上",
+            text: "MARK IS みなとみらい 早午餐",
             isFood: true,
-            subText: "清爽柚子鹽拉麵，備有精緻素食款",
-            map: { type: "search", query: "AFURI Harajuku" },
+            subText: "Foodway 超市小菜 + おぼんdeごはん 定食",
           },
+          { time: "中午", text: "MARK IS 購物", subText: "mont-bell 買配件" },
           {
             time: "下午",
-            text: "AMAM DACOTAN／I'm donut?",
+            text: "快閃澀谷 109",
+            subText: "LUNA EARTH 買髮飾、NICE CLAUP 買牛仔褲",
+          },
+          {
+            time: "19:28",
+            text: "やよい軒 上野店",
             isFood: true,
-            subText: "超人氣排隊麵包與生甜甜圈",
-            map: { type: "search", query: "Im donut Omotesando" },
-          },
-          {
-            time: "下午",
-            text: "原宿竹下通",
-            subText: "體驗原宿年輕流行文化與特色商店",
-            map: { type: "search", query: "Takeshita Street" },
-          },
-          {
-            time: "傍晚",
-            text: "YAYOI 彌生軒",
-            isFood: true,
-            subText: "青山學院大學前店，從表參道往澀谷方向順路吃晚餐",
-            map: { type: "search", query: "Yayoiken Aoyama Gakuin" },
+            subText: "大豆肉蔬菜炒定食、豬肉涮涮鍋定食",
           },
           {
             time: "晚上",
-            text: "澀谷商場採買",
-            subText: "吃飽後散步逛 Shibuya 109、澀谷 PARCO 任天堂旗艦店",
-            map: { type: "search", query: "Shibuya 109" },
+            text: "移動至大宮站",
+            transport: { line: "JR 在來線", station: "上野站 ➔ 大宮站" },
           },
           {
-            time: "晚上",
-            text: "SHIBUYA SKY (展望台)",
-            subText: "飽覽東京絕美百萬夜景 (建議先網上預約)",
-            fee: "門票約 ¥2,500",
-            map: { type: "search", query: "SHIBUYA SKY" },
+            time: "22:00",
+            text: "買隔天新幹線車票",
+            subText: "北陸新幹線 大宮-輕井澤",
           },
           {
-            time: "晚上",
-            text: "東急FoodShow 澀谷店",
-            subText: "看完夜景下樓，採買隔日搭車要吃的早餐",
-            map: { type: "search", query: "Tokyu FoodShow Shibuya" },
+            time: "22:45",
+            text: "入住 Marroad Inn Omiya",
+            subText: "大宮馬羅德客棧 (因不小心訂錯單人房現場補差額 QQ)",
+          },
+          {
+            time: "深夜",
+            text: "大宮超商大採買",
+            subText: "Lawson、7-Eleven、FamilyMart 買餅乾、冰棒等宵夜",
           },
         ],
       },
     ],
   },
   {
-    phase: "輕井澤 (Day 4-7)",
+    phase: "輕井澤 (Day 4-6)",
     image:
       "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
     days: [
       {
         day: 4,
         date: "6/20 (六)",
-        title: "啟程：輕井澤／溫泉鄉",
+        title: "啟程輕井澤與 Outlet 狂歡",
         image:
           "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🚄 前往輕井澤避暑，或選擇高崎／草津溫泉作為中繼站",
-        options: [
+        highlight: "🚄 前往輕井澤避暑，入住淺間王子大飯店",
+        activities: [
           {
-            id: 1,
-            label: "輕井澤",
-            title: "直奔輕井澤",
-            image:
-              "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
-            highlight: "🚄 抵達輕井澤，感受舊輕井澤銀座通的百年風華",
-            activities: [
-              {
-                time: "上午",
-                text: "澀谷 → 輕井澤",
-                transport: {
-                  line: "JR 湘南新宿線 (至大宮) 轉 新幹線",
-                  station: "大宮站 ➔ 輕井澤站",
-                  fare: "總計約 ¥6,300",
-                  note: "車程約 85 分鐘",
-                },
-                map: {
-                  type: "route",
-                  origin: "Shibuya Station",
-                  destination: "Karuizawa Station",
-                },
-              },
-              {
-                time: "下午",
-                text: "舊輕井澤銀座通",
-                subText: "散步百年老街，購買手工果醬與木雕",
-                map: { type: "search", query: "Kyu-Karuizawa Ginza" },
-              },
-              {
-                time: "下午",
-                text: "雲場池漫遊",
-                subText: "翠綠天鵝湖，絕美森林倒影",
-                map: { type: "search", query: "Kumoba Pond Karuizawa" },
-              },
-              {
-                time: "美食",
-                text: "BOULANGERIE ASANOYA／Paomu",
-                isFood: true,
-                subText: "百年石窯麵包與知名布丁輕食",
-              },
-            ],
+            time: "早上",
+            text: "大宮站吃早餐",
+            isFood: true,
+            subText:
+              "TULLY'S 焙茶拿鐵、BAKE 起司塔、ANDERSEN 麵包、たごさく飯糰",
           },
           {
-            id: 2,
-            label: "高崎",
-            title: "高崎達磨巡禮",
-            image:
-              "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
-            highlight: "🚄 搭乘直達車入住高崎，參訪達磨寺",
-            activities: [
-              {
-                time: "上午",
-                text: "澀谷 → 高崎",
-                transport: {
-                  line: "JR 湘南新宿線 (特別快速)",
-                  station: "澀谷站 ➔ 高崎站",
-                  note: "免換車直達，車程約 95 分鐘",
-                },
-                map: {
-                  type: "route",
-                  origin: "Shibuya Station",
-                  destination: "Takasaki Station",
-                },
-              },
-              {
-                time: "下午",
-                text: "高崎散策／達磨寺",
-                subText: "達磨不倒翁發源地祈福",
-                map: { type: "search", query: "Shorinzan Darumaji Temple" },
-              },
-            ],
+            time: "上午",
+            text: "大宮 → 輕井澤",
+            transport: { line: "北陸新幹線", station: "大宮站 ➔ 輕井澤站" },
           },
           {
-            id: 3,
-            label: "草津溫泉",
-            title: "草津溫泉巡禮",
-            image:
-              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
-            highlight: "♨️ 經輕井澤轉乘巴士，入住草津溫泉享受一泊二食",
-            activities: [
-              {
-                time: "上午",
-                text: "澀谷 → 輕井澤",
-                transport: {
-                  line: "JR + 新幹線",
-                  station: "大宮站 ➔ 輕井澤站",
-                  note: "車程約 85 分鐘",
-                },
-                map: {
-                  type: "route",
-                  origin: "Shibuya Station",
-                  destination: "Karuizawa Station",
-                },
-              },
-              {
-                time: "中午",
-                text: "輕井澤 → 草津巴士",
-                transport: {
-                  line: "草津交通巴士／西武觀光巴士",
-                  station: "輕井澤站北口",
-                  note: "車程約 80 分鐘",
-                },
-                map: {
-                  type: "route",
-                  origin: "Karuizawa Station",
-                  destination: "Kusatsu Onsen Bus Terminal",
-                },
-              },
-              {
-                time: "下午",
-                text: "湯畑漫步",
-                subText: "體驗草津獨特溫泉鄉氛圍與揉湯",
-                map: { type: "search", query: "Yubatake Kusatsu" },
-              },
-            ],
+            time: "下午",
+            text: "輕井澤王子購物廣場 (Outlet)",
+            subText: "BANANA REPUBLIC 買衣服，Delifrance 買麵包",
+          },
+          {
+            time: "15:00",
+            text: "KUA`AINA 輕井澤店",
+            isFood: true,
+            subText: "起司肉餅漢堡套餐",
+          },
+          {
+            time: "傍晚",
+            text: "入住 輕井澤淺間王子大飯店",
+            subText: "享受渡假村設施與泡湯",
+          },
+          {
+            time: "18:48",
+            text: "飯店晚餐",
+            isFood: true,
+            subText: "信州蜂蜜梅酒、信州特色辣味噌拉麵",
           },
         ],
       },
       {
         day: 5,
         date: "6/21 (日)",
-        anniversary: true,
-        title: "三週年紀念・星野度假區",
+        title: "舊輕井澤古典風情與溫泉",
         image:
           "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🎊 慶祝三週年！漫遊石之教會、高原教會與榆樹街小鎮",
-        options: [
+        highlight:
+          "🎊 拖著行李換飯店！舊輕井澤散策，晚上享受 Le Chien 日歸溫泉",
+        activities: [
+          { time: "早上", text: "換飯店移動", subText: "拖著行李前往舊輕井澤" },
           {
-            id: 1,
-            label: "輕井澤",
-            title: "輕井澤教堂漫遊",
-            image:
-              "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop",
-            highlight: "🎊 三週年！租借單車漫遊中輕井澤教堂區",
-            activities: [
-              {
-                time: "上午",
-                text: "石之教會 & 高原教會",
-                subText: "隱密森林的石造與木造教堂，獨特光影之美",
-                map: { type: "search", query: "Stone Church Karuizawa" },
-              },
-              {
-                time: "中午",
-                text: "中輕井澤野菜料理",
-                isFood: true,
-                subText: "預約制健康野菜 Buffet",
-                map: { type: "search", query: "中軽井沢 野菜料理" },
-              },
-              {
-                time: "下午",
-                text: "榆樹街小鎮",
-                subText: "星野區木棧道商店街，品嚐咖啡與甜點",
-                map: { type: "search", query: "Harunire Terrace Karuizawa" },
-              },
-              {
-                time: "晚餐",
-                text: "Trattoria Primo",
-                isFood: true,
-                subText: "超人氣窯烤披薩與義大利麵",
-                map: { type: "search", query: "Trattoria Primo Karuizawa" },
-              },
-            ],
+            time: "上午",
+            text: "舊輕井澤銀座通",
+            subText: "漫步百年老街，喝星巴克、買 French Bakery 鹽可頌",
           },
           {
-            id: 2,
-            label: "高崎",
-            title: "返回輕井澤教堂區",
-            image:
-              "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
-            highlight: "🎊 三週年！一早返回輕井澤，前往星野區度過浪漫紀念日",
-            activities: [
-              {
-                time: "上午",
-                text: "高崎 → 輕井澤",
-                transport: {
-                  line: "新幹線",
-                  station: "高崎站 ➔ 輕井澤站",
-                  note: "車程約 25 分鐘",
-                },
-                map: {
-                  type: "route",
-                  origin: "Takasaki Station",
-                  destination: "Karuizawa Station",
-                },
-              },
-              {
-                time: "中午",
-                text: "石之教會 & 高原教會",
-                subText: "隱密森林的石造與木造教堂",
-                map: { type: "search", query: "Stone Church Karuizawa" },
-              },
-              {
-                time: "下午",
-                text: "榆樹街小鎮",
-                subText: "星野區木棧道商店街，品嚐咖啡與甜點",
-                map: { type: "search", query: "Harunire Terrace Karuizawa" },
-              },
-              {
-                time: "晚餐",
-                text: "Trattoria Primo",
-                isFood: true,
-                subText: "超人氣窯烤披薩與義大利麵",
-                map: { type: "search", query: "Trattoria Primo Karuizawa" },
-              },
-            ],
+            time: "14:35",
+            text: "SAWAMURA 舊輕井澤",
+            isFood: true,
+            subText: "濃湯、凱薩沙拉與信州野澤菜麵包",
           },
           {
-            id: 3,
-            label: "草津溫泉",
-            title: "返回輕井澤教堂區",
-            image:
-              "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?q=80&w=2070&auto=format&fit=crop",
-            highlight: "🎊 三週年！草津晨間散策後返回輕井澤，度過浪漫紀念日",
-            activities: [
-              {
-                time: "上午",
-                text: "草津 → 輕井澤",
-                transport: {
-                  line: "草津交通巴士",
-                  station: "草津巴士總站 ➔ 輕井澤站",
-                  note: "車程約 80 分鐘",
-                },
-                map: {
-                  type: "route",
-                  origin: "Kusatsu Onsen Bus Terminal",
-                  destination: "Karuizawa Station",
-                },
-              },
-              {
-                time: "中午",
-                text: "石之教會 & 高原教會",
-                subText: "隱密森林的石造與木造教堂",
-                map: { type: "search", query: "Stone Church Karuizawa" },
-              },
-              {
-                time: "下午",
-                text: "榆樹街小鎮",
-                subText: "星野區木棧道商店街，品嚐咖啡與甜點",
-                map: { type: "search", query: "Harunire Terrace Karuizawa" },
-              },
-              {
-                time: "晚餐",
-                text: "Trattoria Primo",
-                isFood: true,
-                subText: "超人氣窯烤披薩與義大利麵",
-                map: { type: "search", query: "Trattoria Primo Karuizawa" },
-              },
-            ],
+            time: "下午",
+            text: "APPLE PIE lab 與伴手禮採買",
+            subText: "吃蘋果派，買寺子屋本舖與餅乾",
+          },
+          {
+            time: "傍晚",
+            text: "入住 旧軽井沢 ホテル音羽ノ森",
+            subText: "充滿古典風情的和式房",
+          },
+          {
+            time: "19:48",
+            text: "酢重正之",
+            isFood: true,
+            subText: "鐵鍋馬鈴薯奶油、炸豆腐田樂、梅茶漬",
+          },
+          {
+            time: "20:05",
+            text: "Le Chien 舊輕井澤",
+            subText: "兩人日歸溫泉、私人風呂、大浴場，還有夜鳴拉麵！",
+            fee: "¥2,640",
           },
         ],
       },
       {
         day: 6,
         date: "6/22 (一)",
-        title: "森林浴與星野溫泉",
+        title: "雲場池與星野溫泉",
         image:
           "https://images.unsplash.com/photo-1473448912268-2022ce9509d8?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🌿 騎乘腳踏車穿梭野鳥之森，享受蜻蛉之湯天然溫泉",
+        highlight: "🌿 漫步雲場池，再戰 Outlet，入住 BEB5 享受星野區",
         activities: [
           {
-            time: "上午",
-            text: "輕井澤野鳥之森",
-            subText: "國立自然保護區，享受大自然芬多精",
-            map: { type: "search", query: "Karuizawa Wild Bird Sanctuary" },
+            time: "早上",
+            text: "換飯店移動",
+            subText: "拖著行李準備前往中輕井澤",
           },
           {
             time: "中午",
-            text: "Kamepan／和泉屋 傳兵衛",
+            text: "Cafe St.Maire KUMOBA",
             isFood: true,
-            subText: "造型烏龜麵包與老鋪和菓子味噌糰子",
+            subText: "雲場池旁野菜咖哩、起司蛋糕與抹茶冰淇淋",
           },
           {
             time: "下午",
-            text: "星野溫泉 蜻蛉之湯",
-            subText: "星野區的天然溫泉，享受露天風呂與森林浴",
-            fee: "入場費 ¥1,350",
-            map: { type: "search", query: "Tombo-no-yu" },
-          },
-          {
-            time: "晚餐",
-            text: "TsuruTonTan UDON NOODLE",
-            isFood: true,
-            subText: "高級質感烏龍麵 (可客製素食醬汁)",
-            map: { type: "search", query: "TsuruTonTan Karuizawa" },
-          },
-        ],
-      },
-      {
-        day: 7,
-        date: "6/23 (二)",
-        title: "輕井澤 Outlet → 返回東京",
-        image:
-          "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
-        highlight: "🛒 王子 Outlet 最終採買，下午新幹線返東京",
-        activities: [
-          {
-            time: "上午",
-            text: "輕井澤王子購物廣場",
-            subText: "佔地廣大 Outlet，把握最後購物時間",
-            map: { type: "search", query: "Karuizawa Prince Shopping Plaza" },
+            text: "雲場池漫遊",
+            subText: "翠綠天鵝湖，絕美森林倒影",
           },
           {
             time: "下午",
-            text: "新幹線返東京",
-            transport: {
-              line: "北陸新幹線",
-              station: "輕井澤站 ➔ 東京站",
-              fare: "約 ¥6,020",
-              note: "車程約 70 分鐘",
-            },
-            map: {
-              type: "route",
-              origin: "Karuizawa Station",
-              destination: "Tokyo Station",
-            },
+            text: "輕井澤王子購物廣場 (Outlet)",
+            subText: "二度攻略 Outlet，COACH 買包包",
+          },
+          {
+            time: "傍晚",
+            text: "入住 星野集團 BEB5 輕井澤",
+            subText: "年輕活潑的星野青年旅館風格",
           },
           {
             time: "晚上",
-            text: "T's Tantan",
+            text: "7-Eleven 中輕井澤店大採買",
+            subText: "超狂宵夜採購 (高麗菜絲、冷豆腐、優格等)",
+          },
+          {
+            time: "20:19",
+            text: "川上庵",
             isFood: true,
-            subText: "東京車站內超人氣純素擔擔麵",
-            map: { type: "search", query: "T's Tantan Tokyo Station" },
+            subText: "天婦羅冷蕎麥麵",
+          },
+          {
+            time: "20:31",
+            text: "星野溫泉 蜻蛉之湯",
+            subText: "享受星野區的天然溫泉露天風呂 (BEB5 住宿優惠 ¥1,200)",
           },
         ],
       },
     ],
   },
   {
-    phase: "返程 (Day 8)",
+    phase: "返回東京 (Day 7-8)",
     image:
-      "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=2070&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1494515843206-f3117d3f51b7?q=80&w=2070&auto=format&fit=crop",
     days: [
+      {
+        day: 7,
+        date: "6/23 (二)",
+        title: "榆樹街早晨，返回東京大採買",
+        image:
+          "https://images.unsplash.com/photo-1542051841857-5f90071e7989?q=80&w=2070&auto=format&fit=crop",
+        highlight: "⛪ 參觀高原教會與石之教會，下午回東京秋葉原爆買",
+        activities: [
+          { time: "早上", text: "BEB5 退房", subText: "前往參觀教會" },
+          {
+            time: "上午",
+            text: "石之教會 & 高原教會",
+            subText: "隱密森林的石造與木造教堂，獨特光影之美",
+          },
+          {
+            time: "09:30",
+            text: "SAWAMURA 輕井澤榆樹街小鎮",
+            isFood: true,
+            subText: "法式吐司套餐、紅酒燉無花果奶油起司核桃麵包",
+          },
+          {
+            time: "13:45",
+            text: "新幹線返東京",
+            transport: { line: "北陸新幹線", station: "輕井澤站 ➔ 東京站" },
+          },
+          {
+            time: "15:35",
+            text: "入住 dormy inn PREMIUM 神田",
+            subText: "神田/秋葉原商圈住宿",
+          },
+          {
+            time: "16:56",
+            text: "無印良品 秋葉原Tolim店",
+            subText: "買衣物與居家用品",
+          },
+          {
+            time: "17:38",
+            text: "やよい軒 神田北口店",
+            isFood: true,
+            subText: "大豆肉蔬菜炒定食、味噌豬排煮定食",
+          },
+          {
+            time: "19:39",
+            text: "松本清 秋葉原店",
+            subText: "藥妝大採買 (&honey髮油、定妝噴霧、眼藥水等)",
+          },
+          {
+            time: "21:02",
+            text: "Bic Camera 秋葉原店",
+            subText: "買滑鼠、特大和牛拼圖與軟糖",
+          },
+        ],
+      },
       {
         day: 8,
         date: "6/24 (三)",
@@ -604,33 +451,38 @@ export const itineraryData = [
         highlight: "✈️ 16:50 NRT 起飛，再會日本",
         activities: [
           {
-            time: "上午",
-            text: "東京車站周邊早午餐",
+            time: "早上",
+            text: "麥當勞 Bic Camera AKIBA店",
             isFood: true,
-            subText: "YAYOI 彌生軒 銀座 INZ 店",
-            map: { type: "search", query: "Yayoi Ginza INZ" },
+            subText: "培根蛋起司鬆餅堡餐",
+          },
+          {
+            time: "10:48",
+            text: "やよい軒 神田北口店",
+            isFood: true,
+            subText: "大豆肉蔬菜炒定食、宮崎冷湯與雞肉南蠻定食",
           },
           {
             time: "13:30",
-            text: "搭 N'EX 往成田機場",
-            transport: {
-              line: "N'EX 成田特快",
-              station: "東京站 (總武地下線) ➔ 成田機場",
-              note: "總武地下月台極深，務必提早出發！車程約 60 分鐘。",
-            },
-            map: {
-              type: "route",
-              origin: "Tokyo Station",
-              destination: "Narita Airport Terminal 1",
-            },
+            text: "搭車前往成田機場",
+            transport: { line: "機場快線", station: "東京市區 ➔ 成田機場" },
+          },
+          {
+            time: "14:10",
+            text: "成田機場免稅店掃貨",
+            subText: "東京食賓館、Fa-So-La 買起司蛋糕、餅乾、梅酒等伴手禮",
           },
           {
             time: "14:30",
             text: "抵達成田機場 T1",
-            subText: "泰國獅航 SL395 報到 (16:50 起飛)",
-            note: "回程有一件託運行李，需至櫃檯報到",
+            subText: "樂桃航空 MM625 報到 (16:50 起飛)",
           },
           { time: "16:50", text: "🛫 NRT T1 起飛 → TPE T1" },
+          {
+            time: "晚上",
+            text: "桃園機場捷運",
+            transport: { line: "機捷", station: "抵達溫暖的家" },
+          },
         ],
       },
     ],
@@ -2005,6 +1857,7 @@ export const accommodationData = [
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Mitsui+Garden+Hotel+Yokohama+Minatomirai+Premier",
         priceJpy: 14070,
+        priceTwd: 2814,
       },
     ],
   },
@@ -2020,6 +1873,7 @@ export const accommodationData = [
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Mitsui+Garden+Hotel+Yokohama+Minatomirai+Premier",
         priceJpy: 19000,
+        priceTwd: 3800,
       },
     ],
   },
@@ -2035,6 +1889,7 @@ export const accommodationData = [
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Marroad+Inn+Omiya",
         priceJpy: 7400,
+        priceTwd: 3456,
       },
     ],
   },
@@ -2050,6 +1905,7 @@ export const accommodationData = [
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Karuizawa+Asama+Prince+Hotel",
         priceJpy: 34008,
+        priceTwd: 6802,
       },
     ],
   },
@@ -2065,6 +1921,7 @@ export const accommodationData = [
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Kyu-Karuizawa+Hotel+Otowanomori",
         priceJpy: 15874,
+        priceTwd: 3175,
       },
     ],
   },
@@ -2080,6 +1937,7 @@ export const accommodationData = [
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=BEB5+Karuizawa",
         priceJpy: 27000,
+        priceTwd: 5400,
       },
     ],
   },
@@ -2095,6 +1953,7 @@ export const accommodationData = [
         mapUrl:
           "https://www.google.com/maps/search/?api=1&query=Dormy+Inn+Premium+Kanda",
         priceJpy: 19080,
+        priceTwd: 3816,
       },
     ],
   },
@@ -2364,7 +2223,7 @@ export const expenseData = {
       items: [
         {
           time: "事前",
-          shop: "網路訂房",
+          shop: "Marroad Inn Omiya",
           category: "住宿",
           amount: 1976,
           currency: "TWD",

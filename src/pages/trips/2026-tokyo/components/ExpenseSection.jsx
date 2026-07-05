@@ -41,7 +41,9 @@ const DonutChart = ({ breakdown, total }) => {
     cat,
     value: breakdown[cat] ?? 0,
     color: CATEGORY_CFG[cat].color,
-  })).filter((e) => e.value > 0);
+  }))
+    .filter((e) => e.value > 0)
+    .sort((a, b) => b.value - a.value);
 
   let current = 0;
   const gradient = entries
@@ -54,10 +56,10 @@ const DonutChart = ({ breakdown, total }) => {
     .join(", ");
 
   return (
-    <div className="flex flex-col sm:flex-row items-center gap-6">
+    <div className="flex flex-row items-center justify-center gap-5 sm:gap-8 py-2">
       {/* 圓環 */}
       <div
-        className="w-28 h-28 shrink-0 rounded-full shadow-sm"
+        className="w-32 h-32 shrink-0 rounded-full shadow-sm"
         style={{
           background: `conic-gradient(${gradient})`,
           WebkitMaskImage:
@@ -65,23 +67,18 @@ const DonutChart = ({ breakdown, total }) => {
           maskImage: "radial-gradient(circle, transparent 52%, black 53%)",
         }}
       />
-      {/* 圖例 */}
-      <div className="grid grid-cols-2 gap-x-5 gap-y-2.5 w-auto">
+      {/* 圖例（僅分類與圖示） */}
+      <div className="grid grid-cols-2 gap-x-6 gap-y-3 w-auto">
         {entries.map(({ cat, value, color }) => {
           const Icon = CATEGORY_CFG[cat].icon;
           return (
-            <div key={cat} className="flex items-center gap-2 min-w-[100px]">
+            <div key={cat} className="flex items-center gap-2">
               <div
-                className="w-2.5 h-2.5 rounded-full shrink-0"
+                className="w-2 h-2 rounded-full shrink-0"
                 style={{ backgroundColor: color }}
               />
               <Icon size={12} style={{ color }} className="shrink-0" />
-              <div className="flex flex-col">
-                <span className="text-xs font-bold text-gray-700">{cat}</span>
-                <span className="text-[10px] text-gray-400">
-                  {Math.round((value / total) * 100)}%
-                </span>
-              </div>
+              <span className="text-xs font-bold text-gray-600">{cat}</span>
             </div>
           );
         })}
@@ -153,7 +150,7 @@ const CategoryExpenseCard = ({
               className="text-base font-black tabular-nums"
               style={{ color: cfg.color }}
             >
-              NT${(Math.round(jpyTotal / 5) + twdTotal).toLocaleString()}
+              NT${(Math.round(jpyTotal * 0.2) + twdTotal).toLocaleString()}
             </span>
           )}
           <ChevronDown
@@ -253,10 +250,19 @@ const ExpenseSection = ({ data, forceOpen = null }) => {
   // 總圓餅圖（JPY 分類）
   const jpyBreakdown = jpyGrand.breakdown ?? {};
 
-  // ── 統一貨幣（台幣）¥5 = NT$1 ──
-  const JPY_TO_TWD = 1 / 5;
+  // ── 統一貨幣（台幣）匯率 0.2 ──
+  const JPY_TO_TWD = 0.2;
   const unifiedTWD =
     Math.round((jpyGrand.total ?? 0) * JPY_TO_TWD) + (twdGrand.total ?? 0);
+
+  const unifiedBreakdown = {};
+  CATEGORIES.forEach((cat) => {
+    const jpyAmt = jpyBreakdown[cat] ?? 0;
+    const twdAmt = twdGrand.breakdown?.[cat] ?? 0;
+    if (jpyAmt > 0 || twdAmt > 0) {
+      unifiedBreakdown[cat] = Math.round(jpyAmt * JPY_TO_TWD) + twdAmt;
+    }
+  });
 
   // ── 按分類聚合所有天的記帳 ──
   const byCategory = {};
@@ -282,8 +288,10 @@ const ExpenseSection = ({ data, forceOpen = null }) => {
     };
   });
 
-  // 依 CATEGORIES 順序排列
-  const sortedCats = CATEGORIES.filter((c) => byCategory[c]?.length > 0);
+  // 依總花費金額從大到小排列
+  const sortedCats = CATEGORIES.filter((c) => byCategory[c]?.length > 0).sort(
+    (a, b) => (unifiedBreakdown[b] ?? 0) - (unifiedBreakdown[a] ?? 0),
+  );
 
   return (
     <div className="space-y-6">
@@ -295,52 +303,32 @@ const ExpenseSection = ({ data, forceOpen = null }) => {
             <div className="flex items-center gap-2 mb-0.5">
               <TrendingUp size={16} className="text-[#5F7A61]" />
               <span className="text-xs font-bold text-gray-500 tracking-wide">
-                8 天實際花費總計（¥5 = NT$1）
+                8 天實際花費總計（匯率 0.2）
               </span>
             </div>
-            <span className="text-3xl font-black text-[#2D5A27] tabular-nums">
-              NT${unifiedTWD.toLocaleString()}
-            </span>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex flex-col items-end">
-              <span className="text-sm font-bold text-gray-600 tabular-nums">
-                ¥{(jpyGrand.total ?? 0).toLocaleString()}
+            <div className="flex flex-col mt-0.5">
+              <span className="text-3xl font-black text-[#2D5A27] tabular-nums leading-none">
+                NT${unifiedTWD.toLocaleString()}
               </span>
-              <span className="text-[10px] text-gray-400">
-                日圓 → NT$
-                {Math.round(
-                  (jpyGrand.total ?? 0) * JPY_TO_TWD,
-                ).toLocaleString()}
+              <span className="text-sm font-bold text-[#5F7A61]/70 tabular-nums mt-1.5">
+                ¥{Math.round(unifiedTWD / JPY_TO_TWD).toLocaleString()}
               </span>
-            </div>
-            <div className="w-px h-8 bg-gray-200" />
-            <div className="flex flex-col items-end">
-              <span className="text-sm font-bold text-[#4A6B7C] tabular-nums">
-                NT${(twdGrand.total ?? 0).toLocaleString()}
-              </span>
-              <span className="text-[10px] text-gray-400">台幣支出</span>
             </div>
           </div>
         </div>
 
         {/* 圓環圖 */}
-        {jpyGrand.total > 0 && (
+        {unifiedTWD > 0 && (
           <div className="px-5 py-5 bg-white/20">
-            <DonutChart breakdown={jpyBreakdown} total={jpyGrand.total} />
+            <DonutChart breakdown={unifiedBreakdown} total={unifiedTWD} />
           </div>
         )}
 
         {/* 分類格（統一台幣） */}
         <div className="px-5 py-4 border-t border-white/30 grid grid-cols-2 sm:grid-cols-3 gap-3">
-          {CATEGORIES.filter(
-            (c) =>
-              (jpyBreakdown[c] ?? 0) > 0 || (twdGrand.breakdown?.[c] ?? 0) > 0,
-          ).map((cat) => {
+          {sortedCats.map((cat) => {
             const Icon = CATEGORY_CFG[cat].icon;
-            const jpyAmt = jpyBreakdown[cat] ?? 0;
-            const twdAmt = twdGrand.breakdown?.[cat] ?? 0;
-            const unified = Math.round(jpyAmt / 5) + twdAmt;
+            const unified = unifiedBreakdown[cat] ?? 0;
             const pct = Math.round((unified / unifiedTWD) * 100);
             return (
               <div
