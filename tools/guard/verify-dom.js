@@ -2,11 +2,13 @@
  * Guard Script: verify-dom.js
  *
  * 靜態 DOM 完整性檢查工具。
- * 雖然無法完全模擬執行時期的 JS，但能確保基礎的 HTML 結構 (Critical IDs) 仍然存在。
  *
- * Target Critical Files:
- * - tools/archive/cb-calculator-standalone.html
- * - tools/cb-war-room.html
+ * 2026-07 更新：cb-war-room 與 cb-calculator 已重構為 Vite + React，
+ * HTML 僅剩 <div id="root"> mount shell，舊的「關鍵 ID 存在」檢查已無意義。
+ * 改為驗證 React 入口頁的接線完整性：
+ *   1. mount point (#root) 存在
+ *   2. <script type="module" src="..."> 指向的入口檔案真實存在於磁碟
+ * 執行期的 UI 完整性由 Playwright (tests/war-room.spec.js 等) 把關。
  */
 
 const fs = require("fs");
@@ -21,23 +23,14 @@ const PROJECT_ROOT = path.resolve(__dirname, "../../");
 
 const CHECKS = [
   {
-    file: "tools/archive/cb-calculator-standalone.html",
-    requiredIds: [
-      "chartContainer",
-      "premiumChart",
-      "stockSearch",
-      "resultsContainer",
-      "premiumRate",
-    ],
+    file: "tools/cb-war-room.html",
+    requiredIds: ["root"],
+    verifyScriptEntry: true,
   },
   {
-    file: "tools/cb-war-room.html",
-    requiredIds: [
-      "dashboardContainer",
-      "analysisDrawer",
-      "dPremiumChart",
-      "drawerOverlay",
-    ],
+    file: "tools/cb-calculator.html",
+    requiredIds: ["root"],
+    verifyScriptEntry: true,
   },
 ];
 
@@ -55,21 +48,41 @@ CHECKS.forEach((check) => {
   }
 
   const content = fs.readFileSync(filePath, "utf-8");
-  const missingIds = [];
+  const problems = [];
 
+  // 1. Mount point 檢查
   check.requiredIds.forEach((id) => {
-    // Simple regex check for id="VALUE" or id='VALUE'
     const regex = new RegExp(`id=["']${id}["']`, "i");
     if (!regex.test(content)) {
-      missingIds.push(id);
+      problems.push(`missing critical ID: #${id}`);
     }
   });
 
-  if (missingIds.length > 0) {
-    console.log(
-      `${ANSI_RED}❌ ${check.file} is missing critical IDs:${ANSI_RESET}`,
-    );
-    missingIds.forEach((id) => console.log(`   - #${id}`));
+  // 2. Module script 入口接線檢查
+  if (check.verifyScriptEntry) {
+    const matches = [
+      ...content.matchAll(
+        /<script[^>]*type=["']module["'][^>]*src=["']([^"']+)["']/g,
+      ),
+    ];
+    if (matches.length === 0) {
+      problems.push("no <script type=\"module\"> entry found");
+    }
+    matches.forEach((m) => {
+      const src = m[1];
+      // 絕對路徑 (/src/...) 相對於專案根目錄解析；相對路徑相對於 HTML 所在目錄
+      const entryPath = src.startsWith("/")
+        ? path.join(PROJECT_ROOT, src)
+        : path.resolve(path.dirname(filePath), src);
+      if (!fs.existsSync(entryPath)) {
+        problems.push(`script entry not found on disk: ${src}`);
+      }
+    });
+  }
+
+  if (problems.length > 0) {
+    console.log(`${ANSI_RED}❌ ${check.file} failed:${ANSI_RESET}`);
+    problems.forEach((p) => console.log(`   - ${p}`));
     hasErrors = true;
   } else {
     console.log(`${ANSI_GREEN}✅ ${check.file} passed DOM check.${ANSI_RESET}`);

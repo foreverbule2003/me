@@ -34,8 +34,9 @@
 
 | 檔案/路徑                                     | 風險等級 | 關鍵元素                                             |
 | :-------------------------------------------- | :------: | :--------------------------------------------------- |
-| `tools/archive/cb-calculator-standalone.html` | 🔴 HIGH  | DOM Visibility, Chart.js Initialization, Auto-Search |
-| `tools/cb-war-room.html`                      | 🔴 HIGH  | Analysis Drawer, Data Enrichment, Path Resolution    |
+| `src/pages/tools/cb-war-room/`                | 🔴 HIGH  | Analysis Drawer, Data Enrichment, Path Resolution    |
+| `src/pages/tools/cb-calculator/`              | 🔴 HIGH  | Firestore Fetch, LocalStorage Cache, Chart Rendering |
+| `tools/cb-war-room.html` / `cb-calculator.html` | 🟠 MED | React mount shell 與 module script 接線 (guard 驗證) |
 | `tools/fetch-*.js`                            |  🟠 MED  | API Endpoints, JSON Structure                        |
 | `public/data/**`                              |  🟠 MED  | File Paths, Timestamp Caching                        |
 

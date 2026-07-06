@@ -35,6 +35,15 @@ const CRITICAL_PATTERNS = [
   },
 ];
 
+// 允許清單：vite base 為 "/me/"，以下屬刻意使用的合法絕對路徑，
+// 不視為違規（否則 guard 永遠 exit 1，紅燈常態化會讓防線失效）：
+// 1. favicon 連結（部署於 GitHub Pages /me/ 下解析正確）
+// 2. 回首頁連結 /me/?booted=true（跳過開機動畫的標準導覽模式）
+const ALLOWED_LINE_PATTERNS = [
+  /['"`]\/me\/favicon/,
+  /['"`]\/me\/\?booted=true/,
+];
+
 function scanFile(filePath) {
   const content = fs.readFileSync(filePath, "utf-8");
   let errors = [];
@@ -43,11 +52,17 @@ function scanFile(filePath) {
   if (filePath.endsWith(".map") || filePath.endsWith(".json")) return [];
 
   CRITICAL_PATTERNS.forEach((p) => {
+    // /g regex 的 lastIndex 會跨呼叫殘留，測前必須歸零，否則漏報
+    p.regex.lastIndex = 0;
     if (p.regex.test(content)) {
       // Find line numbers
       const lines = content.split("\n");
       lines.forEach((line, idx) => {
-        if (p.regex.test(line)) {
+        p.regex.lastIndex = 0;
+        if (
+          p.regex.test(line) &&
+          !ALLOWED_LINE_PATTERNS.some((allowed) => allowed.test(line))
+        ) {
           errors.push(
             `Line ${idx + 1}: ${p.msg} -> ${line.trim().substring(0, 50)}...`,
           );

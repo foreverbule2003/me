@@ -12,6 +12,12 @@
 - **ExpenseSection 模板元件**: 將東京行程的雙幣（JPY/TWD）實際記帳總覽（圓餅圖 + 分類明細）通用化並納入模板，匯率與天數改為參數驅動。
 - **`/commit` 自訂指令 (`.claude/commands/commit.md`)**: 固化 commit workflow —— guard/test 驗證 → 文件同步檢查（CHANGELOG、docs、TRIP_STYLE_GUIDE）→ 分主題提交。
 
+### 修復 (Fixed) 🔧
+
+- **測試防線紅燈常態化**: 新增 `vitest.config.js` 限定單元測試掃描 `src/**`，不再誤掃 `tests/` 的 Playwright spec（原本 3 個 suite 必紅）；`npm test` 回歸綠燈基準。
+- **Guard 誤報修正**: `check-datapath.js` 新增合法模式白名單（`/me/favicon`、`/me/?booted=true` 屬 vite base 下的刻意用法）並修復 `/g` regex lastIndex 殘留；`verify-dom.js` 由過時的靜態 DOM ID 檢查改為 React 入口接線驗證（mount point + module script 存在性）。`npm run guard` exit code 重新有意義。
+- **Workflow 體檢**: 新增 `docs/WORKFLOW_AUDIT_2026-07-06.md` 全面盤點七大 workflow；`/commit` 指令合併 `.agent/workflows/commit.md` 原版設計（提交前清理、TODO 歸檔、旅遊 spec 自動同步、提交前確認）。
+
 ### 優化 (Improvements) 🚀
 
 - **旅程模板同步 tokyo 架構**: `template/App.jsx` 升級為 8 頁籤（總覽/行程/交通/景點/美食/購物/住宿/花費），含視差 Hero、匯出 PDF 小書按鈕、住宿估算明細與 Firebase 收藏/購物同步；所有標題、Hero 圖、匯率、晚數改由 `data.js` 的 `tripMeta` 驅動，建立新旅程後通常僅需填資料。
