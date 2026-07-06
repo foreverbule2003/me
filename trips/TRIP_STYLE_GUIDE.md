@@ -4,10 +4,17 @@
 
 ## 1. 架構與技術 (Architecture)
 
-- **框架 Framework**: Single File React App (單一 HTML 檔 + 內嵌 Babel/React)。
-- **樣式 Styling**: Tailwind CSS (透過 CDN 引入)。
-- **圖示 Icons**: Lucide React (透過 iconify 或內嵌 SVG wrapper)。
-- **動畫 Animation**: CSS Keyframes (`fadeUp`, `float`) + Tailwind utility classes。
+以 `2026-tokyo` 為基準架構，新旅程請執行 `npm run new-trip` 由 `src/pages/trips/template/` 產生：
+
+- **框架 Framework**: Vite + React。入口為 `trips/{year}-{location}/index.html`，應用程式碼在 `src/pages/trips/{year}-{location}/`（`main.jsx` + `App.jsx` + `data.js` + `components/`）。
+- **資料驅動 Data-driven**: 所有內容（標題、Hero、匯率、行程、住宿、記帳）皆由 `data.js` 驅動；`App.jsx` 通常不需修改。
+- **頁籤 Tabs**: 總覽 / 行程 / 交通 / 景點 / 美食 / 購物 / 住宿 / 花費，共 8 個。
+- **共用元件 Shared**: `src/pages/trips/shared/`（Timeline、FlightInfoSection、ChecklistSection、LinksGallery、WeatherForecastSection、ShoppingSection）與 `src/components/trips`（SectionCard、MapModal、ScrollToTop、ToggleFAB）。
+- **樣式 Styling**: Tailwind CSS（Vite 整合）+ 每個旅程一份 `{location}.css` 主題變數。
+- **圖示 Icons**: `lucide-react`。
+- **動畫 Animation**: CSS Keyframes (`fadeIn`, `slideUp`, `float`) + Tailwind utility classes。
+- **雲端同步 Sync**: Firebase Firestore（美食收藏、購物已購狀態，以 `TRIP_ID` 分區）。
+- **離線與文件 Offline & Docs**: `trips/{trip}/manifest.json` + `sw.js` 提供 PWA 離線旅遊小書；`node scripts/sync-travel-spec.mjs {trip}` 由 data.js 同步 `spec.md`；`node scripts/generate-travel-pdf.mjs {trip}` 產生離線 HTML/PDF。
 
 ## 2. 設計系統 (Design System)
 

@@ -8,20 +8,18 @@ const ItineraryTab = ({
   toggleDay,
   onOpenMap,
   onOpenFoodGuide,
+  onJumpToTransport,
   isAnyExpanded,
+  collapseCounter,
 }) => {
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {itineraryData.map((phase, pIdx) => (
         <div key={pIdx}>
           <StickyPhaseHeader
             title={phase.phase}
             forceOpen={isAnyExpanded}
-            image={
-              pIdx === 0
-                ? phase.days[3]?.image || phase.days[0].image
-                : phase.days[1]?.image || phase.days[0].image
-            }
+            collapseCounter={collapseCounter}
           >
             {phase.days.map((day, dIdx) => {
               const dayKey = `${pIdx}-${dIdx}`;
@@ -31,6 +29,7 @@ const ItineraryTab = ({
                   dayData={day}
                   onOpenRoute={onOpenMap}
                   onOpenFoodGuide={onOpenFoodGuide}
+                  onJumpToTransport={onJumpToTransport}
                   isExpanded={!!expandedDays[dayKey]}
                   onToggle={() => toggleDay(dayKey)}
                 />

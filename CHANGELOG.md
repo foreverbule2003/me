@@ -4,6 +4,22 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.6.0] - 2026-07-06 (Trip Scaffold v4.0 & /commit Workflow)
+
+### 新增 (Added) 🚀
+
+- **旅遊 Scaffold v4.0 (`tools/new-trip.js`)**: 依 2026-tokyo 最終架構全面改寫。新旅程改為複製 `src/pages/trips/template/` 產生，目錄命名統一為 `{year}-{location}`，並自動產生 PWA 離線小書檔案（`manifest.json` + `sw.js`）、可同步的 `spec.md`，且自動註冊 `vite.config.js` 入口點。
+- **ExpenseSection 模板元件**: 將東京行程的雙幣（JPY/TWD）實際記帳總覽（圓餅圖 + 分類明細）通用化並納入模板，匯率與天數改為參數驅動。
+- **`/commit` 自訂指令 (`.claude/commands/commit.md`)**: 固化 commit workflow —— guard/test 驗證 → 文件同步檢查（CHANGELOG、docs、TRIP_STYLE_GUIDE）→ 分主題提交。
+
+### 優化 (Improvements) 🚀
+
+- **旅程模板同步 tokyo 架構**: `template/App.jsx` 升級為 8 頁籤（總覽/行程/交通/景點/美食/購物/住宿/花費），含視差 Hero、匯出 PDF 小書按鈕、住宿估算明細與 Firebase 收藏/購物同步；所有標題、Hero 圖、匯率、晚數改由 `data.js` 的 `tripMeta` 驅動，建立新旅程後通常僅需填資料。
+- **資料模板 schema 對齊**: `data.template.js` 補齊 `tripMeta`、`stationMapping`、`attractionData`、`accommodationData`、`expenseData` 等匯出，與 `scripts/sync-travel-spec.mjs`、`scripts/generate-travel-pdf.mjs` 完全相容。
+- **TRIP_STYLE_GUIDE.md**: 架構章節由過時的「單一 HTML + CDN」描述更新為 Vite + React 資料驅動工作流程。
+
+---
+
 ## [2.5.0] - 2026-05-12 (TWII Bias Tool & Mobile Optimization)
 
 ### 新增 (Added) 🚀

@@ -1,51 +1,63 @@
 /**
- * 2026 東京・橫濱・輕井澤 8日行程
- * 6/17~6/24 | 五辛蛋奶素 | Tim & Bei
+ * 旅遊行程頁面模板 (Trip App Template)
+ * ============================================================
+ * 架構與 2026-tokyo 一致：8 頁籤（總覽/行程/交通/景點/美食/購物/住宿/花費）
+ * 所有標題、Hero 圖、匯率、晚數等皆由 data.js 的 tripMeta 驅動，
+ * 一般情況下不需要修改此檔案，只需填寫 data.js。
+ *
+ * 主題色為莫蘭迪鼠尾草綠 (#5F7A61)；若要換主題，
+ * 全域搜尋替換 #5F7A61 / #7A8B7B / #F4F6F0 / #2e3e30 即可。
+ * ============================================================
  */
 import React, { useState, useEffect } from "react";
 import {
   MapPin,
   Calendar,
-  Wallet,
   Train,
+  Bus,
   Utensils,
   Hotel,
   ArrowRight,
   Star,
-  Info,
   ChevronDown,
-  ExternalLink,
   X,
   ShoppingBag,
-  Check,
-  AlertTriangle,
-  Heart,
+  Bike,
+  Clock,
+  Compass,
+  Ticket,
+  Printer,
+  ReceiptText,
 } from "lucide-react";
 
 // 共用元件
 import Timeline from "../shared/Timeline";
 import FlightInfoSection from "../shared/FlightInfoSection";
-import BudgetSection from "../shared/BudgetSection";
 import ChecklistSection from "../shared/ChecklistSection";
 import LinksGallery from "../shared/LinksGallery";
 import WeatherForecastSection from "../shared/WeatherForecastSection";
 import ShoppingSection from "../shared/ShoppingSection";
 import ItineraryTab from "./components/ItineraryTab";
-import PageHeader from "../shared/PageHeader";
+import ExpenseSection from "./components/ExpenseSection";
 
 import {
   TRIP_ID,
-  weatherData,
-  itineraryData,
-  budgetData,
-  checklistData,
-  linksData,
+  tripMeta,
+  stationMapping,
   flightData,
+  overviewData,
+  itineraryData,
+  recommendedRoutes,
+  usefulLinks,
   foodData,
   shoppingData,
+  attractionData,
+  todoData,
   vegetarianCard,
-  recommendedRoutes,
-} from "./data.template";
+  accommodationData,
+  weatherData,
+  expenseData,
+} from "./data.js";
 
 import {
   SectionCard,
@@ -63,161 +75,150 @@ import {
   onSnapshot,
 } from "../../../lib/firebase.js";
 
+// 匯率（日幣 → 台幣）
+const RATE = tripMeta.exchangeRate;
+
 // ========== 本地元件 ==========
+
+// 處理日期字串的輔助函數，例如將 "Day 1 (6/17 三)" 解析為 { day: "Day 1", date: "6/17 三" }
+const parseDateStr = (str) => {
+  if (!str) return { day: "", date: "" };
+  const match = str.match(/^(.*?)\s*\((.*)\)$/);
+  if (match) {
+    return { day: match[1].trim(), date: match[2].trim() };
+  }
+  return { day: str, date: "" };
+};
 
 // Header
 const Header = () => (
-  <header className="relative w-full py-12 px-6 text-white overflow-hidden">
-    <a
-      href="/me/?booted=true"
-      className="absolute top-4 left-4 z-50 p-2 bg-[#F5F7F2]/10 backdrop-blur-md rounded-full text-white hover:bg-[#F5F7F2]/20 transition-all border border-white/20 shadow-lg group"
-      title="回到首頁"
-    >
-      <ArrowRight
-        size={20}
-        className="rotate-180 group-hover:-translate-x-1 transition-transform"
-      />
-    </a>
-    <div className="absolute inset-0 z-0 select-none">
-      <img
-        src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2070&auto=format&fit=crop"
-        alt="Tokyo Skyline"
-        className="w-full h-full object-cover opacity-90 scale-105"
-        style={{ animation: "float 20s ease-in-out infinite" }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-b from-[#2D5A27]/90 via-[#4A7246]/60 to-[#F5F7F2]" />
-      <div className="absolute inset-0 bg-[#2D5A27]/40 mix-blend-overlay" />
-    </div>
-    <div className="max-w-5xl mx-auto text-center relative z-10">
-      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-[#2D5A27]/30 backdrop-blur-md text-xs font-medium tracking-wider border border-[#A8C69F]/40 text-[#A8C69F] shadow-lg">
-        JP · TYO · YOK · KRZ · 2026 · 8D
+  <header className="relative w-full pt-4 md:pt-8 pb-2 md:pb-6 px-6 md:px-12 text-white overflow-hidden flex flex-col items-center justify-center drop-shadow-md">
+    <div className="max-w-5xl mx-auto text-center relative z-10 w-full">
+      <div className="flex items-center justify-between w-full mb-4 md:mb-8 print:hidden">
+        <a
+          href="/me/?booted=true"
+          className="p-2 bg-black/20 backdrop-blur-md rounded-full text-white hover:bg-black/40 transition-all border border-white/20 shadow-lg group"
+          title="回到首頁"
+        >
+          <ArrowRight
+            size={20}
+            className="rotate-180 group-hover:-translate-x-1 transition-transform"
+          />
+        </a>
+        <button
+          onClick={() => window.print()}
+          className="px-3 sm:px-4 py-2 bg-black/20 backdrop-blur-md rounded-full text-white font-medium hover:bg-black/40 transition-all border border-white/20 shadow-lg flex items-center gap-2"
+          title="匯出 PDF 旅遊小書"
+        >
+          <Printer size={16} />
+          <span className="font-bold tracking-wide text-xs sm:text-sm">
+            匯出 PDF 小書
+          </span>
+        </button>
       </div>
-      <h1 className="text-4xl md:text-6xl font-bold mb-3 leading-tight tracking-tight text-yellow-50">
-        東京
-        <span className="block text-xl md:text-2xl mt-2 font-medium tracking-widest text-[#5F7A61]">
-          橫濱・澀谷・輕井澤 8日旅
+
+      <div className="inline-block px-4 py-1.5 mb-4 rounded-full bg-black/20 backdrop-blur-md text-xs font-medium tracking-wider border border-white/20 text-white shadow-lg">
+        {tripMeta.badge}
+      </div>
+      <h1 className="text-4xl md:text-5xl font-bold mb-3 leading-tight tracking-tight text-white drop-shadow-lg">
+        {tripMeta.title}
+        <span className="block text-xl md:text-2xl mt-3 font-medium tracking-widest text-white/90 drop-shadow-md">
+          {tripMeta.subtitle}
         </span>
       </h1>
-      <div className="mt-4 flex items-center justify-center gap-3 text-sm text-white/70">
-        <span>6/17 – 6/24</span>
-        <span>·</span>
-        <span>🎊 6/21 三週年</span>
-        <span>·</span>
-        <span>🌱 蛋奶素</span>
-      </div>
     </div>
   </header>
 );
 
 // VegetarianCard 素食溝通卡
 const VegetarianCard = ({ forceOpen }) => {
-  const [isOpen, setIsOpen] = useState(false);
-  useEffect(() => {
-    if (forceOpen !== null) setIsOpen(forceOpen);
-  }, [forceOpen]);
+  if (!vegetarianCard) return null;
   return (
-    <div className="bg-[#F5F7F2] rounded-3xl shadow-sm border border-[#8B7355]/20 overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-5 text-left"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
-            <span className="text-xl">🌱</span>
-          </div>
-          <div>
-            <div className="font-bold text-[#8B7355]">蛋奶素溝通卡</div>
-            <div className="text-xs text-gray-400 mt-0.5">
-              日語・飲食限制快速出示
-            </div>
-          </div>
-        </div>
-        <ChevronDown
-          size={20}
-          className={`text-gray-400 transition-transform ${isOpen ? "rotate-180" : ""}`}
-        />
-      </button>
-      {isOpen && (
-        <div className="px-5 pb-5 space-y-4">
-          <div className="p-4 bg-red-50 border border-red-100 rounded-2xl">
-            <p className="text-xs font-bold text-red-400 mb-2">🚫 飲食禁忌</p>
-            <p className="text-base font-bold text-red-700 leading-relaxed">
-              {vegetarianCard.restriction}
-            </p>
-            <p className="text-sm font-bold text-red-600 mt-2 leading-relaxed">
-              {vegetarianCard.dashi}
-            </p>
-          </div>
-          <div className="p-4 bg-amber-50 border border-amber-100 rounded-2xl">
-            <p className="text-xs font-bold text-amber-500 mb-2">💛 確認問句</p>
-            <p className="text-base font-bold text-amber-800 leading-relaxed">
-              {vegetarianCard.question}
-            </p>
-          </div>
-          <div className="p-4 bg-green-50 border border-green-100 rounded-2xl">
-            <p className="text-xs font-bold text-green-500 mb-2">✅ 可食</p>
-            <p className="text-sm font-bold text-green-700">
-              {vegetarianCard.ok}
-            </p>
-            <div className="flex flex-wrap gap-2 mt-2">
-              {vegetarianCard.canEat.map((item, i) => (
-                <span
-                  key={i}
-                  className="text-xs bg-green-100 text-green-700 px-3 py-1 rounded-full font-medium"
-                >
+    <SectionCard
+      icon={Utensils}
+      title="素食溝通卡"
+      collapsible={true}
+      defaultOpen={false}
+      forceOpen={forceOpen}
+      variant="glass"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+        {/* 🚫 飲食禁忌 */}
+        <div className="p-5 bg-red-50 border border-red-100 rounded-2xl space-y-3 animate-fade-in">
+          <p className="text-sm font-black text-red-500 tracking-wider mb-3">
+            食べられないもの (🚫 飲食禁忌)
+          </p>
+          <ul className="space-y-2.5">
+            {vegetarianCard.cannotEat.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-red-800">
+                <span className="text-red-500 mt-1 text-xs">■</span>
+                <span className="text-base font-extrabold leading-tight">
                   {item}
                 </span>
-              ))}
-            </div>
-          </div>
-          <div className="p-4 bg-gray-50 border border-gray-200 rounded-2xl">
-            <p className="text-xs font-bold text-gray-400 mb-2">🚫 不可食</p>
-            <div className="flex flex-wrap gap-2">
-              {vegetarianCard.cannotEat.map((item, i) => (
-                <span
-                  key={i}
-                  className="text-xs bg-red-50 text-red-500 border border-red-100 px-3 py-1 rounded-full font-medium"
-                >
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* ✅ 可食項目 */}
+        <div className="p-5 bg-emerald-50 border border-emerald-100 rounded-2xl space-y-3 animate-fade-in">
+          <p className="text-sm font-black text-emerald-600 tracking-wider mb-3">
+            食べられるもの (✅ 可食項目)
+          </p>
+          <ul className="space-y-2.5">
+            {vegetarianCard.canEat.map((item, i) => (
+              <li key={i} className="flex items-start gap-2 text-emerald-800">
+                <span className="text-emerald-500 mt-1 text-xs">●</span>
+                <span className="text-base font-extrabold leading-tight">
                   {item}
                 </span>
-              ))}
-            </div>
-          </div>
+              </li>
+            ))}
+          </ul>
         </div>
-      )}
-    </div>
+      </div>
+    </SectionCard>
   );
 };
 
-// Tab 導航
+// Tab 導航 - 等寬設計
 const TabNavigation = ({ activeTab, setActiveTab }) => {
   const tabs = [
     { id: "overview", label: "總覽", Icon: Star },
     { id: "itinerary", label: "行程", Icon: Calendar },
     { id: "map", label: "交通", Icon: Train },
+    { id: "attraction", label: "景點", Icon: Compass },
     { id: "food", label: "美食", Icon: Utensils },
     { id: "shopping", label: "購物", Icon: ShoppingBag },
-    { id: "budget", label: "預算", Icon: Wallet },
+    { id: "accommodation", label: "住宿", Icon: Hotel },
+    { id: "budget", label: "花費", Icon: ReceiptText },
   ];
 
   return (
-    <nav className="sticky top-0 z-40 bg-[#F5F7F2]/95 backdrop-blur-md border-b border-[#8B7355]/20 shadow-sm">
-      <div className="max-w-5xl mx-auto overflow-x-auto no-scrollbar">
-        <div className="flex">
-          {tabs.map(({ id, label, Icon }) => (
-            <button
-              key={id}
-              onClick={() => setActiveTab(id)}
-              className={`flex-1 min-w-[80px] py-4 flex flex-col items-center gap-1 transition-colors ${
-                activeTab === id
-                  ? "text-[#2D5A27] font-bold border-b-2 border-[#2D5A27]"
-                  : "text-gray-400 hover:text-[#2D5A27]"
-              }`}
-            >
-              <Icon size={20} />
-              <span className="text-xs">{label}</span>
-            </button>
-          ))}
+    <nav className="sticky top-4 z-40 mb-8 w-full max-w-5xl mx-auto px-6 md:px-12 pointer-events-none print:hidden">
+      <div className="w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl pointer-events-auto overflow-hidden">
+        <div className="overflow-x-auto no-scrollbar w-full [mask-image:linear-gradient(to_right,transparent_0%,black_16px,black_calc(100%-16px),transparent_100%)] md:[mask-image:none]">
+          <div className="flex items-center p-1.5 min-w-max w-full gap-1">
+            {tabs.map(({ id, label, Icon }) => (
+              <button
+                key={id}
+                onClick={() => {
+                  setActiveTab(id);
+                  setTimeout(() => {
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                  }, 50);
+                }}
+                className={`flex-1 flex justify-center items-center px-4 py-2.5 gap-2 rounded-xl transition-all duration-300 ${
+                  activeTab === id
+                    ? "bg-white/20 text-white font-bold shadow-sm"
+                    : "text-white/70 hover:text-white hover:bg-white/10 font-medium"
+                }`}
+              >
+                <Icon size={14} />
+                <span className="text-sm whitespace-nowrap">{label}</span>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </nav>
@@ -244,7 +245,7 @@ const CollapsibleSubsection = ({
         className="w-full flex items-center justify-between py-2 text-left group"
       >
         <div className="flex items-center gap-2">
-          <h4 className="font-bold text-[#8B7355]">{title}</h4>
+          <h4 className="font-bold text-[#7A8B7B]">{title}</h4>
           {count !== undefined && (
             <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">
               {count}
@@ -252,15 +253,66 @@ const CollapsibleSubsection = ({
           )}
         </div>
         <div
-          className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          className={`text-gray-400 transition-transform duration-200 ${isOpen ? "rotate-180" : ""} print:hidden`}
         >
           <ChevronDown size={20} />
         </div>
       </button>
       <div
-        className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"}`}
+        className={`grid transition-all duration-300 ease-in-out ${isOpen ? "grid-rows-[1fr] opacity-100 mt-2" : "grid-rows-[0fr] opacity-0 mt-0"} print:grid-rows-[1fr] print:opacity-100 print:mt-2`}
       >
-        <div className="overflow-hidden">{children}</div>
+        <div className="overflow-hidden print:overflow-visible">{children}</div>
+      </div>
+    </div>
+  );
+};
+
+// 車站名稱對照表 - 標籤雲 (Pill Tags)
+const StationMappingCloud = ({ stations }) => {
+  const [selectedStation, setSelectedStation] = useState(null);
+
+  return (
+    <div className="bg-white/40 rounded-xl p-2.5">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-2">
+        {stations.map((st, i) => (
+          <button
+            key={i}
+            onClick={() => setSelectedStation(selectedStation === i ? null : i)}
+            className={`w-full px-1 py-2 rounded-xl text-xs font-bold transition-all duration-300 ${
+              selectedStation === i
+                ? "bg-[#5F7A61] text-white shadow-md scale-[1.02]"
+                : "bg-white text-[#5F7A61] border border-[#5F7A61]/20 hover:bg-[#5F7A61]/5 hover:shadow-sm"
+            }`}
+          >
+            <span className="truncate w-full block text-center tracking-wide">
+              {st.zh}
+            </span>
+          </button>
+        ))}
+      </div>
+
+      <div
+        className={`overflow-hidden transition-all duration-300 ease-in-out ${
+          selectedStation !== null
+            ? "max-h-24 opacity-100 mt-3"
+            : "max-h-0 opacity-0 mt-0"
+        }`}
+      >
+        {selectedStation !== null && (
+          <div className="bg-white/80 rounded-xl border border-[#5F7A61]/10 flex items-center gap-3 p-3">
+            <div className="flex-shrink-0 w-8 h-8 rounded-full bg-[#5F7A61]/10 flex items-center justify-center">
+              <Train size={14} className="text-[#5F7A61]" />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-bold text-gray-800 text-sm mb-0.5">
+                {stations[selectedStation].ja}
+              </span>
+              <span className="text-[11px] text-gray-500 font-medium tracking-wide">
+                {stations[selectedStation].en}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -276,7 +328,7 @@ const ProductModal = ({ isOpen, onClose, product }) => {
     >
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
       <div
-        className="relative bg-[#F5F7F2] rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden animate-fade-up"
+        className="relative bg-[#F4F6F0] rounded-3xl max-w-sm w-full shadow-2xl overflow-hidden animate-fade-up"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -300,21 +352,21 @@ const ProductModal = ({ isOpen, onClose, product }) => {
           )}
         </div>
         <div className="p-6">
-          <h3 className="text-xl font-bold text-[#8B7355] mb-2">
+          <h3 className="text-xl font-bold text-[#7A8B7B] mb-2">
             {product.name}
           </h3>
           {product.nameJp && (
-            <p className="text-sm text-[#2D5A27] mb-3">🇯🇵 {product.nameJp}</p>
+            <p className="text-sm text-[#5F7A61] mb-3">🇯🇵 {product.nameJp}</p>
           )}
           {product.desc && (
             <p className="text-sm text-gray-500 mb-3">{product.desc}</p>
           )}
           <div className="flex items-baseline gap-2">
-            <span className="text-2xl font-bold text-[#2D5A27]">
+            <span className="text-2xl font-bold text-[#5F7A61]">
               ¥{product.price?.toLocaleString()}
             </span>
             <span className="text-sm text-gray-400">
-              ≈${Math.round((product.price || 0) * 0.22).toLocaleString()}
+              ≈${Math.round((product.price || 0) * RATE).toLocaleString()}
             </span>
           </div>
         </div>
@@ -326,7 +378,15 @@ const ProductModal = ({ isOpen, onClose, product }) => {
 // ========== 主應用程式 ==========
 export default function App() {
   const [activeTab, setActiveTab] = useState("overview");
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   const [expandedDays, setExpandedDays] = useState({});
+  const [collapseCounter, setCollapseCounter] = useState(0); // 用於通知 StickyPhaseHeader 全收合
   const [mapModalData, setMapModalData] = useState({
     isOpen: false,
     data: null,
@@ -338,6 +398,8 @@ export default function App() {
   const [favorites, setFavorites] = useState({});
   const [purchased, setPurchased] = useState({});
   const [isSyncing, setIsSyncing] = useState(true);
+  const [showBreakdown, setShowBreakdown] = useState(false);
+  const [selectedRouteOpts, setSelectedRouteOpts] = useState({});
 
   // Firebase：美食收藏同步
   useEffect(() => {
@@ -391,6 +453,7 @@ export default function App() {
   const handleSmartToggle = () => {
     if (isAnyExpanded) {
       setExpandedDays({});
+      setCollapseCounter((c) => c + 1); // 觸發所有 StickyPhaseHeader 收合
     } else {
       const newExpanded = {};
       itineraryData.forEach((phase, pIdx) => {
@@ -451,250 +514,815 @@ export default function App() {
   const handleOpenMap = (mapData) =>
     setMapModalData({ isOpen: true, data: mapData });
 
+  const totalAccommodationBudget = accommodationData.reduce(
+    (total, section) => {
+      const booked = section.hotels.find(
+        (h) =>
+          h.status === "已預訂" ||
+          h.status === "已訂妥" ||
+          h.status === "已決定",
+      );
+      if (booked && booked.priceTwd) return total + booked.priceTwd;
+
+      const candidatesWithPrice = section.hotels.filter((h) => h.priceTwd);
+      if (candidatesWithPrice.length > 0) {
+        const sum = candidatesWithPrice.reduce((acc, h) => acc + h.priceTwd, 0);
+        return total + sum / candidatesWithPrice.length;
+      }
+      return total;
+    },
+    0,
+  );
+
+  const accommodationBreakdown = accommodationData.map((section) => {
+    const booked = section.hotels.find(
+      (h) =>
+        h.status === "已預訂" || h.status === "已訂妥" || h.status === "已決定",
+    );
+    if (booked && booked.priceTwd) {
+      return {
+        location: section.location,
+        period: section.period,
+        type: "confirmed",
+        detailText: `${booked.name} (${booked.status})`,
+        price: booked.priceTwd,
+      };
+    }
+
+    const candidatesWithPrice = section.hotels.filter((h) => h.priceTwd);
+    if (candidatesWithPrice.length > 0) {
+      const sum = candidatesWithPrice.reduce((acc, h) => acc + h.priceTwd, 0);
+      const avg = sum / candidatesWithPrice.length;
+      const count = candidatesWithPrice.length;
+      return {
+        location: section.location,
+        period: section.period,
+        type: "candidate_avg",
+        detailText: `${count}間候選均價`,
+        formula: `(${candidatesWithPrice.map((h) => h.priceTwd).join("+")}) / ${count} = ${Math.round(avg)}`,
+        price: avg,
+      };
+    }
+
+    return {
+      location: section.location,
+      period: section.period,
+      type: "none",
+      detailText: "無預估價格",
+      price: 0,
+    };
+  });
+
   return (
-    <div className="min-h-screen bg-[#F5F7F2] text-[#1C1C1E] selection:bg-[#a78bfa]/20 selection:text-[#2D5A27]">
-      <Header />
-      <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
-
-      <main className="max-w-5xl mx-auto px-4 pt-4 pb-12">
-        {/* 總覽 Tab */}
-        <div className={activeTab === "overview" ? "space-y-8" : "hidden"}>
-          <FlightInfoSection
-            outbound={flightData.outbound}
-            inbound={flightData.inbound}
-            forceOpen={isAnyExpanded}
-          />
-          <PageHeader
-            tripTitle="旅程標題 (請修改 data.template.js)"
-            dates="出發日期"
-            participants="參與者"
-            heroImage={itineraryData[0]?.image}
-            // removeFilter={true} /* 若圖片過亮或需要原色可開啟此參數移除遮罩 */
-          />
-          <WeatherForecastSection
-            data={weatherData}
-            forceOpen={isAnyExpanded}
-            theme="forest"
-          />
-          <ChecklistSection
-            title="待訂清單"
-            items={checklistData}
-            storageKey="tokyo_2026_todos_v2"
-            forceOpen={isAnyExpanded}
-            theme="forest"
-          />
-          <VegetarianCard forceOpen={isAnyExpanded} />
-          <LinksGallery
-            links={linksData}
-            forceOpen={isAnyExpanded}
-            // theme="default" /* 可替換為 forest, ocean 等主題 */
-          />
-        </div>
-
-        {/* 行程 Tab */}
-        <div className={activeTab === "itinerary" ? "" : "hidden"}>
-          <ItineraryTab
-            itineraryData={itineraryData}
-            expandedDays={expandedDays}
-            toggleDay={toggleDay}
-            onOpenMap={handleOpenMap}
-            onOpenFoodGuide={() => setActiveTab("food")}
-            isAnyExpanded={isAnyExpanded}
-          />
-        </div>
-
-        {/* 預算 Tab */}
+    <div className="min-h-screen text-[#1C1C1E] selection:bg-[#a3b19b]/20 selection:text-[#5F7A61] relative bg-[#e2e8db] overflow-x-clip">
+      {/* 移除 overflow-hidden 確保內部 sticky 導航列能正常置頂 */}
+      <div className="relative z-10 w-full min-h-screen">
+        {/* 頂部 Hero Image，手機版降低高度避免佔比過大 */}
         <div
-          className={activeTab === "budget" ? "max-w-3xl mx-auto" : "hidden"}
+          className="absolute top-0 left-0 right-0 h-[380px] md:h-[600px] pointer-events-none z-0"
+          style={{
+            maskImage:
+              "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)",
+            WebkitMaskImage:
+              "linear-gradient(to bottom, black 0%, black 40%, transparent 100%)",
+          }}
         >
-          <WeatherForecastSection
-            data={weatherData}
-            forceOpen={isAnyExpanded}
-            // theme="default" /* 可替換為 forest, ocean 等主題 */
+          <div
+            className="absolute inset-0 bg-cover bg-center opacity-80"
+            style={{
+              backgroundImage: `url('${tripMeta.heroImage}')`,
+              transform: `translateY(${scrollY * 0.3}px) scale(1.1)`,
+              transformOrigin: "top center",
+            }}
           />
-          <BudgetSection
-            data={budgetData}
-            forceOpen={isAnyExpanded}
-            theme="forest"
-            notes={
-              <div className="flex gap-4 items-start w-full">
-                <Info className="text-[#2D5A27] flex-shrink-0 mt-1" />
-                <div className="text-sm text-[#2D5A27] leading-relaxed">
-                  <p className="font-bold mb-1">預算說明</p>
-                  以上為估算值，機票與住宿確認後更新。匯率以 ¥1 = $0.22 TWD
-                  計算。
+          {/* 確保頂部文字清晰的暗色漸層 */}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/20 to-transparent" />
+        </div>
+
+        <Header />
+        <TabNavigation activeTab={activeTab} setActiveTab={setActiveTab} />
+
+        <main className="relative z-10 max-w-5xl mx-auto px-6 md:px-12 pb-12">
+          {/* 總覽 Tab */}
+          <div
+            className={`print:block print:break-before-page print:space-y-6 ${
+              activeTab === "overview" ? "space-y-6 animate-fade-in" : "hidden"
+            }`}
+          >
+            <FlightInfoSection
+              outbound={flightData.outbound}
+              inbound={flightData.inbound}
+              forceOpen={isAnyExpanded}
+            />
+            <Timeline
+              data={overviewData}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+              onDayClick={(dayNum) => {
+                let targetKey = null;
+                itineraryData.forEach((phase, pIdx) => {
+                  phase.days.forEach((day, dIdx) => {
+                    if (day.day === dayNum) targetKey = `${pIdx}-${dIdx}`;
+                  });
+                });
+                if (targetKey)
+                  setExpandedDays((prev) => ({ ...prev, [targetKey]: true }));
+                setActiveTab("itinerary");
+                setTimeout(() => {
+                  const el = document.getElementById(`day-${dayNum}`);
+                  if (el) {
+                    const elementPosition =
+                      el.getBoundingClientRect().top + window.scrollY;
+                    window.scrollTo({
+                      top: elementPosition - 140,
+                      behavior: "smooth",
+                    });
+                  }
+                }, 100);
+              }}
+            />
+
+            {weatherData?.days?.length > 0 && (
+              <WeatherForecastSection
+                forecastData={weatherData.days}
+                sourceNote={weatherData.sourceNote}
+                sourceUrl={weatherData.sourceUrl}
+                forceOpen={isAnyExpanded}
+                theme="forest"
+              />
+            )}
+
+            <ChecklistSection
+              title="待辦事項"
+              items={todoData}
+              storageKey={`${TRIP_ID}_todos_v1`}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+            />
+            <VegetarianCard forceOpen={isAnyExpanded} />
+            <LinksGallery
+              links={usefulLinks?.categories || []}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+            />
+          </div>
+
+          {/* 行程 Tab */}
+          <div
+            className={`print:block print:break-before-page print:mt-8 ${
+              activeTab === "itinerary" ? "animate-fade-in" : "hidden"
+            }`}
+          >
+            <ItineraryTab
+              itineraryData={itineraryData}
+              expandedDays={expandedDays}
+              toggleDay={toggleDay}
+              onOpenMap={handleOpenMap}
+              onOpenFoodGuide={(dayNum) => {
+                setActiveTab("food");
+                const matchIndex = foodData.categories.findIndex((cat) => {
+                  const match = cat.day.match(/Day\s+([\d-]+)/);
+                  if (!match) return false;
+                  const range = match[1];
+                  if (range.includes("-")) {
+                    const [start, end] = range.split("-");
+                    return (
+                      dayNum >= parseInt(start, 10) &&
+                      dayNum <= parseInt(end, 10)
+                    );
+                  }
+                  return dayNum === parseInt(range, 10);
+                });
+
+                setTimeout(() => {
+                  if (matchIndex !== -1) {
+                    const el = document.getElementById(
+                      `food-section-${matchIndex}`,
+                    );
+                    if (el) {
+                      const elementPosition =
+                        el.getBoundingClientRect().top + window.scrollY;
+                      window.scrollTo({
+                        top: elementPosition - 140,
+                        behavior: "smooth",
+                      });
+                      return;
+                    }
+                  }
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }, 100);
+              }}
+              onJumpToTransport={(dayNum) => {
+                setActiveTab("map");
+                const matchRoute = recommendedRoutes.find((r) => {
+                  const match = r.day.match(/Day\s+([\d-]+)/);
+                  if (!match) return false;
+                  const range = match[1];
+                  if (range.includes("-")) {
+                    const [start, end] = range.split("-");
+                    return (
+                      dayNum >= parseInt(start, 10) &&
+                      dayNum <= parseInt(end, 10)
+                    );
+                  }
+                  return dayNum === parseInt(range, 10);
+                });
+
+                setTimeout(() => {
+                  if (matchRoute) {
+                    const el = document.getElementById(
+                      `transport-route-${matchRoute.id}`,
+                    );
+                    if (el) {
+                      const elementPosition =
+                        el.getBoundingClientRect().top + window.scrollY;
+                      window.scrollTo({
+                        top: elementPosition - 140,
+                        behavior: "smooth",
+                      });
+                      return;
+                    }
+                  }
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }, 100);
+              }}
+              isAnyExpanded={isAnyExpanded}
+              collapseCounter={collapseCounter}
+            />
+          </div>
+
+          {/* 住宿 Tab */}
+          <div
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
+              activeTab === "accommodation"
+                ? "space-y-6 animate-fade-in"
+                : "hidden"
+            }`}
+          >
+            <div className="bg-white/40 backdrop-blur-md rounded-xl p-4 border border-white/40 shadow-sm">
+              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <span className="font-bold text-[#1c1c1e] text-base">
+                      住宿估算 ({tripMeta.nights}晚)
+                    </span>
+                    <span className="text-[10px] font-medium bg-[#1c1c1e]/5 text-[#6e6e73] px-2 py-0.5 rounded-full">
+                      {tripMeta.exchangeRateLabel}
+                    </span>
+                  </div>
+                  <span className="text-[11px] text-[#6e6e73]">
+                    已訂妥以該飯店計費，候選日期以均價估算
+                  </span>
+                </div>
+                <div className="flex flex-col items-start sm:items-end gap-0.5 mt-2 sm:mt-0">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-xl font-bold text-[#5F7A61] tabular-nums">
+                      ¥
+                      {Math.round(
+                        totalAccommodationBudget / RATE,
+                      ).toLocaleString()}
+                    </span>
+                    <span className="text-xs font-bold text-[#6e6e73] tabular-nums">
+                      / NT$
+                      {Math.round(totalAccommodationBudget).toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="flex items-baseline gap-1 text-[11px]">
+                    <span className="text-[#6e6e73]">每晚平均:</span>
+                    <span className="font-semibold text-[#5F7A61] tabular-nums">
+                      ¥
+                      {Math.round(
+                        totalAccommodationBudget / RATE / tripMeta.nights,
+                      ).toLocaleString()}
+                    </span>
+                    <span className="text-[#6e6e73] tabular-nums">
+                      / NT$
+                      {Math.round(
+                        totalAccommodationBudget / tripMeta.nights,
+                      ).toLocaleString()}
+                    </span>
+                  </div>
                 </div>
               </div>
-            }
-          />
-        </div>
 
-        {/* 交通 Tab */}
-        <div
-          className={
-            activeTab === "map" ? "max-w-3xl mx-auto space-y-6" : "hidden"
-          }
-        >
-          {/* 每日交通路線 */}
-          <SectionCard
-            icon={MapPin}
-            title="每日交通路線"
-            collapsible={true}
-            defaultOpen={true}
-            forceOpen={isAnyExpanded}
-          >
-            <div className="space-y-3">
-              {recommendedRoutes.map((route, idx) => (
-                <div
-                  key={idx}
-                  className="p-4 bg-[#F5F7F2] rounded-xl border border-[#8B7355]/20 hover:border-[#A8C69F] transition-all cursor-pointer hover:shadow-md active:scale-[0.99]"
-                  onClick={() => handleOpenMap(route)}
+              <div className="mt-4 pt-4 border-t border-[#7A8B7B]/10">
+                <button
+                  onClick={() => setShowBreakdown(!showBreakdown)}
+                  className="inline-flex items-center gap-1 text-xs text-[#5F7A61] hover:text-[#7A8B7B] transition-colors font-semibold"
                 >
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-xs font-bold text-[#2D5A27] bg-[#F5F7F2] px-2 py-1 rounded">
-                      {route.day}
-                    </span>
-                    <span className="text-xs text-gray-400">
-                      {route.duration}
-                    </span>
-                  </div>
-                  <div className="font-bold text-[#8B7355] mb-1">
-                    {route.name}
-                  </div>
-                  <div className="text-sm text-gray-500">{route.desc}</div>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
+                  {showBreakdown ? "收起計算明細" : "顯示每日計算明細"}
+                  <ChevronDown
+                    size={14}
+                    className={`transition-transform ${showBreakdown ? "rotate-180" : ""}`}
+                  />
+                </button>
 
-          {/* 交通攻略說明 */}
-          <SectionCard
-            icon={Train}
-            title="東京交通攻略"
-            collapsible={true}
-            defaultOpen={false}
-            forceOpen={isAnyExpanded}
-          >
-            <div className="space-y-3">
-              {[
-                {
-                  title: "Suica (西瓜卡)",
-                  desc: "建議在成田機場 JR 服務窗口購買，適用地鐵、JR、公車、便利商店",
-                  tag: "必備",
-                },
-                {
-                  title: "N'EX 成田特快",
-                  desc: "成田機場 ↔ 東京/新宿/橫濱，外國旅客可購買來回優惠票 ¥4,070",
-                  tag: "推薦",
-                },
-                {
-                  title: "北陸新幹線 (東京-輕井澤)",
-                  desc: "はくたか 或 あさま，約 70~80 分，需事先劃位",
-                  tag: "需預訂",
-                },
-                {
-                  title: "JR 湘南新宿ライン",
-                  desc: "新宿 ↔ 橫濱，不需換車，約 28 分鐘",
-                  tag: "便利",
-                },
-              ].map((item, idx) => (
-                <div
+                {showBreakdown && (
+                  <div className="mt-3 p-4 bg-[#F4F6F0]/80 rounded-xl space-y-2.5 border border-[#7A8B7B]/10 animate-fade-in">
+                    <div className="text-xs font-bold text-[#7A8B7B] pb-1.5 border-b border-[#7A8B7B]/20 flex justify-between">
+                      <span>日期與地點</span>
+                      <span>計算依據與房價</span>
+                    </div>
+                    {accommodationBreakdown.map((item, bIdx) => (
+                      <div
+                        key={bIdx}
+                        className="flex justify-between items-center text-xs text-gray-600 py-1.5 last:pb-0 border-b border-[#7A8B7B]/10 last:border-0"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center">
+                          <span className="font-semibold text-[#5F7A61] sm:mr-1.5">
+                            {item.period}
+                          </span>
+                          <span className="text-gray-400 text-[10px] sm:text-xs">
+                            {item.location}
+                          </span>
+                        </div>
+                        <div className="flex flex-col items-end sm:flex-row sm:items-center sm:gap-2">
+                          <span
+                            className="text-gray-400 text-[10px] sm:text-xs"
+                            title={item.formula}
+                          >
+                            {item.detailText}
+                          </span>
+                          <span className="font-bold text-[#1c1c1e] tabular-nums">
+                            ¥{Math.round(item.price / RATE).toLocaleString()}
+                          </span>
+                          <span className="text-xs text-gray-500 tabular-nums">
+                            (NT$ {Math.round(item.price).toLocaleString()})
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {accommodationData.map((section, idx) => {
+              const parsedDate = parseDateStr(section.period);
+              return (
+                <SectionCard
                   key={idx}
-                  className="p-4 bg-[#F5F7F2] rounded-xl border border-[#8B7355]/20"
+                  icon={null}
+                  title={
+                    <div className="flex items-center gap-3 w-full">
+                      <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                        {parsedDate.day}
+                      </span>
+                      <span>{section.location}</span>
+                    </div>
+                  }
+                  collapsible={true}
+                  defaultOpen={true}
+                  forceOpen={isAnyExpanded}
+                  variant="glass"
                 >
-                  <div className="flex items-center gap-2 mb-1">
-                    <span className="font-bold text-[#8B7355]">
-                      {item.title}
-                    </span>
-                    <span className="text-xs font-bold text-[#2D5A27] bg-[#F5F7F2] px-2 py-0.5 rounded">
-                      {item.tag}
-                    </span>
-                  </div>
-                  <p className="text-sm text-gray-500">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </SectionCard>
-        </div>
+                  <div>
+                    {parsedDate.date && (
+                      <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4">
+                        <Calendar size={12} />
+                        <span className="font-medium">{parsedDate.date}</span>
+                      </div>
+                    )}
+                    <div className="space-y-4">
+                      {section.hotels.map((hotel, hIdx) => {
+                        const isSelected =
+                          hotel.status === "已決定" ||
+                          hotel.status === "已訂妥" ||
+                          hotel.status === "已預訂";
+                        return (
+                          <div
+                            key={hIdx}
+                            className={`p-4 rounded-xl border relative group overflow-hidden transition-all duration-300 ${
+                              isSelected
+                                ? "bg-white border-emerald-500 shadow-md ring-1 ring-emerald-500/20 animate-fade-in"
+                                : "bg-[#F4F6F0] border-[#7A8B7B]/20"
+                            }`}
+                          >
+                            {hotel.status && (
+                              <div
+                                className={`absolute top-4 right-4 text-xs rounded-full px-2.5 py-0.5 font-medium border ${
+                                  isSelected
+                                    ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                                    : "bg-gray-50 text-gray-500 border-gray-200/60"
+                                }`}
+                              >
+                                <span>{hotel.status}</span>
+                              </div>
+                            )}
+                            <h4 className="font-bold text-[#7A8B7B] text-lg pr-16 mb-1">
+                              {hotel.name}
+                            </h4>
+                            <p className="text-sm text-gray-500 mb-3">
+                              {hotel.desc}
+                            </p>
 
-        {/* 美食 Tab */}
-        <div
-          className={
-            activeTab === "food" ? "max-w-3xl mx-auto space-y-6" : "hidden"
-          }
-        >
-          {isSyncing && (
-            <div className="text-center text-gray-400 text-sm py-2">
-              ✨ 正在同步雲端收藏...
-            </div>
-          )}
-          {foodData.categories
-            .filter((cat) => cat.sections[0].items.length > 0)
-            .map((category, cIdx) => (
+                            {hotel.features && (
+                              <div className="flex flex-wrap gap-2 mb-3">
+                                {hotel.features.map((feature, fIdx) => (
+                                  <span
+                                    key={fIdx}
+                                    className={`text-xs px-2 py-1 rounded-full font-medium shadow-sm ${
+                                      isSelected
+                                        ? "bg-[#F4F6F0] text-[#5F7A61]"
+                                        : "bg-white text-[#5F7A61]"
+                                    }`}
+                                  >
+                                    {feature}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                            <div className="flex items-center justify-between mt-3 pt-3 border-t border-[#7A8B7B]/10">
+                              {hotel.mapUrl ? (
+                                <a
+                                  href={hotel.mapUrl}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="inline-flex items-center gap-1 text-xs text-[#5F7A61] hover:text-[#7A8B7B] transition-colors font-medium bg-white px-2 py-1 rounded shadow-sm hover:shadow-md"
+                                >
+                                  <MapPin size={12} /> 查看地圖
+                                </a>
+                              ) : (
+                                <div />
+                              )}
+                              {hotel.priceTwd && (
+                                <div className="text-sm font-bold text-[#5F7A61]">
+                                  NT$ {hotel.priceTwd.toLocaleString()}{" "}
+                                  <span className="text-xs font-normal text-gray-400">
+                                    /晚
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </SectionCard>
+              );
+            })}
+          </div>
+
+          {/* 花費 Tab */}
+          <div
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
+              activeTab === "budget" ? "space-y-6 animate-fade-in" : "hidden"
+            }`}
+          >
+            <ExpenseSection
+              data={expenseData}
+              rate={RATE}
+              forceOpen={isAnyExpanded}
+            />
+          </div>
+
+          {/* 交通 Tab */}
+          <div
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
+              activeTab === "map" ? "space-y-6 animate-fade-in" : "hidden"
+            }`}
+          >
+            {stationMapping?.stations?.length > 0 && (
               <SectionCard
-                key={cIdx}
-                icon={Utensils}
+                icon={null}
                 title={
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span>{category.location}</span>
-                    <span className="text-xs font-medium text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">
-                      {category.day}
+                  <div className="flex items-center gap-3 w-full">
+                    <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                      {stationMapping.dayLabel}
                     </span>
+                    <span>{stationMapping.title}</span>
                   </div>
                 }
                 collapsible={true}
+                defaultOpen={true}
                 forceOpen={isAnyExpanded}
+                variant="glass"
               >
-                {category.sections.map((section, sIdx) => (
-                  <CollapsibleSubsection
-                    key={sIdx}
-                    title={section.title}
-                    count={section.items.length}
+                <StationMappingCloud stations={stationMapping.stations} />
+              </SectionCard>
+            )}
+
+            {recommendedRoutes.map((route, idx) => {
+              const parsedDate = parseDateStr(route.day);
+              const currentOptIdx = selectedRouteOpts[route.id] || 0;
+              const currentRoute = route.options
+                ? route.options[currentOptIdx]
+                : route;
+
+              const name = currentRoute.name || route.name;
+              const steps = currentRoute.steps || route.steps;
+
+              return (
+                <div key={idx} id={`transport-route-${route.id}`}>
+                  <SectionCard
+                    icon={null}
+                    collapsible={true}
+                    defaultOpen={true}
                     forceOpen={isAnyExpanded}
+                    variant="glass"
+                    title={
+                      <div className="flex items-center gap-3 w-full">
+                        <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                          {parsedDate.day}
+                        </span>
+                        <span>{name}</span>
+                      </div>
+                    }
                   >
-                    <div className="space-y-2">
-                      {sortItems(section.items, cIdx, sIdx).map((item) => {
-                        const originalIdx = section.items.indexOf(item);
-                        const itemKey = getItemKey(cIdx, sIdx, originalIdx);
-                        const isFavorite = favorites[itemKey];
-                        return (
-                          <div
-                            key={itemKey}
-                            className={`p-3 rounded-xl transition-colors ${
-                              isFavorite
-                                ? "bg-pink-50 border border-pink-200"
-                                : "bg-gray-50 hover:bg-gray-100"
-                            }`}
-                          >
-                            <div className="flex items-start gap-3">
-                              <button
-                                onClick={() => toggleFavorite(itemKey)}
-                                className={`p-2 rounded-full transition-all shrink-0 ${
-                                  isFavorite
-                                    ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
-                                    : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
-                                }`}
+                    <div>
+                      {parsedDate.date && (
+                        <div className="flex flex-wrap items-center gap-2 mb-4">
+                          <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10">
+                            <Calendar size={12} />
+                            <span className="font-medium">
+                              {parsedDate.date}
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                      {route.options && (
+                        <div className="flex gap-2 mb-4 bg-[#F4F6F0] p-1 rounded-2xl border border-[#7A8B7B]/10">
+                          {route.options.map((opt, oIdx) => (
+                            <button
+                              key={oIdx}
+                              onClick={(e) => {
+                                e.stopPropagation(); // 阻止卡片折疊
+                                setSelectedRouteOpts((prev) => ({
+                                  ...prev,
+                                  [route.id]: oIdx,
+                                }));
+                              }}
+                              className={`flex-1 py-2 px-2.5 rounded-xl text-xs font-bold transition-all text-center ${
+                                currentOptIdx === oIdx
+                                  ? "bg-[#5F7A61] text-white shadow-sm"
+                                  : "text-[#5F7A61] hover:bg-[#5F7A61]/5"
+                              }`}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                      <div className="space-y-2.5">
+                        {steps &&
+                          steps.map((step, sIdx) => {
+                            const isShinkansen =
+                              step.line?.includes("新幹線") ||
+                              step.type === "shinkansen";
+                            const isLimitedExpress =
+                              step.line?.includes("特急") ||
+                              step.line?.includes("N'EX");
+                            return (
+                              <div
+                                key={sIdx}
+                                className="bg-[#F4F6F0]/80 rounded-2xl p-3.5 flex flex-col gap-1.5 border border-[#7A8B7B]/10 relative overflow-hidden group transition-all duration-300 hover:shadow-sm"
                               >
-                                <Star
-                                  size={18}
-                                  className={isFavorite ? "fill-current" : ""}
-                                />
-                              </button>
-                              <div className="flex-1 min-w-0 pt-1">
-                                <div className="font-bold text-[#8B7355] flex items-center gap-2">
-                                  {item.name}
-                                  {item.recommended && (
-                                    <Star
-                                      size={14}
-                                      className="text-yellow-500 fill-yellow-500"
-                                    />
+                                {/* 裝飾線條 */}
+                                <div
+                                  className={`absolute left-0 top-0 bottom-0 w-1 ${
+                                    step.type === "bike"
+                                      ? "bg-[#93A895]"
+                                      : isShinkansen
+                                        ? "bg-amber-500"
+                                        : isLimitedExpress
+                                          ? "bg-red-500"
+                                          : "bg-[#5F7A61]"
+                                  }`}
+                                ></div>
+
+                                <div className="flex items-center gap-1.5 border-b border-[#7A8B7B]/10 pb-1.5 mb-1 pl-2">
+                                  <div className="flex items-center gap-1.5 min-w-0 flex-1">
+                                    {step.type === "bike" ? (
+                                      <Bike
+                                        size={14}
+                                        className="text-[#93A895] shrink-0"
+                                      />
+                                    ) : step.type === "bus" ? (
+                                      <Bus
+                                        size={14}
+                                        className="text-[#5F7A61] shrink-0"
+                                      />
+                                    ) : (
+                                      <Train
+                                        size={14}
+                                        className={`${
+                                          isShinkansen
+                                            ? "text-amber-600"
+                                            : isLimitedExpress
+                                              ? "text-red-600"
+                                              : "text-[#5F7A61]"
+                                        } shrink-0`}
+                                      />
+                                    )}
+                                    <div className="flex items-center gap-2 flex-wrap">
+                                      <span
+                                        className={`text-sm font-bold truncate ${
+                                          isShinkansen
+                                            ? "text-amber-800"
+                                            : isLimitedExpress
+                                              ? "text-red-800"
+                                              : "text-[#5F7A61]"
+                                        }`}
+                                      >
+                                        {step.line}
+                                      </span>
+                                      {isShinkansen && (
+                                        <span className="text-[10px] font-bold bg-amber-500 text-white px-1.5 py-0.5 rounded shadow-sm shrink-0">
+                                          新幹線
+                                        </span>
+                                      )}
+                                      {isLimitedExpress && (
+                                        <span className="text-[10px] font-bold bg-red-500 text-white px-1.5 py-0.5 rounded shadow-sm shrink-0">
+                                          特急
+                                        </span>
+                                      )}
+                                      {step.duration && (
+                                        <span className="ml-auto text-[11px] text-[#7A8B7B] font-medium flex items-center gap-0.5 opacity-80 shrink-0">
+                                          <Clock size={10} />
+                                          {step.duration}
+                                        </span>
+                                      )}
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div className="flex flex-wrap items-center gap-2 text-[12px] md:text-[13px] pl-2 mt-1">
+                                  {step.station && (
+                                    <div className="text-gray-800 font-bold tracking-wide">
+                                      {step.station}
+                                    </div>
+                                  )}
+                                  {step.platform && (
+                                    <div className="flex items-center text-gray-500 font-medium text-[11px]">
+                                      <span className="mr-1.5 text-gray-300">
+                                        /
+                                      </span>
+                                      {step.platform}
+                                    </div>
                                   )}
                                 </div>
-                                <div className="text-xs text-gray-500 mt-1">
-                                  {item.type} • {item.desc}
+
+                                {(step.fare || step.note) && (
+                                  <div className="text-[11px] text-gray-600 mt-2 leading-snug bg-white/60 p-2.5 rounded-lg border border-white/45 pl-3 ml-2 flex flex-col gap-1">
+                                    {step.fare && (
+                                      <div className="text-xs text-[#5F7A61] font-bold flex items-start gap-1">
+                                        <Ticket
+                                          size={12}
+                                          className="mt-0.5 shrink-0"
+                                        />{" "}
+                                        {step.fare}
+                                      </div>
+                                    )}
+                                    {step.note && (
+                                      <div className="text-gray-600">
+                                        {step.note.includes("⚠️") ? (
+                                          <span className="text-red-500 font-bold">
+                                            {step.note}
+                                          </span>
+                                        ) : (
+                                          <span>* {step.note}</span>
+                                        )}
+                                      </div>
+                                    )}
+                                    {step.timetable && (
+                                      <div className="mt-2.5 mb-2 bg-white/80 rounded-xl overflow-hidden border border-[#5F7A61]/20 shadow-sm">
+                                        <table className="w-full text-[11px] md:text-xs text-center">
+                                          <thead className="bg-[#5F7A61]/10 text-[#5F7A61] font-bold">
+                                            <tr>
+                                              <th className="py-1.5 px-2">
+                                                車次
+                                              </th>
+                                              <th className="py-1.5 px-2">
+                                                發車
+                                              </th>
+                                              <th className="py-1.5 px-2">
+                                                抵達
+                                              </th>
+                                              <th className="py-1.5 px-2 text-left">
+                                                備註
+                                              </th>
+                                            </tr>
+                                          </thead>
+                                          <tbody className="divide-y divide-[#5F7A61]/10">
+                                            {step.timetable.map((row, rIdx) => (
+                                              <tr
+                                                key={rIdx}
+                                                className="hover:bg-[#5F7A61]/5 transition-colors"
+                                              >
+                                                <td className="py-1.5 px-2 font-medium text-gray-700">
+                                                  {row.train}
+                                                </td>
+                                                <td className="py-1.5 px-2 font-bold text-gray-900">
+                                                  {row.dep}
+                                                </td>
+                                                <td className="py-1.5 px-2 font-bold text-gray-900">
+                                                  {row.arr}
+                                                </td>
+                                                <td className="py-1.5 px-2 text-left text-gray-500">
+                                                  {row.note || "-"}
+                                                </td>
+                                              </tr>
+                                            ))}
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    )}
+                                    {step.link && (
+                                      <a
+                                        href={step.link.url}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-1 text-[#5F7A61] hover:text-[#7A8B7B] underline font-medium mt-1 transition-colors"
+                                      >
+                                        🔗 {step.link.text}
+                                      </a>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            );
+                          })}
+                        {currentRoute.desc && !steps && (
+                          <div className="text-sm text-gray-500 pl-2">
+                            {currentRoute.desc}
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </SectionCard>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* 景點 Tab */}
+          <div
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
+              activeTab === "attraction"
+                ? "space-y-6 animate-fade-in"
+                : "hidden"
+            }`}
+          >
+            {attractionData.categories.map((category, cIdx) => {
+              const parsedDate = parseDateStr(category.day);
+              return (
+                <SectionCard
+                  key={cIdx}
+                  icon={null}
+                  title={
+                    <div className="flex items-center gap-3 w-full">
+                      <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                        {parsedDate.day}
+                      </span>
+                      <span>{category.location}</span>
+                    </div>
+                  }
+                  collapsible={true}
+                  forceOpen={isAnyExpanded}
+                  variant="glass"
+                >
+                  {parsedDate.date && (
+                    <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4 ml-2">
+                      <Calendar size={12} />
+                      <span className="font-medium">{parsedDate.date}</span>
+                    </div>
+                  )}
+                  {category.sections.map((section, sIdx) => (
+                    <CollapsibleSubsection
+                      key={sIdx}
+                      title={section.title}
+                      count={section.items.length}
+                      forceOpen={isAnyExpanded}
+                    >
+                      <div className="space-y-2">
+                        {section.items.map((item, iIdx) => (
+                          <div
+                            key={iIdx}
+                            className="p-3 rounded-xl transition-colors bg-white/70 backdrop-blur-sm hover:bg-white border border-transparent hover:border-[#5F7A61]/10"
+                          >
+                            <div className="flex items-start gap-3">
+                              <div className="flex-1 min-w-0 pt-1 pl-2">
+                                <div className="font-bold text-[#7A8B7B] flex items-center gap-2">
+                                  {item.name}
                                 </div>
+                                <div className="text-xs text-gray-500 mt-1">
+                                  <span className="text-[#E86B50] font-bold tracking-wide">
+                                    {item.type}
+                                  </span>{" "}
+                                  • {item.desc}
+                                </div>
+                                {item.fee && (
+                                  <div className="mt-1.5 text-[11px] text-[#5F7A61] font-bold flex items-start gap-1">
+                                    <Ticket
+                                      size={12}
+                                      className="mt-0.5 shrink-0"
+                                    />
+                                    <span>{item.fee}</span>
+                                  </div>
+                                )}
                                 {item.note && (
-                                  <div className="text-xs text-orange-600 mt-1">
+                                  <div className="text-xs text-gray-500 mt-2 pl-2.5 border-l-2 border-[#5F7A61]/35 leading-relaxed">
                                     {item.note}
                                   </div>
                                 )}
@@ -704,78 +1332,192 @@ export default function App() {
                                   href={item.mapUrl}
                                   target="_blank"
                                   rel="noopener noreferrer"
-                                  className="p-2 text-gray-400 hover:text-[#2D5A27] transition-colors shrink-0"
+                                  className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
                                 >
                                   <MapPin size={16} />
                                 </a>
                               )}
                             </div>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </CollapsibleSubsection>
-                ))}
-              </SectionCard>
-            ))}
-        </div>
+                        ))}
+                      </div>
+                    </CollapsibleSubsection>
+                  ))}
+                </SectionCard>
+              );
+            })}
+          </div>
 
-        {/* 購物 Tab */}
-        <div
-          className={
-            activeTab === "shopping" ? "max-w-3xl mx-auto space-y-6" : "hidden"
-          }
-        >
-          <ShoppingSection
-            categories={shoppingData.categories}
-            purchased={purchased}
-            togglePurchased={togglePurchased}
-            setProductModalData={setProductModalData}
-            forceOpen={isAnyExpanded}
-            // theme="default" /* 可替換為 forest, ocean 等主題 */
-          />
-        </div>
-      </main>
+          {/* 美食 Tab */}
+          <div
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
+              activeTab === "food" ? "space-y-6 animate-fade-in" : "hidden"
+            }`}
+          >
+            {isSyncing && (
+              <div className="text-center text-gray-400 text-sm py-2">
+                ✨ 正在同步雲端收藏...
+              </div>
+            )}
+            {foodData.categories
+              .filter((cat) => cat.sections[0].items.length > 0)
+              .map((category, cIdx) => {
+                const parsedDate = parseDateStr(category.day);
+                return (
+                  <div key={cIdx} id={`food-section-${cIdx}`}>
+                    <SectionCard
+                      icon={null}
+                      title={
+                        <div className="flex items-center gap-3 w-full">
+                          <span className="w-[72px] text-center inline-block text-xs font-medium text-[#5F7A61] bg-[#5F7A61]/10 px-2.5 py-0.5 rounded-full flex-shrink-0">
+                            {parsedDate.day}
+                          </span>
+                          <span>{category.location}</span>
+                        </div>
+                      }
+                      collapsible={true}
+                      forceOpen={isAnyExpanded}
+                      variant="glass"
+                    >
+                      {parsedDate.date && (
+                        <div className="inline-flex items-center gap-1.5 text-xs text-[#5F7A61] bg-[#5F7A61]/5 px-3 py-1 rounded-xl border border-[#5F7A61]/10 mb-4 ml-2">
+                          <Calendar size={12} />
+                          <span className="font-medium">{parsedDate.date}</span>
+                        </div>
+                      )}
+                      {category.sections.map((section, sIdx) => (
+                        <CollapsibleSubsection
+                          key={sIdx}
+                          title={section.title}
+                          count={section.items.length}
+                          forceOpen={isAnyExpanded}
+                        >
+                          <div className="space-y-2">
+                            {sortItems(section.items, cIdx, sIdx).map(
+                              (item) => {
+                                const originalIdx = section.items.indexOf(item);
+                                const itemKey = getItemKey(
+                                  cIdx,
+                                  sIdx,
+                                  originalIdx,
+                                );
+                                const isFavorite = favorites[itemKey];
+                                return (
+                                  <div
+                                    key={itemKey}
+                                    className={`p-3 rounded-xl transition-colors ${
+                                      isFavorite
+                                        ? "bg-pink-50/80 border border-pink-200/60 shadow-sm"
+                                        : "bg-white/70 backdrop-blur-sm hover:bg-white border border-transparent hover:border-[#5F7A61]/10"
+                                    }`}
+                                  >
+                                    <div className="flex items-start gap-3">
+                                      <button
+                                        onClick={() => toggleFavorite(itemKey)}
+                                        className={`p-2 rounded-full transition-all shrink-0 ${
+                                          isFavorite
+                                            ? "text-pink-500 bg-pink-100 hover:bg-pink-200"
+                                            : "text-gray-300 hover:text-pink-400 hover:bg-pink-50"
+                                        }`}
+                                      >
+                                        <Star
+                                          size={18}
+                                          className={
+                                            isFavorite ? "fill-current" : ""
+                                          }
+                                        />
+                                      </button>
+                                      <div className="flex-1 min-w-0 pt-1">
+                                        <div className="font-bold text-[#7A8B7B] whitespace-pre-wrap leading-tight">
+                                          {item.name}
+                                        </div>
+                                        <div className="text-xs text-gray-500 mt-1">
+                                          <span className="text-[#E86B50] font-bold tracking-wide">
+                                            {item.type}
+                                          </span>{" "}
+                                          • {item.desc}
+                                        </div>
+                                        {item.note && (
+                                          <div className="text-xs text-gray-500 mt-1">
+                                            {item.note}
+                                          </div>
+                                        )}
+                                      </div>
+                                      {item.mapUrl && (
+                                        <a
+                                          href={item.mapUrl}
+                                          target="_blank"
+                                          rel="noopener noreferrer"
+                                          className="p-2 text-gray-400 hover:text-[#5F7A61] transition-colors shrink-0"
+                                        >
+                                          <MapPin size={16} />
+                                        </a>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              },
+                            )}
+                          </div>
+                        </CollapsibleSubsection>
+                      ))}
+                    </SectionCard>
+                  </div>
+                );
+              })}
+          </div>
 
-      {/* FAB */}
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end">
-        {[
-          "itinerary",
-          "food",
-          "shopping",
-          "overview",
-          "budget",
-          "map",
-        ].includes(activeTab) && (
+          {/* 購物 Tab */}
+          <div
+            className={`print:block print:break-before-page print:mt-8 print:space-y-6 ${
+              activeTab === "shopping" ? "space-y-6 animate-fade-in" : "hidden"
+            }`}
+          >
+            <ShoppingSection
+              categories={shoppingData.categories}
+              wishlist={shoppingData.wishlist}
+              purchased={purchased}
+              togglePurchased={togglePurchased}
+              setProductModalData={setProductModalData}
+              forceOpen={isAnyExpanded}
+              theme="forest"
+            />
+          </div>
+        </main>
+
+        {/* FAB */}
+        <div className="fixed bottom-6 right-6 z-50 flex flex-col gap-3 items-end print:hidden">
           <ToggleFAB
             isExpanded={isAnyExpanded}
             onToggle={handleSmartToggle}
-            colorClass="text-[#2D5A27]"
-            hoverClass="hover:text-[#2D5A27]"
+            colorClass="text-[#5F7A61]"
+            hoverClass="hover:text-[#5F7A61]"
           />
-        )}
+        </div>
+
+        <div className="print:hidden">
+          <ScrollToTop
+            bgClass="bg-[#5F7A61]"
+            shadowClass="shadow-[#5F7A61]/20"
+            hoverBgClass="hover:bg-[#4b614d]"
+          />
+        </div>
+
+        <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6 print:hidden">
+          <p>{tripMeta.footer}</p>
+        </footer>
+
+        <MapModal
+          isOpen={mapModalData.isOpen}
+          onClose={() => setMapModalData({ ...mapModalData, isOpen: false })}
+          data={mapModalData.data}
+        />
+        <ProductModal
+          isOpen={productModalData.isOpen}
+          onClose={() => setProductModalData({ isOpen: false, product: null })}
+          product={productModalData.product}
+        />
       </div>
-
-      <ScrollToTop
-        bgClass="bg-[#2D5A27]"
-        shadowClass="shadow-[#2D5A27]/20"
-        hoverBgClass="hover:bg-[#1f3f1b]"
-      />
-
-      <footer className="relative z-10 text-center py-6 text-gray-400 text-sm bg-gradient-to-t from-gray-50 to-transparent mt-6 mb-24 md:mb-6">
-        <p>© 2026 東京・橫濱・輕井澤 8日旅</p>
-      </footer>
-
-      <MapModal
-        isOpen={mapModalData.isOpen}
-        onClose={() => setMapModalData({ ...mapModalData, isOpen: false })}
-        data={mapModalData.data}
-      />
-      <ProductModal
-        isOpen={productModalData.isOpen}
-        onClose={() => setProductModalData({ isOpen: false, product: null })}
-        product={productModalData.product}
-      />
     </div>
   );
 }
