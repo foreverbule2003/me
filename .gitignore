@@ -59,4 +59,7 @@ playwright-report/
 blob-report/
 .vitest-result/
 logs/
+
+# Claude Code local settings (per-machine permission cache)
+.claude/settings.local.json
 .
