@@ -330,6 +330,40 @@ function registerViteEntry(locationCode, tripId) {
 }
 
 // ============================================================
+// TripsView.jsx 首頁選單自動註冊
+// ============================================================
+function registerTripsMenu(tripId, year, title) {
+  const tripsViewPath = path.join(ROOT, "src", "views", "TripsView.jsx");
+  const anchor = "const menuItems = [";
+  const newItem = `    {
+      label: "${year} ${title}",
+      href: "/me/trips/${tripId}/index.html",
+      isExternal: true,
+    },`;
+
+  try {
+    const content = fs.readFileSync(tripsViewPath, "utf8");
+    if (content.includes(`trips/${tripId}/index.html`)) {
+      console.log("ℹ️  TripsView.jsx 已包含此旅程選單，略過。");
+      return true;
+    }
+    if (!content.includes(anchor)) {
+      return false;
+    }
+    // 新旅程插在選單最上方（維持最新在前的慣例）
+    fs.writeFileSync(
+      tripsViewPath,
+      content.replace(anchor, `${anchor}\n${newItem}`),
+    );
+    console.log(`✅ src/views/TripsView.jsx (自動加入首頁選單「${year} ${title}」)`);
+    return true;
+  } catch (e) {
+    console.error(`⚠️  無法更新 TripsView.jsx: ${e.message}`);
+    return false;
+  }
+}
+
+// ============================================================
 // 主程式
 // ============================================================
 async function main() {
@@ -450,6 +484,16 @@ async function main() {
 ⚠️  無法自動更新 vite.config.js，請手動在 build.rollupOptions.input 中加入：
 
     'trips-${locationCode}': resolve(__dirname, 'trips/${tripId}/index.html'),
+`);
+  }
+
+  // 5. TripsView.jsx 首頁選單自動註冊
+  const menuRegistered = registerTripsMenu(tripId, year, tripTitle);
+  if (!menuRegistered) {
+    console.log(`
+⚠️  無法自動更新 src/views/TripsView.jsx，請手動在 menuItems 開頭加入：
+
+    { label: "${year} ${tripTitle}", href: "/me/trips/${tripId}/index.html", isExternal: true },
 `);
   }
 
