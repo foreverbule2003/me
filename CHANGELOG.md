@@ -11,6 +11,14 @@
 - **旅遊 Scaffold v4.0 (`tools/new-trip.js`)**: 依 2026-tokyo 最終架構全面改寫。新旅程改為複製 `src/pages/trips/template/` 產生，目錄命名統一為 `{year}-{location}`，並自動產生 PWA 離線小書檔案（`manifest.json` + `sw.js`）、可同步的 `spec.md`，且自動註冊 `vite.config.js` 入口點。
 - **ExpenseSection 模板元件**: 將東京行程的雙幣（JPY/TWD）實際記帳總覽（圓餅圖 + 分類明細）通用化並納入模板，匯率與天數改為參數驅動。
 - **`/commit` 自訂指令 (`.claude/commands/commit.md`)**: 固化 commit workflow —— guard/test 驗證 → 文件同步檢查（CHANGELOG、docs、TRIP_STYLE_GUIDE）→ 分主題提交。
+- **前代指令遷移 (Workflow P1)**: 自 `.agent/workflows/`（Antigravity 時代的 33 個指令）遷移六個高價值指令至 `.claude/commands/`：`/doc-check`、`/deploy`、`/sync`、`/journal`、`/capture`、`/cleanup`，內容依 Claude Code 環境與現況改寫（deploy 說明 push 即自動部署、cleanup 改用 mac 相容指令等）。
+- **new-trip 首頁選單自動註冊**: `tools/new-trip.js` 產生新旅程時自動將選單項插入 `src/views/TripsView.jsx`（最新在前），補上 scaffold 最後一哩。
+
+### 變更 (Changed) 🔄
+
+- **TODO 單軌化**: 根目錄 `TODO.md` 為專案唯一 backlog；`tasks/todo.md`（前代 /advisor checkpoint）標記棄用，`tasks/lessons.md` 保留。
+- **CB_DATA_FLOW.md 對齊現實**: 補記 GitHub Actions 雲端軌（每交易日 13:40 / 14:15 自動同步）與本地 XQ DDE 軌的 Windows 平台前提，更新架構圖。
+- **WORKFLOW_GUIDE.md**: 日常流程與速查表改指向新的 `.claude/commands/` 指令集。
 
 ### 修復 (Fixed) 🔧
 

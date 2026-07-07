@@ -146,13 +146,13 @@
 
 ## 修正優先序總表
 
-| 優先 | 項目 | 影響 |
-|------|------|------|
-| P0-1 | vitest exclude Playwright specs | `npm test` 回綠，防線復活 |
-| P0-2 | guard 絕對路徑規則白名單/降級 | `npm run guard` exit code 重新有意義 |
-| P0-3 | `/commit` 合併原版步驟（cleanup、TODO 歸檔、trip spec 同步、用戶確認） | 補齊「設計好的 commit workflow」 |
-| P1-1 | 遷移高價值指令至 `.claude/commands/`（doc-check、deploy、sync、journal、capture、cleanup） | 33 個孤兒 workflow 復活 |
-| P1-2 | new-trip 自動註冊首頁選單 | scaffold 最後一哩 |
-| P1-3 | 更新 CB_DATA_FLOW.md（Actions 雙軌 + Windows 前提） | 文件與現實一致 |
-| P1-4 | TODO 單軌化；WORKFLOW_GUIDE 更新指向新指令 | 消除雙軌混亂 |
-| P2 | CHANGELOG 補斷層、firestore rules 部署文件化、/check-cb-pipeline、離線小書文件、lessons.md 活化 | 品質完善 |
+| 優先 | 項目 | 影響 | 狀態 |
+|------|------|------|------|
+| P0-1 | vitest exclude Playwright specs | `npm test` 回綠，防線復活 | ✅ 2026-07-06 |
+| P0-2 | guard 絕對路徑規則白名單/降級 | `npm run guard` exit code 重新有意義 | ✅ 2026-07-06 |
+| P0-3 | `/commit` 合併原版步驟（cleanup、TODO 歸檔、trip spec 同步、用戶確認） | 補齊「設計好的 commit workflow」 | ✅ 2026-07-06 |
+| P1-1 | 遷移高價值指令至 `.claude/commands/`（doc-check、deploy、sync、journal、capture、cleanup） | 33 個孤兒 workflow 中的精華復活 | ✅ 2026-07-06 |
+| P1-2 | new-trip 自動註冊首頁選單 | scaffold 最後一哩 | ✅ 2026-07-06 |
+| P1-3 | 更新 CB_DATA_FLOW.md（Actions 雙軌 + Windows 前提） | 文件與現實一致 | ✅ 2026-07-06 |
+| P1-4 | TODO 單軌化（根目錄為準）；WORKFLOW_GUIDE 更新指向新指令 | 消除雙軌混亂 | ✅ 2026-07-06 |
+| P2 | CHANGELOG 補斷層、firestore rules 部署文件化、/check-cb-pipeline、離線小書文件、lessons.md 活化、TripsView 北海道死連結處理 | 品質完善 | ⬜ 待辦 |

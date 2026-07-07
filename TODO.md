@@ -1,6 +1,8 @@
 # 待辦事項 (TODO)
 
-> 最後更新：2026-06-08 (Tokyo-UI-Polish)
+> 最後更新：2026-07-06 (Workflow-P1)
+> **本檔案是專案唯一的 backlog**（`tasks/todo.md` 已棄用）。
+> 新增項目用 `/capture`；已完成項目由 `/commit` 歸檔至底部。
 
 ## 🔴 P0: 立即執行 (Pending)
 
