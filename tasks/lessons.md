@@ -51,6 +51,27 @@
 
 ---
 
+## 2026-07-07
+
+### 錯誤模式
+
+- **雙版本殘留 + 測試假綠燈**：CB 計算核心歷史演進留下三份 `CbCalculatorCore`（`src/lib/cb-logic.mjs`、`src/lib/cb_logic.mjs`、`tools/components/CbCalculatorCore.mjs`）。`package.json` 的 `test:unit` 長期測的是**沒人使用**的 `cb_logic.mjs`，真正上線的 `cb-logic.mjs` 邏輯反而無測試把關——綠燈只是假安全感。
+- **孤兒腳本壞損無人知**：`scripts/test-calculator-core.mjs` 的 import 指向不存在的根目錄 `components/`，壞了很久沒被發現，因為它沒接進任何 npm script 或 CI。
+
+### 修正規則
+
+- 重構抽出新模組時，**同一個 commit 必須刪除舊版**（或至少改名加 `.deprecated`），不可雙版本並存等日後清理。
+- 改測試目標檔名時，同步檢查 `package.json` scripts 是否指向舊路徑。
+- 新增驗證腳本時必須接進 npm script（如 `test:*`）或 guard 鏈，否則等於不存在；反向盤點：`scripts/` 內沒被 `package.json`、CI、文件引用的腳本，視為刪除候選。
+- 判定「哪版是現行版」不能只看 git 日期，要以**實際引用處**（live app import 的 API 簽名）為準。
+
+### 後續追蹤
+
+- [ ] 下次重構抽模組時，確認 commit diff 內同時包含舊版刪除
+- [ ] 定期（或在 /commit 清理步驟）掃描 `scripts/` 孤兒腳本
+
+---
+
 ## 2026-08-29
 
 ### 錯誤模式
