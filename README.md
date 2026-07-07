@@ -116,6 +116,14 @@ timboy/
 - **即時同步**：Firebase Firestore
 - **部署**：GitHub Actions + GitHub Pages
 
+## 🚀 部署 (Deployment)
+
+| 對象 | 方式 |
+| --- | --- |
+| **網站** | push `main` 即自動觸發 `.github/workflows/deploy.yml`，build 後部署至 GitHub Pages（可用 `/deploy` 指令） |
+| **Firestore 規則** | ⚠️ **不會**隨 push 自動部署。修改 `firebase/firestore.rules` 後需手動執行：`firebase deploy --only firestore:rules` |
+| **CB 資料排程** | 雲端軌由 GitHub Actions 每交易日自動跑；本地 DDE 軌僅限 Windows 交易機（詳見 [CB_DATA_FLOW.md](./docs/CB_DATA_FLOW.md)），健康檢查可用 `/check-cb-pipeline` |
+
 ## 📚 相關文件
 
 - [FEATURES.md](./docs/FEATURES.md) - 功能清單

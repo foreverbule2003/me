@@ -22,6 +22,8 @@
 
 ### 修復 (Fixed) 🔧
 
+- **PWA 離線快取指向已改名檔案**: `trips/2026-tokyo` 的 `sw.js`/`manifest.json`（與 new-trip 模板）仍指向歷史名稱 `travel-book.html`，統一修正為現行產生器輸出的 `master_guide.html`（cache 版本遞增至 v3）；TRIP_STYLE_GUIDE 新增「離線旅遊小書」章節記錄三檔協作關係。
+- **首頁選單死連結**: 移除 `TripsView.jsx` 中指向已刪除目錄的「2026 北海道 (TBD)」選單項。
 - **測試防線紅燈常態化**: 新增 `vitest.config.js` 限定單元測試掃描 `src/**`，不再誤掃 `tests/` 的 Playwright spec（原本 3 個 suite 必紅）；`npm test` 回歸綠燈基準。
 - **Guard 誤報修正**: `check-datapath.js` 新增合法模式白名單（`/me/favicon`、`/me/?booted=true` 屬 vite base 下的刻意用法）並修復 `/g` regex lastIndex 殘留；`verify-dom.js` 由過時的靜態 DOM ID 檢查改為 React 入口接線驗證（mount point + module script 存在性）。`npm run guard` exit code 重新有意義。
 - **Workflow 體檢**: 新增 `docs/WORKFLOW_AUDIT_2026-07-06.md` 全面盤點七大 workflow；`/commit` 指令合併 `.agent/workflows/commit.md` 原版設計（提交前清理、TODO 歸檔、旅遊 spec 自動同步、提交前確認）。
@@ -31,6 +33,32 @@
 - **旅程模板同步 tokyo 架構**: `template/App.jsx` 升級為 8 頁籤（總覽/行程/交通/景點/美食/購物/住宿/花費），含視差 Hero、匯出 PDF 小書按鈕、住宿估算明細與 Firebase 收藏/購物同步；所有標題、Hero 圖、匯率、晚數改由 `data.js` 的 `tripMeta` 驅動，建立新旅程後通常僅需填資料。
 - **資料模板 schema 對齊**: `data.template.js` 補齊 `tripMeta`、`stationMapping`、`attractionData`、`accommodationData`、`expenseData` 等匯出，與 `scripts/sync-travel-spec.mjs`、`scripts/generate-travel-pdf.mjs` 完全相容。
 - **TRIP_STYLE_GUIDE.md**: 架構章節由過時的「單一 HTML + CDN」描述更新為 Vite + React 資料驅動工作流程。
+
+---
+
+## [2.5.5] - 2026-07-05 (Tokyo Trip Complete & Travel Book Automation)
+
+> 補記：2026-05-12 至 2026-07-05 約 55 個 commit 的彙總（東京行程開發期）。
+
+### 新增 (Added) 🚀
+
+- **2026 東京行程完工**: 8 日行程（東京・橫濱・輕井澤）從 v1.3 規格到全部定稿——8 頁籤架構（總覽/行程/交通/景點/美食/購物/住宿/花費）、獨立景點分頁、Day 4/5 多方案動態切換（輕井澤/高崎/草津溫泉）、住宿最終預訂與跨幣別估算。
+- **離線旅遊小書機制**: `scripts/generate-travel-pdf.mjs`（由 data.js 產生高保真離線 HTML/PDF，含目錄錨點）+ PWA（manifest/sw）離線快取 + Header 一鍵匯出 PDF。
+- **行程規格自動同步**: `scripts/sync-travel-spec.mjs` 由 data.js 單向產生 spec.md，消除雙向維護。
+- **ExpenseSection 實際記帳**: 雙幣（JPY/TWD）記帳統一台幣顯示、依佔比排序的圓餅圖與分類明細。
+- **購物清單雲端化**: wishlist + Firebase 已購狀態即時同步、商品詳情 Modal 與實拍圖。
+
+### 優化 (Improvements) 🚀
+
+- **視覺系統**: 森林綠/莫蘭迪主題、玻璃擬態卡片（mask-image Hero）、視差滾動首圖、珊瑚朱分類標籤、全站日期標籤對齊（72px）與標點統一。
+- **交通分頁**: 結構化逐段步驟卡（月台/票價/時刻表/官方連結）、N'EX 官方時刻表同步、行程↔交通↔美食跨分頁跳轉定位。
+- **共用元件**: 萃取 `ShoppingSection` 至 shared、旅程 template 首次補齊（TRIP_ID/weatherData/vegetarianCard 等）。
+
+### 修復 (Fixed) 🔧
+
+- **TWSE API Rate Limiting**: `fetch-cb-history` 改循序請求 + 100ms 延遲。
+- **GameBoyShell 白畫面**: 修復重新整理時 `isPoweredOn` 初始狀態問題。
+- **N'EX 回程時刻**: 修正 D8 精確抵達時間與樂桃 MM625 航班資訊。
 
 ---
 

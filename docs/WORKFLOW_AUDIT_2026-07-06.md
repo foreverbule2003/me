@@ -155,4 +155,9 @@
 | P1-2 | new-trip 自動註冊首頁選單 | scaffold 最後一哩 | ✅ 2026-07-06 |
 | P1-3 | 更新 CB_DATA_FLOW.md（Actions 雙軌 + Windows 前提） | 文件與現實一致 | ✅ 2026-07-06 |
 | P1-4 | TODO 單軌化（根目錄為準）；WORKFLOW_GUIDE 更新指向新指令 | 消除雙軌混亂 | ✅ 2026-07-06 |
-| P2 | CHANGELOG 補斷層、firestore rules 部署文件化、/check-cb-pipeline、離線小書文件、lessons.md 活化、TripsView 北海道死連結處理 | 品質完善 | ⬜ 待辦 |
+| P2-1 | CHANGELOG 補 5/12–7/5 斷層（2.5.5 彙總版本） | 歷史可追溯 | ✅ 2026-07-06 |
+| P2-2 | firestore rules 部署文件化（README 部署章節） | 規則變更不再漏部署 | ✅ 2026-07-06 |
+| P2-3 | `/check-cb-pipeline` 指令（Actions 雙軌健康檢查） | 管線失敗可及早發現 | ✅ 2026-07-06 |
+| P2-4 | 離線小書文件化 + 修正 sw/manifest 指向已改名的 `master_guide.html` | PWA 離線快取目標不再 404 | ✅ 2026-07-06 |
+| P2-5 | TripsView 移除「2026 北海道 (TBD)」死連結 | 首頁選單不再 404 | ✅ 2026-07-06 |
+| P2-6 | lessons.md 活化（首筆教訓：孤兒 workflow 與紅燈常態化） | 教訓可沉澱回顧 | ✅ 2026-07-06 |
