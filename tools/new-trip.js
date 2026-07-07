@@ -164,7 +164,7 @@ function generateCss(locationCode, title) {
 // ============================================================
 function generateManifest(title) {
   const icon =
-    'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗾</text></svg>';
+    "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🗾</text></svg>";
   return (
     JSON.stringify(
       {
@@ -356,7 +356,9 @@ function registerTripsMenu(tripId, year, title) {
       tripsViewPath,
       content.replace(anchor, `${anchor}\n${newItem}`),
     );
-    console.log(`✅ src/views/TripsView.jsx (自動加入首頁選單「${year} ${title}」)`);
+    console.log(
+      `✅ src/views/TripsView.jsx (自動加入首頁選單「${year} ${title}」)`,
+    );
     return true;
   } catch (e) {
     console.error(`⚠️  無法更新 TripsView.jsx: ${e.message}`);
@@ -376,9 +378,7 @@ async function main() {
   const location = (
     await askQuestion("📍 請輸入地點代碼 (例如 sapporo): ")
   ).trim();
-  const title = (
-    await askQuestion("✨ 請輸入主標題 (例如 北海道): ")
-  ).trim();
+  const title = (await askQuestion("✨ 請輸入主標題 (例如 北海道): ")).trim();
   const subtitle = (
     await askQuestion("📝 請輸入副標題 (例如 札幌・小樽 6日旅): ")
   ).trim();
@@ -401,7 +401,9 @@ async function main() {
 
   // 檢查是否已存在
   if (fs.existsSync(tripsDir) || fs.existsSync(srcPagesDir)) {
-    console.error(`\n❌ 錯誤：目錄 trips/${tripId} 或 src/pages/trips/${tripId} 已經存在！`);
+    console.error(
+      `\n❌ 錯誤：目錄 trips/${tripId} 或 src/pages/trips/${tripId} 已經存在！`,
+    );
     process.exit(1);
   }
   if (!fs.existsSync(TEMPLATE_DIR)) {

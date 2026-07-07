@@ -20,6 +20,15 @@
 │   │   ├── 🛒 購物清單 (shopping)
 │   │   ├── 🏨 住宿資訊 (accommodation)
 │   │   └── 💰 預算規劃 (budget)
+│   ├── 🏝️ 2026 沖繩 (trips/2026-okinawa/) [Vite+React] ✨ NEW
+│   │   ├── 📋 行程總覽 (overview)
+│   │   ├── 📅 每日詳情 (itinerary)
+│   │   ├── 🧭 交通地圖 (map)
+│   │   ├── 🌲 景點分頁 (attraction)
+│   │   ├── 🍽️ 美食指南 (food)
+│   │   ├── 🛒 購物清單 (shopping)
+│   │   ├── 🏨 住宿資訊 (accommodation)
+│   │   └── 💰 預算規劃 (budget)
 │   ├── 🌴 2025 宿霧 (trips/2025-cebu/)
 │   ├── 🏯 2025 大阪 (trips/2025-osaka/)
 │   └── 🦐 2026 伊勢志摩 (trips/2026-ise-shima/) [Vite+React]
@@ -67,7 +76,8 @@
 | 旅程列表       | `/trips/`                                      | ✅ 完成   | Vite+React   |
 | 工具箱         | `/tools/`                                      | ✅ 完成   | Vite+React   |
 | 2025 宿霧      | `/trips/2025-cebu/index.html`                  | ✅ 完成   | CDN+Babel    |
-| 2026 東京      | `/trips/2026-tokyo/index.html`                 | 🚧 建置中 | Vite+React   |
+| 2026 東京      | `/trips/2026-tokyo/index.html`                 | ✅ 完成   | Vite+React   |
+| 2026 沖繩      | `/trips/2026-okinawa/index.html`               | ✅ 完成   | Vite+React   |
 | 2025 大阪      | `/trips/2025-osaka/index.html`                 | 🚧 建置中 | CDN+Babel    |
 | 2026 伊勢志摩  | `/trips/2026-ise-shima/index.html`             | ✅ 完成   | Vite+React   |
 | 日記           | `/journal/`                                    | ✅ 完成   | Vite+React   |

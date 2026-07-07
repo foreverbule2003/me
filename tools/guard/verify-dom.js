@@ -66,7 +66,7 @@ CHECKS.forEach((check) => {
       ),
     ];
     if (matches.length === 0) {
-      problems.push("no <script type=\"module\"> entry found");
+      problems.push('no <script type="module"> entry found');
     }
     matches.forEach((m) => {
       const src = m[1];

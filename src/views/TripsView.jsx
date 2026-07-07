@@ -8,6 +8,11 @@ const TripsView = ({ onSetActions }) => {
 
   const menuItems = [
     {
+      label: "2026 沖繩",
+      href: "/me/trips/2026-okinawa/index.html",
+      isExternal: true,
+    },
+    {
       label: "2026 東京",
       href: "/me/trips/2026-tokyo/index.html",
       isExternal: true,
