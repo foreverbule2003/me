@@ -170,7 +170,7 @@ function generateManifest(title) {
       {
         name: title,
         short_name: title.slice(0, 12),
-        start_url: "./travel-book.html",
+        start_url: "./master_guide.html",
         display: "standalone",
         background_color: "#0f0a19",
         theme_color: "#1a1025",
@@ -190,7 +190,8 @@ function generateManifest(title) {
 // ============================================================
 function generateSw(tripId) {
   return `const CACHE_NAME = "${tripId}-trip-v1";
-const urlsToCache = ["./travel-book.html", "./manifest.json"];
+// master_guide.html 由 node scripts/generate-travel-pdf.mjs ${tripId} 產生
+const urlsToCache = ["./master_guide.html", "./manifest.json"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -244,7 +245,7 @@ self.addEventListener("fetch", (event) => {
         })
         .catch(() => {
           if (event.request.mode === "navigate") {
-            return caches.match("./travel-book.html");
+            return caches.match("./master_guide.html");
           }
         });
     }),

@@ -1,5 +1,6 @@
-const CACHE_NAME = "tokyo-trip-v2";
-const urlsToCache = ["./travel-book.html", "./manifest.json"];
+const CACHE_NAME = "tokyo-trip-v3";
+// master_guide.html 由 node scripts/generate-travel-pdf.mjs 2026-tokyo 產生
+const urlsToCache = ["./master_guide.html", "./manifest.json"];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
@@ -59,7 +60,7 @@ self.addEventListener("fetch", (event) => {
         .catch(() => {
           // If offline and request fails, return the travel book for navigation
           if (event.request.mode === "navigate") {
-            return caches.match("./travel-book.html");
+            return caches.match("./master_guide.html");
           }
         });
     }),

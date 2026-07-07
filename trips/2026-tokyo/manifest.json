@@ -1,7 +1,7 @@
 {
   "name": "2026 東京 8日旅",
   "short_name": "東京旅",
-  "start_url": "./travel-book.html",
+  "start_url": "./master_guide.html",
   "display": "standalone",
   "background_color": "#0f0a19",
   "theme_color": "#1a1025",

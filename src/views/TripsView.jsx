@@ -13,11 +13,6 @@ const TripsView = ({ onSetActions }) => {
       isExternal: true,
     },
     {
-      label: "2026 北海道 (TBD)",
-      href: "/me/trips/2026-hokkaido/index.html",
-      isExternal: true,
-    },
-    {
       label: "2026 伊勢志摩",
       href: "/me/trips/2026-ise-shima/index.html",
       isExternal: true,

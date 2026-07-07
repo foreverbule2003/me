@@ -16,6 +16,21 @@
 - **雲端同步 Sync**: Firebase Firestore（美食收藏、購物已購狀態，以 `TRIP_ID` 分區）。
 - **離線與文件 Offline & Docs**: `trips/{trip}/manifest.json` + `sw.js` 提供 PWA 離線旅遊小書；`node scripts/sync-travel-spec.mjs {trip}` 由 data.js 同步 `spec.md`；`node scripts/generate-travel-pdf.mjs {trip}` 產生離線 HTML/PDF。
 
+### 1.1 離線旅遊小書 (Offline Travel Book)
+
+出發前的離線備援，由三個檔案協作：
+
+| 檔案 | 角色 |
+| --- | --- |
+| `trips/{trip}/master_guide.html` | 離線小書本體，由 `node scripts/generate-travel-pdf.mjs {trip}` 從 data.js 產生（不進 Git，需要時重新產生） |
+| `trips/{trip}/manifest.json` | PWA 安裝設定，`start_url` 指向 master_guide.html |
+| `trips/{trip}/sw.js` | Service Worker，快取 master_guide.html 供斷網瀏覽；更新內容時記得遞增 `CACHE_NAME` 版本號 |
+
+**工作流程**：行程定稿 → 產生 master_guide.html → 部署（或手機直接開啟後加入主畫面）→ 飛機上斷網也能看。
+另外行程頁 Header 的「匯出 PDF 小書」按鈕是 `window.print()`，走瀏覽器列印成 PDF，與上述 PWA 機制互補。
+
+> ⚠️ master_guide.html 不進 Git；若要讓線上版 PWA 離線功能生效，deploy 前需先產生它，否則 sw 快取目標會 404。
+
 ## 2. 設計系統 (Design System)
 
 ### 2.1 色彩計畫 (Color Palette)
