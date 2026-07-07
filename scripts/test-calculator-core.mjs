@@ -1,4 +1,4 @@
-import { CbCalculatorCore } from "../components/CbCalculatorCore.mjs";
+import { CbCalculatorCore } from "../src/lib/cb-logic.mjs";
 
 // Golden Sample Data (from cb-calculator.html fallback)
 const CASE_1 = {
@@ -6,9 +6,9 @@ const CASE_1 = {
   stockPrice: 255.0,
   conversionPrice: 246.6,
   expectedShares: 405.5149, // 100000 / 246.6
-  expectedConvValue: 103.4063, // 405.5149 * 255 / 1000
+  expectedConvValue: 103.4063, // (255 / 246.6) * 100
   expectedPremium: 20.88, // (125 - 103.406) / 103.406
-  expectedParity: 308.25, // 125 * 246.6 / 100
+  expectedParity: 308.25, // (125 / 100) * 246.6
 };
 
 console.log("🧪 Testing CbCalculatorCore Module...");
@@ -29,11 +29,7 @@ console.log(
 );
 
 // Test Premium Rate
-const premium = CbCalculatorCore.calculatePremiumRate(
-  CASE_1.cbPrice,
-  CASE_1.stockPrice,
-  CASE_1.conversionPrice,
-);
+const premium = CbCalculatorCore.calculatePremiumRate(CASE_1.cbPrice, convVal);
 console.log(
   `Premium: ${premium.toFixed(2)}% (Expected: ${CASE_1.expectedPremium}%)`,
 );
@@ -49,7 +45,7 @@ console.log(
 
 // Test Status
 const status = CbCalculatorCore.getPremiumStatus(premium);
-console.log(`Status: ${status.status} (Color: ${status.colorClass})`);
+console.log(`Status: ${status.label} (Color: ${status.color})`);
 
 if (Math.abs(premium - CASE_1.expectedPremium) < 0.05) {
   console.log("✅ Math Verification Passed!");

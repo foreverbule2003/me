@@ -54,6 +54,37 @@ describe('CbCalculatorCore', () => {
     });
   });
 
+  describe('calculateSharesPerBond', () => {
+    it('calculates shares from par value 100,000', () => {
+      // Conv: 246.6 => 100000 / 246.6 = 405.515
+      expect(CbCalculatorCore.calculateSharesPerBond(246.6)).toBeCloseTo(405.515, 3);
+    });
+
+    it('returns 0 for invalid inputs', () => {
+      expect(CbCalculatorCore.calculateSharesPerBond(0)).toBe(0);
+      expect(CbCalculatorCore.calculateSharesPerBond(null)).toBe(0);
+    });
+  });
+
+  describe('golden sample (志聖三 24673)', () => {
+    // CB: 125, Stock: 255, Conv: 246.6
+    it('reproduces the full calculation chain', () => {
+      const convValue = CbCalculatorCore.calculateConversionValue(255, 246.6);
+      expect(convValue).toBeCloseTo(103.406, 3);
+      expect(CbCalculatorCore.calculatePremiumRate(125, convValue)).toBeCloseTo(20.88, 2);
+      expect(CbCalculatorCore.calculateParityPrice(125, 246.6)).toBe(308.25);
+    });
+  });
+
+  describe('getMoneynessStatus', () => {
+    it('classifies moneyness by stock/conversion ratio', () => {
+      expect(CbCalculatorCore.getMoneynessStatus(140, 100)).toBe('深度價內 (Deep ITM)');
+      expect(CbCalculatorCore.getMoneynessStatus(110, 100)).toBe('價內 (ITM)');
+      expect(CbCalculatorCore.getMoneynessStatus(90, 100)).toBe('價外 (OTM)');
+      expect(CbCalculatorCore.getMoneynessStatus(70, 100)).toBe('深度價外 (Deep OTM)');
+    });
+  });
+
   describe('getPremiumStatus', () => {
     it('classifies premium rates correctly', () => {
       expect(CbCalculatorCore.getPremiumStatus(-6).label).toBe('折價');

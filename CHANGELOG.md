@@ -4,6 +4,19 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.9] - 2026-09-16 (CB 計算核心去重)
+
+### 重構 (Refactored) 🧹
+
+- **CB 計算核心統一為 `src/lib/cb-logic.mjs`**（實作於 2026-07-07 的 `0cd7e58`，在 worktree 分支上擱置兩個月，2026-09-16 併入主線）: 歷史演進留下三份 `CbCalculatorCore`（`src/lib/cb-logic.mjs`、`src/lib/cb_logic.mjs`、`tools/components/CbCalculatorCore.mjs`）。以 live React app（`useCalculator.js`、`AnalysisDrawer.jsx`）實際使用的 class 版 `cb-logic.mjs` 為現行權威，移除另外兩份舊版及 `cb_logic.test.mjs`；舊測試獨有的覆蓋案例（每張股數、志聖三 golden sample、價內外判定）移植至 `cb-logic.test.mjs`。
+
+### 修復 (Fixed) 🔧
+
+- **`scripts/test-calculator-core.mjs` 壞損 import**: 原 import `../components/CbCalculatorCore.mjs` 指向不存在的根目錄路徑（腳本無法執行），改接 `src/lib/cb-logic.mjs` 並對齊 class API 簽名。
+- **`test:unit` script 指向舊檔**: `package.json` 的 `test:unit` 由已刪除的 `cb_logic.test.mjs` 改指 `src/lib/cb-logic.test.mjs`。
+
+---
+
 ## [2.7.8] - 2026-09-16 (開工同步檢查擴及整個 session)
 
 ### 新增 (Added) 🚀
@@ -173,7 +186,6 @@
 
 - **README 新增「架構總覽圖」章節**: 說明圖分三條主線（建構部署、前端執行期、CB 資料雙軌）、如何開啟、以及「規格進版控、HTML 可再生」的策略與重生指令。
 - **`.gitignore` archify 規則收斂**: 改為只讓規格 JSON 進版控，忽略 `docs/diagrams/*.html` 與 `*.png`，並在註解內附上重生圖表的 `archify deliver` 指令。
-
 ---
 
 ## [2.6.0] - 2026-07-06 (Trip Scaffold v4.0 & /commit Workflow)

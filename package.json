@@ -15,7 +15,7 @@
     "sync:dde": "python tools/fetch-hot-cb-dde.py",
     "format": "npx prettier --write \"**/*.{html,css,js,md}\"",
     "test": "vitest run",
-    "test:unit": "vitest run src/lib/cb_logic.test.mjs",
+    "test:unit": "vitest run src/lib/cb-logic.test.mjs",
     "test:ui": "playwright test",
     "test:console": "playwright test tests/console-guard.spec.js",
     "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js && node tools/guard/check-trip-schema.mjs",
