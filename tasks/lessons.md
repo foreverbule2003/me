@@ -148,3 +148,29 @@
 - [ ] `wrapper.js` / `input.txt` 建議改名並移入 `tools/`（例：`tools/new-trip-noninteractive.js`），或直接讓 `new-trip.js` 支援 `--from-file` 參數，避免下次又被重造
 - [x] 檢查已落到 `tools/new-trip.js` 裡，不再依賴人記得讀文件；`CONTRIBUTING.md` 同步說明被擋下時的處理（2026-09-06）
 - [ ] 其他會動到全域註冊點的操作（新增路由、新增 Vite 入口）目前仍無同類保護
+
+---
+
+## 2026-09-11
+
+### 錯誤模式
+
+- **文件描述的機制從未上線，卻沒人發現**：TRIP_STYLE_GUIDE §1.1 寫著 `master_guide.html` + `manifest.json` + `sw.js` 提供 PWA 離線小書，2026-07-06 的 P2-4 還修過「sw 快取目標不再 404」並標為完成。實際上 `trips/` 不在 `public/`，Vite 只輸出 `rollupOptions.input` 列出的 `index.html`，這三個檔案從來沒進過 `dist/`；也沒有任何頁面註冊旅程 sw。上次的修正只對齊了 repo 內的檔名，沒有打一次線上網址。
+- **同一件事，文件與 Git 狀態互相矛盾**：文件寫 master_guide.html「不進 Git」，但 `2026-okinawa` 的那份被追蹤了；兩邊各自說得通，卻都沒讓它上線。
+- **產生器寫死第一個旅程的內容**：`generate-travel-pdf.mjs` 的 `<title>`、封面標題與日期寫死「2026 東京 8日旅 / 6/17~6/24」，沖繩的小書也掛著東京封面。泛化腳本時只換了資料來源，沒掃模板裡的字面值。
+- **多支 Service Worker 共用 Cache Storage 卻各自清全部**：根 sw 與旅程 sw 的 activate 都刪掉「名稱不等於自己」的所有快取，任一方更新就清掉對方的離線資料。單獨看每支 sw 都沒錯。
+
+### 修正規則
+
+- **宣稱「部署後可用」的機制，驗證要打線上 URL**：`curl -s -o /dev/null -w '%{http_code}'` 確認回 200 且不是 404 頁；本機 `npm run build` 後至少要 `ls dist/` 確認檔案在。repo 裡有檔案 ≠ 會被部署。
+- **Vite 專案裡，放在 `public/` 以外、又不是 input 入口的靜態檔，一律不會進 `dist/`**：要嘛移進 `public/`，要嘛在 `vite.config.js` 用 plugin `emitFile`。新增這類檔案時先想好它怎麼到線上。
+- **可由資料產生的產物，優先在 build 時產生，不要靠人記得重跑再 commit**：master_guide.html 改為 build 時由 data.js 產生（`trip-offline-book` plugin），從此不會過期，也不必進 Git。
+- **Service Worker 的快取名稱要帶前綴，activate 只清自己前綴的舊版**；scope 要限縮到真正要接管的頁面，避免同目錄其他頁面被接管而卡在舊版。
+- **把「單一旅程專用」的腳本泛化時，掃一遍模板內所有字面值**（標題、日期、地名、天數），不只換掉資料 import。
+
+### 後續追蹤
+
+- [x] 三檔隨 build 輸出、sw 由 master_guide.html 註冊（scope `./master_guide.html`）、快取前綴隔離、Network First；本機 preview 斷網實測可開（2026-09-11，見 2.7.3 / `3aa2c34`）
+- [ ] push 部署後 curl 確認 `https://foreverbule2003.github.io/me/trips/2026-okinawa/master_guide.html` 與 `sw.js` 回 200
+- [ ] 2024-kyoto（16）、2024-tokyo-disney（8）、2026-tokyo（12）的小書仍有 `undefined`，build 會警告（已另開任務處理）
+- [ ] 2026-tokyo 小書內嵌圖片達 11MB，sw 安裝時整份預先快取；評估是否改為外連圖片或壓縮
