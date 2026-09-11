@@ -1,15 +1,13 @@
 import fs from "fs";
 import path from "path";
+import { pathToFileURL } from "url";
 
-const tripId = process.argv[2] || "2026-tokyo";
-const dataPath = path.resolve(
-  process.cwd(),
-  `src/pages/trips/${tripId}/data.js`,
-);
-const modulePath = "file://" + dataPath;
-
-async function generateHTML() {
+// 由 data.js 產生離線小書 HTML。CLI 寫檔到 trips/{trip}/master_guide.html；
+// vite.config.js 的 trip-offline-book plugin 於 build 時呼叫 renderMasterGuide 直接輸出到 dist。
+export async function renderMasterGuide(tripId, rootDir = process.cwd()) {
+  const dataPath = path.resolve(rootDir, `src/pages/trips/${tripId}/data.js`);
   const {
+    tripMeta,
     shoppingData,
     flightData,
     itineraryData,
@@ -19,14 +17,32 @@ async function generateHTML() {
     accommodationData,
     todoData,
     budgetData,
-  } = await import(modulePath);
+  } = await import(pathToFileURL(dataPath).href);
+
+  const year = tripId.split("-")[0];
+  const coverTitle = tripMeta
+    ? `${year} ${tripMeta.title} ${tripMeta.subtitle}`
+    : "2026 東京 8日旅";
+  const coverDates = `${flightData.outbound.date} ~ ${flightData.inbound.date}`;
 
   let html =
     `<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
   <meta charset="utf-8">
-  <title>2026 東京 8日旅 終極導覽</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>` +
+    coverTitle +
+    ` 終極導覽</title>
+  <link rel="manifest" href="./manifest.json">
+  <script>
+    // scope 限縮在本檔，避免同目錄的 React 行程頁被此 sw 接管而卡在舊版
+    if ("serviceWorker" in navigator && location.protocol.startsWith("http")) {
+      navigator.serviceWorker
+        .register("./sw.js", { scope: "./master_guide.html" })
+        .catch((err) => console.warn("Offline guide SW registration failed:", err));
+    }
+  </script>
   <style>
     :root {
       --primary: #4f46e5;
@@ -107,8 +123,12 @@ async function generateHTML() {
     
     <!-- Cover -->
     <div style="text-align: center; margin-top: 50px; margin-bottom: 80px;">
-      <h1 style="font-size: 48px; margin-bottom: 10px;">🗾 2026 東京 8日旅</h1>
-      <p style="font-size: 20px; color: var(--text-light);">6/17 (三) ~ 6/24 (三)</p>
+      <h1 style="font-size: 48px; margin-bottom: 10px;">🗾 ` +
+    coverTitle +
+    `</h1>
+      <p style="font-size: 20px; color: var(--text-light);">` +
+    coverDates +
+    `</p>
       <div style="margin-top: 40px; display: inline-block; text-align: left; background: #f9fafb; padding: 30px; border-radius: 16px; border: 1px solid #eee;">
         <h3 style="margin-top: 0; color: var(--primary);">目錄</h3>
         <ol style="font-size: 16px; line-height: 2;">
@@ -564,12 +584,25 @@ async function generateHTML() {
 </html>
 `;
 
-  const outHtmlPath = path.resolve(
-    process.cwd(),
-    `trips/${tripId}/master_guide.html`,
-  );
-  fs.writeFileSync(outHtmlPath, html);
-  console.log(`Master guide HTML generated successfully at ${outHtmlPath}`);
+  return html;
 }
 
-generateHTML().catch(console.error);
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  const tripId = process.argv[2] || "2026-tokyo";
+  renderMasterGuide(tripId)
+    .then((html) => {
+      const outHtmlPath = path.resolve(
+        process.cwd(),
+        `trips/${tripId}/master_guide.html`,
+      );
+      fs.writeFileSync(outHtmlPath, html);
+      console.log(`Master guide HTML generated successfully at ${outHtmlPath}`);
+    })
+    .catch((err) => {
+      console.error(err);
+      process.exit(1);
+    });
+}

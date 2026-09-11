@@ -22,14 +22,16 @@
 
 | 檔案 | 角色 |
 | --- | --- |
-| `trips/{trip}/master_guide.html` | 離線小書本體，由 `node scripts/generate-travel-pdf.mjs {trip}` 從 data.js 產生（不進 Git，需要時重新產生） |
-| `trips/{trip}/manifest.json` | PWA 安裝設定，`start_url` 指向 master_guide.html |
-| `trips/{trip}/sw.js` | Service Worker，快取 master_guide.html 供斷網瀏覽；更新內容時記得遞增 `CACHE_NAME` 版本號 |
+| `trips/{trip}/master_guide.html` | 離線小書本體，`npm run build` 時由 data.js 產生並直接輸出到 `dist/`（不進 Git，已列入 `.gitignore`）；本機 `node scripts/generate-travel-pdf.mjs {trip}` 產出的檔案只供預覽或轉 PDF |
+| `trips/{trip}/manifest.json` | PWA 安裝設定，`start_url` 指向 master_guide.html；master_guide.html 以 `<link rel="manifest">` 引用 |
+| `trips/{trip}/sw.js` | Service Worker，由 master_guide.html 註冊，快取小書供斷網瀏覽；Network First，連線時自動取最新版，內容更新不需遞增 `CACHE_NAME`（只有改 sw 邏輯或快取清單時才遞增） |
 
-**工作流程**：行程定稿 → 產生 master_guide.html → 部署（或手機直接開啟後加入主畫面）→ 飛機上斷網也能看。
+**部署機制**：`trips/` 不在 `public/`，Vite 預設只輸出 `rollupOptions.input` 列出的 `index.html`。`vite.config.js` 的 `trip-offline-book` plugin 會掃描所有含 `sw.js` 的旅程，把 `sw.js`、`manifest.json` 原樣輸出，並當場由 data.js 產生 `master_guide.html`——線上小書永遠與行程頁同一份資料，不會因為忘了重新產生而過期。data.js 缺欄位導致小書出現 `undefined` 時，build 會印出警告。
+
+**工作流程**：行程定稿 → push main 部署 → 手機開啟 `/me/trips/{trip}/master_guide.html` 並加入主畫面 → 飛機上斷網也能看。
 另外行程頁 Header 的「匯出 PDF 小書」按鈕是 `window.print()`，走瀏覽器列印成 PDF，與上述 PWA 機制互補。
 
-> ⚠️ master_guide.html 不進 Git；若要讓線上版 PWA 離線功能生效，deploy 前需先產生它，否則 sw 快取目標會 404。
+> ⚠️ **Service Worker 分工**：根 sw（`public/sw.js`，scope `/me/`）管全站；旅程 sw 註冊時 scope 限縮為 `./master_guide.html`，只接管小書本身。**不要**在 React 行程頁註冊旅程 sw 或放寬 scope——同目錄的 `index.html` 會被接管，行程頁可能卡在舊版。Cache Storage 是全站共用的，各 sw 的 activate 只能清自己前綴（`timboy-cache-`、`{trip}-trip-`）的舊快取，不可清掉別人的。
 
 ## 2. 設計系統 (Design System)
 

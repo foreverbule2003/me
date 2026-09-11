@@ -1,4 +1,5 @@
-const CACHE_NAME = "timboy-cache-v2";
+const CACHE_PREFIX = "timboy-cache-";
+const CACHE_NAME = `${CACHE_PREFIX}v2`;
 const BASE_PATH = "/me/";
 
 const ASSETS_TO_CACHE = [
@@ -24,12 +25,13 @@ self.addEventListener("install", (event) => {
 });
 
 // Activate Event: Cleanup Old Caches
+// Cache Storage 全站共用：只清自己前綴的舊版，保留各旅程離線小書 sw（trips/*/sw.js）的快取
 self.addEventListener("activate", (event) => {
   event.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
-          if (key !== CACHE_NAME) {
+          if (key.startsWith(CACHE_PREFIX) && key !== CACHE_NAME) {
             console.log("[Service Worker] Removing old cache", key);
             return caches.delete(key);
           }

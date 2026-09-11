@@ -3,6 +3,7 @@ import react from "@vitejs/plugin-react";
 import { resolve } from "path";
 import { spawn } from "child_process";
 import fs from "fs";
+import { renderMasterGuide } from "./scripts/generate-travel-pdf.mjs";
 
 // Force React Deduplication
 const reactAliases = {
@@ -170,8 +171,44 @@ const cbCrawlerPlugin = () => ({
   },
 });
 
+// 離線旅遊小書：trips/ 不在 public/，Vite 只會輸出 rollupOptions.input 列出的 index.html。
+// 有 sw.js 的旅程：sw.js + manifest.json 原樣輸出，master_guide.html 由 data.js 當場產生，
+// 確保線上小書永遠與行程頁同一份資料。
+const tripOfflineBookPlugin = () => ({
+  name: "trip-offline-book",
+  apply: "build",
+  async generateBundle() {
+    const tripsDir = resolve(__dirname, "trips");
+    for (const tripId of fs.readdirSync(tripsDir)) {
+      const tripDir = resolve(tripsDir, tripId);
+      if (!fs.existsSync(resolve(tripDir, "sw.js"))) continue;
+
+      for (const file of ["sw.js", "manifest.json"]) {
+        this.emitFile({
+          type: "asset",
+          fileName: `trips/${tripId}/${file}`,
+          source: fs.readFileSync(resolve(tripDir, file)),
+        });
+      }
+
+      const html = await renderMasterGuide(tripId, __dirname);
+      const undefinedCount = (html.match(/undefined/g) || []).length;
+      if (undefinedCount > 0) {
+        this.warn(
+          `trips/${tripId}/master_guide.html 含 ${undefinedCount} 處 "undefined"，data.js 可能缺欄位`,
+        );
+      }
+      this.emitFile({
+        type: "asset",
+        fileName: `trips/${tripId}/master_guide.html`,
+        source: html,
+      });
+    }
+  },
+});
+
 export default defineConfig({
-  plugins: [react(), cbCrawlerPlugin()],
+  plugins: [react(), cbCrawlerPlugin(), tripOfflineBookPlugin()],
 
   // 多頁面與單頁面混合設定
   build: {

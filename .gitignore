@@ -75,5 +75,9 @@ logs/
 docs/diagrams/*.html
 docs/diagrams/*.png
 
+# 離線旅遊小書：npm run build 時由 data.js 產生並直接輸出到 dist（vite.config.js 的 trip-offline-book plugin），
+# 本機 node scripts/generate-travel-pdf.mjs {trip} 的產物只供預覽／轉 PDF
+trips/*/master_guide.html
+
 # 旅行社原始行程表（含業務聯絡個資，不進公開 repo；內容已整理進各旅程的 spec.md 與 trip_notes.md）
 trips/*/source_*.pdf

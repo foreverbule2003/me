@@ -343,6 +343,7 @@ timboy/
   - Cache First 策略 (優先快取 App Shell)
   - **Runtime Caching**: 動態快取圖片與資源
   - **離線瀏覽**: 支援伊勢志摩旅程頁面斷網存取
+  - **旅程離線小書**: 含 `sw.js` 的旅程於 `/me/trips/{trip}/master_guide.html` 提供可加入主畫面的離線小書（build 時由 data.js 產生，Network First）
   - **路徑修正**: 支援 GitHub Pages 子路徑 (/me/) 部署
 - ✅ 自動化品質守衛 (Console Guard)
   - **靜默錯誤捕捉**: 透過 Playwright 整合監測瀏覽器 Console Error 與 Page Error。

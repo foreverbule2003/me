@@ -4,6 +4,23 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.3] - 2026-09-11 (離線旅遊小書上線)
+
+### 修正 (Fixed) 🐛
+
+- **線上版離線小書 404**: `trips/{trip}/master_guide.html`、`manifest.json`、`sw.js` 從未進過 `dist/`——`trips/` 不在 `public/`，Vite 只輸出 `rollupOptions.input` 的 `index.html`，線上這三個路徑一律回 404 頁，TRIP_STYLE_GUIDE 描述的 PWA 離線備援實際上不存在。新增 `vite.config.js` 的 `trip-offline-book` plugin：含 `sw.js` 的旅程，build 時原樣輸出 `sw.js`/`manifest.json`，並由 data.js 當場產生 `master_guide.html`。
+- **旅程 sw 從未被註冊**: 全站沒有任何頁面註冊 `trips/{trip}/sw.js`、也沒有頁面引用其 manifest。改由產生器在 master_guide.html 的 `<head>` 加入 `<link rel="manifest">` 與 sw 註冊，scope 限縮為 `./master_guide.html`，避免同目錄的 React 行程頁被接管而卡在舊版。
+- **Service Worker 互相清快取**: Cache Storage 全站共用，但根 sw 與旅程 sw 的 activate 都會刪除「名稱不等於自己」的所有快取——任一方更新就會清掉對方的離線資料。改為只清自己前綴（`timboy-cache-`、`{trip}-trip-`）的舊版。
+- **離線小書封面寫死東京**: 產生器的 `<title>`、封面標題與日期寫死「2026 東京 8日旅 / 6/17~6/24」，其他旅程的小書全都掛著東京封面。改由 `tripMeta` 與航班日期產生。
+
+### 變更 (Changed) 🔄
+
+- **旅程 sw 改 Network First**: 小書每次部署都會重新產生，原本的 Cache First 需要手動遞增 `CACHE_NAME` 才會更新；改為連線時取最新版並更新快取，斷網才讀快取（含忽略 query string 的 fallback）。`tools/new-trip.js` 的 sw 模板同步更新。
+- **`master_guide.html` 不再進 Git**: 既然由 build 產生，移除已追蹤的 `trips/2026-okinawa/master_guide.html` 並列入 `.gitignore`，與 TRIP_STYLE_GUIDE 原本「不進 Git」的描述一致。`scripts/generate-travel-pdf.mjs` 改為匯出 `renderMasterGuide(tripId)`，CLI 用法不變。
+- **`trips/TRIP_STYLE_GUIDE.md` §1.1**: 改寫部署機制、sw 分工與快取前綴規則。
+
+---
+
 ## [2.7.2] - 2026-09-06 (new-trip 開工同步檢查)
 
 ### 新增 (Added) 🚀
