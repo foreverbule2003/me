@@ -1,4 +1,4 @@
-const CACHE_NAME = "2026-okinawa-trip-v1";
+const CACHE_NAME = "2026-okinawa-trip-v2";
 // master_guide.html 由 node scripts/generate-travel-pdf.mjs 2026-okinawa 產生
 const urlsToCache = ["./master_guide.html", "./manifest.json"];
 

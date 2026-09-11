@@ -1,691 +1,557 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="zh-TW">
-  <head>
-    <meta charset="utf-8" />
-    <title>2026 東京 8日旅 終極導覽</title>
-    <style>
-      :root {
-        --primary: #4f46e5;
-        --primary-light: #e0e7ff;
-        --secondary: #ec4899;
-        --bg: #f9fafb;
-        --text: #1f2937;
-        --text-light: #6b7280;
-        --border: #e5e7eb;
-      }
-      body {
-        font-family:
-          "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
-        color: var(--text);
-        line-height: 1.6;
-        margin: 0;
-        padding: 0;
-        background: #fff;
-      }
-      .page {
-        max-width: 900px;
-        margin: 0 auto;
-        padding: 40px;
-      }
-
-      h1 {
-        font-size: 36px;
-        color: #111;
-        text-align: center;
-        margin-bottom: 5px;
-      }
-      h2 {
-        font-size: 26px;
-        color: var(--primary);
-        border-bottom: 2px solid var(--primary-light);
-        padding-bottom: 8px;
-        margin-top: 50px;
-        page-break-after: avoid;
-      }
-      h3 {
-        font-size: 20px;
-        color: #111;
-        margin-top: 30px;
-      }
-      h4 {
-        font-size: 16px;
-        color: #333;
-        margin-top: 15px;
-        margin-bottom: 5px;
-      }
-
-      .grid-2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 20px;
-      }
-      .page-break {
-        page-break-before: always;
-      }
-      .avoid-break {
-        page-break-inside: avoid;
-      }
-
-      .card {
-        background: var(--bg);
-        border: 1px solid var(--border);
-        border-radius: 12px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-      }
-
-      .veg-card {
-        background: #fdf2f8;
-        border: 2px solid #f472b6;
-        border-radius: 12px;
-        padding: 25px;
-        text-align: center;
-        margin: 20px 0;
-      }
-      .veg-card h3 {
-        color: #be185d;
-        margin-top: 0;
-        font-size: 24px;
-      }
-      .veg-card p.jp {
-        font-size: 22px;
-        font-weight: bold;
-        color: #111;
-        margin: 20px 0;
-        line-height: 1.6;
-        text-align: left;
-        padding: 0 20px;
-      }
-
-      .timeline-item {
-        display: flex;
-        margin-bottom: 15px;
-        border-left: 3px solid var(--primary-light);
-        padding-left: 20px;
-        margin-left: 10px;
-      }
-      .time {
-        font-weight: bold;
-        color: var(--primary);
-        width: 65px;
-        flex-shrink: 0;
-        font-size: 16px;
-      }
-      .timeline-title {
-        font-weight: bold;
-        font-size: 16px;
-        color: #111;
-        margin-bottom: 4px;
-      }
-      .timeline-subtext {
-        font-size: 14px;
-        color: var(--text-light);
-      }
-      .tag {
-        background: var(--primary-light);
-        color: var(--primary);
-        font-size: 12px;
-        padding: 3px 8px;
-        border-radius: 6px;
-        margin-left: 8px;
-        font-weight: bold;
-      }
-
-      ul {
-        padding-left: 20px;
-        margin-top: 5px;
-      }
-      li {
-        margin-bottom: 5px;
-        font-size: 14px;
-      }
-
-      .shop-item {
-        display: flex;
-        border-bottom: 1px solid var(--border);
-        padding: 15px 0;
-      }
-      .shop-item img {
-        width: 120px;
-        height: 120px;
-        object-fit: contain;
-        margin-right: 20px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-        padding: 5px;
-      }
-      .shop-item-info h4 {
-        margin: 0 0 5px 0;
-        font-size: 16px;
-      }
-      .shop-item-info .jp {
-        font-size: 13px;
-        color: #666;
-        background: #f3f4f6;
-        padding: 2px 6px;
-        border-radius: 4px;
-        display: inline-block;
-      }
-      .shop-item-info .price {
-        font-size: 16px;
-        color: #e11d48;
-        font-weight: bold;
-        margin-top: 8px;
-      }
-
-      .budget-row,
-      .hotel-row {
-        display: flex;
-        justify-content: space-between;
-        border-bottom: 1px solid #eee;
-        padding: 10px 0;
-      }
-      .budget-row strong {
-        color: #111;
-      }
-      .budget-amount {
-        font-weight: bold;
-        color: var(--primary);
-      }
-
-      .badge-status {
-        background: #dcfce7;
-        color: #166534;
-        font-size: 12px;
-        padding: 2px 6px;
-        border-radius: 4px;
-      }
-      .badge-pending {
-        background: #fef9c3;
-        color: #854d0e;
-        font-size: 12px;
-        padding: 2px 6px;
-        border-radius: 4px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="page">
-      <!-- Cover -->
-      <div style="text-align: center; margin-top: 50px; margin-bottom: 80px">
-        <h1 style="font-size: 48px; margin-bottom: 10px">🗾 2026 東京 8日旅</h1>
-        <p style="font-size: 20px; color: var(--text-light)">
-          6/17 (三) ~ 6/24 (三)
-        </p>
-        <div
-          style="
-            margin-top: 40px;
-            display: inline-block;
-            text-align: left;
-            background: #f9fafb;
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid #eee;
-          "
-        >
-          <h3 style="margin-top: 0; color: var(--primary)">目錄</h3>
-          <ol style="font-size: 16px; line-height: 2">
-            <li>
-              <a
-                href="#sec-overview"
-                style="color: var(--primary); text-decoration: none"
-                >總覽 (Overview)</a
-              >
-            </li>
-            <li>
-              <a
-                href="#sec-itinerary"
-                style="color: var(--primary); text-decoration: none"
-                >行程 (Itinerary)</a
-              >
-            </li>
-            <li>
-              <a
-                href="#sec-transport"
-                style="color: var(--primary); text-decoration: none"
-                >交通 (Transport)</a
-              >
-            </li>
-            <li>
-              <a
-                href="#sec-attraction"
-                style="color: var(--primary); text-decoration: none"
-                >景點 (Attraction)</a
-              >
-            </li>
-            <li>
-              <a
-                href="#sec-food"
-                style="color: var(--primary); text-decoration: none"
-                >美食 (Food)</a
-              >
-            </li>
-            <li>
-              <a
-                href="#sec-shopping"
-                style="color: var(--primary); text-decoration: none"
-                >購物 (Shopping)</a
-              >
-            </li>
-            <li>
-              <a
-                href="#sec-accommodation"
-                style="color: var(--primary); text-decoration: none"
-                >住宿 (Accommodation)</a
-              >
-            </li>
-            <li>
-              <a
-                href="#sec-budget"
-                style="color: var(--primary); text-decoration: none"
-                >預算 (Budget)</a
-              >
-            </li>
-          </ol>
-        </div>
+<head>
+  <meta charset="utf-8">
+  <title>2026 東京 8日旅 終極導覽</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #e0e7ff;
+      --secondary: #ec4899;
+      --bg: #f9fafb;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --border: #e5e7eb;
+    }
+    body { 
+      font-family: 'Helvetica Neue', 'PingFang TC', 'Microsoft JhengHei', sans-serif; 
+      color: var(--text); 
+      line-height: 1.6; 
+      margin: 0; 
+      padding: 0; 
+      background: #fff; 
+    }
+    .page { max-width: 900px; margin: 0 auto; padding: 40px; }
+    
+    h1 { font-size: 36px; color: #111; text-align: center; margin-bottom: 5px; }
+    h2 { 
+      font-size: 26px; color: var(--primary); 
+      border-bottom: 2px solid var(--primary-light); 
+      padding-bottom: 8px; margin-top: 50px; 
+      page-break-after: avoid; 
+    }
+    h3 { font-size: 20px; color: #111; margin-top: 30px; }
+    h4 { font-size: 16px; color: #333; margin-top: 15px; margin-bottom: 5px; }
+    
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .page-break { page-break-before: always; }
+    .avoid-break { page-break-inside: avoid; }
+    
+    .card { 
+      background: var(--bg); border: 1px solid var(--border); 
+      border-radius: 12px; padding: 20px; margin-bottom: 20px; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+    }
+    
+    .veg-card { 
+      background: #fdf2f8; border: 2px solid #f472b6; 
+      border-radius: 12px; padding: 25px; text-align: center; 
+      margin: 20px 0; 
+    }
+    .veg-card h3 { color: #be185d; margin-top: 0; font-size: 24px; }
+    .veg-card p.jp { font-size: 22px; font-weight: bold; color: #111; margin: 20px 0; line-height: 1.6; text-align: left; padding: 0 20px; }
+    
+    .timeline-item { 
+      display: flex; margin-bottom: 15px; 
+      border-left: 3px solid var(--primary-light); 
+      padding-left: 20px; margin-left: 10px; 
+    }
+    .time { font-weight: bold; color: var(--primary); width: 65px; flex-shrink: 0; font-size: 16px; }
+    .timeline-title { font-weight: bold; font-size: 16px; color: #111; margin-bottom: 4px; }
+    .timeline-subtext { font-size: 14px; color: var(--text-light); }
+    .tag { background: var(--primary-light); color: var(--primary); font-size: 12px; padding: 3px 8px; border-radius: 6px; margin-left: 8px; font-weight: bold; }
+    
+    ul { padding-left: 20px; margin-top: 5px; }
+    li { margin-bottom: 5px; font-size: 14px; }
+    
+    .shop-item { display: flex; border-bottom: 1px solid var(--border); padding: 15px 0; }
+    .shop-item img { width: 120px; height: 120px; object-fit: contain; margin-right: 20px; border-radius: 8px; border: 1px solid var(--border); padding: 5px; }
+    .shop-item-info h4 { margin: 0 0 5px 0; font-size: 16px; }
+    .shop-item-info .jp { font-size: 13px; color: #666; background: #f3f4f6; padding: 2px 6px; border-radius: 4px; display: inline-block; }
+    .shop-item-info .price { font-size: 16px; color: #e11d48; font-weight: bold; margin-top: 8px; }
+    
+    .budget-row, .hotel-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 10px 0; }
+    .budget-row strong { color: #111; }
+    .budget-amount { font-weight: bold; color: var(--primary); }
+    
+    .badge-status { background: #dcfce7; color: #166534; font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+    .badge-pending { background: #fef9c3; color: #854d0e; font-size: 12px; padding: 2px 6px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    
+    <!-- Cover -->
+    <div style="text-align: center; margin-top: 50px; margin-bottom: 80px;">
+      <h1 style="font-size: 48px; margin-bottom: 10px;">🗾 2026 東京 8日旅</h1>
+      <p style="font-size: 20px; color: var(--text-light);">6/17 (三) ~ 6/24 (三)</p>
+      <div style="margin-top: 40px; display: inline-block; text-align: left; background: #f9fafb; padding: 30px; border-radius: 16px; border: 1px solid #eee;">
+        <h3 style="margin-top: 0; color: var(--primary);">目錄</h3>
+        <ol style="font-size: 16px; line-height: 2;">
+          <li><a href="#sec-overview" style="color: var(--primary); text-decoration: none;">總覽 (Overview)</a></li>
+          <li><a href="#sec-itinerary" style="color: var(--primary); text-decoration: none;">行程 (Itinerary)</a></li>
+          <li><a href="#sec-transport" style="color: var(--primary); text-decoration: none;">交通 (Transport)</a></li>
+          <li><a href="#sec-attraction" style="color: var(--primary); text-decoration: none;">景點 (Attraction)</a></li>
+          <li><a href="#sec-food" style="color: var(--primary); text-decoration: none;">美食 (Food)</a></li>
+          <li><a href="#sec-shopping" style="color: var(--primary); text-decoration: none;">購物 (Shopping)</a></li>
+          <li><a href="#sec-accommodation" style="color: var(--primary); text-decoration: none;">住宿 (Accommodation)</a></li>
+          <li><a href="#sec-budget" style="color: var(--primary); text-decoration: none;">預算 (Budget)</a></li>
+        </ol>
       </div>
+    </div>
+    
+    <div class="page-break"></div>
 
-      <div class="page-break"></div>
-
-      <!-- 1. 總覽 Overview -->
-      <h2 id="sec-overview">1. 總覽 (Overview)</h2>
-
-      <div class="grid-2">
-        <div class="card avoid-break">
-          <h3 style="margin-top: 0">🛫 航班去程：10/02 (五)</h3>
-          <p style="font-size: 18px"><strong>星宇航空 JX870</strong></p>
-          <p>12:00 TPE 桃園<br />↓<br />14:40 OKA 那霸</p>
-          <p
-            style="font-size: 13px; color: var(--text-light); margin-top: 15px"
-          >
-            undefined<br />請提前 2 小時抵達機場報到
-          </p>
-        </div>
-        <div class="card avoid-break">
-          <h3 style="margin-top: 0">🛬 航班回程：10/06 (二)</h3>
-          <p style="font-size: 18px"><strong>星宇航空 JX871</strong></p>
-          <p>15:50 OKA 那霸<br />↓<br />16:25 TPE 桃園</p>
-          <p
-            style="font-size: 13px; color: var(--text-light); margin-top: 15px"
-          >
-            undefined<br />
-          </p>
-        </div>
+    <!-- 1. 總覽 Overview -->
+    <h2 id="sec-overview">1. 總覽 (Overview)</h2>
+    
+    <div class="grid-2">
+      <div class="card avoid-break">
+        <h3 style="margin-top:0;">🛫 航班去程：10/02 (五)</h3>
+        <p style="font-size: 18px;"><strong>星宇航空 JX870</strong></p>
+        <p>12:00 TPE 桃園<br>↓<br>14:40 OKA 那霸</p>
+        <p style="font-size: 13px; color: var(--text-light); margin-top: 15px;">託運 23kg／手提 7kg<br>09:00 桃園機場第一航廈 星宇航空團體櫃台集合</p>
       </div>
+      <div class="card avoid-break">
+        <h3 style="margin-top:0;">🛬 航班回程：10/06 (二)</h3>
+        <p style="font-size: 18px;"><strong>星宇航空 JX871</strong></p>
+        <p>15:50 OKA 那霸<br>↓<br>16:25 TPE 桃園</p>
+        <p style="font-size: 13px; color: var(--text-light); margin-top: 15px;">託運 23kg／手提 7kg<br></p>
+      </div>
+    </div>
 
-      <h3>✅ 行前待辦清單</h3>
-      <div class="grid-2">
-        <div class="card avoid-break">
-          <h4 style="margin-top: 0; color: var(--primary)">出國前準備</h4>
-          <ul
-            style="
-              list-style-type: square;
-              padding-left: 15px;
-              margin-bottom: 0;
-            "
-          >
-            <li style="font-size: 13px">[準備] Visit Japan Web (VJW)</li>
-            <li style="font-size: 13px">[文件] 確認護照效期</li>
-            <li style="font-size: 13px">[通訊] 日本上網 eSIM</li>
-          </ul>
+    <h3>✅ 行前待辦清單</h3>
+    <div class="grid-2">
+<div class="card avoid-break"><h4 style="margin-top:0; color:var(--primary);">出國前準備</h4><ul style="list-style-type: square; padding-left:15px; margin-bottom:0;"><li style="font-size:13px;">[準備] Visit Japan Web (VJW)</li><li style="font-size:13px;">[文件] 確認護照效期</li><li style="font-size:13px;">[通訊] 日本上網 eSIM</li><li style="font-size:13px;">[保險] 自行投保旅遊平安險（旅行社僅含責任險）</li><li style="font-size:13px;">[餐食] 機上特殊餐食需於出發前 7 天告知旅行社</li></ul></div><div class="card avoid-break"><h4 style="margin-top:0; color:var(--primary);">打包</h4><ul style="list-style-type: square; padding-left:15px; margin-bottom:0;"><li style="font-size:13px;">[行李] 託運 23kg／手提 7kg</li><li style="font-size:13px;">[電器] 行動電源（最多 2 個、須標示容量）與打火機隨身帶；自拍棒／腳架託運</li><li style="font-size:13px;">[電器] 三孔插頭需帶三轉二轉接頭（日本 A 型插座 100V）</li></ul></div><div class="card avoid-break"><h4 style="margin-top:0; color:var(--primary);">出發當天</h4><ul style="list-style-type: square; padding-left:15px; margin-bottom:0;"><li style="font-size:13px;">[集合] 10/02 09:00 桃園機場第一航廈 星宇航空團體櫃台</li></ul></div>
+    </div>
+
+    <div class="veg-card avoid-break">
+      <h3>🥦 素食溝通卡 (請直接出示給店員)</h3>
+      <p class="jp">
+        すみません、私たちはベジタリアン（五葷・卵・乳製品は食べられます）です。<br><br>
+        肉類、魚介類（カツオやエビの出汁・エキスも含む）、動物性油脂（ラードなど）は食べられません。<br><br>
+        ネギ、ニンニク、ニラ、タマネギ、卵、牛乳は食べられます。<br><br>
+        この条件に合うメニューはありますか？
+      </p>
+      <p class="tw" style="margin-top: 30px;">(中文翻譯：不好意思，我們是五辛蛋奶素。不吃肉、海鮮及魚蝦高湯、動物油。可吃蔥蒜韭菜洋蔥、蛋奶。請問有符合條件的餐點嗎？)</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 2. 行程 Itinerary -->
+    <h2 id="sec-itinerary">2. 行程 (Itinerary)</h2>
+
+    <div class="day-block">
+      <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px;">Day 1：10/02 (五) - 抵達與小希臘瀨長島 <span class="tag">第一階段：那霸市區 (Day 1-2)</span></h3>
+    
+        <div class="timeline-item">
+          <span class="time">09:00</span>
+          <div class="timeline-content">
+            <div class="timeline-title">桃園機場第一航廈集合 </div>
+            <div class="timeline-subtext">星宇航空團體櫃台</div>
+            
+          </div>
         </div>
-      </div>
-
-      <div class="veg-card avoid-break">
-        <h3>🥦 素食溝通卡 (請直接出示給店員)</h3>
-        <p class="jp">
-          すみません、私たちはベジタリアン（五葷・卵・乳製品は食べられます）です。<br /><br />
-          肉類、魚介類（カツオやエビの出汁・エキスも含む）、動物性油脂（ラードなど）は食べられません。<br /><br />
-          ネギ、ニンニク、ニラ、タマネギ、卵、牛乳は食べられます。<br /><br />
-          この条件に合うメニューはありますか？
-        </p>
-        <p class="tw" style="margin-top: 30px">
-          (中文翻譯：不好意思，我們是五辛蛋奶素。不吃肉、海鮮及魚蝦高湯、動物油。可吃蔥蒜韭菜洋蔥、蛋奶。請問有符合條件的餐點嗎？)
-        </p>
-      </div>
-
-      <div class="page-break"></div>
-
-      <!-- 2. 行程 Itinerary -->
-      <h2 id="sec-itinerary">2. 行程 (Itinerary)</h2>
-
-      <div class="day-block">
-        <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px">
-          Day 1：10/02 (五) - 抵達與海葡萄體驗
-          <span class="tag">第一階段：那霸市區 (Day 1-2)</span>
-        </h3>
-
+        
         <div class="timeline-item">
           <span class="time">12:00</span>
           <div class="timeline-content">
-            <div class="timeline-title">桃園國際機場起飛</div>
-            <div class="timeline-subtext">星宇航空 JX870</div>
+            <div class="timeline-title">桃園國際機場起飛 </div>
+            <div class="timeline-subtext">星宇航空 JX870（午餐：機上餐食）</div>
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
           <span class="time">14:40</span>
           <div class="timeline-content">
-            <div class="timeline-title">抵達沖繩那霸國際機場</div>
+            <div class="timeline-title">抵達沖繩那霸國際機場 </div>
+            
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
-          <span class="time">16:00</span>
+          <span class="time">下午</span>
           <div class="timeline-content">
-            <div class="timeline-title">海ん道 UMINCHI 海葡萄農場</div>
-            <div class="timeline-subtext">採舀吃體驗 + 贈冰淇淋</div>
+            <div class="timeline-title">瀨長島 Umikaji Terrace </div>
+            <div class="timeline-subtext">純白建築 × 蔚藍海景的沖繩小希臘，還能看飛機起降</div>
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
-          <span class="time">18:00</span>
+          <span class="time">晚餐</span>
+          <div class="timeline-content">
+            <div class="timeline-title">花琉球 三線琴表演 🍽️</div>
+            <div class="timeline-subtext">沖繩料理晚餐與酒水放題</div>
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">晚上</span>
+          <div class="timeline-content">
+            <div class="timeline-title">入住 HOTEL COLLECTIVE 嘉新酒店 </div>
+            <div class="timeline-subtext">國際通心臟地帶，距單軌「縣廳前站」步行約 7 分鐘</div>
+            
+          </div>
+        </div>
+        </div>
+    <div class="day-block">
+      <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px;">Day 2：10/03 (六) - 整日自由活動 <span class="tag">第一階段：那霸市區 (Day 1-2)</span></h3>
+    
+        <div class="timeline-item">
+          <span class="time">早上</span>
+          <div class="timeline-content">
+            <div class="timeline-title">飯店內豐盛早餐 </div>
+            
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">全日</span>
+          <div class="timeline-content">
+            <div class="timeline-title">自由活動 </div>
+            <div class="timeline-subtext">贈單軌電車一日卷（當日不限次數搭乘）</div>
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">晚上</span>
+          <div class="timeline-content">
+            <div class="timeline-title">返回 HOTEL COLLECTIVE 嘉新酒店 </div>
+            
+            
+          </div>
+        </div>
+        </div>
+    <div class="day-block">
+      <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px;">Day 3：10/04 (日) - Junglia 叢林大冒險 <span class="tag">第二階段：北部探索與海岸度假 (Day 3-5)</span></h3>
+    
+        <div class="timeline-item">
+          <span class="time">早上</span>
+          <div class="timeline-content">
+            <div class="timeline-title">飯店內早餐 </div>
+            <div class="timeline-subtext">HOTEL COLLECTIVE 退房</div>
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">全日</span>
+          <div class="timeline-content">
+            <div class="timeline-title">A 行程：Junglia Okinawa 侏儸紀叢林樂園 </div>
+            <div class="timeline-subtext">走進恐龍世界，體驗叢林探險與自然生態的融合</div>
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">晚上</span>
+          <div class="timeline-content">
+            <div class="timeline-title">入住 沖繩王子大飯店海景宜野灣 </div>
+            <div class="timeline-subtext">全房型海景附露台</div>
+            
+          </div>
+        </div>
+        </div>
+    <div class="day-block">
+      <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px;">Day 4：10/05 (一) - 古宇利與美麗海 <span class="tag">第二階段：北部探索與海岸度假 (Day 3-5)</span></h3>
+    
+        <div class="timeline-item">
+          <span class="time">早上</span>
+          <div class="timeline-content">
+            <div class="timeline-title">飯店內早餐 </div>
+            
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">上午</span>
+          <div class="timeline-content">
+            <div class="timeline-title">古宇利島大橋與古宇利海洋塔 </div>
+            <div class="timeline-subtext">搭乘電動車上 82m 展望塔遠眺絕美海景</div>
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">午餐</span>
+          <div class="timeline-content">
+            <div class="timeline-title">海景自助餐 🍽️</div>
+            
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">下午</span>
+          <div class="timeline-content">
+            <div class="timeline-title">海洋博公園・沖繩美麗海水族館 </div>
+            <div class="timeline-subtext">東亞最大夢幻水族箱與巨大鯨鯊，另有海豚秀</div>
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">傍晚</span>
+          <div class="timeline-content">
+            <div class="timeline-title">北谷町美國村 </div>
+            <div class="timeline-subtext">充滿美洲風情，看夕陽逛街購物</div>
+            
+          </div>
+        </div>
+        
+        <div class="timeline-item">
+          <span class="time">晚餐</span>
           <div class="timeline-content">
             <div class="timeline-title">燒肉自助晚餐吃到飽 🍽️</div>
             <div class="timeline-subtext">飲料無限暢飲</div>
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
-          <span class="time">20:00</span>
+          <span class="time">晚上</span>
           <div class="timeline-content">
-            <div class="timeline-title">入住 HOTEL COLLECTIVE 嘉新酒店</div>
-            <div class="timeline-subtext">國際通心臟地帶，五星級享受</div>
+            <div class="timeline-title">返回 沖繩王子大飯店海景宜野灣 </div>
+            
+            
           </div>
         </div>
-      </div>
-      <div class="day-block">
-        <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px">
-          Day 2：10/03 (六) - 整日自由活動
-          <span class="tag">第一階段：那霸市區 (Day 1-2)</span>
-        </h3>
-
+        </div>
+    <div class="day-block">
+      <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px;">Day 5：10/06 (二) - 海底探險與返程 <span class="tag">第二階段：北部探索與海岸度假 (Day 3-5)</span></h3>
+    
         <div class="timeline-item">
-          <span class="time">08:00</span>
+          <span class="time">早上</span>
           <div class="timeline-content">
-            <div class="timeline-title">飯店內豐盛早餐</div>
+            <div class="timeline-title">飯店內早餐 </div>
+            <div class="timeline-subtext">沖繩王子大飯店退房</div>
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
-          <span class="time">全日</span>
+          <span class="time">上午</span>
           <div class="timeline-content">
-            <div class="timeline-title">自由活動</div>
-            <div class="timeline-subtext">贈單軌電車一日卷</div>
+            <div class="timeline-title">銀河探險號半潛水艇 </div>
+            <div class="timeline-subtext">特別安排：觀賞珊瑚礁間的熱帶魚群</div>
+            
           </div>
         </div>
-      </div>
-      <div class="day-block">
-        <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px">
-          Day 3：10/04 (日) - 古宇利與美麗海
-          <span class="tag">第二階段：北部探索與海岸度假 (Day 3-5)</span>
-        </h3>
-
+        
         <div class="timeline-item">
-          <span class="time">08:00</span>
+          <span class="time">上午</span>
           <div class="timeline-content">
-            <div class="timeline-title">飯店內早餐</div>
+            <div class="timeline-title">海ん道 UMINCHI 海葡萄農場 </div>
+            <div class="timeline-subtext">採舀吃體驗 + 贈海葡萄冰淇淋</div>
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
-          <span class="time">10:00</span>
+          <span class="time">午餐</span>
           <div class="timeline-content">
-            <div class="timeline-title">古宇利島大橋與海洋塔</div>
-            <div class="timeline-subtext">搭乘電動車遠眺絕美海景</div>
+            <div class="timeline-title">涮涮鍋放題 🍽️</div>
+            
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
-          <span class="time">12:00</span>
+          <span class="time">下午</span>
           <div class="timeline-content">
-            <div class="timeline-title">海景自助餐</div>
+            <div class="timeline-title">免稅店 </div>
+            <div class="timeline-subtext">選購伴手禮</div>
+            
           </div>
         </div>
-
-        <div class="timeline-item">
-          <span class="time">14:00</span>
-          <div class="timeline-content">
-            <div class="timeline-title">美之海水族館 & 療癒海豚秀</div>
-            <div class="timeline-subtext">東亞最大夢幻水族箱與巨大鯨鯊</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">16:30</span>
-          <div class="timeline-content">
-            <div class="timeline-title">北谷町美國村 & 免稅店</div>
-            <div class="timeline-subtext">充滿美洲風情，看夕陽逛街購物</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">18:30</span>
-          <div class="timeline-content">
-            <div class="timeline-title">花琉球三絃琴表演 🍽️</div>
-            <div class="timeline-subtext">沖繩料理晚餐與酒水放題</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">20:30</span>
-          <div class="timeline-content">
-            <div class="timeline-title">入住 沖繩王子大飯店海景宜野灣</div>
-            <div class="timeline-subtext">全房型海景附陽台</div>
-          </div>
-        </div>
-      </div>
-      <div class="day-block">
-        <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px">
-          Day 4：10/05 (一) - Junglia 叢林大冒險
-          <span class="tag">第二階段：北部探索與海岸度假 (Day 3-5)</span>
-        </h3>
-
-        <div class="timeline-item">
-          <span class="time">08:00</span>
-          <div class="timeline-content">
-            <div class="timeline-title">飯店內早餐</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">全日</span>
-          <div class="timeline-content">
-            <div class="timeline-title">Junglia Okinawa 侏儸紀叢林樂園</div>
-            <div class="timeline-subtext">大自然結合頂尖科技的跨感官大冒險</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">20:00</span>
-          <div class="timeline-content">
-            <div class="timeline-title">返回 沖繩王子大飯店海景宜野灣</div>
-          </div>
-        </div>
-      </div>
-      <div class="day-block">
-        <h3 style="background: #f3f4f6; padding: 10px 15px; border-radius: 8px">
-          Day 5：10/06 (二) - 小希臘與返程
-          <span class="tag">第二階段：北部探索與海岸度假 (Day 3-5)</span>
-        </h3>
-
-        <div class="timeline-item">
-          <span class="time">08:00</span>
-          <div class="timeline-content">
-            <div class="timeline-title">飯店內早餐</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">10:00</span>
-          <div class="timeline-content">
-            <div class="timeline-title">銀河探險號半潛水艇</div>
-            <div class="timeline-subtext">觀賞海底世界與熱帶魚</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">12:00</span>
-          <div class="timeline-content">
-            <div class="timeline-title">日式風味午餐</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <span class="time">14:00</span>
-          <div class="timeline-content">
-            <div class="timeline-title">瀨長島 Umikaji Terrace</div>
-            <div class="timeline-subtext">
-              純白浪漫沖繩小希臘，捕捉絕美海景與夕陽
-            </div>
-          </div>
-        </div>
-
+        
         <div class="timeline-item">
           <span class="time">15:50</span>
           <div class="timeline-content">
-            <div class="timeline-title">沖繩那霸國際機場起飛</div>
-            <div class="timeline-subtext">星宇航空 JX871</div>
+            <div class="timeline-title">沖繩那霸國際機場起飛 </div>
+            <div class="timeline-subtext">星宇航空 JX871（晚餐：機上餐食）</div>
+            
           </div>
         </div>
-
+        
         <div class="timeline-item">
           <span class="time">16:25</span>
           <div class="timeline-content">
-            <div class="timeline-title">抵達桃園國際機場</div>
+            <div class="timeline-title">抵達桃園國際機場 </div>
+            
+            
           </div>
         </div>
+        </div>
+    <div class="page-break"></div>
+
+    <!-- 3. 交通 Transport/Map -->
+    <h2 id="sec-transport">3. 交通 (Transport)</h2>
+
+  <div class="card avoid-break">
+    <h3 style="margin-top:0;">Day 2 (10/03 六) | 那霸市區單軌電車一日遊</h3>
+    <p style="font-size:14px; color:#555;">Kenchomae Station ➔ Shuri Station (約 15 分)</p>
+  
+      <div style="margin-top: 10px; border-left: 2px solid #94a3b8; padding-left: 12px;">
+        <strong>沖繩都市單軌電車 (Yui Rail)</strong> (縣廳前站 (飯店步行約 7 分) ➔ 首里站 / 歌町站 )<br>
+        <span style="font-size:13px; color:#666;">可前往首里城 (約 15 分)、DFS 免稅店 (約 22 分)、第一牧志公設市場等地 | 票價: 使用贈送之一日卷</span>
       </div>
-      <div class="page-break"></div>
-
-      <!-- 3. 交通 Transport/Map -->
-      <h2 id="sec-transport">3. 交通 (Transport)</h2>
-
-      <div class="page-break"></div>
-
-      <!-- 4. 景點 Attraction -->
-      <h2 id="sec-attraction">4. 景點 (Attraction)</h2>
-      <div class="grid-2"></div>
-
-      <div class="page-break"></div>
-
-      <!-- 5. 美食 Food -->
-      <h2 id="sec-food">5. 美食 (Food)</h2>
-      <div class="grid-2"></div>
-
-      <div class="page-break"></div>
-
-      <!-- 6. 購物 Shopping -->
-      <h2 id="sec-shopping">6. 購物 (Shopping)</h2>
-
-      <div class="page-break"></div>
-
-      <!-- 7. 住宿 Accommodation -->
-      <h2 id="sec-accommodation">7. 住宿 (Accommodation)</h2>
-      <div class="card">
-        <h4
-          style="
-            color: var(--primary);
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 5px;
-          "
-        >
-          📍 那霸市區 (Day 1-2 (10/02-10/03))
-        </h4>
-        <div class="hotel-row avoid-break">
-          <div>
-            <strong>HOTEL COLLECTIVE 嘉新酒店</strong>
-            <span class="badge-status">已訂妥</span>
-            <div style="font-size: 13px; color: #666; margin-top: 4px">
-              國際通的都市綠洲，下樓即達購物天堂。全客房30㎡以上。
-            </div>
-          </div>
-          <div style="text-align: right; color: #e11d48; font-weight: bold">
-            價格未定
-          </div>
-        </div>
-        <h4
-          style="
-            color: var(--primary);
-            border-bottom: 1px dashed #ccc;
-            padding-bottom: 5px;
-          "
-        >
-          📍 宜野灣 (Day 3-4 (10/04-10/05))
-        </h4>
-        <div class="hotel-row avoid-break">
-          <div>
-            <strong>沖繩王子大飯店海景宜野灣</strong>
-            <span class="badge-status">已訂妥</span>
-            <div style="font-size: 13px; color: #666; margin-top: 4px">
-              全房型附海景露台，頂樓無邊際天際泳池。
-            </div>
-          </div>
-          <div style="text-align: right; color: #e11d48; font-weight: bold">
-            價格未定
-          </div>
-        </div>
       </div>
+    <div class="page-break"></div>
+    
+    <!-- 4. 景點 Attraction -->
+    <h2 id="sec-attraction">4. 景點 (Attraction)</h2>
+    <div class="grid-2">
+<div class="card avoid-break"><h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 那霸與周邊 (Day 1, 5)</h3><h4 style="color: #666;">📸 🌊 體驗與觀光</h4><ul style="padding-left:15px;"><li style="margin-bottom:8px;"><strong>瀨長島 Umikaji Terrace</strong> <span style="color:#888; font-size:12px;">(商場 / 海景)</span>
+        <div style="font-size:13px; color:#555;">那霸機場旁的沖繩小希臘，純白建築與蔚藍海景，聚集特色餐廳、咖啡館與選物店，還能欣賞飛機起降。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>銀河探險號半潛水艇</strong> <span style="color:#888; font-size:12px;">(海底觀光)</span>
+        <div style="font-size:13px; color:#555;">從海中展望窗近距離觀賞繽紛的熱帶魚群與美麗的珊瑚礁。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>海ん道 UMINCHI 海葡萄農場</strong> <span style="color:#888; font-size:12px;">(農場體驗)</span>
+        <div style="font-size:13px; color:#555;">親手採撈新鮮海葡萄，品嚐來自大海的鮮味，還贈送海葡萄冰淇淋。</div>
+        
+      </li></ul></div><div class="card avoid-break"><h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 那霸市區 (Day 2)</h3><h4 style="color: #666;">📸 🛍️ 飯店周邊（步行可達）</h4><ul style="padding-left:15px;"><li style="margin-bottom:8px;"><strong>國際通商店街</strong> <span style="color:#888; font-size:12px;">(商店街 / 步行 3 分)</span>
+        <div style="font-size:13px; color:#555;">那霸最熱鬧的商店街，伴手禮、藥妝、服飾、美食一次逛齊。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>RYUBO 百貨</strong> <span style="color:#888; font-size:12px;">(百貨公司 / 步行 5 分)</span>
+        <div style="font-size:13px; color:#555;">沖繩歷史最悠久的百貨公司，精品、流行品牌與美食餐廳齊聚。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>第一牧志公設市場</strong> <span style="color:#888; font-size:12px;">(傳統市場 / 步行 8 分)</span>
+        <div style="font-size:13px; color:#555;">在地人常去的傳統市場，販售新鮮海產、沖繩食材與特色小吃。</div>
+        
+      </li></ul><h4 style="color: #666;">📸 🚝 單軌電車可達</h4><ul style="padding-left:15px;"><li style="margin-bottom:8px;"><strong>首里城公園</strong> <span style="color:#888; font-size:12px;">(歷史古蹟 / 單軌約 15 分)</span>
+        <div style="font-size:13px; color:#555;">琉球王國的歷史象徵，深入了解沖繩文化與歷史。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>DFS 免稅店那霸</strong> <span style="color:#888; font-size:12px;">(免稅店 / 單軌約 22 分)</span>
+        <div style="font-size:13px; color:#555;">國際知名免稅店，匯集各大精品品牌，位於歌町站旁。</div>
+        
+      </li></ul></div><div class="card avoid-break"><h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 沖繩北部與中部 (Day 3-4)</h3><h4 style="color: #666;">📸 🐋 經典地標與樂園</h4><ul style="padding-left:15px;"><li style="margin-bottom:8px;"><strong>Junglia Okinawa 侏儸紀叢林樂園</strong> <span style="color:#888; font-size:12px;">(主題樂園)</span>
+        <div style="font-size:13px; color:#555;">位於山原之森的沉浸式大自然主題樂園，結合頂尖遊樂設施與在地食材料理。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>古宇利大橋 & 海洋塔</strong> <span style="color:#888; font-size:12px;">(景觀塔)</span>
+        <div style="font-size:13px; color:#555;">約 2 公里的跨海大橋通往傳說中沖繩亞當與夏娃的古宇利島；搭電動車登上海拔 82m 的白色展望塔眺望大橋。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>沖繩美麗海水族館</strong> <span style="color:#888; font-size:12px;">(水族館)</span>
+        <div style="font-size:13px; color:#555;">高 8.2m、寬 22.5m 的巨型水槽飼養鯨鯊，另有海豚秀、海牛館與海龜館。</div>
+        
+      </li><li style="margin-bottom:8px;"><strong>北谷町美國村</strong> <span style="color:#888; font-size:12px;">(主題商圈)</span>
+        <div style="font-size:13px; color:#555;">充滿美洲風情的綜合娛樂設施，購物、餐廳、摩天輪與日落海灘，是看夕陽的熱門景點。</div>
+        
+      </li></ul></div>
+    </div>
 
-      <div class="page-break"></div>
+    <div class="page-break"></div>
+    
+    <!-- 5. 美食 Food -->
+    <h2 id="sec-food">5. 美食 (Food)</h2>
+    <div class="grid-2">
+<div class="card avoid-break"><h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 那霸・抵達首晚 (Day 1)</h3><h4 style="color: #666;">🍽️ 🍽️ 行程附餐</h4><ul style="padding-left:15px;"><li style="margin-bottom:8px;"><strong>花琉球</strong> <span style="color:#888; font-size:12px;">(沖繩傳統料理)</span>
+        
+        <div style="font-size:13px; color:#555;">三線琴現場表演，享受濃厚沖繩風情與酒水放題。</div>
+      </li></ul></div><div class="card avoid-break"><h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 北部一日遊 (Day 4)</h3><h4 style="color: #666;">🍽️ 🍽️ 行程附餐</h4><ul style="padding-left:15px;"><li style="margin-bottom:8px;"><strong>海景自助餐</strong> <span style="color:#888; font-size:12px;">(自助餐)</span>
+        
+        <div style="font-size:13px; color:#555;">古宇利島行程後的午餐，邊用餐邊看海。</div>
+      </li><li style="margin-bottom:8px;"><strong>燒肉自助晚餐吃到飽</strong> <span style="color:#888; font-size:12px;">(日式燒肉)</span>
+        
+        <div style="font-size:13px; color:#555;">北部一日遊後大啖燒肉，包含飲料無限暢飲。</div>
+      </li></ul></div><div class="card avoid-break"><h3 style="margin-top:0; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px;">📍 返程前午餐 (Day 5)</h3><h4 style="color: #666;">🍽️ 🍽️ 行程附餐</h4><ul style="padding-left:15px;"><li style="margin-bottom:8px;"><strong>涮涮鍋放題</strong> <span style="color:#888; font-size:12px;">(涮涮鍋)</span>
+        
+        <div style="font-size:13px; color:#555;">搭機返台前的涮涮鍋吃到飽。</div>
+      </li></ul></div>
+    </div>
 
-      <!-- 8. 預算 Budget -->
-      <h2 id="sec-budget">8. 預算 (Budget)</h2>
-      <div class="card">
-        <div class="budget-row avoid-break" style="margin-bottom: 10px">
-          <div>
-            <div style="font-size: 16px; font-weight: bold">團費</div>
-            <div style="font-size: 13px; color: #666">NT$46,000 / 人</div>
-          </div>
-          <div class="budget-amount">¥ 0</div>
-        </div>
+    <div class="page-break"></div>
 
-        <div class="budget-row avoid-break" style="margin-bottom: 10px">
-          <div>
-            <div style="font-size: 16px; font-weight: bold">交通</div>
-            <div style="font-size: 13px; color: #666"></div>
-          </div>
-          <div class="budget-amount">¥ 0</div>
-        </div>
+    <!-- 6. 購物 Shopping -->
+    <h2 id="sec-shopping">6. 購物 (Shopping)</h2>
 
-        <div class="budget-row avoid-break" style="margin-bottom: 10px">
-          <div>
-            <div style="font-size: 16px; font-weight: bold">住宿</div>
-            <div style="font-size: 13px; color: #666">團費內含</div>
-          </div>
-          <div class="budget-amount">¥ 0</div>
-        </div>
+    <div class="page-break"></div>
 
-        <div class="budget-row avoid-break" style="margin-bottom: 10px">
-          <div>
-            <div style="font-size: 16px; font-weight: bold">餐飲</div>
-            <div style="font-size: 13px; color: #666">部分自由活動需自理</div>
-          </div>
-          <div class="budget-amount">¥ 0</div>
-        </div>
-
-        <div class="budget-row avoid-break" style="margin-bottom: 10px">
-          <div>
-            <div style="font-size: 16px; font-weight: bold">購物</div>
-            <div style="font-size: 13px; color: #666"></div>
-          </div>
-          <div class="budget-amount">¥ 0</div>
-        </div>
-
-        <div
-          style="
-            text-align: right;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 20px;
-            padding-top: 10px;
-            border-top: 2px solid #333;
-          "
-        >
-          總預算預估：<span style="color: #e11d48">¥ 0</span>
-        </div>
+    <!-- 7. 住宿 Accommodation -->
+    <h2 id="sec-accommodation">7. 住宿 (Accommodation)</h2>
+    <div class="card">
+<h4 style="color: var(--primary); border-bottom: 1px dashed #ccc; padding-bottom: 5px;">📍 那霸市區 (Day 1-2 (10/02-10/03))</h4>
+    <div class="hotel-row avoid-break">
+      <div>
+        <strong>HOTEL COLLECTIVE 嘉新酒店</strong> <span class="badge-status">已訂妥</span>
+        <div style="font-size: 13px; color: #666; margin-top: 4px;">260 間現代日式客房，全客房 30㎡以上，設戶外泳池、健身房、三溫暖。距單軌「縣廳前站」步行約 7 分鐘，鄰近國際通。</div>
+      </div>
+      <div style="text-align: right; color: #e11d48; font-weight: bold;">
+        價格未定
       </div>
     </div>
-  </body>
+    <h4 style="color: var(--primary); border-bottom: 1px dashed #ccc; padding-bottom: 5px;">📍 宜野灣 (Day 3-4 (10/04-10/05))</h4>
+    <div class="hotel-row avoid-break">
+      <div>
+        <strong>沖繩王子大飯店海景宜野灣</strong> <span class="badge-status">已訂妥</span>
+        <div style="font-size: 13px; color: #666; margin-top: 4px;">全客房海景並附 6.5㎡ 以上露台，館內 2 座無邊際泳池。鄰近宜野灣船塢，距那霸機場車程約 30 分鐘。</div>
+      </div>
+      <div style="text-align: right; color: #e11d48; font-weight: bold;">
+        價格未定
+      </div>
+    </div>
+    
+    </div>
+
+    <div class="page-break"></div>
+
+    <!-- 8. 預算 Budget -->
+    <h2 id="sec-budget">8. 預算 (Budget)</h2>
+    <div class="card">
+
+  <div class="budget-row avoid-break" style="margin-bottom: 10px;">
+    <div>
+      <div style="font-size: 16px; font-weight: bold;">團費</div>
+      <div style="font-size: 13px; color: #666;">NT$46,000 / 人</div>
+    </div>
+    <div class="budget-amount">¥ 0</div>
+  </div>
+  
+  <div class="budget-row avoid-break" style="margin-bottom: 10px;">
+    <div>
+      <div style="font-size: 16px; font-weight: bold;">交通</div>
+      <div style="font-size: 13px; color: #666;"></div>
+    </div>
+    <div class="budget-amount">¥ 0</div>
+  </div>
+  
+  <div class="budget-row avoid-break" style="margin-bottom: 10px;">
+    <div>
+      <div style="font-size: 16px; font-weight: bold;">住宿</div>
+      <div style="font-size: 13px; color: #666;">團費內含</div>
+    </div>
+    <div class="budget-amount">¥ 0</div>
+  </div>
+  
+  <div class="budget-row avoid-break" style="margin-bottom: 10px;">
+    <div>
+      <div style="font-size: 16px; font-weight: bold;">餐飲</div>
+      <div style="font-size: 13px; color: #666;">Day 2、Day 3 午晚餐自理</div>
+    </div>
+    <div class="budget-amount">¥ 0</div>
+  </div>
+  
+  <div class="budget-row avoid-break" style="margin-bottom: 10px;">
+    <div>
+      <div style="font-size: 16px; font-weight: bold;">購物</div>
+      <div style="font-size: 13px; color: #666;"></div>
+    </div>
+    <div class="budget-amount">¥ 0</div>
+  </div>
+  
+      <div style="text-align: right; font-size: 20px; font-weight: bold; margin-top: 20px; padding-top: 10px; border-top: 2px solid #333;">
+        總預算預估：<span style="color: #e11d48;">¥ 0</span>
+      </div>
+    </div>
+
+  </div>
+</body>
 </html>
