@@ -59,7 +59,7 @@ timboy/
 │   ├── 2025-cebu/
 │   ├── 2026-ise-shima/
 │   ├── 2026-tokyo/         # 東京・橫濱・輕井澤 (React)
-│   ├── 2026-okinawa/       # 沖繩 大云永續極境出發 (React) ✨ NEW
+│   ├── 2026-okinawa/       # 沖繩 公司員旅 (React) ✨ NEW
 │   └── TRIP_STYLE_GUIDE.md
 │
 ├── tools/                  # 工具頁面與後端橋接器

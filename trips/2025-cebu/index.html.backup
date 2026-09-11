@@ -6,7 +6,7 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
     />
-    <title>宿霧薄荷島・大云永續</title>
+    <title>宿霧薄荷島・公司員旅</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
@@ -120,7 +120,7 @@
           宿霧・薄荷島
         </h1>
         <p class="text-xs text-subtle mt-1 font-medium">
-          <i class="fas fa-leaf text-accent mr-1"></i>大云永續生態之旅
+          <i class="fas fa-leaf text-accent mr-1"></i>公司員旅
         </p>
       </div>
         <a
@@ -620,7 +620,7 @@
                 </div>
                  
                 <p class="text-center text-[10px] text-subtle mt-8 opacity-60">
-                    資料來源：大云永續 2025 行程手冊 • 請自行攜帶護照
+                    資料來源：2025 公司員旅行程手冊 • 請自行攜帶護照
                 </p>
             `;
       }

@@ -1,6 +1,6 @@
 const readline = require("readline");
 
-const inputs = ["2026", "okinawa", "沖繩", "大云永續極境出發"];
+const inputs = ["2026", "okinawa", "沖繩", "公司員旅"];
 let i = 0;
 
 readline.createInterface = function (options) {
