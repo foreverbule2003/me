@@ -4,6 +4,23 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.4] - 2026-09-16 (commit 流程補三道防線)
+
+### 新增 (Added) 🚀
+
+- **`/commit` 步驟 0「規則寫回」**: 這一輪在對話裡談定的規則，要寫回定義它的那份檔（指令改 `.claude/commands/`、模板慣例改 `trips/TRIP_STYLE_GUIDE.md`、guard 判準改 `docs/REFACTOR_GUARD.md`、開發流程改 `CONTRIBUTING.md`），不是只改結果。只改結果不改規則，下次跑那支指令會照舊規則長回來。
+- **`/commit` 步驟 6「壞味道掃描」**: 每次 commit 只掃本次 diff 新增的行，六格（AI 造字、冗餘、邏輯不通、幻覺、主語是 AI、過期的警語），並強制輸出一行掃描結果——沒有那一行等於沒跑這一步。
+- **`.claude/hooks/check-ai-coinage.mjs` + `.claude/settings.json`**: PostToolUse hook，Write/Edit 寫進 `docs/`、`knowledge/`、`teaching/`、`tasks/`、`trips/`、`.claude/commands/`、`.agent/` 與根目錄四份 `.md` 時當場掃 AI 自造詞並擋下。引用原話（含「」）、引言行、程式碼區塊、清單本身這四種情形放行，避免誤報而讓這道檢查被學會忽略。
+- **`scripts/sync-memory-backup.mjs` + `/commit` 步驟 7**: 把 Claude Code 的 auto-memory（`~/.claude/projects/.../memory/`，在 repo 外、不受版控、機器一清就沒）單向鏡像進 `.claude/memory-backup/` 隨 commit 保存。找不到來源或來源沒有任何 `.md` 時中止且不刪備份，防「來源路徑錯了就把整份快照清空」。只鏡像、不 commit。
+
+### 變更 (Changed) 🔄
+
+- **`/commit` 步驟重編為 0–10**，並在步驟 8 補兩條批准條款：批准必須是對「要提交嗎」這一問的回應，別的問題上回的「好／對」不算；`/commit` 是流程入口不是提交批准（打這個字時 diff 摘要還不存在）。
+- **`.agent/workflows/commit.md` 改為一行指路**: 該檔是指令集遷進 `.claude/commands/` 前的舊版設計，還在教 `git add .`，也沒有 guard/test 綠燈、壞味道掃描、記憶備份這三道。同一個流程存兩份檔就是下次照舊規則長回來的來源，故留指路而非刪檔，舊全文見 git 歷史。
+- 以上四項移植自 second-brain 的 `/commit` 與 `check_ai_coinage.py`，改寫為本 repo 的 Node 環境與目錄結構。
+
+---
+
 ## [2.7.3] - 2026-09-11 (離線旅遊小書上線)
 
 ### 修正 (Fixed) 🐛

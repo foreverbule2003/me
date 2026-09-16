@@ -1,95 +1,16 @@
 ---
-description: 快速提交變更到目前分支 (不推送)
+description: 已停用——commit 流程正本改到 .claude/commands/commit.md
 ---
 
-# Commit Workflow
+# Commit Workflow（已停用，2026-09-16）
 
-## 步驟 0：🧹 提交前清理 (Pre-commit Cleanup)
+> **正本在 [`.claude/commands/commit.md`](../../.claude/commands/commit.md)，打 `/commit` 執行。**
 
-在將變更寫入版本庫之前，保持工作區整潔是好習慣。
+本檔原本是 `/commit` 的舊版設計（步驟 0–4，含 `git add .`、`/sync-to-brain`、PM/CTO 審查）。
+指令集遷進 `.claude/commands/` 後，正本只剩一份，本檔與它已分岔——舊版還在教
+`git add .`，而正本要求點名檔案；舊版沒有 guard/test 綠燈、壞味道掃描、記憶備份這三道。
 
-1. **檢查廢棄檔案**：是否有測試用的 `.json`、臨時報表或 `.bak` 備份檔？
-2. **檢查動態產出資料**：自動檢查是否有 API 抓取的原始資料、運算生成的 JSON 報告等「可重複生成的快取」準備被 Commit。
-3. **忽略設定 (強制)**：若發現上述動態資料，AI 必須主動將其路徑加入 `.gitignore`，並執行 `git rm --cached <file>` 將已追蹤的快取拔除。
-4. **徹底清理**：若有不要的實體檔案，建議使用 `git clean` 或手動刪除。
+**留下這一行而不是刪檔**，是因為同一個流程存兩份檔就是下次照舊規則長回來的來源：
+有人（或 AI）翻到這裡時要看得到正本在哪，而不是照著舊步驟做完才發現。
 
-執行快速掃描：
-
-```bash
-git clean -ndX  # 顯示會被忽略但未追蹤的檔案 (Dry Run)
-git status --short
-```
-
-## 步驟 1：文件同步檢查（強制）
-
-在提交前，確認以下文件是否需要因應今日變更而更新：
-
-| 檔案                   | 檢查重點                     | 狀態 |
-| ---------------------- | ---------------------------- | ---- |
-| **README.md**          | 專案說明、目錄結構           | ☐    |
-| **TODO.md**            | 標記完成項目、更新進行中區塊 | ☐    |
-| **docs/FEATURES.md**   | 新增/修改功能說明            | ☐    |
-| **docs/COMPONENTS.md** | 新增/修改 UI 組件說明        | ☐    |
-| **docs/SITEMAP.md**    | 頁面路由變動                 | ☐    |
-
-## 步驟 2：🔄 知識庫同步提醒
-
-檢查此次變更是否包含可複用的好點子，應同步回 **Second-Brain**：
-
-| 變更類型                     | 應同步到 Second-Brain |
-| ---------------------------- | --------------------- |
-| 新增 `.agent/workflows/*.md` | ⭐ 是 (通用工作流程)  |
-| 新增 `.agent/prompts/*.md`   | ⭐ 是 (通用 AI 角色)  |
-| 新增 `knowledge/*.md`        | ⭐ 是 (思維模型)      |
-| Commit 含 `[reusable]` 標記  | ⭐ 是                 |
-
-> 💡 若有可複用項目，提交後執行 `/sync-to-brain`
-
-## 步驟 2.1：自動同步行程規格 (Auto-Sync Spec)
-
-若本次變更包含任何旅遊專案（例如 `2026-tokyo`）的 `data.js`，AI 必須主動執行腳本以同步 `spec.md`：
-
-```bash
-# <trip_id> 替換為實際專案資料夾名稱，如 2026-tokyo
-node scripts/sync-travel-spec.mjs <trip_id>
-```
-
-## 步驟 2.5：🤖 專家審查 (PM & CTO Review)
-
-> ⚠️ 在執行 git commit 之前，**強烈建議/必須** 先進行以下動作：
-
-1. **自動 TODO 歸檔 (強制作業)**：
-   - AI 必須主動檢查專案根目錄的 `TODO.md`。
-   - 必須將各區塊 (P0, P1, P2) 中「已打勾完成 `[x]`」的項目，移動到最下方的 `✅ 已完成歸檔 (Archived)` 區塊，並加上時間戳記。
-2. **PM 審核**：
-   - 確認目標達成率、Backlog 優先順序。
-3. **CTO 審核**：確認代碼質量、架構一致性與技術債。
-
-**指令範例**：
-`/help pm cto 請 review 以上變更與文件同步狀況，準備進行 commit。`
-
-## 步驟 2.8：👀 提交前防呆與用戶驗證
-
-> 🛑 **Critical Stop**: 在提交之前，必須讓用戶有機會檢視結果，並進行最後的自我審查。
-
-1. **暫停執行**：不要自動連續執行 `git add/commit`。
-2. **自我防呆檢查 (Surgical Check)**：確認以下三點：
-   - [ ] 每一行變更是否都能直接追溯到原始需求？
-   - [ ] 是否有誤觸格式或修改到無關的歷史包袱？
-   - [ ] 是否清除了這次改動產生的廢棄碼 (孤兒變數/匯入)？
-3. **通知用戶**：使用 `notify_user` 告知變更已完成，請求確認。
-4. **等待批准**：用戶回應 LGTM 或確認後，再繼續步驟 4。
-
-// turbo
-
-## 步驟 3：格式化程式碼 (Optional)
-
-> 💡 在提交前自動格式化，保持代碼風格一致。
-
-```bash
-npx prettier --write "**/*.{html,js,jsx,css}" --ignore-path .gitignore
-```
-
-## 步驟 4：提交變更 (Commit)
-
-git add . && git commit -m "[message]"
+舊版全文見 git 歷史：`git log --follow -p .agent/workflows/commit.md`
