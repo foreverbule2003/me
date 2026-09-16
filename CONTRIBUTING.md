@@ -52,6 +52,7 @@ npm run new-trip
 
 - **分支 (Branching)**：`feature/your-feature-name` 或 `fix/issue-description`。
 - **Commits**：使用 Conventional Commits (例如：`feat: add new trip`, `fix: header alignment`)。
+- **開工前確認沒落後遠端**：`npm run sync-check`（Claude Code 的 SessionStart hook 會自動跑，看到落後就先 `git pull --rebase`）。落後開工的代價是事後解衝突，而那些衝突多半是「兩邊各往同一個錨點插一行」，先同步就完全不會發生。三次教訓見 `tasks/lessons.md`——其中 2026-09-16 那次是**同一台電腦**的 git worktree 推了 commit，主工作目錄靜默落後五天，不需要第二台機器也會中。
 - **測試**：在推送前執行 `npm test` 確保沒有破壞現有功能。
 - **提交流程**：走 `/commit`（正本在 `.claude/commands/commit.md`，共 0–10 步）。它會強制跑 `npm run guard` 與 `npm test` 綠燈、檢查文件同步、掃本次 diff 的壞味道、刷新記憶備份，最後停下來等你確認才提交。`.agent/workflows/commit.md` 是已停用的舊版，只留指路。
 - **寫檔會被掃 AI 自造詞**：`.claude/hooks/check-ai-coinage.mjs` 在 Write/Edit 寫進 `docs/`、`knowledge/`、`teaching/`、`tasks/`、`trips/`、`.claude/commands/`、`.agent/` 與根目錄四份 `.md` 時當場攔。要增刪詞彙，同步改那支腳本的 `COINAGE` 與 `/commit` 步驟 6 表格第 1 格。

@@ -377,68 +377,23 @@ function registerTripsMenu(tripId, year, title) {
  * 建立新旅程會改動三個「全域註冊點」：
  *   vite.config.js 的 rollupOptions.input、src/views/TripsView.jsx 的 menuItems、
  *   以及後續要手動同步的 docs/SITEMAP.md 與 CHANGELOG.md。
- * 兩台機器若在分歧狀態下各自建立新旅程，必然在這幾處撞出「兩邊各插一行」型的
- * 衝突（2026-09-06 連續發生兩次，見 tasks/lessons.md）。先同步就能完全避免。
+ * 在落後遠端的狀態下動手，必然在這幾處撞出「兩邊各插一行」型的衝突
+ * （2026-09-06 連續兩次、2026-09-16 一次，見 tasks/lessons.md）。
  *
- * 離線或無 remote 時只警告不擋；確定要在落後狀態下建立時可設 SKIP_SYNC_CHECK=1。
+ * 檢查本體在 tools/guard/check-remote-sync.mjs（同一個檢查不留兩份實作）。
+ * 這裡用 --strict：落後就中止，因為全域註冊點的衝突事後解等於白做工。
  */
 function checkRemoteSync() {
-  if (process.env.SKIP_SYNC_CHECK === "1") {
-    console.log("⏭️  SKIP_SYNC_CHECK=1，略過遠端同步檢查。\n");
-    return;
-  }
-
-  const git = (cmd) =>
-    execSync(`git ${cmd}`, {
+  try {
+    execSync("node tools/guard/check-remote-sync.mjs --strict", {
       cwd: ROOT,
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
-      timeout: 30000,
-    }).trim();
-
-  try {
-    git("rev-parse --is-inside-work-tree");
+      stdio: "inherit",
+      timeout: 60000,
+    });
   } catch {
-    return; // 不在 git repo，無從檢查
-  }
-
-  process.stdout.write("🔄 檢查遠端是否有新變更…");
-  try {
-    git("fetch");
-  } catch {
-    console.log(" 連不上遠端（離線？），略過檢查。\n");
-    return;
-  }
-
-  let behind;
-  try {
-    behind = parseInt(git("rev-list --count HEAD..@{u}"), 10);
-  } catch {
-    console.log(" 無上游分支，略過檢查。\n");
-    return;
-  }
-
-  if (behind > 0) {
-    console.log(` 落後 ${behind} 個 commit\n`);
-    console.error(
-      `❌ 本地落後遠端 ${behind} 個 commit，先同步再建立新旅程。\n`,
-    );
-    console.error(
-      `   建立新旅程會改動 vite.config.js 與 src/views/TripsView.jsx 這兩個全域註冊點，`,
-    );
-    console.error(
-      `   在落後狀態下動手，等於預約一場「兩邊各插一行」的合併衝突。\n`,
-    );
-    console.error(`   請先執行：\n`);
-    console.error(`       git pull --rebase\n`);
-    console.error(`   然後重跑 npm run new-trip。`);
-    console.error(
-      `   （確定要在落後狀態下建立：SKIP_SYNC_CHECK=1 npm run new-trip）\n`,
-    );
+    console.error("\n   然後重跑 npm run new-trip。\n");
     process.exit(1);
   }
-
-  console.log(" 已是最新。\n");
 }
 
 // ============================================================

@@ -18,7 +18,8 @@
     "test:unit": "vitest run src/lib/cb_logic.test.mjs",
     "test:ui": "playwright test",
     "test:console": "playwright test tests/console-guard.spec.js",
-    "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js && node tools/guard/check-trip-schema.mjs"
+    "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js && node tools/guard/check-trip-schema.mjs",
+    "sync-check": "node tools/guard/check-remote-sync.mjs"
   },
   "keywords": [
     "portfolio",

@@ -9,6 +9,7 @@ allowed-tools: Bash(git status:*), Bash(git log:*), Bash(git push:*), Bash(gh ru
 
 1. **前置檢查**
    - 確認目前在 `main` 分支且工作區乾淨（有未提交變更時，先建議走 `/commit`）
+   - `npm run sync-check` 確認沒落後遠端。**落後時不要直接 push**（會被拒），先 `git pull --rebase` 解完衝突、重跑 `npm run guard` 與 `npm test` 綠燈，再回到這一步
    - `git log origin/main..HEAD --oneline` 列出即將推送的 commit，向使用者展示
 2. **推送**
    - `git push origin main`

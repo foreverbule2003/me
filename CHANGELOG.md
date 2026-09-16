@@ -4,6 +4,22 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.8] - 2026-09-16 (開工同步檢查擴及整個 session)
+
+### 新增 (Added) 🚀
+
+- **`tools/guard/check-remote-sync.mjs` + `npm run sync-check`**: 檢查本地是否落後遠端，並在落後時一併列出本 repo 的其他 git worktree。2.7.2 把這個檢查做進 `npm run new-trip`，但那只涵蓋「建立新旅程」這一個動作——2026-09-16 開工時本地落後 3 個 commit、`/deploy` 才撞上五處衝突，而那輪根本沒建新旅程，檢查一次都沒跑到。
+- **Claude Code 的 SessionStart hook**: `.claude/settings.json` 新增，每次開 session 自動跑上述檢查（只報告不擋——離線、無 remote、不在 repo 時一律放行，妨礙日常的檢查會被學會略過）。
+- **`/deploy` 前置檢查補上同步確認**: 落後時先 `git pull --rebase`、重跑 guard 與 test 綠燈，再回到推送這一步。
+
+### 變更 (Changed) 🔄
+
+- **`tools/new-trip.js` 改為呼叫共用模組**（`--strict`，落後即中止），原本那份 55 行的重複實作移除。同一個檢查不留兩份，否則改了一邊另一邊照舊。
+- **`README.md` / `CONTRIBUTING.md`**: 補上 `npm run sync-check` 與開工儀式說明。
+- **`docs/REFACTOR_GUARD.md` §4**: 補上這支，並說明它為何不掛在 `npm run guard` 上——它管的是開工前、不是提交前。
+
+---
+
 ## [2.7.7] - 2026-09-16 (GitHub Actions 升版)
 
 ### 變更 (Changed) 🔄

@@ -66,6 +66,10 @@
 - `verify-dom.js`: 模擬加載並檢查關鍵 ID 是否存在於 DOM Tree 中。
 - `check-trip-schema.mjs`: 比對各旅程 `data.js` 用到的欄位與 `data.template.js` 的欄位契約。某欄位在 **2 個以上旅程**出現、模板卻沒有時紅燈——這是「`data.js` 先長欄位、模板事後才追」造成產生腳本印出 `undefined` 的上游攔截點（已發生兩次，見 CHANGELOG 2.7.0 的 `origin`/`destination` 與 2.7.5 的 `baggage`）。
 
+`tools/guard/` 底下還有一支**不在** `npm run guard` 裡的：
+
+- `check-remote-sync.mjs`（`npm run sync-check`）: 檢查本地是否落後遠端，落後時一併列出本 repo 的其他 git worktree。它管的是**開工前**、不是提交前，所以不掛在 `guard` 上：由 Claude Code 的 SessionStart hook 每次開 session 自動跑（只報告不擋），`npm run new-trip` 以 `--strict` 呼叫同一支（落後即中止），`/deploy` 前置檢查也會跑。離線、無上游分支、不在 git repo 時一律放行；`SKIP_SYNC_CHECK=1` 可略過。
+
 ### `check-trip-schema.mjs` 的判準與侷限
 
 | 項目 | 說明 |

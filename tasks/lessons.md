@@ -203,3 +203,29 @@
 - [ ] 上一則（2026-09-11）列的三份小書 `undefined`，本次補完 `baggage`/`note` 過濾後為 2024-kyoto 14 處、2024-tokyo-disney 6 處、2026-tokyo 12 處。剩下的是各旅程 `data.js` 自己缺值，不是模板漏列，本 guard 不會報——build 時的警告仍是唯一提示
 - [ ] guard 目前不分辨巢狀層級（鍵名在該 export 任一層出現過就放行），`recommendedRoutes[].duration` 這類「鍵名有、掛錯層」的缺漏抓不到；待觀察是否值得加深
 - [ ] `src/pages/trips/ise-shima/data.js` 缺 `flightData` 等匯出，guard 對它只能部分比對（沿用 2026-09-06 的待辦）
+
+---
+
+## 2026-09-16 (2)
+
+### 錯誤模式
+
+- **第三次分歧開工，這次連第二台機器都不需要**：今天開工時本地 `main` 落後遠端 3 個 commit，`/deploy` 才撞上，`CHANGELOG.md`、`tasks/lessons.md`、`generate-travel-pdf.mjs`、`TRIP_STYLE_GUIDE.md`、`master_guide.html` 五處衝突，版本號 `2.7.3` 更是兩邊各開一個。
+- 查出來的成因不是「另一台電腦」：`git worktree list` 顯示 `.claude/worktrees/nervous-lehmann-19fc35` 的 HEAD 正好停在遠端最新的 `8665df4`。也就是 **2026-09-11 下午的離線小書那批工作是在同一台電腦的 git worktree 裡做的，push 之後主工作目錄的 `main` 不會跟著前進**，就這樣停在 `3bf37b1` 靜默落後五天。`git reflog main` 佐證：09-11 14:55 之後到 09-16 13:15 之間完全沒有動作。
+- **既有防線涵蓋不到這個形狀**：2026-09-06 立的檢查做在 `npm run new-trip` 裡，前提是「建立新旅程」這個動作。今天這輪根本沒建新旅程，只是改文件和腳本，檢查一次都沒跑到。
+- 前兩次的教訓寫的成因是「兩台機器、兩個作者身分（tim / TimZ）」，所以判斷落後風險時會下意識問「我最近有用另一台嗎」——答案是沒有，於是不覺得需要 fetch。**成因描述寫得太具體，反而讓人排除了其他路徑。**
+
+### 修正規則
+
+- **檢查要綁在「開工」這個時間點，不是綁在某一支指令上**：新增 `tools/guard/check-remote-sync.mjs`，接成 `npm run sync-check`，並掛上 Claude Code 的 SessionStart hook，每次開 session 自動跑。`new-trip` 改為呼叫同一支（`--strict` 落後即中止），同一個檢查不留兩份實作。
+- **落後時的提示要一併列出本 repo 的其他 worktree**：這次若一開始就看到那行，不必查 reflog 也能立刻知道 commit 是從哪裡來的。
+- **寫教訓時，成因要分「這次的路徑」與「這類的條件」**：這類的條件是「本地 HEAD 不等於遠端」，與幾台機器、幾個帳號無關。只寫路徑，下次換個路徑就認不出來。
+- **`.claude/worktrees/` 底下用完的 worktree 要清掉**：留著它既是落後的來源，也讓 `git clean -ndX` 之類的盤點多一個要繞過的東西。
+
+### 後續追蹤
+
+- [x] `check-remote-sync.mjs` 實作完成，非 strict / strict 兩種模式都以模擬落後狀態實測（2026-09-16）
+- [x] `new-trip` 改為呼叫共用模組，原本那份 55 行的重複實作移除（2026-09-16）
+- [x] `npm run sync-check`、SessionStart hook、`/deploy` 前置檢查、README／CONTRIBUTING 同步（2026-09-16）
+- [ ] SessionStart hook 只能在下次開 session 時才驗證得到，本 session 無法自測——下次開工時確認它確實有跑
+- [ ] `.claude/worktrees/nervous-lehmann-19fc35` 已無用途（HEAD 停在已合併的 `8665df4`），待 `git worktree remove` 清掉
