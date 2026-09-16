@@ -233,6 +233,7 @@ export const foodData = {
               name: "餐廳名稱", // ★
               type: "料理類型", // e.g. "拉麵", "壽司"
               desc: "簡短描述", // ★
+              recommended: false, // (Optional) true = 卡片標為推薦
               note: "注意事項", // (Optional)
               mapUrl:
                 "https://www.google.com/maps/search/?api=1&query=餐廳名稱+地點",
@@ -273,7 +274,18 @@ export const attractionData = {
 // 購物清單（購物 Tab；已購狀態同步到 Firebase。空陣列代表暫無清單）
 export const shoppingData = {
   targetStores: [], // (Optional) 目標商店列表
-  wishlist: [], // (Optional) 願望清單
+  // (Optional) 願望清單——ShoppingSection 實際渲染的是這裡，不是下方 categories
+  wishlist: [
+    // {
+    //   name: "商品名稱",             // ★
+    //   nameJp: "日文名稱",           // (Optional) 缺值時 spec.md 會省略括號
+    //   desc: "簡短描述",             // (Optional)
+    //   price: 990,                   // ★ 日幣價格（數字）
+    //   category: "保養",             // (Optional) 分類徽章
+    //   shop: "松本清／藥妝店",        // (Optional) 建議購買地點
+    //   image: "/me/images/products/xxx.png", // (Optional) 商品圖片
+    // },
+  ],
   categories: [
     // {
     //   title: "分類名稱",

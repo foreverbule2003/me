@@ -174,3 +174,32 @@
 - [ ] push 部署後 curl 確認 `https://foreverbule2003.github.io/me/trips/2026-okinawa/master_guide.html` 與 `sw.js` 回 200
 - [ ] 2024-kyoto（16）、2024-tokyo-disney（8）、2026-tokyo（12）的小書仍有 `undefined`，build 會警告（已另開任務處理）
 - [ ] 2026-tokyo 小書內嵌圖片達 11MB，sw 安裝時整份預先快取；評估是否改為外連圖片或壓縮
+
+---
+
+## 2026-09-16
+
+### 錯誤模式
+
+- **產出檔印 `undefined` 的第三次，其中「模板漏列欄位」佔兩次**：
+  - `origin` / `destination`（2.7.0，路線段）— **模板漏列**
+  - `nameJp`（2.7.1，購物段）— 腳本字串內插未防護，模板其實有列
+  - `baggage`（2.7.5，航班段）— **模板漏列**
+- 模板漏列那兩次的形狀完全一樣：**`data.js` 先長出欄位、模板事後才追**。寫某趟旅程時為了呈現需要直接在 `data.js` 加欄位，產生腳本也跟著讀，唯獨模板沒人回頭補——下一趟照模板建的旅程就缺這個欄位。
+- 三次都是**靠肉眼在產出物裡發現**的，而且每次都是「剛好這趟的資料缺那個欄位」才現形。前兩次留下的修正規則（「字串內插一律防 undefined」「改共用腳本時把同檔所有 `${...}` 掃一遍」）管的都是**腳本端**，沒有人管**模板端**，所以擋不住 `baggage` 這次。
+- 另外，最近一趟（2026-okinawa）改完 `data.js` 只重生了 `spec.md` 與 `master_guide.html`，模板欄位、`trip_notes.md` 慣例、`CHANGELOG` 全都沒回寫——**「重生產出物」被誤當成「回寫完成」**。
+
+### 修正規則
+
+- **欄位契約的一致性交給 guard，不靠人記得**：新增 `tools/guard/check-trip-schema.mjs`，比對各旅程 `data.js` 實際用到的欄位與模板列出的欄位，某欄位在 2 個以上旅程出現而模板沒有就紅燈，已接進 `npm run guard`。判準與侷限見 `docs/REFACTOR_GUARD.md` §4。
+- **這是 2026-09-06 那條「開工儀式的落點要在工具裡，不能只在文件裡」的同一種解法**：`new-trip` 的 `git fetch` 檢查擋的是分歧開工，這支擋的是模板漏欄位。凡是「靠人記得回頭補某個檔」的規則，寫進文件都會失效，要嘛做進工具、要嘛承認它會漏。
+- **改 `data.js` 後的回寫清單有四項，不是一項**：① 重生 `spec.md` ② 重生 `master_guide.html` ③ 新欄位補進 `data.template.js` ④ 新慣例補進 `TRIP_STYLE_GUIDE.md` / `CHANGELOG.md`。前兩項是產出物、後兩項是契約與文件，只做前兩項等於沒回寫。
+
+### 後續追蹤
+
+- [x] `check-trip-schema.mjs` 實作完成並接進 `npm run guard`（2026-09-16）
+- [x] 該 guard 首跑抓出 15 筆缺漏，收斂後確認 3 筆為真缺口（`foodData` 的 `recommended`、`shoppingData.wishlist` 的 `category` / `shop`），已補進模板（2026-09-16）
+- [x] 模板的 `wishlist` 原本只是空陣列、沒有元素欄位示範，已補上註解示範——`ShoppingSection` 實際渲染的是 `wishlist` 而非 `categories`（2.7.1 曾因文件寫反而踩過）（2026-09-16）
+- [ ] 上一則（2026-09-11）列出 2024-kyoto（16 處）、2024-tokyo-disney（8 處）、2026-tokyo（12 處）的小書仍有 `undefined`。那些是各旅程 `data.js` 自己缺值，不是模板漏列，本 guard 不會報——build 時的警告仍是唯一提示
+- [ ] guard 目前不分辨巢狀層級（鍵名在該 export 任一層出現過就放行），`recommendedRoutes[].duration` 這類「鍵名有、掛錯層」的缺漏抓不到；待觀察是否值得加深
+- [ ] `src/pages/trips/ise-shima/data.js` 缺 `flightData` 等匯出，guard 對它只能部分比對（沿用 2026-09-06 的待辦）

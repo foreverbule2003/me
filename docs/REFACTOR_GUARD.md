@@ -58,7 +58,20 @@
 
 ---
 
-## 4. 🛠️ Guard Scripts (即將實作)
+## 4. 🛠️ Guard Scripts
+
+`npm run guard` 依序執行以下三支，任一紅燈即中止：
 
 - `check-datapath.js`: 掃描 HTML/JS 檔案中是否包含易碎的絕對路徑。
 - `verify-dom.js`: 模擬加載並檢查關鍵 ID 是否存在於 DOM Tree 中。
+- `check-trip-schema.mjs`: 比對各旅程 `data.js` 用到的欄位與 `data.template.js` 的欄位契約。某欄位在 **2 個以上旅程**出現、模板卻沒有時紅燈——這是「`data.js` 先長欄位、模板事後才追」造成產生腳本印出 `undefined` 的上游攔截點（已發生兩次，見 CHANGELOG 2.7.0 的 `origin`/`destination` 與 2.7.5 的 `baggage`）。
+
+### `check-trip-schema.mjs` 的判準與侷限
+
+| 項目 | 說明 |
+| --- | --- |
+| 監看範圍 | 只比對兩支產生腳本會讀的 9 個 export（`flightData`、`itineraryData`、`recommendedRoutes`、`foodData` 等）。其餘 export 只餵給 React 元件，缺欄位在畫面上當場就看得出來 |
+| 門檻 | 出現在 **≥ 2 個旅程** 才算契約缺漏；只有 1 個旅程用視為該旅程特有欄位，`VERBOSE=1` 時才列出 |
+| 註解也算數 | 模板常以註解示範選填欄位（例 `// transport: { line: ... }`），`import` 看不到，故另外掃模板原始碼，該 export 區塊內出現過 `鍵名:` 即視為已列出 |
+| 抓不到什麼 | 只分辨「鍵名在哪個 export 區塊出現過」，不分辨巢狀層級。抓得到「模板從未提過的新欄位」，抓不到「鍵名有、但掛在錯的層」 |
+| 例外 | 確認某欄位只屬於特定旅程時，加進腳本內的 `ALLOWED_MISSING` 並註明原因 |

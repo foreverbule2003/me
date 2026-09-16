@@ -38,7 +38,7 @@ allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git c
 
 ## 步驟 3：驗證（Refactor Guard 防線，強制綠燈）
 
-- `npm run guard` — 靜態掃描（路徑違規、React 入口接線）
+- `npm run guard` — 靜態掃描（路徑違規、React 入口接線、旅程欄位契約）
 - `npm test` — vitest 單元測試（僅掃 `src/**`，Playwright 在 `tests/` 另跑）
 - 兩者現為綠燈基準（2026-07-06 起）。任一失敗：**先修復，不帶紅燈 commit**；確屬既有問題無法立即修復時，明確向使用者回報並取得同意
 - UI/頁面變更若尚未在本次對話中驗證過，先以 dev server 或 build 確認可渲染

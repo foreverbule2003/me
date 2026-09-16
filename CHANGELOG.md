@@ -4,6 +4,24 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.6] - 2026-09-16 (旅程欄位契約 guard)
+
+### 新增 (Added) 🚀
+
+- **`tools/guard/check-trip-schema.mjs`（已接進 `npm run guard`）**: 比對各旅程 `data.js` 實際用到的欄位與 `data.template.js` 的欄位契約，某欄位在 2 個以上旅程出現、模板卻沒有時紅燈。「`data.js` 先長欄位、模板事後才追」已兩次讓產生腳本印出 `undefined`（2.7.0 的 `origin`/`destination`、2.7.5 的 `baggage`；2.7.1 的 `nameJp` 則是腳本內插未防護，機制不同但同屬 `undefined` 家族），都是靠肉眼在產出物裡發現。與 2.7.2 把 `git fetch` 檢查做進 `npm run new-trip` 同一種解法：靠人記得回頭補檔的規則寫進文件都會失效。
+  - 只監看兩支產生腳本會讀的 9 個 export；模板以註解示範的選填欄位（`// transport: { … }`）也算已列出契約
+  - 例外走腳本內的 `ALLOWED_MISSING`；`VERBOSE=1` 可列出「只有單一旅程使用」的欄位
+  - 判準與侷限見 `docs/REFACTOR_GUARD.md` §4
+
+### 修復 (Fixed) 🔧
+
+- **模板三處漏列欄位**（guard 首跑抓出）: `foodData` 的 `recommended`、`shoppingData.wishlist` 的 `category` 與 `shop`，皆已有 2 個以上旅程在用。
+- **模板的 `wishlist` 只有空陣列、沒有元素欄位示範**: `ShoppingSection` 實際渲染的是 `wishlist` 而非 `categories`（2.7.1 曾因 `docs/COMPONENTS.md` 寫反而照著填出整片空白），但模板只在 `categories` 底下示範商品欄位。已補上 `wishlist` 的註解示範。
+- **`.claude/commands/commit.md` 步驟 3 的 guard 說明未含第三支**: 原本只寫「路徑違規、React 入口接線」，已補上「旅程欄位契約」。
+- **`docs/REFACTOR_GUARD.md` §4 標題仍寫「（即將實作）」**: 兩支 guard 早已實作並列為綠燈基準（2026-07-06）。已移除過期標註並補上第三支的說明。
+
+---
+
 ## [2.7.5] - 2026-09-16 (沖繩電子書校正補記與模板欄位契約)
 
 ### 變更 (Changed) 🔄
