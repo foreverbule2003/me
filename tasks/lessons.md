@@ -171,8 +171,8 @@
 ### 後續追蹤
 
 - [x] 三檔隨 build 輸出、sw 由 master_guide.html 註冊（scope `./master_guide.html`）、快取前綴隔離、Network First；本機 preview 斷網實測可開（2026-09-11，見 2.7.3 / `3aa2c34`）
-- [ ] push 部署後 curl 確認 `https://foreverbule2003.github.io/me/trips/2026-okinawa/master_guide.html` 與 `sw.js` 回 200
-- [ ] 2024-kyoto（16）、2024-tokyo-disney（8）、2026-tokyo（12）的小書仍有 `undefined`，build 會警告（已另開任務處理）
+- [x] push 部署後 curl 確認線上路徑（2026-09-16，`09b9c7e` 部署後實測 `master_guide.html`、`sw.js`、`manifest.json` 與 2026-tokyo 的小書共四個路徑皆回 200）
+- [ ] 2024-kyoto、2024-tokyo-disney、2026-tokyo 的小書仍有 `undefined`，build 會警告（已另開任務處理）。2026-09-16 補上 `baggage`/`note` 的缺值過濾後降為 14／6／12，減少的是航班卡那兩行；剩下的是各旅程 `data.js` 自己缺值，`check-trip-schema.mjs` 不會報
 - [ ] 2026-tokyo 小書內嵌圖片達 11MB，sw 安裝時整份預先快取；評估是否改為外連圖片或壓縮
 
 ---
@@ -200,6 +200,6 @@
 - [x] `check-trip-schema.mjs` 實作完成並接進 `npm run guard`（2026-09-16）
 - [x] 該 guard 首跑抓出 15 筆缺漏，收斂後確認 3 筆為真缺口（`foodData` 的 `recommended`、`shoppingData.wishlist` 的 `category` / `shop`），已補進模板（2026-09-16）
 - [x] 模板的 `wishlist` 原本只是空陣列、沒有元素欄位示範，已補上註解示範——`ShoppingSection` 實際渲染的是 `wishlist` 而非 `categories`（2.7.1 曾因文件寫反而踩過）（2026-09-16）
-- [ ] 上一則（2026-09-11）列出 2024-kyoto（16 處）、2024-tokyo-disney（8 處）、2026-tokyo（12 處）的小書仍有 `undefined`。那些是各旅程 `data.js` 自己缺值，不是模板漏列，本 guard 不會報——build 時的警告仍是唯一提示
+- [ ] 上一則（2026-09-11）列的三份小書 `undefined`，本次補完 `baggage`/`note` 過濾後為 2024-kyoto 14 處、2024-tokyo-disney 6 處、2026-tokyo 12 處。剩下的是各旅程 `data.js` 自己缺值，不是模板漏列，本 guard 不會報——build 時的警告仍是唯一提示
 - [ ] guard 目前不分辨巢狀層級（鍵名在該 export 任一層出現過就放行），`recommendedRoutes[].duration` 這類「鍵名有、掛錯層」的缺漏抓不到；待觀察是否值得加深
 - [ ] `src/pages/trips/ise-shima/data.js` 缺 `flightData` 等匯出，guard 對它只能部分比對（沿用 2026-09-06 的待辦）
