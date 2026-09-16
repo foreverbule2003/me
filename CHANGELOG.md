@@ -4,6 +4,15 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.7] - 2026-09-16 (GitHub Actions 升版)
+
+### 變更 (Changed) 🔄
+
+- **三個 workflow 的 action 全面升到目前的最新 major**: `2.7.6` 的部署 run 帶著「Node.js 20 is deprecated，以下 action 被強制跑在 Node.js 24 上」的警告。`deploy.yml` 的 `checkout@v4`→`v7`、`setup-node@v4`→`v7`、`configure-pages@v4`→`v6`、`upload-pages-artifact@v3`→`v5`、`deploy-pages@v4`→`v5`；`daily-hot-cb.yml` 與 `daily-cb-history.yml` 的 `checkout` / `setup-node` 同步。各版本取自 `gh api repos/<action>/releases/latest`，不是一律 v5。
+  - `setup-node` 的 `node-version: "20"` 未動——那是 build 用的 Node，與警告所指的 action 執行環境無關。Node 20 已進入維護末期，要升是另一件事，需先確認 build 與 vitest 在新版下的行為。
+
+---
+
 ## [2.7.6] - 2026-09-16 (旅程欄位契約 guard)
 
 ### 新增 (Added) 🚀
