@@ -4,6 +4,25 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.5] - 2026-09-16 (沖繩電子書校正補記與模板欄位契約)
+
+### 變更 (Changed) 🔄
+
+- **`2026-okinawa` 依旅行社電子書全面校正**（實作於 2026-09-11 的 `3bf37b1`，本次補記）: 旅行社發布的行程電子書（第一梯 10/02 出發版）與網站原資料的每日順序不同——瀨長島移到 Day 1、Junglia 移到 Day 3（新增 B 行程自由活動 ¥1,000 代金）、古宇利／美麗海移到 Day 4、半潛水艇與海葡萄農場移到 Day 5，各日餐食隨之對調。另補上 09:00 第一航廈集合、T1 航廈、託運 23kg／手提 7kg，飯店最近車站更正為縣廳前站（步行約 7 分），新增 Day 2 那霸景點，美食分類拆成 Day 1/4/5 讓行程卡的美食按鈕能正確跳轉。已重生 `spec.md`。（原 commit 另重生了 `master_guide.html` 並將 `sw.js` 快取升版 v2，這兩項已被 2.7.3 推翻——小書改由 build 產生、不再進 Git，sw 改 Network First 後內容更新也不需遞增 `CACHE_NAME`。）
+
+### 新增 (Added) 🚀
+
+- **`trips/2026-okinawa/trip_notes.md`**: 2.7.1 為 2024-tokyo-disney 立下的 `trip_notes.md` 慣例，沖繩這份漏了。電子書出處、與網站原資料的逐項落差、Day 3 A/B 二擇一行程與 ¥1,000 代金、刻意不收錄的分房表姓名與領隊電話，原本只活在 commit message 裡，現已寫成檔案。
+- **`trips/TRIP_STYLE_GUIDE.md` 新增 §1.2 旅程文件檔**: 明確區分 `spec.md`（自動生成、勿手改）與 `trip_notes.md`（手寫、放 `data.js` 承載不了的來源資訊）的職責，並載明「資料來自旅行社外部來源時一律要建 `trip_notes.md`」與個資處理原則。
+- **`CONTRIBUTING.md` 新增旅程段落補上指向**: 建立旅程時就看得到 `trip_notes.md` 這條慣例，不必先讀完風格指南才知道。
+
+### 修復 (Fixed) 🔧
+
+- **`data.template.js` 的 `flightData` 缺 `baggage` 欄位**: `scripts/generate-travel-pdf.mjs` 早已直接讀 `flightData.{outbound,inbound}.baggage`，但模板從未列出此欄位——照模板建立的新旅程，離線小書航班卡會印出 `undefined`（2.7.3 起小書由 build 產生，這個 `undefined` 會直接出現在線上版）。此為 2.7.0／2.7.1 修過兩輪的同類問題第三次現身（前兩次是 `nameJp` 與 `origin`/`destination`）。已補進模板並標為 (Optional)。
+- **`generate-travel-pdf.mjs` 航班備註區裸接字串**: `baggage` 與 `note` 任一缺值就印 `undefined` 或多餘的 `<br>`。改為兩者過濾後再以 `<br>` 串接，缺值時整行省略。
+
+---
+
 ## [2.7.4] - 2026-09-16 (commit 流程補三道防線)
 
 ### 新增 (Added) 🚀

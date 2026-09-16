@@ -41,6 +41,10 @@ npm run new-trip
 > 離線或無 remote 時只警告不擋；確定要在落後狀態下建立可用
 > `SKIP_SYNC_CHECK=1 npm run new-trip`。
 
+> **📒 資料來自旅行社行程表／電子書時，一併建 `trips/{trip}/trip_notes.md`。**
+> `spec.md` 由 `data.js` 自動生成、勿手改，承載不了的來源資訊放 `trip_notes.md`。
+> 兩者的職責分工與個資處理原則見 `trips/TRIP_STYLE_GUIDE.md` §1.2。
+
 **新增部落格/日記 (Journal):**
 目前日記透過 Firebase 管理。(CLI 新增功能即將推出)。
 

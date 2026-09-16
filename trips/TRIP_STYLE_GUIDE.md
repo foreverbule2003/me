@@ -33,6 +33,19 @@
 
 > ⚠️ **Service Worker 分工**：根 sw（`public/sw.js`，scope `/me/`）管全站；旅程 sw 註冊時 scope 限縮為 `./master_guide.html`，只接管小書本身。**不要**在 React 行程頁註冊旅程 sw 或放寬 scope——同目錄的 `index.html` 會被接管，行程頁可能卡在舊版。Cache Storage 是全站共用的，各 sw 的 activate 只能清自己前綴（`timboy-cache-`、`{trip}-trip-`）的舊快取，不可清掉別人的。
 
+### 1.2 旅程文件檔 (Trip Docs)
+
+每個旅程資料夾下有兩份互補的文件，職責不可混用：
+
+| 檔案 | 角色 | 誰維護 |
+| --- | --- | --- |
+| `trips/{trip}/spec.md` | 正式行程規格書：航班、住宿、每日行程、交通、景點、美食、購物、花費 | **自動生成**，由 `node scripts/sync-travel-spec.mjs {trip}` 從 `data.js` 產出，**勿手改**（手改的內容下次同步就沒了） |
+| `trips/{trip}/trip_notes.md` | 來源與實況筆記：原始行程表出處、旅行社報價條件、未採用的班次與路線、實際走法與行程表的落差、刻意不收錄於公開網站的內容 | **手寫**，`data.js` 承載不了、但不該遺失的資訊都放這裡 |
+
+**什麼時候該建 `trip_notes.md`**：旅程資料來自旅行社行程表／電子書／紙本收據等外部來源時一律要建。範例見 `trips/2024-tokyo-disney/trip_notes.md` 與 `trips/2026-okinawa/trip_notes.md`。
+
+> ⚠️ 旅行社原始檔常含業務、領隊或同團旅客個資（姓名、手機、Line ID、Email、分房表）。本 repo 為公開 repo，原始檔一律只留本機（`.gitignore` 已含 `trips/*/source_*.pdf`），個資不得寫進 `data.js`、`spec.md` 或 `trip_notes.md`，只在 `trip_notes.md` 註明「刻意不收錄」與查閱方式。
+
 ## 2. 設計系統 (Design System)
 
 ### 2.1 色彩計畫 (Color Palette)

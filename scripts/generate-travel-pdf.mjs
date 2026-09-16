@@ -169,9 +169,9 @@ export async function renderMasterGuide(tripId, rootDir = process.cwd()) {
     flightData.outbound.airport.arrive +
     `</p>
         <p style="font-size: 13px; color: var(--text-light); margin-top: 15px;">` +
-    flightData.outbound.baggage +
-    `<br>` +
-    flightData.outbound.note +
+    [flightData.outbound.baggage, flightData.outbound.note]
+      .filter(Boolean)
+      .join("<br>") +
     `</p>
       </div>
       <div class="card avoid-break">
@@ -193,9 +193,9 @@ export async function renderMasterGuide(tripId, rootDir = process.cwd()) {
     flightData.inbound.airport.arrive +
     `</p>
         <p style="font-size: 13px; color: var(--text-light); margin-top: 15px;">` +
-    flightData.inbound.baggage +
-    `<br>` +
-    flightData.inbound.note +
+    [flightData.inbound.baggage, flightData.inbound.note]
+      .filter(Boolean)
+      .join("<br>") +
     `</p>
       </div>
     </div>

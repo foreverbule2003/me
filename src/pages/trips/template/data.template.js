@@ -71,7 +71,8 @@ export const flightData = {
     airport: { depart: "TPE 桃園", arrive: "NRT 成田" },
     terminal: { depart: "T2", arrive: "T1" },
     duration: "3h00m",
-    note: "", // (Optional) 注意事項，例如托運/貴賓室資訊
+    baggage: "託運 23kg／手提 7kg", // (Optional) 行李額度；離線小書會單獨列一行
+    note: "", // (Optional) 注意事項，例如集合時間、貴賓室資訊
   },
   inbound: {
     airline: "航空公司名稱",
@@ -81,6 +82,7 @@ export const flightData = {
     airport: { depart: "NRT 成田", arrive: "TPE 桃園" },
     terminal: { depart: "T1", arrive: "T2" },
     duration: "4h00m",
+    baggage: "託運 23kg／手提 7kg", // (Optional)
     note: "",
   },
 };
