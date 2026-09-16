@@ -16,9 +16,10 @@
     "format": "npx prettier --write \"**/*.{html,css,js,md}\"",
     "test": "vitest run",
     "test:unit": "vitest run src/lib/cb-logic.test.mjs",
+    "test:calc": "node scripts/test-calculator-core.mjs",
     "test:ui": "playwright test",
     "test:console": "playwright test tests/console-guard.spec.js",
-    "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js && node tools/guard/check-trip-schema.mjs",
+    "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js && node tools/guard/check-trip-schema.mjs && node tools/guard/check-orphan-scripts.mjs",
     "sync-check": "node tools/guard/check-remote-sync.mjs"
   },
   "keywords": [

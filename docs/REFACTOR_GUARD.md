@@ -60,11 +60,12 @@
 
 ## 4. 🛠️ Guard Scripts
 
-`npm run guard` 依序執行以下三支，任一紅燈即中止：
+`npm run guard` 依序執行以下四支，任一紅燈即中止：
 
 - `check-datapath.js`: 掃描 HTML/JS 檔案中是否包含易碎的絕對路徑。
 - `verify-dom.js`: 模擬加載並檢查關鍵 ID 是否存在於 DOM Tree 中。
 - `check-trip-schema.mjs`: 比對各旅程 `data.js` 用到的欄位與 `data.template.js` 的欄位契約。某欄位在 **2 個以上旅程**出現、模板卻沒有時紅燈——這是「`data.js` 先長欄位、模板事後才追」造成產生腳本印出 `undefined` 的上游攔截點（已發生兩次，見 CHANGELOG 2.7.0 的 `origin`/`destination` 與 2.7.5 的 `baggage`）。
+- `check-orphan-scripts.mjs`: 掃 `scripts/` 底下有沒有「沒有執行入口」的腳本。入口指 `package.json` 的 scripts、GitHub workflow、程式碼 import、`.claude/commands` 或 `.agent/workflows` 的步驟；**`CHANGELOG.md`、`tasks/lessons.md` 這類歷史記述不算**——`test-calculator-core.mjs` 在那兩個檔裡都有名字，照樣壞了兩個月沒人發現（見 CHANGELOG 2.7.9）。要留著手動用的腳本加進該檔的 `ALLOWED_ORPHANS` 並寫明用途。
 
 `tools/guard/` 底下還有一支**不在** `npm run guard` 裡的：
 

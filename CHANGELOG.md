@@ -4,6 +4,26 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.11] - 2026-09-16 (孤兒腳本 guard)
+
+### 新增 (Added) 🚀
+
+- **`tools/guard/check-orphan-scripts.mjs`（已接進 `npm run guard`，第四支）**: 掃 `scripts/` 底下有沒有「沒有執行入口」的腳本。2.7.9 那條教訓留下的追蹤項——`test-calculator-core.mjs` 的 import 壞了兩個月沒人發現，不是沒人看，而是它沒接進任何 npm script、workflow 或程式碼 import，CI 照不到、人也不會手動跑。
+  - 入口指 `package.json` 的 scripts、GitHub workflow、程式碼 import、`.claude/commands` 或 `.agent/workflows` 的步驟；**`CHANGELOG.md`、`tasks/lessons.md` 這類歷史記述不算**——「被談論過」不等於「跑得到」，放寬這條這支就驗不出東西
+  - 要留著手動用的腳本走 `ALLOWED_ORPHANS` 並寫明用途
+- **`npm run test:calc`**: `scripts/test-calculator-core.mjs`（CB 計算核心的 golden sample 驗證）接上執行入口，從此壞了會被發現。
+
+### 移除 (Removed) 🗑️
+
+- **`scripts/test-placeholder.js`**: 檔案自述是「在有完整測試套件前建立 `npm test` 流程用、之後會被 Vitest 取代」的佔位，vitest 早已是現行 `npm test`，2026-01-07 後未再變動。
+- **`scripts/verify-chart-fix.js`**: 目標 URL 指向 `tools/archive/cb-calculator-standalone.html`，該檔已不存在，這支跑起來必然失敗；同類瀏覽器測試由 `tests/` 的 Playwright 承擔。`puppeteer` 依賴保留——CB 抓取工具（`src/utils/cb-fetcher.js` 等四處）仍在用。
+
+### 修復 (Fixed) 🔧
+
+- **`check-orphan-scripts.mjs` 第一版會漏報自己註解舉過的例子**: 註解裡拿 `test-calculator-core.mjs` 當說明案例，掃描時該檔案本身也在搜尋範圍內，於是被舉例的腳本因為「在說明文字裡出現過」而判定為有引用——該報時不報。已排除本檔。
+
+---
+
 ## [2.7.10] - 2026-09-16 (commit 確認問句改為不會誤讀的寫法)
 
 ### 變更 (Changed) 🔄

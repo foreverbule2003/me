@@ -68,7 +68,7 @@
 ### 後續追蹤
 
 - [ ] 下次重構抽模組時，確認 commit diff 內同時包含舊版刪除
-- [ ] 定期（或在 /commit 清理步驟）掃描 `scripts/` 孤兒腳本
+- [x] 掃描自動化為 `tools/guard/check-orphan-scripts.mjs`，接進 `npm run guard`（2026-09-16）。首跑抓到三支：`test-calculator-core.mjs` 接上 `npm run test:calc`，`test-placeholder.js`（vitest 上線後就該退場）與 `verify-chart-fix.js`（目標檔已不存在）刪除，`seed-data.js` 列為手動工具
 
 ---
 
