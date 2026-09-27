@@ -4,7 +4,7 @@ argument-hint: [選填：commit 範圍或補充說明]
 allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git clean -ndX), Bash(git add:*), Bash(git commit:*), Bash(git rm --cached:*), Bash(npm test:*), Bash(npm run guard:*), Bash(node scripts/sync-travel-spec.mjs:*), Bash(node scripts/sync-memory-backup.mjs)
 ---
 
-依照以下流程建立 commit（整併自 `.agent/workflows/commit.md` 原版設計與 CONTRIBUTING.md、docs/REFACTOR_GUARD.md、CHANGELOG.md 規範；步驟 0、6、7 與步驟 8 的批准顆粒度條款移植自 second-brain 的 `/commit`）：
+依照以下流程建立 commit：
 
 ## 步驟 0：這一輪談定的規則，寫回定義它的檔
 
@@ -40,7 +40,7 @@ allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git c
 
 - `npm run guard` — 靜態掃描（路徑違規、React 入口接線、旅程欄位契約、孤兒腳本）
 - `npm test` — vitest 單元測試（僅掃 `src/**`，Playwright 在 `tests/` 另跑）
-- 兩者現為綠燈基準（2026-07-06 起）。任一失敗：**先修復，不帶紅燈 commit**；確屬既有問題無法立即修復時，明確向使用者回報並取得同意
+- 兩者都必須綠燈。任一失敗：**先修復，不帶紅燈 commit**；確屬既有問題無法立即修復時，明確向使用者回報並取得同意
 - UI/頁面變更若尚未在本次對話中驗證過，先以 dev server 或 build 確認可渲染
 
 ## 步驟 4：自動同步（Auto-Sync）
@@ -70,7 +70,7 @@ allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(git c
 
 | # | 壞味道 | 怎麼認 |
 |---|---|---|
-| 1 | **AI 造字** | 這個詞出現在他讀過的檔案裡、或他自己說過嗎？有一個是我造的就不合格。慣犯：閘門、沉底、落地／落檔、執法、兜底、暫存區、規則卡。**散文與程式碼註解／docstring 都要看**，不是只掃 `.md`。**2026-09-16 起有 hook 擋在上游**：`.claude/hooks/check-ai-coinage.mjs`，Write/Edit 寫進 `docs/`、`knowledge/`、`teaching/`、`tasks/`、`trips/`、`.claude/commands/`、`.agent/` 與根目錄四份 `.md` 時當場攔。**改清單要同步兩處**——那支腳本的 `COINAGE` 與這一格。這一格改成複查：hook 放行的（引用原話、程式碼區塊、清單本身）人再看一眼 |
+| 1 | **AI 造字** | 這個詞出現在他讀過的檔案裡、或他自己說過嗎？有一個是我造的就不合格。慣犯：閘門、沉底、落地／落檔、執法、兜底、暫存區、規則卡。**散文與程式碼註解／docstring 都要看**，不是只掃 `.md`。上游有 hook：`.claude/hooks/check-ai-coinage.mjs`，Write/Edit 寫進 `docs/`、`knowledge/`、`teaching/`、`tasks/`、`trips/`、`.claude/commands/`、`.agent/` 與根目錄四份 `.md` 時當場攔。**改清單要同步兩處**——那支腳本的 `COINAGE` 與這一格。這一格改成複查：hook 放行的（引用原話、程式碼區塊、清單本身）人再看一眼 |
 | 2 | **冗餘** | 新寫的這段，前面是不是已經有一段在講同一個動作？同一件事在同一份檔案不准講兩次 |
 | 3 | **邏輯不通** | 三種形狀：①同一句能讀成兩種結果 ②用 AND 串了一個量不到的條件，整條規則因此永遠不成立 ③方向相反（該亮時暗、該暗時亮） |
 | 4 | **幻覺** | 每個數字、每句引文，句子裡有沒有**當場的出處**（檔名:行號、URL、這一輪的工具結果）？沒有就掛 ⚠️未查證，沒有第三種寫法 |
@@ -101,7 +101,7 @@ node scripts/sync-memory-backup.mjs
 
 - 自我防呆三問：每行變更都能追溯到需求嗎？有誤觸無關的歷史包袱嗎？清掉孤兒變數／匯入了嗎？
 - **向使用者摘要「這次會寫進哪些 commit」並停下等確認**，除非使用者已在本次對話明確授權直接提交（例如指示「commit 後不用再問」）
-- **問句一律用**：`要 commit 嗎？（只寫本地，不 push）`。不要寫「要提交嗎」：中文的「提交」同時可讀成「送出去給別人」，2026-09-16 這個問法造成過一次混淆，分不清停在本地還是會推到遠端。這一問從頭到尾只涵蓋 `git commit`，push 是 `/deploy` 的事、另一次確認。
+- **問句一律用**：`要 commit 嗎？（只寫本地，不 push）`。不要寫「要提交嗎」：中文的「提交」同時可讀成「送出去給別人」，分不清停在本地還是會推到遠端。這一問從頭到尾只涵蓋 `git commit`，push 是 `/deploy` 的事、另一次確認。
 - **批准必須是對「要 commit 嗎」這一問的回應**：先給 diff 摘要，然後問，然後停。他在別的問題上回的「go／好／對」不算批准——**顆粒度要對齊被問的那一問**
 - **`/commit` 是流程入口，不是提交批准**：打了 `/commit` 仍要走完本節的問答，因為那個字出現時 diff 摘要還不存在，他不可能批准一份還沒生出來的東西
 
