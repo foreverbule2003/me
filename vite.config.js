@@ -231,6 +231,10 @@ export default defineConfig({
         "trips-kyoto": resolve(__dirname, "trips/2024-kyoto/index.html"),
         "trips-cebu": resolve(__dirname, "trips/2025-cebu/index.html"),
         "trips-osaka": resolve(__dirname, "trips/2025-osaka/index.html"),
+        "trips-research-portugal": resolve(
+          __dirname,
+          "trips/research/portugal-north-to-south/index.html",
+        ),
         "tools-options": resolve(
           __dirname,
           "tools/archive/prototypes/bull-put-spread.html",

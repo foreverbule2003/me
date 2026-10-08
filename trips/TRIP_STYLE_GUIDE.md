@@ -46,6 +46,17 @@
 
 > ⚠️ 旅行社原始檔常含業務、領隊或同團旅客個資（姓名、手機、Line ID、Email、分房表）。本 repo 為公開 repo，原始檔一律只留本機（`.gitignore` 已含 `trips/*/source_*.pdf`），個資不得寫進 `data.js`、`spec.md` 或 `trip_notes.md`，只在 `trip_notes.md` 註明「刻意不收錄」與查閱方式。
 
+### 1.3 行程研究頁 (trips/research/)
+
+還沒成行、只在研究階段的行程，放 `trips/research/{slug}/`，**不走** `npm run new-trip` 的 React 模板（沒有 data.js、spec.md，不受旅程欄位契約 guard 檢查）：
+
+| 檔案 | 角色 |
+| --- | --- |
+| `note.md` | 研究筆記：註明來源（影片標題、頻道、日期）、整理日期、價格的拍攝時點 |
+| `index.html` | 由筆記整理成的靜態單頁，樣式內嵌 |
+
+**上線要接兩處**：`vite.config.js` 的 `rollupOptions.input` 加入口（否則 build 不會輸出）、`src/views/TripsView.jsx` 的清單加一筆，標籤以「想去 · 」開頭，排在已成行的旅程後面。確定成行時改用 `npm run new-trip` 建正式旅程。
+
 ## 2. 設計系統 (Design System)
 
 ### 2.1 色彩計畫 (Color Palette)

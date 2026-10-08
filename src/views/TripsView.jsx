@@ -42,6 +42,12 @@ const TripsView = ({ onSetActions }) => {
       href: "/me/trips/2024-kyoto/index.html",
       isExternal: true,
     },
+    // 還沒去的行程研究:放在已成行的旅程後面
+    {
+      label: "想去 · 葡萄牙北到南",
+      href: "/me/trips/research/portugal-north-to-south/index.html",
+      isExternal: true,
+    },
   ];
 
   const handleUp = () =>

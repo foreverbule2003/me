@@ -60,8 +60,9 @@
 │       └── 💰 預算規劃 (budget)
 │   ├── 🏰 2024 東京迪士尼 (trips/2024-tokyo-disney/) [Vite+React・回顧型] ✨ NEW
 │   │   └── 8 頁籤結構同 2026 東京（資料源為旅行社行程表 PDF + 紙本收據回顧）
-│   └── 🍵 2024 京都 (trips/2024-kyoto/) [Vite+React・回顧型]
-│       └── 8 頁籤結構同 2026 東京（資料源為 Google Maps 時間軸回顧）
+│   ├── 🍵 2024 京都 (trips/2024-kyoto/) [Vite+React・回顧型]
+│   │   └── 8 頁籤結構同 2026 東京（資料源為 Google Maps 時間軸回顧）
+│   └── 🇵🇹 想去 · 葡萄牙北到南 (trips/research/portugal-north-to-south/) [靜態單頁・研究] ✨ NEW
 │
 ├── 📓 JOURNAL (#/journal)
 │   └── Vibe Coding 日記
@@ -90,6 +91,7 @@
 | 2026 伊勢志摩  | `/trips/2026-ise-shima/index.html`             | ✅ 完成   | Vite+React   |
 | 2024 東京迪士尼 | `/trips/2024-tokyo-disney/index.html`         | ✅ 完成   | Vite+React   |
 | 2024 京都      | `/trips/2024-kyoto/index.html`                 | ✅ 完成   | Vite+React   |
+| 想去 · 葡萄牙  | `/trips/research/portugal-north-to-south/index.html` | ✅ 完成 | 靜態 HTML |
 | 日記           | `/#/journal`                                   | ✅ 完成   | Vite+React   |
 | 財務儀表板     | `/tools/financial-dashboard.html`              | ✅ 完成   | CDN+Vanilla  | \r  |
 | 期權模擬器     | `/tools/bull-put-spread.html`                  | ✅ 完成   | CDN+Vanilla  | \r  |

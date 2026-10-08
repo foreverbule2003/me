@@ -60,6 +60,7 @@ timboy/
 │   ├── 2026-ise-shima/
 │   ├── 2026-tokyo/         # 東京・橫濱・輕井澤 (React)
 │   ├── 2026-okinawa/       # 沖繩 公司員旅 (React) ✨ NEW
+│   ├── research/           # 還沒去的行程研究 (影片整理的筆記 + 單頁)
 │   └── TRIP_STYLE_GUIDE.md
 │
 ├── tools/                  # 工具頁面與後端橋接器

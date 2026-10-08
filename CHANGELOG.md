@@ -4,6 +4,15 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.13] - 2026-10-08 (行程研究頁)
+
+### 新增 (Added) 🚀
+
+- **`trips/research/`**: 還沒成行的行程研究，一個 slug 一個資料夾（`note.md` 筆記 + `index.html` 靜態單頁），不走 React 旅程模板。慣例見 `trips/TRIP_STYLE_GUIDE.md` §1.3。
+- **想去 · 葡萄牙北到南**（`trips/research/portugal-north-to-south/`）: 由 YouTube 影片整理的波多到薩格里什一週路線；已接進 `vite.config.js` 入口與旅程列表。
+
+---
+
 ## [2.7.12] - 2026-10-08 (CB 歷史同步只寫新日期)
 
 ### 變更 (Changed) 🔄

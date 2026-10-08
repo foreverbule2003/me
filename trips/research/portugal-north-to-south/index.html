@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>圖解葡萄牙北到南一週</title>
+    <style>
+/* ────────────────────────────────────────────────────────────
+   產業知識圖解 — 共用設計系統
+   大圖少字、敘事捲動。各圖解只覆寫 --accent / --accent-soft，
+   其餘 token 一律共用，確保任兩份圖解排在總覽頁上不打架。
+   ──────────────────────────────────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@700;900&family=JetBrains+Mono:wght@400;500&display=swap");
+/* topbar.css(自 second-brain 內嵌)*/
+/* 頂列(麵包屑 + 主題切換)——tools/ 底下每一頁共用這一份。
+   viz.css 以 @import 引它,不吃 viz.css 的一覽頁直接 <link> 它。
+   顏色用 var(自家變數, 另一組的名字):viz 系統是 --line/--ink-dim/--ink-faint,
+   一覽頁是 --rule/--ink-soft/--muted,同一份樣式兩邊都吃得到。 */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 0 0;
+}
+.breadcrumb {
+  font-family: "JetBrains Mono", "IBM Plex Mono", monospace;
+  font-size: 12px;
+  color: var(--muted, var(--ink-faint));
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.breadcrumb a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+.theme-toggle {
+  font-family: "JetBrains Mono", "IBM Plex Mono", monospace;
+  font-size: 12px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--rule, var(--line));
+  background: var(--surface);
+  color: var(--ink-soft, var(--ink-dim));
+  cursor: pointer;
+  transition:
+    color 0.18s,
+    border-color 0.18s;
+}
+.theme-toggle:hover {
+  color: var(--ink);
+  border-color: var(--muted, var(--ink-faint));
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+
+:root {
+  --ground: #ebefee;
+  --surface: #f8faf9;
+  --surface-2: #dfe6e5;
+  --ink: #121c1d;
+  --ink-dim: #546465;
+  --ink-faint: #7d8c8c;
+  --line: #c3cfce;
+  --accent: #3b6a75;
+  --accent-soft: #cbdcdf;
+  --shadow:
+    0 1px 0 rgba(18, 28, 29, 0.05), 0 14px 32px -22px rgba(18, 28, 29, 0.55);
+  --radius: 10px;
+  /* 側邊導航的水平定位錨點,對齊 .wrap 的 900px */
+  --nav-anchor: 900px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0c1313;
+    --surface: #141e1e;
+    --surface-2: #1e2b2b;
+    --ink: #e2eae8;
+    --ink-dim: #93a6a6;
+    --ink-faint: #6d8080;
+    --line: #2c3b3b;
+    --accent: #78b2bc;
+    --accent-soft: #22383d;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 18px 36px -26px #000;
+  }
+}
+
+:root[data-theme="dark"] {
+  --ground: #0c1313;
+  --surface: #141e1e;
+  --surface-2: #1e2b2b;
+  --ink: #e2eae8;
+  --ink-dim: #93a6a6;
+  --ink-faint: #6d8080;
+  --line: #2c3b3b;
+  --accent: #78b2bc;
+  --accent-soft: #22383d;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.4), 0 18px 36px -26px #000;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family:
+    "Noto Sans TC",
+    -apple-system,
+    "PingFang TC",
+    sans-serif;
+  font-size: 17px;
+  line-height: 1.85;
+  -webkit-font-smoothing: antialiased;
+  padding: 0 20px 80px;
+}
+
+.wrap {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Noto Serif TC", serif;
+  line-height: 1.35;
+  text-wrap: balance;
+}
+h1 {
+  font-weight: 900;
+  font-size: clamp(30px, 5.6vw, 48px);
+  letter-spacing: -0.01em;
+}
+h2 {
+  font-weight: 700;
+  font-size: clamp(22px, 3.4vw, 30px);
+}
+h3 {
+  font-weight: 700;
+  font-size: 18px;
+}
+p {
+  max-width: 62ch;
+  color: var(--ink-dim);
+}
+p b,
+li b {
+  color: var(--ink);
+  font-weight: 700;
+}
+a {
+  color: var(--accent);
+}
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 主標區 */
+.hero {
+  padding: 36px 0 30px;
+  display: grid;
+  gap: 18px;
+}
+.eyebrow {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.lead {
+  font-size: clamp(17px, 2.2vw, 20px);
+  color: var(--ink-dim);
+  max-width: 40ch;
+}
+.lead b {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* 段落 */
+section {
+  padding: 44px 0;
+  border-top: 1px solid var(--line);
+  display: grid;
+  gap: 22px;
+}
+
+/* 圖框 */
+figure {
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+figcaption {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12.5px;
+  color: var(--ink-faint);
+}
+.frame {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  overflow-x: auto;
+  box-shadow: var(--shadow);
+}
+svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.frame svg {
+  min-width: 520px;
+}
+
+/* 步驟卡 */
+.steps {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(235px, 1fr));
+}
+.step {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+.step .n {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11.5px;
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+.step p {
+  font-size: 15px;
+  line-height: 1.75;
+}
+.step svg {
+  min-width: 0;
+}
+
+/* 切換鈕 */
+.switch {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.switch button {
+  font-family: "Noto Sans TC", sans-serif;
+  font-size: 14px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  background: transparent;
+  color: var(--ink-dim);
+  border: 1px solid var(--line);
+  transition:
+    background 0.18s,
+    color 0.18s,
+    border-color 0.18s;
+}
+.switch button:hover {
+  color: var(--ink);
+  border-color: var(--ink-faint);
+}
+.switch button[aria-pressed="true"],
+.switch button.active {
+  background: var(--ink);
+  color: var(--ground);
+  border-color: var(--ink);
+  font-weight: 500;
+}
+.switch button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.stage {
+  display: grid;
+}
+.stage > figure {
+  grid-area: 1 / 1;
+  transition: opacity 0.28s ease;
+}
+.stage > figure[hidden] {
+  display: grid;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* 數字塊 */
+.stats {
+  display: grid;
+  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+}
+.stat {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 18px;
+  display: grid;
+  gap: 6px;
+}
+.stat .k {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.stat .v {
+  font-family: "Noto Serif TC", serif;
+  font-weight: 900;
+  font-size: 24px;
+  color: var(--accent);
+  line-height: 1.3;
+}
+.stat .d {
+  font-size: 13.5px;
+  color: var(--ink-dim);
+  line-height: 1.6;
+}
+
+/* 重點條列 */
+ul {
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.hard li {
+  list-style: none;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px 18px;
+}
+.hard .tag {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 12px;
+  color: var(--accent);
+  padding-top: 4px;
+  white-space: nowrap;
+}
+.hard .t {
+  font-size: 15px;
+  color: var(--ink-dim);
+  line-height: 1.75;
+}
+
+/* 兩欄名詞表 */
+.who {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+.who > div {
+  display: grid;
+  grid-template-columns: minmax(120px, 190px) 1fr;
+  gap: 16px;
+  padding: 15px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+  align-items: baseline;
+}
+.who > div:last-child {
+  border-bottom: 0;
+}
+.who .name {
+  font-weight: 700;
+  color: var(--ink);
+}
+.who .what {
+  font-size: 14.5px;
+  color: var(--ink-dim);
+}
+
+footer {
+  padding-top: 34px;
+  border-top: 1px solid var(--line);
+  color: var(--ink-faint);
+  font-size: 13.5px;
+  max-width: 62ch;
+}
+
+@media (max-width: 560px) {
+  body {
+    font-size: 16px;
+  }
+  .who > div {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+
+/* 左側大綱（assets/toc.js 產生）：置中於「視窗左緣 → 內容區左緣」那條空白帶，
+   與右側 sidenav 對稱；空白帶放不下時整個不顯示。105px 是自身半寬（總寬 210）。 */
+.toc {
+  position: fixed;
+  left: max(18px, calc((100vw - var(--nav-anchor, 900px)) / 4 - 105px));
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 40;
+  width: 210px;
+  max-height: 80vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 12px 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+.toc .toc-t {
+  font-size: 11.5px;
+  letter-spacing: 0.14em;
+  color: var(--ink-faint);
+  padding: 0 10px 8px;
+}
+.toc a {
+  display: block;
+  padding: 5px 10px;
+  border-left: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-dim);
+  text-decoration: none;
+}
+.toc a.sub {
+  padding-left: 22px;
+  font-size: 12.5px;
+}
+.toc a:hover {
+  background: var(--surface-2);
+  color: var(--ink);
+}
+.toc a.on {
+  border-left-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+@media (max-width: 1400px) {
+  .toc {
+    display: none;
+  }
+}
+html {
+  scroll-padding-top: 24px;
+}
+
+</style>
+    <style>
+      :root {
+        --accent: #1f5fa8;
+        --accent-soft: #dde8f5;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --accent: #7fb0ea;
+          --accent-soft: #1b2a3d;
+        }
+      }
+      :root[data-theme="dark"] {
+        --accent: #7fb0ea;
+        --accent-soft: #1b2a3d;
+      }
+      svg text {
+        font-family: "Noto Sans TC", sans-serif;
+        fill: var(--ink);
+      }
+      svg .dim {
+        fill: var(--ink-dim);
+      }
+      svg .acc {
+        fill: var(--accent);
+      }
+      .stops {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 14px;
+      }
+      .stop {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-top: 4px solid var(--accent);
+        border-radius: var(--radius);
+        padding: 12px 16px;
+      }
+      .stop h3 {
+        margin: 0 0 4px;
+      }
+      .stop .when {
+        color: var(--ink-dim);
+        font-size: 0.9rem;
+        margin: 0 0 8px;
+      }
+      .stop ul {
+        margin: 0;
+        padding-left: 1.1em;
+      }
+      .stop li {
+        margin: 2px 0;
+      }
+      .note {
+        border-left: 4px solid var(--accent);
+        padding: 6px 14px;
+        background: var(--surface);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="breadcrumb">
+          <span>旅程</span>
+          <span>›</span>
+          <span>行程研究</span>
+          <span>›</span>
+          <span>葡萄牙北到南一週</span>
+        </div>
+        <button class="theme-toggle" type="button">☾ 暗色</button>
+      </div>
+
+      <header class="hero">
+        <h1>圖解葡萄牙北到南一週</h1>
+        <p class="lead">
+          從北部的波多出發，搭巴士一路往南停六站，最後騎腳踏車到歐洲西南端的聖文森特角——大航海時代以前，人們以為那裡就是<b>世界盡頭</b>。
+        </p>
+        <p>
+          全程不用自己開車。每站停一到兩天；住宿一晚約 80–150 歐元，大部分行程 10–20 歐元一項。
+        </p>
+      </header>
+
+      <!-- 一、路線 -->
+      <section>
+        <h2>一、路線：六站一路往南</h2>
+        <p>
+          葡萄牙是個南北長、東西窄的國家。這趟沿著大西洋海岸往下走，只有歐比多斯稍微往內陸一點。
+        </p>
+        <div class="frame">
+          <svg
+            viewBox="0 0 780 600"
+            role="img"
+            aria-label="葡萄牙示意地圖：波多在北，往南依序是納扎雷、歐比多斯、里斯本，再到南部的拉哥斯與薩格里什，終點是聖文森特角；羅卡角在里斯本西邊，這趟沒去"
+          >
+            <defs>
+              <marker
+                id="arr"
+                viewBox="0 0 10 10"
+                refX="8"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto"
+              >
+                <path d="M0 0L10 5L0 10z" fill="var(--accent)" />
+              </marker>
+            </defs>
+            <!-- 國界（示意） -->
+            <polygon
+              points="196,63 247,35 324,55 370,55 400,90 347,150 355,220 339,280 301,290 339,350 316,410 339,450 301,500 309,532 270,550 211,540 190,550 187,548 201,500 201,450 194,400 171,408 178,385 148,372 155,340 159,315 181,290 194,240 213,150"
+              fill="var(--surface-2)"
+              stroke="var(--line)"
+              stroke-width="1.5"
+            />
+            <text x="60" y="230" class="dim" font-size="15">大西洋</text>
+            <text x="300" y="160" class="dim" font-size="13" text-anchor="middle">西班牙 →</text>
+            <!-- 路線 -->
+            <polyline
+              points="216,135 181,290 174,314 178,378 211,540 194,545 182,553"
+              fill="none"
+              stroke="var(--accent)"
+              stroke-width="3"
+              stroke-dasharray="7 5"
+            />
+            <!-- 羅卡角（沒去） -->
+            <circle cx="148" cy="372" r="6" fill="var(--surface)" stroke="var(--ink-dim)" stroke-width="2" />
+            <text x="138" y="368" class="dim" font-size="13" text-anchor="end">羅卡角</text>
+            <text x="138" y="386" class="dim" font-size="12" text-anchor="end">最西端，這趟不去</text>
+            <!-- 各站 -->
+            <g fill="var(--accent)">
+              <circle cx="216" cy="135" r="7" />
+              <circle cx="181" cy="290" r="7" />
+              <circle cx="174" cy="314" r="7" />
+              <circle cx="178" cy="378" r="9" />
+              <circle cx="211" cy="540" r="7" />
+              <circle cx="194" cy="545" r="6" />
+            </g>
+            <text x="182" y="562" text-anchor="middle" font-size="20" class="acc">★</text>
+            <text x="170" y="590" font-size="13" text-anchor="end" font-weight="700">聖文森特角（終點）</text>
+            <!-- 引線 -->
+            <g stroke="var(--line)" stroke-width="1">
+              <line x1="224" y1="135" x2="440" y2="80" />
+              <line x1="189" y1="290" x2="440" y2="190" />
+              <line x1="182" y1="314" x2="440" y2="280" />
+              <line x1="188" y1="378" x2="440" y2="370" />
+              <line x1="219" y1="540" x2="440" y2="462" />
+              <line x1="200" y1="545" x2="440" y2="548" />
+            </g>
+            <!-- 右側說明 -->
+            <g font-size="15">
+              <text x="450" y="76" font-weight="700">波多　第 1 天</text>
+              <text x="450" y="96" class="dim" font-size="13">大航海時代的貿易城，老城區是世界遺產</text>
+              <text x="450" y="140" class="acc" font-size="13">↓ 巴士</text>
+
+              <text x="450" y="186" font-weight="700">納扎雷　第 2 天</text>
+              <text x="450" y="206" class="dim" font-size="13">大西洋邊的白色漁村，冬天有巨浪</text>
+              <text x="450" y="238" class="acc" font-size="13">↓ 巴士約 1 小時</text>
+
+              <text x="450" y="276" font-weight="700">歐比多斯　第 3 天</text>
+              <text x="450" y="296" class="dim" font-size="13">城牆圍起來的小鎮，半天逛完</text>
+              <text x="450" y="328" class="acc" font-size="13">↓ 巴士約 1 小時，上車付 10 歐元</text>
+
+              <text x="450" y="366" font-weight="700">里斯本　第 4–5 天</text>
+              <text x="450" y="386" class="dim" font-size="13">首都，建在七座山丘上</text>
+              <text x="450" y="418" class="acc" font-size="13">↓ 巴士，早上 6 點出發</text>
+
+              <text x="450" y="458" font-weight="700">拉哥斯　第 6 天</text>
+              <text x="450" y="478" class="dim" font-size="13">南部海濱度假地，金色懸崖海岸</text>
+              <text x="450" y="510" class="acc" font-size="13">↓ 坐車半小時</text>
+
+              <text x="450" y="544" font-weight="700">薩格里什　第 7 天</text>
+              <text x="450" y="564" class="dim" font-size="13">租腳踏車騎到聖文森特角</text>
+            </g>
+          </svg>
+        </div>
+        <p class="dim" style="color: var(--ink-dim); font-size: 0.9rem">
+          地圖是示意，國界與位置大致對，終點附近放大畫開。
+        </p>
+      </section>
+
+      <!-- 二、每站 -->
+      <section>
+        <h2>二、每一站看什麼、吃什麼</h2>
+        <div class="stops">
+          <div class="stop">
+            <h3 class="stephead">1. 波多</h3>
+            <p class="when">第 1 天・一開場就是最精彩的一站</p>
+            <ul>
+              <li>聖本篤車站：牆上藍色瓷磚叫 Azulejo，畫的是葡萄牙歷史</li>
+              <li>蛋塔（從葡萄牙傳到澳門）</li>
+              <li>波良市場：拿杯葡萄酒邊逛邊吃</li>
+              <li>路易一世大橋走到對岸酒窖區喝波特酒</li>
+              <li>杜羅河遊船 50 分鐘 20 歐元</li>
+            </ul>
+          </div>
+          <div class="stop">
+            <h3 class="stephead">2. 納扎雷</h3>
+            <p class="when">第 2 天・白色的老漁村</p>
+            <ul>
+              <li>只加鹽烤的魚、螃蟹貝類拼盤</li>
+              <li>搭纜索鐵路上懸崖頂的西蒂奧區</li>
+              <li>燈塔旁看海，冬天浪最高 30 公尺</li>
+              <li>飯店含早餐約 15,000 日圓</li>
+            </ul>
+          </div>
+          <div class="stop">
+            <h3 class="stephead">3. 歐比多斯</h3>
+            <p class="when">第 3 天・也能從里斯本當天來回</p>
+            <ul>
+              <li>櫻桃利口酒 Ginjinha 裝在巧克力杯裡，杯子也能吃</li>
+              <li>爬上城牆繞一圈（沒有護欄）</li>
+              <li>800 年前國王把整座鎮送給王后</li>
+            </ul>
+          </div>
+          <div class="stop">
+            <h3 class="stephead">4. 里斯本</h3>
+            <p class="when">第 4–5 天・兩天逛不完</p>
+            <ul>
+              <li>Bifana 豬肉堡當午餐</li>
+              <li>阿爾法瑪區、聖喬治城堡看夕陽</li>
+              <li>法朵晚餐（傳統音樂，每人低消 40 歐元）</li>
+              <li>Time Out Market 美食廣場</li>
+              <li>搭火車 20 分鐘到貝倫區：修道院、原創蛋塔店、貝倫塔</li>
+            </ul>
+          </div>
+          <div class="stop">
+            <h3 class="stephead">5. 拉哥斯</h3>
+            <p class="when">第 6 天・整趟最美的海岸</p>
+            <ul>
+              <li>懸崖步道走到底，下海灣搭船</li>
+              <li>遊船 30 分鐘 20 歐元，鑽海蝕洞、穿岩拱</li>
+              <li>晚餐番茄湯底的海鮮燉鍋</li>
+              <li>整趟最貴的飯店，約 150 歐元</li>
+            </ul>
+          </div>
+          <div class="stop">
+            <h3 class="stephead">6. 薩格里什</h3>
+            <p class="when">第 7 天・終點</p>
+            <ul>
+              <li>午餐烤鮟鱇魚、伊比利豬</li>
+              <li>衝浪用品店租腳踏車，一天 20 歐元</li>
+              <li>騎到聖文森特角，兩邊都是海、風非常大</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 三、花費 -->
+      <section>
+        <h2>三、錢花在哪裡</h2>
+        <p>
+          影片裡講到價格的項目全列出來。住宿佔大頭；行程大多落在 20 歐元。
+        </p>
+        <div class="frame">
+          <svg
+            viewBox="0 0 780 360"
+            role="img"
+            aria-label="橫條圖：拉哥斯飯店 150 歐元最長，納扎雷飯店約 83 歐元，法朵低消 40，三項遊船與腳踏車各 20，巴士 10；拉哥斯遊船標示只收現金"
+          >
+            <g font-size="14">
+              <text x="230" y="44" text-anchor="end">拉哥斯飯店・一晚</text>
+              <rect x="240" y="28" width="420" height="24" rx="4" fill="var(--accent)" />
+              <text x="668" y="45">150</text>
+
+              <text x="230" y="88" text-anchor="end">納扎雷飯店・一晚含早</text>
+              <rect x="240" y="72" width="232" height="24" rx="4" fill="var(--accent)" opacity="0.75" />
+              <text x="480" y="89">約 83</text>
+
+              <text x="230" y="132" text-anchor="end">法朵晚餐・每人低消</text>
+              <rect x="240" y="116" width="112" height="24" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="360" y="133">40</text>
+
+              <text x="230" y="176" text-anchor="end">波多遊河・50 分鐘</text>
+              <rect x="240" y="160" width="56" height="24" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="304" y="177">20</text>
+
+              <text x="230" y="220" text-anchor="end">拉哥斯遊船・30 分鐘</text>
+              <rect x="240" y="204" width="56" height="24" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="304" y="221">20</text>
+              <text x="340" y="221" font-weight="700" class="acc">只收現金</text>
+
+              <text x="230" y="264" text-anchor="end">薩格里什腳踏車・一天</text>
+              <rect x="240" y="248" width="56" height="24" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="304" y="265">20</text>
+
+              <text x="230" y="308" text-anchor="end">歐比多斯→里斯本巴士</text>
+              <rect x="240" y="292" width="28" height="24" rx="4" fill="var(--accent-soft)" stroke="var(--accent)" />
+              <text x="276" y="309">10</text>
+            </g>
+            <text x="240" y="346" font-size="12" class="dim">單位：歐元，每人（飯店為一間一晚）</text>
+          </svg>
+        </div>
+        <p class="note">
+          付款要兩種都帶：拉哥斯遊船<b>只收現金</b>，里斯本 Time Out Market <b>只收信用卡</b>。納扎雷那晚影片講的是 15,000 日圓，這裡用影片自己給的「150 歐元約 27,000 日圓」換算成約 83 歐元。
+        </p>
+      </section>
+
+      <!-- 四、季節 -->
+      <section>
+        <h2>四、什麼時候去：5 月和冬天看的東西不同</h2>
+        <p>
+          影片是 5 月下旬拍的：街上藍花楹開成一片紫，晚上九點天還亮著。代價是看不到納扎雷最有名的東西——冬天的巨浪。
+        </p>
+        <div class="frame">
+          <svg
+            viewBox="0 0 780 320"
+            role="img"
+            aria-label="高度對照：5 月的浪大約一個人高；冬天納扎雷的浪最高 30 公尺，約等於十層樓"
+          >
+            <line x1="40" y1="280" x2="740" y2="280" stroke="var(--line)" stroke-width="2" />
+            <!-- 人 -->
+            <circle cx="120" cy="252" r="5" fill="var(--ink)" />
+            <line x1="120" y1="257" x2="120" y2="272" stroke="var(--ink)" stroke-width="2" />
+            <line x1="120" y1="272" x2="115" y2="280" stroke="var(--ink)" stroke-width="2" />
+            <line x1="120" y1="272" x2="125" y2="280" stroke="var(--ink)" stroke-width="2" />
+            <text x="120" y="302" text-anchor="middle" font-size="13">人 約 1.7 公尺</text>
+            <!-- 十層樓 -->
+            <g fill="var(--surface-2)" stroke="var(--line)">
+              <rect x="300" y="40" width="90" height="240" />
+            </g>
+            <g stroke="var(--line)">
+              <line x1="300" y1="64" x2="390" y2="64" />
+              <line x1="300" y1="88" x2="390" y2="88" />
+              <line x1="300" y1="112" x2="390" y2="112" />
+              <line x1="300" y1="136" x2="390" y2="136" />
+              <line x1="300" y1="160" x2="390" y2="160" />
+              <line x1="300" y1="184" x2="390" y2="184" />
+              <line x1="300" y1="208" x2="390" y2="208" />
+              <line x1="300" y1="232" x2="390" y2="232" />
+              <line x1="300" y1="256" x2="390" y2="256" />
+            </g>
+            <text x="345" y="302" text-anchor="middle" font-size="13">十層樓 約 30 公尺</text>
+            <!-- 巨浪 -->
+            <path
+              d="M460 280 C 480 200, 520 60, 600 40 C 650 30, 690 60, 680 90 C 660 70, 630 80, 640 110 C 660 170, 700 240, 740 280 Z"
+              fill="var(--accent-soft)"
+              stroke="var(--accent)"
+              stroke-width="2"
+            />
+            <text x="600" y="302" text-anchor="middle" font-size="13" font-weight="700" class="acc">冬天納扎雷的浪 最高 30 公尺</text>
+            <text x="600" y="170" text-anchor="middle" font-size="13">外海有海底峽谷</text>
+            <text x="600" y="188" text-anchor="middle" font-size="13">浪才會長這麼高</text>
+          </svg>
+        </div>
+      </section>
+
+      <!-- 五、世界盡頭 -->
+      <section>
+        <h2>五、為什麼終點是西南角，不是最西邊</h2>
+        <p>
+          一般人去葡萄牙，會去里斯本西邊的<b>羅卡角</b>，那是歐亞大陸最西端。這趟刻意跳過它，改去<b>聖文森特角</b>：歐洲的西南角。大航海時代以前，人們以為海到了那裡就有邊緣，海水會往下流——這才是「世界盡頭」。
+        </p>
+        <div class="frame">
+          <svg
+            viewBox="0 0 780 300"
+            role="img"
+            aria-label="歐洲西南角示意：羅卡角是最往西凸出的點，聖文森特角在它南邊的轉角；探險家從里斯本的貝倫塔出海"
+          >
+            <path
+              d="M320 30 L300 120 L270 150 L290 175 L285 250 L300 262 L560 262 L600 230 L600 30 Z"
+              fill="var(--surface-2)"
+              stroke="var(--line)"
+              stroke-width="1.5"
+            />
+            <text x="470" y="140" text-anchor="middle" class="dim" font-size="14">葡萄牙</text>
+            <text x="120" y="80" class="dim" font-size="14">大西洋</text>
+            <!-- 羅卡角 -->
+            <circle cx="270" cy="150" r="7" fill="var(--surface)" stroke="var(--ink-dim)" stroke-width="2" />
+            <line x1="262" y1="150" x2="160" y2="150" stroke="var(--ink-dim)" stroke-width="2" marker-end="url(#arr2)" />
+            <text x="150" y="140" text-anchor="end" font-size="14">羅卡角</text>
+            <text x="150" y="160" text-anchor="end" font-size="12" class="dim">最往西的一點</text>
+            <!-- 貝倫 -->
+            <circle cx="292" cy="170" r="5" fill="var(--accent)" />
+            <text x="310" y="186" font-size="13">里斯本・貝倫塔：探險家從這裡出海</text>
+            <!-- 聖文森特角 -->
+            <text x="285" y="258" text-anchor="middle" font-size="22" class="acc">★</text>
+            <text x="265" y="252" text-anchor="end" font-size="14" font-weight="700">聖文森特角</text>
+            <text x="265" y="272" text-anchor="end" font-size="12" class="dim">西南角，這趟的終點</text>
+            <defs>
+              <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0 0L10 5L0 10z" fill="var(--accent)" />
+              </marker>
+              <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0 0L10 5L0 10z" fill="var(--ink-dim)" />
+              </marker>
+            </defs>
+          </svg>
+        </div>
+        <p>
+          這條路線也剛好重走了一次大航海時代：波多是當年的貿易中心，里斯本貝倫區的修道院紀念開闢印度航線的達伽馬，拉哥斯是探索非洲航線的據點，最後停在當年認為的世界邊緣。
+        </p>
+      </section>
+
+      <footer>
+        內容出自 Maibaru Travel〈ポルトガル縦断の旅🇵🇹北から南へ、町を辿りながら世界の果てを目指す1週間〉（YouTube，2026-09-18，1:01:18，YouTube 人工繁中字幕）。拍攝於 5 月下旬，價格為當時的數字。地圖是示意，國界與位置大致對、不按實際比例。
+      </footer>
+    </div>
+
+    <script>
+/* 主題切換：預設跟隨系統，按鈕覆寫並記住選擇 */
+(function () {
+  var KEY = "viz-theme";
+  var saved = null;
+  try {
+    saved = localStorage.getItem(KEY);
+  } catch (e) {}
+  if (saved === "light" || saved === "dark") {
+    document.documentElement.setAttribute("data-theme", saved);
+  }
+
+  function label(btn) {
+    var explicit = document.documentElement.getAttribute("data-theme");
+    var dark =
+      explicit === "dark" ||
+      (!explicit &&
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+    btn.textContent = dark ? "☀ 亮色" : "☾ 暗色";
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var btn = document.querySelector(".theme-toggle");
+    if (!btn) return;
+    label(btn);
+    btn.addEventListener("click", function () {
+      var explicit = document.documentElement.getAttribute("data-theme");
+      var dark =
+        explicit === "dark" ||
+        (!explicit &&
+          window.matchMedia &&
+          window.matchMedia("(prefers-color-scheme: dark)").matches);
+      var next = dark ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      try {
+        localStorage.setItem(KEY, next);
+      } catch (e) {}
+      label(btn);
+      document.dispatchEvent(
+        new CustomEvent("viz:themechange", { detail: { theme: next } }),
+      );
+    });
+  });
+})();
+
+</script>
+    <script>
+/* 圖解頁左側大綱：從 .wrap 裡每個 section 的 h2（與 h3.stephead 子項）自動產生，
+   捲動時標亮目前讀到的那節。樣式在 viz.css 的「左側大綱」；寬度不足 1400px 時不顯示。
+   用法：頁尾 theme.js 之後加 toc.js。少於兩節的頁面不產生。 */
+(function () {
+  function build() {
+    var heads = document.querySelectorAll(
+      ".wrap > section > h2, .wrap > section > h3.stephead",
+    );
+    if (heads.length < 2) return;
+
+    var nav = document.createElement("nav");
+    nav.className = "toc";
+    nav.setAttribute("aria-label", "本頁大綱");
+    var title = document.createElement("span");
+    title.className = "toc-t";
+    title.textContent = "本頁大綱";
+    nav.appendChild(title);
+
+    var links = [];
+    heads.forEach(function (h, i) {
+      if (!h.id) h.id = "sec-" + (i + 1);
+      var a = document.createElement("a");
+      a.href = "#" + h.id;
+      a.textContent = h.textContent.trim();
+      if (h.tagName === "H3") a.className = "sub";
+      nav.appendChild(a);
+      links.push({ a: a, h: h });
+    });
+    document.body.appendChild(nav);
+
+    // 目前這節＝最後一個標題已捲過視窗上緣 30% 的那一節
+    function spy() {
+      var line = window.innerHeight * 0.3;
+      var cur = links[0];
+      links.forEach(function (l) {
+        if (l.h.getBoundingClientRect().top <= line) cur = l;
+      });
+      // 捲到頁底時，最後幾節的標題可能永遠到不了那條線，直接算最後一節
+      var doc = document.documentElement;
+      if (window.innerHeight + window.scrollY >= doc.scrollHeight - 2) {
+        cur = links[links.length - 1];
+      }
+      links.forEach(function (l) {
+        l.a.classList.toggle("on", l === cur);
+      });
+    }
+    window.addEventListener("scroll", spy, { passive: true });
+    spy();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", build);
+  } else {
+    build();
+  }
+})();
+
+</script>
+  </body>
+</html>

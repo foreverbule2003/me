@@ -30,6 +30,7 @@ timboy/
 │   ├── 2026-ise-shima/     # 2026 伊勢志摩
 │   ├── 2026-okinawa/       # 2026 沖繩 (5D)
 │   ├── 2026-tokyo/         # 2026 東京・橫濱・輕井澤 (8D) ✨ NEW
+│   ├── research/           # 還沒去的行程研究（影片整理的筆記 + 單頁）✨ NEW
 │   └── shared/             # 共用元件
 └── tools/
     ├── bull-put-spread.html      # 期權策略模擬器
