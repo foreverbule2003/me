@@ -4,6 +4,14 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.12] - 2026-10-08 (CB 歷史同步只寫新日期)
+
+### 變更 (Changed) 🔄
+
+- **`tools/fetch-cb-history.js --smart --sync` 只寫雲端最後一筆之後的日期**: CI runner 沒有本地 JSON，原本每檔都被當成新標的回補 6 個月並整批重寫 Firestore。現在先讀 `cb_history/{code}` 主文件的 `lastRecordDate`，從該月抓起、只寫 `date >= lastRecordDate` 的 records，寫完回填 `lastRecordDate`；雲端沒有的檔（且沒在指令列指名）直接跳過。細節見 `docs/CB_DATA_FLOW.md`。
+
+---
+
 ## [2.7.11] - 2026-09-16 (孤兒腳本 guard)
 
 ### 新增 (Added) 🚀

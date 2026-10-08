@@ -38,7 +38,7 @@ function generateMonthRange(fromDate, toDate = new Date()) {
 
 // 智慧判斷回補區間
 function getSmartMonths(targetCode, options) {
-  const { sinceDate, isSmart, isForceDeep, isAll } = options;
+  const { sinceDate, isSmart, isForceDeep, isAll, cloudLastDate } = options;
   const now = new Date();
 
   // 1. 強制深度回補 (6個月)
@@ -56,6 +56,15 @@ function getSmartMonths(targetCode, options) {
   // 3. 智慧模式 (核心邏輯)
   if (isSmart) {
     const localFile = path.join(OUTPUT_DIR, `${targetCode}.json`);
+
+    // Case A0: 無本地資料但雲端有 (CI 每次都是這樣) -> 從雲端最後一筆的當月抓起
+    if (!fs.existsSync(localFile) && cloudLastDate) {
+      const lastDate = new Date(cloudLastDate);
+      return generateMonthRange(
+        new Date(lastDate.getFullYear(), lastDate.getMonth(), 1),
+        now,
+      );
+    }
 
     // Case A: 無本地資料 -> 視為新標的 -> 回補 6 個月
     if (!fs.existsSync(localFile)) {
@@ -116,6 +125,24 @@ function getSmartMonths(targetCode, options) {
 // Global flag to stop trying cloud sync if quota hit
 let GLOBAL_CLOUD_QUOTA_EXCEEDED = false;
 
+// 讀雲端這檔 CB 的主文件與最後一筆日期(records 的文件 id 與 date 欄位都是日期)
+// 主文件沒記 lastRecordDate 時(舊資料)才去查 records,只花一次讀取
+async function getCloudState(cbCode) {
+  const admin = require("firebase-admin");
+  const docRef = admin.firestore().collection("cb_history").doc(cbCode);
+  const docSnap = await docRef.get();
+  let lastRecordDate = docSnap.exists ? docSnap.get("lastRecordDate") : null;
+  if (docSnap.exists && !lastRecordDate) {
+    const lastSnap = await docRef
+      .collection("records")
+      .orderBy("date", "desc") // 單欄位預設有索引;__name__ 降冪要另建索引 ⚠️未查證
+      .limit(1)
+      .get();
+    lastRecordDate = lastSnap.empty ? null : lastSnap.docs[0].id;
+  }
+  return { docRef, exists: docSnap.exists, lastRecordDate };
+}
+
 async function syncToFirestore(cbCode, data) {
   if (GLOBAL_CLOUD_QUOTA_EXCEEDED) {
     // Silently skip to save time
@@ -136,21 +163,31 @@ async function syncToFirestore(cbCode, data) {
     }
 
     const db = admin.firestore();
-    const docRef = db.collection("cb_history").doc(cbCode);
-    const docSnap = await docRef.get();
+    const { docRef, exists, lastRecordDate } = await getCloudState(cbCode);
     const isManual = process.argv.includes(cbCode);
 
-    if (!docSnap.exists && !isManual) {
+    if (!exists && !isManual) {
       return;
     }
 
-    console.log(`[Cloud] Syncing ${data.length} records for ${cbCode}...`);
+    // 只寫雲端最後一筆(含)之後的日期,舊日期不重寫,省 Firestore 寫入費。
+    const pending = lastRecordDate
+      ? data.filter((r) => r.date >= lastRecordDate)
+      : data;
+    const newLastDate = data.reduce(
+      (max, r) => (r.date > max ? r.date : max),
+      lastRecordDate || "",
+    );
+
+    console.log(
+      `[Cloud] Syncing ${pending.length}/${data.length} records for ${cbCode}...`,
+    );
 
     const batchSize = 500;
     let batch = db.batch();
     let count = 0;
 
-    for (const record of data) {
+    for (const record of pending) {
       const subDocRef = docRef.collection("records").doc(record.date);
       batch.set(
         subDocRef,
@@ -167,15 +204,16 @@ async function syncToFirestore(cbCode, data) {
     }
     if (count > 0) await batch.commit();
 
-    if (docSnap.exists) {
+    if (exists) {
       await docRef.set(
-        { lastUpdated: new Date().toISOString() },
+        { lastUpdated: new Date().toISOString(), lastRecordDate: newLastDate },
         { merge: true },
       );
     } else if (isManual) {
       await docRef.set(
         {
           lastUpdated: new Date().toISOString(),
+          lastRecordDate: newLastDate,
           category: "未分類 (UNCATEGORIZED)",
           addedAt: admin.firestore.FieldValue.serverTimestamp(),
         },
@@ -291,12 +329,27 @@ async function syncToFirestore(cbCode, data) {
 
   for (const target of targets) {
     try {
+      // 沒有本地檔又要同步時,看雲端:雲端沒這檔就跳過(同步也會被擋),有就從最後一筆接著抓
+      let cloudLastDate = null;
+      const localFile = path.join(OUTPUT_DIR, `${target.code}.json`);
+      if (isSmart && isSync && !fs.existsSync(localFile)) {
+        await initFirebase();
+        if (admin.apps.length && !GLOBAL_CLOUD_QUOTA_EXCEEDED) {
+          const cloud = await getCloudState(target.code);
+          if (!cloud.exists && !args.includes(target.code)) {
+            continue;
+          }
+          cloudLastDate = cloud.lastRecordDate;
+        }
+      }
+
       // Per-target month calculation
       const months = getSmartMonths(target.code, {
         sinceDate,
         isSmart,
         isForceDeep,
         isAll,
+        cloudLastDate,
       });
 
       // Skip if nothing to do (e.g. smart mode says up to date)
