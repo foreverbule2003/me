@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <title>蔥蔥寶待讀清單</title>
-    <!-- 先用 JOURNAL 同一套 Firebase Google 登入擋住,登入後才顯示嵌入框(嵌入框先在背後載入)。
+    <!-- 先用 JOURNAL 同一套 Firebase Google 登入擋住;嵌入框先在綠底後面載入,登入確認完且清單頁通知畫好才淡入。
          清單內容與權限都在 Apps Script 那端(second-brain 的 work/docs/specs/inbox-spec.md),
          直接開 /exec 會有 Google 的「由 Apps Script 的使用者建立」橫幅,嵌進來就不會出現。 -->
     <style>
@@ -20,16 +20,32 @@
       body {
         margin: 0;
         height: 100%;
-        background: #fff;
+        background: #9bbc0f;
       }
+      /* 嵌入框在綠底後面載入,清單頁畫好才淡入;不用 display:none,避免顯示時才排版又閃一次。 */
       iframe {
+        position: fixed;
+        inset: 0;
         display: block;
         width: 100%;
         height: 100vh;
         height: 100dvh;
         border: 0;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s ease-out;
+      }
+      iframe.ready {
+        opacity: 1;
+        pointer-events: auto;
       }
       .gate {
+        position: fixed;
+        inset: 0;
+        z-index: 1;
+        transition:
+          opacity 0.2s ease-out,
+          visibility 0s linear 0s;
         box-sizing: border-box;
         display: flex;
         flex-direction: column;
@@ -43,6 +59,40 @@
         background: #9bbc0f;
         font-family: "DotGothic16", monospace;
         text-align: center;
+      }
+      .gate.leaving {
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.2s ease-out,
+          visibility 0s linear 0.2s;
+      }
+      /* 分階段進度條:開頁 10%、登入確認完 45%、等清單時慢慢爬到 90%、清單畫好 100%。 */
+      .bar {
+        box-sizing: border-box;
+        width: 168px;
+        height: 16px;
+        padding: 2px;
+        border: 2px solid #0f380f;
+      }
+      .bar span {
+        display: block;
+        width: 0;
+        height: 100%;
+        background: repeating-linear-gradient(
+          90deg,
+          #0f380f 0 10px,
+          transparent 10px 14px
+        );
+        transition: width 0.4s ease-out;
+      }
+      @media (prefers-reduced-motion: reduce) {
+        iframe,
+        .gate,
+        .gate.leaving,
+        .bar span {
+          transition: none !important;
+        }
       }
       .gate h1 {
         margin: 0;
@@ -78,13 +128,13 @@
   <body>
     <div class="gate" id="gate">
       <h1>NOTES</h1>
+      <div class="bar" id="bar" role="progressbar" aria-label="載入進度" aria-valuemin="0" aria-valuemax="100"><span></span></div>
       <p id="msg">確認登入中…</p>
       <button type="button" id="login" hidden>LOGIN</button>
       <a href="../">← BACK</a>
     </div>
     <iframe
       id="app"
-      hidden
       src="https://script.google.com/macros/s/AKfycbzcIj_IUrQebn0Z0Tmi37F0AqEYj0hPiErkJmVHwmlb1mXgOIxeVeL-jSNGZIy_lYbWwQ/exec"
       title="蔥蔥寶待讀清單"
       allow="clipboard-write"
