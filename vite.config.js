@@ -235,6 +235,7 @@ export default defineConfig({
           __dirname,
           "trips/research/portugal-north-to-south/index.html",
         ),
+        notes: resolve(__dirname, "notes/index.html"),
         "tools-options": resolve(
           __dirname,
           "tools/archive/prototypes/bull-put-spread.html",

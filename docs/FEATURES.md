@@ -50,7 +50,7 @@ timboy/
 | **音效系統**      | 復古電玩音效（可開關）                                   |
 | **D-Pad 導航**    | 使用虛擬方向鍵或鍵盤上下鍵瀏覽選單                       |
 | **A/B 按鈕**      | A 按鈕確認選擇、進入頁面                                 |
-| **選單項目**      | 👤 ABOUT、✈️ SELECT TRIP、📓 JOURNAL、🔧 TOOLS & CONTACT |
+| **選單項目**      | 👤 ABOUT、✈️ SELECT TRIP、📓 JOURNAL、📝 NOTES、🔧 TOOLS & CONTACT |
 
 ### 2. 關於頁 (#/about)
 

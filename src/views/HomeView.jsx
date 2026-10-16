@@ -10,6 +10,7 @@ const HomeView = ({ onSetActions }) => {
     { label: "ABOUT", path: "/about" },
     { label: "SELECT TRIP", path: "/trips" },
     { label: "JOURNAL", path: "/journal" },
+    { label: "NOTES", href: "/me/notes/" },
     { label: "TOOLS & CONTACT", path: "/tools" },
   ];
 
@@ -19,7 +20,8 @@ const HomeView = ({ onSetActions }) => {
     setSelectedIndex((prev) => (prev < menuItems.length - 1 ? prev + 1 : prev));
   const handleSelect = () => {
     const item = menuItems[selectedIndex];
-    navigate(item.path);
+    if (item.href) window.location.href = item.href;
+    else navigate(item.path);
   };
 
   // Export actions to the parent shell
@@ -69,7 +71,11 @@ const HomeView = ({ onSetActions }) => {
                 }
               `}
               onMouseEnter={() => setSelectedIndex(index)}
-              onClick={() => navigate(item.path)}
+              onClick={() =>
+                item.href
+                  ? (window.location.href = item.href)
+                  : navigate(item.path)
+              }
             >
               {item.label}
             </div>

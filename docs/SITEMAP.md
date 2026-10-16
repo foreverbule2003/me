@@ -67,6 +67,9 @@
 ├── 📓 JOURNAL (#/journal)
 │   └── Vibe Coding 日記
 │
+├── 📝 NOTES (notes/) [靜態頁・需登入]
+│   └── 蔥蔥寶待讀清單:Firebase Google 登入後嵌入 Apps Script 網頁(正本在 second-brain)
+│
 └── 🔧 TOOLS & CONTACT (#/tools)
     ├── 📊 財務儀表板 (tools/financial-dashboard.html)
     ├── 📈 期權策略模擬器 (tools/bull-put-spread.html)
