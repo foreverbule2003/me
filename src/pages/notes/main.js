@@ -1,4 +1,5 @@
-// 待讀清單入口:沿用 JOURNAL 的 Firebase Google 登入,登入後才載入 Apps Script 嵌入框。
+// 待讀清單入口:沿用 JOURNAL 的 Firebase Google 登入,登入後才顯示 Apps Script 嵌入框。
+// 嵌入框一打開就在背後載入(Apps Script 開機要幾秒),跟確認登入同時進行,登入確認完直接顯示。
 // 這層只擋「沒登入的人看得到頁面」;清單資料本身由 Apps Script 限 Tim 的 Google 帳號才讀得到。
 import {
   auth,
@@ -20,7 +21,6 @@ function showGate(text) {
 }
 
 function showApp() {
-  if (!app.src) app.src = app.dataset.src;
   gate.hidden = true;
   app.hidden = false;
 }

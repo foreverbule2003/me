@@ -12,7 +12,7 @@
       rel="stylesheet"
     />
     <title>蔥蔥寶待讀清單</title>
-    <!-- 先用 JOURNAL 同一套 Firebase Google 登入擋住,登入後才放嵌入框。
+    <!-- 先用 JOURNAL 同一套 Firebase Google 登入擋住,登入後才顯示嵌入框(嵌入框先在背後載入)。
          清單內容與權限都在 Apps Script 那端(second-brain 的 work/docs/specs/inbox-spec.md),
          直接開 /exec 會有 Google 的「由 Apps Script 的使用者建立」橫幅,嵌進來就不會出現。 -->
     <style>
@@ -85,7 +85,7 @@
     <iframe
       id="app"
       hidden
-      data-src="https://script.google.com/macros/s/AKfycbzcIj_IUrQebn0Z0Tmi37F0AqEYj0hPiErkJmVHwmlb1mXgOIxeVeL-jSNGZIy_lYbWwQ/exec"
+      src="https://script.google.com/macros/s/AKfycbzcIj_IUrQebn0Z0Tmi37F0AqEYj0hPiErkJmVHwmlb1mXgOIxeVeL-jSNGZIy_lYbWwQ/exec"
       title="蔥蔥寶待讀清單"
       allow="clipboard-write"
     ></iframe>
