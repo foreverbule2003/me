@@ -570,10 +570,263 @@ export const accommodationData = [
 ];
 
 export const expenseData = {
-  days: [],
+  days: [
+    {
+      date: "2026-10-02",
+      label: "Day 1・抵達・瀨長島・花琉球",
+      items: [
+        {
+          time: "22:28",
+          shop: "LAWSON 國際通松尾店",
+          category: "飲食",
+          amount: 2064,
+          currency: "JPY",
+          note: "LAWSON 牛奶可麗餅(248)、森永酪農牛乳946ml(397)、焙茶脆皮甜筒(354)、起司黑胡椒餅乾增量(138)、龜田梅子海苔米果*5(765)、Kanro 檸檬軟糖(162)"
+        }
+      ]
+    },
+    {
+      date: "2026-10-03",
+      label: "Day 2・那霸市區自由活動",
+      items: [
+        {
+          time: "14:47",
+          shop: "追風丸 豐崎店",
+          category: "飲食",
+          amount: 1150,
+          currency: "JPY",
+          note: "白味噌拉麵(990)、溏心蛋(160)"
+        },
+        {
+          time: "14:54",
+          shop: "LAWSON 豐見城豐崎店",
+          category: "飲食",
+          amount: 729,
+          currency: "JPY",
+          note: "森永咖啡450ml(152)、雞蛋三明治(196)、洋蔥沙拉醬(35)、舞茸飯糰(119)、玉米沙拉(227) (現金)"
+        },
+        {
+          time: "16:00",
+          shop: "小麦の奴隷 豐崎 Tomiton 店",
+          category: "飲食",
+          amount: 330,
+          currency: "JPY",
+          note: "麵包(330)"
+        },
+        {
+          time: "16:19",
+          shop: "kate spade（Ashibinaa Outlet）",
+          category: "購物",
+          amount: 30080,
+          currency: "JPY",
+          note: "Carey 絎縫皮革小後背包(30080) (免稅)"
+        },
+        {
+          time: "16:52",
+          shop: "Banana Republic（Ashibinaa Outlet）",
+          category: "購物",
+          amount: 16093,
+          currency: "JPY",
+          note: "棉麻飛行外套(3874)、Tailored Fit L(6328)、圓領毛衣(5891) (免稅)"
+        },
+        {
+          time: "19:11",
+          shop: "RYUBO 百貨",
+          category: "購物",
+          amount: 5280,
+          currency: "JPY",
+          note: "午餐托特包(3080)、兔子吊飾(2200)"
+        },
+        {
+          time: "19:53",
+          shop: "無印良品 Palette 久茂地",
+          category: "購物",
+          amount: 5332,
+          currency: "JPY",
+          note: "便條紙(91)、薄款淺口隱形襪*2(600)、毛巾隱形襪(300)、柚子金桔喉糖*15(2085)、室內香氛噴霧(1537)、敏感肌乳液清爽型(719) (免稅)"
+        },
+        {
+          time: "20:05",
+          shop: "RYUBO 食品館",
+          category: "飲食",
+          amount: 127,
+          currency: "JPY",
+          note: "Kireto 檸檬飲(127)"
+        },
+        {
+          time: "20:46",
+          shop: "FamilyMart 國際通入口店",
+          category: "飲食",
+          amount: 535,
+          currency: "JPY",
+          note: "Orion 島柿種(237)、橘子乾(298)"
+        }
+      ]
+    },
+    {
+      date: "2026-10-04",
+      label: "Day 3・Junglia 樂園／自由活動",
+      items: [
+        {
+          time: "12:36",
+          shop: "Junglia Panorama Dining",
+          category: "飲食",
+          amount: 5300,
+          currency: "JPY",
+          note: "Saurus 蛋料理(1200)、Panorama 沙拉(1200)、麵包(400)、香檬冰茶飲(900)、德式蛋糕(1600) (2 人)"
+        },
+        {
+          time: "18:36",
+          shop: "Soup Stock Tokyo 浦添 PARCO CITY",
+          category: "飲食",
+          amount: 3100,
+          currency: "JPY",
+          note: "雙湯套餐(1330)、黑糖薑拿鐵(300)、咖哩湯套餐(1470)"
+        },
+        {
+          time: "19:09",
+          shop: "Little Mermaid 浦添 PARCO CITY",
+          category: "飲食",
+          amount: 529,
+          currency: "JPY",
+          note: "栗子丹麥(290)、鹽麵包(200)、稅(39) (現金)"
+        },
+        {
+          time: "21:23",
+          shop: "PUZO 檸檬與香料",
+          category: "飲食",
+          amount: 486,
+          currency: "JPY",
+          note: "曼哈頓之戀(486)"
+        },
+        {
+          time: "21:24",
+          shop: "WEGO 浦添 PARCO",
+          category: "購物",
+          amount: 6047,
+          currency: "JPY",
+          note: "小花細肩帶上衣(1099)、直筒牛仔褲(3299)、羅紋高領短版針織(1649) (免稅)"
+        },
+        {
+          time: "21:45",
+          shop: "San-A 浦添 PARCO CITY",
+          category: "飲食",
+          amount: 1401,
+          currency: "JPY",
+          note: "北海道牛乳(298)、Jagabee 奶油(248)、酸奶洋芋片(148)、香檬洋芋片(138)、梅紫蘇柿種(298)、Premium 蛋糕捲(168)、稅(103)"
+        }
+      ]
+    },
+    {
+      date: "2026-10-05",
+      label: "Day 4・古宇利・水族館・美國村",
+      items: [
+        {
+          time: "19:00",
+          shop: "Blue Seal 美國村 Depot Island 店",
+          category: "飲食",
+          amount: 820,
+          currency: "JPY",
+          note: "三球冰淇淋(750)、鬆餅甜筒(70) (現金)"
+        },
+        {
+          time: "19:32",
+          shop: "LAWSON 美濱 Fisherina 店",
+          category: "飲食",
+          amount: 903,
+          currency: "JPY",
+          note: "香檬軟糖(178)、Kanro 檸檬軟糖(162)、Kanro 葡萄軟糖(162)、明治果汁軟糖麝香葡萄(164)、南樂高千穗牧場優格(237)"
+        },
+        {
+          time: "20:56",
+          shop: "XEBIO 宜野灣店",
+          category: "購物",
+          amount: 6692,
+          currency: "JPY",
+          note: "DynaSoft 9 鞋(6590)、免稅手續費(102) (免稅)"
+        },
+        {
+          time: "21:49",
+          shop: "San-A 宜野灣 Convention City",
+          category: "飲食",
+          amount: 69,
+          currency: "JPY",
+          note: "豆皮烏龍麵半價(64)、稅(5) (現金)"
+        },
+        {
+          time: "21:51",
+          shop: "San-A 宜野灣 Convention City",
+          category: "飲食",
+          amount: 267,
+          currency: "JPY",
+          note: "酸奶洋芋片(148)、起司米果(100)、稅(19) (現金)"
+        },
+        {
+          time: "21:56",
+          shop: "San-A 宜野灣 Convention City",
+          category: "購物",
+          amount: 5186,
+          currency: "JPY",
+          note: "薑末(288)、蒜末(288)、S&B 山椒粉(380)、山椒粉袋裝(264)、白潤化妝水補充包(980)、鐵質營養品(720)、男用止汗石(900)、芋頭條(120)、72% 巧克力大包(1138)、梅子條(108) (免稅)"
+        }
+      ]
+    },
+    {
+      date: "2026-10-06",
+      label: "Day 5・半潛水艇・海葡萄・返程",
+      items: [
+        {
+          time: "14:46",
+          shop: "KENSHOKU OKINAWA（那霸機場）",
+          category: "伴手禮",
+          amount: 700,
+          currency: "JPY",
+          note: "島辣椒蝦餅小盒(700)"
+        },
+        {
+          time: "15:12",
+          shop: "SORA TERRACE 那霸機場國際線",
+          category: "飲食",
+          amount: 800,
+          currency: "JPY",
+          note: "Cremia 霜淇淋(800) (現金)"
+        },
+        {
+          time: "15:16",
+          shop: "DFS 那霸機場（ROYCE）",
+          category: "伴手禮",
+          amount: 1275,
+          currency: "JPY",
+          note: "ROYCE Pure Mild 巧克力(1275)"
+        }
+      ]
+    }
+  ],
   grandTotal: {
-    JPY: { total: 0, breakdown: {} },
-    TWD: { total: 0, breakdown: {} },
+    JPY: {
+      total: 95295,
+      breakdown: {
+        飲食: 18610,
+        交通: 0,
+        住宿: 0,
+        購物: 74710,
+        娛樂: 0,
+        伴手禮: 1975,
+        其他: 0
+      }
+    },
+    TWD: {
+      total: 0,
+      breakdown: {
+        飲食: 0,
+        交通: 0,
+        住宿: 0,
+        購物: 0,
+        娛樂: 0,
+        伴手禮: 0,
+        其他: 0
+      }
+    }
   },
 };
 
