@@ -4,6 +4,22 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.14] - 2026-10-17 (旅程花費記帳檔)
+
+### 新增 (Added) 🚀
+
+- **`trips/{trip}/expenses.md`**: 每趟旅程的實際花費記帳，手寫，是 `data.js` 的 `expenseData` 的來源草稿；欄位與七種分類對應花費頁。不併進 `spec.md`，因為 `spec.md` 每次同步會整份重寫。流程與對照表見 `trips/TRIP_STYLE_GUIDE.md` §1.2。
+  - `tools/new-trip.js` 建立新旅程時自動產生空白 `expenses.md`
+  - 2026 沖繩：建立空白架構，待填
+  - 2026 東京：由 `data.js` 反向整理出 93 筆對照版，核對發現 `grandTotal` 手填值與明細不符（飲食、伴手禮兩類，日圓合計差 ¥5），記於該檔待確認事項，`data.js` 未改
+
+### 變更 (Changed) 🔄
+
+- **`.agent/workflows/new-trip.md` 與 `trips/TRIP_STYLE_GUIDE.md` 對齊實際行為**: 規劃行程改寫在 `data.js`（原寫「編輯 spec.md」，與 spec 自動生成相矛盾）；補上建立腳本的四個提問、完整產出清單、需手動更新 `docs/SITEMAP.md` 與 `CHANGELOG.md`、部署步驟；註明目前只支援日本行程（幣別只有日圓／台幣、頁首標籤寫死 `JP`）。
+- **建立腳本產生的初始 `spec.md`** 開頭改為警告：首次同步會整份覆蓋，勿手寫。
+
+---
+
 ## [2.7.13] - 2026-10-08 (行程研究頁)
 
 ### 新增 (Added) 🚀

@@ -264,7 +264,9 @@ self.addEventListener("fetch", (event) => {
 function generateSpecMd(tripId, title) {
   return `# ${title} 行程規格書
 
-> **狀態**：草稿 🟡（data.js 填寫完成後可執行自動同步）
+> **狀態**：佔位草稿 🟡——本檔會在第一次同步時被 data.js 的內容**整份覆蓋**，請勿在此手寫要保留的內容；行程請直接寫在 \`src/pages/trips/${tripId}/data.js\`。
+>
+> data.js 填寫完成後執行：
 >
 > \`\`\`bash
 > node scripts/sync-travel-spec.mjs ${tripId}
@@ -302,6 +304,71 @@ function generateSpecMd(tripId, title) {
 - [ ] 填寫美食與景點清單（foodData / attractionData）
 - [ ] 執行 \`node scripts/sync-travel-spec.mjs ${tripId}\` 同步本文件
 - [ ] 行程確定後執行 \`node scripts/generate-travel-pdf.mjs ${tripId}\` 產生離線旅遊小書
+`;
+}
+
+// ============================================================
+// 模板：expenses.md (實際花費記帳，手寫，為 data.js expenseData 的來源)
+// ============================================================
+function generateExpensesMd(tripId, title) {
+  const row = "| 時間 | 店家 | 分類 | 金額 | 幣別 | 備註 |\n|---|---|---|---|---|---|\n| | | | | | |";
+  const catTable = ["飲食", "交通", "住宿", "購物", "娛樂", "伴手禮", "其他"]
+    .map((c) => `| ${c} | |`)
+    .join("\n");
+  return `# ${title} — 實際花費記帳
+
+> 本檔是花費頁的**資料來源草稿**：先在這裡記帳、確認，再轉寫進 \`src/pages/trips/${tripId}/data.js\` 的 \`expenseData\`。
+> 不要併進 \`spec.md\`（那份每次同步會整份重寫）。規則見 \`trips/TRIP_STYLE_GUIDE.md\` 1.2 節。
+
+---
+
+## 📐 填寫規格（對應網頁欄位）
+
+| 本檔欄位 | 網頁欄位 | 填法 |
+|---|---|---|
+| 時間 | \`time\` | \`13:45\` 這類精確時間；記不得就寫「早上／上午／中午／下午／傍晚／晚上」；出發前就付的寫「事前」；完全不知道寫 \`??:??\` |
+| 店家 | \`shop\` | 店名或項目名稱 |
+| 分類 | \`category\` | 只能用下面七種之一（寫了別的字，那一筆會從網頁分類卡片消失、也不進總計） |
+| 金額 | \`amount\` | 純數字，不加逗號或貨幣符號 |
+| 幣別 | \`currency\` | \`JPY\`（日圓）或 \`TWD\`（台幣） |
+| 備註 | \`note\` | 買了什麼 |
+
+**七種分類**：飲食、交通、住宿、購物、娛樂、伴手禮、其他
+
+**匯率**：網頁依 \`data.js\` 的 \`tripMeta.exchangeRate\` 換算台幣顯示，這裡照收據原幣別記即可。
+
+---
+
+## 🧾 每日明細
+
+> 出發前付款的項目（機票、訂房等）記在 Day 1，時間欄寫「事前」。依實際天數增減下方小節。
+
+### Day 1・MM/DD (週) 標題
+
+${row}
+
+---
+
+## 📊 總計（明細填完後由程式算，不手填）
+
+### 日圓（JPY）
+
+| 分類 | 金額 |
+|---|---|
+${catTable}
+| **合計** | |
+
+### 台幣（TWD）
+
+| 分類 | 金額 |
+|---|---|
+${catTable}
+| **合計** | |
+
+---
+
+## ❓ 待確認事項
+
 `;
 }
 
@@ -424,6 +491,7 @@ async function main() {
   const tripSubtitle = subtitle || `${tripTitle} 之旅`;
   const locationCode = location.toLowerCase();
   const tripId = `${year}-${locationCode}`; // 與 2026-tokyo 相同的目錄命名
+  // 目前只支援日本行程：國家代碼與花費幣別（JPY／TWD）皆寫死，見 trips/TRIP_STYLE_GUIDE.md 第 1 節
   const badge = `JP · ${locationCode.toUpperCase()} · ${year}`;
   const fullTitle = `${year} ${tripTitle} ${tripSubtitle}`.replace(/\s+/g, " ");
 
@@ -461,6 +529,12 @@ async function main() {
     generateSpecMd(tripId, fullTitle),
   );
   console.log(`✅ trips/${tripId}/spec.md`);
+
+  fs.writeFileSync(
+    path.join(tripsDir, "expenses.md"),
+    generateExpensesMd(tripId, fullTitle),
+  );
+  console.log(`✅ trips/${tripId}/expenses.md`);
 
   fs.writeFileSync(
     path.join(tripsDir, "manifest.json"),
@@ -539,7 +613,8 @@ async function main() {
    trips/${tripId}/
    ├── index.html          (Vite 入口點)
    ├── spec.md             (行程規格書，可自動同步)
-   ├── manifest.json       (PWA 離線旅遊小書)
+   ├── expenses.md         (實際花費記帳，手寫 → 轉寫進 data.js)
+   ├── manifest.json      (PWA 離線旅遊小書)
    └── sw.js               (Service Worker)
 
    src/pages/trips/${tripId}/
@@ -554,6 +629,9 @@ async function main() {
    2. 執行 npm run dev 預覽頁面 → http://localhost:5173/me/trips/${tripId}/
    3. data.js 完成後執行 node scripts/sync-travel-spec.mjs ${tripId} 同步 spec.md
    4. 出發前執行 node scripts/generate-travel-pdf.mjs ${tripId} 產生離線旅遊小書
+   5. 旅途中／回來後在 trips/${tripId}/expenses.md 記帳，確認後轉寫進 data.js 的 expenseData
+
+⚠️  腳本不會改的兩份，請手動更新：docs/SITEMAP.md（網站地圖）、CHANGELOG.md（版本紀錄）
 `);
 
   rl.close();

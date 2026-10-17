@@ -4,12 +4,13 @@
 
 ## 1. 架構與技術 (Architecture)
 
-以 `2026-tokyo` 為基準架構，新旅程請執行 `npm run new-trip` 由 `src/pages/trips/template/` 產生（該指令會先 `git fetch` 檢查是否落後遠端，落後時中止並要求先 `git pull --rebase`——原因見 `CONTRIBUTING.md`）：
+以 `src/pages/trips/template/` 為基準架構（由 `2026-tokyo` 重構而來，兩者有少數差異時以 template 為準。例：2026-tokyo 的 `ExpenseSection.jsx` 第 254、306 列把匯率 0.2 與「8 天」寫死，`data.js` 的 `expenseData` 每天多一個沒有程式讀取的 `summary` 欄位），新旅程請執行 `npm run new-trip` 由 `src/pages/trips/template/` 產生（該指令會先 `git fetch` 檢查是否落後遠端，落後時中止並要求先 `git pull --rebase`——原因見 `CONTRIBUTING.md`）：
 
+- **適用範圍 Scope**: ⚠ 目前**只支援日本行程**（2026-10-17 定）：花費只認日圓（`JPY`）與台幣（`TWD`），`tools/new-trip.js` 的頁首標籤也寫死 `JP ·`。要做日本以外的行程，得先改花費元件的幣別與建立腳本的國家代碼，等真的有需要再做；研究階段的海外行程走 1.3 節的 `trips/research/`，不受此限。
 - **框架 Framework**: Vite + React。入口為 `trips/{year}-{location}/index.html`，應用程式碼在 `src/pages/trips/{year}-{location}/`（`main.jsx` + `App.jsx` + `data.js` + `components/`）。
 - **資料驅動 Data-driven**: 所有內容（標題、Hero、匯率、行程、住宿、記帳）皆由 `data.js` 驅動；`App.jsx` 通常不需修改。
 - **頁籤 Tabs**: 總覽 / 行程 / 交通 / 景點 / 美食 / 購物 / 住宿 / 花費，共 8 個。
-- **共用元件 Shared**: `src/pages/trips/shared/`（Timeline、FlightInfoSection、ChecklistSection、LinksGallery、WeatherForecastSection、ShoppingSection）與 `src/components/trips`（SectionCard、MapModal、ScrollToTop、ToggleFAB）。
+- **共用元件 Shared**: `src/pages/trips/shared/`（Timeline、FlightInfoSection、ChecklistSection、LinksGallery、WeatherForecastSection、ShoppingSection）與 `src/components/trips`（完整清單以 `src/components/trips/index.js` 的匯出為準，常用的有 SectionCard、MapModal、CollapsibleSection、ActivityItem、ScrollToTop、ToggleFAB）。
 - **樣式 Styling**: Tailwind CSS（Vite 整合）+ 每個旅程一份 `{location}.css` 主題變數。
 - **圖示 Icons**: `lucide-react`。
 - **動畫 Animation**: CSS Keyframes (`fadeIn`, `slideUp`, `float`) + Tailwind utility classes。
@@ -35,12 +36,32 @@
 
 ### 1.2 旅程文件檔 (Trip Docs)
 
-每個旅程資料夾下有兩份互補的文件，職責不可混用：
+每個旅程資料夾下有三份互補的文件，職責不可混用：
 
 | 檔案 | 角色 | 誰維護 |
 | --- | --- | --- |
-| `trips/{trip}/spec.md` | 正式行程規格書：航班、住宿、每日行程、交通、景點、美食、購物、花費 | **自動生成**，由 `node scripts/sync-travel-spec.mjs {trip}` 從 `data.js` 產出，**勿手改**（手改的內容下次同步就沒了） |
+| `trips/{trip}/spec.md` | 正式行程規格書：航班、住宿、每日行程、交通、景點、美食、購物、預算估算 | **自動生成**，由 `node scripts/sync-travel-spec.mjs {trip}` 從 `data.js` 產出，**勿手改**（手改的內容下次同步就沒了） |
+| `trips/{trip}/expenses.md` | 實際花費記帳：每日逐筆明細（時間、店家、分類、金額、幣別、備註）與總計 | **手寫**，是 `data.js` 的 `expenseData` 的來源草稿 |
 | `trips/{trip}/trip_notes.md` | 來源與實況筆記：原始行程表出處、旅行社報價條件、未採用的班次與路線、實際走法與行程表的落差、刻意不收錄於公開網站的內容 | **手寫**，`data.js` 承載不了、但不該遺失的資訊都放這裡 |
+
+**新行程的初始 `spec.md`**：`npm run new-trip` 會先產生一份佔位草稿，第一次執行同步就會被整份覆蓋。行程一律寫在 `data.js`，不要在這份草稿裡規劃。
+
+**花費為什麼不併進 `spec.md`**（2026-10-17 定）：`spec.md` 每次同步都整份重寫，手寫的花費會被洗掉；而且兩者資料流向相反——`spec.md` 是 `data.js` → 文件，花費是文件 → `data.js`。
+
+**花費記帳流程**：
+1. 在 `expenses.md` 逐筆記帳，欄位與分類照檔內「填寫規格」。分類只能用飲食、交通、住宿、購物、娛樂、伴手禮、其他七種（`ExpenseSection.jsx` 的 `CATEGORY_CFG`）。⚠ 寫了這七種以外的字，那一筆會**從分類卡片直接消失**、也不進總計，不會自動歸到「其他」。
+2. 旅行者本人看過 `expenses.md` 明細、說可以之後，才轉寫進 `data.js` 的 `expenseData.days`。對應方式：
+
+   | `expenses.md` | `data.js` |
+   |---|---|
+   | 小節標題 `Day 1・10/02 (五) 標題` | 一個 day：`date: "2026-10-02"`（一定要 `YYYY-MM-DD`，網頁靠它切出日期）、`label: "Day 1・標題"` |
+   | 表格每一列 | `items` 陣列裡的一筆：`{ time, shop, category, amount, currency, note }` |
+   | 時間欄寫「事前」 | 同一筆再加 `preflight: true`（選填，網頁目前不讀，僅供標記） |
+
+   ⚠ 網頁「花費」頁籤（`App.jsx` 內 id 為 `budget`）讀的是 `expenseData`，**不是** `budgetData`。`budgetData` 是出發前的預算估算，只會進 `spec.md` 與離線小書（`scripts/sync-travel-spec.mjs`、`scripts/generate-travel-pdf.mjs`），行程網頁不顯示，實際花費不要填進去。
+3. `expenseData.grandTotal` 由明細**用程式加總**，不手填。網頁頂端總額與圓餅圖讀 `grandTotal`，分類卡片讀逐筆加總，手填一旦算錯，同一頁就會出現兩個數字（2026-10-17 在 2026-tokyo 實際發生，日圓差 ¥5）。⚠ 目前 repo 還**沒有**專用的加總程式，轉寫時臨時寫一段程式把 `days` 逐筆加總後填入，並在回報中附上加總結果。
+
+範例見 `trips/2026-okinawa/expenses.md`（照本流程建立的空白架構）。`trips/2026-tokyo/expenses.md` 雖然格式相同，但它是本規則訂定前、**由 data.js 反過來整理**的對照版，資料流向是例外，只參考格式。`trips/2024-tokyo-disney/expenses.csv` 是更早的舊格式，不再沿用。
 
 **什麼時候該建 `trip_notes.md`**：旅程資料來自旅行社行程表／電子書／紙本收據等外部來源時一律要建。範例見 `trips/2024-tokyo-disney/trip_notes.md` 與 `trips/2026-okinawa/trip_notes.md`。
 
