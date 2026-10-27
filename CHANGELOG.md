@@ -4,6 +4,14 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.15] - 2026-10-27 (本機不註冊 Service Worker)
+
+### 修正 (Fixed) 🐛
+
+- **`index.html` 在 localhost 不註冊 `sw.js`**: SW 對 `.js`/`.css` 走快取優先，本機開發時會把 Vite 的原始碼模組（例如 `src/lib/firebase.js`）存起來，改完程式後新舊模組混用，首頁選單可能整片空白。現在本機不註冊，之前註冊過的會自動解除、清快取並重新載入一次；正式站不受影響。
+
+---
+
 ## [2.7.14] - 2026-10-17 (旅程花費記帳檔)
 
 ### 新增 (Added) 🚀
