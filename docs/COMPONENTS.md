@@ -334,15 +334,14 @@ AI 聊天與翻譯功能的彈窗。
 
 ### 11.7 財務儀表板專屬元件 (`src/pages/tools/some-company/components/`)
 
-- **`App.jsx` (Layout)**:
-  - 核心佈局容器。
-  - **新增**：具備 `backdrop-blur-md` 效果的頂部導覽列，整合 `Home` 按鈕與動態路徑標示。
-- **`DataTable.jsx`**:
-- **`KpiCards.jsx`**:
-- **`RevenueChart.jsx`**:
-- **`ProfitChart.jsx`**:
-- **`AnnualChart.jsx`**:
-- **`InsightPanel.jsx`**:
+2026-10-27 改為 Swiss+Minimal 風格：樣式集中在 `some-company.css`（顏色走 `:root` 變數，漲紅跌綠），圖表配色由 `chartTheme.js` 讀同一組變數。
+
+- **`App.jsx` (Layout)**: 頁面骨架：導覽列、表頭、KPI、三張圖、觀察、兩張數據表。
+- **`DataTable.jsx`**: 季度數據表，每格下方小字 QoQ，2024/2025 另有 YoY 欄；淨利表多一列年度淨利率。窄畫面在表格內橫向捲動。
+- **`KpiCards.jsx`**: 三張 KPI，細黑頂線＋粗黑大數字。
+- **`RevenueChart.jsx` / `ProfitChart.jsx`**: 各季營收長條圖／淨利折線圖，2023 淺灰、2024 中灰、2025 紅。
+- **`AnnualChart.jsx`**: 年度雙軸圖：營收灰長條（左軸）、淨利黑線（右一軸）、淨利率紅線（右二軸）。
+- **`InsightPanel.jsx`**: 三則觀察，標題前的編號改成紅色大數字，emoji 不顯示。
 
 ---
 
@@ -488,18 +487,9 @@ import { db, auth, googleProvider, ... } from '../lib/firebase.js';
 | 風險指標 | 視覺化風險比率               |
 | 損益圖表 | Canvas 繪製的損益曲線        |
 
-### 財務儀表板 (src/pages/tools/some-company/) ✨ NEW
+### 財務儀表板 (src/pages/tools/some-company/)
 
-此工具採用模組化 React 架構，專為高密度財務數據呈現而優化，支援 100% 響應式佈局。
-
-| 檔案               | 說明                                                                   |
-| ------------------ | ---------------------------------------------------------------------- |
-| `DataTable.jsx`    | **高性能報表**：支援數值格式化、QoQ/YoY 動態比較、與全方位無捲軸優化。 |
-| `KpiCards.jsx`     | **核心指標卡片**：使用 SVG 濾鏡與漸層呈現營收、獲利與 EPS 關鍵數據。   |
-| `RevenueChart.jsx` | **增長趨勢圖**：由 Chart.js 驅動，視覺化單季與年度營收成長。           |
-| `ProfitChart.jsx`  | **淨利走勢圖**：分析獲利能力與淨利率之變動關係。                       |
-| `AnnualChart.jsx`  | **年度盈餘圖**：多軸圖表，整合年度總計與成長率分析。                   |
-| `InsightPanel.jsx` | **AI 數據洞察**：條列式呈現營收亮點、產品組合與未來展望。              |
+元件說明見上方 §11.7。樣式在 `some-company.css`，圖表配色在 `chartTheme.js`，資料全部寫在 `data.js`（手動維護，變化率與觀察文字不會自動重算）。
 
 ---
 

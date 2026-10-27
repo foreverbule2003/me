@@ -4,6 +4,17 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.7.16] - 2026-10-27 (財務儀表板改版)
+
+### 變更 (Changed) 🔄
+
+- **財務儀表板（`tools/some-company.html`）改為 Swiss+Minimal 風格**: 風格取自 second-brain 的 UI Room（Swiss 的網格與粗黑數字，加上 Minimal 的留白、細線與單一紅色強調）。樣式集中到 `src/pages/tools/some-company/some-company.css`，圖表配色由新增的 `chartTheme.js` 讀同一組 CSS 變數，不再分散在各元件的 Tailwind class。
+- **漲跌顏色統一為漲紅跌綠**: 原本 KPI 卡漲紅、表格漲綠跌紅，前後不一致；虧損數字以括號加綠色表示。
+- **數據表**: 拿掉多色底與藍紫淨利率列，改為細線表格；窄畫面在表格內橫向捲動，不會把整頁撐寬。
+- 資料（`data.js`）沒有變動。
+
+---
+
 ## [2.7.15] - 2026-10-27 (本機不註冊 Service Worker)
 
 ### 修正 (Fixed) 🐛

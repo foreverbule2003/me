@@ -1,0 +1,291 @@
+/* 財務儀表板樣式:Swiss+Minimal(Swiss 的網格、粗黑數字、靠左對齊 + Minimal 的留白、髮絲線、單一紅色強調)。
+   由 main.jsx 引入;顏色一律走 :root 變數,圖表也從這裡讀(chartTheme.js 讀 --s1/--s2/--ink/--accent/--line/--mute)。
+   台股慣例:漲紅跌綠,--up / --down。 */
+:root {
+  --bg: #fff;
+  --ink: #111;
+  --mute: #8a8a8a;
+  --body: #555;
+  --line: #ececec;
+  --accent: #e30613;
+  --up: #e30613;
+  --down: #1a7f4b;
+  --s1: #e6e6e6;
+  --s2: #a6a6a6;
+  --gap: 48px;
+  --font: "Inter Tight", "Noto Sans TC", "Helvetica Neue", sans-serif;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+.fd {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 56px 24px 120px;
+}
+.fd h1,
+.fd h2,
+.fd h3 {
+  margin: 0;
+}
+.fd .kicker {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--mute);
+}
+.fd .up {
+  color: var(--up);
+}
+.fd .down {
+  color: var(--down);
+}
+
+/* 頂部導覽 */
+.fd-crumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 72px;
+  font-size: 12px;
+  color: var(--mute);
+}
+.fd-crumb a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom: 1px solid var(--ink);
+}
+.fd-crumb .here {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+/* 表頭:左邊大標,右邊說明 */
+.fd-head {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  column-gap: var(--gap);
+}
+.fd-head .kicker {
+  grid-column: 1 / -1;
+}
+.fd-head h1 {
+  margin-top: 12px;
+  font-weight: 800;
+  font-size: clamp(40px, 6.5vw, 80px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  text-wrap: balance; /* 避免最後一個字單獨掉到第二行 */
+}
+.fd-head p {
+  align-self: end;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--mute);
+}
+
+/* KPI */
+.fd-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+  margin: 96px 0;
+}
+.fd-kpi {
+  padding-top: 16px;
+  border-top: 1px solid var(--ink);
+}
+.fd-kpi .num {
+  margin: 28px 0 10px;
+  font-weight: 800;
+  font-size: clamp(48px, 6vw, 76px);
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+.fd-kpi .chg {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* 圖表與面板 */
+.fd-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px var(--gap);
+}
+.fd-panel {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.fd-panel.wide {
+  grid-column: 1 / -1;
+}
+.fd-panel h3 {
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.fd-canvas {
+  position: relative;
+  height: 280px;
+  margin-top: 20px;
+}
+.fd-panel.wide .fd-canvas {
+  height: 360px;
+}
+
+/* 段落標題 */
+.fd-section {
+  margin-top: 136px;
+}
+.fd-section-head {
+  margin-bottom: 40px;
+  padding-top: 16px;
+  border-top: 2px solid var(--ink);
+}
+.fd-section-head h2 {
+  margin-top: 6px;
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+/* 觀察 */
+.fd-insights {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+.fd-insight .no {
+  font-weight: 800;
+  font-size: 32px;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  color: var(--accent);
+}
+.fd-insight h3 {
+  margin-top: 12px;
+}
+.fd-insight ul {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--body);
+}
+.fd-insight li + li {
+  margin-top: 10px;
+}
+.fd-insight mark {
+  background: none;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* 數據表 */
+.fd-tables {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap);
+}
+/* grid 項目預設 min-width:auto 會被表格撐寬,窄畫面表格就被切掉;設 0 才會在 .fd-scroll 裡橫向捲動 */
+.fd-tables > * {
+  min-width: 0;
+}
+.fd-scroll {
+  overflow-x: auto;
+  margin-top: 16px;
+}
+.fd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.fd-table th,
+.fd-table td {
+  padding: 10px 8px;
+  text-align: right;
+  vertical-align: top;
+}
+.fd-table th:first-child,
+.fd-table td:first-child {
+  padding-left: 0;
+  text-align: left;
+}
+.fd-table thead th {
+  font-weight: 600;
+  color: var(--mute);
+}
+.fd-table thead tr:first-child th {
+  color: var(--ink);
+}
+.fd-table thead tr:last-child th {
+  font-size: 11px;
+  border-bottom: 1px solid var(--ink);
+}
+.fd-table tbody tr {
+  border-bottom: 1px solid var(--line);
+}
+.fd-table tbody td:first-child {
+  font-weight: 600;
+}
+.fd-table .sub {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+}
+.fd-table .nil {
+  color: var(--line);
+}
+.fd-table tr.total {
+  border-top: 1px solid var(--ink);
+  font-weight: 800;
+}
+.fd-table tr.margin {
+  border-bottom: 0;
+  color: var(--mute);
+}
+.fd-table tr.margin .hl {
+  color: var(--accent);
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .fd-tables {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 820px) {
+  .fd {
+    padding: 32px 16px 80px;
+  }
+  .fd-crumb {
+    margin-bottom: 48px;
+  }
+  .fd-head,
+  .fd-kpis,
+  .fd-charts,
+  .fd-insights {
+    grid-template-columns: 1fr;
+  }
+  .fd-head p {
+    margin-top: 16px;
+  }
+  .fd-kpis {
+    margin: 64px 0;
+  }
+  .fd-section {
+    margin-top: 96px;
+  }
+}

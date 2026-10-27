@@ -97,15 +97,9 @@ timboy/
 我們採用 **Hybrid DDE 架構** 來解決爬蟲與即時性的問題。
 資料源自您的本地電腦 (XQ 全球贏家)，透過 Python 橋接腳本同步至雲端。
 
-### 財務儀表板 (some-company) ✨
+### 財務儀表板 (some-company)
 
-| 檔案               | 說明                                                             |
-| ------------------ | ---------------------------------------------------------------- |
-| `DataTable.jsx`    | **財務報表元件**：支援 100% 寬度自適應、放大字體與季度動態標題。 |
-| `KpiCards.jsx`     | **KPI 視覺化卡片**：呈現營收、毛利、營益與淨利之核心指標。       |
-| `RevenueChart.jsx` | **成長趨勢圖**：Chart.js 驅動的營收成長視覺化。                  |
-| `ProfitChart.jsx`  | **獲利分析圖**：Chart.js 驅動的獲利能力走勢。                    |
-| `AnnualChart.jsx`  | **年度盈餘圖**：視覺化展示年度累積盈餘與成長。                   |
+Swiss+Minimal 風格的財務趨勢頁（`tools/some-company.html`）。資料寫死在 `src/pages/tools/some-company/data.js`，更新時連 YoY/QoQ、KPI 文字與觀察一起手改；元件說明見 `docs/COMPONENTS.md` §11.7。
 
 ---
 
