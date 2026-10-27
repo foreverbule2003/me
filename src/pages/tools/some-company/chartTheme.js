@@ -1,5 +1,5 @@
 // 圖表共用配色與格式:從 some-company.css 的 :root 變數讀顏色,讓圖表跟頁面同一套 Swiss+Minimal。
-// 三個年度由淺到深:2023 淺灰、2024 中灰、2025 強調紅。
+// 年度由淺到深:2023 淺灰、2024 中灰、2025 深灰、最新年度 (2026) 強調紅;灰階加深到白底上看得清楚。
 
 export const formatNumber = (num) =>
   num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -12,7 +12,7 @@ export function chartTheme() {
     mute: v("--mute"),
     line: v("--line"),
     accent: v("--accent"),
-    years: [v("--s1"), v("--s2"), v("--accent")],
+    years: [v("--s1"), v("--s2"), v("--s3"), v("--accent")],
     gray: v("--s2"),
   };
 }

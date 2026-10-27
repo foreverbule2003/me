@@ -1,12 +1,13 @@
 import React from "react";
 import KpiCards from "./components/KpiCards";
-import RevenueChart from "./components/RevenueChart";
-import ProfitChart from "./components/ProfitChart";
+import QuarterChart from "./components/QuarterChart";
 import AnnualChart from "./components/AnnualChart";
 import DataTable from "./components/DataTable";
 import InsightPanel from "./components/InsightPanel";
 import {
   QUARTERS,
+  YEARS,
+  coverage,
   revenue,
   profit,
   annualRevenue,
@@ -30,7 +31,7 @@ export default function App() {
 
   const annualProfitMargins = {};
 
-  Object.keys(profit).forEach((year) => {
+  Object.keys(annualProfit).forEach((year) => {
     annualProfitMargins[year] = calcMargin(
       annualProfit[year],
       annualRevenue[year],
@@ -44,21 +45,26 @@ export default function App() {
         <span>/</span>
         <span>工具箱</span>
         <span>/</span>
-        <span className="here">財務儀表板 (2025)</span>
+        <span className="here">財務儀表板</span>
       </nav>
 
       <header className="fd-head">
-        <div className="kicker">Financial Report · 2023–2025</div>
+        <div className="kicker">Financial Report · {coverage}</div>
         <h1>財務儀表板</h1>
-        <p>2023–2025 營業收入與本期淨利分析。單位:千元,Q4 為推算值。</p>
+        <p>{coverage} 營業收入與本期淨利分析。單位:千元,Q4 為全年減前三季的推算值。</p>
       </header>
 
       <KpiCards cards={kpiCards} />
 
       <div className="fd-charts">
-        <RevenueChart labels={QUARTERS} data={revenue} />
-        <ProfitChart labels={QUARTERS} data={profit} />
-        <AnnualChart revenueData={annualRevenue} profitData={annualProfit} />
+        <QuarterChart kicker="Revenue" title="各季營業收入" labels={QUARTERS} data={revenue} beginAtZero />
+        <QuarterChart kicker="Net Income" title="各季本期淨利" labels={QUARTERS} data={profit} />
+        <AnnualChart
+          revenueData={annualRevenue}
+          profitData={annualProfit}
+          quarterRevenue={revenue}
+          quarterProfit={profit}
+        />
       </div>
 
       <InsightPanel insights={insights} />
@@ -71,6 +77,7 @@ export default function App() {
         <div className="fd-tables">
           <DataTable
             config={revenueTableConfig}
+            years={YEARS}
             data={revenue}
             changes={revenueChanges}
             annualData={annualRevenue}
@@ -78,6 +85,7 @@ export default function App() {
           />
           <DataTable
             config={profitTableConfig}
+            years={YEARS}
             data={profit}
             changes={profitChanges}
             annualData={annualProfit}

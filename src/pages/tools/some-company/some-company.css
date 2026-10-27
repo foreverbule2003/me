@@ -1,5 +1,5 @@
 /* 財務儀表板樣式:Swiss+Minimal(Swiss 的網格、粗黑數字、靠左對齊 + Minimal 的留白、髮絲線、單一紅色強調)。
-   由 main.jsx 引入;顏色一律走 :root 變數,圖表也從這裡讀(chartTheme.js 讀 --s1/--s2/--ink/--accent/--line/--mute)。
+   由 main.jsx 引入;顏色一律走 :root 變數,圖表也從這裡讀(chartTheme.js 讀 --s1/--s2/--s3/--ink/--accent/--line/--mute)。
    台股慣例:漲紅跌綠,--up / --down。 */
 :root {
   --bg: #fff;
@@ -10,8 +10,9 @@
   --accent: #e30613;
   --up: #e30613;
   --down: #1a7f4b;
-  --s1: #e6e6e6;
-  --s2: #a6a6a6;
+  --s1: #c4c4c4;
+  --s2: #8c8c8c;
+  --s3: #555;
   --gap: 48px;
   --font: "Inter Tight", "Noto Sans TC", "Helvetica Neue", sans-serif;
 }
@@ -133,6 +134,36 @@ body {
   font-weight: 700;
   letter-spacing: -0.01em;
 }
+/* 面板標題列:左標題、右切換鈕 */
+.fd-panel-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 16px;
+}
+.fd-toggle {
+  display: flex;
+  border: 1px solid var(--ink);
+}
+.fd-toggle button {
+  padding: 4px 12px;
+  border: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 600 12px var(--font);
+  cursor: pointer;
+}
+.fd-toggle button + button {
+  border-left: 1px solid var(--ink);
+}
+.fd-toggle button[aria-pressed="true"] {
+  background: var(--ink);
+  color: var(--bg);
+}
+.fd-toggle button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
 .fd-canvas {
   position: relative;
   height: 280px;
@@ -161,7 +192,7 @@ body {
 /* 觀察 */
 .fd-insights {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: var(--gap);
 }
 .fd-insight .no {
@@ -174,21 +205,50 @@ body {
 .fd-insight h3 {
   margin-top: 12px;
 }
-.fd-insight ul {
-  margin: 16px 0 0;
-  padding: 0;
-  list-style: none;
-  font-size: 14px;
-  line-height: 1.75;
+/* 觀察小圖:強調紅、負值綠、其餘灰 */
+.fd-minibars {
+  display: block;
+  width: 100%;
+  max-width: 420px;
+  height: auto;
+  margin-top: 16px;
+  overflow: visible;
+  font-family: var(--font);
+  font-variant-numeric: tabular-nums;
+}
+.fd-minibars rect.base {
+  fill: var(--s1);
+}
+.fd-minibars rect.hl {
+  fill: var(--accent);
+}
+.fd-minibars rect.neg {
+  fill: var(--down);
+}
+.fd-minibars .val {
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--mute);
+}
+.fd-minibars .val.hl {
+  fill: var(--accent);
+}
+.fd-minibars .val.neg {
+  fill: var(--down);
+}
+.fd-minibars .lab {
+  font-size: 10px;
+  fill: var(--mute);
+}
+.fd-minibars .axis {
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+.fd-insight .note {
+  margin: 12px 0 0;
+  font-size: 13px;
+  line-height: 1.7;
   color: var(--body);
-}
-.fd-insight li + li {
-  margin-top: 10px;
-}
-.fd-insight mark {
-  background: none;
-  color: var(--accent);
-  font-weight: 700;
 }
 
 /* 數據表 */
@@ -218,27 +278,30 @@ body {
   text-align: right;
   vertical-align: top;
 }
+/* 第一欄(年度)固定,手機橫向捲動時仍看得到是哪一年 */
 .fd-table th:first-child,
 .fd-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background: var(--bg);
   padding-left: 0;
   text-align: left;
 }
 .fd-table thead th {
+  font-size: 11px;
   font-weight: 600;
   color: var(--mute);
-}
-.fd-table thead tr:first-child th {
-  color: var(--ink);
-}
-.fd-table thead tr:last-child th {
-  font-size: 11px;
   border-bottom: 1px solid var(--ink);
 }
 .fd-table tbody tr {
   border-bottom: 1px solid var(--line);
 }
+.fd-table tbody tr:last-child {
+  border-bottom: 0;
+}
 .fd-table tbody td:first-child {
-  font-weight: 600;
+  font-weight: 800;
 }
 .fd-table .sub {
   display: block;
@@ -248,15 +311,19 @@ body {
 .fd-table .nil {
   color: var(--line);
 }
-.fd-table tr.total {
-  border-top: 1px solid var(--ink);
+/* 全年欄:左側黑線隔開季度,粗體 */
+.fd-table .total {
+  border-left: 1px solid var(--ink);
+  padding-left: 12px;
   font-weight: 800;
 }
-.fd-table tr.margin {
-  border-bottom: 0;
+.fd-table .total .sub {
+  font-weight: 400;
+}
+.fd-table .mute {
   color: var(--mute);
 }
-.fd-table tr.margin .hl {
+.fd-table .hl {
   color: var(--accent);
   font-weight: 800;
 }

@@ -99,7 +99,7 @@ timboy/
 
 ### 財務儀表板 (some-company)
 
-Swiss+Minimal 風格的財務趨勢頁（`tools/some-company.html`）。資料寫死在 `src/pages/tools/some-company/data.js`，更新時連 YoY/QoQ、KPI 文字與觀察一起手改；元件說明見 `docs/COMPONENTS.md` §11.7。
+Swiss+Minimal 風格的財務趨勢頁（`tools/some-company.html`）。資料來源是上市母公司各季合併財報附註中關聯企業的財務資訊彙整（Q4 = 全年 − 前三季；刻意不寫公司名稱），寫死在 `src/pages/tools/some-company/data.js`，更新時只改季度／全年數字，YoY/QoQ、KPI 與觀察小圖自動計算，觀察的標題與說明仍需手改；元件說明見 `docs/COMPONENTS.md` §11.7。
 
 ---
 
