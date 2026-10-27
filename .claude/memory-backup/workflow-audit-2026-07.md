@@ -13,4 +13,4 @@ metadata:
 
 **P2 也已全部完成（2026-07-06）**：CHANGELOG 2.5.5 斷層補記、README 部署章節（firestore rules 需手動 deploy）、/check-cb-pipeline 指令、離線小書文件化 + sw/manifest 改指向 master_guide.html（travel-book.html 是已亡歷史名稱）、北海道死連結移除、lessons.md 首筆教訓。
 
-**體檢全案結案。** 指令集現有 8 個：commit、doc-check、deploy、sync、journal、capture、cleanup、check-cb-pipeline。唯一懸而未決：cb-logic/cb_logic 雙版本整併（在獨立 session 進行中）。
+**體檢全案結案。** 指令集現有 9 個：commit、doc-check、deploy、sync、journal、capture、cleanup、check-cb-pipeline、dev（2026-10-27 新增，取代內建 /run）。唯一懸而未決：cb-logic/cb_logic 雙版本整併（在獨立 session 進行中）。
