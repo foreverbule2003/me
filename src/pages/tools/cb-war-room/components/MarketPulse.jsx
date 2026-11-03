@@ -1,6 +1,13 @@
 import React from "react";
 
-const MarketPulse = ({ data, onSelectCode }) => {
+// trackedIds：已在我的追蹤的代號；onTrack 沒給（未登入）時按了改走 onRequireLogin
+const MarketPulse = ({
+  data,
+  onSelectCode,
+  trackedIds = new Set(),
+  onTrack,
+  onRequireLogin,
+}) => {
   if (!data || data.length === 0) {
     return <div className="p-12 text-center text-slate-300">NO DATA FOUND</div>;
   }
@@ -15,7 +22,7 @@ const MarketPulse = ({ data, onSelectCode }) => {
             <th className="px-3 md:px-4 py-4 text-right">現價</th>
             <th className="px-3 md:px-4 py-4 text-right">漲跌</th>
             <th className="px-3 md:px-4 py-4 text-right">成交量</th>
-            <th className="px-3 md:px-4 py-4 text-center w-12">操作</th>
+            <th className="px-3 md:px-4 py-4 text-center w-24">操作</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-50">
@@ -93,9 +100,32 @@ const MarketPulse = ({ data, onSelectCode }) => {
                   </span>
                 </td>
                 <td className="px-3 md:px-4 py-5 text-center">
-                  <button className="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-all flex items-center justify-center mx-auto group/btn">
-                    <i className="fas fa-chart-line text-xs group-hover/btn:scale-110 transition-transform"></i>
-                  </button>
+                  <div className="flex items-center justify-center gap-2">
+                    {trackedIds.has(item.code) ? (
+                      <span
+                        title="已在我的追蹤"
+                        className="w-8 h-8 rounded-lg flex items-center justify-center text-slate-700"
+                      >
+                        <i className="fas fa-star text-xs"></i>
+                      </span>
+                    ) : (
+                      <button
+                        type="button"
+                        title="加入追蹤（未分類）"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          if (onTrack) onTrack(item.code);
+                          else onRequireLogin?.();
+                        }}
+                        className="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-all flex items-center justify-center"
+                      >
+                        <i className="far fa-star text-xs"></i>
+                      </button>
+                    )}
+                    <button className="w-8 h-8 rounded-lg bg-slate-50 text-slate-400 hover:bg-indigo-50 hover:text-indigo-600 transition-all flex items-center justify-center group/btn">
+                      <i className="fas fa-chart-line text-xs group-hover/btn:scale-110 transition-transform"></i>
+                    </button>
+                  </div>
                 </td>
               </tr>
             );

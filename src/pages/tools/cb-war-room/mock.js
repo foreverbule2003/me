@@ -52,12 +52,15 @@ const MOCK_ITEMS = [
 export const useMockWatchlist = () => {
   const [watchlist, setWatchlist] = useState(MOCK_ITEMS);
 
-  const addCB = useCallback(async (code, category) => {
-    setWatchlist((prev) => [
-      ...prev.filter((i) => i.id !== code),
-      { id: code.toUpperCase(), name: "", category },
-    ]);
-  }, []);
+  const addCB = useCallback(
+    async (code, category = "未分類 (UNCATEGORIZED)") => {
+      setWatchlist((prev) => [
+        ...prev.filter((i) => i.id !== code),
+        { id: code.toUpperCase(), name: "", category },
+      ]);
+    },
+    [],
+  );
   const moveCB = useCallback(async (id, category) => {
     setWatchlist((prev) =>
       prev.map((i) => (i.id === id ? { ...i, category } : i)),

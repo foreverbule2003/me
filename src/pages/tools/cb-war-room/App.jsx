@@ -39,6 +39,11 @@ const App = () => {
     removeCB,
   } = MOCK ? mockWatchlist : realWatchlist;
 
+  const trackedIds = useMemo(
+    () => new Set(watchlist.map((i) => i.id)),
+    [watchlist],
+  );
+
   const [selectedCode, setSelectedCode] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
@@ -165,7 +170,13 @@ const App = () => {
         <main>
           {activeTab === "pulse" ? (
             <div className="premium-card rounded-2xl overflow-hidden shadow-sm bg-white">
-              <MarketPulse data={marketData} onSelectCode={handleSelectCode} />
+              <MarketPulse
+                data={marketData}
+                onSelectCode={handleSelectCode}
+                trackedIds={trackedIds}
+                onTrack={user ? (code) => addCB(code) : undefined}
+                onRequireLogin={login}
+              />
             </div>
           ) : user ? (
             <Watchlist
