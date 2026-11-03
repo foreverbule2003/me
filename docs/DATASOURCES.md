@@ -20,8 +20,9 @@
 
 - **數據來源**：[TWSE/TPEx 歷史行情](https://www.tpex.org.tw/)
 - **資料範圍**：
-  - 日 K 線數據 (日期, 開, 高, 低, 收)
-  - 歷史溢價率計算所需數據。
+  - CB：TPEx `cbDayQry` 等價列的收市價、漲跌、成交張數
+  - 現股：TWSE `STOCK_DAY`，查無改 TPEx `afterTrading/tradingStock` 的收盤價與漲跌
+  - 歷史溢價率，以及主文件 `daily` 當日欄位（格式見 `docs/CB_DATA_FLOW.md`）
 - **抓取範圍**：預設 6 個月，可自定義區間。
 - **儲存目標**：`public/data/history/<CODE>.json` 與 Firestore 雲端備份。
 

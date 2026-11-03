@@ -11,6 +11,8 @@ const { fetchHistoryData } = require("../src/utils/cb-history-fetcher");
  * node tools/fetch-cb-history.js <CODE> [SINCE] [--sync] [--smart]
  * node tools/fetch-cb-history.js --all --smart --sync
  * node tools/fetch-cb-history.js --hot --smart --sync   (只跑最新熱門榜 Top 20)
+ * node tools/fetch-cb-history.js --hot --watchlist --smart --sync   (熱門榜 + 我的追蹤)
+ * node tools/fetch-cb-history.js --watchlist 2026-11-01   (只跑追蹤清單、不寫雲端，印出 daily 欄位)
  */
 
 // 配置
@@ -123,6 +125,25 @@ function getSmartMonths(targetCode, options) {
   return generateMonthRange(defaultDeep, now);
 }
 
+// 由最新一筆 record 組出主文件的 daily 欄位（格式見 docs/CB_DATA_FLOW.md）
+function buildDaily(records, conversionPrice) {
+  const last = records[records.length - 1];
+  if (!last) return null;
+  return {
+    date: last.date,
+    cbClose: last.cbPrice ?? null,
+    cbChange: last.cbChange ?? null,
+    cbVolume: last.cbVolume ?? null,
+    // cbVolume 0 = 等價列在但沒成交；null = 抓不到當天 CB 資料（未公布或來源失敗）
+    traded: last.cbVolume == null ? null : last.cbVolume > 0,
+    stockClose: last.stockPrice ?? null,
+    stockChange: last.stockChange ?? null,
+    conversionPrice: conversionPrice ?? null,
+    premium: last.premium ?? null,
+    updatedAt: new Date().toISOString(),
+  };
+}
+
 // Global flag to stop trying cloud sync if quota hit
 let GLOBAL_CLOUD_QUOTA_EXCEEDED = false;
 
@@ -144,7 +165,7 @@ async function getCloudState(cbCode) {
   return { docRef, exists: docSnap.exists, lastRecordDate };
 }
 
-async function syncToFirestore(cbCode, data) {
+async function syncToFirestore(cbCode, data, daily) {
   if (GLOBAL_CLOUD_QUOTA_EXCEEDED) {
     // Silently skip to save time
     return;
@@ -207,7 +228,11 @@ async function syncToFirestore(cbCode, data) {
 
     if (exists) {
       await docRef.set(
-        { lastUpdated: new Date().toISOString(), lastRecordDate: newLastDate },
+        {
+          lastUpdated: new Date().toISOString(),
+          lastRecordDate: newLastDate,
+          ...(daily ? { daily } : {}),
+        },
         { merge: true },
       );
     } else if (isManual) {
@@ -215,6 +240,7 @@ async function syncToFirestore(cbCode, data) {
         {
           lastUpdated: new Date().toISOString(),
           lastRecordDate: newLastDate,
+          ...(daily ? { daily } : {}),
           category: "未分類 (UNCATEGORIZED)",
           addedAt: admin.firestore.FieldValue.serverTimestamp(),
         },
@@ -242,6 +268,7 @@ async function syncToFirestore(cbCode, data) {
   const args = process.argv.slice(2);
   const isAll = args.includes("--all");
   const isHot = args.includes("--hot");
+  const isWatchlist = args.includes("--watchlist");
   const isSync = args.includes("--sync");
   const isSmart = args.includes("--smart");
   const isForceDeep = args.includes("--force-deep");
@@ -305,21 +332,37 @@ async function syncToFirestore(cbCode, data) {
     process.exit(1);
   }
 
-  if (isHot) {
-    // 只跑最新熱門榜 (hot_cb_snapshots) 上的標的
+  if (isHot || isWatchlist) {
     await initFirebase();
     const db = admin.firestore();
-    const meta = (await db.collection("hot_cb_meta").doc("latest").get()).data();
-    const snap = meta
-      ? (await db.collection("hot_cb_snapshots").doc(meta.lastDateId).get()).data()
-      : null;
-    const hotCodes = new Set((snap?.data || []).map((i) => i.code));
-    if (hotCodes.size === 0) {
-      console.error("❌ Fatal: 找不到熱門榜快照 (hot_cb_meta/latest)。");
-      process.exit(1);
+    const codes = new Set();
+
+    if (isHot) {
+      // 最新熱門榜 (hot_cb_snapshots) 上的標的
+      const meta = (await db.collection("hot_cb_meta").doc("latest").get()).data();
+      const snap = meta
+        ? (await db.collection("hot_cb_snapshots").doc(meta.lastDateId).get()).data()
+        : null;
+      const hotCodes = (snap?.data || []).map((i) => i.code);
+      if (hotCodes.length === 0) {
+        console.error("❌ Fatal: 找不到熱門榜快照 (hot_cb_meta/latest)。");
+        process.exit(1);
+      }
+      console.log(`[Hot] 熱門榜 ${meta.lastDateId}，共 ${hotCodes.length} 檔`);
+      hotCodes.forEach((c) => codes.add(c));
     }
-    console.log(`[Hot] 熱門榜 ${meta.lastDateId}，共 ${hotCodes.size} 檔`);
-    targets = targets.filter((t) => hotCodes.has(t.code));
+
+    if (isWatchlist) {
+      // 我的追蹤 = category 非空的主文件（與前端 useWatchlist 同條件）
+      const watchSnap = await db
+        .collection("cb_history")
+        .where("category", "!=", "")
+        .get();
+      console.log(`[Watchlist] 追蹤清單共 ${watchSnap.size} 檔`);
+      watchSnap.docs.forEach((d) => codes.add(d.id));
+    }
+
+    targets = targets.filter((t) => codes.has(t.code));
   } else if (isAll) {
     // targets is already the full list
   } else {
@@ -414,9 +457,12 @@ async function syncToFirestore(cbCode, data) {
           `✅ [Local] Saved ${finalSorted.length} records (+${history.length} new)`,
         );
 
+        const daily = buildDaily(finalSorted, target.conversionPrice);
+        console.log(`    [Daily] ${JSON.stringify(daily)}`);
+
         // 雲端同步
         if (isSync) {
-          await syncToFirestore(target.code, history); // Sync ONLY the new fetched data to save writes? Or full?
+          await syncToFirestore(target.code, history, daily); // Sync ONLY the new fetched data to save writes? Or full?
           // Syncing full `finalSorted` ensures consistency but costs rights.
           // Syncing `history` ensures we write what we fetched (which updates gaps).
           // fetchHistoryData returns what it found. Let's sync what we fetched.

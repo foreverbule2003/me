@@ -24,6 +24,6 @@ jobs:
         run: npm install
 
       - name: Execute CB History Sync & Generate JSON
-        run: node tools/fetch-cb-history.js --hot --smart --sync
+        run: node tools/fetch-cb-history.js --hot --watchlist --smart --sync
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}

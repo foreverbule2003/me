@@ -15,6 +15,12 @@ async function initBrowser() {
   });
 }
 
+// "1,234.50" / "+1.50" / "X0.00"(除權息) / "" -> number 或 null
+function parseNum(str) {
+  const n = parseFloat(String(str ?? "").replace(/[^0-9.\-]/g, ""));
+  return isNaN(n) ? null : n;
+}
+
 /**
  * 抓取指定月份的數據
  * @param {Object} page Puppeteer Page object
@@ -65,22 +71,22 @@ async function fetchStockDayRaw(page, yyyymmdd, stockCode) {
     if (json && json.stat === "OK") return { source: "TWSE", data: json.data };
   } catch (e) {}
 
-  // Fallback: TPEx
-  const ry = parseInt(yyyymmdd.substring(0, 4)) - 1911;
-  const rm = yyyymmdd.substring(4, 6);
-  const tpexUrl = `https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43_result.php?d=${ry}/${rm}&stkno=${stockCode}&json=1`;
-
-  await page.setExtraHTTPHeaders({
-    Referer:
-      "https://www.tpex.org.tw/web/stock/aftertrading/daily_trading_info/st43.php?l=zh-tw",
-  });
-  await page.goto(tpexUrl, { waitUntil: "networkidle0" });
-  const tpexText = await page.evaluate(() => document.body.innerText);
+  // Fallback: TPEx 上櫃個股日成交（舊的 st43_result.php 已 404）
+  // 直接用 Node fetch，避免從 twse.com.tw 頁面跨網域被 CORS 擋
+  let tpexJson = null;
   try {
-    const tpexJson = JSON.parse(tpexText);
-    if (tpexJson && tpexJson.aaData)
-      return { source: "TPEx", data: tpexJson.aaData };
+    const resp = await fetch(
+      "https://www.tpex.org.tw/www/zh-tw/afterTrading/tradingStock",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `code=${stockCode}&date=${yyyymmdd.substring(0, 4)}/${yyyymmdd.substring(4, 6)}/01&id=&response=json`,
+      },
+    );
+    tpexJson = await resp.json();
   } catch (e) {}
+  const tpexRows = tpexJson?.tables?.[0]?.data;
+  if (tpexRows && tpexRows.length) return { source: "TPEx", data: tpexRows };
 
   return null;
 }
@@ -108,8 +114,30 @@ async function fetchHistoryData(cbCode, stockCode, convPrice, months) {
       const year = parseInt(ry) + 1911;
       const dateParam = `${year}/${rm}/01`;
 
-      const json = await fetchMonthRaw(page, dateParam, cbCode);
-      let rows = json.aaData || (json.tables && json.tables[0]?.data) || [];
+      // TPEx 連續請求偶爾回錯誤頁，最多重試 2 次
+      let json = null;
+      for (let attempt = 0; attempt < 3; attempt++) {
+        json = await fetchMonthRaw(page, dateParam, cbCode);
+        if (!json.error && (json.aaData || json.tables)) break;
+        await new Promise((r) => setTimeout(r, 3000 * (attempt + 1)));
+      }
+      if (json.error || !(json.aaData || json.tables)) {
+        console.warn(
+          `⚠️ [CB] ${cbCode} ${dateParam} 抓取失敗: ${json.msg || json.stat || "no data"}`,
+        );
+      }
+      const table = json.tables && json.tables[0];
+      let rows = json.aaData || table?.data || [];
+      // 欄位: 日期,交易模式,收市價,漲跌,開市價,最高價,最低價,成交筆數,單位,成交金額(元),平均價
+      // 每天有「等價」(盤中撮合) 與「議價」兩列，只取等價；舊格式沒有交易模式欄就照舊位置
+      const fields = table?.fields || [];
+      const col = (name, fallback) =>
+        fields.indexOf(name) >= 0 ? fields.indexOf(name) : fallback;
+      const iMode = fields.indexOf("交易模式");
+      const iClose = col("收市價", 6);
+      const iChange = col("漲跌", -1);
+      const iUnits = col("單位", -1);
+      if (iMode >= 0) rows = rows.filter((row) => row[iMode] === "等價");
 
       rows.forEach((row) => {
         const dStr = row[0];
@@ -120,11 +148,20 @@ async function fetchHistoryData(cbCode, stockCode, convPrice, months) {
         } else if (dStr.length === 7) {
           dateStr = `${parseInt(dStr.substring(0, 3)) + 1911}-${dStr.substring(3, 5)}-${dStr.substring(5, 7)}`;
         }
-        const close = parseFloat(row[6]?.replace(/,/g, ""));
-        if (!isNaN(close) && dateStr) {
+        if (!dateStr) return;
+        const close = parseNum(row[iClose]);
+        if (close !== null) {
           if (!historyMap.has(dateStr))
             historyMap.set(dateStr, { date: dateStr });
-          historyMap.get(dateStr).cbPrice = close;
+          const item = historyMap.get(dateStr);
+          item.cbPrice = close;
+          if (iChange >= 0) item.cbChange = parseNum(row[iChange]);
+          if (iUnits >= 0) item.cbVolume = parseNum(row[iUnits]) ?? 0;
+        } else if (iMode >= 0) {
+          // 等價列在但沒收市價 = 當天沒成交
+          if (!historyMap.has(dateStr))
+            historyMap.set(dateStr, { date: dateStr });
+          historyMap.get(dateStr).cbVolume = 0;
         }
       });
       await new Promise((r) => setTimeout(r, 1000));
@@ -141,15 +178,13 @@ async function fetchHistoryData(cbCode, stockCode, convPrice, months) {
         result.data.forEach((row) => {
           const [dy, dm, dd] = row[0].split("/");
           const dateStr = `${parseInt(dy) + 1911}-${dm.padStart(2, "0")}-${dd.padStart(2, "0")}`;
-          const close = parseFloat(row[6].replace(/,/g, ""));
-          if (historyMap.has(dateStr)) {
-            historyMap.get(dateStr).stockPrice = close;
-          } else {
-            // Even if we don't have CB price for this date, we might want to store stock price?
-            // Normally we only care if both exist for premium.
-            // But for sync consistency, let's just keep track.
-            historyMap.set(dateStr, { date: dateStr, stockPrice: close });
-          }
+          const close = parseNum(row[6]);
+          if (close === null) return;
+          if (!historyMap.has(dateStr))
+            historyMap.set(dateStr, { date: dateStr });
+          const item = historyMap.get(dateStr);
+          item.stockPrice = close;
+          item.stockChange = parseNum(row[7]);
         });
       }
       await new Promise((r) => setTimeout(r, 1000));

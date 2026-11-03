@@ -1,7 +1,7 @@
 # CB 爬蟲資料流架構 (CB Crawler Data Flow Architecture)
 
 > **最後更新日期**: 2026-11-03
-> **狀態**: Production Ready (V1.9 — 停用 XQ DDE 軌，改為每週 thefew 同步；歷史同步只跑熱門 Top 20)
+> **狀態**: Production Ready (V2.0 — 歷史同步改跑熱門 Top 20 + 我的追蹤，主文件新增 `daily` 當日欄位)
 
 本文件詳細記錄了「可轉債 (CB) 戰情室」與「計算機」背後的自動化資料流架構。此系統採用 **雙軌並行 (Dual Track)** 策略，確保熱門數據的即時性，同時維持全市場搜索的完整性。
 
@@ -42,14 +42,38 @@
 | Workflow | 排程 (UTC+8) | 執行內容 |
 | --- | --- | --- |
 | `daily-hot-cb.yml` | 週一至五 13:40（收盤後） | `node tools/fetch-hot-cb.js --cloud` 抓熱門清單上雲 |
-| `daily-cb-history.yml` | 週一至五 14:15（行情更新後） | `node tools/fetch-cb-history.js --hot --smart --sync` 只補**最新熱門榜 Top 20** 的歷史資料 |
+| `daily-cb-history.yml` | 週一至五 14:15（行情更新後） | `node tools/fetch-cb-history.js --hot --watchlist --smart --sync` 補**熱門榜 Top 20 + 我的追蹤**的歷史資料，並寫入主文件 `daily` |
 
 - **`--hot`**：目標清單取自 `hot_cb_meta/latest` 指向的 `hot_cb_snapshots/{日期}`，不再每天跑全部 CB（2026-11-03 起，原本是 `--all`）。
+- **`--watchlist`**：再併入「我的追蹤」＝ `cb_history` 中 `category` 非空的主文件（與前端 `useWatchlist` 同條件），兩者取聯集。單獨使用、不加 `--sync` 時可當本機 dry-run：`node tools/fetch-cb-history.js --watchlist 2026-11-01` 只抓 11 月起、印出每檔的 `daily`。
+- **資料來源**：CB 取 TPEx `cbDayQry` 的「等價」列（收市價、漲跌、單位）；現股先試 TWSE `STOCK_DAY`，查無再改 TPEx `afterTrading/tradingStock`（舊的 `st43_result.php` 已 404）。皆為免登入公開資料。
 - **抓取起點**：本地無檔時先讀雲端 `cb_history/{code}` 主文件的 `lastRecordDate`，從那一筆的當月抓起；雲端也沒有這檔（且沒在指令列指名）就整檔跳過。
 - **寫入範圍**：只寫 `date >= lastRecordDate` 的 records，舊日期不重寫，省 Firestore 寫入次數；寫完回填主文件的 `lastRecordDate`。
 - **舊資料相容**：主文件還沒有 `lastRecordDate` 時，改查 `records` 依 `date` 降冪取一筆，只多一次讀取。
 
-兩者皆支援 `workflow_dispatch` 手動補跑。健康檢查：`gh run list --workflow=daily-hot-cb.yml --limit 5`。
+兩者皆支援 `workflow_dispatch` 手動補跑。
+
+#### 主文件 `daily` 欄位（前端「我的追蹤」直接讀）
+
+每次同步一檔時，用抓到的最新一筆 record 組出 `cb_history/{code}.daily`，與 `lastRecordDate` 同一次寫入，不多花寫入次數。
+
+| 欄位 | 型別 | 說明 |
+| --- | --- | --- |
+| `date` | string `YYYY-MM-DD` | 資料所屬交易日 |
+| `cbClose` | number \| null | CB 收市價（等價）；當天沒成交為 `null` |
+| `cbChange` | number \| null | CB 漲跌（元），來源直接給的值 |
+| `cbVolume` | number \| null | CB 成交張數（等價「單位」）；`0` = 沒成交；`null` = 抓不到當天 CB 資料 |
+| `traded` | boolean \| null | `cbVolume > 0`；`null` = 不確定 |
+| `stockClose` | number \| null | 現股收盤價 |
+| `stockChange` | number \| null | 現股漲跌（元）；除權息日來源為 `X0.00`，存成 `0` |
+| `conversionPrice` | number \| null | 計算溢價率用的轉換價（取自主文件，每週 thefew 同步） |
+| `premium` | number \| null | 轉換溢價率 %，`(cbClose − 100/轉換價 × stockClose) ÷ 平價 × 100`，小數兩位；任一值缺就是 `null` |
+| `updatedAt` | string ISO 8601 | 寫入時間 |
+
+- 漲跌幅 % 由前端算：`cbChange ÷ (cbClose − cbChange)`。
+- 沒成交時 `cbClose`、`premium` 為 `null`，前端要顯示「未成交」，參考價可用主文件 `price`（每週 thefew）。
+- 主文件原有的 `price`、`stockPrice`、`priceDate` 仍只由每週 thefew 同步寫入，`daily` 不動它們。
+- `records/{date}` 也新增 `cbChange`、`cbVolume`、`stockChange` 欄位。2026-11-03 前的 `cbPrice` 誤取「最低價」欄，之後才是收市價。健康檢查：`gh run list --workflow=daily-hot-cb.yml --limit 5`。
 
 ### 🗓️ 軌道二：每週 thefew 同步（Claude 排程任務，週一 09:00）
 
@@ -73,7 +97,7 @@
 graph TD
     %% 雲端軌 (GitHub Actions, 每交易日)
     GHA[GitHub Actions ubuntu] -->|13:40 fetch-hot-cb --cloud| Firestore
-    GHA -->|14:15 fetch-cb-history --hot --sync| Firestore
+    GHA -->|14:15 fetch-cb-history --hot --watchlist --sync| Firestore
 
     %% 每週軌 (Claude 排程任務)
     Task[Claude 排程任務 週一 09:00] -->|Chrome 已登入| Thefew[thefew.tw/cb]

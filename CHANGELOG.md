@@ -4,6 +4,21 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.9.0] - 2026-11-03 (CB 每日同步納入「我的追蹤」，主文件新增 `daily` 當日欄位)
+
+### 新增 (Added) 🚀
+
+- **每日同步納入追蹤標的**: `daily-cb-history.yml` 加上 `--watchlist`，收盤後除了熱門 Top 20，也抓 `cb_history` 中 `category` 非空的標的。
+- **主文件 `daily` 欄位**: 每檔寫入當日 CB 收市價、漲跌、成交張數、是否成交、現股收盤與漲跌、轉換價與溢價率，與 `lastRecordDate` 同一次寫入。欄位規格見 `docs/CB_DATA_FLOW.md`。
+
+### 修正 (Fixed) 🐛
+
+- **上櫃現股價格抓不到**: TPEx 舊網址 `st43_result.php` 已 404，改用 `afterTrading/tradingStock`。
+- **CB 收盤價取錯欄**: 原本存成當天最低價，改取收市價。11/03 之前的歷史紀錄未回補。
+- **TPEx 連續查詢偶發失敗**: 加上重試。
+
+---
+
 ## [2.8.1] - 2026-11-03 (/commit 流程：文件同步與壞味道改腳本檢查、確認點集中)
 
 ### 新增 (Added) 🚀
