@@ -1,0 +1,298 @@
+/*
+ * CB 戰情室 —— Ventogrid 草稿
+ * 來源：second-brain/tools/assets/ui-room/styles/vento.css
+ * 大小不一的圓角磚塊拼成一整盒，每塊只放一件事。
+ * 顏色只表達資料狀態：紅漲綠跌（數字）、折價萊姆／接近平價長春花（卡片底色）、
+ * 今天沒成交（變淡）。分類、標題、輸入區都不上色。
+ * 全部掛在 App 最外層的 .vento 底下，拿掉這個 class（或這支檔案）就回到原樣式。
+ * 做法跟深色主題一樣：改寫 Tailwind v4 的 --color-* 變數，元件 class 不用逐一改。
+ */
+
+.vento {
+  --vg-bg: #f2f2f0;
+  --vg-ink: #1c1c1e;
+  --vg-tile: #ffffff;
+  --vg-tile-sh: rgba(0, 0, 0, 0.06);
+  --vg-hero: #1c1c1e;
+  --vg-hero-ink: #ffffff;
+  --vg-hero-kick: #8e8e93;
+  --vg-kick: #8e8e93;
+  --vg-lime: #d9f99d;
+  --vg-lime-ink: #1c1c1e;
+  --vg-peri: #c7d2fe;
+  --vg-peri-ink: #1c1c1e;
+  --vg-bar: #e5e5ea;
+  --vg-accent: #ff6b35;
+  --vg-ghost: #f2f2f0;
+  /* 台股慣例：紅漲綠跌 */
+  --vg-up: #e5484d;
+  --vg-up-soft: #fde2e2;
+  --vg-down: #16a34a;
+  --vg-down-soft: #dcfce7;
+
+  /* Tailwind 色票 → Ventogrid */
+  --color-white: var(--vg-tile);
+  --color-slate-50: var(--vg-ghost);
+  --color-slate-100: #e9e9ec;
+  --color-slate-200: #e5e5ea;
+  --color-slate-300: #c7c7cc;
+  --color-slate-400: #8e8e93;
+  --color-slate-500: #6e6e73;
+  --color-slate-600: #48484a;
+  --color-slate-700: #2c2c2e;
+  --color-slate-800: var(--vg-ink);
+  --color-slate-900: var(--vg-ink);
+  /* indigo 原本是選取／強調色：改成中性，萊姆與長春花只留給折溢價 */
+  --color-indigo-50: var(--vg-ghost);
+  --color-indigo-100: #e5e5ea;
+  --color-indigo-200: #d1d1d6;
+  --color-indigo-300: transparent;
+  --color-indigo-400: var(--vg-ink);
+  --color-indigo-500: var(--vg-ink);
+  --color-indigo-600: var(--vg-ink);
+  --color-indigo-700: var(--vg-ink);
+  --color-red-500: var(--vg-up);
+  --color-green-600: var(--vg-down);
+  --color-green-500: var(--vg-down);
+
+  background: var(--vg-bg);
+  color: var(--vg-ink);
+  font-family: "Inter Tight", "Inter", system-ui, sans-serif;
+}
+
+html.dark .vento {
+  --vg-bg: #0e0e10;
+  --vg-ink: #f2f2f4;
+  --vg-tile: #1c1c20;
+  --vg-tile-sh: rgba(0, 0, 0, 0.5);
+  --vg-hero: #d9f99d;
+  --vg-hero-ink: #0e0e10;
+  --vg-hero-kick: #4d6b1f;
+  --vg-lime: #bef264;
+  --vg-lime-ink: #0e0e10;
+  --vg-peri: #a5b4fc;
+  --vg-bar: #2e2e34;
+  --vg-ghost: #2e2e34;
+  --vg-up: #ff6b6b;
+  --vg-up-soft: #3a1a1c;
+  --vg-down: #4ade80;
+  --vg-down-soft: #10301c;
+
+  --color-slate-100: #2a2a30;
+  --color-slate-200: #2e2e34;
+  --color-slate-300: #48484f;
+  --color-slate-400: #8e8e93;
+  --color-slate-500: #a1a1a6;
+  --color-slate-600: #c7c7cc;
+  --color-slate-700: #e5e5ea;
+  --color-indigo-50: #2a2a30;
+  --color-indigo-100: #3a3a42;
+  --color-indigo-200: #48484f;
+}
+
+/* ---------- 磚塊 ---------- */
+.vento .premium-card {
+  background: var(--vg-tile);
+  border: 0;
+  border-radius: 22px;
+  box-shadow: 0 1px 2px var(--vg-tile-sh);
+}
+html.dark .vento .premium-card {
+  background: var(--vg-tile);
+  border: 0;
+}
+
+/* 分頁：膠囊切換 */
+.vento .vg-tabs {
+  display: inline-flex;
+  gap: 4px;
+  padding: 4px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--vg-tile);
+  box-shadow: 0 1px 2px var(--vg-tile-sh);
+}
+.vento .vg-tabs > button {
+  border: 0;
+  border-radius: 999px;
+  padding: 8px 16px;
+}
+.vento .vg-tabs > button.is-active {
+  background: var(--vg-ink);
+  color: var(--vg-tile);
+}
+
+/* 篩選與分類膠囊 */
+.vento .vg-chips button,
+.vento .vg-chips input {
+  border-radius: 999px;
+}
+.vento .vg-chips .bg-slate-700.text-white,
+html.dark .vento .vg-chips .bg-slate-700.text-white {
+  background: var(--vg-ink);
+  color: var(--vg-tile);
+  border-color: var(--vg-ink);
+}
+
+/* ---------- 表格 ---------- */
+.vento table thead {
+  background: transparent;
+  border-bottom-color: var(--vg-bar);
+}
+.vento .table-row-hover:hover {
+  background-color: var(--vg-ghost);
+}
+/* 排名只用深淺區分前三名，不另外配色 */
+.vento .rank-dot {
+  border-radius: 999px;
+  background: var(--vg-ghost);
+  color: var(--vg-kick);
+  border: 0;
+}
+.vento .rank-dot.top-1,
+.vento .rank-dot.top-2,
+.vento .rank-dot.top-3 {
+  background: var(--vg-ink);
+  color: var(--vg-tile);
+  border: 0;
+}
+/* 漲跌停：實心膠囊 */
+.vento .bg-red-500.text-white,
+.vento .bg-green-500.text-white {
+  border-radius: 999px;
+  padding: 0 8px;
+  box-shadow: none;
+}
+
+/* ---------- 分析抽屜 ---------- */
+.vento .bg-slate-900\/40 {
+  background-color: rgba(0, 0, 0, 0.35);
+}
+html.dark .vento .bg-slate-900\/40 {
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+/* ---------- 資料狀態 ---------- */
+/* 折溢價：卡片底色。溢價維持白底 */
+.vento .wc-discount {
+  --state-bg: var(--vg-lime);
+  --state-ink: var(--vg-lime-ink);
+}
+.vento .wc-near {
+  --state-bg: var(--vg-peri);
+  --state-ink: var(--vg-peri-ink);
+}
+/* 今天沒成交：變淡 */
+.vento .is-idle {
+  opacity: 0.45;
+}
+
+/* 狀態數字磚 */
+.vento .stat-tile .stat-num {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-top: 4px;
+  color: var(--vg-ink);
+}
+.vento .stat-tile.st-discount .stat-num::before,
+.vento .stat-tile.st-near .stat-num::before {
+  content: "";
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+.vento .stat-tile.st-discount .stat-num::before {
+  background: var(--vg-lime);
+}
+.vento .stat-tile.st-near .stat-num::before {
+  background: var(--vg-peri);
+}
+.vento .stat-tile.is-active {
+  box-shadow: 0 0 0 2px var(--vg-ink);
+}
+
+/* 分組：不上色的淺底容器 */
+.vento .group-tile {
+  background: color-mix(in srgb, var(--vg-tile) 55%, transparent);
+  box-shadow: inset 0 0 0 1px var(--vg-bar);
+}
+.vento .group-tile.is-drop {
+  box-shadow: inset 0 0 0 2px var(--vg-ink);
+}
+
+/* 標的卡片 */
+.vento .watch-card {
+  background: var(--state-bg, var(--vg-tile));
+  color: var(--state-ink, var(--vg-ink));
+  box-shadow: 0 1px 2px var(--vg-tile-sh);
+}
+.vento .watch-card:hover {
+  box-shadow: 0 0 0 2px var(--vg-ink);
+}
+.vento .watch-card.wc-discount,
+.vento .watch-card.wc-near {
+  --color-slate-300: rgba(28, 28, 30, 0.35);
+  --color-slate-400: rgba(28, 28, 30, 0.55);
+  --color-slate-500: rgba(28, 28, 30, 0.65);
+  --color-slate-700: #1c1c1e;
+}
+/* 卡片上的漲跌：有底色時用深一階的紅綠，維持對比 */
+.vento .watch-card.wc-discount,
+.vento .watch-card.wc-near {
+  --color-red-500: #c8102e;
+  --color-green-600: #0f7a35;
+}
+.vento .premium-num {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.vento .premium-pill {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-weight: 700;
+  background: var(--state-bg, transparent);
+  color: var(--state-ink, inherit);
+}
+
+/* 價格區間：中性文字小標 */
+.vento .band-tag {
+  flex: none;
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: currentColor;
+  box-shadow: inset 0 0 0 1px currentColor;
+  opacity: 0.75;
+}
+.vento .band-input {
+  width: 64px;
+  padding: 4px 8px;
+  border-radius: 10px;
+  background: var(--vg-tile);
+  color: var(--vg-ink);
+  box-shadow: inset 0 0 0 1px var(--vg-bar);
+  outline: none;
+}
+
+/* 檢視切換：小一號的膠囊 */
+.vento .vg-tabs.seg > button {
+  padding: 6px 12px;
+}
+
+/* 實心主按鈕（加入追蹤、登入）：indigo 改成墨色後，文字跟著反白 */
+.vento .bg-indigo-600.text-white {
+  background: var(--vg-ink);
+  color: var(--vg-tile);
+  box-shadow: none;
+}

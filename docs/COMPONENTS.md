@@ -28,6 +28,18 @@
 
 ---
 
+## 通用 UI 元件 (src/components/)
+
+### ThemeToggle（深色／淺色切換）
+
+- 檔案：`src/components/ThemeToggle.jsx`，狀態由 `src/hooks/useTheme.js` 管理
+- 選擇存在 `localStorage` 的 `theme`；沒選過就跟系統 `prefers-color-scheme`
+- 切換 `<html class="dark">`；Tailwind 的 `dark:` 已在 `src/index.css` 以 `@custom-variant` 接到這個 class
+- 接到新頁面：放 `<ThemeToggle />`（可傳 `className` 配合頁面按鈕樣式），並在該頁 html 的 `<head>` 複製 `tools/cb-war-room.html` 那段 inline script，避免載入時閃白
+- 目前使用：CB 戰情室
+
+---
+
 ## 核心邏輯元件 (Core Logic & Services) ✨ NEW
 
 位於 `src/lib/`，採用 ESM 模組設計，實現 100% 邏輯與 UI 解耦。

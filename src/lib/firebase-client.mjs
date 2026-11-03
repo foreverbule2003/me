@@ -17,6 +17,7 @@ import {
   setDoc,
   writeBatch,
   deleteDoc,
+  deleteField,
   onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import {
@@ -75,6 +76,7 @@ export {
   setDoc,
   writeBatch,
   deleteDoc,
+  deleteField,
   onSnapshot,
   // Auth Functions
   onAuthStateChanged,

@@ -8,7 +8,8 @@ import {
   doc,
   getDoc,
   setDoc,
-  deleteDoc,
+  writeBatch,
+  deleteField,
   serverTimestamp,
 } from "../../../../lib/firebase-client.mjs";
 
@@ -66,14 +67,48 @@ export const useWatchlist = (user) => {
     [user],
   );
 
-  const removeCB = useCallback(
-    async (id) => {
-      if (!user || !id) return;
-      if (!confirm(`確定要取消追蹤 ${id} 嗎?`)) return;
-      await deleteDoc(doc(db, "cb_history", id));
+  // 拖拉換群組：只改 category，不動 addedAt
+  const moveCB = useCallback(
+    async (id, category) => {
+      if (!user || !id || !category) return;
+      await setDoc(doc(db, "cb_history", id), { category }, { merge: true });
     },
     [user],
   );
 
-  return { watchlist, loading, addCB, removeCB };
+  // 改分類名稱：把該分類下所有標的一次改到新名稱（新名稱已存在則併入）
+  const renameCategory = useCallback(
+    async (from, to) => {
+      const next = to.trim();
+      if (!user || !from || !next || next === from) return;
+      const batch = writeBatch(db);
+      watchlist
+        .filter((i) => i.category === from)
+        .forEach((i) =>
+          batch.set(
+            doc(db, "cb_history", i.id),
+            { category: next },
+            { merge: true },
+          ),
+        );
+      await batch.commit();
+    },
+    [user, watchlist],
+  );
+
+  const removeCB = useCallback(
+    async (id) => {
+      if (!user || !id) return;
+      if (!confirm(`確定要取消追蹤 ${id} 嗎?`)) return;
+      // 只清掉分類就會離開追蹤清單；主文件的轉換價、價格與歷史資料都保留
+      await setDoc(
+        doc(db, "cb_history", id),
+        { category: deleteField() },
+        { merge: true },
+      );
+    },
+    [user],
+  );
+
+  return { watchlist, loading, addCB, moveCB, renameCategory, removeCB };
 };

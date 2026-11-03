@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* 深色主題由 <html class="dark"> 控制（見 src/hooks/useTheme.js） */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* 
   Mobile-First Touch Optimization 
   Prevent grey tap highlight on iOS and provide custom active states 

@@ -236,7 +236,8 @@ timboy/
 | **溢價率圖表**   | 視覺化溢價率走勢，支援 1M/3M/All 區間切換                 |
 | **智慧日期選取** | 具備跳過假日/週末邏輯的 `DateNavigator` 經典樣式          |
 | **個股分析抽屜** | 整合計算機、溢價走勢與 metadata 救援機制 (AnalysisDrawer) |
-| **我的追蹤**     | 支援 Pin 頂、分頁管理與 Firebase 雲端同步                 |
+| **我的追蹤**     | 狀態數字磚（折價／接近平價／沒成交）、溢價率為主的卡片、分組與可排序表格切換、自訂 CB 價格區間；分類可改名、可直接新增，拖到其他群組即更換分類；Firebase 雲端同步 |
+| **深色主題**     | 右上角切換，預設跟系統（共用元件 `ThemeToggle`） |
 | **資料品質**     | 具備對 Firestore `updatedAt` 的強健解析與容錯處理         |
 
 #### 4.4 CB 可轉債計算機 (cb-calculator.html) (Legacy Maintenance)

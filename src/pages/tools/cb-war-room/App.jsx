@@ -6,10 +6,16 @@ import MarketPulse from "./components/MarketPulse";
 import AnalysisDrawer from "./components/AnalysisDrawer";
 import DateNavigator from "./components/DateNavigator";
 import Watchlist from "./components/Watchlist";
+import ThemeToggle from "../../../components/ThemeToggle";
+import { isMockMode, MOCK_USER, useMockWatchlist } from "./mock";
+
+const MOCK = isMockMode();
 
 const App = () => {
   const [activeTab, setActiveTab] = useState("pulse");
-  const { user, login } = useAuth();
+  const auth = useAuth();
+  const user = MOCK ? MOCK_USER : auth.user;
+  const { login } = auth;
   const {
     data: marketData,
     loading: marketLoading,
@@ -21,12 +27,17 @@ const App = () => {
     nextDay,
     refresh,
   } = useMarketPulse();
+  // ?mock 時用假資料；兩個 hook 都要呼叫，才不會違反 hooks 規則
+  const realWatchlist = useWatchlist(MOCK ? null : user);
+  const mockWatchlist = useMockWatchlist();
   const {
     watchlist,
     loading: watchlistLoading,
     addCB,
+    moveCB,
+    renameCategory,
     removeCB,
-  } = useWatchlist(user);
+  } = MOCK ? mockWatchlist : realWatchlist;
 
   const [selectedCode, setSelectedCode] = useState(null);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -44,7 +55,7 @@ const App = () => {
   }, [selectedCode, marketData, watchlist]);
 
   return (
-    <div className="min-h-screen bg-slate-50 font-sans text-slate-900">
+    <div className="vento min-h-screen bg-slate-50 font-sans text-slate-900">
       {/* Top Banner / Progress Indicator */}
       <div className="fixed top-0 left-0 w-full h-[2px] z-50 bg-slate-100 overflow-hidden">
         <div
@@ -74,11 +85,12 @@ const App = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <button
               onClick={login}
               className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-100 transition-all"
             >
-              {user ? (
+              {user?.photoURL ? (
                 <img
                   src={user.photoURL}
                   className="w-6 h-6 rounded-full"
@@ -134,16 +146,16 @@ const App = () => {
         </section>
 
         {/* Tab Navigation */}
-        <nav className="flex items-center gap-6 border-b border-slate-200 mb-6">
+        <nav className="vg-tabs flex items-center gap-6 border-b border-slate-200 mb-6">
           <button
             onClick={() => setActiveTab("pulse")}
-            className={`flex items-center gap-2 py-3 px-1 text-sm font-semibold border-b-2 transition-all ${activeTab === "pulse" ? "text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`flex items-center gap-2 py-3 px-1 text-sm font-semibold border-b-2 transition-all ${activeTab === "pulse" ? "is-active text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
           >
             <i className="fas fa-chart-line"></i> 市場熱門
           </button>
           <button
             onClick={() => setActiveTab("watchlist")}
-            className={`flex items-center gap-2 py-3 px-1 text-sm font-semibold border-b-2 transition-all ${activeTab === "watchlist" ? "text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
+            className={`flex items-center gap-2 py-3 px-1 text-sm font-semibold border-b-2 transition-all ${activeTab === "watchlist" ? "is-active text-indigo-600 border-indigo-600" : "text-slate-400 border-transparent hover:text-slate-600"}`}
           >
             <i className="fas fa-star"></i> 我的追蹤
           </button>
@@ -160,6 +172,8 @@ const App = () => {
               items={watchlist}
               marketData={marketData}
               onAdd={addCB}
+              onMove={moveCB}
+              onRenameCategory={renameCategory}
               onRemove={removeCB}
               onSelectCode={handleSelectCode}
             />
