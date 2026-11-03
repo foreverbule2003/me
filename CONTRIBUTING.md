@@ -56,7 +56,7 @@ npm run new-trip
 - **測試**：在推送前執行 `npm test` 確保沒有破壞現有功能。
 - **提交流程**：走 `/commit`（正本在 `.claude/commands/commit.md`，共 0–10 步）。它會強制跑 `npm run guard` 與 `npm test` 綠燈、檢查文件同步、掃本次 diff 的壞味道、刷新記憶備份，最後停下來等你確認才提交。`.agent/workflows/commit.md` 是已停用的舊版，只留指路。
 - **本機跑起來看**：走 `/dev`（`.claude/commands/dev.md`），用 `.claude/launch.json` 的 `vite-dev` 起 server，在內建瀏覽器點過、截圖、看 console。本機（localhost）不註冊 Service Worker，之前註冊過的會自動解除並清快取，避免拿到舊的程式檔而畫面空白。
-- **寫檔會被掃 AI 自造詞**：`.claude/hooks/check-ai-coinage.mjs` 在 Write/Edit 寫進 `docs/`、`knowledge/`、`teaching/`、`tasks/`、`trips/`、`.claude/commands/`、`.agent/` 與根目錄四份 `.md` 時當場攔。要增刪詞彙，同步改那支腳本的 `COINAGE` 與 `/commit` 步驟 6 表格第 1 格。
+- **寫檔會被掃 AI 自造詞**：`.claude/hooks/check-ai-coinage.mjs` 在 Write/Edit 寫進 `docs/`、`knowledge/`、`teaching/`、`tasks/`、`trips/`、`.claude/commands/`、`.agent/` 與根目錄四份 `.md` 時當場攔。要增刪詞彙只改 `.claude/hooks/coinage-list.mjs`（寫檔時的 hook 與 `/commit` 步驟 6 的 `scripts/check-smells.mjs` 都讀這份；2026-11-03 起取代原本「同步改腳本與步驟 6 表格」兩處的做法）。
 
 ## 🎨 風格指南
 

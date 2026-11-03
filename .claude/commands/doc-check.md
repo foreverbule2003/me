@@ -1,10 +1,10 @@
 ---
 description: 提交前檢查文件是否需要同步更新
 argument-hint: [選填：指定檢查範圍]
-allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*)
+allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(node scripts/check-doc-sync.mjs:*)
 ---
 
-檢視目前工作區變更（`git status` + `git diff`），逐項確認以下文件是否需要因應變更而更新。有缺漏就直接補上，並回報「已更新／不需更新」的逐項結論。
+先跑 `node scripts/check-doc-sync.mjs`，照它列的沒過的配對補文件。下面的清單是它判不了的部分：檢視目前工作區變更（`git status` + `git diff`），逐項確認以下文件是否需要因應變更而更新。有缺漏就直接補上，並回報「已更新／不需更新」的逐項結論。
 
 ## 📋 文件檢查清單
 

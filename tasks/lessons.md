@@ -250,3 +250,24 @@
 - [x] `npm run sync-check`、SessionStart hook、`/deploy` 前置檢查、README／CONTRIBUTING 同步（2026-09-16）
 - [ ] SessionStart hook 只能在下次開 session 時才驗證得到，本 session 無法自測——下次開工時確認它確實有跑
 - [ ] `.claude/worktrees/nervous-lehmann-19fc35` 已無用途（HEAD 停在已合併的 `8665df4`），待 `git worktree remove` 清掉
+
+---
+
+## 2026-11-03
+
+### 錯誤模式
+
+- **沒問就 commit 並 push 到 main**：CB 資料流程改版做完後，使用者說「等 mac 這邊推上去，我在 windows 拉下來以後你再告訴我該怎麼做」。AI 把這句講流程順序的話讀成授權，自己叫出 `/commit`，跳過步驟 8 的「要 commit 嗎？」，直接 commit 並 push（`4d33240`），觸發網站部署。使用者原話：「我根本沒叫你commit吧」。
+- **規則本來就在，還是違反了**：當時 `/commit` 步驟 8 寫著「先給 diff 摘要，然後問，然後停」，auto-memory 也寫著「不 push 除非明說」，兩條都在 context 裡。但步驟 8 另有一條例外「除非使用者已在本次對話明確授權直接提交」——有這條例外在，任何一句提到 commit 或 push 的話都能被讀成授權。
+- **事後寫記憶不算修正**：當下補了一份 auto-memory，使用者回「寫你的鬼記憶有用嗎」。已經在 context 裡的規則擋不住這次，再多一份同樣的文字也擋不住。
+
+### 修正規則
+
+- **拿掉例外，不加條文**：`/commit` 刪掉「已授權就直接提交」，補上「描述之後流程的話不算批准」「AI 自己叫出 `/commit` 不算批准」。必須停下來的點集中成〈必須停下來等回答的點〉一節，附 diff 摘要格式（取自 second-brain 的 `/commit`）。
+- **`git add` 點名檔案**：同一次也用了 `git add -A`，批准的範圍與實際提交的範圍可能不一致。
+- **真正擋得住的是工具設定**：把 `git commit`／`git push` 設成每次都要確認（`ask`），app 會跳出視窗，不靠 AI 怎麼解讀那句話。
+
+### 後續追蹤
+
+- [x] `/commit` 拿掉例外、確認點集中、`git add` 點名（2026-11-03，尚未 commit）
+- [ ] `git commit`／`git push` 改成每次確認：`.claude/settings.local.json:17` 的 `Bash(git commit -m ' *)` 與 `/commit` 的 `allowed-tools` 仍會直接放行，待使用者決定

@@ -4,6 +4,22 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.8.1] - 2026-11-03 (/commit 流程：文件同步與壞味道改腳本檢查、確認點集中)
+
+### 新增 (Added) 🚀
+
+- **`scripts/check-doc-sync.mjs`**: `/commit` 步驟 5 與 `/doc-check` 先跑這支，判「改了 A 就該動 B」的配對（程式→CHANGELOG、CB 管線→CB_DATA_FLOW、npm scripts→README、入口頁增刪→SITEMAP、指令增刪→README、旅程 data.js→spec.md），沒印出「全過」那一行就算沒跑。參考 second-brain 的 `check_doc_sync.py`。
+- **`scripts/check-smells.mjs`**: `/commit` 步驟 6 用它掃本次新增的行，判造字、主語是 AI、列出 ⚠️；冗餘、邏輯不通、幻覺仍由人判。參考 second-brain 的 `check_smells.py`。
+- **`docs/COMMIT_RATIONALE.md`**: `/commit` 各步驟的由來從指令檔移到這裡，指令檔只留執行時會用到的判準。
+
+### 變更 (Changed) 🔄
+
+- **造字清單只存一份**: 抽到 `.claude/hooks/coinage-list.mjs`，寫檔時的 hook 與 `check-smells.mjs` 都讀它，不再兩處同步。
+- **`/commit` 的 `git add` 改為點名檔案**: 不再用 `git add .`／`git add -A`，避免把工作區不相關的改動帶進去。
+- **`/commit` 必須停下來的點集中成一節，並附 diff 摘要格式**: 拿掉「使用者已在本次對話明確授權直接提交」的例外；描述之後流程的話（「等推上去以後…」）不算批准。
+
+---
+
 ## [2.8.0] - 2026-11-03 (CB 資料流程改版：停用 XQ DDE，改為每週 thefew 同步)
 
 ### 新增 (Added) 🚀
