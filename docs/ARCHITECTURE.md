@@ -143,3 +143,25 @@ GitHub Pages 為純靜態主機，無法運行 Node.js 爬蟲。我们需要一�
 - ✅ **優點**：Git 歷史變乾淨、數據更新與代碼發佈流程解耦、資料即時性提升。
 - ❌ **缺點**：離線時若無緩存則無法載入數據（已透過 LocalStorage 緩解）。
 - ⚠️ **風險**：Firestore 讀取次數增加可能產生微量費用（已透過緩存控制）。
+
+---
+
+## ADR-008: 桌機與手機用不同外殼 (Shell by Viewport)
+
+**狀態**：Accepted
+**日期**：2026-11-03
+
+**背景**：
+GameBoy 直式外殼在桌機寬螢幕上兩側大片留白。桌機想改為橫式掌機，手機維持 GameBoy。
+
+**決策**：
+
+1. **載入前決定外殼**：`index.html` 內嵌腳本依視窗寬（≥ 1024px）與 `localStorage.shell_pref` 寫入 `<html data-shell>`，避免先畫 GameBoy 再換。
+2. **掛載點分開**：橫式時 `src/main.jsx` 移除靜態 GameBoy 外殼，改掛 `#switch-root`。
+3. **view 共用**：About／Trips／Journal／Tools 只有一份，橫式外殼以 `.sw-app` CSS 覆寫配色；頁內 BACK 依 `getShell()` 隱藏。
+4. **跨斷點重新整理**：視窗跨過 1024px 時 reload，不在執行中切換外殼。
+
+**後果**：
+
+- ✅ **優點**：view 不用寫兩份；手機版行為完全不變。
+- ❌ **缺點**：子頁樣式依賴 GameBoy view 的 class 名稱，改 view 的 class 時要一併檢查 `switch-shell.css`。

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getShell } from "../lib/shellMode";
 import {
   db,
   auth,
@@ -210,6 +211,9 @@ const JournalModal = ({ entry, onSave, onClose, mode }) => {
   );
 };
 
+// Landscape shell has B Back on its bottom bar, so the in-page BACK is dropped there
+const inSwitch = getShell() === "switch";
+
 const JournalView = ({ onSetActions, onLoadState }) => {
   const [entries, setEntries] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -404,14 +408,16 @@ const JournalView = ({ onSetActions, onLoadState }) => {
         </div>
 
         {/* Grounded Footer - Simplified */}
-        <div className="px-6 py-2 bg-transparent mt-auto">
-          <div
-            onClick={handleBack}
-            className="menu-item cursor-pointer text-base py-1.5 px-3 border-2 border-[#0f380f] bg-transparent text-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f] transition-colors text-center"
-          >
-            BACK
+        {!inSwitch && (
+          <div className="px-6 py-2 bg-transparent mt-auto">
+            <div
+              onClick={handleBack}
+              className="menu-item cursor-pointer text-base py-1.5 px-3 border-2 border-[#0f380f] bg-transparent text-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f] transition-colors text-center"
+            >
+              BACK
+            </div>
           </div>
-        </div>
+        )}
 
         {isModalOpen && (
           <JournalModal

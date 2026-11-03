@@ -399,6 +399,22 @@ React 封裝的 Game Boy 外殼元件，處理所有外觀與互動邏輯。
 - **音效管理**: 內建 Web Audio API 音效 (開機、點擊、懸停)
 - **電源狀態**: 使用 `sessionStorage` 記憶開機狀態
 
+### 橫式掌機外殼 (SwitchShell，桌機)
+
+**位置**: `src/components/SwitchShell.jsx`、樣式 `src/styles/switch-shell.css`、模式判斷 `src/lib/shellMode.js`
+
+`<html data-shell="switch">` 時（`index.html` 在載入前依視窗寬 ≥ 1024px 與 `localStorage.shell_pref` 決定），`src/main.jsx` 移除靜態 GameBoy 外殼，改掛 `#switch-root`；`App.jsx` 以 `SwitchShell` 包住 headless 的 `GameBoyShell`，鍵盤操作仍由 `GameBoyShell` 處理。
+
+| Prop       | 類型      | 說明                                                          |
+| ---------- | --------- | ------------------------------------------------------------- |
+| `isHome`   | boolean   | 首頁直接鋪滿螢幕；其他頁面包進 `.sw-app`，套系統頁樣式         |
+| `children` | ReactNode | 螢幕內容                                                      |
+
+- **手把按鈕**: 送出與鍵盤相同的 `keydown`（方向鍵、Enter、Backspace）；Home 鍵回首頁。
+- **子頁樣式**: `.sw-app` 以屬性選擇器覆寫 GameBoy 版 view 的 Tailwind 色碼，view 本身不需另寫一份。
+- **捲動**: 鍵盤選取時用 offset 計算把選中列捲進畫面（縮放過的外殼內 `scrollIntoView` 不可靠）；鍵盤操作期間暫停清單的滑鼠 hover，滑鼠一移動就恢復。
+- **共用**: `SwitchTopBar`（頭像、時鐘、Wi‑Fi、電池）供主畫面與子頁共用。
+
 ---
 
 ## Vite 頁面入口點 (src/pages/)
@@ -410,7 +426,7 @@ About / Trips / Tools / Journal 都不是獨立 HTML，而是 hash 路由下的 
 
 | 頁面       | 元件                        | 網址         |
 | ---------- | --------------------------- | ------------ |
-| 首頁       | `src/views/HomeView.jsx`    | `/`          |
+| 首頁       | `src/views/HomeView.jsx`（桌機橫式外殼為 `SwitchHomeView.jsx`） | `/`          |
 | About      | `src/views/AboutView.jsx`   | `/#/about`   |
 | Trips 列表 | `src/views/TripsView.jsx`   | `/#/trips`   |
 | Tools      | `src/views/ToolsView.jsx`   | `/#/tools`   |

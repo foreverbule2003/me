@@ -6,12 +6,23 @@ import {
   useLocation,
 } from "react-router-dom";
 import { GameBoyShell } from "./components/GameBoyShell.jsx";
+import { SwitchShell } from "./components/SwitchShell.jsx";
 import HomeView from "./views/HomeView.jsx";
+import SwitchHomeView from "./views/SwitchHomeView.jsx";
 import AboutView from "./views/AboutView.jsx";
 import TripsView from "./views/TripsView.jsx";
 import JournalView from "./views/JournalView.jsx";
 import ToolsView from "./views/ToolsView.jsx";
 import useSwipe from "./hooks/useSwipe";
+import {
+  getShell,
+  getShellPref,
+  isWideScreen,
+  setShellPref,
+} from "./lib/shellMode";
+
+// Decided once per page load (index.html sets <html data-shell>)
+const isSwitch = getShell() === "switch";
 
 const AppContent = () => {
   const location = useLocation();
@@ -19,6 +30,8 @@ const AppContent = () => {
   const [childActions, setChildActions] = useState({
     onUp: () => {},
     onDown: () => {},
+    onLeft: () => {},
+    onRight: () => {},
     onSelect: () => {},
     onStart: () => {},
     onBack: () => {},
@@ -66,13 +79,18 @@ const AppContent = () => {
     // data is loaded AND minimum time has passed.
   }, []);
 
-  return (
+  const isHome = location.pathname === "/";
+
+  const screen = (
     <GameBoyShell
       activePage={getActivePage()}
       headless={true}
-      isLoading={isLoading}
+      // Switch shell has its own launch transition; skip the green LCD loader
+      isLoading={isLoading && !isSwitch}
       onUp={childActions.onUp}
       onDown={childActions.onDown}
+      onLeft={childActions.onLeft}
+      onRight={childActions.onRight}
       onSelect={childActions.onSelect}
       onStart={childActions.onStart}
       onBack={childActions.onBack}
@@ -80,7 +98,13 @@ const AppContent = () => {
       <Routes>
         <Route
           path="/"
-          element={<HomeView onSetActions={handleSetActions} />}
+          element={
+            isSwitch ? (
+              <SwitchHomeView onSetActions={handleSetActions} />
+            ) : (
+              <HomeView onSetActions={handleSetActions} />
+            )
+          }
         />
         <Route
           path="/about"
@@ -105,6 +129,23 @@ const AppContent = () => {
         />
       </Routes>
     </GameBoyShell>
+  );
+
+  if (isSwitch) return <SwitchShell isHome={isHome}>{screen}</SwitchShell>;
+
+  return (
+    <>
+      {screen}
+      {/* Desktop user who picked classic mode needs a way back */}
+      {isWideScreen() && getShellPref() === "gb" && (
+        <button
+          className="sw-back-to-switch"
+          onClick={() => setShellPref("switch")}
+        >
+          ⇄ SWITCH MODE
+        </button>
+      )}
+    </>
   );
 };
 

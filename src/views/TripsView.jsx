@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getShell } from "../lib/shellMode";
 import avatarImg from "../../assets/images/avatar.jpg";
+
+// Landscape shell has B Back on its bottom bar, so the in-page BACK is dropped there
+const inSwitch = getShell() === "switch";
 
 const TripsView = ({ onSetActions }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -52,8 +56,9 @@ const TripsView = ({ onSetActions }) => {
 
   const handleUp = () =>
     setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
+  const lastIndex = inSwitch ? menuItems.length - 1 : menuItems.length;
   const handleDown = () =>
-    setSelectedIndex((prev) => (prev < menuItems.length ? prev + 1 : prev));
+    setSelectedIndex((prev) => (prev < lastIndex ? prev + 1 : prev));
 
   const handleSelect = () => {
     if (selectedIndex === menuItems.length) {
@@ -118,22 +123,24 @@ const TripsView = ({ onSetActions }) => {
         </div>
 
         {/* Grounded Footer - Simplified */}
-        <div className="px-6 py-2 bg-transparent mt-auto">
-          <div
-            className={`
-              menu-item cursor-pointer text-base py-1.5 px-3 border-2 transition-colors duration-100 text-center
-              ${
-                selectedIndex === menuItems.length
-                  ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
-                  : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
-              }
-            `}
-            onMouseEnter={() => setSelectedIndex(menuItems.length)}
-            onClick={handleBack}
-          >
-            BACK
+        {!inSwitch && (
+          <div className="px-6 py-2 bg-transparent mt-auto">
+            <div
+              className={`
+                menu-item cursor-pointer text-base py-1.5 px-3 border-2 transition-colors duration-100 text-center
+                ${
+                  selectedIndex === menuItems.length
+                    ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
+                    : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
+                }
+              `}
+              onMouseEnter={() => setSelectedIndex(menuItems.length)}
+              onClick={handleBack}
+            >
+              BACK
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );

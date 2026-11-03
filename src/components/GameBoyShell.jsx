@@ -146,6 +146,25 @@ export const GameBoyShell = ({
           onRight && onRight();
           playTone(200, "square", 0.05, 0.05);
           break;
+        case "a": // A / B letter keys match the on-screen buttons (skip while typing)
+        case "A":
+        case "b":
+        case "B":
+          if (
+            e.target.tagName === "INPUT" ||
+            e.target.tagName === "TEXTAREA" ||
+            e.target.isContentEditable
+          ) {
+            break;
+          }
+          if (e.key.toLowerCase() === "a") {
+            onSelect && onSelect();
+            playTone(400, "square", 0.1, 0.1);
+          } else {
+            onBack && onBack();
+            playTone(150, "square", 0.1, 0.1);
+          }
+          break;
         case "Enter": // A Button
         case "z":
         case "Z":

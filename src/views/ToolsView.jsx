@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import avatarImg from "../../assets/images/avatar.jpg";
+import { getShell } from "../lib/shellMode";
+
+// Landscape shell has B Back on its bottom bar, so the in-page BACK is dropped there
+const inSwitch = getShell() === "switch";
 
 const ToolsView = ({ onSetActions }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -31,7 +35,7 @@ const ToolsView = ({ onSetActions }) => {
     { label: "台股分析自動化", href: "/tools", isExternal: false }, // Keeping this as SPA route if it exists or pointing to correct place
     { label: "聯絡我", isEmail: true },
     { label: "BACK", path: "/", isBack: true },
-  ];
+  ].filter((item) => !(inSwitch && item.isBack));
 
   const handleUp = () =>
     setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));

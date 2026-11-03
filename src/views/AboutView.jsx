@@ -1,35 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import avatarImg from "../../assets/images/avatar.jpg";
+import { getShell } from "../lib/shellMode";
+
+// Landscape shell has B Back on its bottom bar, so the in-page BACK is dropped there
+const inSwitch = getShell() === "switch";
 
 const AboutView = ({ onSetActions }) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
 
-  const menuItems = [
-    { label: "台股分析自動化", path: "/tools" }, // Linking to tools for now as specific sub-tool is MPA
-  ];
-
-  const handleUp = () =>
-    setSelectedIndex((prev) => (prev > 0 ? prev - 1 : prev));
-  const handleDown = () =>
-    setSelectedIndex((prev) => (prev < 1 ? prev + 1 : prev));
-  const handleSelect = () => {
-    navigate(menuItems[0].path);
-  };
+  // Only BACK is selectable on this page (none in the landscape shell)
   const handleBack = () => {
     navigate("/");
   };
 
   useEffect(() => {
     onSetActions({
-      onUp: handleUp,
-      onDown: handleDown,
-      onSelect: handleSelect,
-      onStart: handleSelect,
+      onUp: () => {},
+      onDown: () => {},
+      onSelect: inSwitch ? () => {} : handleBack,
+      onStart: inSwitch ? () => {} : handleBack,
       onBack: handleBack,
     });
-  }, [selectedIndex, navigate, onSetActions]);
+  }, [navigate, onSetActions]);
 
   return (
     <>
@@ -48,47 +41,22 @@ const AboutView = ({ onSetActions }) => {
               <p>專注於投資與AI應用。</p>
             </div>
           </div>
-
-          <div id="menu-container">
-            <div className="mb-6">
-              <h3 className="mb-2 font-bold text-lg border-b-2 border-[#0f380f]">
-                AI 應用展示
-              </h3>
-              <div
-                className={`
-                  menu-item cursor-pointer text-base py-1.5 px-3 border-2 transition-colors duration-100
-                  ${
-                    selectedIndex === 0
-                      ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
-                      : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
-                  }
-                `}
-                onMouseEnter={() => setSelectedIndex(0)}
-                onClick={() => navigate(menuItems[0].path)}
-              >
-                {menuItems[0].label}
-              </div>
-            </div>
-          </div>
         </div>
 
         {/* Grounded Footer - Simplified */}
-        <div className="px-6 py-2 bg-transparent mt-auto">
-          <div
-            className={`
-              menu-item cursor-pointer text-base py-1.5 px-3 border-2 transition-colors duration-100 text-center
-              ${
-                selectedIndex === 1
-                  ? "bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]"
-                  : "bg-transparent text-[#0f380f] border-[#0f380f] hover:bg-[#0f380f] hover:text-[#9bbc0f]"
-              }
-            `}
-            onMouseEnter={() => setSelectedIndex(1)}
-            onClick={handleBack}
-          >
-            BACK
+        {!inSwitch && (
+          <div className="px-6 py-2 bg-transparent mt-auto">
+            <div
+              className={`
+                menu-item cursor-pointer text-base py-1.5 px-3 border-2 transition-colors duration-100 text-center
+                bg-[#0f380f] text-[#9bbc0f] border-[#0f380f]
+              `}
+              onClick={handleBack}
+            >
+              BACK
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </>
   );
