@@ -105,7 +105,7 @@ node scripts/sync-memory-backup.mjs
 ## 步驟 8：提交前確認
 
 - 自我檢查三問：每行變更都能追溯到需求嗎？有誤觸無關的歷史包袱嗎？清掉孤兒變數／匯入了嗎？
-- 照〈diff 摘要格式〉給摘要，問「要 commit 嗎？（只寫本地，不 push）」，**然後停**，等他回答這一問（見〈必須停下來等回答的點〉）。
+- 照〈diff 摘要格式〉給摘要，問「要 commit 並部署嗎？（回「只 commit」就停在本地）」，**然後停**，等他回答這一問（見〈必須停下來等回答的點〉）。
 
 ## 步驟 9：提交
 
@@ -116,7 +116,9 @@ node scripts/sync-memory-backup.mjs
   - 描述聚焦「為什麼改」，繁體中文
 - 變更橫跨多個不相關主題時拆成多個 commit；文件同步與對應程式碼放同一個 commit
 - **`git add` 點名檔案**：`git add <檔1> <檔2> …`，不用 `git add .`／`git add -A`。點名的清單就是 diff 摘要列出的那些檔
-- **不要 push**——push 是 `/deploy` 的事，要另外問（push 到 main 即觸發自動部署）
+- 依步驟 8 的回答決定後續：
+  - 回「go」「允許commit」「好」「可以」→ commit 完接著跑 `/deploy`（push 到 main 即觸發自動部署），不再另外問
+  - 回「只 commit」→ commit 完停在本地，不 push
 
 ## 步驟 10：回報
 
@@ -132,19 +134,20 @@ node scripts/sync-memory-backup.mjs
   （文件同步例外：<配對>——<理由>；沒有就不寫這行）
   （記憶快照另一個 commit：有／無）
 壞味道：<步驟 6 那一行>
-要 commit 嗎？（只寫本地，不 push）
+要 commit 並部署嗎？（回「只 commit」就停在本地）
 ```
 
 拆成多個 commit 時，每個 commit 各一段。
 
 ## 必須停下來等回答的點
 
-- **commit 之前**（步驟 8）：給 diff 摘要、問「要 commit 嗎？（只寫本地，不 push）」、停。
+- **commit 之前**（步驟 8）：給 diff 摘要、問「要 commit 並部署嗎？（回「只 commit」就停在本地）」、停。
   - 批准必須是回答這一問。他在別的問題上回的「go／好／對」不算。
+  - 回「go」「允許commit」「好」「可以」= commit 並部署；回「只 commit」= 只 commit；其他回答都不算批准，再問一次。
   - 打 `/commit`、或我自己叫出 `/commit`，都不算批准。
   - 他描述之後流程的話（「等推上去以後…」「commit 完再…」）是計畫，不算批准。
   - 不問「要提交嗎」：「提交」也能讀成送到遠端。
-- **push 之前**：push 不屬於這支指令，走 `/deploy`，另外問。
+- **push 之前**：步驟 8 的同意已涵蓋 push（接著跑 `/deploy`）；回「只 commit」時不 push，之後要部署另外問。
 - **刪實體檔案之前**（步驟 1）。
 - **guard／test 紅燈且修不了時**（步驟 3）：回報失敗內容，問要不要帶著提交。
 

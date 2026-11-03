@@ -4,6 +4,14 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.10.2] - 2026-11-03 (/commit：同意 commit 即接著部署)
+
+### 變更 (Changed) 🔧
+
+- **`/commit` 確認問句**: 改為「要 commit 並部署嗎？（回「只 commit」就停在本地）」。回「go」「允許commit」「好」「可以」就 commit 並接著跑 `/deploy`；回「只 commit」不 push。原本「push 要另外問」推翻，由來記在 `docs/COMMIT_RATIONALE.md`。
+
+---
+
 ## [2.10.1] - 2026-11-03 (CB 戰情室：市場熱門一鍵加入追蹤)
 
 ### 新增 (Added) 🚀
