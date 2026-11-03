@@ -4,6 +4,29 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.8.0] - 2026-11-03 (CB 資料流程改版：停用 XQ DDE，改為每週 thefew 同步)
+
+### 新增 (Added) 🚀
+
+- **每週 thefew 同步**: Claude 排程任務 `weekly-thefew-cb-sync` 每週一 09:00 用已登入的 Chrome 抓 thefew 可轉債列表，寫入 `cb_history` 主文件的轉換價、CB 收盤價、股票收盤價與 `priceDate`。新增 `tools/thefew-extract.js`（列表頁解析）與 `tools/sync-thefew-cb.js`（寫入，預設 dry-run）。
+- **寫入防呆**: 解析少於 300 筆整批不寫；轉換價單檔變動超過 30% 不寫並列出；寫入前舊值備份到 `tools/.backups/`（已 gitignore）。
+- **計算機顯示價格日期**: 選標的後顯示「價格日期」，提醒價格為每週更新、可手動修改。
+- **`fetch-cb-history.js --hot`**: 只跑最新熱門榜（`hot_cb_snapshots`）上的標的。
+
+### 變更 (Changed) 🔄
+
+- **`daily-cb-history.yml` 改為 `--hot`**: 每日歷史同步只跑熱門榜 Top 20，不再每天跑全部 CB。
+
+### 移除 (Removed) 🗑️
+
+- **Windows XQ DDE 軌停用**: XQ 回傳的轉換價與股價會被截掉一位數（例：家登五轉換價 488.9 存成 48、群聯股價 1875 存成 184），寫壞上百檔。`xq_bridge.py`、`fetch-hot-cb-dde.py`、`CB_Sync_Master.bat`、`Daily_Hot_CB_Sync.bat`、`setup_scheduler.ps1`、Excel／CSV 匯入匯出腳本與 `tools/lib/` 移到 `tools/archive/deprecated/xq-dde/`；移除 `npm run sync-cb`、`npm run sync:dde`。ADR-007（`docs/adr_cb_maintenance_pipeline.md`）標為已推翻。
+
+### 修正 (Fixed) 🐛
+
+- **Firestore `cb_history` 資料修正**: 以 thefew 目前轉換價更新 279 檔、以證交所／櫃買中心收盤價更新股價，溢價率異常（低於 -15% 或高於 +300%）的標的從 131 檔降到 18 檔。
+
+---
+
 ## [2.7.17] - 2026-10-27 (財務儀表板加入 2026 上半年與自動計算)
 
 ### 新增 (Added) 🚀

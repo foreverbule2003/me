@@ -1,7 +1,7 @@
 # CB 爬蟲資料流架構 (CB Crawler Data Flow Architecture)
 
-> **最後更新日期**: 2026-07-06
-> **狀態**: Production Ready (Meta-Automation V1.8 — 補記 GitHub Actions 雙軌與平台前提)
+> **最後更新日期**: 2026-11-03
+> **狀態**: Production Ready (V1.9 — 停用 XQ DDE 軌，改為每週 thefew 同步；歷史同步只跑熱門 Top 20)
 
 本文件詳細記錄了「可轉債 (CB) 戰情室」與「計算機」背後的自動化資料流架構。此系統採用 **雙軌並行 (Dual Track)** 策略，確保熱門數據的即時性，同時維持全市場搜索的完整性。
 
@@ -33,7 +33,7 @@
 
 ## 自動化循環 (The Automation Loop)
 
-自動化分為**兩條獨立軌道**，平台前提不同：
+自動化分為**兩條軌道**：
 
 ### ☁️ 軌道一：GitHub Actions（雲端，每交易日自動）
 
@@ -42,34 +42,30 @@
 | Workflow | 排程 (UTC+8) | 執行內容 |
 | --- | --- | --- |
 | `daily-hot-cb.yml` | 週一至五 13:40（收盤後） | `node tools/fetch-hot-cb.js --cloud` 抓熱門清單上雲 |
-| `daily-cb-history.yml` | 週一至五 14:15（行情更新後） | `node tools/fetch-cb-history.js --all --smart --sync` 補歷史資料 |
+| `daily-cb-history.yml` | 週一至五 14:15（行情更新後） | `node tools/fetch-cb-history.js --hot --smart --sync` 只補**最新熱門榜 Top 20** 的歷史資料 |
 
-`fetch-cb-history.js --smart --sync` 的寫入範圍（CI runner 每次都沒有本地 JSON）：
-
+- **`--hot`**：目標清單取自 `hot_cb_meta/latest` 指向的 `hot_cb_snapshots/{日期}`，不再每天跑全部 CB（2026-11-03 起，原本是 `--all`）。
 - **抓取起點**：本地無檔時先讀雲端 `cb_history/{code}` 主文件的 `lastRecordDate`，從那一筆的當月抓起；雲端也沒有這檔（且沒在指令列指名）就整檔跳過。
 - **寫入範圍**：只寫 `date >= lastRecordDate` 的 records，舊日期不重寫，省 Firestore 寫入次數；寫完回填主文件的 `lastRecordDate`。
 - **舊資料相容**：主文件還沒有 `lastRecordDate` 時，改查 `records` 依 `date` 降冪取一筆，只多一次讀取。
 
 兩者皆支援 `workflow_dispatch` 手動補跑。健康檢查：`gh run list --workflow=daily-hot-cb.yml --limit 5`。
 
-### 🖥️ 軌道二：本地 XQ DDE（**僅限 Windows 交易機**）
+### 🗓️ 軌道二：每週 thefew 同步（Claude 排程任務，週一 09:00）
 
-> ⚠️ **平台前提**：此軌道依賴 XQ 全球贏家的 DDE 介面與 Windows Task Scheduler，
-> **只能在 Windows 交易機上執行**（`setup_scheduler.ps1` 內的路徑為該機器的 `c:\Users\forev\myDev\me`）。
-> 在 macOS 開發機上無法執行，也不需要執行——高精度轉換價與 Excel 資料的同步屬交易機職責。
+主文件的**轉換價、CB 收盤價、股票收盤價**每週更新一次，不每天維護全部 CB。
 
-- **排程**：每週一 10:00、每週五 14:00 (UTC+8)，由 Windows Task Scheduler 觸發。
-- **執行流程**：
-  1.  **觸發 (Trigger)**: Task Scheduler 啟動 `CB_Sync_Master.bat`（或手動執行 `npm run sync-cb` 做 dry-run 預覽）。
-  2.  **同步 (Sync)**: 執行 `xq_bridge.py` 串接 DDE 數據與 Excel 高精度數據。
-  3.  **寫入 (Write)**: 直接更新 Firestore `cb_history` 集合。
-  4.  **本地快取**: 產出本地 `cb-data.json`（已在 `.gitignore` 中忽略，不進 Git）。
-  5.  **前端載入**: 使用者開啟頁面時，前端 JS 直接由 Firestore Fetch 最新數據。
+- **來源**：[thefew.tw/cb](https://thefew.tw/cb) 可轉債列表的「轉換價」（已含除權息調整）、「CB收盤價」、「股票收盤價」。數字要登入才看得到，所以不走 Actions，改由 Claude 排程任務 `weekly-thefew-cb-sync` 用使用者已登入的 Chrome 抓取。前提：那個時間 Mac 與 Chrome 開著、Claude in Chrome 擴充功能連線中；沒跑到時在 app 的排程頁按「Run now」補跑。
+- **流程**：
+  1. 在 thefew 列表頁執行 `tools/thefew-extract.js`，結果分段取出存成 `tools/.backups/thefew-raw-YYYY-MM-DD.txt`
+  2. `node tools/sync-thefew-cb.js <檔案>` dry-run，再加 `--apply` 寫入
+- **寫入欄位**：`conversionPrice`、`price`（CB 收盤價）、`stockPrice`、`priceDate`。計算機選標的時帶入這些值並顯示價格日期，價格舊了可手動改輸入框。
+- **防呆**：解析筆數少於 300 整批不寫；轉換價單檔變動超過 30% 不寫，列出來人工確認；寫入前舊值備份到 `tools/.backups/thefew-YYYY-MM-DD.json`（已 gitignore）。
+- **範圍**：只更新 thefew 列表上有、且 `cb_history` 已存在的代號；不自動新增標的，已到期下市的舊文件不動。
 
-### 兩軌分工
+### 已停用：Windows XQ DDE 軌（2026-11-03）
 
-- **Actions 軌**負責「每日行情與歷史資料」的例行更新，無人值守。
-- **本地 DDE 軌**負責「高精度轉換價／Excel 優先權資料」的權威覆寫，頻率低但精度高。
+原本由 Windows 交易機的 Task Scheduler（週一 10:00／週五 14:00）跑 `CB_Sync_Master.bat` → `xq_bridge.py`，從 XQ DDE 寫入全部 CB 的價格與轉換價。XQ 回傳的數值會被截掉一位數（例：家登五轉換價 488.9 存成 48、群聯股價 1875 存成 184），寫壞上百檔，因此停用。相關腳本與 Excel／CSV 匯入工具已移到 `tools/archive/deprecated/xq-dde/`。
 
 ## 架構視覺化 (Architecture Diagram)
 
@@ -77,22 +73,12 @@
 graph TD
     %% 雲端軌 (GitHub Actions, 每交易日)
     GHA[GitHub Actions ubuntu] -->|13:40 fetch-hot-cb --cloud| Firestore
-    GHA -->|14:15 fetch-cb-history --sync| Firestore
+    GHA -->|14:15 fetch-cb-history --hot --sync| Firestore
 
-    %% 本地軌 (Windows 交易機)
-    Sched[Windows Task Scheduler] -->|一 10:00 / 五 14:00| Bat[CB_Sync_Master.bat]
-    DDE[XQ DDE 報價] -->|即時| Bat
-    Excel[高精度轉換價.xlsx] -->|優先權| Bat
-
-    %% 核心處理
-    subgraph Data_Pipe [數據處理流水線]
-        Bat -->|xq_bridge.py| Protect[高精度保護機制]
-        Protect -->|更新| Firestore[(Firebase Cloud)]
-        Protect -->|Export| LocalJSON[cb-data.json]
-    end
-
-    %% Git 隔離
-    LocalJSON -.-|Git Ignored| GitRepo((Git Repository))
+    %% 每週軌 (Claude 排程任務)
+    Task[Claude 排程任務 週一 09:00] -->|Chrome 已登入| Thefew[thefew.tw/cb]
+    Thefew -->|thefew-extract.js| Raw[tools/.backups/thefew-raw-*.txt]
+    Raw -->|sync-thefew-cb.js --apply| Firestore[(Firebase Cloud)]
 
     %% 使用者端 (瀏覽器)
     subgraph Client_Side [使用者瀏覽器]

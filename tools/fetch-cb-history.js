@@ -10,6 +10,7 @@ const { fetchHistoryData } = require("../src/utils/cb-history-fetcher");
  * 用法:
  * node tools/fetch-cb-history.js <CODE> [SINCE] [--sync] [--smart]
  * node tools/fetch-cb-history.js --all --smart --sync
+ * node tools/fetch-cb-history.js --hot --smart --sync   (只跑最新熱門榜 Top 20)
  */
 
 // 配置
@@ -240,6 +241,7 @@ async function syncToFirestore(cbCode, data) {
 (async () => {
   const args = process.argv.slice(2);
   const isAll = args.includes("--all");
+  const isHot = args.includes("--hot");
   const isSync = args.includes("--sync");
   const isSmart = args.includes("--smart");
   const isForceDeep = args.includes("--force-deep");
@@ -303,7 +305,22 @@ async function syncToFirestore(cbCode, data) {
     process.exit(1);
   }
 
-  if (isAll) {
+  if (isHot) {
+    // 只跑最新熱門榜 (hot_cb_snapshots) 上的標的
+    await initFirebase();
+    const db = admin.firestore();
+    const meta = (await db.collection("hot_cb_meta").doc("latest").get()).data();
+    const snap = meta
+      ? (await db.collection("hot_cb_snapshots").doc(meta.lastDateId).get()).data()
+      : null;
+    const hotCodes = new Set((snap?.data || []).map((i) => i.code));
+    if (hotCodes.size === 0) {
+      console.error("❌ Fatal: 找不到熱門榜快照 (hot_cb_meta/latest)。");
+      process.exit(1);
+    }
+    console.log(`[Hot] 熱門榜 ${meta.lastDateId}，共 ${hotCodes.size} 檔`);
+    targets = targets.filter((t) => hotCodes.has(t.code));
+  } else if (isAll) {
     // targets is already the full list
   } else {
     const code = args[0];

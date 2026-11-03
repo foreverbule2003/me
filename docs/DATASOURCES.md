@@ -33,12 +33,13 @@
   - 當日漲跌幅、成交量分析。
 - **儲47.79MB**：Firebase Firestore 快照及本地日誌。
 
-### 4. 手動補丁工具 (`import-xq-csv.js`)
+### 4. 每週轉換價與價格同步 (`sync-thefew-cb.js`)
 
-- **數據來源**：XQ 全球贏家 (CSV 導出)
-- **資料範圍**：
-  - 補齊 TWSE MIS 缺失的極早期或特定標的歷史紀錄。
-- **職責**：將 CSV 數據 Merge 進現有的 JSON 歷史存檔。
+- **數據來源**：[thefew.tw/cb](https://thefew.tw/cb)（需登入，由 Claude 排程任務以已登入的 Chrome 抓取）
+- **資料範圍**：全部掛牌中可轉債的轉換價（含除權息調整）、CB 收盤價、股票收盤價。
+- **職責**：每週一寫入 Firestore `cb_history` 主文件，詳見 `docs/CB_DATA_FLOW.md`。
+
+原本的 XQ CSV 補丁工具 `import-xq-csv.js` 已於 2026-11-03 移到 `tools/archive/deprecated/xq-dde/`。
 
 ---
 

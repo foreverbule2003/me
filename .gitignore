@@ -81,3 +81,6 @@ trips/*/master_guide.html
 
 # 旅行社原始行程表（含業務聯絡個資，不進公開 repo；內容已整理進各旅程的 spec.md 與 trip_notes.md）
 trips/*/source_*.pdf
+
+# sync-thefew-cb 寫入前的舊值備份
+tools/.backups/

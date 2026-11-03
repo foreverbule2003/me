@@ -46,7 +46,7 @@
           "firestore",
           "tools"
         ],
-        "note": "雲端 Actions 軌負責每日行情，本地 Windows DDE 軌負責高精度覆寫。"
+        "note": "雲端 Actions 軌負責熱門榜每日行情，每週 thefew 軌更新全部 CB 的轉換價與價格。"
       }
     ]
   },
@@ -248,8 +248,8 @@
     {
       "id": "bridge",
       "type": "backend",
-      "label": "xq_bridge.py",
-      "sublabel": "高精度保護 + 匯出",
+      "label": "sync-thefew-cb.js",
+      "sublabel": "防呆 + 舊值備份",
       "pos": [
         380,
         470
@@ -260,19 +260,19 @@
       ],
       "sources": [
         {
-          "path": "tools/xq_bridge.py"
+          "path": "tools/sync-thefew-cb.js"
         },
         {
-          "path": "tools/lib/cb_service.py"
+          "path": "tools/thefew-extract.js"
         }
       ]
     },
     {
       "id": "dde",
       "type": "external",
-      "label": "Windows 交易機",
-      "sublabel": "XQ DDE 報價 + Excel",
-      "tag": "僅限 Windows",
+      "label": "thefew.tw",
+      "sublabel": "Claude 排程任務 + Chrome",
+      "tag": "每週一 09:00",
       "pos": [
         40,
         470
@@ -283,10 +283,7 @@
       ],
       "sources": [
         {
-          "path": "CB_Sync_Master.bat"
-        },
-        {
-          "path": "tools/setup_scheduler.ps1"
+          "path": "tools/thefew-extract.js"
         }
       ]
     }
@@ -363,13 +360,13 @@
       "id": "dde-bridge",
       "from": "dde",
       "to": "bridge",
-      "label": "DDE 報價 + 高精度轉換價"
+      "label": "轉換價 + CB 價 + 股價"
     },
     {
       "id": "bridge-firestore",
       "from": "bridge",
       "to": "firestore",
-      "label": "覆寫 cb_history",
+      "label": "寫入 cb_history",
       "variant": "dashed",
       "fromSide": "top",
       "toSide": "bottom"
@@ -399,7 +396,7 @@
       "title": "自動化雙軌",
       "items": [
         "雲端軌：Actions 每交易日無人值守",
-        "本地軌：Windows 交易機 DDE，低頻高精度",
+        "每週軌：thefew 轉換價與價格，週一一次",
         "健康檢查指令 /check-cb-pipeline"
       ]
     },

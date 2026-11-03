@@ -63,13 +63,11 @@ timboy/
 │   ├── research/           # 還沒去的行程研究 (影片整理的筆記 + 單頁)
 │   └── TRIP_STYLE_GUIDE.md
 │
-├── tools/                  # 工具頁面與後端橋接器
+├── tools/                  # 工具頁面與資料同步腳本
 │   ├── components/         # 前端共用 Service (JS/MJS)
-│   ├── lib/                # Python DDE 模組化層
-│   │   ├── xq_dde.py       # 通訊協定封裝
-│   │   └── cb_service.py   # 業務邏輯封裝
-│   ├── xq_bridge.py        # (Legacy) 舊版 DDE 入口
-│   └── fetch-hot-cb-dde.py # 🔥 核心 DDE 行情同步腳本
+│   ├── sync-thefew-cb.js   # 每週 thefew 轉換價／價格寫入 Firestore
+│   ├── thefew-extract.js   # 在 thefew 列表頁執行的解析片段
+│   └── archive/            # 已停用的腳本（含 XQ DDE 流程）
 ├── public/                 # 靜態資源 (Vite 直接複製)
 ├── assets/                 # CSS 與圖片
 └── vite.config.js          # Vite 設定檔
@@ -87,15 +85,13 @@ timboy/
 | `npm run new-trip` | 互動式建立新旅程（執行前自動 `git fetch` 檢查是否落後遠端） |
 | `npm run test:calc` | 手動驗證 CB 計算核心（golden sample 對答案）|
 | `npm run sync-check` | 檢查本地是否落後遠端（開工前確認；Claude Code 的 SessionStart hook 會自動跑）|
-| `npm run sync-cb`  | 執行 CB 資料自動化同步預覽    |
 | `npm run format`   | 格式化所有程式碼              |
 
 ---
 
-## 🔄 Data Sync (Hybrid DDE)
+## 🔄 Data Sync
 
-我們採用 **Hybrid DDE 架構** 來解決爬蟲與即時性的問題。
-資料源自您的本地電腦 (XQ 全球贏家)，透過 Python 橋接腳本同步至雲端。
+CB 資料分兩條軌道寫入 Firestore：GitHub Actions 每交易日抓熱門榜 Top 20 與其歷史資料；每週一 09:00 由 Claude 排程任務從 thefew 同步全部 CB 的轉換價、CB 收盤價與股票收盤價。細節見 [CB_DATA_FLOW.md](./docs/CB_DATA_FLOW.md)。
 
 ### 財務儀表板 (some-company)
 
@@ -118,7 +114,7 @@ Swiss+Minimal 風格的財務趨勢頁（`tools/some-company.html`）。資料�
 | ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **網站**           | push `main` 即自動觸發 `.github/workflows/deploy.yml`，build 後部署至 GitHub Pages（可用 `/deploy` 指令）                                                   |
 | **Firestore 規則** | ⚠️ **不會**隨 push 自動部署。修改 `firebase/firestore.rules` 後需手動執行：`firebase deploy --only firestore:rules`                                         |
-| **CB 資料排程**    | 雲端軌由 GitHub Actions 每交易日自動跑；本地 DDE 軌僅限 Windows 交易機（詳見 [CB_DATA_FLOW.md](./docs/CB_DATA_FLOW.md)），健康檢查可用 `/check-cb-pipeline` |
+| **CB 資料排程**    | 雲端軌由 GitHub Actions 每交易日自動跑；轉換價與價格由 Claude 排程任務每週一同步（詳見 [CB_DATA_FLOW.md](./docs/CB_DATA_FLOW.md)），健康檢查可用 `/check-cb-pipeline` |
 
 ## 🗺️ 架構總覽圖 (Architecture Overview)
 
@@ -130,7 +126,7 @@ Swiss+Minimal 風格的財務趨勢頁（`tools/some-company.html`）。資料�
 | --------------- | ----------------------------------------------------------------------------------------- |
 | **建構部署**    | 開發機 `push main` → Vite 6 多入口 rollup → `deploy.yml` 上傳 dist → GitHub Pages         |
 | **前端執行期**  | 靜態頁載入後直接查 Firestore；Firebase Auth 負責 Journal 登入守門                         |
-| **CB 資料雙軌** | 雲端軌 GitHub Actions（每交易日 13:40 / 14:15）+ 本地軌 Windows XQ DDE → 皆寫入 Firestore |
+| **CB 資料雙軌** | 雲端軌 GitHub Actions（每交易日 13:40 / 14:15）+ 每週 thefew 同步（Claude 排程任務）→ 皆寫入 Firestore |
 
 旁邊的 `品質關卡`（vitest · playwright · guard）是提交前的驗證分支，對應 `npm run guard` / `npm test`。
 

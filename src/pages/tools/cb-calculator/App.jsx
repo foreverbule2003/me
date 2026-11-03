@@ -109,6 +109,10 @@ export default function App() {
                     {selectedSymbol.code}
                   </span>
                 </div>
+                {/* 價格每週一由 thefew 同步，非即時，舊了可手動改輸入框 */}
+                <div className="mt-2 text-xs text-slate-400 font-medium">
+                  價格日期：{selectedSymbol.priceDate || "未知"}（每週更新，可手動修改）
+                </div>
               </div>
             )}
 

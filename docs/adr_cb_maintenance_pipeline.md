@@ -1,5 +1,7 @@
 # ADR: CB 數據維護流水線 (Metadata Maintenance Pipeline)
 
+> **已推翻（2026-11-03）**：CSV／Excel 匯入與 XQ DDE 同步會把轉換價、股價截掉一位數（例：488.9 存成 48），寫壞上百檔。改為每週一由 Claude 排程任務從 thefew 同步，見 [CB_DATA_FLOW.md](./CB_DATA_FLOW.md)。下文保留作為紀錄，相關腳本已移到 `tools/archive/deprecated/xq-dde/`。
+
 ## 背景 (Background)
 
 目前計畫中存在三種數據格式：
