@@ -37,7 +37,7 @@
 
 ### ☁️ 軌道一：GitHub Actions（雲端，每交易日自動）
 
-平台無關，跑在 GitHub 的 ubuntu runner 上，憑證來自 repo secrets（`FIREBASE_SERVICE_ACCOUNT`）。
+平台無關，跑在 GitHub 的 ubuntu runner 上，憑證來自 repo secrets（`FIREBASE_SERVICE_ACCOUNT`）。service account 不受 Firestore 規則限制；前端只有站主登入後能寫 `cb_history`（2026-11-04 起，見 `firebase/firestore.rules`）。Workflow 只給 `contents: read` 權限、action 鎖定 commit SHA、用 `npm ci` 照 lockfile 安裝。
 
 | Workflow | 排程 (UTC+8) | 執行內容 |
 | --- | --- | --- |

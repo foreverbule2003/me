@@ -4,6 +4,21 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.12.3] - 2026-11-04 (安全性掃描後修補)
+
+### 安全性 (Security) 🔒
+
+- **Firestore 規則收緊**: `cb_history`（含 `records`）與 `journal_entries` 改成只有站主的 Firebase UID 能寫，原本前者任何人可寫、後者任何 Google 帳號登入即可寫；`system_logs` 關掉公開寫入；旅程頁的收藏、購物、待辦勾選仍開放匿名寫入，但只收 `timestamp`、`userId` 兩個欄位並限制長度。GitHub Actions 與每週 thefew 同步用 service account 寫入，不受影響。規則已手動部署。
+- **套件升級**: `firebase` 13.2、`react-router-dom` 7.18.5、`puppeteer` 25、`vitest` 4.1.12；`package.json` 加 `overrides` 把 `@grpc/grpc-js` 拉到 ^1.14.7、`uuid` 拉到 ^11.1.1，`npm audit` 歸零。`firebase-admin` 留在 13：14 版拿掉了 `admin.firestore()`，同步腳本會壞。
+- **GitHub Actions 收緊**: 三個 workflow 的 action 鎖定 commit SHA；預設權限只給 `contents: read`，Pages 寫入只開給部署那一步；checkout 不保留 token；每日同步改用 `npm ci`。
+
+### 已知影響
+
+- `npm run dev` 時「我的追蹤」不登入就寫不進去，要用 Google 登入。
+- `tools/clean_auto_watchlist.mjs` 沒帶憑證直接打 REST API，會被新規則擋。
+
+---
+
 ## [2.12.2] - 2026-11-04 (斜線指令與 skill 改成與 second-brain 共用)
 
 ### 變更 (Changed) 🔧

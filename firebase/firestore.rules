@@ -1,43 +1,46 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // Allow collaborative star ratings for any trip (with validation)
-    match /trips/{tripId}/food_ratings/{itemId} {
-      allow read: if true;
-      allow write: if true; // Allow shared favorites (create/delete) for all users
+    // 站主本人（Google 登入的 Firebase UID）。GitHub Actions 用 service account 寫入，不受這份規則限制
+    function isOwner() {
+      return request.auth != null && request.auth.uid == 'mmAs3PqbA8aQgKzi3PH7VxrUrnH3';
     }
 
-    // Allow shopping list purchased status sync
-    match /trips/{tripId}/shopping_purchased/{itemId} {
-      allow read: if true;
-      allow write: if true; // Allow shared checkbox state for all users
+    // 旅遊頁的共享勾選：任何人可寫，但只收前端實際寫的欄位
+    function isShortString(v) {
+      return v is string && v.size() <= 64;
+    }
+    function isTripMark(tripId, itemId) {
+      return tripId.size() <= 64 && itemId.size() <= 128
+        && request.resource.data.keys().hasOnly(['timestamp', 'userId'])
+        && isShortString(request.resource.data.timestamp)
+        && (!('userId' in request.resource.data) || isShortString(request.resource.data.userId));
     }
 
-    // Allow to-do list completion status sync
-    match /trips/{tripId}/todo_completed/{itemId} {
-      allow read: if true;
-      allow write: if true; // Allow shared checkbox state for all users
+    match /trips/{tripId}/{kind}/{itemId} {
+      allow read: if kind in ['food_ratings', 'shopping_purchased', 'todo_completed'];
+      allow create, update: if kind in ['food_ratings', 'shopping_purchased', 'todo_completed']
+        && isTripMark(tripId, itemId);
+      allow delete: if kind in ['food_ratings', 'shopping_purchased', 'todo_completed'];
     }
 
-    // Allow public read/write for journal entries (personal site)
+    // 日記：公開瀏覽，只有站主能寫
     match /journal_entries/{entryId} {
-      allow read: if true;  // 公開瀏覽
-      allow write: if request.auth != null;  // 需登入才能寫
+      allow read: if true;
+      allow write: if isOwner();
     }
 
-    // Allow public read for CB history data
+    // CB 資料：公開讀；前端只有站主（我的追蹤、手動改轉換價）能寫
     match /cb_history/{symbol} {
       allow read: if true;
-      allow write: if true;
-      
-      // Allow access to sub-records
+      allow write: if isOwner();
+
       match /records/{date} {
         allow read: if true;
-        allow write: if true;
+        allow write: if isOwner();
       }
     }
 
-    // [New] Allow access to Hot CB Snapshots
     match /hot_cb_meta/{docId} {
       allow read: if true;
     }
@@ -45,10 +48,9 @@ service cloud.firestore {
       allow read: if true;
     }
 
-    // [New] Allow performance logs
+    // 前端已不寫 log，關掉公開寫入
     match /system_logs/{logId} {
-      allow write: if true;
-      allow read: if request.auth != null; 
+      allow read: if isOwner();
     }
 
     match /{document=**} {
