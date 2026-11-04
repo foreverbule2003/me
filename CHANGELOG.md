@@ -4,6 +4,17 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.12.1] - 2026-11-04 (UI 改進流程接上 /commit)
+
+### 新增 (Added) 🚀
+
+- **頁面設計規格 `docs/UI_SPEC.md`**: me 各頁共用的 UI 規則與改頁面時的檢查清單，`/site-ui-jud`、`/ui-draft` 都讀這份（兩支 skill 的正本在 second-brain `.claude/shared-skills/`）。
+- **文件同步配對**: `check-doc-sync.mjs` 加一組：有比較頁（`draft/`）的頁面改了正式元件，就要動 `docs/UI_SPEC.md`，套用草稿後定下的做法才不會只留在程式裡。
+- **README〈UI 改進流程〉**: 一張圖說明需求與挑問題兩條路共用比較頁，套用後的規則寫回 `UI_SPEC.md`。
+- **`docs/SKILL_SSOT_AUDIT.md`**: 盤點 me 與 second-brain 的斜線指令與 skill，列出哪些該抽成兩邊共用的單一正本。
+
+---
+
 ## [2.12.0] - 2026-11-04 (CB 戰情室：我的追蹤改版)
 
 ### 新增 (Added) 🚀

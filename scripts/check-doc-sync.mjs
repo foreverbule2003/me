@@ -96,6 +96,19 @@ const PAIRS = [
   },
 ];
 
+// 有比較頁（draft/）的頁面改了正式元件 → docs/UI_SPEC.md：套用草稿後定下的做法要寫回規格
+for (const dir of new Set(any(/^src\/pages\/[^/]+\/[^/]+\//).map((f) => f.split("/").slice(0, 4).join("/")))) {
+  if (!fs.existsSync(path.join(ROOT, dir, "draft"))) continue;
+  const formal = files.filter((f) => f.startsWith(`${dir}/`) && !f.startsWith(`${dir}/draft/`));
+  if (formal.length) {
+    PAIRS.push({
+      name: `${dir.split("/")[3]} 有比較頁、正式頁改了 → docs/UI_SPEC.md`,
+      trigger: formal,
+      need: ["docs/UI_SPEC.md"],
+    });
+  }
+}
+
 // 旅程 data.js → 同名 spec.md（只對已有 spec.md 的旅程）
 for (const f of any(/^src\/pages\/trips\/[^/]+\/data\.js$/)) {
   const trip = f.split("/")[3];

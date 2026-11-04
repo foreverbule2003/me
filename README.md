@@ -144,8 +144,22 @@ node ~/.claude/skills/archify/bin/archify.mjs deliver architecture docs/diagrams
 
 > 規格檔內每個節點都帶 `sources` 指向真實檔案（如 `vite.config.js:178`、`.github/workflows/daily-hot-cb.yml`），並釘在 commit `5c871f6`；archify 會在渲染時驗證這些路徑存在。架構若大幅變動，記得同步更新規格檔的 source 參照。
 
+## 🎨 UI 改進流程
+
+```mermaid
+flowchart LR
+  B["💡 需求<br/>（路徑 B）"] --> C["🖼️ 比較頁<br/>/ui-draft"]
+  A["🔍 挑問題<br/>（路徑 A：/site-ui-jud）"] --> C
+  C --> F["✅ 套用<br/>正式頁"]
+  F --> R[("📏 規則<br/>UI_SPEC.md")]
+  R --> A
+```
+
+B 長出規則，A 照規則檢查，兩條路共用比較頁。規則寫在 [UI_SPEC.md](./docs/UI_SPEC.md)；有比較頁的頁面改了正式元件而沒動 UI_SPEC.md，`/commit` 的文件同步檢查會擋下來。
+
 ## 📚 相關文件
 
+- [UI_SPEC.md](./docs/UI_SPEC.md) - 頁面設計規格（`/site-ui-jud`、`/ui-draft` 共用）
 - [FEATURES.md](./docs/FEATURES.md) - 功能清單
 - [COMPONENTS.md](./docs/COMPONENTS.md) - 元件文件
 - [SITEMAP.md](./docs/SITEMAP.md) - 網站地圖

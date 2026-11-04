@@ -54,7 +54,7 @@ node scripts/check-doc-sync.mjs
 ```
 
 - 每次都跑。**沒有它印出的「文件同步：N 組配對全過」那一行 = 沒跑這一步。**
-- 它判的配對：程式或排程改了 → `CHANGELOG.md`；CB 資料管線改了 → `docs/CB_DATA_FLOW.md`；npm scripts 增刪改 → `README.md`；Vite 入口頁增刪 → `docs/SITEMAP.md`；Claude 指令增刪 → `README.md`；旅程 `data.js` 改了 → 該旅程的 `spec.md`。動到 `firestore.rules` 另印一行部署提醒。
+- 它判的配對：程式或排程改了 → `CHANGELOG.md`；CB 資料管線改了 → `docs/CB_DATA_FLOW.md`；npm scripts 增刪改 → `README.md`；Vite 入口頁增刪 → `docs/SITEMAP.md`；Claude 指令增刪 → `README.md`；旅程 `data.js` 改了 → 該旅程的 `spec.md`；有比較頁（`draft/`）的頁面改了正式元件 → `docs/UI_SPEC.md`。動到 `firestore.rules` 另印一行部署提醒。
 - 沒過就照它列的補文件，補完再跑到全過。確屬免同步（純 typo、資料內容更新）時，在 diff 摘要寫一行「文件同步例外：<配對>——<理由>」。**要加配對改那支腳本，不要在這裡補清單。**
 - 下表是機器判不了的部分，依變更類型自己對一遍：
 

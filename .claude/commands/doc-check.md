@@ -17,7 +17,8 @@ allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git log:*), Bash(node 
 7. **trips/TRIP_STYLE_GUIDE.md** — 旅程頁面架構或模板變更
 8. **trips/{trip}/spec.md** — 特定旅程資料結構變更（`data.js` 有動就跑 `node scripts/sync-travel-spec.mjs {trip}`）
 9. **docs/CB_DATA_FLOW.md** — CB 資料管線、排程或 Actions 變更
-10. **docs/ARCHITECTURE.md** — 目錄結構、資料流等架構決策變更
+10. **docs/UI_SPEC.md** — 頁面 UI 規則：套用比較頁之後定下的做法要寫回〈規則本體〉
+11. **docs/ARCHITECTURE.md** — 目錄結構、資料流等架構決策變更
 
 ## 🧩 結構檢查
 
