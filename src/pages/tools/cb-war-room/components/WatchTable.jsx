@@ -11,6 +11,7 @@ const COLUMNS = [
   { key: "stockPrice", label: "現股", align: "right" },
   { key: "stockChangePct", label: "現股漲跌", align: "right" },
   { key: "volume", label: "成交量", align: "right" },
+  { key: "updatedMs", label: "更新", align: "right" },
 ];
 
 // 沒資料的排最後，不管升降冪
@@ -23,7 +24,7 @@ const compare = (key, dir) => (a, b) => {
   return dir === "asc" ? r : -r;
 };
 
-const WatchTable = ({ rows, bands, onSelect }) => {
+const WatchTable = ({ rows, bands, highlightId, onSelect }) => {
   // 預設溢價率由低到高：最便宜的在最上面
   const [sort, setSort] = useState({ key: "premium", dir: "asc" });
   const sorted = [...rows].sort(compare(sort.key, sort.dir));
@@ -65,8 +66,9 @@ const WatchTable = ({ rows, bands, onSelect }) => {
           {sorted.map((r) => (
             <tr
               key={r.id}
+              data-watch-id={r.id}
               onClick={() => onSelect(r.id)}
-              className={`table-row-hover border-b border-slate-100 last:border-0 text-sm ${r.traded === false ? "is-idle" : ""}`}
+              className={`table-row-hover border-b border-slate-100 last:border-0 text-sm ${r.traded === false ? "is-idle" : ""} ${highlightId === r.id ? "is-located" : ""}`}
             >
               <td className="px-4 py-3">
                 <div className="font-semibold text-slate-700 whitespace-nowrap">
@@ -106,6 +108,9 @@ const WatchTable = ({ rows, bands, onSelect }) => {
               </td>
               <td className="px-4 py-3 text-right mono text-xs text-slate-500">
                 {r.volume === null ? "—" : r.volume}
+              </td>
+              <td className="px-4 py-3 text-right mono text-xs text-slate-400 whitespace-nowrap">
+                {r.updatedLabel ?? "—"}
               </td>
             </tr>
           ))}

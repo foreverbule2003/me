@@ -33,6 +33,15 @@ export const PREMIUM_LABEL = {
   premium: "溢價",
 };
 
+// 溢價率分段（狀態磚、卡片色帶）：門檻可調，存在本機
+export const DEFAULT_TIERS = { low: 20, high: 50 };
+export const premiumTier = (premium, { low, high }) => {
+  if (premium === null) return null;
+  if (premium < low) return "low";
+  if (premium <= high) return "mid";
+  return "high";
+};
+
 export const priceBand = (price, { low, high }) => {
   if (price === null) return null;
   if (price < low) return "low";
@@ -46,7 +55,38 @@ const changeToPct = (close, change) =>
     ? (change / (close - change)) * 100
     : null;
 
-export const toWatchRow = (item, live, bands) => {
+// 「更新 11/03 22:21」：今天的只顯示時間；沒有時間只有日期就只顯示日期
+export const formatUpdated = (at, date) => {
+  if (at) {
+    const d = new Date(at);
+    if (!Number.isNaN(d.getTime())) {
+      const pad = (n) => String(n).padStart(2, "0");
+      const time = `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      return d.toDateString() === new Date().toDateString()
+        ? time
+        : `${pad(d.getMonth() + 1)}/${pad(d.getDate())} ${time}`;
+    }
+  }
+  return date ? date.slice(5).replace("-", "/") : null;
+};
+
+// 更新時間：用到熱門榜價格就跟熱門榜，否則看每日同步；updatedMs 給表格排序
+const updated = (item, daily, live, liveAt) => {
+  const at = live?.price && liveAt ? liveAt : daily.updatedAt;
+  const date = daily.date || item.priceDate;
+  const ms = at
+    ? new Date(at).getTime()
+    : date
+      ? new Date(date).getTime()
+      : NaN;
+  return {
+    updatedLabel: formatUpdated(at, date),
+    updatedMs: Number.isNaN(ms) ? null : ms,
+  };
+};
+
+// liveAt：熱門榜的更新時間（用到熱門榜價格時，更新時間跟著它）
+export const toWatchRow = (item, live, bands, liveAt = null) => {
   const daily = item.daily || {};
   const conversionPrice =
     num(daily.conversionPrice) ?? num(item.conversionPrice);
@@ -94,6 +134,8 @@ export const toWatchRow = (item, live, bands) => {
     premiumState: premiumState(premium),
     band: priceBand(cbPrice, bands),
     traded,
+    conversionPrice,
     priceDate: daily.date || item.priceDate || null,
+    ...updated(item, daily, live, liveAt),
   };
 };

@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CB 追蹤改版比較 (dev)</title>
+    <!-- [Fix] Suppress duplicate custom element error from third-party scripts -->
+    <script>
+      (function () {
+        const originalDefine = customElements.define;
+        customElements.define = function (name, constructor, options) {
+          try {
+            originalDefine.call(customElements, name, constructor, options);
+          } catch (e) {
+            if (e.message.includes("has already been defined")) {
+              console.warn(
+                `[Guard] Suppressed duplicate definition for ${name}`,
+              );
+              return;
+            }
+            throw e;
+          }
+        };
+      })();
+    </script>
+    <!-- 深色主題：渲染前先套用，避免閃白（邏輯同 src/hooks/useTheme.js） -->
+    <script>
+      (function () {
+        var t;
+        try {
+          t = localStorage.getItem("theme");
+        } catch (e) {}
+        if (t !== "dark" && t !== "light")
+          t = matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
+        if (t === "dark") document.documentElement.classList.add("dark");
+        document.documentElement.style.colorScheme = t;
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Inter+Tight:wght@500;700;900&family=JetBrains+Mono:wght@500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#F8FAFC]">
+    <div id="root"></div>
+    <script
+      type="module"
+      src="../src/pages/tools/cb-war-room/draft/main.jsx"
+    ></script>
+  </body>
+</html>

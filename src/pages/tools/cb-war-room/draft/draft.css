@@ -1,0 +1,153 @@
+/* 比較頁專用：草稿標記、色帶、分段色 */
+.vento .draft-compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+@media (max-width: 1279px) {
+  .vento .draft-compare {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.vento .draft-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: var(--vg-kick);
+  margin: 0 0 12px 4px;
+}
+.vento .draft-col {
+  padding-left: 24px;
+  border-left: 2px dashed var(--vg-bar);
+}
+@media (max-width: 1279px) {
+  .vento .draft-col {
+    padding-left: 0;
+    border-left: 0;
+    padding-top: 24px;
+    border-top: 2px dashed var(--vg-bar);
+  }
+}
+
+/* 編號標記：放在改動的元件左上角 */
+.vento .draft-mark {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--vg-accent);
+  color: #fff;
+  box-shadow: 0 0 0 3px var(--vg-bg);
+}
+.vento .relative > .draft-mark {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  z-index: 5;
+}
+/* 三項說明橫排，窄螢幕改直排；固定在畫面下方，滾動時一直看得到 */
+.vento .draft-legend {
+  position: fixed;
+  left: 24px;
+  right: 24px;
+  bottom: 16px;
+  z-index: 20;
+  margin: 0;
+  box-shadow: 0 -4px 24px var(--vg-tile-sh);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+@media (max-width: 1023px) {
+  .vento .draft-legend {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+.vento .draft-legend .draft-mark {
+  position: static;
+  box-shadow: none;
+}
+
+/* 溢價分段色 */
+.vento .tier-low {
+  --tier: var(--vg-lime);
+}
+.vento .tier-mid {
+  --tier: var(--vg-peri);
+}
+.vento .tier-high {
+  --tier: var(--vg-bar);
+}
+.vento .draft-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--tier);
+}
+.vento .draft-strip {
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--tier);
+  z-index: 1;
+}
+
+.vento .draft-pop {
+  background: var(--vg-tile);
+  box-shadow:
+    0 8px 24px var(--vg-tile-sh),
+    inset 0 0 0 1px var(--vg-bar);
+}
+
+.vento .draft-search {
+  flex: 1;
+  min-width: 220px;
+}
+.vento .draft-search > div {
+  flex: 1;
+}
+.vento .band-input.draft-input {
+  width: 100%;
+  padding: 8px 12px 8px 32px;
+}
+.vento .band-input.draft-select {
+  width: auto;
+  padding: 8px;
+}
+.vento .draft-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.vento .draft-legend-item {
+  transition: background 0.15s;
+}
+.vento .draft-legend-item:hover {
+  background: var(--vg-ghost);
+}
+.vento .draft-col .is-located {
+  border-radius: 16px;
+}
+
+/* 底部留出說明列的高度，最後一排卡片才不會被蓋住 */
+.vento.draft-page {
+  padding-bottom: 180px;
+}
+.vento .draft-legend-item:focus:not(:focus-visible) {
+  outline: none;
+}
+@media (max-width: 1023px) {
+  .vento.draft-page {
+    padding-bottom: 340px;
+  }
+}

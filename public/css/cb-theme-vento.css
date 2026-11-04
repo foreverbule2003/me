@@ -234,6 +234,51 @@ html.dark .vento .bg-slate-900\/40 {
 .vento .watch-card:hover {
   box-shadow: 0 0 0 2px var(--vg-ink);
 }
+/* 從搜尋框跳過來的標的：橘框閃兩下 */
+.vento .is-located {
+  animation: vg-located 1s ease-in-out 2;
+}
+.vento tr.is-located {
+  background: color-mix(in srgb, var(--vg-accent) 12%, transparent);
+}
+/* 溢價率分段色：狀態磚的圓點、卡片左側色帶 */
+.vento .tier-low {
+  --tier: var(--vg-lime);
+}
+.vento .tier-mid {
+  --tier: var(--vg-peri);
+}
+.vento .tier-high {
+  --tier: var(--vg-bar);
+}
+.vento .tier-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--tier);
+}
+.vento .watch-strip {
+  position: absolute;
+  left: 0;
+  top: 14px;
+  bottom: 14px;
+  width: 4px;
+  border-radius: 0 4px 4px 0;
+  background: var(--tier);
+  z-index: 1;
+}
+/* 搜尋候選的下拉 */
+.vento .watch-search-pop {
+  background: var(--vg-tile);
+  box-shadow:
+    0 8px 24px var(--vg-tile-sh),
+    inset 0 0 0 1px var(--vg-bar);
+}
+@keyframes vg-located {
+  50% {
+    box-shadow: 0 0 0 3px var(--vg-accent);
+  }
+}
 .vento .watch-card.wc-discount,
 .vento .watch-card.wc-near {
   --color-slate-300: rgba(28, 28, 30, 0.35);

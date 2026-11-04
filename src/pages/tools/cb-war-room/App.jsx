@@ -8,14 +8,33 @@ import DateNavigator from "./components/DateNavigator";
 import Watchlist from "./components/Watchlist";
 import ThemeToggle from "../../../components/ThemeToggle";
 import { isMockMode, MOCK_USER, useMockWatchlist } from "./mock";
+import { toWatchRow } from "./watchRow";
 
 const MOCK = isMockMode();
+const DEV_USER = { uid: "dev", photoURL: "" };
+// 抽屜只要價格，用不到價格區間標示
+const ANY_BAND = { low: -Infinity, high: Infinity };
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState("pulse");
+  // ?tab=watchlist 直接開我的追蹤（首頁 ABAB 密技）
+  const [activeTab, setActiveTab] = useState(() =>
+    new URLSearchParams(window.location.search).get("tab") === "watchlist"
+      ? "watchlist"
+      : "pulse",
+  );
   const auth = useAuth();
-  const user = MOCK ? MOCK_USER : auth.user;
-  const { login } = auth;
+  // npm run dev 不用登入（cb_history 本來就公開讀寫）；build 出去的正式版照樣要登入
+  const user = MOCK
+    ? MOCK_USER
+    : (auth.user ?? (import.meta.env.DEV ? DEV_USER : null));
+  const { login, logout } = auth;
+  // 頭像按鈕看真正的 Google 登入狀態，不看 dev／mock 的替身
+  const signedIn = Boolean(auth.user);
+  const handleAccount = () => {
+    if (!signedIn) return login();
+    const who = auth.user.displayName || auth.user.email || "目前帳號";
+    if (window.confirm(`要登出 ${who} 嗎？`)) logout();
+  };
   const {
     data: marketData,
     loading: marketLoading,
@@ -56,8 +75,18 @@ const App = () => {
     if (!selectedCode) return {};
     const poolItem = marketData.find((i) => i.code === selectedCode);
     const watchItem = watchlist.find((i) => i.id === selectedCode);
-    return { ...poolItem, ...watchItem };
-  }, [selectedCode, marketData, watchlist]);
+    if (!watchItem) return { ...poolItem };
+    // 追蹤中的標的跟卡片同一套取價順序（熱門榜 > 每日同步 > 每週價），
+    // 不然每週的 price／stockPrice 會蓋掉卡片上的價格
+    const row = toWatchRow(watchItem, poolItem, ANY_BAND, updatedAt);
+    return {
+      ...poolItem,
+      ...watchItem,
+      price: row.cbPrice ?? undefined,
+      stockPrice: row.stockPrice ?? 0,
+      conversionPrice: row.conversionPrice ?? undefined,
+    };
+  }, [selectedCode, marketData, watchlist, updatedAt]);
 
   return (
     <div className="vento min-h-screen bg-slate-50 font-sans text-slate-900">
@@ -92,12 +121,17 @@ const App = () => {
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <button
-              onClick={login}
+              onClick={handleAccount}
+              title={
+                signedIn
+                  ? `${auth.user.displayName || auth.user.email || "已登入"}（點擊登出）`
+                  : "用 Google 登入"
+              }
               className="w-8 h-8 rounded-full flex items-center justify-center text-slate-400 hover:bg-slate-100 transition-all"
             >
-              {user?.photoURL ? (
+              {signedIn && auth.user.photoURL ? (
                 <img
-                  src={user.photoURL}
+                  src={auth.user.photoURL}
                   className="w-6 h-6 rounded-full"
                   alt="User"
                 />
@@ -182,6 +216,7 @@ const App = () => {
             <Watchlist
               items={watchlist}
               marketData={marketData}
+              marketUpdatedAt={updatedAt}
               onAdd={addCB}
               onMove={moveCB}
               onRenameCategory={renameCategory}

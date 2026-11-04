@@ -29,15 +29,28 @@ export const BandTag = ({ band, bands }) => {
 };
 
 // 一檔一張卡：溢價率是主角；底色 = 折溢價狀態；變淡 = 今天沒成交
-const WatchCard = ({ row, bands, dragging, dragProps, onSelect, onRemove }) => (
+const WatchCard = ({
+  row,
+  bands,
+  dragging,
+  highlighted,
+  dragProps,
+  onSelect,
+  onRemove,
+}) => (
   <div
     {...dragProps}
+    data-watch-id={row.id}
     onClick={() => onSelect(row.id)}
     title="點開看分析；拖到其他群組可更換分類"
     className={`watch-card group relative rounded-2xl p-4 cursor-pointer transition-all ${
       row.premiumState ? `wc-${row.premiumState}` : ""
-    } ${row.traded === false ? "is-idle" : ""} ${dragging ? "opacity-40" : ""}`}
+    } ${row.traded === false ? "is-idle" : ""} ${dragging ? "opacity-40" : ""} ${
+      highlighted ? "is-located" : ""
+    }`}
   >
+    {/* 左側色帶：溢價率分段，掃一眼看出哪幾檔便宜 */}
+    {row.tier && <i className={`watch-strip tier-${row.tier}`} />}
     <div className="flex items-start justify-between gap-2">
       <div className="min-w-0">
         <div className="text-sm font-semibold text-slate-700 truncate">
@@ -72,8 +85,15 @@ const WatchCard = ({ row, bands, dragging, dragProps, onSelect, onRemove }) => (
       </dd>
     </dl>
 
-    {row.traded === false && (
-      <div className="mt-2 text-xs font-medium text-slate-400">今天沒成交</div>
+    {(row.traded === false || row.updatedLabel) && (
+      <div className="mt-2 flex items-center justify-between gap-2 text-xs font-medium text-slate-400">
+        <span>{row.traded === false ? "今天沒成交" : ""}</span>
+        {row.updatedLabel && (
+          <span className="mono" title="資料最後更新時間">
+            更新 {row.updatedLabel}
+          </span>
+        )}
+      </div>
     )}
 
     <button

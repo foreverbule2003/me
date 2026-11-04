@@ -13,6 +13,9 @@ import CbChart from "./CbChart";
 const AnalysisDrawer = ({ isOpen, onClose, code, initialData = {} }) => {
   const [data, setData] = useState(initialData);
   const [customConvPrice, setCustomConvPrice] = useState("");
+  // 盤中手動輸入的 CB／股價，只用來試算，不存檔；null = 用抓到的價格
+  const [cbEdit, setCbEdit] = useState(null);
+  const [stockEdit, setStockEdit] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [history, setHistory] = useState([]);
@@ -23,6 +26,8 @@ const AnalysisDrawer = ({ isOpen, onClose, code, initialData = {} }) => {
 
     const loadData = async () => {
       setIsLoading(true);
+      setCbEdit(null);
+      setStockEdit(null);
       let underlyingCode =
         initialData.underlyingCode ||
         CbCalculatorCore.inferUnderlyingCode(code);
@@ -76,20 +81,26 @@ const AnalysisDrawer = ({ isOpen, onClose, code, initialData = {} }) => {
     loadData();
   }, [isOpen, code, initialData]);
 
+  const fetchedCb = parseFloat(data.price) || 0;
+  const fetchedStock = data.stockPrice || 0;
+  const cbPrice = cbEdit === null ? fetchedCb : parseFloat(cbEdit) || 0;
+  const stockPrice =
+    stockEdit === null ? fetchedStock : parseFloat(stockEdit) || 0;
+
   const convPrice = parseFloat(customConvPrice) || data.conversionPrice || 0;
   const parity = CbCalculatorCore.calculateTheoreticalPrice(
-    data.stockPrice,
+    stockPrice,
     convPrice,
   );
-  const premium = CbCalculatorCore.calculatePremiumRate(data.price, parity);
+  const premium = CbCalculatorCore.calculatePremiumRate(cbPrice, parity);
   const beStockPrice = CbCalculatorCore.calculateParityPrice(
-    data.price,
+    cbPrice,
     convPrice,
   );
   const sharesPerBond = CbCalculatorCore.calculateSharesPerBond(convPrice);
   const upside =
-    data.stockPrice > 0 && beStockPrice > 0
-      ? (beStockPrice / data.stockPrice - 1) * 100
+    stockPrice > 0 && beStockPrice > 0
+      ? (beStockPrice / stockPrice - 1) * 100
       : 0;
   const status = CbCalculatorCore.getPremiumStatus(premium);
 
@@ -158,21 +169,41 @@ const AnalysisDrawer = ({ isOpen, onClose, code, initialData = {} }) => {
 
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Prices Summary */}
+          {/* 點數字就能改，溢價率即時重算；改過的顯示「還原」 */}
           <div className="grid grid-cols-2 gap-3">
-            <div className="metric-small">
-              <div className="metric-label">現價 (CB)</div>
-              <div className="metric-value">
-                {data.price ? parseFloat(data.price).toFixed(2) : "--"}
+            {[
+              ["現價 (CB)", cbEdit, setCbEdit, fetchedCb],
+              ["現價 (股票)", stockEdit, setStockEdit, fetchedStock],
+            ].map(([label, edit, setEdit, fetched]) => (
+              <div key={label} className="metric-small">
+                <div className="metric-label flex items-center gap-2">
+                  {label}
+                  {edit !== null && (
+                    <button
+                      type="button"
+                      onClick={() => setEdit(null)}
+                      title={`還原為 ${fetched > 0 ? fetched.toFixed(2) : "--"}`}
+                      className="text-[10px] font-bold text-slate-400 hover:text-slate-700"
+                    >
+                      <i className="fas fa-undo mr-1"></i>還原
+                    </button>
+                  )}
+                </div>
+                <input
+                  type="number"
+                  inputMode="decimal"
+                  step="0.05"
+                  value={edit ?? (fetched > 0 ? fetched.toFixed(2) : "")}
+                  onChange={(e) => setEdit(e.target.value)}
+                  onFocus={(e) => e.target.select()}
+                  placeholder="--"
+                  title="可輸入盤中價格試算"
+                  className={`metric-value w-full mt-1 bg-transparent text-2xl font-black tracking-tight mono outline-none rounded-lg -mx-2 px-2 border border-dashed border-transparent hover:border-slate-300 focus:border-slate-400 ${
+                    edit !== null ? "text-indigo-600" : ""
+                  }`}
+                />
               </div>
-            </div>
-            <div className="metric-small">
-              <div className="metric-label">現價 (股票)</div>
-              <div
-                className={`metric-value ${data.stockPrice === 0 ? "text-slate-300" : ""}`}
-              >
-                {data.stockPrice > 0 ? data.stockPrice.toFixed(2) : "--"}
-              </div>
-            </div>
+            ))}
           </div>
 
           {/* Result Card */}
