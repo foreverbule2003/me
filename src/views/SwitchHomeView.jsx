@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { SwitchTopBar } from "../components/SwitchShell.jsx";
 import { setShellPref } from "../lib/shellMode";
@@ -30,6 +30,11 @@ const SHORTCUTS = [
 ];
 
 const EMAIL = "foreverbule2003@gmail.com";
+
+// Secret: A B A B quickly jumps straight to the CB watchlist
+const SECRET = "ABAB";
+const SECRET_WINDOW = 1500; // ms for the whole sequence
+const SECRET_HREF = "/me/tools/cb-war-room.html?tab=watchlist";
 
 const TILE_W = 170; // tile + gap
 const VISIBLE = 3;
@@ -65,12 +70,41 @@ const SwitchHomeView = ({ onSetActions }) => {
   const [launching, setLaunching] = useState(null);
   const [overlay, setOverlay] = useState(null); // "contact" | "help" | null
 
+  const launchTimer = useRef(null);
+  const presses = useRef([]);
+
   const openTile = (tile) => {
     setLaunching(tile.title);
-    setTimeout(() => {
+    clearTimeout(launchTimer.current);
+    launchTimer.current = setTimeout(() => {
+      launchTimer.current = null;
       if (tile.href) window.location.href = tile.href;
       else navigate(tile.path);
     }, 350);
+  };
+
+  // B during the launch animation cancels it (also lets A in "ABAB" not open a tile)
+  const cancelLaunch = () => {
+    if (!launchTimer.current) return false;
+    clearTimeout(launchTimer.current);
+    launchTimer.current = null;
+    setLaunching(null);
+    return true;
+  };
+
+  // Returns true when this press completes the secret
+  const record = (btn) => {
+    const now = Date.now();
+    presses.current = [...presses.current, { btn, at: now }]
+      .filter((p) => now - p.at <= SECRET_WINDOW)
+      .slice(-SECRET.length);
+    if (presses.current.map((p) => p.btn).join("") !== SECRET) return false;
+    presses.current = [];
+    cancelLaunch();
+    setOverlay(null);
+    setLaunching("MY WATCHLIST");
+    setTimeout(() => (window.location.href = SECRET_HREF), 350);
+    return true;
   };
 
   const runShortcut = (sc) => {
@@ -101,9 +135,15 @@ const SwitchHomeView = ({ onSetActions }) => {
           ? setCol((c) => Math.min(TILES.length - 1, c + 1))
           : setScCol((c) => Math.min(SHORTCUTS.length - 1, c + 1)),
       ),
-      onSelect: guard(select),
+      onSelect: () => {
+        record("A");
+        guard(select)();
+      },
       onStart: guard(select),
-      onBack: guard(() => setRow(0)),
+      onBack: () => {
+        if (record("B") || cancelLaunch()) return;
+        guard(() => setRow(0))();
+      },
     });
   }, [row, col, scCol, overlay, navigate, onSetActions]);
 
