@@ -4,6 +4,22 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.12.4] - 2026-11-04 (對外部署安全檢查後修補)
+
+### 安全性 (Security) 🔒
+
+- **旅程共享勾選限定白名單**: `firestore.rules` 的 `trips/{tripId}/{kind}/{itemId}` 只收 `isKnownTrip` 列出的 5 個旅程，itemId 只收前端產生的 `food-a-b-c`、`shopping-a-b`、`wishlist-n`、`todo-n` 四種格式，讀、寫、刪都套用。原本匿名者可以用任意 tripId、itemId 無限建立文件，或刪除別人的勾選。線上既有的 54 筆勾選都符合新格式。規則要手動部署。
+- **新旅程自動加白名單**: `tools/new-trip.js` 建旅程時把 tripId 加進 `isKnownTrip`，並提醒部署規則；新增 guard `tools/guard/check-firestore-trip-ids.mjs`（接進 `npm run guard`），旅程頁的 `TRIP_ID` 不在白名單就紅燈。
+- **不再於執行期載入未鎖版本的第三方腳本**: `src/lib/firebase-client.mjs`（CB 戰情室、計算機）原本從 unpkg 載入未鎖版本的 `web-vitals`、從 gstatic 載入 Firebase SDK 10.7.1，改用 npm 套件打包。財務儀表板的 chart.js 改用 npm 套件。CB 計算機拿掉三個沒有作用的 CDN 腳本（溢價圖讀的 `window.CbPremiumHistoryChart` 本來就沒被載入）。
+- **舊頁面 CDN 鎖版本加 SRI**: 宿霧、大阪兩頁的 React 18.3.1、Babel standalone 8.1.1，以及兩個 prototype 頁的 chart.js 4.6.1 鎖定確切版本並加 `integrity`；Tailwind Play CDN 先鎖在 3.4.19，SRI 待補。
+
+### 已知影響
+
+- 新增或改名旅程沒有部署規則前，那一頁的收藏與購物勾選會寫入失敗。
+- Tailwind Play CDN 與 Font Awesome CSS 尚未加 SRI。
+
+---
+
 ## [2.12.3] - 2026-11-04 (安全性掃描後修補)
 
 ### 安全性 (Security) 🔒

@@ -44,6 +44,8 @@
 | `trips/{trip}/expenses.md` | 實際花費記帳：每日逐筆明細（時間、店家、分類、金額、幣別、備註）與總計 | **手寫**，是 `data.js` 的 `expenseData` 的來源草稿 |
 | `trips/{trip}/trip_notes.md` | 來源與實況筆記：原始行程表出處、旅行社報價條件、未採用的班次與路線、實際走法與行程表的落差、刻意不收錄於公開網站的內容 | **手寫**，`data.js` 承載不了、但不該遺失的資訊都放這裡 |
 
+**共享勾選的 Firestore 白名單**：美食收藏、購物勾選寫在 `trips/{tripId}/...`，規則只收 `firebase/firestore.rules` 的 `isKnownTrip` 列出的 tripId（2026-11-04 起）。`npm run new-trip` 會自動加進去，但要手動 `firebase deploy --only firestore:rules` 才生效；手動建旅程或改 `TRIP_ID` 時自己加，`npm run guard` 會檢查有沒有漏。
+
 **新行程的初始 `spec.md`**：`npm run new-trip` 會先產生一份佔位草稿，第一次執行同步就會被整份覆蓋。行程一律寫在 `data.js`，不要在這份草稿裡規劃。
 
 **花費為什麼不併進 `spec.md`**（2026-10-17 定）：`spec.md` 每次同步都整份重寫，手寫的花費會被洗掉；而且兩者資料流向相反——`spec.md` 是 `data.js` → 文件，花費是文件 → `data.js`。

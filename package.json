@@ -17,7 +17,7 @@
     "test:calc": "node scripts/test-calculator-core.mjs",
     "test:ui": "playwright test",
     "test:console": "playwright test tests/console-guard.spec.js",
-    "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js && node tools/guard/check-trip-schema.mjs && node tools/guard/check-orphan-scripts.mjs",
+    "guard": "node tools/guard/check-datapath.js && node tools/guard/verify-dom.js && node tools/guard/check-trip-schema.mjs && node tools/guard/check-orphan-scripts.mjs && node tools/guard/check-firestore-trip-ids.mjs",
     "sync-check": "node tools/guard/check-remote-sync.mjs"
   },
   "keywords": [
