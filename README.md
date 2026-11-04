@@ -82,7 +82,8 @@ timboy/
 | `npm run dev`      | 啟動 Vite 開發伺服器 (熱更新) |
 | `npm run build`    | 建構 Production Bundle        |
 | `npm run preview`  | 預覽 Production Build         |
-| `npm run new-trip` | 互動式建立新旅程（執行前自動 `git fetch` 檢查是否落後遠端） |
+| `npm run new-trip` | 互動式建立新旅程（執行前自動 `git fetch` 檢查是否落後遠端；會把新旅程加進 `firestore.rules` 白名單，要另外部署規則） |
+| `npm run guard` | 提交前的靜態檢查（路徑、DOM 接線、旅程欄位契約、孤兒腳本、Firestore 旅程白名單），見 `docs/REFACTOR_GUARD.md` |
 | `npm run test:calc` | 手動驗證 CB 計算核心（golden sample 對答案）|
 | `npm run sync-check` | 檢查本地是否落後遠端（開工前確認；Claude Code 的 SessionStart hook 會自動跑）|
 | `npm run format`   | 格式化所有程式碼              |

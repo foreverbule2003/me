@@ -402,6 +402,36 @@ function registerViteEntry(locationCode, tripId) {
 }
 
 // ============================================================
+// Firestore 規則：旅程白名單自動註冊（共享勾選只收白名單內的 tripId）
+// ============================================================
+function registerFirestoreTrip(tripId) {
+  const rulesPath = path.join(ROOT, "firebase", "firestore.rules");
+  const listRe = /(function isKnownTrip\(tripId\) \{\s*return tripId in \[)([^\]]*)(\];)/;
+
+  try {
+    const content = fs.readFileSync(rulesPath, "utf8");
+    const m = content.match(listRe);
+    if (!m) return false;
+    const ids = [...m[2].matchAll(/'([^']+)'/g)].map((x) => x[1]);
+    if (ids.includes(tripId)) {
+      console.log("ℹ️  firestore.rules 已包含此旅程，略過。");
+      return true;
+    }
+    ids.push(tripId);
+    ids.sort();
+    const list = `\n${ids.map((id) => `        '${id}'`).join(",\n")}\n      `;
+    fs.writeFileSync(rulesPath, content.replace(listRe, `$1${list}$3`));
+    console.log(
+      "✅ firebase/firestore.rules (自動加入旅程白名單；記得部署：npx firebase deploy --only firestore:rules)",
+    );
+    return true;
+  } catch (e) {
+    console.error(`⚠️  無法更新 firestore.rules: ${e.message}`);
+    return false;
+  }
+}
+
+// ============================================================
 // TripsView.jsx 首頁選單自動註冊
 // ============================================================
 function registerTripsMenu(tripId, year, title) {
@@ -606,6 +636,15 @@ async function main() {
 `);
   }
 
+  // 6. Firestore 規則旅程白名單自動註冊
+  const rulesRegistered = registerFirestoreTrip(tripId);
+  if (!rulesRegistered) {
+    console.log(`
+⚠️  無法自動更新 firebase/firestore.rules，請手動在 isKnownTrip 的清單加入 '${tripId}'，
+    否則這個旅程的美食收藏與購物勾選會寫入失敗。
+`);
+  }
+
   console.log(`
 🎉 旅程 ${tripId} 建立成功！
 
@@ -632,6 +671,7 @@ async function main() {
    5. 旅途中／回來後在 trips/${tripId}/expenses.md 記帳，確認後轉寫進 data.js 的 expenseData
 
 ⚠️  腳本不會改的兩份，請手動更新：docs/SITEMAP.md（網站地圖）、CHANGELOG.md（版本紀錄）
+⚠️  firestore.rules 已加入新旅程，要部署才生效：npx firebase deploy --only firestore:rules
 `);
 
   rl.close();

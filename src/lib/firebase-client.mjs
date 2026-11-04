@@ -2,7 +2,7 @@
  * Shared Firebase Client SDK Module
  * Centralizes configuration and initialization for all client-side tools.
  */
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { initializeApp } from "firebase/app";
 import {
   getFirestore,
   collection,
@@ -19,21 +19,22 @@ import {
   deleteDoc,
   deleteField,
   onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+} from "firebase/firestore";
 import {
   getAuth,
   onAuthStateChanged,
   GoogleAuthProvider,
   signInWithPopup,
   signOut
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+} from "firebase/auth";
 import { 
   getAnalytics, 
   logEvent 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
+} from "firebase/analytics";
 
 // Web Vitals for Performance Monitoring
-import { onCLS, onINP, onLCP, onFCP, onTTFB } from "https://unpkg.com/web-vitals@3?module";
+// SDK 一律用 npm 套件打包（與 src/lib/firebase.js 同一份），不在執行期從 CDN 載入未鎖版本的腳本
+import { onCLS, onINP, onLCP, onFCP, onTTFB } from "web-vitals";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
