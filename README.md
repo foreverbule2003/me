@@ -164,7 +164,7 @@ B 長出規則，A 照規則檢查，兩條路共用比較頁。規則寫在 [UI
 - [COMPONENTS.md](./docs/COMPONENTS.md) - 元件文件
 - [SITEMAP.md](./docs/SITEMAP.md) - 網站地圖
 - [STYLE_GUIDE.md](./docs/STYLE_GUIDE.md) - 程式碼風格指南
-- [TODO_SPEC.md](./docs/TODO_SPEC.md) - 待辦事項寫作規範
+- [TODO_SPEC.md](./docs/TODO_SPEC.md) - 待辦事項寫作規範（新增用 `/capture`、日報用 `/journal`，兩支與 second-brain 共用，正本在 second-brain `.claude/shared-skills/`）
 - [CONTRIBUTING.md](./CONTRIBUTING.md) - 貢獻指南
 - [CHANGELOG.md](./CHANGELOG.md) - 更新日誌
 - [ARCHITECTURE.md](./docs/ARCHITECTURE.md) - 架構決策記錄 (ADR)

@@ -1,31 +1,30 @@
 /**
- * AI 自造詞清單與掃描範圍。正本只有這一份：
- * - `.claude/hooks/check-ai-coinage.mjs`（寫檔當下攔）
- * - `scripts/check-smells.mjs`（/commit 步驟 6 掃本次新增的行）
- * 兩支都 import 這裡。要加詞、改範圍只改這個檔。
+ * AI 自造詞清單與掃描範圍。
+ * - 詞表正本在 second-brain `.claude/shared-data/coinage.json`（兩個 repo 共用，2026-11-04 合併），
+ *   這裡只讀出適用 me 的詞；要加詞改那份 JSON。
+ * - 掃描範圍（WATCHED / EXEMPT / META）是 me 自己的，留在這個檔。
+ * 讀這裡的：`.claude/hooks/check-ai-coinage.mjs`（寫檔當下攔）、
+ * `scripts/check-smells.mjs`（/commit §4 掃本次新增的行）。
  */
 
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+
+// me 與 second-brain 都在 ~/myDev 底下，用相對位置找
+const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
+export const COINAGE_JSON = path.resolve(ROOT, "../second-brain/.claude/shared-data/coinage.json");
+
+if (!fs.existsSync(COINAGE_JSON)) {
+  throw new Error(`找不到共用造字詞表：${COINAGE_JSON}（second-brain 要跟 me 放在同一層）`);
+}
+
 // 慣犯清單：詞 → 建議替代
-export const COINAGE = {
-  閘門: "門檻 / 缺一不進",
-  沉底: "收進附錄",
-  開獎: "驗證",
-  暫存區: "待確認觀察",
-  路口: "流程",
-  規則卡: "規則本體",
-  兜底: "另外綁一個",
-  落地: "寫進檔案 / 實際做到",
-  落檔: "寫進檔案",
-  落盤: "寫進檔案",
-  實錘: "證據",
-  血緣: "由來",
-  指紋: "特徵",
-  外顯: "留下紀錄",
-  執法: "照著條文做",
-  洗成: "講成",
-  遮蔽: "蓋過",
-  射程: "管得到的範圍",
-};
+export const COINAGE = Object.fromEntries(
+  JSON.parse(fs.readFileSync(COINAGE_JSON, "utf8"))
+    .words.filter((w) => !w.repos || w.repos.includes("me"))
+    .map((w) => [w.word, w.better]),
+);
 
 // 只管這幾個地方——它們是「給他讀的」或「他會照著做的」
 export const WATCHED = [

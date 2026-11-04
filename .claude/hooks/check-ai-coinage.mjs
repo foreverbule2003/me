@@ -2,7 +2,7 @@
 /**
  * PostToolUse hook：寫檔當下攔下 AI 自造詞。
  *
- * `/commit` 步驟 6 的 scripts/check-smells.mjs 是**寫完之後**掃本次新增的行；
+ * `/commit` §4 的 scripts/check-smells.mjs 是**寫完之後**掃本次新增的行；
  * 這支在上游：Write/Edit 一寫進受管路徑就掃，命中當場擋下來。
  *
  * **不掃的**（靠這幾條避免誤報，誤報會讓這道檢查被學會忽略）：
@@ -15,7 +15,7 @@
  *     echo '<payload>' | node .claude/hooks/check-ai-coinage.mjs
  */
 
-// 清單與掃描範圍的正本在 coinage-list.mjs，/commit 步驟 6 的 scripts/check-smells.mjs 也讀同一份
+// 清單與掃描範圍從 coinage-list.mjs 讀（詞表正本是 second-brain 的 .claude/shared-data/coinage.json），/commit §4 的 scripts/check-smells.mjs 也讀同一份
 import { COINAGE, META, watched } from "./coinage-list.mjs";
 
 /** 回傳 [[詞, 建議替代, 那一行的片段]] */
@@ -76,7 +76,7 @@ console.log(
     {
       decision: "block",
       reason:
-        "AI 自造詞被攔下（清單見 .claude/hooks/coinage-list.mjs）。他讀不懂這些詞——那是我造的，不是他說過的話。\n" +
+        "AI 自造詞被攔下（清單見 second-brain .claude/shared-data/coinage.json）。他讀不懂這些詞——那是我造的，不是他說過的話。\n" +
         lines.join("\n") +
         "\n\n當場改掉，不要留到 /commit 才掃。",
     },

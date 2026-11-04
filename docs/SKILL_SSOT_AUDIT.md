@@ -164,3 +164,45 @@
 7. **選做**：`sync`／`pull`、`cleanup`（先補 SB 歸檔規則）、`repo-iterate`、`restructure`。
 
 每一步做完，兩邊都要各開一個新 session 叫一次，確認載入的是 symlink 那份（`skill-template.md` 記過：同一場對話裡 Skill 工具可能載入舊版快照）。
+
+---
+
+## 四、裁定
+
+2026-11-04 逐題問 Tim，選項由 AI 提、Tim 點選；「原話」欄是 Tim 點的那個選項。問之前重讀過〈二〉列的原檔，現況與盤點時相同（造字清單實數仍是 me 18、SB 31）。
+
+| # | 對應 | 裁定 | Tim 的原話 |
+| --- | --- | --- | --- |
+| 1 | 2-1 衝突 1 批准問句 | 共通句型「要 commit 並<推出動作>嗎？（回「只 commit」就停在本地）」，me 填「部署」、SB 填「push」；兩邊都不再用「提交」 | 「句型共用，動詞分 repo」 |
+| 2 | 2-1 衝突 2 不推的說法 | 統一為「只 commit」，SB 的「先不推」推翻 | 「「只 commit」」 |
+| 3 | 2-1 衝突 3 push 怎麼做 | 共通只寫「批准後做推出」；me references 寫接 `/deploy`，SB references 寫 `git push` 加解除 Artifact 監聽 | 「共通只寫「批准後做推出」，做法進 references」 |
+| 4 | 2-1 衝突 4 紅燈政策 | 共通採 SB 版：這次改壞的修好再往下，改之前就壞的寫進 diff 摘要、不擋；me「修不了停下來問」推翻 | 「共通採 SB 版」 |
+| 5 | 2-1 衝突 5 草稿頁 | 兩邊都定案即刪。推翻 me 現行「保留到 Tim 說刪」：`ui-draft` 的 `references/me.md`〈收尾〉、`references/history.md`、`SKILL.md:68` 要一起改 | 「兩邊都定案即刪」 |
+| 6 | 2-1 衝突 6 步驟編號 | 沿用 SB 的 §1–§6；me 0–10 併入（驗證、自動同步、文件同步 → §3；確認、提交、回報 → §6）。只改 me 的 6 處引用（`check-smells.mjs` 3、`check-doc-sync.mjs`、`coinage-list.mjs`、`check-ai-coinage.mjs` 各 1），SB 與歷史檔不動 | 「沿用 SB 的 1–6」 |
+| 7 | 2-1 衝突 7 格式 | 照 `skill-template.md`，以 SB 現行版為底改寫 | 「照 skill-template.md」 |
+| 8 | 2-1 衝突 8／2-6 造字清單 | 一份 JSON（SB `.claude/shared-data/coinage.json`），加「適用 repo」欄：通用詞不標，投資語境詞（單卡、恐慌頁、應變卡、交易卡、兩條腿、那條腿）標 second-brain；掃描路徑留各 repo | 「一份 JSON，加「適用 repo」欄」 |
+| 9 | 2-6 替代寫法不同的詞 | 取聯集：只留「兜底」（涵蓋「兜底日期」），替代寫「另外綁一個 / 另綁一個日期」；「執法」「射程」採 SB 較完整的寫法 | 「取聯集」 |
+| 10 | 2-5 editor 沿革 | 留在 SB `knowledge/meta-evolution.md`，skill 只加一行指向；`restructure.md:53` 不用改 | 「留在 meta-evolution，skill 只加一行指向」 |
+| 11 | 2-7 handoff hook | me 先不裝；references/me.md 寫明只靠 AI 自己判斷訊號 | 「先不裝」 |
+| 12 | 2-2 capture 格式 | me 也改用 SB 四格格式（標題／現況／下一步／紀錄）；格式寫在各自 `TODO.md` 檔頭，me 檔頭補〈條目格式〉、現有條目改寫 | 「me 也改用 SB 四格格式」 |
+| 13 | 2-2 capture 插入位置 | 區塊頂端，寫進兩邊 `TODO.md` 檔頭 | 「頂端」 |
+| 14 | 2-3 journal 可複用性去向 | 改問「兩個 repo 都用得到嗎」，是就提議抽到 SB `shared-skills/`；不再寫「複製」 | 「改問「兩邊都用得到嗎」」 |
+| 15 | 2-4 sync／pull | 叫 `/sync`，`pull --rebase`，不順便 push（推出只走 `/commit`）；SB `/pull` 改指向或刪除 | 「叫 /sync，rebase，不順便 push」 |
+| 16 | 2-8 cleanup SB 歸檔 | 就近歸檔：程式進 `scripts/archive/`、知識進 `knowledge/archive/`，其他先問 | 「就近歸檔」 |
+| 17 | 2-8 repo-iterate | 以 skill 為準，me auto-memory 同類條目改成一行指標 | 「以 skill 為準，記憶只留指標」 |
+
+〈三〉第 1、2 步與 `restructure`（例子改成「先問落點」）沒有要裁定的點。
+
+---
+
+## 五、執行進度
+
+| 日期 | 〈三〉步驟 | 做了什麼 | 未完 |
+| --- | --- | --- | --- |
+| 2026-11-04 | 1 | `~/.claude/skills/` 的兩個 symlink 在、SB 專案層已無同名指令；SB `menu.md`、README 已指向 `shared-skills/`（前一場改的，未 commit）。照裁定第 5 條改 `ui-draft`：`SKILL.md` 步驟 5、`references/me.md`〈收尾〉改成定案即刪，`references/history.md` 加推翻紀錄 | SB 那邊沒有另開新 session 試叫；me 現有的 `src/pages/tools/cb-war-room/draft/`、`tools/cb-war-room-draft.html` 要不要照新規則刪，等 Tim 說定案沒有 |
+| 2026-11-04 | 2 | `grill.md` 搬到 `~/.claude/commands/`；`apple-design`、`emil-design-eng`、`mobile-native` 搬到 `~/.claude/skills/`；SB 原檔刪除（未暫存、未 commit）；SB `work/docs/general-maintenance-tools.md` 補上新位置。本 session 的 skill 清單已列出這四支 | SB 兩份課程章節（`與AI一起工作-ch3-素材-讓它反問你.md:97`、`ch4-讓它寫程式.md:207`）附錄仍寫 `.claude/commands/grill.md`；兩檔標 `TA:人`，附錄只能往後追加，沒動 |
+| 2026-11-04 | 3 | `editor`、`handoff` 從 SB `.claude/skills/` 搬到 `.claude/shared-skills/`，symlink 進 `~/.claude/skills/`，本 session 的 skill 清單已列出兩支。`editor` 的 Inputs 補「沒有 CLAUDE.md 就看 CONTRIBUTING.md」；它原本就有 `references/history.md`（各條由來），只加一行指向 `meta-evolution.md` 的立法史（裁定第 10 條）。`handoff` 把 hook 與喊停條拆進 `references/second-brain.md`、`references/me.md`（me 無 hook，裁定第 11 條）。改路徑：`check_doc_sync.py` 的 editor 提醒、`test_check_doc_sync_editor.py`、SB `/commit` §3、`docs/CORE_FILES.md` 兩處、`handoff_trigger.py`。SB `check_doc_sync.py` 全過、`pytest` 575 passed | SB `knowledge/ai-literacy-給工程主管版.md:100` 仍寫 `.claude/skills/editor/SKILL.md`，該檔標 `TA:人`，正文沒動；claude.ai 的 editor 副本照舊要手動上傳 |
+| 2026-11-04 | 4 | 建 SB `.claude/shared-data/coinage.json`：兩份取聯集共 31 詞，「兜底日期」併入「兜底」；`repos` 標 second-brain 的 7 個（單卡、兩條腿、那條腿、側門、恐慌頁、應變卡、交易卡），me 掃 24 個。SB `check_ai_coinage.py`、me `coinage-list.mjs` 改讀這份，掃描範圍留各 repo；me 找不到 SB 時直接報錯。改引用：me `CONTRIBUTING.md`、`/commit` 步驟 6、兩支腳本註解、`CHANGELOG.md` 2.12.2；SB `CLAUDE.md`〈用詞〉、`/commit` §4、`docs/CORE_FILES.md`。兩邊 hook 實測都擋得下；me guard／test／文件同步／壞味道全過，SB 文件同步全過、pytest 575 passed | 「側門」不在裁定第 8 條點名的詞裡，因替代寫法「沒寫卡上限」只在投資語境才通，一併標 second-brain，Tim 可推翻 |
+| 2026-11-04 | 5 | 寫 SB `.claude/shared-skills/capture/`、`journal/`（照 `skill-template.md`），symlink 進 `~/.claude/skills/`，本 session 的 skill 清單已列出兩支；兩邊的 `capture.md`、`journal.md` 指令檔刪除。capture 不寫格式，只指向 `TODO.md` 檔頭〈條目格式〉（裁定第 12 條）；journal 可共用掃描改問「兩個 repo 都用得到嗎」（第 14 條），me 多對照 `CHANGELOG.md`、SB 多掃 `.agent/prompts/` 放 references。me `TODO.md` 檔頭補四格格式與「插在區塊最上面」，P2 那條改寫成四格；SB `TODO.md` 檔頭補插入位置（第 13 條）。另改 me `docs/TODO_SPEC.md` §3.2 改指向檔頭、README、`CHANGELOG.md` 2.12.2；SB README `/capture` 列。兩邊所有檢查全過 | me `TODO.md` P3 四條（AI 旅遊助手、2025-osaka 等）只有一行標題，沒有現況可寫，維持舊格式，等你補或刪；me `.agent/workflows/journal.md`（舊 Antigravity 版）沒動 |
+| 2026-11-04 | 6 | 寫 SB `.claude/shared-skills/commit/`：`SKILL.md` 以 SB 現行版為底，§1–§6（裁定第 6、7 條），問句共用句型、「只 commit」、紅燈採 SB 版、草稿頁定案即刪（第 1、2、4、5 條）；`references/me.md`、`second-brain.md` 收各自的指令、對照表、人工檢查、推出做法（me 接 `/deploy`、SB push 加解除 Artifact 監聽，第 3 條）與停點；`references/history.md` 記共用後的裁定與舊編號對照。兩邊 `.claude/commands/commit.md` 改成薄殼（me 保留 `allowed-tools`），**不 symlink**，避免使用者層同名 skill 與薄殼重複。me 的 6 處「步驟 N」改成 §N（`check-smells.mjs` 3、`check-doc-sync.mjs`、`coinage-list.mjs`、`check-ai-coinage.mjs` 各 1）；`docs/COMMIT_RATIONALE.md` 檔頭補舊新編號對照；`CHANGELOG.md` 2.12.2；me auto-memory 兩條（`no-commit-without-explicit-yes`、`commit-workflow-doc-sync`）改指新正本與新紅燈規則。兩邊所有檢查全過，共用檔用造字詞表掃過沒抓到 | 還沒實際跑過一次新版 `/commit`；SB 的 `/commit §N` 引用照裁定不動 |
+| 2026-11-04 | 7 | 四支都進 SB `.claude/shared-skills/` 並 symlink 進 `~/.claude/skills/`，本 session 的 skill 清單已列出四支。`sync`：合併 me `/sync` 與 SB `/pull`，rebase、加預覽、不 push（裁定第 15 條）；me `sync.md`、SB `pull.md` 刪除，SB `menu.md` 改指 `/sync`、me `teaching/WORKFLOW_GUIDE.md` 改「不推」。`cleanup`：me 指令改寫成 skill，references 分 me（`tools/archive/{migrations,prototypes,deprecated}`）與 SB（`scripts/archive/`、`knowledge/archive/`，其他先問，第 16 條）；me `cleanup.md` 刪除，SB `arch-review.md:85` 的 `/cleanup` 不再是斷掉的引用。`repo-iterate`：必經流程清單拆進兩份 references，規則檔寫成「`CLAUDE.md`，me 是 `CONTRIBUTING.md`」。`restructure`：SB 指令改寫成 skill，「沿革落點」的例子改成「先問 Tim」，`mistakes.md` 改成「教訓檔」，SB `restructure.md` 刪除。另改 SB README 三列、me `CHANGELOG.md` 2.12.2。兩邊所有檢查全過，共用檔用造字詞表掃過沒抓到 | 裁定第 17 條（記憶只留指標）：me auto-memory 七條裡沒有跟 `repo-iterate` 重複的規則，沒有要改的 |

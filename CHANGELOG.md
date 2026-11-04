@@ -4,6 +4,17 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.12.2] - 2026-11-04 (斜線指令與 skill 改成與 second-brain 共用)
+
+### 變更 (Changed) 🔧
+
+- **`/capture`、`/journal` 改成與 second-brain 共用的 skill**: 正本在 second-brain `.claude/shared-skills/`，symlink 進 `~/.claude/skills/`，本 repo 的兩支指令檔刪除。`TODO.md` 條目改用四格格式（標題／現況／下一步／紀錄），新條目插在區塊最上面，格式寫在 `TODO.md` 檔頭。
+- **`/sync`、`/cleanup` 改成與 second-brain 共用的 skill**: 本 repo 兩支指令檔刪除，正本在 second-brain `.claude/shared-skills/`。`/sync` 不再順便 push，推出只走 `/commit`。另外 `repo-iterate`、`/restructure`（原本只在 second-brain）也改成共用，me 叫得到。
+- **`/commit` 改成與 second-brain 共用的 skill**: 正本在 second-brain `.claude/shared-skills/commit/`（共通 `SKILL.md` + `references/me.md`），本 repo 的 `.claude/commands/commit.md` 只留指過去的薄殼與權限設定。步驟改用 §1–§6；紅燈改成「這次改壞的修好、改之前就壞的寫進摘要不擋」；比較頁定案即刪。批准問句與部署流程不變。
+- **造字詞表改讀共用正本**: `.claude/hooks/coinage-list.mjs` 不再自帶詞表，改讀 second-brain `.claude/shared-data/coinage.json`（兩邊合併成 31 個詞，只在投資語境才算的 7 個標成 second-brain 專用，me 掃 24 個）；掃描範圍仍留在 me。second-brain 不在同一層時 hook 與 `check-smells.mjs` 會直接報錯。
+
+---
+
 ## [2.12.1] - 2026-11-04 (UI 改進流程接上 /commit)
 
 ### 新增 (Added) 🚀

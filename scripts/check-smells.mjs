@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /**
- * /commit 步驟 6 的壞味道掃描：六種裡機器判得了的三種交給機器。
+ * /commit §4 的壞味道掃描：六種裡機器判得了的三種交給機器。
  *
  * 只做三種：
  *   1. 造字 —— 補寫檔 hook 的漏：用 Bash 寫入的檔、既有檔的新增行、hook 裝上之前就在的寫法
  *   2. 主語是 AI —— 關鍵詞比對，誤報低
  *   3. ⚠️ 盤點 —— 只列出來，不判是否已結清（要讀別的檔，機器判不了）
- * 冗餘、邏輯不通、幻覺留在 /commit 步驟 6 的表裡由人判：硬做成檢查只會每行都報，
+ * 冗餘、邏輯不通、幻覺留在 /commit §4 的表裡由人判：硬做成檢查只會每行都報，
  * 平常就在報的檢查很快會被學會忽略。移植自 second-brain 的 scripts/python/check_smells.py。
  *
- * 清單不另存一份：COINAGE / META / watched 從 .claude/hooks/coinage-list.mjs 讀。
+ * 清單不另存一份：COINAGE / META / watched 從 .claude/hooks/coinage-list.mjs 讀（詞表正本在 second-brain 的 .claude/shared-data/coinage.json）。
  *
  * 用法：
  *   node scripts/check-smells.mjs              # 工作區（含未追蹤）對 HEAD
@@ -101,7 +101,7 @@ for (const w of warns) console.log(`  ⚠️ 要自己判是不是已經結清�
 if (hits.length) {
   console.log(`壞味道：掃過 ${files.size} 個檔，抓到 ${hits.length} 處`);
   hits.forEach((h, i) => console.log(`  ${i + 1}. ${h}`));
-  console.log("  （冗餘、邏輯不通、幻覺機器判不了，見 /commit 步驟 6 的表）");
+  console.log("  （冗餘、邏輯不通、幻覺機器判不了，見 /commit §4 的表）");
   process.exit(1);
 }
 console.log(`壞味道：掃過 ${files.size} 個檔，沒抓到`);

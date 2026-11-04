@@ -4,6 +4,8 @@
 
 留在指令檔的判準：**拿掉這句，執行這一步會不會做錯？** 會做錯的（觸發條件、邊界、問句寫法）留下，只說明原因的移到這裡。做法取自 second-brain 的 `knowledge/meta-evolution.md` 附錄〈`/commit` 步驟依據〉（2026-11-03 移入）。
 
+> 2026-11-04 起 `/commit` 改成與 second-brain 共用的 skill（正本 second-brain `.claude/shared-skills/commit/`，本 repo 的 `.claude/commands/commit.md` 只剩薄殼），步驟改用 §1–§6。下表的舊編號對應：0→§1、1 與 2→§2、3 到 5→§3、6→§4、7→§5、8 到 10→§6。共用後的裁定記在該 skill 的 `references/history.md`。
+
 | 步驟 | 由來 |
 | --- | --- |
 | **全檔** | 2026-07-06 由 `.agent/workflows/commit.md`（前代工具的流程）合併成 `/commit`（`411efd0`、`1e70933`）。2026-09-16 移植 second-brain 的設計，補步驟 0、6、7（`25b0053`）。舊版 `.agent/workflows/commit.md` 改成一行指向正本：同一個流程存兩份檔，下次就會照舊的那份做 |
