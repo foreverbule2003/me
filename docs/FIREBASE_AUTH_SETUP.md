@@ -56,6 +56,17 @@
     - **JavaScript 來源**：包含 `https://foreverbule2003.github.io`
     - **重新導向 URI**：包含 `https://my-landing-page-2ca68.firebaseapp.com/__/auth/handler`
 
+4.  **API Key 的 API 限制（2026-11-06 起）**：
+    - 現在有兩支金鑰：`My Landing Page Web (auto created by Firebase)` 給 production 用（存在 GitHub secret `VITE_FIREBASE_API_KEY`），`me website key` 給本機 `.env` 用。兩支分開，改設定時兩支都要改。
+    - 兩支都只放行這 5 支 API，其他（含 Maps、Gemini）一律不勾：
+      - Identity Toolkit API（登入）
+      - Token Service API（登入後換憑證）
+      - Cloud Firestore API
+      - Firebase Installations API（Analytics）
+      - Firebase Management API（Analytics 抓設定）
+    - 漏勾 Token Service API 時，已登入的使用者整個 Firestore 會斷線（console 出現 `securetoken ... are blocked`），連公開資料都讀不到；未登入時不會發現。
+    - 本機金鑰的網站限制要另外加 `http://localhost:5173/*`。
+
 ## 3. 關鍵觀念
 
 - **`signInWithPopup` 的運作原理**：它不是直接從您的網站連到 Google，而是先開啟一個 Firebase 託管的中介頁面 (Handler)，由這個頁面去跟 Google 溝通。因此，任何安全性設定（API Key 或 OAuth）都必須同時「放行」您的網站 **以及** 這個 Firebase Handler 頁面。
