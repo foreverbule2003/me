@@ -59,6 +59,10 @@ const {
       console.log(`\n✅ Snapshot saved to ${outFile}`);
     }
   } catch (error) {
+    // 抓熱門榜失敗也算錯誤：以非 0 結束，讓 GitHub Actions 失敗並發 Telegram 通知
+    console.error(`❌ [HotCB] ${error.message}`);
+    process.exitCode = 1;
+
     // Fallback: Mock Data
     const mockData = getMockHotCB();
     const output = { source: "mock", data: mockData };

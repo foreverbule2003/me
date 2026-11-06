@@ -146,6 +146,8 @@ function buildDaily(records, conversionPrice) {
 
 // Global flag to stop trying cloud sync if quota hit
 let GLOBAL_CLOUD_QUOTA_EXCEEDED = false;
+// 雲端寫入失敗的次數；跑完若 >0 或額度用完，以非 0 結束，讓 GitHub Actions 失敗並發 Telegram 通知
+let CLOUD_SYNC_ERRORS = 0;
 
 // 讀雲端這檔 CB 的主文件與最後一筆日期(records 的文件 id 與 date 欄位都是日期)
 // 主文件沒記 lastRecordDate 時(舊資料)才去查 records,只花一次讀取
@@ -259,6 +261,7 @@ async function syncToFirestore(cbCode, data, daily) {
       );
       GLOBAL_CLOUD_QUOTA_EXCEEDED = true;
     } else {
+      CLOUD_SYNC_ERRORS++;
       console.warn(`⚠️ [Cloud] Sync Error: ${e.message}`);
     }
   }
@@ -484,4 +487,11 @@ async function syncToFirestore(cbCode, data, daily) {
   }
 
   console.log("\n✨ All tasks finished.");
+
+  if (GLOBAL_CLOUD_QUOTA_EXCEEDED || CLOUD_SYNC_ERRORS > 0) {
+    console.error(
+      `❌ [Cloud] 雲端同步沒有全部成功（額度用完：${GLOBAL_CLOUD_QUOTA_EXCEEDED}，寫入失敗：${CLOUD_SYNC_ERRORS} 檔）`,
+    );
+    process.exitCode = 1;
+  }
 })();

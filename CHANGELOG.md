@@ -4,6 +4,27 @@
 
 格式基於 [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)。
 
+## [2.12.5] - 2026-11-06 (停用計費後的失敗通知)
+
+### 新增 (Added)
+
+- **每日同步失敗發 Telegram**: `daily-hot-cb.yml`、`daily-cb-history.yml` 任何一步失敗時，最後一步發 Telegram 並附執行紀錄連結（repo secrets `TELEGRAM_BOT_TOKEN`、`TELEGRAM_CHAT_ID`，沿用 second-brain 的 bot）。GCP 專案已停用計費、只用 Firestore 免費額度，額度用完不會收費，也不會有 Google 通知，改靠這個。
+
+### 修正 (Fixed)
+
+- **同步失敗不再顯示成功**: `tools/fetch-cb-history.js` 原本在 Firestore 額度用完或寫入失敗時只印警告、以 0 結束；`tools/fetch-hot-cb.js` 抓熱門榜失敗時改用假資料，也以 0 結束。現在兩者都以非 0 結束，讓 workflow 失敗。
+
+### 已知問題
+
+- `fetch-hot-cb.js` 抓熱門榜失敗時仍會把假資料寫進雲端：當天還沒有快照時，假資料會成為當天快照並被 `hot_cb_meta/latest` 指向（`src/utils/hot-cb-cloud.js:34-58`）。
+
+### 文件 (Docs)
+
+- `docs/gcp_billing_audit_20260428.md` 新增第 6 節：5～11 月費用、為什麼不用預算警報或支出上限、停用計費後的每日額度限制。
+- `docs/FIREBASE_AUTH_SETUP.md` 補兩支 API 金鑰的用途與只放行的 5 支 API；漏勾 Token Service API 會讓已登入的使用者整個 Firestore 斷線。
+
+---
+
 ## [2.12.4] - 2026-11-04 (對外部署安全檢查後修補)
 
 ### 安全性 (Security) 🔒
