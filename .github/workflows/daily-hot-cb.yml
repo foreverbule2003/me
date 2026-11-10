@@ -2,8 +2,11 @@ name: Daily Hot CB Scraper
 
 on:
   schedule:
-    # 台灣時間 13:40 (收盤後) -> UTC 05:40
-    - cron: '40 5 * * 1-5'
+    # 櫃買當日行情檔約台灣時間 17:20 出，排三次，前一次寫成功後面就跳過
+    # 台灣 18:00 / 20:00 / 22:30 -> UTC 10:00 / 12:00 / 14:30
+    - cron: '0 10 * * 1-5'
+    - cron: '0 12 * * 1-5'
+    - cron: '30 14 * * 1-5' # 當天最後一次：還沒有今天的檔就算失敗
   workflow_dispatch: # 支援手動觸發
 
 permissions:
@@ -29,7 +32,7 @@ jobs:
         run: npm ci
 
       - name: Execute Scraper & Sync to Cloud
-        run: node tools/fetch-hot-cb.js --cloud
+        run: node tools/fetch-hot-cb.js --cloud ${{ github.event.schedule == '30 14 * * 1-5' && '--final' || '' }}
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 

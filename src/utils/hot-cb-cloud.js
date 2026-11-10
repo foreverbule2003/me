@@ -25,9 +25,9 @@ async function saveSnapshotToCloud(data) {
     const db = admin.firestore();
 
     // 1. Save to daily collection (for history archive)
-    // Document ID format: YYYY-MM-DD
+    // Document ID format: YYYY-MM-DD,用資料本身的交易日(dataDate),沒有才用今天
     const today = new Date();
-    const dateId = today.toISOString().split("T")[0];
+    const dateId = data.dataDate || today.toISOString().split("T")[0];
 
     const docRef = db.collection("hot_cb_snapshots").doc(dateId);
 

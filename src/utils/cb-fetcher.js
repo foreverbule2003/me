@@ -10,15 +10,19 @@ const USER_AGENT =
 const TOP_N = 20;
 const MAX_LOOKBACK_DAYS = 10;
 
-/** 台北時區的今天,回傳 { y, m, d } */
-function taipeiToday() {
-  const parts = new Intl.DateTimeFormat("en-CA", {
+/** 台北時區的今天,回傳 "YYYY-MM-DD" */
+function taipeiTodayStr() {
+  return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Taipei",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).format(new Date()); // YYYY-MM-DD
-  const [y, m, d] = parts.split("-").map(Number);
+  }).format(new Date());
+}
+
+/** 台北時區的今天,回傳 { y, m, d } */
+function taipeiToday() {
+  const [y, m, d] = taipeiTodayStr().split("-").map(Number);
   return { y, m, d };
 }
 
@@ -172,4 +176,4 @@ async function fetchHotCB() {
   }
 }
 
-module.exports = { fetchHotCB };
+module.exports = { fetchHotCB, taipeiTodayStr };

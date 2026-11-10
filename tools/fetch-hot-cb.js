@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { fetchHotCB } = require("../src/utils/cb-fetcher");
+const { fetchHotCB, taipeiTodayStr } = require("../src/utils/cb-fetcher");
 const {
   saveSnapshotToCloud,
   updateMasterMetadata,
@@ -16,6 +16,10 @@ const {
  * 支援:
  *   --cloud     同步至 Firestore
  *   --snapshot  存為本地歷史 JSON (public/data/history/YYYY-MM-DD.json)
+ *   --final     當天最後一次排程：還抓不到今天的檔就以失敗結束（發 Telegram）
+ *
+ * 櫃買當日檔約 17:20 才出；抓到的不是今天的資料就不寫入，
+ * 免得前一天的資料被存成今天的快照。
  */
 (async () => {
   const isCloud = process.argv.includes("--cloud");
@@ -27,6 +31,18 @@ const {
 
     // Print to console
     console.log(JSON.stringify(output, null, 2));
+
+    const today = taipeiTodayStr();
+    if (output.dataDate && output.dataDate !== today) {
+      const msg = `櫃買今天 (${today}) 的檔還沒出，最新是 ${output.dataDate}，不寫入。`;
+      if (process.argv.includes("--final")) {
+        console.error(`❌ [HotCB] ${msg}（當天最後一次排程，遇到休市日也會出現）`);
+        process.exitCode = 1;
+      } else {
+        console.log(`⏭️  [HotCB] ${msg}`);
+      }
+      return;
+    }
 
     // Optional: Save to cloud
     if (isCloud) {
@@ -41,7 +57,6 @@ const {
 
     // Optional: Local Snapshot
     if (isSnapshot) {
-      const today = new Date().toISOString().split("T")[0];
       const outFile = path.join(
         __dirname,
         "../public/data/history",

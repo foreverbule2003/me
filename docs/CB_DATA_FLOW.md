@@ -41,7 +41,7 @@
 
 | Workflow | 排程 (UTC+8) | 執行內容 |
 | --- | --- | --- |
-| `daily-hot-cb.yml` | 週一至五 13:40（收盤後） | `node tools/fetch-hot-cb.js --cloud` 抓熱門清單上雲 |
+| `daily-hot-cb.yml` | 週一至五 18:00、20:00、22:30（櫃買當日檔約 17:20 出） | `node tools/fetch-hot-cb.js --cloud` 讀櫃買每日可轉債行情 CSV，成交張數前 20 名存成當天快照 |
 | `daily-cb-history.yml` | 週一至五 14:15（行情更新後） | `node tools/fetch-cb-history.js --hot --watchlist --smart --sync` 補**熱門榜 Top 20 + 我的追蹤**的歷史資料，並寫入主文件 `daily` |
 
 - **`--hot`**：目標清單取自 `hot_cb_meta/latest` 指向的 `hot_cb_snapshots/{日期}`，不再每天跑全部 CB（2026-11-03 起，原本是 `--all`）。
@@ -51,9 +51,11 @@
 - **寫入範圍**：只寫 `date >= lastRecordDate` 的 records，舊日期不重寫，省 Firestore 寫入次數；寫完回填主文件的 `lastRecordDate`。
 - **舊資料相容**：主文件還沒有 `lastRecordDate` 時，改查 `records` 依 `date` 降冪取一筆，只多一次讀取。
 
+- **熱門榜只寫當天資料（2026-11-10 起）**：抓到的檔不是今天的就不寫入；快照文件 ID 用資料交易日。三次排程中，先抓到的寫入，後面遇到快照已存在就跳過；22:30 那次加 `--final`，還沒有今天的檔就失敗並發 Telegram（休市日也會發）。GitHub 排程常延遲數小時，偶爾漏跑，可手動補跑。
+
 兩者皆支援 `workflow_dispatch` 手動補跑。
 
-- **失敗通知（2026-11-06 起）**：任何一步失敗，最後一步用 repo secrets `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`（與 second-brain 同一個 bot）發 Telegram，附執行紀錄連結；secrets 沒設就略過。`fetch-cb-history.js` 在 Firestore 額度用完或任一檔寫入失敗時、`fetch-hot-cb.js` 在抓熱門榜失敗時，都會以非 0 結束。專案已停用計費、改用免費額度，額度用完不會收費，也不會有 Google 通知，見 `docs/gcp_billing_audit_20260428.md` 第 6 節。
+- **失敗通知（2026-11-06 起）**：任何一步失敗，最後一步用 repo secrets `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`（與 second-brain 同一個 bot）發 Telegram，附執行紀錄連結；secrets 沒設就略過。`fetch-cb-history.js` 在 Firestore 額度用完或任一檔寫入失敗時、`fetch-hot-cb.js` 在抓熱門榜失敗、或最後一次排程仍沒有今天的檔時，都會以非 0 結束。專案已停用計費、改用免費額度，額度用完不會收費，也不會有 Google 通知，見 `docs/gcp_billing_audit_20260428.md` 第 6 節。
 
 #### 主文件 `daily` 欄位（前端「我的追蹤」直接讀）
 
@@ -98,7 +100,7 @@
 ```mermaid
 graph TD
     %% 雲端軌 (GitHub Actions, 每交易日)
-    GHA[GitHub Actions ubuntu] -->|13:40 fetch-hot-cb --cloud| Firestore
+    GHA[GitHub Actions ubuntu] -->|18:00–22:30 fetch-hot-cb --cloud| Firestore
     GHA -->|14:15 fetch-cb-history --hot --watchlist --sync| Firestore
 
     %% 每週軌 (Claude 排程任務)
