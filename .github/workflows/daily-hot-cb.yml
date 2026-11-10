@@ -32,7 +32,10 @@ jobs:
         run: npm ci
 
       - name: Execute Scraper & Sync to Cloud
-        run: node tools/fetch-hot-cb.js --cloud ${{ github.event.schedule == '30 14 * * 1-5' && '--final' || '' }}
+        # 輸出同時存到 run.log，失敗時 Telegram 通知會附上錯誤行
+        run: |
+          set -o pipefail
+          node tools/fetch-hot-cb.js --cloud ${{ github.event.schedule == '30 14 * * 1-5' && '--final' || '' }} 2>&1 | tee run.log
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
@@ -48,8 +51,20 @@ jobs:
             echo "TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 未設定，略過通知"
             exit 0
           fi
+          # 從主步驟的 log 取出錯誤行（❌/🛑/Error），沒有就取最後幾行
+          if [ -s run.log ]; then
+            REASON=$(grep -E '❌|🛑|Error|RESOURCE_EXHAUSTED' run.log | tail -n 5 | cut -c1-300)
+            [ -z "$REASON" ] && REASON=$(tail -n 5 run.log | cut -c1-300)
+          else
+            REASON="主步驟之前就失敗了（例如安裝套件），請看 run 頁面。"
+          fi
+          HINT=""
+          if grep -qE 'RESOURCE_EXHAUSTED|Quota exceeded' run.log 2>/dev/null; then
+            HINT="
+          → Firestore 每日免費額度用完（專案已停用計費），太平洋時間午夜重置。"
+          fi
           TEXT="⚠️ me｜${WORKFLOW_NAME} 失敗
-          可能是 Firestore 每日免費額度用完（專案已停用計費），或抓資料失敗。
+          ${REASON}${HINT}
           ${RUN_URL}"
           curl -sS --fail -o /dev/null -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             --data-urlencode "chat_id=${TELEGRAM_CHAT_ID}" \

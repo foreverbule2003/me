@@ -55,7 +55,7 @@
 
 兩者皆支援 `workflow_dispatch` 手動補跑。
 
-- **失敗通知（2026-11-06 起）**：任何一步失敗，最後一步用 repo secrets `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`（與 second-brain 同一個 bot）發 Telegram，附執行紀錄連結；secrets 沒設就略過。`fetch-cb-history.js` 在 Firestore 額度用完或任一檔寫入失敗時、`fetch-hot-cb.js` 在抓熱門榜失敗、或最後一次排程仍沒有今天的檔時，都會以非 0 結束。專案已停用計費、改用免費額度，額度用完不會收費，也不會有 Google 通知，見 `docs/gcp_billing_audit_20260428.md` 第 6 節。
+- **失敗通知（2026-11-06 起）**：任何一步失敗，最後一步用 repo secrets `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID`（與 second-brain 同一個 bot）發 Telegram，附執行紀錄連結；secrets 沒設就略過。訊息內容是主步驟 log（`run.log`）中最後 5 行含 `❌`、`🛑`、`Error` 的錯誤行（2026-11-10 起，原本是固定的「可能是額度用完」），log 有 `RESOURCE_EXHAUSTED` 時另加額度用完的提示。`fetch-cb-history.js` 在 Firestore 額度用完或任一檔寫入失敗時、`fetch-hot-cb.js` 在抓熱門榜失敗、或最後一次排程仍沒有今天的檔時，都會以非 0 結束。專案已停用計費、改用免費額度，額度用完不會收費，也不會有 Google 通知，見 `docs/gcp_billing_audit_20260428.md` 第 6 節。
 
 #### 主文件 `daily` 欄位（前端「我的追蹤」直接讀）
 
