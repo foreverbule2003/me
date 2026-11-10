@@ -25,19 +25,21 @@ async function saveSnapshotToCloud(data) {
     const db = admin.firestore();
 
     // 1. Save to daily collection (for history archive)
-    // Document ID format: YYYY-MM-DD,用資料本身的交易日(dataDate),沒有才用今天
+    // Document ID format: YYYY-MM-DD,用資料本身的交易日(dataDate)。
+    // 沒有 dataDate 就不寫:用今天當 ID 會把前一天的資料存成今天。
+    if (!data.dataDate) {
+      throw new Error("資料沒有交易日 (dataDate)，不寫入快照。");
+    }
     const today = new Date();
-    const dateId = data.dataDate || today.toISOString().split("T")[0];
+    const dateId = data.dataDate;
 
     const docRef = db.collection("hot_cb_snapshots").doc(dateId);
 
-    // --- 防重複寫入：今天已存在快照則跳過，避免重複扣費 ---
+    // --- 防重複寫入：該交易日已有快照則跳過，避免重複扣費 ---
     const existing = await docRef.get();
     if (existing.exists) {
-      console.log(
-        `[Cloud] ⏭️  今日快照已存在 (${dateId})，跳過寫入以節省費用。`,
-      );
-      return dateId;
+      console.log(`[Cloud] ⏭️  快照已存在 (${dateId})，跳過寫入。`);
+      return { dateId, written: false };
     }
 
     const payload = {
@@ -57,7 +59,7 @@ async function saveSnapshotToCloud(data) {
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    return dateId;
+    return { dateId, written: true };
   } catch (error) {
     console.error("[Cloud] Error saving to Firestore:", error.message);
     throw error;

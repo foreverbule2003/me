@@ -10,14 +10,14 @@ const USER_AGENT =
 const TOP_N = 20;
 const MAX_LOOKBACK_DAYS = 10;
 
-/** 台北時區的今天,回傳 "YYYY-MM-DD" */
-function taipeiTodayStr() {
+/** 台北時區的今天(或指定時間的台北日期),回傳 "YYYY-MM-DD" */
+function taipeiTodayStr(date = new Date()) {
   return new Intl.DateTimeFormat("en-CA", {
     timeZone: "Asia/Taipei",
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
-  }).format(new Date());
+  }).format(date);
 }
 
 /** 台北時區的今天,回傳 { y, m, d } */
