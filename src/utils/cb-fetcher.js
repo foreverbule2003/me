@@ -1,128 +1,116 @@
-const fs = require("fs");
-const path = require("path");
-const puppeteer = require("puppeteer");
-
-// 抓取失敗時把實際拿到的頁面存在這裡,GitHub Actions 會上傳成 artifact
-const DEBUG_DIR = path.join(__dirname, "..", "..", "debug", "hot-cb");
-
 /**
- * 失敗時記下頁面網址、標題、內文開頭,並存截圖與 HTML,方便判斷是不是被擋。
- * 本身出錯不影響原本的錯誤往上丟。
+ * 熱門可轉債清單:讀櫃買中心每日「轉(交)換公司債買賣斷交易行情表」CSV,
+ * 取等價交易、按成交張數排前 20。
+ * 原本爬 PChome,2026-11 起 PChome 對 GitHub Actions 回 403,改用櫃買官方檔。
+ * 收盤後才有當日檔;當日還沒出就往前找最近一個交易日。
  */
-async function dumpFailedPage(page) {
-  try {
-    const url = page.url();
-    const title = await page.title();
-    const bodyText = await page.evaluate(() =>
-      document.body ? document.body.innerText.slice(0, 500) : "(no body)",
-    );
-    console.error(`[cb-fetcher] 失敗時的頁面 url=${url}`);
-    console.error(`[cb-fetcher] 失敗時的頁面 title=${title}`);
-    console.error(`[cb-fetcher] 失敗時的內文開頭:\n${bodyText}`);
-    fs.mkdirSync(DEBUG_DIR, { recursive: true });
-    fs.writeFileSync(path.join(DEBUG_DIR, "page.html"), await page.content());
-    await page.screenshot({
-      path: path.join(DEBUG_DIR, "page.png"),
-      fullPage: true,
-    });
-    console.error(`[cb-fetcher] 截圖與 HTML 已存到 ${DEBUG_DIR}`);
-  } catch (e) {
-    console.error("[cb-fetcher] 存失敗頁面時出錯:", e.message);
+
+const USER_AGENT =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
+const TOP_N = 20;
+const MAX_LOOKBACK_DAYS = 10;
+
+/** 台北時區的今天,回傳 { y, m, d } */
+function taipeiToday() {
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "Asia/Taipei",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date()); // YYYY-MM-DD
+  const [y, m, d] = parts.split("-").map(Number);
+  return { y, m, d };
+}
+
+function csvUrl(date) {
+  const y = date.getUTCFullYear();
+  const mm = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const dd = String(date.getUTCDate()).padStart(2, "0");
+  return {
+    dateStr: `${y}-${mm}-${dd}`,
+    url: `https://www.tpex.org.tw/storage/bond_zone/tradeinfo/cb/${y}/${y}${mm}/RSta0113.${y}${mm}${dd}-C.csv`,
+  };
+}
+
+/** 抓最近一個有檔的交易日;沒檔時櫃買回 302 或 404 */
+async function downloadLatestCsv() {
+  const { y, m, d } = taipeiToday();
+  const cursor = new Date(Date.UTC(y, m - 1, d));
+  for (let i = 0; i < MAX_LOOKBACK_DAYS; i++) {
+    const dow = cursor.getUTCDay();
+    if (dow !== 0 && dow !== 6) {
+      const { dateStr, url } = csvUrl(cursor);
+      const res = await fetch(url, {
+        redirect: "manual",
+        headers: {
+          "User-Agent": USER_AGENT,
+          Referer:
+            "https://www.tpex.org.tw/zh-tw/bond/info/statistics-cb/day.html",
+        },
+      });
+      if (res.status === 200) {
+        const buf = Buffer.from(await res.arrayBuffer());
+        return { dateStr, text: new TextDecoder("big5").decode(buf) };
+      }
+      console.error(`[cb-fetcher] ${dateStr} 沒有櫃買報價檔 (HTTP ${res.status})`);
+    }
+    cursor.setUTCDate(cursor.getUTCDate() - 1);
   }
+  throw new Error(`最近 ${MAX_LOOKBACK_DAYS} 天都抓不到櫃買可轉債報價檔`);
+}
+
+function formatChange(chg) {
+  if (chg > 0) return `▲${chg}`;
+  if (chg < 0) return `▼${Math.abs(chg)}`;
+  return "0.00";
+}
+
+/** 解析 CSV 的 BODY 列,只留有成交的等價交易 */
+function parseCsv(text) {
+  const rows = [];
+  for (const line of text.split(/\r?\n/)) {
+    if (!line.startsWith("BODY,")) continue;
+    const cols = (line.slice(5).match(/"[^"]*"|[^,]+/g) || []).map((c) =>
+      c.replace(/^"|"$/g, "").trim(),
+    );
+    // 0 代號 1 名稱 2 交易 3 收市 4 漲跌 5 開市 6 最高 7 最低 8 筆數 9 單位 10 金額
+    if (cols[2] !== "等價" || !/^\d+$/.test(cols[0])) continue;
+    const price = parseFloat(cols[3]);
+    if (isNaN(price)) continue;
+    const chg = parseFloat(cols[4]) || 0;
+    const prev = price - chg;
+    const volume = parseInt(cols[9].replace(/,/g, ""), 10);
+    const high = parseFloat(cols[6]);
+    const low = parseFloat(cols[7]);
+    rows.push({
+      code: cols[0],
+      name: cols[1],
+      time: "13:30",
+      price,
+      change: formatChange(chg),
+      changePercent: prev ? `${((chg / prev) * 100).toFixed(2)}%` : "0.00%",
+      volume: isNaN(volume) ? 0 : volume,
+      high: isNaN(high) ? "-" : high,
+      low: isNaN(low) ? "-" : low,
+    });
+  }
+  return rows;
 }
 
 /**
- * Scrapes the Hot CB list from PChome.
- * Returns a list of { code, name, price, ... } objects.
+ * Returns { source, dataDate, updatedAt, data: [{ code, name, price, ... }] }
  */
 async function fetchHotCB() {
-  let browser;
-  let page;
   try {
-    browser = await puppeteer.launch({
-      headless: "new",
-      args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
-    page = await browser.newPage();
+    const { dateStr, text } = await downloadLatestCsv();
+    const results = parseCsv(text)
+      .sort((a, b) => b.volume - a.volume)
+      .slice(0, TOP_N);
 
-    // Set User Agent
-    await page.setUserAgent(
-      "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    );
-
-    // PChome Ranking Page for CBs
-    const URL = "https://pchome.megatime.com.tw/group/mkt1/cid55/010.html";
-
-    await page.goto(URL, {
-      waitUntil: "networkidle0",
-      timeout: 30000,
-    });
-
-    // Wait for the specific tbody ID that contains data rows
-    await page.waitForSelector("#cpidStock", { timeout: 15000 });
-
-    const results = await page.evaluate(() => {
-      const rows = Array.from(document.querySelectorAll("#cpidStock tr"));
-      const scrapedData = [];
-
-      for (let i = 0; i < rows.length; i++) {
-        const cells = rows[i].querySelectorAll("td");
-        if (cells.length < 8) continue;
-
-        // Column mapping for PChome:
-        // 0: Name (Code) - e.g. "欣興一 (30371)"
-        // 1: Time (e.g. "13:30")
-        // 2: Price
-        // 3: Change
-        // 4: Change %
-        // 5: Volume
-        // 6: High
-        // 7: Low
-
-        const nameCodeText = cells[0].innerText.trim();
-        const timeStr = cells[1].innerText.trim();
-        const priceStr = cells[2].innerText.trim().replace(/[^0-9.-]/g, "");
-        const changeStr = cells[3].innerText.trim();
-        const changePctStr = cells[4].innerText.trim();
-        const volStr = cells[5].innerText.trim().replace(/,/g, "");
-        const highStr = cells[6].innerText.trim().replace(/[^0-9.-]/g, "");
-        const lowStr = cells[7].innerText.trim().replace(/[^0-9.-]/g, "");
-
-        // Extract Code from name (Code)
-        const codeMatch = nameCodeText.match(/\((\d+)\)/);
-        const code = codeMatch ? codeMatch[1] : "";
-        const name = nameCodeText.split("(")[0].trim().replace(/\s+$/, "");
-
-        const price = parseFloat(priceStr);
-        const volume = parseInt(volStr, 10);
-        const high = parseFloat(highStr);
-        const low = parseFloat(lowStr);
-
-        if (code && !isNaN(price)) {
-          scrapedData.push({
-            code,
-            name,
-            time: timeStr,
-            price,
-            change: changeStr,
-            changePercent: changePctStr,
-            volume: isNaN(volume) ? 0 : volume,
-            high: isNaN(high) ? "-" : high,
-            low: isNaN(low) ? "-" : low,
-          });
-        }
-      }
-
-      // Explicitly sort by Volume (Desc) to ensure "Hot" definition
-      scrapedData.sort((a, b) => b.volume - a.volume);
-
-      // Return Top 20 strictly
-      return scrapedData.slice(0, 20);
-    });
-
-    if (!results || results.length === 0) {
-      throw new Error("No data found on PChome page");
+    if (results.length === 0) {
+      throw new Error(`櫃買 ${dateStr} 報價檔解析不出任何成交資料`);
     }
+    console.error(`[cb-fetcher] 櫃買 ${dateStr} 報價檔,取成交張數前 ${results.length} 檔`);
 
     // --- Enrichment Phase: Fetch Underlying Stock Prices ---
     console.error(
@@ -172,18 +160,15 @@ async function fetchHotCB() {
     }
     console.error("[Fetcher] Enrichment complete.");
 
-    // Wrap in object with metadata
     return {
-      source: "pchome",
-      updatedAt: new Date().toISOString(), // Fallback server time
+      source: "tpex",
+      dataDate: dateStr,
+      updatedAt: new Date().toISOString(),
       data: results,
     };
   } catch (error) {
     console.error("[cb-fetcher] Error fetching Hot CB:", error.message);
-    if (page) await dumpFailedPage(page);
     throw error;
-  } finally {
-    if (browser) await browser.close();
   }
 }
 

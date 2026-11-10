@@ -9,7 +9,7 @@ const {
 /**
  * @name fetch-hot-cb
  * @description 擷取市場熱門可轉債清單 (Market Pulse)
- * @source PChome Money (Tabular data)
+ * @source 櫃買中心每日可轉債行情表 CSV
  * @scope 市場成交量前 50-100 名標的
  * @target terminal console & (optional) Firestore Snapshot
  *
@@ -23,7 +23,7 @@ const {
 
   try {
     const result = await fetchHotCB();
-    const output = result.data ? result : { source: "pchome", data: result };
+    const output = result.data ? result : { source: "tpex", data: result };
 
     // Print to console
     console.log(JSON.stringify(output, null, 2));
