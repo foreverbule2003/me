@@ -16,11 +16,15 @@ const {
  * 支援:
  *   --cloud     同步至 Firestore
  *   --snapshot  存為本地歷史 JSON (public/data/history/YYYY-MM-DD.json)
- *   --final     當天最後一次排程：還抓不到今天的檔就以失敗結束（發 Telegram）
+ *   --final     當天最後一次排程：還抓不到這一輪的檔就以失敗結束（發 Telegram）
  *
- * 櫃買當日檔約 17:20 才出；抓到的不是今天的資料就不寫入，
- * 免得前一天的資料被存成今天的快照。
+ * 快照 ID 用資料交易日 (dataDate)，同一天已有快照就跳過，所以抓到的是哪一天都直接寫：
+ * 前一天的檔不會被存成今天，排程延遲到過午夜也不會漏寫前一天（2026-11-10 起）。
  */
+// 台北時間中午前都算前一個交易日的這一輪：櫃買當日檔約 17:20 出，
+// GitHub 排程常延遲數小時，22:30 的排程可能拖到隔天凌晨才跑。
+const ROUND_OFFSET_HOURS = 12;
+
 (async () => {
   const isCloud = process.argv.includes("--cloud");
   const isSnapshot = process.argv.includes("--snapshot");
@@ -32,27 +36,29 @@ const {
     // Print to console
     console.log(JSON.stringify(output, null, 2));
 
-    const today = taipeiTodayStr();
-    if (output.dataDate && output.dataDate !== today) {
-      const msg = `櫃買今天 (${today}) 的檔還沒出，最新是 ${output.dataDate}，不寫入。`;
+    let written = false;
+    if (isCloud) {
+      // Firebase 初始化失敗時回傳 null
+      written = Boolean((await saveSnapshotToCloud(output))?.written);
+    }
+
+    // Update Cloud Metadata (Master Index)：只在寫入新快照時更新，省寫入次數
+    if ((isCloud && written) || process.argv.includes("--save")) {
+      console.log(`\n☁️  Updating Master Metadata in Firestore...`);
+      await updateMasterMetadata(output.data);
+    }
+
+    const roundDate = taipeiTodayStr(
+      new Date(Date.now() - ROUND_OFFSET_HOURS * 3600 * 1000),
+    );
+    if (output.dataDate < roundDate) {
+      const msg = `櫃買 ${roundDate} 的檔還沒出，最新是 ${output.dataDate}。`;
       if (process.argv.includes("--final")) {
         console.error(`❌ [HotCB] ${msg}（當天最後一次排程，遇到休市日也會出現）`);
         process.exitCode = 1;
       } else {
         console.log(`⏭️  [HotCB] ${msg}`);
       }
-      return;
-    }
-
-    // Optional: Save to cloud
-    if (isCloud) {
-      await saveSnapshotToCloud(output);
-    }
-
-    // Update Cloud Metadata (Master Index)
-    if (isCloud || process.argv.includes("--save")) {
-      console.log(`\n☁️  Updating Master Metadata in Firestore...`);
-      await updateMasterMetadata(output.data);
     }
 
     // Optional: Local Snapshot
@@ -60,10 +66,10 @@ const {
       const outFile = path.join(
         __dirname,
         "../public/data/history",
-        `${today}.json`,
+        `${output.dataDate}.json`,
       );
       const snapshot = {
-        date: today,
+        date: output.dataDate,
         timestamp: Math.floor(Date.now() / 1000),
         version: "2.0",
         source: output.source,
