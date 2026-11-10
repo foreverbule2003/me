@@ -28,11 +28,11 @@
 
 ### 3. 市場熱點爬蟲 (`fetch-hot-cb.js`)
 
-- **數據來源**：[PChome 金融](https://money.pchome.com.tw/)
+- **數據來源**：櫃買中心每日「轉(交)換公司債買賣斷交易行情表」CSV（`RSta0113.YYYYMMDD-C.csv`）。2026-11 前爬 PChome，PChome 對 GitHub Actions 回 403 後改用此檔。
 - **資料範圍**：
-  - 市場交易量前 50-100 名的可轉債。
-  - 當日漲跌幅、成交量分析。
-- **儲47.79MB**：Firebase Firestore 快照及本地日誌。
+  - 等價交易成交張數前 20 名的可轉債，收盤後才有當日檔，還沒出就取最近交易日。
+  - 漲跌、漲跌幅、成交張數、最高最低。
+- **儲存**：Firebase Firestore 快照（`hot_cb_snapshots/<日期>`，一天只寫一次）。抓取失敗時不寫入。
 
 ### 4. 每週轉換價與價格同步 (`sync-thefew-cb.js`)
 

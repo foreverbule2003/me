@@ -1,6 +1,6 @@
 const fs = require("fs");
 const path = require("path");
-const { fetchHotCB, getMockHotCB } = require("../src/utils/cb-fetcher");
+const { fetchHotCB } = require("../src/utils/cb-fetcher");
 const {
   saveSnapshotToCloud,
   updateMasterMetadata,
@@ -63,11 +63,6 @@ const {
     console.error(`❌ [HotCB] ${error.message}`);
     process.exitCode = 1;
 
-    // Fallback: Mock Data
-    const mockData = getMockHotCB();
-    const output = { source: "mock", data: mockData };
-    console.log(JSON.stringify(output, null, 2));
-
-    if (isCloud) await saveSnapshotToCloud(output);
+    // 不把假資料寫上雲端：快照一天只寫一次，假資料佔位會擋掉當天的真資料
   }
 })();
