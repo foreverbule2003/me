@@ -1,4 +1,35 @@
+const fs = require("fs");
+const path = require("path");
 const puppeteer = require("puppeteer");
+
+// 抓取失敗時把實際拿到的頁面存在這裡,GitHub Actions 會上傳成 artifact
+const DEBUG_DIR = path.join(__dirname, "..", "..", "debug", "hot-cb");
+
+/**
+ * 失敗時記下頁面網址、標題、內文開頭,並存截圖與 HTML,方便判斷是不是被擋。
+ * 本身出錯不影響原本的錯誤往上丟。
+ */
+async function dumpFailedPage(page) {
+  try {
+    const url = page.url();
+    const title = await page.title();
+    const bodyText = await page.evaluate(() =>
+      document.body ? document.body.innerText.slice(0, 500) : "(no body)",
+    );
+    console.error(`[cb-fetcher] 失敗時的頁面 url=${url}`);
+    console.error(`[cb-fetcher] 失敗時的頁面 title=${title}`);
+    console.error(`[cb-fetcher] 失敗時的內文開頭:\n${bodyText}`);
+    fs.mkdirSync(DEBUG_DIR, { recursive: true });
+    fs.writeFileSync(path.join(DEBUG_DIR, "page.html"), await page.content());
+    await page.screenshot({
+      path: path.join(DEBUG_DIR, "page.png"),
+      fullPage: true,
+    });
+    console.error(`[cb-fetcher] 截圖與 HTML 已存到 ${DEBUG_DIR}`);
+  } catch (e) {
+    console.error("[cb-fetcher] 存失敗頁面時出錯:", e.message);
+  }
+}
 
 /**
  * Scrapes the Hot CB list from PChome.
@@ -6,12 +37,13 @@ const puppeteer = require("puppeteer");
  */
 async function fetchHotCB() {
   let browser;
+  let page;
   try {
     browser = await puppeteer.launch({
       headless: "new",
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
     });
-    const page = await browser.newPage();
+    page = await browser.newPage();
 
     // Set User Agent
     await page.setUserAgent(
@@ -148,6 +180,7 @@ async function fetchHotCB() {
     };
   } catch (error) {
     console.error("[cb-fetcher] Error fetching Hot CB:", error.message);
+    if (page) await dumpFailedPage(page);
     throw error;
   } finally {
     if (browser) await browser.close();

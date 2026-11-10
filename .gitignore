@@ -84,3 +84,6 @@ trips/*/source_*.pdf
 
 # sync-thefew-cb 寫入前的舊值備份
 tools/.backups/
+
+# 爬蟲失敗時存的頁面(GitHub Actions 上傳成 artifact)
+debug/

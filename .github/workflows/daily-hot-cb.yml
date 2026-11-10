@@ -33,6 +33,15 @@ jobs:
         env:
           FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
 
+      - name: Upload failed page for debugging
+        if: failure()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: hot-cb-failed-page
+          path: debug/hot-cb/
+          if-no-files-found: ignore
+          retention-days: 7
+
       - name: Notify Telegram on failure
         if: failure()
         env:
