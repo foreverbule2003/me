@@ -44,7 +44,7 @@
 | `daily-hot-cb.yml` | 週一至五 18:00、20:00、22:30（櫃買當日檔約 17:20 出） | `node tools/fetch-hot-cb.js --cloud` 讀櫃買每日可轉債行情 CSV，成交張數前 20 名存成當天快照 |
 | `daily-cb-history.yml` | 週一至五 14:15（行情更新後） | `node tools/fetch-cb-history.js --hot --watchlist --smart --sync` 補**熱門榜 Top 20 + 我的追蹤**的歷史資料，並寫入主文件 `daily` |
 
-- **`--hot`**：目標清單取自 `hot_cb_meta/latest` 指向的 `hot_cb_snapshots/{日期}`，不再每天跑全部 CB（2026-11-03 起，原本是 `--all`）。
+- **`--hot`**：目標清單取自文件 ID（日期）最新的 `hot_cb_snapshots/{日期}`，不再每天跑全部 CB（2026-11-03 起，原本是 `--all`）。2026-11-10 起不再讀 `hot_cb_meta/latest`：當天的錯誤快照被刪掉後，指標仍指向已刪除的文件，整個同步失敗。
 - **`--watchlist`**：再併入「我的追蹤」＝ `cb_history` 中 `category` 非空的主文件（與前端 `useWatchlist` 同條件），兩者取聯集。單獨使用、不加 `--sync` 時可當本機 dry-run：`node tools/fetch-cb-history.js --watchlist 2026-11-01` 只抓 11 月起、印出每檔的 `daily`。
 - **資料來源**：CB 取 TPEx `cbDayQry` 的「等價」列（收市價、漲跌、單位）；現股先試 TWSE `STOCK_DAY`，查無再改 TPEx `afterTrading/tradingStock`（舊的 `st43_result.php` 已 404）。皆為免登入公開資料。
 - **抓取起點**：本地無檔時先讀雲端 `cb_history/{code}` 主文件的 `lastRecordDate`，從那一筆的當月抓起；雲端也沒有這檔（且沒在指令列指名）就整檔跳過。

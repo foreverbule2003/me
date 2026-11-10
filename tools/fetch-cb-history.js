@@ -342,16 +342,22 @@ async function syncToFirestore(cbCode, data, daily) {
 
     if (isHot) {
       // 最新熱門榜 (hot_cb_snapshots) 上的標的
-      const meta = (await db.collection("hot_cb_meta").doc("latest").get()).data();
-      const snap = meta
-        ? (await db.collection("hot_cb_snapshots").doc(meta.lastDateId).get()).data()
-        : null;
-      const hotCodes = (snap?.data || []).map((i) => i.code);
+      // 直接取文件 ID(YYYY-MM-DD)最大的快照,與前端 useMarketPulse 的 fallback 相同。
+      // 不讀 hot_cb_meta/latest:快照被刪掉時指標會指向不存在的文件。
+      const latestSnap = await db
+        .collection("hot_cb_snapshots")
+        .orderBy(admin.firestore.FieldPath.documentId(), "desc")
+        .limit(1)
+        .get();
+      const latestDoc = latestSnap.docs[0];
+      const hotCodes = (latestDoc?.data().data || []).map((i) => i.code);
       if (hotCodes.length === 0) {
-        console.error("❌ Fatal: 找不到熱門榜快照 (hot_cb_meta/latest)。");
+        console.error(
+          `❌ Fatal: 找不到熱門榜快照 (hot_cb_snapshots${latestDoc ? `/${latestDoc.id} 沒有 data` : " 是空的"})。`,
+        );
         process.exit(1);
       }
-      console.log(`[Hot] 熱門榜 ${meta.lastDateId}，共 ${hotCodes.length} 檔`);
+      console.log(`[Hot] 熱門榜 ${latestDoc.id}，共 ${hotCodes.length} 檔`);
       hotCodes.forEach((c) => codes.add(c));
     }
 
