@@ -9,6 +9,11 @@ const USER_AGENT =
   "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36";
 const TOP_N = 20;
 const MAX_LOOKBACK_DAYS = 10;
+// 櫃買偶爾對 GitHub 機器回 403(擋 IP),隔一段時間常會放行
+const BLOCKED_RETRIES = 3;
+const BLOCKED_WAIT_MS = 30_000;
+
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 /** 台北時區的今天(或指定時間的台北日期),回傳 "YYYY-MM-DD" */
 function taipeiTodayStr(date = new Date()) {
@@ -36,7 +41,7 @@ function csvUrl(date) {
   };
 }
 
-/** 抓最近一個有檔的交易日;沒檔時櫃買回 302 或 404 */
+/** 抓最近一個有檔的交易日;沒檔時櫃買回 302 或 404,被擋時回 403 */
 async function downloadLatestCsv() {
   const { y, m, d } = taipeiToday();
   const cursor = new Date(Date.UTC(y, m - 1, d));
@@ -44,14 +49,30 @@ async function downloadLatestCsv() {
     const dow = cursor.getUTCDay();
     if (dow !== 0 && dow !== 6) {
       const { dateStr, url } = csvUrl(cursor);
-      const res = await fetch(url, {
-        redirect: "manual",
-        headers: {
-          "User-Agent": USER_AGENT,
-          Referer:
-            "https://www.tpex.org.tw/zh-tw/bond/info/statistics-cb/day.html",
-        },
-      });
+      let res;
+      for (let attempt = 1; attempt <= BLOCKED_RETRIES; attempt++) {
+        res = await fetch(url, {
+          redirect: "manual",
+          headers: {
+            "User-Agent": USER_AGENT,
+            Referer:
+              "https://www.tpex.org.tw/zh-tw/bond/info/statistics-cb/day.html",
+          },
+        });
+        if (res.status !== 403) break;
+        if (attempt < BLOCKED_RETRIES) {
+          console.error(
+            `[cb-fetcher] 櫃買拒絕連線 (HTTP 403),${BLOCKED_WAIT_MS / 1000} 秒後重試(第 ${attempt} 次)`,
+          );
+          await sleep(BLOCKED_WAIT_MS);
+        }
+      }
+      if (res.status === 403) {
+        // 403 是被擋,不是沒出檔;往前翻其他天也一樣會被擋
+        throw new Error(
+          `櫃買拒絕連線 (HTTP 403),重試 ${BLOCKED_RETRIES} 次仍被擋,可能擋了這台 GitHub 機器的 IP;下一次排程換機器通常會恢復`,
+        );
+      }
       if (res.status === 200) {
         const buf = Buffer.from(await res.arrayBuffer());
         return { dateStr, text: new TextDecoder("big5").decode(buf) };
