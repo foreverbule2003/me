@@ -80,6 +80,15 @@
 
 **上線要接兩處**：`vite.config.js` 的 `rollupOptions.input` 加入口（否則 build 不會輸出）、`src/views/TripsView.jsx` 的清單加一筆，標籤以「想去 · 」開頭，排在已成行的旅程後面。確定成行時改用 `npm run new-trip` 建正式旅程。
 
+### 1.4 購物商品圖 (Amazon JP)
+
+購物頁的商品圖取自 Amazon JP 的 CDN，不從品牌官網下載，也不用 AI 生成模擬圖（除非明確要求）：
+
+1. 到 Amazon JP 商品頁，主圖是 `#imgTagWrapperId img`，讀它的 `data-old-hires` 或 `data-a-dynamic-image` 屬性。
+2. 只取 `https://m.media-amazon.com/images/I/...` 開頭的網址，確認不帶 session token 之類的參數。
+3. 要高解析度，把網址裡的 `_AC_SX…_` 換成 `_AC_SL1500_`（1500px）。
+4. 要存成本機檔，用 `curl -L <網址>` 直接抓，不需要 cookie 或登入。
+
 ## 2. 設計系統 (Design System)
 
 ### 2.1 色彩計畫 (Color Palette)

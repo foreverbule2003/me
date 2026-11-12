@@ -54,7 +54,9 @@ npm run new-trip
 - **Commits**：使用 Conventional Commits (例如：`feat: add new trip`, `fix: header alignment`)。
 - **開工前確認沒落後遠端**：`npm run sync-check`（Claude Code 的 SessionStart hook 會自動跑，看到落後就先 `git pull --rebase`）。落後開工的代價是事後解衝突，而那些衝突多半是「兩邊各往同一個錨點插一行」，先同步就完全不會發生。三次教訓見 `tasks/lessons.md`——其中 2026-09-16 那次是**同一台電腦**的 git worktree 推了 commit，主工作目錄靜默落後五天，不需要第二台機器也會中。
 - **測試**：在推送前執行 `npm test` 確保沒有破壞現有功能。
-- **提交流程**：走 `/commit`（正本在 `.claude/commands/commit.md`，共 0–10 步）。它會強制跑 `npm run guard` 與 `npm test` 綠燈、檢查文件同步、掃本次 diff 的壞味道、刷新記憶備份，最後停下來等你確認才提交。`.agent/workflows/commit.md` 是已停用的舊版，只留指路。
+- **金鑰**：提交前檢查 diff 有沒有夾帶未加密的 secret 或 key。會出現在前端的 API key（例：Firebase）要在服務端設好限制，例如 HTTP Referrer。
+- **先重用再新寫**：有現成元件就用；看到重複的樣式或邏輯，提議抽成共用元件。
+- **提交流程**：走 `/commit`（正本是 second-brain 的 `.claude/shared-skills/commit/SKILL.md`，共 6 步，本 repo 的做法在同目錄 `references/me.md`；`.claude/commands/commit.md` 只是指過去的薄殼）。它會強制跑 `npm run guard` 與 `npm test` 綠燈、檢查文件同步、掃本次 diff 的壞味道、刷新記憶備份，最後停下來等你確認才提交。`.agent/workflows/commit.md` 是已停用的舊版，只留指路。
 - **本機跑起來看**：走 `/dev`（`.claude/commands/dev.md`），用 `.claude/launch.json` 的 `vite-dev` 起 server，在內建瀏覽器點過、截圖、看 console。本機（localhost）不註冊 Service Worker，之前註冊過的會自動解除並清快取，避免拿到舊的程式檔而畫面空白。
 - **寫檔會被掃 AI 自造詞**：`.claude/hooks/check-ai-coinage.mjs` 在 Write/Edit 寫進 `docs/`、`knowledge/`、`teaching/`、`tasks/`、`trips/`、`.claude/commands/`、`.agent/` 與根目錄四份 `.md` 時當場攔。要增刪詞彙只改 second-brain 的 `.claude/shared-data/coinage.json`（兩個 repo 共用，2026-11-04 起）；`.claude/hooks/coinage-list.mjs` 從那裡讀出適用 me 的詞，掃描範圍留在這支，寫檔時的 hook 與 `/commit` 步驟 6 的 `scripts/check-smells.mjs` 都讀它。
 

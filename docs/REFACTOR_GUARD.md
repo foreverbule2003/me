@@ -56,6 +56,11 @@
 2.  **Refactor**: 執行修改。
 3.  **Restore**: 檢查是否遺失關鍵變數 (e.g., `canvas`, `ctx`) 或隱藏類別 (`hidden`) 被誤鎖死。
 
+- **超過 50 行的 UI 變動**：動手前先列出這區的核心功能（例：新增按鈕的邏輯、拖拉排序、API 呼叫），改完逐項對過一遍，對不上的當場修好，不留到下一個任務。
+- **DOM 綁定不用樣式類名**：程式選取元素用 `data-action`、`data-testid` 或 `id`，不用 Tailwind class。改樣式時 class 會換，綁在 class 上的邏輯就跟著斷。
+  - ✅ `querySelector('[data-action="submit"]')`
+  - ❌ `querySelector('.bg-blue-500')`
+
 ---
 
 ## 4. 🛠️ Guard Scripts
